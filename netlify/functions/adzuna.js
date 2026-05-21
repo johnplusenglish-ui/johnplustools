@@ -1,4 +1,4 @@
-const fetch = require("node-fetch");
+const https = require("https");
 
 exports.handler = async function(event) {
   const what  = event.queryStringParameters?.what  || "";
@@ -14,21 +14,25 @@ exports.handler = async function(event) {
 
   const url = `https://api.adzuna.com/v1/api/jobs/it/search/1?${params}`;
 
-  try {
-    const res  = await fetch(url);
-    const data = await res.json();
-    return {
-      statusCode: 200,
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify(data),
-    };
-  } catch (err) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: err.message }),
-    };
-  }
+  return new Promise((resolve) => {
+    https.get(url, (res) => {
+      let data = "";
+      res.on("data", chunk => data += chunk);
+      res.on("end", () => {
+        resolve({
+          statusCode: 200,
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+          body: data,
+        });
+      });
+    }).on("error", (err) => {
+      resolve({
+        statusCode: 500,
+        body: JSON.stringify({ error: err.message }),
+      });
+    });
+  });
 };
