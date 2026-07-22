@@ -514,32 +514,17 @@ a.btn{text-decoration:none}
 .btn svg{width:14px;height:14px;flex-shrink:0}
 .btn.big svg{width:15px;height:15px}
 
-/* Sidebar nav */
-.tools-nav{padding:14px 16px 12px;border-bottom:1px solid var(--line)}
 .jt-label{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
   color:var(--muted);font-weight:700;margin-bottom:9px}
-.tool-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:11px;
-  border:1px solid transparent;text-decoration:none;color:var(--ink);margin-bottom:3px;
-  transition:background .12s,border-color .12s}
-.tool-item:hover{background:var(--soft)}
-.tool-item.active{background:var(--soft);border-color:var(--accent)}
-.ti-icon{width:28px;height:28px;border-radius:8px;flex-shrink:0;display:grid;place-items:center;
-  background:var(--soft);border:1px solid var(--soft-line);color:var(--accent)}
-.tool-item.active .ti-icon{background:var(--accent);border-color:var(--accent);color:#fff}
-.ti-icon svg{width:15px;height:15px;display:block}
-.ti-name{font-size:13.5px;font-weight:600;letter-spacing:-.01em}
 
-/* The tool's own sidebar controls, shown only while the tool is open. */
+/* The sidebar belongs to the tool. On the home view there is no open tool, so
+   it slides away and the content takes the full width. Uses its own class, not
+   the tool's .side-collapsed, so John's manual collapse preference is untouched.
+   .app already carries transition:grid-template-columns, so this animates. */
 #debatesSection{display:flex;flex-direction:column;flex:1;min-height:0}
 #debatesSection[hidden]{display:none}
-
-/* margin-top:auto keeps this pinned to the bottom on the home view, where the
-   debates section is hidden and nothing else pushes it down. */
-.side-foot{padding:10px 12px 12px;border-top:1px solid var(--line);flex-shrink:0;margin-top:auto}
-.side-foot a{display:flex;align-items:center;gap:8px;text-decoration:none;font-size:12.5px;
-  font-weight:600;color:var(--muted);padding:8px 10px;border-radius:10px;transition:.12s}
-.side-foot a:hover{background:var(--soft);color:var(--accent)}
-.side-foot a svg{width:15px;height:15px;flex-shrink:0}
+.app.jpt-nosidebar{grid-template-columns:0 1fr}
+.app.jpt-nosidebar aside{border-right:none;overflow:hidden;opacity:0;pointer-events:none}
 
 /* Named tool header, identical rhythm in both views so nothing jumps. */
 .tool-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
@@ -597,7 +582,6 @@ a.btn{text-decoration:none}
 .panel-actions .note{font-size:12.5px;color:var(--muted);font-weight:500}
 
 @media (max-width:900px){
-  .tools-nav{padding:12px 14px 10px}
   .th-text p{display:none}
   .split{grid-template-columns:1fr;gap:24px}
   .panel{padding:22px 18px;border-radius:16px}
@@ -612,7 +596,7 @@ a.btn{text-decoration:none}
   .brand-title .k{display:none}
   .brand-title .b{font-size:14px}
 }
-@media print{.tool-head,.tools-nav,.side-foot,.popmenu{display:none!important}}
+@media print{.tool-head,.popmenu{display:none!important}}
 @media (prefers-reduced-motion:reduce){.view,.popmenu{animation:none}}
 /* /jpt:chrome */
 </style>
@@ -655,17 +639,6 @@ a.btn{text-decoration:none}
 
 <div class="app" id="app">
   <aside>
-    <!-- jpt:toolsnav -->
-    <div class="tools-nav">
-      <div class="jt-label">Tools</div>
-      <a class="tool-item" href="/" data-view="home">
-        <span class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><path d="M3 9.5 12 3l9 6.5V20a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 20z"/><path d="M9.5 21.5v-7h5v7"/></svg></span><span class="ti-name">Home</span>
-      </a>
-      <a class="tool-item" href="/debate-builder" data-view="tool">
-        <span class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M14.6 3H4.3A1.8 1.8 0 0 0 2.5 4.8v5.9a1.8 1.8 0 0 0 1.8 1.8h.8v3.1l3.3-3.1h6.2a1.8 1.8 0 0 0 1.8-1.8V4.8A1.8 1.8 0 0 0 14.6 3z"/><path d="M20.2 9.6h-6.1A1.6 1.6 0 0 0 12.5 11.2v3.6a1.6 1.6 0 0 0 1.6 1.6h3.6l3 2.7v-2.7h.5a1.6 1.6 0 0 0 1.3-1.6v-3.6a1.6 1.6 0 0 0-1.6-1.6z" fill="currentColor" stroke="currentColor"/></svg></span><span class="ti-name">Debate Builder</span>
-      </a>
-    </div>
-    <!-- /jpt:toolsnav -->
     <div id="debatesSection">
     <div class="side-top">
       <!-- jpt:debateslabel --><div class="jt-label" style="margin-bottom:9px">Debates</div><!-- /jpt:debateslabel -->
@@ -683,13 +656,6 @@ a.btn{text-decoration:none}
     <div class="lvl-filter" id="lvlFilter"></div>
     <div class="side-list" id="sideList"></div>
     </div>
-    <!-- jpt:sidefoot -->
-    <div class="side-foot">
-      <a href="https://johnplusdictionary.com" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>JohnPlusDictionary
-      </a>
-    </div>
-    <!-- /jpt:sidefoot -->
   </aside>
 
   <main>
@@ -2220,6 +2186,7 @@ if (localStorage.getItem('c2_debate_side_collapsed') === '1') toggleSide();
   var debates  = document.getElementById('debatesSection');
   var menu     = document.getElementById('toolsMenu');
   var brandBtn = document.getElementById('brandBtn');
+  var app      = document.getElementById('app');
   var current  = null;
 
   function setView(name, push) {
@@ -2231,16 +2198,15 @@ if (localStorage.getItem('c2_debate_side_collapsed') === '1') toggleSide();
     toolView.hidden = !tool;
     homeView.hidden = tool;
     if (debates) debates.hidden = !tool;
+    // The sidebar is the tool's; on home it collapses away.
+    if (app) app.classList.toggle('jpt-nosidebar', !tool);
     // Tool-only topbar actions (help, Present) have no meaning on the home view.
     Array.prototype.forEach.call(document.querySelectorAll('.jpt-toolonly'),
       function (el) { el.hidden = !tool; });
 
-    Array.prototype.forEach.call(document.querySelectorAll('[data-view]'), function (el) {
-      var on = el.dataset.view === name;
-      if (el.classList.contains('tool-item')) el.classList.toggle('active', on);
-      if (el.getAttribute('role') === 'menuitem') el.setAttribute('aria-current', String(on));
-      if (on && el.classList.contains('tool-item')) el.setAttribute('aria-current', 'page');
-      else if (el.classList.contains('tool-item')) el.removeAttribute('aria-current');
+    // Navigation is the dropdown only, so this just marks the current entry.
+    Array.prototype.forEach.call(document.querySelectorAll('.pm-item[data-view]'), function (el) {
+      el.setAttribute('aria-current', String(el.dataset.view === name));
     });
 
     document.title = TITLES[name];

@@ -11,6 +11,7 @@ Needs Google Chrome and a local server; it starts and stops its own.
 """
 import http.server
 import pathlib
+import re
 import shutil
 import socketserver
 import subprocess
@@ -31,10 +32,16 @@ SEED = """
   function go() {
     try {
       // The temp copy is served from its own path, so the router lands on the
-      // home view. Switch to the tool through the nav, the same way a visitor
-      // would, rather than reaching into the router.
-      var navItem = document.querySelector('.tool-item[data-view="tool"]');
-      if (navItem) navItem.click();
+      // home view. Switch to the tool the same way a visitor would, through the
+      // topbar dropdown, rather than reaching into the router.
+      var open = document.getElementById('brandBtn');
+      if (open) open.click();
+      var item = document.querySelector('.pm-item[data-view="tool"]');
+      if (!item) throw new Error('no dropdown entry for the tool; preview would show the home view');
+      item.click();
+      if (!document.getElementById('homeView').hidden) {
+        throw new Error('still on the home view after clicking through');
+      }
 
       var d = state.debates[state.debates.length - 1];
       d.title    = 'AI IN THE CLASSROOM';
@@ -74,11 +81,28 @@ def main():
             tmp = ROOT / f'_pv-{theme}.html'
             i = base.lower().rfind('</body>')
             tmp.write_text(base[:i] + SEED.replace('__THEME__', theme) + base[i:], encoding='utf-8')
+            url = f'http://127.0.0.1:{PORT}/_pv-{theme}.html'
+
+            # Confirm the seed really landed on the tool before photographing it.
+            # It once silently shot the home view, giving a preview of the page
+            # the preview sits on, because the element it clicked had been renamed.
+            dom = subprocess.run([CHROME, '--headless', '--disable-gpu', '--dump-dom',
+                                  '--virtual-time-budget=7000', url],
+                                 check=True, capture_output=True, text=True).stdout
+            hidden = re.search(r'<div class="main-inner view" id="homeView"([^>]*)>', dom)
+            if not hidden:
+                tmp.unlink(missing_ok=True)
+                raise SystemExit('make_preview: could not find the home view in the page')
+            if 'hidden' not in hidden.group(1):
+                tmp.unlink(missing_ok=True)
+                raise SystemExit('make_preview: the seed did not reach the tool view. '
+                                 'The preview would show the home page. Check the '
+                                 'dropdown selector in SEED.')
+
             raw = ROOT / f'_pv-{theme}.png'
             subprocess.run([CHROME, '--headless', '--disable-gpu', '--hide-scrollbars',
                             '--force-device-scale-factor=2', '--window-size=1280,600',
-                            f'--screenshot={raw}', '--virtual-time-budget=7000',
-                            f'http://127.0.0.1:{PORT}/_pv-{theme}.html'],
+                            f'--screenshot={raw}', '--virtual-time-budget=7000', url],
                            check=True, capture_output=True)
             out = ASSETS / f'debate-builder-{theme}.png'
             subprocess.run(['sips', '-Z', '1100', str(raw), '--out', str(out)],

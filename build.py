@@ -95,18 +95,8 @@ BRAND = f'''<!-- jpt:brand -->
   </div>
   <!-- /jpt:brand -->'''
 
-NAV = f'''<!-- jpt:toolsnav -->
-    <div class="tools-nav">
-      <div class="jt-label">Tools</div>
-      <a class="tool-item" href="/" data-view="home">
-        <span class="ti-icon">{HOME}</span><span class="ti-name">Home</span>
-      </a>
-      <a class="tool-item" href="{TOOL_URL}" data-view="tool">
-        <span class="ti-icon">{PROMPTS}</span><span class="ti-name">Debate Builder</span>
-      </a>
-    </div>
-    <!-- /jpt:toolsnav -->
-    '''
+# Navigation lives in the topbar dropdown only. The sidebar is the tool's own
+# space (its debate list), and collapses away on the home view.
 
 TOOL_HEAD = f'''<!-- jpt:toolhead -->
       <div class="tool-head">
@@ -119,14 +109,7 @@ TOOL_HEAD = f'''<!-- jpt:toolhead -->
       <!-- /jpt:toolhead -->
       '''
 
-FOOT = f'''<!-- jpt:sidefoot -->
-    <div class="side-foot">
-      <a href="https://johnplusdictionary.com" target="_blank" rel="noopener">
-        {BOOK}JohnPlusDictionary
-      </a>
-    </div>
-    <!-- /jpt:sidefoot -->
-  '''
+# The dictionary link is in the dropdown, so the sidebar does not repeat it.
 
 CSS = '''
 /* jpt:chrome */
@@ -165,32 +148,17 @@ a.btn{text-decoration:none}
 .btn svg{width:14px;height:14px;flex-shrink:0}
 .btn.big svg{width:15px;height:15px}
 
-/* Sidebar nav */
-.tools-nav{padding:14px 16px 12px;border-bottom:1px solid var(--line)}
 .jt-label{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
   color:var(--muted);font-weight:700;margin-bottom:9px}
-.tool-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:11px;
-  border:1px solid transparent;text-decoration:none;color:var(--ink);margin-bottom:3px;
-  transition:background .12s,border-color .12s}
-.tool-item:hover{background:var(--soft)}
-.tool-item.active{background:var(--soft);border-color:var(--accent)}
-.ti-icon{width:28px;height:28px;border-radius:8px;flex-shrink:0;display:grid;place-items:center;
-  background:var(--soft);border:1px solid var(--soft-line);color:var(--accent)}
-.tool-item.active .ti-icon{background:var(--accent);border-color:var(--accent);color:#fff}
-.ti-icon svg{width:15px;height:15px;display:block}
-.ti-name{font-size:13.5px;font-weight:600;letter-spacing:-.01em}
 
-/* The tool's own sidebar controls, shown only while the tool is open. */
+/* The sidebar belongs to the tool. On the home view there is no open tool, so
+   it slides away and the content takes the full width. Uses its own class, not
+   the tool's .side-collapsed, so John's manual collapse preference is untouched.
+   .app already carries transition:grid-template-columns, so this animates. */
 #debatesSection{display:flex;flex-direction:column;flex:1;min-height:0}
 #debatesSection[hidden]{display:none}
-
-/* margin-top:auto keeps this pinned to the bottom on the home view, where the
-   debates section is hidden and nothing else pushes it down. */
-.side-foot{padding:10px 12px 12px;border-top:1px solid var(--line);flex-shrink:0;margin-top:auto}
-.side-foot a{display:flex;align-items:center;gap:8px;text-decoration:none;font-size:12.5px;
-  font-weight:600;color:var(--muted);padding:8px 10px;border-radius:10px;transition:.12s}
-.side-foot a:hover{background:var(--soft);color:var(--accent)}
-.side-foot a svg{width:15px;height:15px;flex-shrink:0}
+.app.jpt-nosidebar{grid-template-columns:0 1fr}
+.app.jpt-nosidebar aside{border-right:none;overflow:hidden;opacity:0;pointer-events:none}
 
 /* Named tool header, identical rhythm in both views so nothing jumps. */
 .tool-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
@@ -248,7 +216,6 @@ a.btn{text-decoration:none}
 .panel-actions .note{font-size:12.5px;color:var(--muted);font-weight:500}
 
 @media (max-width:900px){
-  .tools-nav{padding:12px 14px 10px}
   .th-text p{display:none}
   .split{grid-template-columns:1fr;gap:24px}
   .panel{padding:22px 18px;border-radius:16px}
@@ -263,7 +230,7 @@ a.btn{text-decoration:none}
   .brand-title .k{display:none}
   .brand-title .b{font-size:14px}
 }
-@media print{.tool-head,.tools-nav,.side-foot,.popmenu{display:none!important}}
+@media print{.tool-head,.popmenu{display:none!important}}
 @media (prefers-reduced-motion:reduce){.view,.popmenu{animation:none}}
 /* /jpt:chrome */
 '''
@@ -285,6 +252,7 @@ ROUTER = '''<!-- jpt:router -->
   var debates  = document.getElementById('debatesSection');
   var menu     = document.getElementById('toolsMenu');
   var brandBtn = document.getElementById('brandBtn');
+  var app      = document.getElementById('app');
   var current  = null;
 
   function setView(name, push) {
@@ -296,16 +264,15 @@ ROUTER = '''<!-- jpt:router -->
     toolView.hidden = !tool;
     homeView.hidden = tool;
     if (debates) debates.hidden = !tool;
+    // The sidebar is the tool's; on home it collapses away.
+    if (app) app.classList.toggle('jpt-nosidebar', !tool);
     // Tool-only topbar actions (help, Present) have no meaning on the home view.
     Array.prototype.forEach.call(document.querySelectorAll('.jpt-toolonly'),
       function (el) { el.hidden = !tool; });
 
-    Array.prototype.forEach.call(document.querySelectorAll('[data-view]'), function (el) {
-      var on = el.dataset.view === name;
-      if (el.classList.contains('tool-item')) el.classList.toggle('active', on);
-      if (el.getAttribute('role') === 'menuitem') el.setAttribute('aria-current', String(on));
-      if (on && el.classList.contains('tool-item')) el.setAttribute('aria-current', 'page');
-      else if (el.classList.contains('tool-item')) el.removeAttribute('aria-current');
+    // Navigation is the dropdown only, so this just marks the current entry.
+    Array.prototype.forEach.call(document.querySelectorAll('.pm-item[data-view]'), function (el) {
+      el.setAttribute('aria-current', String(el.dataset.view === name));
     });
 
     document.title = TITLES[name];
@@ -399,6 +366,8 @@ def need(html, needle, what):
 def build(html):
     for tag in ('jpt:brand', 'jpt:toolsnav', 'jpt:sidefoot', 'jpt:toolhead',
                 'jpt:debateslabel', 'jpt:homeview', 'jpt:router', 'jpt:backlink'):
+        # toolsnav / sidefoot are gone but stay listed so a rebuild over an
+        # older output still strips them.
         html = drop(html, tag)
     html = re.sub(r'/\* jpt:chrome \*/.*?/\* /jpt:chrome \*/\n?', '', html, flags=re.S)
     html = html.replace('<div id="debatesSection">\n    ', '').replace(' class="jpt-toolonly"', '')
@@ -426,9 +395,9 @@ def build(html):
     # Sidebar: nav on top, the tool's own controls wrapped so they can be hidden.
     html = need(html, '<aside>', '<aside>')
     html = html.replace('<aside>\n    <div class="side-top">',
-                        '<aside>\n    ' + NAV + '<div id="debatesSection">\n    <div class="side-top">', 1)
+                        '<aside>\n    <div id="debatesSection">\n    <div class="side-top">', 1)
     html = html.replace('<div class="side-list" id="sideList"></div>\n  </aside>',
-                        '<div class="side-list" id="sideList"></div>\n    </div>\n    ' + FOOT + '</aside>', 1)
+                        '<div class="side-list" id="sideList"></div>\n    </div>\n  </aside>', 1)
 
     label = ('<!-- jpt:debateslabel --><div class="jt-label" style="margin-bottom:9px">'
              'Debates</div><!-- /jpt:debateslabel -->\n        ')
@@ -467,8 +436,7 @@ def main():
     out = build(SRC.read_text(encoding='utf-8'))
     OUT.write_text(out, encoding='utf-8')
 
-    for what, tag in [('brand', 'jpt:brand'), ('tools nav', 'jpt:toolsnav'),
-                      ('side foot', 'jpt:sidefoot'), ('tool head', 'jpt:toolhead'),
+    for what, tag in [('brand', 'jpt:brand'), ('tool head', 'jpt:toolhead'),
                       ('debates label', 'jpt:debateslabel'), ('home view', 'jpt:homeview'),
                       ('router', 'jpt:router')]:
         assert out.count(f'<!-- {tag} -->') == 1, f'{what} not injected exactly once'
@@ -482,8 +450,11 @@ def main():
     assert '<span class="b">Tools</span>' in out, 'brand should read Tools, not the tool name'
     assert out.index('jpt:toolhead') < out.index('id="debateCard"'), 'tool head is after the card'
     assert out.index('jpt:homeview') < out.index('id="cardHome"'), 'home view is after the tool pane'
+    assert 'tools-nav' not in out and 'side-foot' not in out, \
+        'navigation is the dropdown only; nothing goes back in the sidebar'
+    assert out.count('class="pm-item"') == 3, 'dropdown should list home, the tool and the dictionary'
     for dash in ('—', '–'):
-        assert dash not in CSS + BRAND + NAV + FOOT + TOOL_HEAD + ROUTER + TITLE + DESC, \
+        assert dash not in CSS + BRAND + TOOL_HEAD + ROUTER + TITLE + DESC, \
             'dash crept into injected copy'
         assert dash not in HOME_TPL.read_text(encoding='utf-8'), 'dash in the home template'
 
