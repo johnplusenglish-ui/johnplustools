@@ -246,7 +246,7 @@ footer .links a:hover{color:var(--accent)}
     <button class="pill" data-cat="all" aria-pressed="true">All tools</button>
     <button class="pill" data-cat="speaking" aria-pressed="false">Speaking</button>
     <button class="pill" data-cat="reading" aria-pressed="false">Reading</button>
-    <!-- Writing pill returns with the Writing Corrections tool (see grid below). -->
+    <button class="pill" data-cat="writing" aria-pressed="false">Writing</button>
     <button class="pill" data-cat="classroom" aria-pressed="false">Classroom</button>
   </div>
 
@@ -272,10 +272,15 @@ footer .links a:hover{color:var(--accent)}
       <span class="go">Open tool <span class="arrow">→</span></span>
     </a>
 
-    <!-- Writing Corrections is held back until its demo data is replaced: the
-         current file hardcodes three named students' real writing, levels and
-         scores, which must not go on a public site. Card + tools/corrections.html
-         go back in once that data is swapped for neutral samples. -->
+    <a class="tool" href="/tools/corrections.html" data-cat="writing">
+      <div class="icon">✏️</div>
+      <h2>Writing Corrections</h2>
+      <p>Paste a student's writing and your corrected version. The word-by-word
+         differences are worked out for you, so you can step through them together
+         and switch between original and corrected.</p>
+      <div class="tags"><span class="tag">Writing</span><span class="tag neutral">Saves on your device</span></div>
+      <span class="go">Open tool <span class="arrow">→</span></span>
+    </a>
 
     <a class="tool" href="/tools/timer.html" data-cat="classroom">
       <div class="icon">⏱️</div>
