@@ -231,16 +231,21 @@ CHROME_CSS = '''
   --shadow-card:0 1px 2px rgba(0,0,0,.2),0 20px 44px -28px rgba(0,0,0,.7);
 }
 
+/* The brand is the site's name; John wants it prominent, so the bar is sized
+   around it rather than the other way about. --jpt-bar is the single source of
+   truth: the tools pin their sidebars to it. */
+:root{--jpt-bar:68px}
 .stopbar{position:sticky;top:0;z-index:40;background:var(--card);
-  border-bottom:1px solid var(--line);padding:0 22px;height:56px;flex-shrink:0;
+  border-bottom:1px solid var(--line);padding:0 24px;height:var(--jpt-bar);flex-shrink:0;
   display:flex;align-items:center;gap:14px}
 .st-brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;
   color:var(--ink);line-height:1}
-.st-brand .brand-icon{color:var(--accent);width:22px;height:22px;display:inline-flex;flex-shrink:0}
-.st-brand .brand-icon svg{width:22px;height:22px}
+.st-brand .brand-icon{color:var(--accent);width:29px;height:29px;display:inline-flex;flex-shrink:0}
+.st-brand .brand-icon svg{width:29px;height:29px}
 .st-brand .brand-title{display:inline-flex;flex-direction:column;justify-content:center;gap:2px;line-height:1}
-.brand-title .k{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700}
-.brand-title .b{font-size:15px;font-weight:700;letter-spacing:-.01em}
+.brand-title{gap:3px}
+.brand-title .k{font-size:10.5px;letter-spacing:.17em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.brand-title .b{font-size:20px;font-weight:800;letter-spacing:-.02em}
 .grow{flex:1}
 .icon-btn{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;
   border-radius:999px;background:transparent;border:none;cursor:pointer;color:var(--muted);
@@ -253,9 +258,9 @@ button.st-brand{background:none;border:none;cursor:pointer;font-family:inherit;
   padding:6px 8px;margin-left:-8px;border-radius:11px;transition:background .12s}
 button.st-brand:hover{background:var(--soft)}
 .brand-chev{color:var(--muted);display:inline-flex;margin-left:2px;transition:transform .18s ease}
-.brand-chev svg{width:14px;height:14px}
+.brand-chev svg{width:16px;height:16px}
 button.st-brand[aria-expanded="true"] .brand-chev{transform:rotate(180deg)}
-.popmenu{position:absolute;top:calc(100% + 8px);left:0;z-index:60;min-width:246px;
+.popmenu{position:absolute;top:calc(100% + 6px);left:0;z-index:60;min-width:246px;
   background:var(--card);border:1px solid var(--line);border-radius:14px;padding:7px;
   box-shadow:0 12px 40px -12px rgba(15,27,45,.28),0 2px 8px rgba(15,27,45,.06);
   animation:pmIn .14s ease}
@@ -275,7 +280,7 @@ button.st-brand[aria-expanded="true"] .brand-chev{transform:rotate(180deg)}
 .pm-sep{height:1px;background:var(--line);margin:6px 4px}
 
 /* Content geometry. Identical on the home page and every tool page. */
-.shell{min-height:calc(100vh - 56px)}
+.shell{min-height:calc(100vh - var(--jpt-bar))}
 .main-inner{padding:20px 24px 40px;max-width:1180px;margin:0 auto}
 .tool-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
 .th-icon{width:38px;height:38px;border-radius:11px;flex-shrink:0;display:grid;place-items:center;
@@ -288,11 +293,13 @@ button.st-brand[aria-expanded="true"] .brand-chev{transform:rotate(180deg)}
 /* The brand is a button with padding and a chevron, wider than a plain mark.
    Left full width it pushes the topbar actions off a phone screen. */
 @media (max-width:700px){
-  .stopbar{padding:0 14px;gap:10px}
+  .stopbar{padding:0 14px;gap:8px}
   button.st-brand{padding:6px;margin-left:-6px}
-  .brand-title .k{display:none}
-  .brand-title .b{font-size:14px}
   .popmenu{min-width:210px}
+  /* Collapse the topbar's labelled button to its icon rather than shrinking the
+     brand. font-size:0 hides the text node, which no selector can reach. */
+  .stopbar .btn{font-size:0;gap:0;padding:9px 11px}
+  .stopbar .btn svg{width:17px;height:17px}
 }
 @media print{.tool-head,.popmenu,.stopbar{display:none!important}}
 @media (prefers-reduced-motion:reduce){.popmenu{animation:none}}
@@ -417,10 +424,11 @@ DEBATE_CSS = '''
    Fixed, so it stays on that line while the page scrolls, and it tracks the
    sidebar width. max() keeps it fully on screen once collapsed, where centring
    on a zero-width divider would cut it in half. */
-.app{--jpt-side-w:302px}
+aside{top:var(--jpt-bar);height:calc(100vh - var(--jpt-bar))}
+.app{min-height:calc(100vh - var(--jpt-bar));--jpt-side-w:302px}
 .app.side-collapsed{--jpt-side-w:0px}
 #sideToggle{
-  position:fixed;top:140px;left:max(15px,var(--jpt-side-w));
+  position:fixed;top:152px;left:max(15px,var(--jpt-side-w));
   transform:translateX(-50%);z-index:39;margin:0;
   width:30px;height:30px;border-radius:999px;
   background:var(--card);border:1px solid var(--line);
@@ -437,14 +445,10 @@ DEBATE_CSS = '''
 
 SPEAKING_CSS = '''
 /* jpt:speaking */
-/* Map the tool's own palette onto the site tokens. Its CSS keeps referring to
-   its variable names; they now resolve to the site's, so it picks up both
-   themes without touching a single one of its rules. */
+/* Map the tool's palette onto the site tokens. Its own CSS keeps referring to
+   its variable names, so it inherits both themes without editing its rules. */
 :root{
-  --cream:var(--bg);
-  --border:var(--line);
-  --sky:var(--accent);
-  --sky-light:var(--soft);
+  --cream:var(--bg); --border:var(--line); --sky:var(--accent); --sky-light:var(--soft);
   --radius:14px;
   --shadow-sm:0 1px 3px rgba(20,30,60,.06);
   --shadow-md:0 4px 12px rgba(20,30,60,.08);
@@ -452,17 +456,160 @@ SPEAKING_CSS = '''
 [data-theme="dark"]{
   --shadow-sm:0 1px 3px rgba(0,0,0,.35);
   --shadow-md:0 4px 12px rgba(0,0,0,.45);
-  /* Decorative accents, lifted so they stay legible on the dark card. */
   --sun:#f0b866; --sea:#4fd8bd; --coral:#ff8585; --lavender:#b391dd; --mint:#7ae2b4;
   --sand:#2a2418;
 }
-/* Its layout sat on a full-width page; inside the shell it uses the site's
-   content geometry instead, so it lines up with the other pages. */
-body{background:var(--bg);color:var(--ink)}
-.controls,.main{max-width:none;margin:0;padding-left:0;padding-right:0}
-.main{margin-top:22px}
-/* Its overlays sit above the topbar, as the Debate Builder's presentation does. */
+body{background:var(--bg);color:var(--ink);margin:0}
+
+/* ── Shell, matching the Debate Builder ──────────────────────────────── */
+.app{display:grid;grid-template-columns:302px 1fr;min-height:calc(100vh - var(--jpt-bar))}
+aside{background:var(--card);border-right:1px solid var(--line);display:flex;
+  flex-direction:column;overflow-y:auto;position:sticky;top:var(--jpt-bar);
+  height:calc(100vh - var(--jpt-bar))}
+main{overflow:visible;min-width:0}
+.side-top{padding:16px 16px 12px;border-bottom:1px solid var(--line);
+  position:sticky;top:0;background:var(--card);z-index:2}
+.side-list{padding:10px 10px 16px}
+.jt-label{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);font-weight:700;margin-bottom:9px}
+
+/* ── Search: the first thing in the sidebar ──────────────────────────── */
+.search-wrap{position:relative;margin-bottom:10px}
+.search-input{width:100%;font-family:inherit;font-size:14px;padding:9px 12px 9px 34px;
+  border-radius:999px;border:1px solid var(--soft-line);background:var(--bg);
+  color:var(--ink);outline:none;transition:border-color .15s}
+.search-input:focus{border-color:var(--accent)}
+.search-input::placeholder{color:var(--muted)}
+.search-wrap::before{content:"";position:absolute;left:12px;top:50%;width:14px;height:14px;
+  transform:translateY(-50%);pointer-events:none;opacity:.55;
+  background:currentColor;color:var(--muted);
+  -webkit-mask:var(--search-ico) center/14px no-repeat;mask:var(--search-ico) center/14px no-repeat}
+.search-results{margin-top:10px;display:none;background:transparent;border:none;
+  box-shadow:none;position:static;max-height:none;overflow:visible;border-radius:0}
+.search-results.show{display:block}
+.sr-count{padding:2px 2px 8px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  font-weight:700;color:var(--muted)}
+/* Stacked, not side by side: at 302px a nowrap label leaves the question a
+   one-word column. */
+.sr-item{display:block;padding:9px 11px;border-radius:10px;border:1px solid transparent;
+  border-bottom:none;cursor:pointer;margin-bottom:3px;transition:background .12s,border-color .12s}
+.sr-item:hover{background:var(--soft);border-color:var(--soft-line)}
+.sr-topic{display:block;min-width:0;white-space:normal;padding-top:0;font-family:inherit;
+  font-size:10px;letter-spacing:.11em;text-transform:uppercase;font-weight:700;
+  color:var(--accent);margin-bottom:3px}
+.sr-q{display:block;font-size:13px;line-height:1.5;color:var(--ink)}
+.sr-item mark{background:var(--soft);color:var(--accent);font-weight:700;
+  border-radius:4px;padding:0}
+
+/* ── Level toggle, as filter pills ───────────────────────────────────── */
+.level-toggle{display:flex;gap:5px;background:transparent;border:none;padding:0}
+.level-btn{font-family:inherit;font-size:11.5px;font-weight:700;letter-spacing:.03em;
+  padding:5px 12px;border-radius:999px;cursor:pointer;
+  border:1px solid var(--soft-line);background:var(--card);color:var(--muted);
+  transition:background .12s,color .12s,border-color .12s}
+.level-btn:hover{color:var(--accent);border-color:var(--accent)}
+.level-btn.on{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* ── Topic list down the sidebar ─────────────────────────────────────── */
+#topicGrid{display:block}
+.topic-group{margin-bottom:6px;background:transparent;border:none;box-shadow:none}
+.topic-group-toggle{display:flex;align-items:center;gap:8px;cursor:pointer;width:100%;
+  padding:7px 10px;border-radius:9px;background:transparent;border:none;box-shadow:none;
+  transition:background .12s}
+.topic-group-toggle:hover{background:var(--soft);box-shadow:none}
+.topic-group.open .topic-group-toggle{border-radius:9px;border:none}
+.topic-group-name{flex:1;font-size:11px;letter-spacing:.13em;text-transform:uppercase;
+  font-weight:700;color:var(--muted)}
+.topic-group-count{font-family:inherit;font-size:10.5px;font-weight:700;color:var(--accent);
+  background:var(--soft);border:1px solid var(--soft-line);border-radius:999px;padding:1px 7px}
+.topic-group-chevron{font-size:9px;color:var(--muted);transition:transform .18s ease}
+.topic-group.open .topic-group-chevron{transform:rotate(180deg)}
+.topic-group-body{display:none;padding:2px 0 8px;background:transparent;border:none;
+  border-radius:0}
+.topic-group.open .topic-group-body{display:block}
+.topic-grid{display:flex;flex-direction:column;gap:2px}
+.topic-btn{display:block;width:100%;text-align:left;font-family:inherit;font-size:13.5px;
+  font-weight:600;letter-spacing:-.01em;padding:8px 11px;border-radius:10px;cursor:pointer;
+  border:1px solid transparent;background:transparent;color:var(--ink);
+  transition:background .12s,border-color .12s}
+.topic-btn:hover{background:var(--soft)}
+.topic-btn.active,.topic-btn.on,.topic-btn[aria-pressed="true"]{
+  background:var(--soft);border-color:var(--accent);color:var(--accent)}
+
+/* ── Main pane ───────────────────────────────────────────────────────── */
+.main-inner{padding:20px 24px 40px;max-width:1180px;margin:0 auto}
+.toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:18px;
+  padding-bottom:14px;border-bottom:1px solid var(--line)}
+.toolbar .status{font-size:11px;color:var(--muted);letter-spacing:.14em;
+  text-transform:uppercase;font-weight:700;margin-right:auto}
+.action-btn{font-family:inherit;font-size:13px;font-weight:600;padding:8px 14px;
+  border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;
+  background:transparent;color:var(--muted);border:1px solid var(--soft-line);
+  transition:background .12s,color .12s,border-color .12s;white-space:nowrap}
+.action-btn:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+.action-btn svg{width:14px;height:14px;flex-shrink:0}
+
+/* Timer, sitting in the toolbar like the Debate Builder's */
+.timer-section{display:contents}
+.timer-controls{display:inline-flex;align-items:center;gap:5px;
+  border:1px solid var(--soft-line);border-radius:999px;padding:3px 4px;background:var(--card)}
+.timer-pill{font-size:11.5px;font-weight:700;color:var(--muted);cursor:pointer;
+  padding:4px 9px;border-radius:999px;transition:background .12s,color .12s}
+.timer-pill:hover{color:var(--accent);background:var(--soft)}
+.timer-pill.on,.timer-pill.active{background:var(--accent);color:#fff}
+.timer-play{font-family:inherit;font-size:12.5px;font-weight:700;cursor:pointer;
+  padding:5px 13px;border-radius:999px;border:none;background:var(--accent);color:#fff}
+.timer-play:hover{background:var(--accent-deep)}
+.timer-display{font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;
+  color:var(--ink);min-width:44px;text-align:center}
+.timer-restart{font-family:inherit;font-size:11.5px;font-weight:700;cursor:pointer;
+  padding:4px 10px;border-radius:999px;border:none;background:transparent;color:var(--muted)}
+.timer-restart:hover{color:var(--accent);background:var(--soft)}
+.timer-progress{width:100%;height:3px;border-radius:999px;background:var(--line);
+  overflow:hidden;margin:0 0 16px}
+.timer-progress-fill{height:100%;background:var(--accent);border-radius:999px}
+
+/* Questions */
+.placeholder{background:var(--card);border:1px dashed var(--line);border-radius:16px;
+  padding:48px 24px;text-align:center;color:var(--muted);font-size:.95rem}
+.deck{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.deck-nav{display:flex;align-items:center;gap:10px;margin-top:18px}
+.deck-counter{font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  font-weight:700;color:var(--muted);margin:0 auto}
+.nav-btn{font-family:inherit;font-size:13px;font-weight:600;padding:8px 14px;
+  border-radius:999px;cursor:pointer;background:transparent;color:var(--muted);
+  border:1px solid var(--soft-line);transition:.12s}
+.nav-btn:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+.nav-btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.nav-btn.primary:hover{background:var(--accent-deep);color:#fff}
+
+/* Student picker, as a card */
+.name-picker{background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:20px 22px;margin-top:22px;box-shadow:var(--shadow-card)}
+.name-picker-title{font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  font-weight:700;color:var(--muted)}
+.name-input{font-family:inherit;font-size:14px;padding:9px 13px;border-radius:999px;
+  border:1px solid var(--soft-line);background:var(--bg);color:var(--ink);outline:none}
+.name-input:focus{border-color:var(--accent)}
+.name-add-btn,.name-pick-btn{font-family:inherit;font-weight:700;cursor:pointer;
+  border-radius:999px;border:1px solid transparent;background:var(--accent);color:#fff}
+.name-add-btn{font-size:13px;padding:9px 18px}
+.name-pick-btn{font-size:13px;padding:10px 18px;background:transparent;color:var(--accent);
+  border-color:var(--accent);width:100%;display:inline-flex;align-items:center;
+  justify-content:center;gap:7px}
+.name-pick-btn:hover{background:var(--accent);color:#fff}
+.name-add-btn:hover{background:var(--accent-deep)}
+
+/* Overlays sit above the topbar, as the Debate Builder's presentation does. */
 .focus-overlay,.roulette-overlay{z-index:200}
+
+@media (max-width:900px){
+  .app{grid-template-columns:1fr}
+  aside{position:static;height:auto;max-height:46vh;border-right:none;
+    border-bottom:1px solid var(--line)}
+  .main-inner{padding:16px 14px 34px}
+  .deck{grid-template-columns:1fr}
+}
 /* /jpt:speaking */
 '''
 
@@ -498,7 +645,7 @@ def build_speaking(html, t):
     html = strip_marks(html)
     html = head_bits(html, f"{t['name']} · {SITE}", t['meta'], SPEAKING_CSS)
 
-    # Strip the tool's own site chrome: its nav, its page header, its footer.
+    # Strip the tool's own site chrome.
     for pat, what in [(r'<div class="topnav">.*?</div>\s*</div>\s*', 'its top nav'),
                       (r'<div class="page-header">.*?</div>\s*(?=<div class="controls">)', 'its page header'),
                       (r'<footer>.*?</footer>\s*', 'its footer')]:
@@ -506,18 +653,85 @@ def build_speaking(html, t):
         if not n:
             raise SystemExit(f'build: could not strip {what} from {t["slug"]}')
 
-    # Wrap its content in the site's shell so the geometry matches every page.
-    opened = ('<header class="stopbar">\n' + brand(t['slug'])
-              + '\n  <div class="grow"></div>\n  ' + THEME_BTN + '\n</header>\n\n'
-              '<div class="shell">\n  <main>\n    <div class="main-inner">\n      '
-              + tool_head(t) + '\n')
-    html = need(html, '<div class="controls">', 'its controls block')
-    html = html.replace('<div class="controls">', opened + '<div class="controls">', 1)
+    # Pull the pieces out so they can be dealt back into the shell: what you
+    # choose from goes in the sidebar, what you show the class goes in the main
+    # pane. Same shape as the Debate Builder.
+    def take(pattern, what):
+        nonlocal html
+        m = re.search(pattern, html, re.S)
+        if not m:
+            raise SystemExit(f'build: could not find {what} in {t["slug"]}')
+        html = html[:m.start()] + html[m.end():]
+        return m.group(0)
 
-    # Close the shell before the overlays, which belong at body level.
-    close_at = '<div class="focus-overlay"'
-    html = need(html, close_at, 'the focus overlay')
-    html = html.replace(close_at, '    </div>\n  </main>\n</div>\n\n' + close_at, 1)
+    # Taken out and not put back: the deck card renders its own level pills
+    # right beside the questions, so a second set in the sidebar is noise.
+    take(r'<div class="level-toggle">.*?</div>\s*(?=<div style="display:flex)', 'the level toggle')
+    acts   = take(r'<div style="display:flex;gap:\.5rem;flex-wrap:wrap">.*?</div>\s*(?=</div>)', 'the action buttons')
+    search = take(r'<div class="search-wrap">.*?</div>\s*</div>', 'the search box')
+    grid   = take(r'<div id="topicGrid"></div>', 'the topic grid')
+    holder = take(r'<div class="placeholder" id="placeholder">.*?</div>', 'the placeholder')
+    deck   = take(r'<div class="deck" id="deck"></div>', 'the deck')
+    # deck-nav has no nested divs, so one </div> closes it. Asking for two ran
+    # on into the timer section and ate half of it.
+    navrow = take(r'<div class="deck-nav" id="deckNav".*?</div>', 'the deck nav')
+    timer  = take(r'<div class="timer-section">.*?</div>\s*</div>\s*</div>', 'the timer')
+    picker = take(r'<div class="name-picker" id="namePicker">.*?</div>\s*</div>\s*(?=</div>)', 'the student picker')
+
+    # Whatever is left of the old wrappers goes; the shell replaces them.
+    html = re.sub(r'<div class="controls">\s*<div class="controls-top">\s*</div>\s*</div>', '', html, count=1, flags=re.S)
+    html = re.sub(r'<div class="main">\s*</div>', '', html, count=1, flags=re.S)
+
+    shell = f"""<header class="stopbar">
+{brand(t['slug'])}
+  <div class="grow"></div>
+  {THEME_BTN}
+</header>
+
+<div class="app" id="app">
+  <aside>
+    <div class="side-top">
+      <div class="jt-label">Find a question</div>
+      {search}
+    </div>
+    <div class="side-list">
+      {grid}
+    </div>
+  </aside>
+
+  <main>
+    <div class="main-inner">
+      {tool_head(t)}
+      <div class="toolbar">
+        <div class="status">Questions</div>
+        {acts}
+        {timer}
+      </div>
+      {holder}
+      {deck}
+      {navrow}
+      {picker}
+    </div>
+  </main>
+</div>
+
+"""
+    marker = '<div class="focus-overlay"'
+    i = sole_position(html, marker, 'the focus overlay')
+    html = html[:i] + shell + html[i:]
+
+    # The magnifying glass is a mask on .search-wrap::before, so the icon can
+    # follow currentColor in both themes without another element in the markup.
+    ico = ("<style>/* jpt:strip */:root{--search-ico:url(\"data:image/svg+xml,"
+           "%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' "
+           "stroke='black' stroke-width='2.4' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' "
+           "r='7'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E\")}"
+           "/* /jpt:strip */</style>")
+    html = inject_before(html, '</head>', ico, 'the search icon')
+
+    # The topics used to sit above the questions; they are a list on the left now.
+    html = html.replace('Select a topic above to see the questions.',
+                        'Pick a topic from the list, or search for a question.', 1)
 
     html = inject_before(html, '</body>', MENU_JS + THEME_JS, 'the page scripts')
     return html

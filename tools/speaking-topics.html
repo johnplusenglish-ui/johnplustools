@@ -242,16 +242,21 @@ nav,.page-header,.controls,.deck-nav,.timer-section,footer,.search-wrap,.name-pi
   --shadow-card:0 1px 2px rgba(0,0,0,.2),0 20px 44px -28px rgba(0,0,0,.7);
 }
 
+/* The brand is the site's name; John wants it prominent, so the bar is sized
+   around it rather than the other way about. --jpt-bar is the single source of
+   truth: the tools pin their sidebars to it. */
+:root{--jpt-bar:68px}
 .stopbar{position:sticky;top:0;z-index:40;background:var(--card);
-  border-bottom:1px solid var(--line);padding:0 22px;height:56px;flex-shrink:0;
+  border-bottom:1px solid var(--line);padding:0 24px;height:var(--jpt-bar);flex-shrink:0;
   display:flex;align-items:center;gap:14px}
 .st-brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;
   color:var(--ink);line-height:1}
-.st-brand .brand-icon{color:var(--accent);width:22px;height:22px;display:inline-flex;flex-shrink:0}
-.st-brand .brand-icon svg{width:22px;height:22px}
+.st-brand .brand-icon{color:var(--accent);width:29px;height:29px;display:inline-flex;flex-shrink:0}
+.st-brand .brand-icon svg{width:29px;height:29px}
 .st-brand .brand-title{display:inline-flex;flex-direction:column;justify-content:center;gap:2px;line-height:1}
-.brand-title .k{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700}
-.brand-title .b{font-size:15px;font-weight:700;letter-spacing:-.01em}
+.brand-title{gap:3px}
+.brand-title .k{font-size:10.5px;letter-spacing:.17em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.brand-title .b{font-size:20px;font-weight:800;letter-spacing:-.02em}
 .grow{flex:1}
 .icon-btn{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;
   border-radius:999px;background:transparent;border:none;cursor:pointer;color:var(--muted);
@@ -264,9 +269,9 @@ button.st-brand{background:none;border:none;cursor:pointer;font-family:inherit;
   padding:6px 8px;margin-left:-8px;border-radius:11px;transition:background .12s}
 button.st-brand:hover{background:var(--soft)}
 .brand-chev{color:var(--muted);display:inline-flex;margin-left:2px;transition:transform .18s ease}
-.brand-chev svg{width:14px;height:14px}
+.brand-chev svg{width:16px;height:16px}
 button.st-brand[aria-expanded="true"] .brand-chev{transform:rotate(180deg)}
-.popmenu{position:absolute;top:calc(100% + 8px);left:0;z-index:60;min-width:246px;
+.popmenu{position:absolute;top:calc(100% + 6px);left:0;z-index:60;min-width:246px;
   background:var(--card);border:1px solid var(--line);border-radius:14px;padding:7px;
   box-shadow:0 12px 40px -12px rgba(15,27,45,.28),0 2px 8px rgba(15,27,45,.06);
   animation:pmIn .14s ease}
@@ -286,7 +291,7 @@ button.st-brand[aria-expanded="true"] .brand-chev{transform:rotate(180deg)}
 .pm-sep{height:1px;background:var(--line);margin:6px 4px}
 
 /* Content geometry. Identical on the home page and every tool page. */
-.shell{min-height:calc(100vh - 56px)}
+.shell{min-height:calc(100vh - var(--jpt-bar))}
 .main-inner{padding:20px 24px 40px;max-width:1180px;margin:0 auto}
 .tool-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
 .th-icon{width:38px;height:38px;border-radius:11px;flex-shrink:0;display:grid;place-items:center;
@@ -299,25 +304,23 @@ button.st-brand[aria-expanded="true"] .brand-chev{transform:rotate(180deg)}
 /* The brand is a button with padding and a chevron, wider than a plain mark.
    Left full width it pushes the topbar actions off a phone screen. */
 @media (max-width:700px){
-  .stopbar{padding:0 14px;gap:10px}
+  .stopbar{padding:0 14px;gap:8px}
   button.st-brand{padding:6px;margin-left:-6px}
-  .brand-title .k{display:none}
-  .brand-title .b{font-size:14px}
   .popmenu{min-width:210px}
+  /* Collapse the topbar's labelled button to its icon rather than shrinking the
+     brand. font-size:0 hides the text node, which no selector can reach. */
+  .stopbar .btn{font-size:0;gap:0;padding:9px 11px}
+  .stopbar .btn svg{width:17px;height:17px}
 }
 @media print{.tool-head,.popmenu,.stopbar{display:none!important}}
 @media (prefers-reduced-motion:reduce){.popmenu{animation:none}}
 /* /jpt:chrome */
 
 /* jpt:speaking */
-/* Map the tool's own palette onto the site tokens. Its CSS keeps referring to
-   its variable names; they now resolve to the site's, so it picks up both
-   themes without touching a single one of its rules. */
+/* Map the tool's palette onto the site tokens. Its own CSS keeps referring to
+   its variable names, so it inherits both themes without editing its rules. */
 :root{
-  --cream:var(--bg);
-  --border:var(--line);
-  --sky:var(--accent);
-  --sky-light:var(--soft);
+  --cream:var(--bg); --border:var(--line); --sky:var(--accent); --sky-light:var(--soft);
   --radius:14px;
   --shadow-sm:0 1px 3px rgba(20,30,60,.06);
   --shadow-md:0 4px 12px rgba(20,30,60,.08);
@@ -325,22 +328,170 @@ button.st-brand[aria-expanded="true"] .brand-chev{transform:rotate(180deg)}
 [data-theme="dark"]{
   --shadow-sm:0 1px 3px rgba(0,0,0,.35);
   --shadow-md:0 4px 12px rgba(0,0,0,.45);
-  /* Decorative accents, lifted so they stay legible on the dark card. */
   --sun:#f0b866; --sea:#4fd8bd; --coral:#ff8585; --lavender:#b391dd; --mint:#7ae2b4;
   --sand:#2a2418;
 }
-/* Its layout sat on a full-width page; inside the shell it uses the site's
-   content geometry instead, so it lines up with the other pages. */
-body{background:var(--bg);color:var(--ink)}
-.controls,.main{max-width:none;margin:0;padding-left:0;padding-right:0}
-.main{margin-top:22px}
-/* Its overlays sit above the topbar, as the Debate Builder's presentation does. */
+body{background:var(--bg);color:var(--ink);margin:0}
+
+/* ── Shell, matching the Debate Builder ──────────────────────────────── */
+.app{display:grid;grid-template-columns:302px 1fr;min-height:calc(100vh - var(--jpt-bar))}
+aside{background:var(--card);border-right:1px solid var(--line);display:flex;
+  flex-direction:column;overflow-y:auto;position:sticky;top:var(--jpt-bar);
+  height:calc(100vh - var(--jpt-bar))}
+main{overflow:visible;min-width:0}
+.side-top{padding:16px 16px 12px;border-bottom:1px solid var(--line);
+  position:sticky;top:0;background:var(--card);z-index:2}
+.side-list{padding:10px 10px 16px}
+.jt-label{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);font-weight:700;margin-bottom:9px}
+
+/* ── Search: the first thing in the sidebar ──────────────────────────── */
+.search-wrap{position:relative;margin-bottom:10px}
+.search-input{width:100%;font-family:inherit;font-size:14px;padding:9px 12px 9px 34px;
+  border-radius:999px;border:1px solid var(--soft-line);background:var(--bg);
+  color:var(--ink);outline:none;transition:border-color .15s}
+.search-input:focus{border-color:var(--accent)}
+.search-input::placeholder{color:var(--muted)}
+.search-wrap::before{content:"";position:absolute;left:12px;top:50%;width:14px;height:14px;
+  transform:translateY(-50%);pointer-events:none;opacity:.55;
+  background:currentColor;color:var(--muted);
+  -webkit-mask:var(--search-ico) center/14px no-repeat;mask:var(--search-ico) center/14px no-repeat}
+.search-results{margin-top:10px;display:none;background:transparent;border:none;
+  box-shadow:none;position:static;max-height:none;overflow:visible;border-radius:0}
+.search-results.show{display:block}
+.sr-count{padding:2px 2px 8px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  font-weight:700;color:var(--muted)}
+/* Stacked, not side by side: at 302px a nowrap label leaves the question a
+   one-word column. */
+.sr-item{display:block;padding:9px 11px;border-radius:10px;border:1px solid transparent;
+  border-bottom:none;cursor:pointer;margin-bottom:3px;transition:background .12s,border-color .12s}
+.sr-item:hover{background:var(--soft);border-color:var(--soft-line)}
+.sr-topic{display:block;min-width:0;white-space:normal;padding-top:0;font-family:inherit;
+  font-size:10px;letter-spacing:.11em;text-transform:uppercase;font-weight:700;
+  color:var(--accent);margin-bottom:3px}
+.sr-q{display:block;font-size:13px;line-height:1.5;color:var(--ink)}
+.sr-item mark{background:var(--soft);color:var(--accent);font-weight:700;
+  border-radius:4px;padding:0}
+
+/* ── Level toggle, as filter pills ───────────────────────────────────── */
+.level-toggle{display:flex;gap:5px;background:transparent;border:none;padding:0}
+.level-btn{font-family:inherit;font-size:11.5px;font-weight:700;letter-spacing:.03em;
+  padding:5px 12px;border-radius:999px;cursor:pointer;
+  border:1px solid var(--soft-line);background:var(--card);color:var(--muted);
+  transition:background .12s,color .12s,border-color .12s}
+.level-btn:hover{color:var(--accent);border-color:var(--accent)}
+.level-btn.on{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* ── Topic list down the sidebar ─────────────────────────────────────── */
+#topicGrid{display:block}
+.topic-group{margin-bottom:6px;background:transparent;border:none;box-shadow:none}
+.topic-group-toggle{display:flex;align-items:center;gap:8px;cursor:pointer;width:100%;
+  padding:7px 10px;border-radius:9px;background:transparent;border:none;box-shadow:none;
+  transition:background .12s}
+.topic-group-toggle:hover{background:var(--soft);box-shadow:none}
+.topic-group.open .topic-group-toggle{border-radius:9px;border:none}
+.topic-group-name{flex:1;font-size:11px;letter-spacing:.13em;text-transform:uppercase;
+  font-weight:700;color:var(--muted)}
+.topic-group-count{font-family:inherit;font-size:10.5px;font-weight:700;color:var(--accent);
+  background:var(--soft);border:1px solid var(--soft-line);border-radius:999px;padding:1px 7px}
+.topic-group-chevron{font-size:9px;color:var(--muted);transition:transform .18s ease}
+.topic-group.open .topic-group-chevron{transform:rotate(180deg)}
+.topic-group-body{display:none;padding:2px 0 8px;background:transparent;border:none;
+  border-radius:0}
+.topic-group.open .topic-group-body{display:block}
+.topic-grid{display:flex;flex-direction:column;gap:2px}
+.topic-btn{display:block;width:100%;text-align:left;font-family:inherit;font-size:13.5px;
+  font-weight:600;letter-spacing:-.01em;padding:8px 11px;border-radius:10px;cursor:pointer;
+  border:1px solid transparent;background:transparent;color:var(--ink);
+  transition:background .12s,border-color .12s}
+.topic-btn:hover{background:var(--soft)}
+.topic-btn.active,.topic-btn.on,.topic-btn[aria-pressed="true"]{
+  background:var(--soft);border-color:var(--accent);color:var(--accent)}
+
+/* ── Main pane ───────────────────────────────────────────────────────── */
+.main-inner{padding:20px 24px 40px;max-width:1180px;margin:0 auto}
+.toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:18px;
+  padding-bottom:14px;border-bottom:1px solid var(--line)}
+.toolbar .status{font-size:11px;color:var(--muted);letter-spacing:.14em;
+  text-transform:uppercase;font-weight:700;margin-right:auto}
+.action-btn{font-family:inherit;font-size:13px;font-weight:600;padding:8px 14px;
+  border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;
+  background:transparent;color:var(--muted);border:1px solid var(--soft-line);
+  transition:background .12s,color .12s,border-color .12s;white-space:nowrap}
+.action-btn:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+.action-btn svg{width:14px;height:14px;flex-shrink:0}
+
+/* Timer, sitting in the toolbar like the Debate Builder's */
+.timer-section{display:contents}
+.timer-controls{display:inline-flex;align-items:center;gap:5px;
+  border:1px solid var(--soft-line);border-radius:999px;padding:3px 4px;background:var(--card)}
+.timer-pill{font-size:11.5px;font-weight:700;color:var(--muted);cursor:pointer;
+  padding:4px 9px;border-radius:999px;transition:background .12s,color .12s}
+.timer-pill:hover{color:var(--accent);background:var(--soft)}
+.timer-pill.on,.timer-pill.active{background:var(--accent);color:#fff}
+.timer-play{font-family:inherit;font-size:12.5px;font-weight:700;cursor:pointer;
+  padding:5px 13px;border-radius:999px;border:none;background:var(--accent);color:#fff}
+.timer-play:hover{background:var(--accent-deep)}
+.timer-display{font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;
+  color:var(--ink);min-width:44px;text-align:center}
+.timer-restart{font-family:inherit;font-size:11.5px;font-weight:700;cursor:pointer;
+  padding:4px 10px;border-radius:999px;border:none;background:transparent;color:var(--muted)}
+.timer-restart:hover{color:var(--accent);background:var(--soft)}
+.timer-progress{width:100%;height:3px;border-radius:999px;background:var(--line);
+  overflow:hidden;margin:0 0 16px}
+.timer-progress-fill{height:100%;background:var(--accent);border-radius:999px}
+
+/* Questions */
+.placeholder{background:var(--card);border:1px dashed var(--line);border-radius:16px;
+  padding:48px 24px;text-align:center;color:var(--muted);font-size:.95rem}
+.deck{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.deck-nav{display:flex;align-items:center;gap:10px;margin-top:18px}
+.deck-counter{font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  font-weight:700;color:var(--muted);margin:0 auto}
+.nav-btn{font-family:inherit;font-size:13px;font-weight:600;padding:8px 14px;
+  border-radius:999px;cursor:pointer;background:transparent;color:var(--muted);
+  border:1px solid var(--soft-line);transition:.12s}
+.nav-btn:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+.nav-btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.nav-btn.primary:hover{background:var(--accent-deep);color:#fff}
+
+/* Student picker, as a card */
+.name-picker{background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:20px 22px;margin-top:22px;box-shadow:var(--shadow-card)}
+.name-picker-title{font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  font-weight:700;color:var(--muted)}
+.name-input{font-family:inherit;font-size:14px;padding:9px 13px;border-radius:999px;
+  border:1px solid var(--soft-line);background:var(--bg);color:var(--ink);outline:none}
+.name-input:focus{border-color:var(--accent)}
+.name-add-btn,.name-pick-btn{font-family:inherit;font-weight:700;cursor:pointer;
+  border-radius:999px;border:1px solid transparent;background:var(--accent);color:#fff}
+.name-add-btn{font-size:13px;padding:9px 18px}
+.name-pick-btn{font-size:13px;padding:10px 18px;background:transparent;color:var(--accent);
+  border-color:var(--accent);width:100%;display:inline-flex;align-items:center;
+  justify-content:center;gap:7px}
+.name-pick-btn:hover{background:var(--accent);color:#fff}
+.name-add-btn:hover{background:var(--accent-deep)}
+
+/* Overlays sit above the topbar, as the Debate Builder's presentation does. */
 .focus-overlay,.roulette-overlay{z-index:200}
+
+@media (max-width:900px){
+  .app{grid-template-columns:1fr}
+  aside{position:static;height:auto;max-height:46vh;border-right:none;
+    border-bottom:1px solid var(--line)}
+  .main-inner{padding:16px 14px 34px}
+  .deck{grid-template-columns:1fr}
+}
 /* /jpt:speaking */
 </style>
-</head>
+<style>/* jpt:strip */:root{--search-ico:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E")}/* /jpt:strip */</style></head>
 <body>
 
+
+
+
+
+<!-- Focus mode overlay -->
 <header class="stopbar">
 <!-- jpt:brand -->
   <div class="brand-wrap">
@@ -371,7 +522,20 @@ body{background:var(--bg);color:var(--ink)}
   <!-- /jpt:themebtn -->
 </header>
 
-<div class="shell">
+<div class="app" id="app">
+  <aside>
+    <div class="side-top">
+      <div class="jt-label">Find a question</div>
+      <div class="search-wrap">
+<input type="text" class="search-input" id="searchInput" placeholder="Search all 1,000 questions..." oninput="handleSearch(this.value)">
+<div class="search-results" id="searchResults"></div>
+</div>
+    </div>
+    <div class="side-list">
+      <div id="topicGrid"></div>
+    </div>
+  </aside>
+
   <main>
     <div class="main-inner">
       <!-- jpt:toolhead -->
@@ -384,33 +548,14 @@ body{background:var(--bg);color:var(--ink)}
       </div>
       <!-- /jpt:toolhead -->
       
-<div class="controls">
-<div class="controls-top">
-<div class="level-toggle">
-<button class="level-btn on" onclick="setLevel('simple',this)">Simple</button>
-<button class="level-btn" onclick="setLevel('advanced',this)">Advanced</button>
-</div>
-<div style="display:flex;gap:.5rem;flex-wrap:wrap">
+      <div class="toolbar">
+        <div class="status">Questions</div>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap">
 <button class="action-btn" onclick="openFocusMode()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> Focus mode</button>
 <button class="action-btn" onclick="randomTopic()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg> Random topic</button>
 </div>
-</div>
-<div class="search-wrap">
-<input type="text" class="search-input" id="searchInput" placeholder="Search all 1,000 questions..." oninput="handleSearch(this.value)">
-<div class="search-results" id="searchResults"></div>
-</div>
-<div id="topicGrid"></div>
-</div>
 
-<div class="main">
-<div class="placeholder" id="placeholder">Select a topic above to see the questions.</div>
-<div class="deck" id="deck"></div>
-<div class="deck-nav" id="deckNav" style="display:none">
-<button class="nav-btn" id="prevTopic" onclick="goTopic(-1)">&larr; Previous topic</button>
-<span class="deck-counter" id="deckCounter"></span>
-<button class="nav-btn primary" id="nextTopic" onclick="goTopic(1)">Next topic &rarr;</button>
-</div>
-<div class="timer-section">
+        <div class="timer-section">
 <div class="timer-controls">
 <span class="timer-pill" onclick="selectTime(30,this)">30s</span>
 <span class="timer-pill" onclick="selectTime(60,this)">1 min</span>
@@ -422,7 +567,15 @@ body{background:var(--bg);color:var(--ink)}
 </div>
 <div class="timer-progress"><div class="timer-progress-fill" id="timerProgress"></div></div>
 </div>
-<div class="name-picker" id="namePicker">
+      </div>
+      <div class="placeholder" id="placeholder">Pick a topic from the list, or search for a question.</div>
+      <div class="deck" id="deck"></div>
+      <div class="deck-nav" id="deckNav" style="display:none">
+<button class="nav-btn" id="prevTopic" onclick="goTopic(-1)">&larr; Previous topic</button>
+<span class="deck-counter" id="deckCounter"></span>
+<button class="nav-btn primary" id="nextTopic" onclick="goTopic(1)">Next topic &rarr;</button>
+</div>
+      <div class="name-picker" id="namePicker">
 <div class="name-picker-header">
 <span class="name-picker-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-.15em"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Student Picker</span>
 <span style="font-size:.72rem;color:var(--muted);cursor:pointer" onclick="clearAllNames()" title="Clear all names">Clear all</span>
@@ -435,9 +588,7 @@ body{background:var(--bg);color:var(--ink)}
 <button class="name-pick-btn" id="namePickBtn" onclick="pickName()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-.15em"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg> Pick a random student</button>
 <div class="name-result" id="nameResult"></div>
 </div>
-</div>
 
-<!-- Focus mode overlay -->
     </div>
   </main>
 </div>
