@@ -1,0 +1,1839 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nutshell Reviews</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fafaf7;
+    --card: #ffffff;
+    --ink: #1a1a1a;
+    --muted: #8a8a85;
+    --line: #ececea;
+    --field-bg: #f5f5f2;
+    --danger: #b84a3e;
+    --r-sm: 8px;
+    --r-md: 10px;
+    --r-lg: 14px;
+    --r-pill: 999px;
+    --shadow-card: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+  .page {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 1.25rem 1.5rem 2rem;
+  }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 1.5rem;
+  }
+  h1 {
+    font-size: 1.7rem;
+    font-weight: 200;
+    letter-spacing: -0.02em;
+  }
+  .site-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    color: var(--ink);
+  }
+  .site-brand-icon {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    color: var(--ink);
+  }
+  .actions { display: flex; gap: 0.75rem; align-items: center; }
+  .ghost {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color 0.2s;
+    padding: 0.4rem 0.6rem;
+  }
+  .ghost:hover { color: var(--ink); }
+  .ghost.danger:hover { color: var(--danger); }
+  .pill {
+    background: var(--ink);
+    color: var(--bg);
+    border: none;
+    font-family: inherit;
+    padding: 0.65rem 1.3rem;
+    border-radius: var(--r-pill);
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .pill:hover { opacity: 0.85; }
+  .pill.secondary { background: var(--field-bg); color: var(--ink); }
+  .pill:disabled { opacity: 0.5; cursor: default; }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 220px 300px 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  /* Sidebar: films list */
+  .sidebar {
+    background: var(--card);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-card);
+    padding: 1rem 0.75rem;
+    max-height: calc(100vh - 8rem);
+    overflow-y: auto;
+    position: sticky;
+    top: 1rem;
+  }
+  .sidebar .section-label {
+    padding: 0 0.5rem 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .count {
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+  .film-item {
+    display: grid;
+    grid-template-columns: 40px 1fr auto;
+    gap: 0.65rem;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: var(--r-sm);
+    cursor: pointer;
+    transition: background 0.15s;
+    margin-bottom: 0.15rem;
+  }
+  .film-item:hover { background: var(--field-bg); }
+  .film-item.active { background: var(--field-bg); }
+  .film-thumb {
+    width: 40px;
+    height: 56px;
+    border-radius: 4px;
+    background: var(--field-bg);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+  .film-thumb img {
+    width: 100%; height: 100%; object-fit: cover;
+  }
+  .film-title-wrap { overflow: hidden; }
+  .film-title {
+    font-size: 0.85rem;
+    font-weight: 400;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .film-sub {
+    font-size: 0.7rem;
+    color: var(--muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .film-score {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .empty-list {
+    padding: 1rem 0.5rem;
+    color: var(--muted);
+    font-size: 0.8rem;
+    text-align: center;
+    line-height: 1.5;
+  }
+  .sidebar-actions {
+    border-top: 1px solid var(--line);
+    margin: 0.75rem 0.5rem 0.25rem;
+    padding-top: 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  .sidebar-actions .ghost {
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    padding: 0.25rem 0.4rem;
+  }
+
+  /* Editor form */
+  .form-card {
+    background: var(--card);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-card);
+    padding: 1.25rem 1.5rem;
+  }
+  .section-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+  }
+
+  /* Image upload */
+  .image-upload {
+    margin-bottom: 1.25rem;
+  }
+  .upload-zone {
+    width: 100%;
+    aspect-ratio: 9 / 4;
+    background: var(--field-bg);
+    border-radius: var(--r-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    cursor: pointer;
+    transition: background 0.15s;
+    border: 2px dashed transparent;
+    position: relative;
+    overflow: hidden;
+  }
+  .upload-zone:hover { background: #eeeee8; }
+  .upload-zone.dragging {
+    border-color: var(--ink);
+    background: #eeeee8;
+  }
+  .upload-empty {
+    text-align: center;
+    color: var(--muted);
+  }
+  .upload-icon {
+    font-size: 1.5rem;
+    font-weight: 200;
+    margin-bottom: 0.3rem;
+  }
+  .upload-hint {
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+  }
+  .upload-preview {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  .upload-preview img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: 50% 50%;
+    display: block;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+  .upload-preview img.dragging { cursor: grabbing; }
+  .upload-preview .position-hint {
+    position: absolute;
+    left: 8px; bottom: 8px;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.55rem;
+    border-radius: var(--r-pill);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .upload-preview:hover .position-hint { opacity: 1; }
+  .upload-remove {
+    position: absolute;
+    top: 8px; right: 8px;
+    background: rgba(0,0,0,0.7);
+    color: white;
+    border: none;
+    font-family: inherit;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.7rem;
+    border-radius: var(--r-pill);
+    cursor: pointer;
+  }
+
+  .field { margin-bottom: 0.9rem; }
+  .field label {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.35rem;
+    font-weight: 500;
+  }
+  .field input {
+    width: 100%;
+    background: var(--field-bg);
+    border: none;
+    border-radius: var(--r-sm);
+    padding: 0.6rem 0.8rem;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: var(--ink);
+    transition: box-shadow 0.15s;
+  }
+  .field input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--ink);
+  }
+  .field textarea {
+    width: 100%;
+    background: var(--field-bg);
+    border: none;
+    border-radius: var(--r-sm);
+    padding: 0.6rem 0.8rem;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: var(--ink);
+    line-height: 1.5;
+    resize: vertical;
+    min-height: 90px;
+    transition: box-shadow 0.15s;
+  }
+  .field textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--ink);
+  }
+  .divider {
+    height: 1px;
+    background: var(--line);
+    margin: 1.25rem 0 1rem;
+  }
+
+  .rating-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.4rem 0;
+  }
+  .rating-row .name {
+    font-size: 0.85rem;
+    font-weight: 400;
+  }
+  .rating-control {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .score-box {
+    width: 3.2rem;
+    background: var(--field-bg);
+    border: none;
+    border-radius: var(--r-sm);
+    padding: 0.4rem 0.5rem;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--ink);
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+    transition: box-shadow 0.15s;
+    -moz-appearance: textfield;
+  }
+  .score-box::-webkit-outer-spin-button,
+  .score-box::-webkit-inner-spin-button {
+    -webkit-appearance: none; margin: 0;
+  }
+  .score-box:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--ink);
+  }
+  .max-inline {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .row-remove {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 1rem;
+    line-height: 1;
+    padding: 0.15rem 0.35rem;
+    margin-left: 0.15rem;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+    border-radius: var(--r-sm);
+  }
+  .rating-row:hover .row-remove { opacity: 1; }
+  .row-remove:hover { color: var(--danger); }
+  .chip-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .chip {
+    background: var(--field-bg);
+    border: 1px dashed var(--line);
+    border-radius: var(--r-pill);
+    padding: 0.35rem 0.75rem;
+    font-family: inherit;
+    font-size: 0.72rem;
+    color: var(--muted);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+    letter-spacing: 0.02em;
+  }
+  .chip:hover {
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
+  }
+
+  .editor-actions {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 0.5rem;
+  }
+
+  /* Preview */
+  .preview-wrap { position: sticky; top: 1rem; }
+  .preview-frame {
+    background: var(--card);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-card);
+    padding: 1rem 1.25rem 1.25rem;
+  }
+  .preview-frame .section-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  .preview-frame .section-label .hint {
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+  .card-scaler {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  /* Exportable card, 1080 x 1920 */
+  #card {
+    width: 1080px;
+    height: 1920px;
+    background: #fafaf7;
+    color: #1a1a1a;
+    font-family: 'Outfit', sans-serif;
+    transform-origin: top left;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+  }
+  .card-image {
+    width: 1080px;
+    height: 480px;
+    background: #ececea;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .card-image img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .card-image .placeholder {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    color: #b8b8b0;
+    font-size: 34px;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .card-body {
+    flex: 1;
+    padding: 46px 110px;
+    display: flex;
+    flex-direction: column;
+  }
+  .card-genre {
+    font-size: 26px;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    color: #8a8a85;
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+  .card-meta {
+    font-size: 26px;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    color: #8a8a85;
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+  .card-title {
+    font-size: 84px;
+    font-weight: 200;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    margin-bottom: 16px;
+  }
+  .card-director {
+    font-size: 32px;
+    font-weight: 400;
+    color: #4a4a45;
+    margin-bottom: 44px;
+  }
+  .card-director .year {
+    color: #8a8a85;
+    font-weight: 300;
+    margin-left: 14px;
+  }
+  .card-rule {
+    height: 1px;
+    background: #ececea;
+    margin-bottom: 24px;
+  }
+  .card-ratings {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 60px;
+    row-gap: 0;
+  }
+  .cat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 14px 0;
+    border-bottom: 1px solid #f2f2ef;
+  }
+  .cat-row:last-child { border-bottom: none; }
+  .card-review {
+    padding: 22px 0 20px;
+    border-top: 1px solid #ececea;
+    margin-top: 14px;
+  }
+  .card-review-label {
+    font-size: 24px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: #8a8a85;
+    font-weight: 500;
+    margin-bottom: 14px;
+  }
+  .card-review-text {
+    font-size: 28px;
+    line-height: 1.5;
+    color: #4a4a45;
+    font-weight: 300;
+    white-space: pre-wrap;
+  }
+  .cat-name {
+    font-size: 24px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #4a4a45;
+    font-weight: 500;
+  }
+  .cat-num {
+    font-size: 30px;
+    font-weight: 500;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    color: #1a1a1a;
+  }
+  .cat-num .max { color: #8a8a85; font-weight: 300; }
+
+  .card-footer {
+    padding-top: 24px;
+    border-top: 1px solid #ececea;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .overall-label {
+    font-size: 26px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: #8a8a85;
+    font-weight: 500;
+  }
+  .overall-value {
+    font-size: 78px;
+    font-weight: 200;
+    letter-spacing: -0.02em;
+  }
+  .overall-value .max {
+    color: #8a8a85;
+    font-size: 36px;
+    font-weight: 300;
+    margin-left: 6px;
+  }
+  .card-brand {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 90px;
+    padding: 0;
+    font-size: 24px;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    color: #b0b0aa;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+  .brand-icon {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+  }
+
+  .save-indicator {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .save-indicator.visible { opacity: 1; }
+
+  @media (max-width: 1100px) {
+    .layout { grid-template-columns: 220px 1fr; }
+    .preview-wrap { grid-column: 1 / -1; position: static; }
+  }
+  @media (max-width: 720px) {
+    .layout { grid-template-columns: 1fr; gap: 1rem; }
+    .sidebar { position: static; max-height: 220px; }
+    .preview-wrap { position: static; }
+    .page { padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <header>
+    <h1 class="site-brand">
+      <svg class="site-brand-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M16 4 L16 6"/>
+        <path d="M7 12 C7 8 10 7 16 7 C22 7 25 8 25 12 Z"/>
+        <path d="M8 12 C8 20 11 27 16 27 C21 27 24 20 24 12"/>
+        <path d="M11 9 L11 12 M16 8 L16 12 M21 9 L21 12" stroke-width="1"/>
+      </svg>
+      <span>Nutshell Reviews</span>
+    </h1>
+    <div class="actions">
+      <button class="pill secondary" id="new-btn">+ New</button>
+      <button class="pill" id="export-btn">Export PNG</button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="section-label">
+        <span>Films</span>
+        <span class="count" id="film-count">0</span>
+      </div>
+      <div id="film-list"></div>
+      <div class="sidebar-actions">
+        <button class="ghost small" id="export-json-btn" title="Download all films as JSON">Export data</button>
+        <button class="ghost small" id="import-json-btn" title="Import a JSON backup">Import data</button>
+        <input type="file" id="import-json-input" accept="application/json,.json" hidden>
+      </div>
+    </aside>
+
+    <!-- Editor -->
+    <div class="form-card">
+      <div class="section-label">Still</div>
+      <div class="image-upload">
+        <input type="file" id="image-input" accept="image/*" hidden>
+        <div class="upload-zone" id="upload-zone">
+          <div class="upload-empty" id="upload-empty">
+            <div class="upload-icon">+</div>
+            <div class="upload-hint">DROP OR CLICK</div>
+          </div>
+          <div class="upload-preview" id="upload-preview" hidden>
+            <img id="upload-img" alt="">
+            <div class="position-hint">Drag to reposition</div>
+            <button class="upload-remove" id="upload-remove" type="button">Remove</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-label">Film</div>
+      <div class="field">
+        <label for="f-title">Title</label>
+        <input id="f-title" type="text" placeholder="e.g. There Will Be Blood">
+      </div>
+      <div class="field">
+        <label for="f-director">Director</label>
+        <input id="f-director" type="text" placeholder="e.g. Paul Thomas Anderson">
+      </div>
+      <div class="field">
+        <label for="f-year">Year</label>
+        <input id="f-year" type="text" inputmode="numeric" placeholder="e.g. 2007">
+      </div>
+      <div class="field">
+        <label for="f-genre">Genre</label>
+        <input id="f-genre" type="text" placeholder="e.g. Sci-fi">
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="section-label">Ratings <span style="color:var(--muted); font-weight:300; text-transform:none; letter-spacing:0.05em; float:right;">out of 10</span></div>
+      <div id="ratings"></div>
+      <div id="removed-categories" hidden>
+        <div class="section-label" style="margin-top: 0.75rem;">Add back</div>
+        <div class="chip-list" id="chip-list"></div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="section-label">Review <span style="color:var(--muted); font-weight:300; text-transform:none; letter-spacing:0.05em; float:right;">2–4 lines</span></div>
+      <div class="field">
+        <textarea id="f-review" rows="4" placeholder="A short verdict…"></textarea>
+      </div>
+
+      <div class="divider"></div>
+      <div class="editor-actions">
+        <button class="ghost danger" id="delete-btn">Delete</button>
+        <button class="ghost" id="reset-btn">Reset scores</button>
+      </div>
+    </div>
+
+    <!-- Preview -->
+    <div class="preview-wrap">
+      <div class="preview-frame">
+        <div class="section-label">
+          <span>Preview</span>
+          <span class="hint">1080 × 1920</span>
+        </div>
+        <div class="card-scaler" id="card-scaler">
+          <div id="card">
+            <div class="card-image" id="c-image">
+              <img id="c-image-img" alt="" hidden>
+              <div class="placeholder" id="c-image-placeholder">Still</div>
+            </div>
+            <div class="card-body">
+              <div class="card-genre" id="c-genre-wrap"><span id="c-genre"></span></div>
+              <div class="card-title" id="c-title">Untitled</div>
+              <div class="card-director">
+                <span id="c-director">Unknown director</span>
+                <span class="year" id="c-year"></span>
+              </div>
+              <div class="card-rule"></div>
+              <div class="card-ratings" id="c-ratings"></div>
+              <div class="card-review" id="c-review-wrap">
+                <div class="card-review-label">Notes</div>
+                <div class="card-review-text" id="c-review-text"></div>
+              </div>
+              <div class="card-footer">
+                <div class="overall-label">Overall</div>
+                <div class="overall-value"><span id="c-overall">–</span></div>
+              </div>
+              <div class="card-brand">
+                <svg class="brand-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M16 4 L16 6"/>
+                  <path d="M7 12 C7 8 10 7 16 7 C22 7 25 8 25 12 Z"/>
+                  <path d="M8 12 C8 20 11 27 16 27 C21 27 24 20 24 12"/>
+                  <path d="M11 9 L11 12 M16 8 L16 12 M21 9 L21 12" stroke-width="1"/>
+                </svg>
+                <span>Nutshell Reviews</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="save-indicator" id="save-indicator">Saved</div>
+
+<script>
+  const CATEGORIES = [
+    'Directing', 'Acting', 'Cinematography', 'Editing & pacing',
+    'Dialogue', 'Sound design', 'Music score', 'Storytelling',
+    'Emotional impact', 'Rewatchability', 'Enjoyability'
+  ];
+
+  // ------- IndexedDB layer -------
+  const DB_NAME = 'film_ratings_db';
+  const DB_VERSION = 1;
+  let db;
+
+  function openDB() {
+    return new Promise((resolve, reject) => {
+      const req = indexedDB.open(DB_NAME, DB_VERSION);
+      req.onupgradeneeded = e => {
+        const d = e.target.result;
+        if (!d.objectStoreNames.contains('films')) {
+          const store = d.createObjectStore('films', { keyPath: 'id' });
+          store.createIndex('updatedAt', 'updatedAt');
+        }
+      };
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  }
+  function tx(mode) { return db.transaction('films', mode).objectStore('films'); }
+  function dbGetAll() {
+    return new Promise((resolve, reject) => {
+      const req = tx('readonly').getAll();
+      req.onsuccess = () => resolve(req.result || []);
+      req.onerror = () => reject(req.error);
+    });
+  }
+  function dbGet(id) {
+    return new Promise((resolve, reject) => {
+      const req = tx('readonly').get(id);
+      req.onsuccess = () => resolve(req.result || null);
+      req.onerror = () => reject(req.error);
+    });
+  }
+  function dbPut(film) {
+    return new Promise((resolve, reject) => {
+      const req = tx('readwrite').put(film);
+      req.onsuccess = () => resolve();
+      req.onerror = () => reject(req.error);
+    });
+  }
+  function dbDelete(id) {
+    return new Promise((resolve, reject) => {
+      const req = tx('readwrite').delete(id);
+      req.onsuccess = () => resolve();
+      req.onerror = () => reject(req.error);
+    });
+  }
+
+  // ------- State -------
+  let films = [];        // all films from DB, in memory
+  let current = null;    // currently editing film
+  let currentImgUrl = null; // object URL for the currently-loaded image
+  let saveTimer;
+
+  function newId() {
+    return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+  }
+  function newFilm() {
+    return {
+      id: newId(),
+      title: '',
+      director: '',
+      year: '',
+      genre: '',
+      review: '',
+      ratings: Object.fromEntries(CATEGORIES.map(c => [c, 7.0])),
+      excludedCategories: [],
+      imageBlob: null,
+      imageOffsetX: 50,
+      imageOffsetY: 50,
+      createdAt: Date.now(),
+      updatedAt: Date.now()
+    };
+  }
+  function activeCategoriesFor(film) {
+    const excl = new Set(film.excludedCategories || []);
+    return CATEGORIES.filter(c => !excl.has(c));
+  }
+  function ensureAllCategories(film) {
+    // Migrate old separate Editing / Pacing to combined
+    if (!('Editing & pacing' in film.ratings)) {
+      const hasE = typeof film.ratings['Editing'] === 'number';
+      const hasP = typeof film.ratings['Pacing'] === 'number';
+      if (hasE && hasP) film.ratings['Editing & pacing'] = (film.ratings['Editing'] + film.ratings['Pacing']) / 2;
+      else if (hasE) film.ratings['Editing & pacing'] = film.ratings['Editing'];
+      else if (hasP) film.ratings['Editing & pacing'] = film.ratings['Pacing'];
+    }
+    delete film.ratings['Editing'];
+    delete film.ratings['Pacing'];
+    for (const c of CATEGORIES) {
+      if (typeof film.ratings[c] !== 'number') film.ratings[c] = 7.0;
+    }
+    if (typeof film.review !== 'string') film.review = '';
+    if (typeof film.genre !== 'string') film.genre = '';
+    if (!Array.isArray(film.excludedCategories)) film.excludedCategories = [];
+    if (typeof film.imageOffsetX !== 'number') film.imageOffsetX = 50;
+    if (typeof film.imageOffsetY !== 'number') film.imageOffsetY = 50;
+  }
+  function overallOf(film) {
+    const active = activeCategoriesFor(film);
+    if (!active.length) return 0;
+    const vals = active.map(c => film.ratings[c] ?? 0);
+    return vals.reduce((a,b)=>a+b,0) / vals.length;
+  }
+
+  function scheduleSave() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(async () => {
+      if (!current) return;
+      current.updatedAt = Date.now();
+      try {
+        await dbPut(current);
+        // Update films array
+        const i = films.findIndex(f => f.id === current.id);
+        if (i >= 0) films[i] = current; else films.unshift(current);
+        renderList();
+        flashSaved();
+      } catch (e) {
+        console.error('Save failed', e);
+      }
+    }, 400);
+  }
+  function flashSaved() {
+    const el = document.getElementById('save-indicator');
+    el.classList.add('visible');
+    clearTimeout(flashSaved._t);
+    flashSaved._t = setTimeout(() => el.classList.remove('visible'), 900);
+  }
+
+  // ------- Image handling -------
+  function setCurrentImage(blob) {
+    if (currentImgUrl) { URL.revokeObjectURL(currentImgUrl); currentImgUrl = null; }
+    current.imageBlob = blob || null;
+    if (blob) {
+      currentImgUrl = URL.createObjectURL(blob);
+      // Reset position for the new image
+      current.imageOffsetX = 50;
+      current.imageOffsetY = 50;
+    }
+    renderImage();
+  }
+  function renderImage() {
+    const uEmpty = document.getElementById('upload-empty');
+    const uPrev = document.getElementById('upload-preview');
+    const uImg = document.getElementById('upload-img');
+    const cImg = document.getElementById('c-image-img');
+    const cPh = document.getElementById('c-image-placeholder');
+    if (currentImgUrl) {
+      uImg.src = currentImgUrl;
+      uEmpty.hidden = true;
+      uPrev.hidden = false;
+      cImg.src = currentImgUrl;
+      cImg.hidden = false;
+      cPh.hidden = true;
+      applyImageOffset();
+    } else {
+      uEmpty.hidden = false;
+      uPrev.hidden = true;
+      uImg.removeAttribute('src');
+      cImg.hidden = true;
+      cImg.removeAttribute('src');
+      cPh.hidden = false;
+    }
+  }
+  function applyImageOffset() {
+    if (!current) return;
+    const pos = `${current.imageOffsetX}% ${current.imageOffsetY}%`;
+    document.getElementById('upload-img').style.objectPosition = pos;
+    document.getElementById('c-image-img').style.objectPosition = pos;
+  }
+
+  // ------- Load / switch film -------
+  async function loadFilm(id) {
+    // Save current first if it has any content
+    if (current && hasContent(current)) {
+      clearTimeout(saveTimer);
+      try { await dbPut(current); } catch(e) { console.error(e); }
+    }
+    const film = await dbGet(id);
+    if (!film) return;
+    ensureAllCategories(film);
+    current = film;
+    if (currentImgUrl) { URL.revokeObjectURL(currentImgUrl); currentImgUrl = null; }
+    if (current.imageBlob) currentImgUrl = URL.createObjectURL(current.imageBlob);
+    syncFormToState();
+    renderImage();
+    renderCard();
+    renderList();
+  }
+  function hasContent(f) {
+    return f.title || f.director || f.year || f.genre || f.review || f.imageBlob ||
+      (f.excludedCategories && f.excludedCategories.length) ||
+      CATEGORIES.some(c => f.ratings[c] !== 7.0);
+  }
+
+  async function createNew() {
+    // Save current if worth saving
+    if (current && hasContent(current)) {
+      clearTimeout(saveTimer);
+      try { await dbPut(current); } catch(e) {}
+      const i = films.findIndex(f => f.id === current.id);
+      if (i >= 0) films[i] = current; else films.unshift(current);
+    }
+    current = newFilm();
+    if (currentImgUrl) { URL.revokeObjectURL(currentImgUrl); currentImgUrl = null; }
+    syncFormToState();
+    renderImage();
+    renderCard();
+    renderList();
+  }
+  async function deleteCurrent() {
+    if (!current) return;
+    if (!confirm('Delete this film?')) return;
+    try { await dbDelete(current.id); } catch(e) { console.error(e); }
+    films = films.filter(f => f.id !== current.id);
+    if (currentImgUrl) { URL.revokeObjectURL(currentImgUrl); currentImgUrl = null; }
+    if (films.length) {
+      await loadFilm(films.sort((a,b) => b.updatedAt - a.updatedAt)[0].id);
+    } else {
+      current = newFilm();
+      syncFormToState();
+      renderImage();
+      renderCard();
+      renderList();
+    }
+  }
+  function resetScores() {
+    if (!current) return;
+    if (!confirm('Reset all scores to 7.0?')) return;
+    CATEGORIES.forEach(c => current.ratings[c] = 7.0);
+    syncFormToState();
+    renderCard();
+    scheduleSave();
+  }
+
+  // ------- Form sync -------
+  function syncFormToState() {
+    document.getElementById('f-title').value = current.title;
+    document.getElementById('f-director').value = current.director;
+    document.getElementById('f-year').value = current.year;
+    document.getElementById('f-genre').value = current.genre || '';
+    document.getElementById('f-review').value = current.review;
+    renderFormRatings();
+  }
+
+  // ------- Rendering -------
+  function renderList() {
+    const host = document.getElementById('film-list');
+    const count = document.getElementById('film-count');
+    const sorted = [...films].sort((a,b) => b.updatedAt - a.updatedAt);
+    count.textContent = sorted.length;
+    if (!sorted.length) {
+      host.innerHTML = '<div class="empty-list">No films yet.<br>Rate one to start.</div>';
+      return;
+    }
+    host.innerHTML = '';
+    sorted.forEach(f => {
+      const item = document.createElement('div');
+      item.className = 'film-item' + (current && f.id === current.id ? ' active' : '');
+      item.dataset.id = f.id;
+      const overall = overallOf(f).toFixed(1);
+      const thumb = document.createElement('div');
+      thumb.className = 'film-thumb';
+      if (f.imageBlob) {
+        const img = document.createElement('img');
+        img.src = URL.createObjectURL(f.imageBlob);
+        img.onload = () => URL.revokeObjectURL(img.src);
+        thumb.appendChild(img);
+      } else {
+        thumb.textContent = '♦';
+      }
+      const wrap = document.createElement('div');
+      wrap.className = 'film-title-wrap';
+      wrap.innerHTML = `
+        <div class="film-title">${escapeHtml(f.title || 'Untitled')}</div>
+        <div class="film-sub">${escapeHtml(f.director || '—')}${f.year ? ' · ' + escapeHtml(f.year) : ''}</div>`;
+      const score = document.createElement('div');
+      score.className = 'film-score';
+      score.textContent = overall;
+      item.appendChild(thumb);
+      item.appendChild(wrap);
+      item.appendChild(score);
+      item.addEventListener('click', () => loadFilm(f.id));
+      host.appendChild(item);
+    });
+  }
+  function escapeHtml(s) {
+    return (s + '').replace(/[&<>"']/g, c => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[c]));
+  }
+
+  function renderCard() {
+    // Genre kicker (reserves space even when empty so footer doesn't shift)
+    const genreWrap = document.getElementById('c-genre-wrap');
+    const genreText = (current.genre || '').trim();
+    document.getElementById('c-genre').textContent = genreText || '\u00A0';
+    genreWrap.style.visibility = genreText ? 'visible' : 'hidden';
+
+    document.getElementById('c-title').textContent = current.title.trim() || 'Untitled';
+    document.getElementById('c-director').textContent = current.director.trim()
+      ? 'Directed by ' + current.director.trim()
+      : 'Unknown director';
+    document.getElementById('c-year').textContent = current.year.trim() || '';
+
+    const host = document.getElementById('c-ratings');
+    host.innerHTML = '';
+    const active = activeCategoriesFor(current);
+    active.forEach(cat => {
+      const v = current.ratings[cat];
+      const row = document.createElement('div');
+      row.className = 'cat-row';
+      row.innerHTML = `
+        <div class="cat-name">${cat}</div>
+        <div class="cat-num">${v.toFixed(1)}</div>`;
+      host.appendChild(row);
+    });
+    document.getElementById('c-overall').textContent = overallOf(current).toFixed(1);
+
+    const reviewWrap = document.getElementById('c-review-wrap');
+    const reviewText = document.getElementById('c-review-text');
+    if (current.review && current.review.trim()) {
+      reviewText.textContent = current.review.trim();
+      reviewWrap.style.display = '';
+    } else {
+      reviewText.textContent = '';
+      reviewWrap.style.display = 'none';
+    }
+  }
+
+  function fitPreview() {
+    const scaler = document.getElementById('card-scaler');
+    const card = document.getElementById('card');
+    const frame = scaler.parentElement;
+    const cs = getComputedStyle(frame);
+    const padX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
+    const w = frame.clientWidth - padX;
+    const availableHeight = window.innerHeight - 200;
+    const scale = Math.min(1, w / 1080, availableHeight / 1920);
+    card.style.transform = `scale(${scale})`;
+    scaler.style.width = (1080 * scale) + 'px';
+    scaler.style.height = (1920 * scale) + 'px';
+    scaler.style.margin = '0 auto';
+  }
+  window.addEventListener('resize', fitPreview);
+
+  // ------- Build rating rows in form -------
+  const ratingsHost = document.getElementById('ratings');
+  const chipList = document.getElementById('chip-list');
+  const removedWrap = document.getElementById('removed-categories');
+
+  function renderFormRatings() {
+    if (!current) return;
+    ratingsHost.innerHTML = '';
+    const active = activeCategoriesFor(current);
+    active.forEach(cat => {
+      const row = document.createElement('div');
+      row.className = 'rating-row';
+      row.innerHTML = `
+        <div class="name">${cat}</div>
+        <div class="rating-control">
+          <input type="number" min="0" max="10" step="0.1" data-cat="${cat}" value="${current.ratings[cat].toFixed(1)}" class="score-box">
+          <span class="max-inline">/10</span>
+          <button class="row-remove" data-cat="${cat}" aria-label="Remove ${cat}" title="Remove">×</button>
+        </div>`;
+      ratingsHost.appendChild(row);
+    });
+
+    // Wire inputs
+    ratingsHost.querySelectorAll('input.score-box').forEach(inp => {
+      inp.addEventListener('input', e => {
+        if (!current) return;
+        const cat = e.target.dataset.cat;
+        let v = parseFloat(e.target.value);
+        if (isNaN(v)) v = 0;
+        if (v < 0) v = 0;
+        if (v > 10) v = 10;
+        current.ratings[cat] = v;
+        renderCard();
+        scheduleSave();
+      });
+      inp.addEventListener('blur', e => {
+        const cat = e.target.dataset.cat;
+        e.target.value = current.ratings[cat].toFixed(1);
+      });
+    });
+    ratingsHost.querySelectorAll('.row-remove').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const cat = btn.dataset.cat;
+        if (!current.excludedCategories.includes(cat)) {
+          current.excludedCategories.push(cat);
+        }
+        renderFormRatings();
+        renderCard();
+        scheduleSave();
+      });
+    });
+
+    // Render add-back chips for excluded categories
+    const excluded = CATEGORIES.filter(c => (current.excludedCategories || []).includes(c));
+    chipList.innerHTML = '';
+    if (excluded.length) {
+      excluded.forEach(cat => {
+        const chip = document.createElement('button');
+        chip.className = 'chip';
+        chip.type = 'button';
+        chip.textContent = '+ ' + cat;
+        chip.addEventListener('click', () => {
+          current.excludedCategories = current.excludedCategories.filter(c => c !== cat);
+          renderFormRatings();
+          renderCard();
+          scheduleSave();
+        });
+        chipList.appendChild(chip);
+      });
+      removedWrap.hidden = false;
+    } else {
+      removedWrap.hidden = true;
+    }
+  }
+
+  // ------- Form inputs -------
+  document.getElementById('f-title').addEventListener('input', e => {
+    if (!current) return;
+    current.title = e.target.value; renderCard(); scheduleSave();
+  });
+  document.getElementById('f-director').addEventListener('input', e => {
+    if (!current) return;
+    current.director = e.target.value; renderCard(); scheduleSave();
+  });
+  document.getElementById('f-year').addEventListener('input', e => {
+    if (!current) return;
+    current.year = e.target.value; renderCard(); scheduleSave();
+  });
+  document.getElementById('f-genre').addEventListener('input', e => {
+    if (!current) return;
+    current.genre = e.target.value; renderCard(); scheduleSave();
+  });
+  document.getElementById('f-review').addEventListener('input', e => {
+    if (!current) return;
+    current.review = e.target.value; renderCard(); scheduleSave();
+  });
+
+  // ------- Buttons -------
+  document.getElementById('new-btn').addEventListener('click', createNew);
+  document.getElementById('delete-btn').addEventListener('click', deleteCurrent);
+  document.getElementById('reset-btn').addEventListener('click', resetScores);
+
+  // ------- Image upload -------
+  const uploadZone = document.getElementById('upload-zone');
+  const imageInput = document.getElementById('image-input');
+  uploadZone.addEventListener('click', e => {
+    if (e.target.id === 'upload-remove') return;
+    imageInput.click();
+  });
+  imageInput.addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (file && current) {
+      setCurrentImage(file);
+      scheduleSave();
+    }
+    imageInput.value = '';
+  });
+  document.getElementById('upload-remove').addEventListener('click', e => {
+    e.stopPropagation();
+    if (current) {
+      setCurrentImage(null);
+      scheduleSave();
+    }
+  });
+  ['dragenter','dragover'].forEach(ev => {
+    uploadZone.addEventListener(ev, e => {
+      e.preventDefault(); e.stopPropagation();
+      uploadZone.classList.add('dragging');
+    });
+  });
+  ['dragleave','drop'].forEach(ev => {
+    uploadZone.addEventListener(ev, e => {
+      e.preventDefault(); e.stopPropagation();
+      uploadZone.classList.remove('dragging');
+    });
+  });
+  uploadZone.addEventListener('drop', e => {
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/') && current) {
+      setCurrentImage(file);
+      scheduleSave();
+    }
+  });
+
+  // ------- Drag-to-reposition image within crop frame -------
+  const uploadImg = document.getElementById('upload-img');
+  let posDrag = null;
+  function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+  function startPosDrag(clientX, clientY) {
+    if (!current || !current.imageBlob) return;
+    const iw = uploadImg.naturalWidth, ih = uploadImg.naturalHeight;
+    if (!iw || !ih) return;
+    const rect = uploadImg.getBoundingClientRect();
+    const W = rect.width, H = rect.height;
+    const imgAspect = iw / ih, contAspect = W / H;
+    let displayedW, displayedH;
+    if (imgAspect > contAspect) { displayedH = H; displayedW = iw * H / ih; }
+    else { displayedW = W; displayedH = ih * W / iw; }
+    posDrag = {
+      startX: clientX, startY: clientY,
+      startOffsetX: current.imageOffsetX,
+      startOffsetY: current.imageOffsetY,
+      excessX: Math.max(0, displayedW - W),
+      excessY: Math.max(0, displayedH - H)
+    };
+    uploadImg.classList.add('dragging');
+  }
+  function movePosDrag(clientX, clientY) {
+    if (!posDrag || !current) return;
+    const dx = clientX - posDrag.startX;
+    const dy = clientY - posDrag.startY;
+    let newX = posDrag.startOffsetX, newY = posDrag.startOffsetY;
+    if (posDrag.excessX > 0) newX = clamp(posDrag.startOffsetX - (dx / posDrag.excessX) * 100, 0, 100);
+    if (posDrag.excessY > 0) newY = clamp(posDrag.startOffsetY - (dy / posDrag.excessY) * 100, 0, 100);
+    current.imageOffsetX = newX;
+    current.imageOffsetY = newY;
+    applyImageOffset();
+  }
+  function endPosDrag() {
+    if (!posDrag) return;
+    posDrag = null;
+    uploadImg.classList.remove('dragging');
+    scheduleSave();
+  }
+  uploadImg.addEventListener('mousedown', e => {
+    e.preventDefault();
+    startPosDrag(e.clientX, e.clientY);
+  });
+  document.addEventListener('mousemove', e => {
+    if (posDrag) movePosDrag(e.clientX, e.clientY);
+  });
+  document.addEventListener('mouseup', endPosDrag);
+  uploadImg.addEventListener('touchstart', e => {
+    if (e.touches.length !== 1) return;
+    startPosDrag(e.touches[0].clientX, e.touches[0].clientY);
+  }, { passive: true });
+  uploadImg.addEventListener('touchmove', e => {
+    if (posDrag && e.touches.length === 1) {
+      e.preventDefault();
+      movePosDrag(e.touches[0].clientX, e.touches[0].clientY);
+    }
+  }, { passive: false });
+  uploadImg.addEventListener('touchend', endPosDrag);
+  uploadImg.addEventListener('touchcancel', endPosDrag);
+
+  // ------- Export PNG -------
+  document.getElementById('export-btn').addEventListener('click', async () => {
+    const btn = document.getElementById('export-btn');
+    btn.disabled = true;
+    btn.textContent = 'Exporting…';
+    try {
+      await Promise.all([
+        document.fonts.load('200 82px Outfit'),
+        document.fonts.load('300 34px Outfit'),
+        document.fonts.load('400 30px Outfit'),
+        document.fonts.load('500 28px Outfit'),
+        document.fonts.load('500 22px Outfit')
+      ]).catch(() => {});
+
+      const canvas = document.createElement('canvas');
+      canvas.width = 1080;
+      canvas.height = 1920;
+      const ctx = canvas.getContext('2d');
+      ctx.textBaseline = 'top';
+
+      // Background
+      ctx.fillStyle = '#fafaf7';
+      ctx.fillRect(0, 0, 1080, 1920);
+
+      // Draw image at top (cover-crop into 1080x480)
+      const IMG_H = 480;
+      if (current && current.imageBlob) {
+        try {
+          const bitmap = await createImageBitmap(current.imageBlob);
+          const iw = bitmap.width, ih = bitmap.height;
+          const targetRatio = 1080 / IMG_H;
+          const imgRatio = iw / ih;
+          let sx = 0, sy = 0, sw = iw, sh = ih;
+          const offX = (current.imageOffsetX ?? 50) / 100;
+          const offY = (current.imageOffsetY ?? 50) / 100;
+          if (imgRatio > targetRatio) {
+            sw = ih * targetRatio;
+            sx = (iw - sw) * offX;
+          } else {
+            sh = iw / targetRatio;
+            sy = (ih - sh) * offY;
+          }
+          ctx.drawImage(bitmap, sx, sy, sw, sh, 0, 0, 1080, IMG_H);
+          bitmap.close && bitmap.close();
+        } catch (e) {
+          console.warn('Image draw failed', e);
+          drawImagePlaceholder(ctx, 0, 0, 1080, IMG_H);
+        }
+      } else {
+        drawImagePlaceholder(ctx, 0, 0, 1080, IMG_H);
+      }
+
+      const PAD_L = 110, PAD_R = 110;
+      const contentW = 1080 - PAD_L - PAD_R;
+
+      function drawTracked(text, x, y, spacing) {
+        let cx = x;
+        for (const ch of text) {
+          ctx.fillText(ch, cx, y);
+          cx += ctx.measureText(ch).width + spacing;
+        }
+      }
+      function wrap(text, maxW) {
+        const words = text.split(' ');
+        const lines = [];
+        let line = '';
+        for (const w of words) {
+          const test = line ? line + ' ' + w : w;
+          if (ctx.measureText(test).width > maxW && line) {
+            lines.push(line); line = w;
+          } else { line = test; }
+        }
+        if (line) lines.push(line);
+        return lines;
+      }
+      function roundRect(x, y, w, h, r) {
+        if (w <= 0) return;
+        r = Math.min(r, w/2, h/2);
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.arcTo(x + w, y, x + w, y + h, r);
+        ctx.arcTo(x + w, y + h, x, y + h, r);
+        ctx.arcTo(x, y + h, x, y, r);
+        ctx.arcTo(x, y, x + w, y, r);
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      let y = IMG_H + 46;
+
+      // Genre kicker — always reserves the same vertical slot,
+      // so OVERALL and the brand don't shift when genre is empty
+      const genreText = (current.genre || '').trim().toUpperCase();
+      if (genreText) {
+        ctx.fillStyle = '#8a8a85';
+        ctx.font = '500 26px Outfit, sans-serif';
+        drawTracked(genreText, PAD_L, y, 8);
+      }
+      y += 26 + 20;
+
+      // Title (allow 2 lines)
+      ctx.fillStyle = '#1a1a1a';
+      ctx.font = '200 84px Outfit, sans-serif';
+      const titleText = (current && current.title.trim()) || 'Untitled';
+      const titleLines = wrap(titleText, contentW).slice(0, 2);
+      for (const line of titleLines) {
+        ctx.fillText(line, PAD_L, y);
+        y += 84 * 1.05;
+      }
+      y = y - (84 * 1.05 - 84) + 16;
+
+      // Director + year
+      ctx.fillStyle = '#4a4a45';
+      ctx.font = '400 32px Outfit, sans-serif';
+      const dirText = (current && current.director.trim())
+        ? 'Directed by ' + current.director.trim()
+        : 'Unknown director';
+      ctx.fillText(dirText, PAD_L, y);
+      if (current && current.year.trim()) {
+        const w1 = ctx.measureText(dirText).width;
+        ctx.fillStyle = '#8a8a85';
+        ctx.font = '300 32px Outfit, sans-serif';
+        ctx.fillText(current.year.trim(), PAD_L + w1 + 14, y);
+      }
+      y += 30 + 44;
+
+      // Rule
+      ctx.fillStyle = '#ececea';
+      ctx.fillRect(PAD_L, y, contentW, 1);
+      y += 1 + 24;
+
+      // Categories in two columns
+      const colGap = 60;
+      const colW = (contentW - colGap) / 2;
+      const col1X = PAD_L;
+      const col2X = PAD_L + colW + colGap;
+      const activeCats = activeCategoriesFor(current);
+      const rowsPerCol = Math.ceil(activeCats.length / 2);
+      const rowHeight = 30 + 28; // 30 for score font, 28 padding total (14 top + 14 bottom)
+      const ratingsStartY = y;
+
+      for (let i = 0; i < activeCats.length; i++) {
+        const cat = activeCats[i];
+        const v = current.ratings[cat];
+        // Row-first fill: item 2k → col1 row k, item 2k+1 → col2 row k
+        const rowIdx = Math.floor(i / 2);
+        const colIdx = i % 2;
+        const colX = colIdx === 0 ? col1X : col2X;
+        const rowTop = ratingsStartY + rowIdx * rowHeight;
+        const contentTop = rowTop + 14;
+
+        // Name — top of a 30px line, name font 24px, offset for baseline alignment
+        ctx.fillStyle = '#4a4a45';
+        ctx.font = '500 24px Outfit, sans-serif';
+        drawTracked(cat.toUpperCase(), colX, contentTop + 5, 3);
+
+        // Score aligned to right of column
+        const cellRight = colX + colW;
+        ctx.textAlign = 'right';
+        ctx.fillStyle = '#1a1a1a';
+        ctx.font = '500 30px Outfit, sans-serif';
+        ctx.fillText(v.toFixed(1), cellRight, contentTop);
+        ctx.textAlign = 'left';
+
+        // Divider under the row (only if not the last row of that column)
+        const isLastInCol1 = colIdx === 0 && rowIdx === rowsPerCol - 1 && (i === activeCats.length - 1 || i === activeCats.length - 2);
+        const isLastInCol2 = colIdx === 1 && rowIdx === rowsPerCol - 1;
+        if (!isLastInCol1 && !isLastInCol2) {
+          ctx.fillStyle = '#f2f2ef';
+          ctx.fillRect(colX, rowTop + rowHeight - 1, colW, 1);
+        }
+      }
+      y = ratingsStartY + rowsPerCol * rowHeight;
+
+      // Review (optional)
+      const reviewTrim = (current.review || '').trim();
+      if (reviewTrim) {
+        y += 22;
+        ctx.fillStyle = '#ececea';
+        ctx.fillRect(PAD_L, y, contentW, 1);
+        y += 22;
+
+        ctx.fillStyle = '#8a8a85';
+        ctx.font = '500 24px Outfit, sans-serif';
+        drawTracked('NOTES', PAD_L, y, 6);
+        y += 24 + 14;
+
+        ctx.fillStyle = '#4a4a45';
+        ctx.font = '300 30px Outfit, sans-serif';
+        const lineH = 28 * 1.5;
+        // Respect explicit line breaks, then wrap each paragraph
+        const paragraphs = reviewTrim.split(/\n/);
+        const allLines = [];
+        for (const p of paragraphs) {
+          if (!p.trim()) { allLines.push(''); continue; }
+          allLines.push(...wrap(p, contentW));
+        }
+        // Cap at 5 lines to prevent footer collision
+        const maxLines = 5;
+        const linesToDraw = allLines.slice(0, maxLines);
+        if (allLines.length > maxLines) {
+          const last = linesToDraw[maxLines - 1];
+          const trimmed = last.replace(/\s+\S*$/, '') + '…';
+          linesToDraw[maxLines - 1] = trimmed;
+        }
+        for (const line of linesToDraw) {
+          ctx.fillText(line, PAD_L, y);
+          y += lineH;
+        }
+      }
+
+      // Footer sits right after ratings/review (not pinned to bottom)
+      y += 20;
+      const ruleY = y;
+      ctx.fillStyle = '#ececea';
+      ctx.fillRect(PAD_L, ruleY, contentW, 1);
+      const footerTop = ruleY + 24;
+
+      // OVERALL label
+      ctx.fillStyle = '#8a8a85';
+      ctx.font = '500 26px Outfit, sans-serif';
+      drawTracked('OVERALL', PAD_L, footerTop + 46, 6);
+
+      // Overall value
+      const avg = overallOf(current);
+      ctx.textAlign = 'right';
+      ctx.fillStyle = '#1a1a1a';
+      ctx.font = '200 78px Outfit, sans-serif';
+      ctx.fillText(avg.toFixed(1), 1080 - PAD_R, footerTop);
+      ctx.textAlign = 'left';
+
+      // Brand pinned to the bottom, centered (icon + wordmark)
+      ctx.fillStyle = '#b0b0aa';
+      ctx.font = '500 24px Outfit, sans-serif';
+      const brand = 'NUTSHELL REVIEWS';
+      const brandSpacing = 8;
+      let brandW = 0;
+      for (const ch of brand) brandW += ctx.measureText(ch).width + brandSpacing;
+      brandW -= brandSpacing;
+
+      const iconSize = 32;
+      const iconGap = 18;
+      const totalW = iconSize + iconGap + brandW;
+      const startX = (1080 - totalW) / 2;
+      const brandBaselineY = 1920 - 100; // top of the 24px text, ~76px above the bottom edge
+      const iconY = brandBaselineY + 12 - iconSize / 2; // vertically center on text
+
+      // Load icon SVG as image and draw
+      const iconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="#b0b0aa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4 L16 6"/><path d="M7 12 C7 8 10 7 16 7 C22 7 25 8 25 12 Z"/><path d="M8 12 C8 20 11 27 16 27 C21 27 24 20 24 12"/><path d="M11 9 L11 12 M16 8 L16 12 M21 9 L21 12" stroke-width="1"/></svg>`;
+      const iconImg = new Image();
+      iconImg.src = 'data:image/svg+xml;utf8,' + encodeURIComponent(iconSvg);
+      await new Promise((res, rej) => {
+        iconImg.onload = res;
+        iconImg.onerror = res; // don't fail export if icon can't render
+      });
+      try { ctx.drawImage(iconImg, startX, iconY, iconSize, iconSize); } catch(e) {}
+
+      drawTracked(brand, startX + iconSize + iconGap, brandBaselineY, brandSpacing);
+
+      await new Promise(resolve => {
+        canvas.toBlob(blob => {
+          const a = document.createElement('a');
+          const safeTitle = (current && current.title || 'film').trim().replace(/[^a-z0-9]+/gi, '-').toLowerCase() || 'film';
+          a.download = `${safeTitle}-rating.png`;
+          a.href = URL.createObjectURL(blob);
+          a.click();
+          setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+          resolve();
+        }, 'image/png');
+      });
+    } catch (err) {
+      console.error(err);
+      alert('Export failed: ' + err.message);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Export PNG';
+    }
+  });
+  function drawImagePlaceholder(ctx, x, y, w, h) {
+    ctx.fillStyle = '#ececea';
+    ctx.fillRect(x, y, w, h);
+    ctx.fillStyle = '#b8b8b0';
+    ctx.font = '500 32px Outfit, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    let cx = x + w/2 - 4 * 20;
+    for (const ch of 'STILL') {
+      ctx.fillText(ch, cx, y + h/2);
+      cx += 32;
+    }
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'top';
+  }
+
+  // ------- Migration from old localStorage -------
+  async function migrateFromLocalStorage() {
+    const raw = localStorage.getItem('film_rating_v1');
+    if (!raw) return;
+    try {
+      const parsed = JSON.parse(raw);
+      const film = newFilm();
+      film.title = parsed.title || '';
+      film.director = parsed.director || '';
+      film.year = parsed.year || '';
+      if (parsed.ratings) {
+        for (const c of CATEGORIES) {
+          if (typeof parsed.ratings[c] === 'number') film.ratings[c] = parsed.ratings[c];
+        }
+      }
+      await dbPut(film);
+      localStorage.removeItem('film_rating_v1');
+      console.log('Migrated film from localStorage');
+    } catch (e) { console.warn('Migration failed', e); }
+  }
+
+  // ------- JSON export / import (data backup) -------
+  function blobToDataUrl(blob) {
+    return new Promise((resolve, reject) => {
+      const r = new FileReader();
+      r.onload = () => resolve(r.result);
+      r.onerror = () => reject(r.error);
+      r.readAsDataURL(blob);
+    });
+  }
+  async function dataUrlToBlob(dataUrl) {
+    const res = await fetch(dataUrl);
+    return await res.blob();
+  }
+
+  async function exportAllData() {
+    try {
+      const allFilms = await dbGetAll();
+      const items = await Promise.all(allFilms.map(async f => {
+        const out = { ...f };
+        if (f.imageBlob instanceof Blob) {
+          out.imageBlob = await blobToDataUrl(f.imageBlob);
+        } else {
+          out.imageBlob = null;
+        }
+        return out;
+      }));
+      const payload = {
+        format: 'nutshell-reviews',
+        version: 1,
+        exportedAt: new Date().toISOString(),
+        films: items
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      const stamp = new Date().toISOString().slice(0, 10);
+      a.download = `nutshell-reviews-${stamp}.json`;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    } catch (e) {
+      console.error(e);
+      alert('Export failed: ' + e.message);
+    }
+  }
+
+  async function importAllData(file) {
+    let data;
+    try {
+      const text = await file.text();
+      data = JSON.parse(text);
+    } catch (e) {
+      alert('Could not read that file as JSON.');
+      return;
+    }
+    if (data.format !== 'nutshell-reviews' || !Array.isArray(data.films)) {
+      alert('This file does not look like a Nutshell Reviews export.');
+      return;
+    }
+    const existingIds = new Set(films.map(f => f.id));
+    const overlap = data.films.filter(f => existingIds.has(f.id)).length;
+    const additions = data.films.length - overlap;
+    const ok = confirm(
+      `Import ${data.films.length} film${data.films.length === 1 ? '' : 's'}?\n\n` +
+      `${additions} new, ${overlap} will overwrite existing entries with the same ID.\n\n` +
+      `OK = import.  Cancel = do nothing.`
+    );
+    if (!ok) return;
+
+    let imported = 0;
+    for (const raw of data.films) {
+      const film = { ...raw };
+      if (typeof film.imageBlob === 'string' && film.imageBlob.startsWith('data:')) {
+        try { film.imageBlob = await dataUrlToBlob(film.imageBlob); }
+        catch (e) { film.imageBlob = null; }
+      } else {
+        film.imageBlob = null;
+      }
+      if (!film.ratings || typeof film.ratings !== 'object') film.ratings = {};
+      ensureAllCategories(film);
+      if (!film.id) film.id = newId();
+      if (!film.updatedAt) film.updatedAt = Date.now();
+      if (!film.createdAt) film.createdAt = film.updatedAt;
+      try { await dbPut(film); imported++; }
+      catch (e) { console.error('Failed to import a film', e); }
+    }
+
+    films = await dbGetAll();
+    films.forEach(ensureAllCategories);
+    if (films.length) {
+      const most = [...films].sort((a,b) => b.updatedAt - a.updatedAt)[0];
+      await loadFilm(most.id);
+    } else {
+      renderList();
+    }
+    alert(`Imported ${imported} film${imported === 1 ? '' : 's'}.`);
+  }
+
+  document.getElementById('export-json-btn').addEventListener('click', exportAllData);
+  const importInput = document.getElementById('import-json-input');
+  document.getElementById('import-json-btn').addEventListener('click', () => importInput.click());
+  importInput.addEventListener('change', async e => {
+    const file = e.target.files[0];
+    if (file) await importAllData(file);
+    importInput.value = '';
+  });
+
+  // ------- Init -------
+  async function init() {
+    try {
+      db = await openDB();
+      await migrateFromLocalStorage();
+      films = await dbGetAll();
+      films.forEach(ensureAllCategories);
+      if (films.length) {
+        const most = [...films].sort((a,b) => b.updatedAt - a.updatedAt)[0];
+        await loadFilm(most.id);
+      } else {
+        current = newFilm();
+        syncFormToState();
+        renderImage();
+        renderCard();
+        renderList();
+      }
+      requestAnimationFrame(fitPreview);
+    } catch (e) {
+      console.error('Init failed', e);
+      alert('Could not open database. Your browser may be blocking storage.');
+    }
+  }
+  init();
+</script>
+<!-- jpt:backlink -->
+<style>
+/* Collapsed to a small disc so it sits in the corner of tools whose own UI
+   runs full height; expands to the label only on hover / keyboard focus. */
+#jpt-back{
+  position:fixed; left:12px; bottom:12px; z-index:50;
+  display:inline-flex; align-items:center; justify-content:center;
+  height:32px; min-width:32px; padding:0 8px; border-radius:99px;
+  font:600 12.5px/1 "Outfit",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  text-decoration:none; color:#6b7686;
+  background:rgba(255,255,255,.9); border:1px solid #eceadf;
+  box-shadow:0 2px 10px rgba(15,27,45,.10);
+  backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+  opacity:.5; transition:opacity .18s ease, color .18s ease, border-color .18s ease;
+}
+#jpt-back:hover,#jpt-back:focus-visible{opacity:1; color:#2563eb; border-color:#dde3f8}
+#jpt-back .a{font-size:13px; line-height:1}
+#jpt-back .t{
+  max-width:0; overflow:hidden; white-space:nowrap; opacity:0;
+  transition:max-width .18s ease, opacity .18s ease, margin-left .18s ease;
+}
+#jpt-back:hover .t,#jpt-back:focus-visible .t{max-width:70px; opacity:1; margin-left:5px}
+@media (prefers-color-scheme:dark){
+  #jpt-back{background:rgba(22,33,58,.9); border-color:#26324c; color:#93a0bb;
+            box-shadow:0 2px 10px rgba(0,0,0,.3)}
+  #jpt-back:hover,#jpt-back:focus-visible{color:#5b8def; border-color:#2b3c5c}
+}
+@media print{#jpt-back{display:none !important}}
+@media (prefers-reduced-motion:reduce){#jpt-back,#jpt-back .t{transition:none}}
+</style>
+<a id="jpt-back" href="/" title="Back to all tools" aria-label="Back to all tools"><span class="a">&#8592;</span><span class="t">All tools</span></a>
+<!-- /jpt:backlink -->
+</body>
+</html>

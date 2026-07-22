@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Timer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f4f6fa;
+    --card: #ffffff;
+    --ink: #1a1f2e;
+    --muted: #8a8fa0;
+    --line: #e6e9f0;
+    --track: #eef1f6;
+    --accent-warm: #e8a952;
+    --danger: #b84a3e;
+    --shadow-card: 0 1px 3px rgba(0,0,0,0.04);
+    --shadow-button: 0 1px 2px rgba(0,0,0,0.03);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: 'Outfit', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+  .card {
+    background: var(--card);
+    border-radius: 14px;
+    box-shadow: var(--shadow-card);
+    padding: 3rem 3.5rem 2.5rem;
+    width: 100%;
+    max-width: 560px;
+    text-align: center;
+  }
+  .label {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+  }
+  .ring-wrap {
+    position: relative;
+    width: 340px;
+    height: 340px;
+    margin: 0 auto 2rem;
+  }
+  .ring-wrap svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+  }
+  .ring-track {
+    fill: none;
+    stroke: #f0f2f7;
+    stroke-width: 3;
+  }
+  .ring-progress {
+    fill: none;
+    stroke: #b8c0d0;
+    stroke-width: 3;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.95s linear, stroke 0.3s;
+  }
+  .ring-progress.finished { stroke: #d9a6a0; }
+  .display {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5.5rem;
+    font-weight: 200;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+  .display.finished { color: #c78e88; }
+  .presets {
+    display: flex;
+    gap: 0.6rem;
+    justify-content: center;
+    margin-bottom: 1.75rem;
+  }
+  .preset {
+    flex: 1;
+    background: var(--bg);
+    border: none;
+    border-radius: 10px;
+    padding: 0.8rem 0.5rem;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--ink);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    box-shadow: var(--shadow-button);
+  }
+  .preset:hover { background: var(--line); }
+  .preset.active { background: var(--ink); color: var(--card); }
+  .controls {
+    display: flex;
+    gap: 0.6rem;
+    justify-content: center;
+  }
+  .btn {
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .btn.primary { background: var(--ink); color: var(--bg); }
+  .btn.ghost { background: none; color: var(--muted); }
+  .btn.primary:hover { opacity: 0.85; }
+  .btn.ghost:hover { color: var(--ink); }
+  .divider {
+    height: 1px;
+    background: var(--line);
+    margin: 2.25rem 0 1.75rem;
+  }
+  .topic {
+    font-size: 1.35rem;
+    font-weight: 300;
+    line-height: 1.5;
+    color: var(--ink);
+    min-height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0.5rem;
+    margin-bottom: 1.25rem;
+    transition: opacity 0.2s;
+  }
+  .topic.fading { opacity: 0; }
+  .shuffle { margin: 0 auto; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="label">Timer</div>
+    <div class="ring-wrap">
+      <svg viewBox="0 0 200 200">
+        <circle class="ring-track" cx="100" cy="100" r="92"></circle>
+        <circle class="ring-progress" id="ring" cx="100" cy="100" r="92"
+                stroke-dasharray="578.05" stroke-dashoffset="0"></circle>
+      </svg>
+      <div class="display" id="display">01:00</div>
+    </div>
+    <div class="presets">
+      <button class="preset active" data-min="1">1 min</button>
+      <button class="preset" data-min="2">2 min</button>
+      <button class="preset" data-min="3">3 min</button>
+    </div>
+    <div class="controls">
+      <button class="btn primary" id="startBtn">Start</button>
+      <button class="btn ghost" id="resetBtn">Reset</button>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="label">Topic</div>
+    <div class="topic" id="topic">Press shuffle to get a topic</div>
+    <button class="btn ghost shuffle" id="shuffleBtn">Shuffle ↻</button>
+  </div>
+
+<script>
+  const display = document.getElementById('display');
+  const ring = document.getElementById('ring');
+  const startBtn = document.getElementById('startBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const presets = document.querySelectorAll('.preset');
+
+  const CIRC = 2 * Math.PI * 92;
+  ring.setAttribute('stroke-dasharray', CIRC);
+
+  let totalSeconds = 60;
+  let remaining = 60;
+  let intervalId = null;
+  let running = false;
+
+  function format(s) {
+    const m = Math.floor(s / 60);
+    const sec = s % 60;
+    return String(m).padStart(2, '0') + ':' + String(sec).padStart(2, '0');
+  }
+
+  function render() {
+    display.textContent = format(remaining);
+    document.title = format(remaining) + ' , Timer';
+    const pct = totalSeconds > 0 ? remaining / totalSeconds : 0;
+    ring.setAttribute('stroke-dashoffset', CIRC * (1 - pct));
+  }
+
+  function setMinutes(min) {
+    stop();
+    totalSeconds = min * 60;
+    remaining = totalSeconds;
+    display.classList.remove('finished');
+    ring.classList.remove('finished');
+    render();
+    presets.forEach(p => p.classList.toggle('active', Number(p.dataset.min) === min));
+  }
+
+  function tick() {
+    if (remaining <= 0) {
+      stop();
+      display.classList.add('finished');
+      ring.classList.add('finished');
+      beep();
+      return;
+    }
+    remaining--;
+    render();
+  }
+
+  function start() {
+    if (running || remaining <= 0) return;
+    running = true;
+    startBtn.textContent = 'Pause';
+    intervalId = setInterval(tick, 1000);
+  }
+
+  function stop() {
+    running = false;
+    startBtn.textContent = 'Start';
+    if (intervalId) { clearInterval(intervalId); intervalId = null; }
+  }
+
+  function toggle() { if (running) stop(); else start(); }
+
+  function reset() {
+    stop();
+    remaining = totalSeconds;
+    display.classList.remove('finished');
+    ring.classList.remove('finished');
+    render();
+  }
+
+  function beep() {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.frequency.value = 880;
+      o.type = 'sine';
+      g.gain.setValueAtTime(0.2, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.6);
+      o.start();
+      o.stop(ctx.currentTime + 0.6);
+    } catch (e) {}
+  }
+
+  presets.forEach(p => p.addEventListener('click', () => setMinutes(Number(p.dataset.min))));
+  startBtn.addEventListener('click', toggle);
+  resetBtn.addEventListener('click', reset);
+
+  const TOPICS = [
+    "A time you completely changed your mind about something.",
+    "The best piece of advice you've ever ignored.",
+    "A skill you wish schools taught but don't.",
+    "The most overrated invention of the last 50 years.",
+    "A place you'd return to again and again, and why.",
+    "Something you used to love but can no longer stand.",
+    "The role of luck in your life so far.",
+    "A tradition worth keeping and one worth ditching.",
+    "The hardest conversation you've ever had.",
+    "What social media gets wrong about your generation.",
+    "A book, film, or song that changed how you see the world.",
+    "The strangest job you'd secretly like to try.",
+    "Whether money really can buy happiness.",
+    "A rule you happily break.",
+    "The smartest purchase you've ever made under 50 euros.",
+    "How you'd spend a completely free Saturday.",
+    "A stereotype about your country that annoys you.",
+    "The last time you were genuinely surprised.",
+    "Something you're better at than most people realise.",
+    "A habit you'd like to build in the next year.",
+    "If you had to replace one meal forever with pizza, breakfast or dinner?",
+    "The worst haircut you've ever had.",
+    "Which fictional villain would you actually vote for?",
+    "You get a talking pet, what species and what's its personality?",
+    "The most embarrassing song on your playlist you secretly love.",
+    "If your life had a laugh track, when would it play?",
+    "You can uninvent one thing forever, what goes?",
+    "The weirdest food combination you genuinely enjoy.",
+    "You wake up fluent in a new language tomorrow, which one?",
+    "Describe your ideal Sunday using only smells and sounds.",
+    "If your country had to pick a new national animal, what should it be?",
+    "The most useless superpower you'd still take.",
+    "You have to teach a class on something silly, what's the subject?",
+    "If you could send one voice message to your 15-year-old self.",
+    "The strangest thing you believed as a child.",
+    "You're stuck in a lift for 6 hours, who's the ideal companion?",
+    "A film so bad you'd happily watch it again.",
+    "If animals could vote, which would run the country best?",
+    "You get to rename one month of the year. Which one and what to?",
+    "The most ridiculous argument you've ever had."
+  ];
+
+  const topicEl = document.getElementById('topic');
+  const shuffleBtn = document.getElementById('shuffleBtn');
+  let pool = [];
+
+  function refillPool() {
+    pool = TOPICS.slice().sort(() => Math.random() - 0.5);
+  }
+
+  function nextTopic() {
+    if (pool.length === 0) refillPool();
+    const next = pool.pop();
+    topicEl.classList.add('fading');
+    setTimeout(() => {
+      topicEl.textContent = next;
+      topicEl.classList.remove('fading');
+    }, 180);
+  }
+
+  shuffleBtn.addEventListener('click', nextTopic);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.code === 'Space') { e.preventDefault(); toggle(); }
+    if (e.key && e.key.toLowerCase() === 'r') reset();
+    if (e.key && e.key.toLowerCase() === 's') nextTopic();
+  });
+
+  render();
+</script>
+<!-- jpt:backlink -->
+<style>
+/* Collapsed to a small disc so it sits in the corner of tools whose own UI
+   runs full height; expands to the label only on hover / keyboard focus. */
+#jpt-back{
+  position:fixed; left:12px; bottom:12px; z-index:50;
+  display:inline-flex; align-items:center; justify-content:center;
+  height:32px; min-width:32px; padding:0 8px; border-radius:99px;
+  font:600 12.5px/1 "Outfit",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  text-decoration:none; color:#6b7686;
+  background:rgba(255,255,255,.9); border:1px solid #eceadf;
+  box-shadow:0 2px 10px rgba(15,27,45,.10);
+  backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+  opacity:.5; transition:opacity .18s ease, color .18s ease, border-color .18s ease;
+}
+#jpt-back:hover,#jpt-back:focus-visible{opacity:1; color:#2563eb; border-color:#dde3f8}
+#jpt-back .a{font-size:13px; line-height:1}
+#jpt-back .t{
+  max-width:0; overflow:hidden; white-space:nowrap; opacity:0;
+  transition:max-width .18s ease, opacity .18s ease, margin-left .18s ease;
+}
+#jpt-back:hover .t,#jpt-back:focus-visible .t{max-width:70px; opacity:1; margin-left:5px}
+@media (prefers-color-scheme:dark){
+  #jpt-back{background:rgba(22,33,58,.9); border-color:#26324c; color:#93a0bb;
+            box-shadow:0 2px 10px rgba(0,0,0,.3)}
+  #jpt-back:hover,#jpt-back:focus-visible{color:#5b8def; border-color:#2b3c5c}
+}
+@media print{#jpt-back{display:none !important}}
+@media (prefers-reduced-motion:reduce){#jpt-back,#jpt-back .t{transition:none}}
+</style>
+<a id="jpt-back" href="/" title="Back to all tools" aria-label="Back to all tools"><span class="a">&#8592;</span><span class="t">All tools</span></a>
+<!-- /jpt:backlink -->
+</body>
+</html>

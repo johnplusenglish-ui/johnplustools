@@ -3,438 +3,361 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Federica Caturano — HR Jobs in Italy</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<title>John + Tools — free teaching tools for English classrooms</title>
+<meta name="description" content="Free, no-signup browser tools for English teachers: debate builder, lesson timer, article-to-magazine, writing corrections and more. Built by John, from JohnPlusEnglish.">
+<meta name="color-scheme" content="light dark">
+
+<meta property="og:title" content="John + Tools — free teaching tools for English classrooms">
+<meta property="og:description" content="Free, no-signup browser tools for English teachers. Everything runs in your browser.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://johnplustools.com">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧰</text></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap">
+
 <style>
-:root {
-  --sun: #FFB347;
-  --sea: #2EC4B6;
-  --sea-deep: #1f8f84;
-  --coral: #FF6B6B;
-  --sand: #FFF5E6;
-  --cream: #FFFCF7;
-  --ink: #2b2218;
-  --ink-soft: #4a3f32;
-  --muted: #8a7e6b;
-  --line: #e8dcc8;
-  --line-soft: #f0e8d8;
+:root{
+  --bg:#f4f3ec; --card:#fff; --ink:#0f1b2d; --muted:#6b7686;
+  --line:#eceadf; --accent:#2563eb; --accent-deep:#1d4ed8;
+  --soft:#eceffc; --soft-line:#dde3f8;
+  --shadow:0 1px 2px rgba(15,27,45,.04), 0 8px 24px rgba(15,27,45,.06);
+  --shadow-lift:0 2px 4px rgba(15,27,45,.06), 0 16px 40px rgba(15,27,45,.10);
 }
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Outfit', sans-serif; background: var(--cream); color: var(--ink); line-height: 1.7; -webkit-font-smoothing: antialiased; }
-::selection { background: var(--sea); color: #fff; }
-.wrap { max-width: 860px; margin: 0 auto; padding: 2rem 2rem 3rem; }
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#0f1728; --card:#16213a; --ink:#eef2fb; --muted:#93a0bb;
+    --line:#26324c; --accent:#5b8def; --accent-deep:#93b4f6;
+    --soft:#1d2b46; --soft-line:#2b3c5c;
+    --shadow:0 1px 2px rgba(0,0,0,.2), 0 8px 24px rgba(0,0,0,.25);
+    --shadow-lift:0 2px 4px rgba(0,0,0,.25), 0 16px 40px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="light"]{
+  --bg:#f4f3ec; --card:#fff; --ink:#0f1b2d; --muted:#6b7686;
+  --line:#eceadf; --accent:#2563eb; --accent-deep:#1d4ed8;
+  --soft:#eceffc; --soft-line:#dde3f8;
+  --shadow:0 1px 2px rgba(15,27,45,.04), 0 8px 24px rgba(15,27,45,.06);
+  --shadow-lift:0 2px 4px rgba(15,27,45,.06), 0 16px 40px rgba(15,27,45,.10);
+}
+:root[data-theme="dark"]{
+  --bg:#0f1728; --card:#16213a; --ink:#eef2fb; --muted:#93a0bb;
+  --line:#26324c; --accent:#5b8def; --accent-deep:#93b4f6;
+  --soft:#1d2b46; --soft-line:#2b3c5c;
+  --shadow:0 1px 2px rgba(0,0,0,.2), 0 8px 24px rgba(0,0,0,.25);
+  --shadow-lift:0 2px 4px rgba(0,0,0,.25), 0 16px 40px rgba(0,0,0,.35);
+}
 
-/* Header */
-header { text-align: center; padding: 1.5rem 0 2rem; animation: fadeIn 0.5s ease; }
-.house-mark { font-size: 0.7rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--sea); font-weight: 700; margin-bottom: 1.2rem; display: inline-block; padding: 0.35rem 1rem; border-top: 2px solid var(--sea); border-bottom: 2px solid var(--sea); }
-h1 { font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 800; line-height: 1.1; margin-bottom: 0.2rem; }
-h1 .amp { color: var(--sea); font-weight: 300; padding: 0 0.15em; }
-h1 .sub { display: block; font-weight: 400; color: var(--sea); font-size: 0.38em; margin-top: 0.4em; letter-spacing: 0.08em; }
-.meta-row { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-soft); font-weight: 600; margin-top: 0.8rem; }
-.meta-row .sep { color: var(--sun); }
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:"Outfit",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  line-height:1.6; -webkit-font-smoothing:antialiased; min-height:100vh;
+}
+::selection{background:var(--accent); color:#fff}
+a{color:inherit}
 
-/* Boards panel */
-.boards-panel { background: var(--sand); border-radius: 6px; padding: 1.1rem 1.3rem; margin-bottom: 1.5rem; border-left: 3px solid var(--sun); }
-.boards-label { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--sun); font-weight: 700; margin-bottom: 0.7rem; }
-.boards-grid { display: flex; flex-wrap: wrap; gap: 6px; }
-.board-link { display: inline-flex; align-items: center; gap: 5px; padding: 0.35rem 0.85rem; background: white; border: 1.5px solid var(--line); border-radius: 4px; text-decoration: none; font-size: 0.75rem; font-weight: 700; color: var(--ink-soft); transition: all 0.2s; }
-.board-link:hover { border-color: var(--sea); color: var(--sea); transform: translateY(-1px); }
-.board-link .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--sea); flex-shrink: 0; }
+.wrap{max-width:1080px; margin:0 auto; padding:0 24px}
 
-/* Status */
-.status-bar { background: var(--sand); border-radius: 6px; padding: 0.9rem 1.2rem; margin-bottom: 14px; border-left: 3px solid var(--sea); display: flex; align-items: center; gap: 10px; }
-.spinner { width: 14px; height: 14px; border: 2px solid var(--line); border-top-color: var(--sea); border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
-.progress-track { height: 3px; background: var(--line-soft); border-radius: 3px; overflow: hidden; margin-top: 3px; }
-.progress-fill { height: 100%; background: linear-gradient(90deg, var(--sea), var(--sun)); border-radius: 3px; transition: width 0.4s ease; }
+/* ── Top bar ── */
+.topbar{
+  display:flex; align-items:center; gap:14px;
+  padding:20px 0 0; max-width:1080px; margin:0 auto; padding-left:24px; padding-right:24px;
+}
+.brand{
+  display:flex; align-items:center; gap:9px;
+  font-weight:800; font-size:15px; letter-spacing:-.01em; text-decoration:none;
+}
+.brand .mark{font-size:19px; line-height:1}
+.brand .plus{color:var(--accent); font-weight:500; padding:0 1px}
+.topbar .spacer{flex:1}
+.toplink{
+  font-size:13px; font-weight:600; color:var(--muted);
+  text-decoration:none; padding:7px 12px; border-radius:9px; transition:.15s;
+  white-space:nowrap;
+}
+.toplink:hover{color:var(--accent); background:var(--soft)}
+.theme-btn{
+  background:transparent; border:1px solid var(--line); color:var(--muted);
+  font-family:inherit; font-size:14px; cursor:pointer;
+  width:34px; height:34px; border-radius:9px; transition:.15s;
+  display:grid; place-items:center; flex-shrink:0;
+}
+.theme-btn:hover{color:var(--accent); border-color:var(--accent)}
 
-/* Controls */
-.controls { margin-bottom: 1.2rem; }
-.search-row { display: flex; gap: 8px; margin-bottom: 10px; }
-.search-input { flex: 1; padding: 0.6rem 1rem; border: 1.5px solid var(--line); border-radius: 5px; font-size: 0.85rem; font-family: 'Outfit', sans-serif; background: white; outline: none; transition: border-color 0.2s; font-weight: 500; color: var(--ink); }
-.search-input:focus { border-color: var(--sea); }
-.search-input::placeholder { color: var(--muted); font-weight: 400; }
-.btn-sea { padding: 0.6rem 1.3rem; background: var(--sea); color: white; border: none; border-radius: 5px; font-family: 'Outfit', sans-serif; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
-.btn-sea:hover { background: var(--sea-deep); transform: translateY(-1px); }
-.btn-sea:disabled { background: var(--line); cursor: wait; transform: none; }
-.btn-dark { padding: 0.6rem 1.1rem; background: var(--ink); color: var(--cream); border: none; border-radius: 5px; font-family: 'Outfit', sans-serif; font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-.btn-dark:hover { background: var(--sea-deep); transform: translateY(-1px); }
-.btn-dark:disabled { background: var(--line); cursor: wait; color: var(--muted); transform: none; }
-.filters { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
-.filter-input { padding: 0.45rem 0.8rem; border: 1.5px solid var(--line); border-radius: 5px; font-size: 0.78rem; font-family: 'Outfit', sans-serif; background: white; outline: none; width: 160px; font-weight: 500; color: var(--ink); transition: border-color 0.2s; }
-.filter-input:focus { border-color: var(--sea); }
-.pills { display: flex; gap: 5px; flex-wrap: wrap; }
-.pill { padding: 0.3rem 0.75rem; border-radius: 4px; border: 1.5px solid var(--line); background: white; color: var(--muted); font-size: 0.7rem; font-weight: 700; cursor: pointer; font-family: 'Outfit', sans-serif; transition: all 0.2s; letter-spacing: 0.03em; text-transform: uppercase; }
-.pill:hover { border-color: var(--sea); color: var(--sea); }
-.pill.active { border-color: var(--sea); background: var(--sea); color: white; }
-.role-select { padding: 0.4rem 0.7rem; border: 1.5px solid var(--line); border-radius: 5px; font-size: 0.75rem; font-family: 'Outfit', sans-serif; background: white; color: var(--ink-soft); cursor: pointer; outline: none; font-weight: 600; }
-.count { font-size: 0.72rem; color: var(--muted); margin-left: auto; font-weight: 600; }
+/* ── Hero ── */
+header.hero{text-align:center; padding:64px 0 40px}
+.eyebrow{
+  display:inline-block; font-size:11px; font-weight:700;
+  letter-spacing:.18em; text-transform:uppercase; color:var(--accent);
+  background:var(--soft); border:1px solid var(--soft-line);
+  padding:6px 14px; border-radius:99px; margin-bottom:22px;
+}
+h1{
+  font-size:clamp(2.3rem,6vw,3.5rem); font-weight:800;
+  line-height:1.05; letter-spacing:-.03em; margin-bottom:18px;
+}
+h1 .plus{color:var(--accent); font-weight:400; padding:0 .06em}
+.lede{
+  font-size:clamp(1rem,2.2vw,1.15rem); color:var(--muted);
+  max-width:47ch; margin:0 auto; font-weight:400;
+}
+.hero-note{
+  margin-top:20px; font-size:13px; color:var(--muted); font-weight:500;
+  display:flex; gap:8px; justify-content:center; flex-wrap:wrap; align-items:center;
+}
+.hero-note .dot{width:3px;height:3px;border-radius:50%;background:var(--muted);opacity:.5}
 
-/* Error */
-.error-box { background: #fff0f0; border-left: 3px solid var(--coral); border-radius: 0 6px 6px 0; padding: 0.8rem 1.1rem; font-size: 0.82rem; color: var(--coral); font-weight: 600; margin-bottom: 12px; }
+/* ── Filters ── */
+.filters{
+  display:flex; gap:7px; justify-content:center; flex-wrap:wrap;
+  padding:8px 0 34px;
+}
+.pill{
+  font-family:inherit; font-size:12.5px; font-weight:600;
+  padding:7px 15px; border-radius:99px; cursor:pointer;
+  background:var(--card); color:var(--muted);
+  border:1px solid var(--line); transition:.15s;
+}
+.pill:hover{color:var(--accent); border-color:var(--accent)}
+.pill[aria-pressed="true"]{background:var(--accent); border-color:var(--accent); color:#fff}
 
-/* Cards */
-.job-list { display: flex; flex-direction: column; gap: 8px; }
-.job-card { background: white; border-radius: 6px; padding: 1.2rem 1.3rem; border-left: 3px solid var(--sea); cursor: pointer; transition: all 0.2s; }
-.job-card:hover { background: var(--sand); padding-left: 1.6rem; }
-.job-card.expanded { box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
-.job-header { display: flex; justify-content: space-between; gap: 1rem; }
-.job-main { flex: 1; min-width: 0; }
-.job-title { font-size: 1.1rem; font-weight: 700; color: var(--ink); line-height: 1.3; margin-bottom: 2px; }
-.job-company { font-size: 0.85rem; font-weight: 600; color: var(--sea); margin-bottom: 6px; }
-.job-tags { display: flex; flex-wrap: wrap; gap: 4px; }
-.tag { font-size: 0.65rem; padding: 2px 8px; border-radius: 3px; font-weight: 600; white-space: nowrap; letter-spacing: 0.03em; text-transform: uppercase; }
-.tag-location { background: var(--sand); color: var(--muted); }
-.tag-salary { background: rgba(46,196,182,0.1); color: var(--sea-deep); }
-.tag-type { background: rgba(255,179,71,0.15); color: #c4862f; }
-.job-meta { text-align: right; flex-shrink: 0; }
-.job-date { font-size: 0.68rem; color: var(--muted); display: block; font-weight: 500; }
-.job-details { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line-soft); display: none; }
-.job-card.expanded .job-details { display: block; animation: fadeIn 0.25s ease; }
-.job-desc { font-size: 0.88rem; color: var(--ink-soft); line-height: 1.7; margin-bottom: 14px; }
-.btn-apply { display: inline-flex; align-items: center; gap: 6px; padding: 0.5rem 1.3rem; background: var(--sea); color: white; border-radius: 5px; font-size: 0.8rem; font-weight: 600; text-decoration: none; font-family: 'Outfit', sans-serif; transition: all 0.2s; }
-.btn-apply:hover { background: var(--sea-deep); transform: translateY(-1px); }
+/* ── Grid ── */
+.grid{
+  display:grid; gap:18px; padding-bottom:20px;
+  grid-template-columns:repeat(auto-fill,minmax(290px,1fr));
+}
+.tool{
+  display:flex; flex-direction:column; gap:0;
+  background:var(--card); border:1px solid var(--line);
+  border-radius:16px; padding:24px; text-decoration:none;
+  box-shadow:var(--shadow); transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  position:relative; overflow:hidden;
+}
+.tool::before{
+  content:""; position:absolute; inset:0 auto 0 0; width:3px;
+  background:var(--accent); opacity:0; transition:opacity .18s ease;
+}
+.tool:hover{transform:translateY(-3px); box-shadow:var(--shadow-lift); border-color:var(--soft-line)}
+.tool:hover::before{opacity:1}
+.tool:focus-visible{outline:2px solid var(--accent); outline-offset:3px}
+.tool .icon{
+  font-size:26px; line-height:1; margin-bottom:16px;
+  width:48px; height:48px; border-radius:12px;
+  background:var(--soft); border:1px solid var(--soft-line);
+  display:grid; place-items:center;
+}
+.tool h2{font-size:1.12rem; font-weight:700; letter-spacing:-.015em; margin-bottom:7px}
+.tool p{font-size:.885rem; color:var(--muted); line-height:1.55; flex:1}
+.tags{display:flex; gap:6px; flex-wrap:wrap; margin-top:16px}
+.tag{
+  font-size:10.5px; font-weight:700; letter-spacing:.05em; text-transform:uppercase;
+  padding:4px 9px; border-radius:6px; background:var(--soft);
+  color:var(--accent-deep); border:1px solid var(--soft-line);
+}
+.tag.neutral{background:transparent; color:var(--muted); border-color:var(--line)}
+.tool .go{
+  margin-top:16px; font-size:13px; font-weight:700; color:var(--accent);
+  display:flex; align-items:center; gap:5px;
+}
+.tool .go .arrow{transition:transform .18s ease}
+.tool:hover .go .arrow{transform:translateX(3px)}
 
-/* Skeleton */
-.skeleton-card { background: white; border-radius: 6px; padding: 1.2rem 1.3rem; border-left: 3px solid var(--line); animation: pulse 1.5s ease infinite; }
-.skel { border-radius: 4px; background: var(--line-soft); }
+.empty{
+  grid-column:1/-1; text-align:center; padding:48px 20px;
+  color:var(--muted); font-size:.92rem;
+}
 
-/* Empty */
-.empty { text-align: center; padding: 3rem 1rem; color: var(--muted); }
-.empty h3 { font-size: 1.2rem; margin-bottom: 4px; font-weight: 700; }
+/* ── Strip ── */
+.strip{
+  margin:44px 0 0; padding:26px 28px;
+  background:var(--soft); border:1px solid var(--soft-line);
+  border-radius:16px; display:flex; gap:20px; align-items:center; flex-wrap:wrap;
+}
+.strip .txt{flex:1; min-width:240px}
+.strip h3{font-size:1.02rem; font-weight:700; margin-bottom:4px; letter-spacing:-.01em}
+.strip p{font-size:.87rem; color:var(--muted); line-height:1.55}
+.btn{
+  display:inline-flex; align-items:center; gap:7px;
+  background:var(--accent); color:#fff; text-decoration:none;
+  font-size:.87rem; font-weight:700; padding:11px 20px;
+  border-radius:11px; transition:.15s; white-space:nowrap;
+}
+.btn:hover{background:var(--accent-deep); transform:translateY(-1px)}
 
-/* Footer */
-footer { text-align: center; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--line-soft); }
-.sig { font-size: 1.1rem; font-weight: 700; color: var(--ink); margin-bottom: 0.2rem; }
-.foot-tag { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+/* ── Footer ── */
+footer{
+  margin-top:56px; padding:30px 0 44px;
+  border-top:1px solid var(--line); text-align:center;
+}
+footer .sig{font-size:.95rem; font-weight:700; margin-bottom:5px}
+footer .sig .plus{color:var(--accent); font-weight:400}
+footer .tag-line{font-size:12px; color:var(--muted); font-weight:500}
+footer .links{margin-top:14px; display:flex; gap:18px; justify-content:center; flex-wrap:wrap}
+footer .links a{font-size:12.5px; color:var(--muted); font-weight:600; text-decoration:none; transition:.15s}
+footer .links a:hover{color:var(--accent)}
 
-@keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
-@keyframes cardIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
-@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
-@keyframes spin { to { transform:rotate(360deg); } }
-
-@media (max-width: 700px) {
-  .wrap { padding: 1.2rem 1rem 2rem; }
-  .search-row { flex-wrap: wrap; }
-  .filter-input { width: 100%; }
+@media (max-width:640px){
+  .wrap,.topbar{padding-left:18px; padding-right:18px}
+  header.hero{padding:44px 0 30px}
+  .grid{grid-template-columns:1fr; gap:14px}
+  .tool{padding:20px}
+  .strip{padding:22px}
+  .toplink.hide-sm{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none !important; animation:none !important}
+  html{scroll-behavior:auto}
 }
 </style>
 </head>
 <body>
+
+<nav class="topbar">
+  <a class="brand" href="/">
+    <span class="mark">🧰</span><span>John<span class="plus">+</span>Tools</span>
+  </a>
+  <span class="spacer"></span>
+  <a class="toplink hide-sm" href="https://johnplusdictionary.com" target="_blank" rel="noopener">Dictionary ↗</a>
+  <a class="toplink" href="#tools">Tools</a>
+  <button class="theme-btn" id="themeBtn" title="Switch light / dark" aria-label="Switch light or dark theme">◐</button>
+</nav>
+
 <div class="wrap">
 
-  <header>
-    <div class="house-mark">John + English</div>
-    <h1>HR Jobs <span class="amp">&</span> Italy<span class="sub">live job search · curated for Federica Caturano</span></h1>
-    <div class="meta-row">Adzuna <span class="sep">✦</span> LinkedIn <span class="sep">✦</span> Indeed <span class="sep">✦</span> Reed <span class="sep">✦</span> Italian Boards</div>
+  <header class="hero">
+    <div class="eyebrow">Free · No sign-up</div>
+    <h1>Teaching tools<br>that just work</h1>
+    <p class="lede">
+      Small, focused browser tools for English classrooms. Open one, use it in
+      your lesson, close it. Nothing to install and no account to make.
+    </p>
+    <div class="hero-note">
+      <span>Runs in your browser</span><span class="dot"></span>
+      <span>Your work stays on your device</span><span class="dot"></span>
+      <span>Built by a teacher</span>
+    </div>
   </header>
 
-  <!-- Quick links -->
-  <div class="boards-panel">
-    <div class="boards-label">🇮🇹 Italian Job Boards — Browse Directly</div>
-    <div class="boards-grid">
-      <a class="board-link" href="https://www.viatalent.com/lavoro/ricerca?q=HR+Business+Partner&l=Roma" target="_blank" rel="noopener"><span class="dot"></span>Viatalent</a>
-      <a class="board-link" href="https://www.infojobs.it/offerte-lavoro/risorse-umane/roma/offerte-di-lavoro.xhtml" target="_blank" rel="noopener"><span class="dot"></span>InfoJobs Italia</a>
-      <a class="board-link" href="https://it.indeed.com/lavoro?q=HR+Business+Partner&l=Roma" target="_blank" rel="noopener"><span class="dot"></span>Indeed Italia</a>
-      <a class="board-link" href="https://www.monster.it/lavoro/cerca/q-hr-business-partner-l-roma" target="_blank" rel="noopener"><span class="dot"></span>Monster Italia</a>
-      <a class="board-link" href="https://it.linkedin.com/jobs/search/?keywords=HR%20Business%20Partner&location=Roma" target="_blank" rel="noopener"><span class="dot"></span>LinkedIn Italia</a>
-      <a class="board-link" href="https://www.jobrapido.com/it/lavoro/hr-business-partner/roma" target="_blank" rel="noopener"><span class="dot"></span>Jobrapido</a>
-      <a class="board-link" href="https://www.glassdoor.it/Lavoro/rome-hr-business-partner-lavori-SRCH_IL.0,4_IC2777267_KO5,24.htm" target="_blank" rel="noopener"><span class="dot"></span>Glassdoor Italia</a>
-      <a class="board-link" href="https://www.talent.com/jobs?k=HR+Business+Partner&l=Roma%2C+Lazio" target="_blank" rel="noopener"><span class="dot"></span>Talent.com</a>
-      <a class="board-link" href="https://www.subito.it/annunci-italia/offerte-di-lavoro/risorse-umane-personale/" target="_blank" rel="noopener"><span class="dot"></span>Subito.it</a>
-      <a class="board-link" href="https://www.corriere.it/economia/lavoro/offerte/?q=HR+Business+Partner" target="_blank" rel="noopener"><span class="dot"></span>Corriere Lavoro</a>
-    </div>
+  <div class="filters" id="tools" role="group" aria-label="Filter tools by category">
+    <button class="pill" data-cat="all" aria-pressed="true">All tools</button>
+    <button class="pill" data-cat="speaking" aria-pressed="false">Speaking</button>
+    <button class="pill" data-cat="reading" aria-pressed="false">Reading</button>
+    <!-- Writing pill returns with the Writing Corrections tool (see grid below). -->
+    <button class="pill" data-cat="classroom" aria-pressed="false">Classroom</button>
   </div>
 
-  <!-- Status -->
-  <div class="status-bar" id="statusBar" style="display:none;">
-    <div class="spinner" id="spinner"></div>
-    <div style="flex:1">
-      <div id="statusText" style="font-size:0.82rem;color:var(--ink-soft);font-weight:600;margin-bottom:3px;"></div>
-      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-    </div>
-    <span id="statusCount" style="font-size:0.72rem;color:var(--muted);font-weight:600;"></span>
-  </div>
+  <main class="grid" id="grid">
 
-  <!-- Controls -->
-  <div class="controls">
-    <div class="search-row">
-      <input type="text" class="search-input" id="customQuery" placeholder="Custom search — e.g. 'People & Culture Milan' or 'Talent Acquisition remote'" onkeydown="if(event.key==='Enter')runCustom()">
-      <button class="btn-sea" id="searchBtn" onclick="runCustom()">Search</button>
-      <button class="btn-dark" id="refreshBtn" onclick="runAll()">↻ Refresh</button>
-    </div>
-    <div class="filters">
-      <input type="text" class="filter-input" id="filterText" placeholder="Filter results…" oninput="renderJobs()">
-      <div class="pills" id="regionPills"></div>
-      <select class="role-select" id="roleSelect" onchange="renderJobs()">
-        <option>All</option>
-        <option>HR Business Partner</option>
-        <option>Talent Acquisition</option>
-        <option>Employer Branding</option>
-        <option>HR Manager</option>
-        <option>HR Generalist</option>
-        <option>People</option>
-        <option>Recruiter</option>
-      </select>
-      <span class="count" id="jobCount"></span>
-    </div>
-  </div>
+    <a class="tool" href="/tools/debate-builder.html" data-cat="speaking">
+      <div class="icon">🗣️</div>
+      <h2>Debate Builder</h2>
+      <p>Write a debate question, add the task and a C2 phrase bank, then run it
+         full-screen with a built-in timer. Save debates to a bank and export
+         to PNG or PDF.</p>
+      <div class="tags"><span class="tag">Speaking</span><span class="tag neutral">Presentation mode</span></div>
+      <span class="go">Open tool <span class="arrow">→</span></span>
+    </a>
 
-  <div id="lastUpdated" style="font-size:0.68rem;color:var(--muted);font-weight:500;margin-bottom:12px;text-align:right;display:none;"></div>
-  <div class="error-box" id="errorBox" style="display:none;"></div>
-  <div class="job-list" id="jobList"></div>
+    <a class="tool" href="/tools/article-magazine.html" data-cat="reading">
+      <div class="icon">📰</div>
+      <h2>Article → Magazine</h2>
+      <p>Paste any article and lay it out as a proper magazine spread. Pull short
+         definitions for words you highlight, add discussion questions, then
+         export A4, phone-size or one tall image.</p>
+      <div class="tags"><span class="tag">Reading</span><span class="tag neutral">Needs your API key</span></div>
+      <span class="go">Open tool <span class="arrow">→</span></span>
+    </a>
+
+    <!-- Writing Corrections is held back until its demo data is replaced: the
+         current file hardcodes three named students' real writing, levels and
+         scores, which must not go on a public site. Card + tools/corrections.html
+         go back in once that data is swapped for neutral samples. -->
+
+    <a class="tool" href="/tools/timer.html" data-cat="classroom">
+      <div class="icon">⏱️</div>
+      <h2>Lesson Timer</h2>
+      <p>A big, calm countdown with one-tap 1, 2 and 3 minute presets. Shuffle
+         button pulls a random discussion topic when an activity finishes early.</p>
+      <div class="tags"><span class="tag">Classroom</span><span class="tag neutral">Topic shuffle</span></div>
+      <span class="go">Open tool <span class="arrow">→</span></span>
+    </a>
+
+    <a class="tool" href="/tools/nutshell-reviews.html" data-cat="speaking">
+      <div class="icon">🎬</div>
+      <h2>Nutshell Reviews</h2>
+      <p>Students rate a film across categories, write a two-line review and export
+         it as a shareable 1080×1920 card. A neat speaking warm-up that leaves
+         something behind.</p>
+      <div class="tags"><span class="tag">Speaking</span><span class="tag neutral">Exports PNG</span></div>
+      <span class="go">Open tool <span class="arrow">→</span></span>
+    </a>
+
+    <div class="empty" id="empty" hidden>No tools in that category yet — more on the way.</div>
+
+  </main>
+
+  <section class="strip">
+    <div class="txt">
+      <h3>Looking for the dictionary?</h3>
+      <p>JohnPlusDictionary is a learner's dictionary with example sentences, collocations
+         and a small community of students. Separate site, same hands.</p>
+    </div>
+    <a class="btn" href="https://johnplusdictionary.com" target="_blank" rel="noopener">Visit the dictionary →</a>
+  </section>
 
 </div>
 
 <footer>
   <div class="wrap">
-    <p class="sig">Federica Caturano</p>
-    <p class="foot-tag">HR Job Dashboard · Powered by Adzuna</p>
+    <p class="sig">John<span class="plus">+</span>English</p>
+    <p class="tag-line">Teaching tools, made in the classroom</p>
+    <div class="links">
+      <a href="https://johnplusdictionary.com" target="_blank" rel="noopener">Dictionary</a>
+      <a href="#tools">All tools</a>
+    </div>
   </div>
 </footer>
 
 <script>
-const APP_ID  = "4a47a87c";
-const APP_KEY = "ba5cf21183a50bc025b12b1ae468faf6";
-const BASE    = "https://api.adzuna.com/v1/api/jobs/it/search/1";
-
-const SEARCHES = [
-  { label: "Roma — HRBP",  what: "HR Business Partner", where: "Roma" },
-  { label: "Roma — TA",    what: "Talent Acquisition Recruiter", where: "Roma" },
-  { label: "Roma — EB",    what: "Employer Branding HR", where: "Roma" },
-  { label: "Lazio",        what: "Risorse Umane HR", where: "Lazio" },
-  { label: "Milano",       what: "HR Business Partner", where: "Milano" },
-  { label: "Italia",       what: "HR Manager People Culture", where: "" },
-  { label: "Remote",       what: "HR remote lavoro", where: "" },
-];
-
-let allJobs = [];
-let regionFilter = "all";
-let isLoading = false;
-
-/* ── Adzuna fetch (via Netlify proxy) ── */
-async function adzuna(what, where) {
-  const params = new URLSearchParams({ what });
-  if (where) params.set("where", where);
-  const res = await fetch(`/api/adzuna?${params}`);
-  if (!res.ok) throw new Error(`Adzuna ${res.status}`);
-  const data = await res.json();
-  return data.results || [];
-}
-
-/* ── Normalise Adzuna job to common shape ── */
-function normalise(j, label) {
-  return {
-    job_title: j.title,
-    employer_name: j.company?.display_name || "Unknown",
-    job_city: j.location?.display_name || "",
-    job_description: j.description,
-    job_apply_link: j.redirect_url,
-    job_posted_at_datetime_utc: j.created,
-    job_salary_min: j.salary_min,
-    job_salary_max: j.salary_max,
-    job_category: j.category?.label || "",
-    _regionLabel: label,
-  };
-}
-
-function dedupe(jobs) {
-  const seen = new Set();
-  return jobs.filter(j => {
-    const k = `${(j.job_title||"").toLowerCase().trim()}|${(j.employer_name||"").toLowerCase().trim()}`;
-    if (seen.has(k)) return false;
-    seen.add(k); return true;
+/* Theme — remembers your choice, otherwise follows the system. */
+(function () {
+  var root = document.documentElement, btn = document.getElementById("themeBtn");
+  var saved = null;
+  try { saved = localStorage.getItem("jpt_theme"); } catch (e) {}
+  if (saved === "light" || saved === "dark") root.setAttribute("data-theme", saved);
+  btn.addEventListener("click", function () {
+    var sysDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    var now = root.getAttribute("data-theme") || (sysDark ? "dark" : "light");
+    var next = now === "dark" ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem("jpt_theme", next); } catch (e) {}
   });
-}
+})();
 
-function timeAgo(d) {
-  if (!d) return "Recent";
-  const days = Math.floor((Date.now() - new Date(d).getTime()) / 86400000);
-  if (days === 0) return "Today";
-  if (days === 1) return "Yesterday";
-  if (days < 7) return days + "d ago";
-  if (days < 30) return Math.floor(days/7) + "w ago";
-  return Math.floor(days/30) + "mo ago";
-}
-
-function truncate(s, n) {
-  if (!s) return "";
-  s = s.replace(/<[^>]*>/g, ""); // strip HTML tags from Adzuna descriptions
-  return s.length > n ? s.slice(0, n).replace(/\s+\S*$/, "") + "…" : s;
-}
-
-/* ── UI helpers ── */
-function setLoading(v, text) {
-  isLoading = v;
-  document.getElementById("statusBar").style.display = v ? "flex" : "none";
-  document.getElementById("refreshBtn").disabled = v;
-  document.getElementById("searchBtn").disabled = v;
-  document.getElementById("refreshBtn").textContent = v ? "Loading…" : "↻ Refresh";
-  document.getElementById("errorBox").style.display = "none";
-  if (text) document.getElementById("statusText").textContent = text;
-}
-
-function setProgress(done, total, label, found) {
-  document.getElementById("statusText").textContent = `Searching ${label} (${done}/${total})`;
-  document.getElementById("progressFill").style.width = `${Math.round((done/total)*100)}%`;
-  document.getElementById("statusCount").textContent = found > 0 ? found + " found" : "";
-}
-
-function stamp() {
-  const el = document.getElementById("lastUpdated");
-  el.style.display = "block";
-  el.textContent = "Updated " + new Date().toLocaleString("en-GB", { day:"numeric", month:"short", hour:"2-digit", minute:"2-digit" });
-}
-
-function buildPills() {
-  const labels = [...new Set(allJobs.map(j => j._regionLabel))];
-  const c = document.getElementById("regionPills");
-  c.innerHTML = "";
-  const mk = (id, label) => {
-    const p = document.createElement("button");
-    p.className = "pill" + (regionFilter === id ? " active" : "");
-    p.textContent = label;
-    p.onclick = () => { regionFilter = id; buildPills(); renderJobs(); };
-    c.appendChild(p);
-  };
-  mk("all", "All");
-  labels.forEach(l => mk(l, l));
-}
-
-/* ── Filter ── */
-function getFiltered() {
-  const role = document.getElementById("roleSelect").value;
-  const text = (document.getElementById("filterText").value || "").toLowerCase();
-  return allJobs.filter(j => {
-    if (regionFilter !== "all" && j._regionLabel !== regionFilter) return false;
-    if (role !== "All" && !(j.job_title||"").toLowerCase().includes(role.toLowerCase().split(" ")[0])) return false;
-    if (text) {
-      const hay = `${j.job_title} ${j.employer_name} ${j.job_city} ${j.job_description||""}`.toLowerCase();
-      if (!hay.includes(text)) return false;
-    }
-    return true;
+/* Category filter */
+(function () {
+  var pills = Array.prototype.slice.call(document.querySelectorAll(".pill"));
+  var tools = Array.prototype.slice.call(document.querySelectorAll(".tool"));
+  var empty = document.getElementById("empty");
+  pills.forEach(function (pill) {
+    pill.addEventListener("click", function () {
+      var cat = pill.dataset.cat;
+      pills.forEach(function (p) { p.setAttribute("aria-pressed", String(p === pill)); });
+      var shown = 0;
+      tools.forEach(function (t) {
+        var show = cat === "all" || t.dataset.cat === cat;
+        t.style.display = show ? "" : "none";
+        if (show) shown++;
+      });
+      empty.hidden = shown > 0;
+    });
   });
-}
-
-/* ── Render ── */
-function renderJobs() {
-  const filtered = getFiltered();
-  const list = document.getElementById("jobList");
-  document.getElementById("jobCount").textContent = `${filtered.length} listing${filtered.length !== 1 ? "s" : ""}`;
-
-  if (isLoading && allJobs.length === 0) {
-    list.innerHTML = [0,1,2,3].map(i => `
-      <div class="skeleton-card" style="animation-delay:${i*0.12}s">
-        <div class="skel" style="height:16px;width:58%;margin-bottom:7px;"></div>
-        <div class="skel" style="height:13px;width:32%;margin-bottom:9px;"></div>
-        <div style="display:flex;gap:5px;">
-          <div class="skel" style="height:18px;width:75px;border-radius:3px;"></div>
-          <div class="skel" style="height:18px;width:55px;border-radius:3px;"></div>
-        </div>
-      </div>`).join("");
-    return;
-  }
-
-  if (!filtered.length) {
-    list.innerHTML = `<div class="empty"><h3>No matches</h3><p style="font-size:0.82rem;">Try adjusting filters or run a custom search.</p></div>`;
-    return;
-  }
-
-  const ACCENT_COLORS = ["var(--sea)","var(--sun)","var(--coral)","var(--sea-deep)","#b8a47e","#9b7fb6","#5a7a3d"];
-
-  list.innerHTML = filtered.map((j, i) => {
-    const color = ACCENT_COLORS[i % ACCENT_COLORS.length];
-    const id = `job-${i}`;
-    const salary = (j.job_salary_min || j.job_salary_max)
-      ? `<span class="tag tag-salary">💶 ${j.job_salary_min ? "€"+Math.round(j.job_salary_min).toLocaleString() : ""}${j.job_salary_min && j.job_salary_max ? "–" : ""}${j.job_salary_max ? "€"+Math.round(j.job_salary_max).toLocaleString() : ""}</span>`
-      : "";
-    const applyHtml = j.job_apply_link
-      ? `<a href="${j.job_apply_link}" target="_blank" rel="noopener noreferrer" class="btn-apply" style="background:${color}" onclick="event.stopPropagation()">Apply Now →</a>`
-      : "";
-
-    return `
-      <div class="job-card" id="${id}" style="border-left-color:${color};animation:cardIn 0.35s ease ${i*0.03}s both" onclick="toggleCard('${id}')">
-        <div class="job-header">
-          <div class="job-main">
-            <div class="job-title">${j.job_title || "HR Position"}</div>
-            <div class="job-company" style="color:${color}">${j.employer_name}</div>
-            <div class="job-tags">
-              ${j.job_city ? `<span class="tag tag-location">📍 ${j.job_city}</span>` : ""}
-              ${salary}
-              ${j.job_category ? `<span class="tag tag-type">${j.job_category}</span>` : ""}
-            </div>
-          </div>
-          <div class="job-meta">
-            <span class="job-date">${timeAgo(j.job_posted_at_datetime_utc)}</span>
-          </div>
-        </div>
-        <div class="job-details">
-          ${j.job_description ? `<p class="job-desc">${truncate(j.job_description, 500)}</p>` : ""}
-          ${applyHtml}
-        </div>
-      </div>`;
-  }).join("");
-}
-
-function toggleCard(id) {
-  document.getElementById(id)?.classList.toggle("expanded");
-}
-
-/* ── Fetch all ── */
-async function runAll() {
-  if (isLoading) return;
-  setLoading(true, "Starting…");
-  allJobs = [];
-  renderJobs();
-
-  for (let i = 0; i < SEARCHES.length; i++) {
-    const s = SEARCHES[i];
-    setProgress(i, SEARCHES.length, s.label, allJobs.length);
-    try {
-      const results = await adzuna(s.what, s.where);
-      const normalised = results.map(j => normalise(j, s.label));
-      allJobs.push(...normalised);
-      allJobs = dedupe(allJobs);
-      buildPills();
-      renderJobs();
-    } catch(e) {
-      console.error(s.label, e);
-    }
-    if (i < SEARCHES.length - 1) await new Promise(r => setTimeout(r, 250));
-  }
-
-  setProgress(SEARCHES.length, SEARCHES.length, "", allJobs.length);
-  if (!allJobs.length) {
-    document.getElementById("errorBox").textContent = "No jobs returned — check your connection and try refreshing.";
-    document.getElementById("errorBox").style.display = "block";
-  }
-  stamp();
-  setLoading(false);
-  renderJobs();
-}
-
-/* ── Custom search ── */
-async function runCustom() {
-  const q = document.getElementById("customQuery").value.trim();
-  if (!q || isLoading) return;
-  setLoading(true, `Searching: ${q}`);
-  allJobs = [];
-  renderJobs();
-  try {
-    const results = await adzuna(q, "");
-    allJobs = dedupe(results.map(j => normalise(j, "Custom")));
-    buildPills();
-  } catch(e) {
-    document.getElementById("errorBox").textContent = "Search failed — try again.";
-    document.getElementById("errorBox").style.display = "block";
-  }
-  document.getElementById("progressFill").style.width = "100%";
-  stamp();
-  setLoading(false);
-  renderJobs();
-}
-
-// Go
-runAll();
+})();
 </script>
+
 </body>
 </html>

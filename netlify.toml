@@ -1,4 +1,19 @@
+# johnplustools.com — static site, no build step, no functions.
+
+[build]
+  publish = "."
+
+# Short URLs: /debate-builder serves /tools/debate-builder.html
+# force = false, so a real file at that path always wins.
 [[redirects]]
-  from = "/api/adzuna"
-  to = "/.netlify/functions/adzuna"
+  from = "/:tool"
+  to = "/tools/:tool.html"
   status = 200
+  force = false
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
