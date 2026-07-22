@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>John + Tools — free teaching tools for English classrooms</title>
-<meta name="description" content="Free, no-signup browser tools for English teachers: debate builder, lesson timer, article-to-magazine, writing corrections and more. Built by John, from JohnPlusEnglish.">
+<title>John + Tools — teaching tools for English classrooms</title>
+<meta name="description" content="Free, no-signup browser tools for English teachers, built by John of JohnPlusEnglish.">
 <meta name="color-scheme" content="light dark">
 
-<meta property="og:title" content="John + Tools — free teaching tools for English classrooms">
+<meta property="og:title" content="John + Tools — teaching tools for English classrooms">
 <meta property="og:description" content="Free, no-signup browser tools for English teachers. Everything runs in your browser.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://johnplustools.com">
 
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧰</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z'/><path d='M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z'/></svg>">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,346 +20,339 @@
 
 <style>
 :root{
-  --bg:#f4f3ec; --card:#fff; --ink:#0f1b2d; --muted:#6b7686;
-  --line:#eceadf; --accent:#2563eb; --accent-deep:#1d4ed8;
-  --soft:#eceffc; --soft-line:#dde3f8;
-  --shadow:0 1px 2px rgba(15,27,45,.04), 0 8px 24px rgba(15,27,45,.06);
-  --shadow-lift:0 2px 4px rgba(15,27,45,.06), 0 16px 40px rgba(15,27,45,.10);
+  --bg:#f4f3ec;
+  --card:#ffffff;
+  --ink:#0f1b2d;
+  --muted:#6b7686;
+  --line:#eceadf;
+  --accent:#2563eb;
+  --accent-deep:#1d4ed8;
+  --soft:#eceffc;
+  --soft-line:#dde3f8;
+  --shadow-card:0 1px 2px rgba(20,30,60,.04),0 20px 44px -28px rgba(30,50,110,.35);
 }
-@media (prefers-color-scheme:dark){
-  :root{
-    --bg:#0f1728; --card:#16213a; --ink:#eef2fb; --muted:#93a0bb;
-    --line:#26324c; --accent:#5b8def; --accent-deep:#93b4f6;
-    --soft:#1d2b46; --soft-line:#2b3c5c;
-    --shadow:0 1px 2px rgba(0,0,0,.2), 0 8px 24px rgba(0,0,0,.25);
-    --shadow-lift:0 2px 4px rgba(0,0,0,.25), 0 16px 40px rgba(0,0,0,.35);
-  }
-}
-:root[data-theme="light"]{
-  --bg:#f4f3ec; --card:#fff; --ink:#0f1b2d; --muted:#6b7686;
-  --line:#eceadf; --accent:#2563eb; --accent-deep:#1d4ed8;
-  --soft:#eceffc; --soft-line:#dde3f8;
-  --shadow:0 1px 2px rgba(15,27,45,.04), 0 8px 24px rgba(15,27,45,.06);
-  --shadow-lift:0 2px 4px rgba(15,27,45,.06), 0 16px 40px rgba(15,27,45,.10);
-}
-:root[data-theme="dark"]{
-  --bg:#0f1728; --card:#16213a; --ink:#eef2fb; --muted:#93a0bb;
-  --line:#26324c; --accent:#5b8def; --accent-deep:#93b4f6;
-  --soft:#1d2b46; --soft-line:#2b3c5c;
-  --shadow:0 1px 2px rgba(0,0,0,.2), 0 8px 24px rgba(0,0,0,.25);
-  --shadow-lift:0 2px 4px rgba(0,0,0,.25), 0 16px 40px rgba(0,0,0,.35);
+[data-theme="dark"]{
+  --bg:#0f1728;
+  --card:#16213a;
+  --ink:#eef2fb;
+  --muted:#93a0bb;
+  --line:#26324c;
+  --accent:#5b8def;
+  --accent-deep:#93b4f6;
+  --soft:#1d2b46;
+  --soft-line:#2b3c5c;
+  --shadow-card:0 1px 2px rgba(0,0,0,.2),0 20px 44px -28px rgba(0,0,0,.7);
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
 body{
-  background:var(--bg); color:var(--ink);
+  background:var(--bg);color:var(--ink);
   font-family:"Outfit",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  line-height:1.6; -webkit-font-smoothing:antialiased; min-height:100vh;
+  line-height:1.6;-webkit-font-smoothing:antialiased;
 }
-::selection{background:var(--accent); color:#fff}
+::selection{background:var(--accent);color:#fff}
 a{color:inherit}
+svg{display:block}
 
-.wrap{max-width:1080px; margin:0 auto; padding:0 24px}
+/* ── Topbar ─────────────────────────────────────────────────────── */
+.stopbar{
+  position:sticky;top:0;z-index:40;background:var(--card);
+  border-bottom:1px solid var(--line);padding:0 22px;
+  height:56px;flex-shrink:0;
+  display:flex;align-items:center;gap:14px;
+}
+.st-brand{
+  display:inline-flex;align-items:center;gap:10px;
+  text-decoration:none;color:var(--ink);line-height:1;
+}
+.st-brand .brand-icon{color:var(--accent);width:22px;height:22px;display:inline-flex;flex-shrink:0}
+.st-brand .brand-icon svg{width:22px;height:22px}
+.st-brand .brand-title{display:inline-flex;flex-direction:column;justify-content:center;gap:2px;line-height:1}
+.brand-title .k{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.brand-title .b{font-size:15px;font-weight:700;letter-spacing:-.01em}
+.grow{flex:1}
 
-/* ── Top bar ── */
-.topbar{
-  display:flex; align-items:center; gap:14px;
-  padding:20px 0 0; max-width:1080px; margin:0 auto; padding-left:24px; padding-right:24px;
+.icon-btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:36px;height:36px;border-radius:999px;background:transparent;
+  border:none;cursor:pointer;color:var(--muted);
+  transition:background .12s,color .12s;
 }
-.brand{
-  display:flex; align-items:center; gap:9px;
-  font-weight:800; font-size:15px; letter-spacing:-.01em; text-decoration:none;
-}
-.brand .mark{font-size:19px; line-height:1}
-.brand .plus{color:var(--accent); font-weight:500; padding:0 1px}
-.topbar .spacer{flex:1}
-.toplink{
-  font-size:13px; font-weight:600; color:var(--muted);
-  text-decoration:none; padding:7px 12px; border-radius:9px; transition:.15s;
-  white-space:nowrap;
-}
-.toplink:hover{color:var(--accent); background:var(--soft)}
-.theme-btn{
-  background:transparent; border:1px solid var(--line); color:var(--muted);
-  font-family:inherit; font-size:14px; cursor:pointer;
-  width:34px; height:34px; border-radius:9px; transition:.15s;
-  display:grid; place-items:center; flex-shrink:0;
-}
-.theme-btn:hover{color:var(--accent); border-color:var(--accent)}
+.icon-btn svg{width:18px;height:18px}
+.icon-btn:hover{background:var(--soft);color:var(--accent)}
 
-/* ── Hero ── */
-header.hero{text-align:center; padding:64px 0 40px}
-.eyebrow{
-  display:inline-block; font-size:11px; font-weight:700;
-  letter-spacing:.18em; text-transform:uppercase; color:var(--accent);
-  background:var(--soft); border:1px solid var(--soft-line);
-  padding:6px 14px; border-radius:99px; margin-bottom:22px;
-}
-h1{
-  font-size:clamp(2.3rem,6vw,3.5rem); font-weight:800;
-  line-height:1.05; letter-spacing:-.03em; margin-bottom:18px;
-}
-h1 .plus{color:var(--accent); font-weight:400; padding:0 .06em}
-.lede{
-  font-size:clamp(1rem,2.2vw,1.15rem); color:var(--muted);
-  max-width:47ch; margin:0 auto; font-weight:400;
-}
-.hero-note{
-  margin-top:20px; font-size:13px; color:var(--muted); font-weight:500;
-  display:flex; gap:8px; justify-content:center; flex-wrap:wrap; align-items:center;
-}
-.hero-note .dot{width:3px;height:3px;border-radius:50%;background:var(--muted);opacity:.5}
-
-/* ── Filters ── */
-.filters{
-  display:flex; gap:7px; justify-content:center; flex-wrap:wrap;
-  padding:8px 0 34px;
-}
-.pill{
-  font-family:inherit; font-size:12.5px; font-weight:600;
-  padding:7px 15px; border-radius:99px; cursor:pointer;
-  background:var(--card); color:var(--muted);
-  border:1px solid var(--line); transition:.15s;
-}
-.pill:hover{color:var(--accent); border-color:var(--accent)}
-.pill[aria-pressed="true"]{background:var(--accent); border-color:var(--accent); color:#fff}
-
-/* ── Grid ── */
-.grid{
-  display:grid; gap:18px; padding-bottom:20px;
-  grid-template-columns:repeat(auto-fill,minmax(290px,1fr));
-}
-.tool{
-  display:flex; flex-direction:column; gap:0;
-  background:var(--card); border:1px solid var(--line);
-  border-radius:16px; padding:24px; text-decoration:none;
-  box-shadow:var(--shadow); transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
-  position:relative; overflow:hidden;
-}
-.tool::before{
-  content:""; position:absolute; inset:0 auto 0 0; width:3px;
-  background:var(--accent); opacity:0; transition:opacity .18s ease;
-}
-.tool:hover{transform:translateY(-3px); box-shadow:var(--shadow-lift); border-color:var(--soft-line)}
-.tool:hover::before{opacity:1}
-.tool:focus-visible{outline:2px solid var(--accent); outline-offset:3px}
-.tool .icon{
-  font-size:26px; line-height:1; margin-bottom:16px;
-  width:48px; height:48px; border-radius:12px;
-  background:var(--soft); border:1px solid var(--soft-line);
-  display:grid; place-items:center;
-}
-.tool h2{font-size:1.12rem; font-weight:700; letter-spacing:-.015em; margin-bottom:7px}
-.tool p{font-size:.885rem; color:var(--muted); line-height:1.55; flex:1}
-.tags{display:flex; gap:6px; flex-wrap:wrap; margin-top:16px}
-.tag{
-  font-size:10.5px; font-weight:700; letter-spacing:.05em; text-transform:uppercase;
-  padding:4px 9px; border-radius:6px; background:var(--soft);
-  color:var(--accent-deep); border:1px solid var(--soft-line);
-}
-.tag.neutral{background:transparent; color:var(--muted); border-color:var(--line)}
-.tool .go{
-  margin-top:16px; font-size:13px; font-weight:700; color:var(--accent);
-  display:flex; align-items:center; gap:5px;
-}
-.tool .go .arrow{transition:transform .18s ease}
-.tool:hover .go .arrow{transform:translateX(3px)}
-
-.empty{
-  grid-column:1/-1; text-align:center; padding:48px 20px;
-  color:var(--muted); font-size:.92rem;
-}
-
-/* ── Strip ── */
-.strip{
-  margin:44px 0 0; padding:26px 28px;
-  background:var(--soft); border:1px solid var(--soft-line);
-  border-radius:16px; display:flex; gap:20px; align-items:center; flex-wrap:wrap;
-}
-.strip .txt{flex:1; min-width:240px}
-.strip h3{font-size:1.02rem; font-weight:700; margin-bottom:4px; letter-spacing:-.01em}
-.strip p{font-size:.87rem; color:var(--muted); line-height:1.55}
 .btn{
-  display:inline-flex; align-items:center; gap:7px;
-  background:var(--accent); color:#fff; text-decoration:none;
-  font-size:.87rem; font-weight:700; padding:11px 20px;
-  border-radius:11px; transition:.15s; white-space:nowrap;
+  font-family:inherit;font-size:13px;font-weight:600;
+  padding:8px 14px;border-radius:999px;border:1px solid transparent;
+  background:var(--accent);color:#fff;letter-spacing:.01em;cursor:pointer;
+  text-decoration:none;
+  display:inline-flex;align-items:center;gap:7px;white-space:nowrap;
+  transition:filter .15s,background .15s,border-color .15s,color .15s;
 }
-.btn:hover{background:var(--accent-deep); transform:translateY(-1px)}
+.btn:hover{background:var(--accent-deep)}
+.btn svg{width:14px;height:14px}
+.btn.ghost{background:transparent;color:var(--muted);border:1px solid var(--soft-line)}
+.btn.ghost:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+.btn.big{font-size:14px;padding:11px 20px}
 
-/* ── Footer ── */
-footer{
-  margin-top:56px; padding:30px 0 44px;
-  border-top:1px solid var(--line); text-align:center;
+/* ── Shell ──────────────────────────────────────────────────────── */
+.app{
+  display:grid;grid-template-columns:302px 1fr;
+  min-height:calc(100vh - 56px);
 }
-footer .sig{font-size:.95rem; font-weight:700; margin-bottom:5px}
-footer .sig .plus{color:var(--accent); font-weight:400}
-footer .tag-line{font-size:12px; color:var(--muted); font-weight:500}
-footer .links{margin-top:14px; display:flex; gap:18px; justify-content:center; flex-wrap:wrap}
-footer .links a{font-size:12.5px; color:var(--muted); font-weight:600; text-decoration:none; transition:.15s}
-footer .links a:hover{color:var(--accent)}
+aside{
+  background:var(--card);border-right:1px solid var(--line);
+  display:flex;flex-direction:column;overflow:hidden;
+  position:sticky;top:56px;height:calc(100vh - 56px);
+}
+main{overflow:visible;min-width:0}
+.main-inner{padding:20px 24px 40px;max-width:1180px;margin:0 auto}
 
-@media (max-width:640px){
-  .wrap,.topbar{padding-left:18px; padding-right:18px}
-  header.hero{padding:44px 0 30px}
-  .grid{grid-template-columns:1fr; gap:14px}
-  .tool{padding:20px}
-  .strip{padding:22px}
-  .toplink.hide-sm{display:none}
+/* ── Sidebar ────────────────────────────────────────────────────── */
+.side-top{padding:16px 16px 12px;border-bottom:1px solid var(--line)}
+.side-label{
+  font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);font-weight:700;
 }
-@media (prefers-reduced-motion:reduce){
-  *{transition:none !important; animation:none !important}
-  html{scroll-behavior:auto}
+.side-list{flex:1;overflow-y:auto;padding:12px 10px 16px}
+.side-item{
+  display:flex;align-items:center;gap:11px;
+  padding:10px 12px;border-radius:12px;cursor:pointer;
+  border:1px solid transparent;margin-bottom:4px;
+  text-decoration:none;color:var(--ink);
+  transition:background .12s,border-color .12s;
 }
+.side-item:hover{background:var(--soft)}
+.side-item.active{background:var(--soft);border-color:var(--accent)}
+.si-icon{
+  width:32px;height:32px;border-radius:9px;flex-shrink:0;
+  background:var(--soft);border:1px solid var(--soft-line);
+  color:var(--accent);display:grid;place-items:center;
+}
+.side-item.active .si-icon{background:var(--accent);border-color:var(--accent);color:#fff}
+.si-icon svg{width:16px;height:16px}
+.si-text{min-width:0}
+.si-name{font-size:14px;font-weight:600;letter-spacing:-.01em}
+.si-meta{font-size:11px;color:var(--muted);font-weight:500;margin-top:1px}
+
+.side-foot{padding:12px 16px 16px;border-top:1px solid var(--line)}
+.side-foot a{
+  display:flex;align-items:center;gap:8px;text-decoration:none;
+  font-size:12.5px;font-weight:600;color:var(--muted);
+  padding:8px 10px;border-radius:10px;transition:.12s;
+}
+.side-foot a:hover{background:var(--soft);color:var(--accent)}
+.side-foot a svg{width:15px;height:15px;flex-shrink:0}
+
+/* ── Toolbar ────────────────────────────────────────────────────── */
+.toolbar{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line);
+}
+.status{
+  font-size:11px;color:var(--muted);letter-spacing:.14em;
+  text-transform:uppercase;font-weight:700;margin-right:auto;
+}
+
+/* ── Detail panel ───────────────────────────────────────────────── */
+.panel{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:18px;padding:34px 36px;box-shadow:var(--shadow-card);
+}
+.panel-head{display:flex;align-items:flex-start;gap:16px;margin-bottom:22px}
+.panel-icon{
+  width:52px;height:52px;border-radius:14px;flex-shrink:0;
+  background:var(--soft);border:1px solid var(--soft-line);
+  color:var(--accent);display:grid;place-items:center;
+}
+.panel-icon svg{width:26px;height:26px}
+.panel h1{font-size:1.75rem;font-weight:700;letter-spacing:-.025em;line-height:1.15}
+.panel .tagline{font-size:.95rem;color:var(--muted);margin-top:5px}
+.panel .lede{
+  font-size:1.02rem;color:var(--ink);max-width:62ch;
+  margin-bottom:26px;font-weight:400;
+}
+
+.features{
+  display:grid;gap:14px;margin-bottom:30px;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+}
+.feature{display:flex;gap:11px;align-items:flex-start}
+.feature .fi{color:var(--accent);flex-shrink:0;margin-top:2px}
+.feature .fi svg{width:17px;height:17px}
+.feature h3{font-size:.9rem;font-weight:700;letter-spacing:-.01em;margin-bottom:1px}
+.feature p{font-size:.85rem;color:var(--muted);line-height:1.5}
+
+.panel-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;
+  padding-top:24px;border-top:1px solid var(--line)}
+.panel-actions .note{font-size:12.5px;color:var(--muted);font-weight:500}
+
+.mobile-only{display:none}
+
+@media (max-width:900px){
+  .app{grid-template-columns:1fr}
+  aside{
+    position:static;height:auto;
+    border-right:none;border-bottom:1px solid var(--line);
+  }
+  .main-inner{padding:16px 14px 34px}
+  .panel{padding:24px 20px;border-radius:16px}
+  .panel h1{font-size:1.45rem}
+  .stopbar{padding:0 14px;gap:10px}
+  .hide-sm{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
 
-<nav class="topbar">
-  <a class="brand" href="/">
-    <span class="mark">🧰</span><span>John<span class="plus">+</span>Tools</span>
+<header class="stopbar">
+  <a href="/" class="st-brand">
+    <span class="brand-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+    </span>
+    <span class="brand-title"><span class="k">JohnPlusEnglish</span><span class="b">Tools</span></span>
   </a>
-  <span class="spacer"></span>
-  <a class="toplink hide-sm" href="https://johnplusdictionary.com" target="_blank" rel="noopener">Dictionary ↗</a>
-  <a class="toplink" href="#tools">Tools</a>
-  <button class="theme-btn" id="themeBtn" title="Switch light / dark" aria-label="Switch light or dark theme">◐</button>
-</nav>
+  <div class="grow"></div>
+  <button class="icon-btn" id="themeBtn" title="Light / dark" aria-label="Toggle light or dark theme">
+    <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  </button>
+  <a class="btn ghost hide-sm" href="https://johnplusdictionary.com" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+    Dictionary
+  </a>
+</header>
 
-<div class="wrap">
+<div class="app">
 
-  <header class="hero">
-    <div class="eyebrow">Free · No sign-up</div>
-    <h1>Teaching tools<br>that just work</h1>
-    <p class="lede">
-      Small, focused browser tools for English classrooms. Open one, use it in
-      your lesson, close it. Nothing to install and no account to make.
-    </p>
-    <div class="hero-note">
-      <span>Runs in your browser</span><span class="dot"></span>
-      <span>Your work stays on your device</span><span class="dot"></span>
-      <span>Built by a teacher</span>
+  <aside>
+    <div class="side-top">
+      <div class="side-label">Tools</div>
     </div>
-  </header>
 
-  <div class="filters" id="tools" role="group" aria-label="Filter tools by category">
-    <button class="pill" data-cat="all" aria-pressed="true">All tools</button>
-    <button class="pill" data-cat="speaking" aria-pressed="false">Speaking</button>
-    <button class="pill" data-cat="reading" aria-pressed="false">Reading</button>
-    <button class="pill" data-cat="writing" aria-pressed="false">Writing</button>
-    <button class="pill" data-cat="classroom" aria-pressed="false">Classroom</button>
-  </div>
+    <nav class="side-list">
+      <a class="side-item active" href="/tools/debate-builder.html">
+        <span class="si-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        </span>
+        <span class="si-text">
+          <span class="si-name">Debate Builder</span>
+          <div class="si-meta">Speaking · B1–C2</div>
+        </span>
+      </a>
+    </nav>
 
-  <main class="grid" id="grid">
+    <div class="side-foot">
+      <a href="https://johnplusdictionary.com" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        JohnPlusDictionary
+      </a>
+    </div>
+  </aside>
 
-    <a class="tool" href="/tools/debate-builder.html" data-cat="speaking">
-      <div class="icon">🗣️</div>
-      <h2>Debate Builder</h2>
-      <p>Write a debate question, add the task and a C2 phrase bank, then run it
-         full-screen with a built-in timer. Save debates to a bank and export
-         to PNG or PDF.</p>
-      <div class="tags"><span class="tag">Speaking</span><span class="tag neutral">Presentation mode</span></div>
-      <span class="go">Open tool <span class="arrow">→</span></span>
-    </a>
+  <main>
+    <div class="main-inner">
 
-    <a class="tool" href="/tools/article-magazine.html" data-cat="reading">
-      <div class="icon">📰</div>
-      <h2>Article → Magazine</h2>
-      <p>Paste any article and lay it out as a proper magazine spread. Pull short
-         definitions for words you highlight, add discussion questions, then
-         export A4, phone-size or one tall image.</p>
-      <div class="tags"><span class="tag">Reading</span><span class="tag neutral">Needs your API key</span></div>
-      <span class="go">Open tool <span class="arrow">→</span></span>
-    </a>
+      <div class="toolbar">
+        <div class="status">Debate Builder</div>
+        <a class="btn" href="/tools/debate-builder.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Open tool
+        </a>
+      </div>
 
-    <a class="tool" href="/tools/corrections.html" data-cat="writing">
-      <div class="icon">✏️</div>
-      <h2>Writing Corrections</h2>
-      <p>Paste a student's writing and your corrected version. The word-by-word
-         differences are worked out for you, so you can step through them together
-         and switch between original and corrected.</p>
-      <div class="tags"><span class="tag">Writing</span><span class="tag neutral">Saves on your device</span></div>
-      <span class="go">Open tool <span class="arrow">→</span></span>
-    </a>
+      <section class="panel">
+        <div class="panel-head">
+          <span class="panel-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          </span>
+          <div>
+            <h1>Debate Builder</h1>
+            <div class="tagline">Build a speaking debate, then run it from the front of the room.</div>
+          </div>
+        </div>
 
-    <a class="tool" href="/tools/timer.html" data-cat="classroom">
-      <div class="icon">⏱️</div>
-      <h2>Lesson Timer</h2>
-      <p>A big, calm countdown with one-tap 1, 2 and 3 minute presets. Shuffle
-         button pulls a random discussion topic when an activity finishes early.</p>
-      <div class="tags"><span class="tag">Classroom</span><span class="tag neutral">Topic shuffle</span></div>
-      <span class="go">Open tool <span class="arrow">→</span></span>
-    </a>
+        <p class="lede">
+          Write the question, set the task, and pick a level. The phrase bank swaps
+          to match, so B1 gets different language from C2. When the lesson starts,
+          go full-screen and run the timer without leaving the page.
+        </p>
 
-    <a class="tool" href="/tools/nutshell-reviews.html" data-cat="speaking">
-      <div class="icon">🎬</div>
-      <h2>Nutshell Reviews</h2>
-      <p>Students rate a film across categories, write a two-line review and export
-         it as a shareable 1080×1920 card. A neat speaking warm-up that leaves
-         something behind.</p>
-      <div class="tags"><span class="tag">Speaking</span><span class="tag neutral">Exports PNG</span></div>
-      <span class="go">Open tool <span class="arrow">→</span></span>
-    </a>
+        <div class="features">
+          <div class="feature">
+            <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg></span>
+            <div>
+              <h3>Presentation mode</h3>
+              <p>Full-screen prompts, arrow keys to step, space to start the timer.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg></span>
+            <div>
+              <h3>Saved debate bank</h3>
+              <p>Keep every debate you build and search it later. Back up to a file.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+            <div>
+              <h3>Built-in timer</h3>
+              <p>Set the minutes, start it from the keyboard, keep the room moving.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></span>
+            <div>
+              <h3>Export and print</h3>
+              <p>PNG, PDF or straight to the printer if you want it on paper.</p>
+            </div>
+          </div>
+        </div>
 
-    <div class="empty" id="empty" hidden>No tools in that category yet — more on the way.</div>
+        <div class="panel-actions">
+          <a class="btn big" href="/tools/debate-builder.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            Open Debate Builder
+          </a>
+          <span class="note">Free, no sign-up. Your debates stay in your browser.</span>
+        </div>
+      </section>
 
+    </div>
   </main>
 
-  <section class="strip">
-    <div class="txt">
-      <h3>Looking for the dictionary?</h3>
-      <p>JohnPlusDictionary is a learner's dictionary with example sentences, collocations
-         and a small community of students. Separate site, same hands.</p>
-    </div>
-    <a class="btn" href="https://johnplusdictionary.com" target="_blank" rel="noopener">Visit the dictionary →</a>
-  </section>
-
 </div>
-
-<footer>
-  <div class="wrap">
-    <p class="sig">John<span class="plus">+</span>English</p>
-    <p class="tag-line">Teaching tools, made in the classroom</p>
-    <div class="links">
-      <a href="https://johnplusdictionary.com" target="_blank" rel="noopener">Dictionary</a>
-      <a href="#tools">All tools</a>
-    </div>
-  </div>
-</footer>
 
 <script>
 /* Theme — remembers your choice, otherwise follows the system. */
 (function () {
-  var root = document.documentElement, btn = document.getElementById("themeBtn");
+  var root = document.documentElement;
+  var btn  = document.getElementById("themeBtn");
+  var icon = document.getElementById("themeIcon");
+
+  var SUN = '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/>'
+          + '<line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>'
+          + '<line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/>'
+          + '<line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>'
+          + '<line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+  var MOON = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+
+  function current () {
+    return root.getAttribute("data-theme")
+        || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  }
+  function paint () { icon.innerHTML = current() === "dark" ? SUN : MOON; }
+
   var saved = null;
   try { saved = localStorage.getItem("jpt_theme"); } catch (e) {}
   if (saved === "light" || saved === "dark") root.setAttribute("data-theme", saved);
+  paint();
+
   btn.addEventListener("click", function () {
-    var sysDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    var now = root.getAttribute("data-theme") || (sysDark ? "dark" : "light");
-    var next = now === "dark" ? "light" : "dark";
+    var next = current() === "dark" ? "light" : "dark";
     root.setAttribute("data-theme", next);
     try { localStorage.setItem("jpt_theme", next); } catch (e) {}
-  });
-})();
-
-/* Category filter */
-(function () {
-  var pills = Array.prototype.slice.call(document.querySelectorAll(".pill"));
-  var tools = Array.prototype.slice.call(document.querySelectorAll(".tool"));
-  var empty = document.getElementById("empty");
-  pills.forEach(function (pill) {
-    pill.addEventListener("click", function () {
-      var cat = pill.dataset.cat;
-      pills.forEach(function (p) { p.setAttribute("aria-pressed", String(p === pill)); });
-      var shown = 0;
-      tools.forEach(function (t) {
-        var show = cat === "all" || t.dataset.cat === cat;
-        t.style.display = show ? "" : "none";
-        if (show) shown++;
-      });
-      empty.hidden = shown > 0;
-    });
+    paint();
   });
 })();
 </script>
