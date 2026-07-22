@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>John + Tools — teaching tools for English classrooms</title>
+<title>John + Tools · teaching tools for English classrooms</title>
 <meta name="description" content="Free, no-signup browser tools for English teachers, built by John of JohnPlusEnglish.">
 <meta name="color-scheme" content="light dark">
 
-<meta property="og:title" content="John + Tools — teaching tools for English classrooms">
+<meta property="og:title" content="John + Tools · teaching tools for English classrooms">
 <meta property="og:description" content="Free, no-signup browser tools for English teachers. Everything runs in your browser.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://johnplustools.com">
@@ -173,15 +173,48 @@ main{overflow:visible;min-width:0}
   margin-bottom:26px;font-weight:400;
 }
 
-.features{
-  display:grid;gap:14px;margin-bottom:30px;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+/* Features on the left, a preview of the tool filling the space on the right. */
+.split{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.08fr);
+  gap:34px;align-items:start;margin-bottom:30px;
 }
+.features{display:grid;gap:16px;grid-template-columns:1fr}
 .feature{display:flex;gap:11px;align-items:flex-start}
 .feature .fi{color:var(--accent);flex-shrink:0;margin-top:2px}
 .feature .fi svg{width:17px;height:17px}
 .feature h3{font-size:.9rem;font-weight:700;letter-spacing:-.01em;margin-bottom:1px}
 .feature p{font-size:.85rem;color:var(--muted);line-height:1.5}
+
+/* ── Preview window ─────────────────────────────────────────────── */
+.preview{
+  display:block;text-decoration:none;color:inherit;
+  border:1px solid var(--line);border-radius:12px;overflow:hidden;
+  background:var(--bg);box-shadow:var(--shadow-card);
+  transition:border-color .16s,transform .16s;
+}
+.preview:hover{border-color:var(--accent);transform:translateY(-2px)}
+.preview:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.pv-bar{
+  display:flex;align-items:center;gap:5px;
+  padding:0 10px;height:26px;
+  background:var(--card);border-bottom:1px solid var(--line);
+}
+.pv-bar i{width:7px;height:7px;border-radius:999px;background:var(--line);flex-shrink:0}
+[data-theme="dark"] .pv-bar i{background:var(--soft-line)}
+/* Background image rather than <img>, so only the theme in use is downloaded. */
+.pv-shot{
+  display:block;aspect-ratio:1100/515;
+  background-image:url("/assets/debate-builder-light.png");
+  background-size:cover;background-position:top center;background-repeat:no-repeat;
+}
+[data-theme="dark"] .pv-shot{background-image:url("/assets/debate-builder-dark.png")}
+.pv-cap{
+  display:flex;align-items:center;gap:6px;
+  padding:9px 12px;font-size:12px;font-weight:600;color:var(--muted);
+  background:var(--card);border-top:1px solid var(--line);
+}
+.preview:hover .pv-cap{color:var(--accent)}
+.pv-cap svg{width:13px;height:13px;flex-shrink:0}
 
 .panel-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;
   padding-top:24px;border-top:1px solid var(--line)}
@@ -196,6 +229,7 @@ main{overflow:visible;min-width:0}
     border-right:none;border-bottom:1px solid var(--line);
   }
   .main-inner{padding:16px 14px 34px}
+  .split{grid-template-columns:1fr;gap:26px}
   .panel{padding:24px 20px;border-radius:16px}
   .panel h1{font-size:1.45rem}
   .stopbar{padding:0 14px;gap:10px}
@@ -278,6 +312,7 @@ main{overflow:visible;min-width:0}
           go full-screen and run the timer without leaving the page.
         </p>
 
+        <div class="split">
         <div class="features">
           <div class="feature">
             <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg></span>
@@ -309,6 +344,17 @@ main{overflow:visible;min-width:0}
           </div>
         </div>
 
+        <a class="preview" href="/tools/debate-builder.html">
+          <span class="pv-bar" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="pv-shot" role="img" aria-label="The Debate Builder in use: a debate titled AI in the classroom, with the question, four prompt circles and the C2 phrase bank down the left."></span>
+          <span class="pv-cap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            A debate mid-build. Have a look inside
+          </span>
+        </a>
+
+        </div>
+
         <div class="panel-actions">
           <a class="btn big" href="/tools/debate-builder.html">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
@@ -324,7 +370,7 @@ main{overflow:visible;min-width:0}
 </div>
 
 <script>
-/* Theme — remembers your choice, otherwise follows the system. */
+/* Theme. Remembers your choice, otherwise follows the system. */
 (function () {
   var root = document.documentElement;
   var btn  = document.getElementById("themeBtn");
