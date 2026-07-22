@@ -3,22 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>John + Tools · teaching tools for English classrooms</title>
-<meta name="description" content="Free, no-signup browser tools for English teachers, built by John of JohnPlusEnglish.">
-<meta name="color-scheme" content="light dark">
-
-<meta property="og:title" content="John + Tools · teaching tools for English classrooms">
-<meta property="og:description" content="Free, no-signup browser tools for English teachers. Everything runs in your browser.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://johnplustools.com">
-
+<title>Debate Builder · John + Tools</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z'/></svg>">
-
+<meta name="description" content="Build a speaking debate, set the level and the phrase bank, then run it full-screen with a timer. Free, no sign-up, runs in your browser.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap">
-
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+  // Set the theme before first paint so there's no flash.
+  (function(){
+    var t = localStorage.getItem('jpe_debate_theme');
+    if(!t){
+      // Seed from the system once, then pin it. After this the theme only
+      // ever changes when you click the toggle — the OS switching to dark
+      // in the evening can't drag the app with it.
+      t = window.matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light';
+      try{ localStorage.setItem('jpe_debate_theme', t); }catch(e){}
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
 <style>
+/* ── Palette: same tokens as johnplusdictionary.com ─────────────── */
 :root{
   --bg:#f4f3ec;
   --card:#ffffff;
@@ -27,9 +33,14 @@
   --line:#eceadf;
   --accent:#2563eb;
   --accent-deep:#1d4ed8;
+  --level:#2563eb;
+  --level-ink:#ffffff;
   --soft:#eceffc;
   --soft-line:#dde3f8;
+  --danger:#c14343;
+  --danger-soft:#fdecec;
   --shadow-card:0 1px 2px rgba(20,30,60,.04),0 20px 44px -28px rgba(30,50,110,.35);
+  --shadow-pop:0 12px 40px -12px rgba(15,27,45,.28);
 }
 [data-theme="dark"]{
   --bg:#0f1728;
@@ -41,18 +52,22 @@
   --accent-deep:#93b4f6;
   --soft:#1d2b46;
   --soft-line:#2b3c5c;
+  --danger:#f0b4b4;
+  --danger-soft:#3a1e1e;
   --shadow-card:0 1px 2px rgba(0,0,0,.2),0 20px 44px -28px rgba(0,0,0,.7);
+  --shadow-pop:0 12px 40px -12px rgba(0,0,0,.6);
 }
-
 *{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
 body{
+  font-family:"Outfit",-apple-system,BlinkMacSystemFont,sans-serif;
   background:var(--bg);color:var(--ink);
-  font-family:"Outfit",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   line-height:1.6;-webkit-font-smoothing:antialiased;
 }
-::selection{background:var(--accent);color:#fff}
-a{color:inherit}
-svg{display:block}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,select,textarea{font-family:inherit;color:inherit;outline:none;border:1px solid transparent}
+[contenteditable]{outline:none;border-radius:8px}
+[contenteditable]:hover,[contenteditable]:focus{background:var(--soft)}
 
 /* ── Topbar ─────────────────────────────────────────────────────── */
 .stopbar{
@@ -61,88 +76,93 @@ svg{display:block}
   height:56px;flex-shrink:0;
   display:flex;align-items:center;gap:14px;
 }
-.st-brand{
-  display:inline-flex;align-items:center;gap:10px;
-  text-decoration:none;color:var(--ink);line-height:1;
-}
+.st-brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);line-height:1}
 .st-brand .brand-icon{color:var(--accent);width:22px;height:22px;display:inline-flex;flex-shrink:0}
-.st-brand .brand-icon svg{width:22px;height:22px}
+.st-brand .brand-icon svg{width:100%;height:100%}
 .st-brand .brand-title{display:inline-flex;flex-direction:column;justify-content:center;gap:2px;line-height:1}
-.brand-title .k{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700}
-.brand-title .b{font-size:15px;font-weight:700;letter-spacing:-.01em}
+.st-brand .k{color:var(--accent);font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;line-height:1}
+.st-brand .b{font-size:18px;font-weight:800;letter-spacing:-.02em;line-height:1}
 .grow{flex:1}
-
 .icon-btn{
   display:inline-flex;align-items:center;justify-content:center;
   width:36px;height:36px;border-radius:999px;background:transparent;
-  border:none;cursor:pointer;color:var(--muted);
-  transition:background .12s,color .12s;
+  color:var(--muted);transition:background .12s,color .12s;
 }
-.icon-btn svg{width:18px;height:18px}
 .icon-btn:hover{background:var(--soft);color:var(--accent)}
+.icon-btn svg{width:18px;height:18px}
 
+/* ── Buttons ────────────────────────────────────────────────────── */
 .btn{
   font-family:inherit;font-size:13px;font-weight:600;
-  padding:8px 14px;border-radius:999px;border:1px solid transparent;
-  background:var(--accent);color:#fff;letter-spacing:.01em;cursor:pointer;
-  text-decoration:none;
-  display:inline-flex;align-items:center;gap:7px;white-space:nowrap;
+  padding:8px 14px;border-radius:999px;
+  background:var(--accent);color:#fff;letter-spacing:.01em;
   transition:filter .15s,background .15s,border-color .15s,color .15s;
+  display:inline-flex;align-items:center;gap:6px;white-space:nowrap;
 }
-.btn:hover{background:var(--accent-deep)}
-.btn svg{width:14px;height:14px}
+.btn:hover{filter:brightness(1.08)}
 .btn.ghost{background:transparent;color:var(--muted);border:1px solid var(--soft-line)}
 .btn.ghost:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
-.btn.big{font-size:14px;padding:11px 20px}
+.btn.danger{background:transparent;color:var(--danger);border:1px solid var(--soft-line)}
+.btn.danger:hover{background:var(--danger-soft);border-color:var(--danger)}
+.btn.tiny{font-size:12px;padding:6px 11px}
+.btn[disabled]{opacity:.4;cursor:not-allowed;filter:none}
 
-/* ── Shell ──────────────────────────────────────────────────────── */
-.app{
-  display:grid;grid-template-columns:302px 1fr;
-  min-height:calc(100vh - 56px);
-}
+/* ── Layout ─────────────────────────────────────────────────────── */
+.app{display:grid;grid-template-columns:302px 1fr;min-height:calc(100vh - 56px);transition:grid-template-columns .22s ease}
+.app.side-collapsed{grid-template-columns:0 1fr}
+.app.side-collapsed aside{border-right:none;overflow:hidden;opacity:0;visibility:hidden}
 aside{
   background:var(--card);border-right:1px solid var(--line);
-  display:flex;flex-direction:column;overflow:hidden;
-  position:sticky;top:56px;height:calc(100vh - 56px);
+  display:flex;flex-direction:column;overflow:hidden;min-width:0;
+  position:sticky;top:56px;height:calc(100vh - 56px);transition:opacity .18s;
 }
 main{overflow:visible;min-width:0}
 .main-inner{padding:20px 24px 40px;max-width:1180px;margin:0 auto}
 
 /* ── Sidebar ────────────────────────────────────────────────────── */
-.side-top{padding:16px 16px 12px;border-bottom:1px solid var(--line)}
-.side-label{
-  font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--muted);font-weight:700;
+.side-top{padding:16px 16px 12px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:10px}
+.searchwrap{position:relative;display:flex;align-items:center}
+.searchwrap svg{position:absolute;left:12px;width:14px;height:14px;color:var(--muted);pointer-events:none}
+#search{
+  width:100%;font-size:14px;padding:9px 12px 9px 33px;border-radius:999px;
+  border:1px solid var(--soft-line);background:var(--bg);
 }
-.side-list{flex:1;overflow-y:auto;padding:12px 10px 16px}
+#search:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+.side-row{display:flex;gap:8px}
+.side-row .btn{flex:1;justify-content:center}
+.lvl-filter{display:flex;gap:5px;padding:0 16px;margin-top:12px;flex-wrap:wrap}
+.lvl-chip{
+  font-size:11px;font-weight:700;letter-spacing:.06em;padding:4px 10px;
+  border-radius:999px;border:1px solid var(--soft-line);color:var(--muted);
+  background:transparent;transition:.12s;
+}
+.lvl-chip:hover{border-color:var(--accent);color:var(--accent)}
+.lvl-chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+
+.side-list{flex:1;overflow-y:auto;padding:10px 10px 16px}
 .side-item{
-  display:flex;align-items:center;gap:11px;
-  padding:10px 12px;border-radius:12px;cursor:pointer;
-  border:1px solid transparent;margin-bottom:4px;
-  text-decoration:none;color:var(--ink);
-  transition:background .12s,border-color .12s;
+  padding:10px 30px 10px 12px;border-radius:12px;cursor:pointer;position:relative;
+  border:1px solid transparent;margin-bottom:4px;transition:background .12s;
 }
 .side-item:hover{background:var(--soft)}
 .side-item.active{background:var(--soft);border-color:var(--accent)}
-.si-icon{
-  width:32px;height:32px;border-radius:9px;flex-shrink:0;
-  background:var(--soft);border:1px solid var(--soft-line);
-  color:var(--accent);display:grid;place-items:center;
+.side-item .row1{display:flex;align-items:center;gap:8px}
+.side-item .title{
+  font-weight:600;font-size:14px;flex:1;min-width:0;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
 }
-.side-item.active .si-icon{background:var(--accent);border-color:var(--accent);color:#fff}
-.si-icon svg{width:16px;height:16px}
-.si-text{min-width:0}
-.si-name{font-size:14px;font-weight:600;letter-spacing:-.01em}
-.si-meta{font-size:11px;color:var(--muted);font-weight:500;margin-top:1px}
-
-.side-foot{padding:12px 16px 16px;border-top:1px solid var(--line)}
-.side-foot a{
-  display:flex;align-items:center;gap:8px;text-decoration:none;
-  font-size:12.5px;font-weight:600;color:var(--muted);
-  padding:8px 10px;border-radius:10px;transition:.12s;
+.side-item .meta{font-size:11.5px;color:var(--muted);margin-top:2px;letter-spacing:.02em}
+.side-item .del{
+  position:absolute;right:6px;top:8px;font-size:13px;color:var(--muted);
+  opacity:0;transition:opacity .12s;border-radius:6px;padding:2px 5px;line-height:1;
 }
-.side-foot a:hover{background:var(--soft);color:var(--accent)}
-.side-foot a svg{width:15px;height:15px;flex-shrink:0}
+.side-item:hover .del{opacity:.65}
+.side-item .del:hover{opacity:1;color:var(--danger);background:var(--danger-soft)}
+.badge{
+  font-size:10px;font-weight:800;letter-spacing:.08em;padding:2px 7px;
+  border-radius:999px;background:var(--accent);color:#fff;flex-shrink:0;
+}
+.empty-list{padding:34px 18px;text-align:center;color:var(--muted);font-size:13.5px;font-style:italic}
 
 /* ── Toolbar ────────────────────────────────────────────────────── */
 .toolbar{
@@ -153,256 +173,1813 @@ main{overflow:visible;min-width:0}
   font-size:11px;color:var(--muted);letter-spacing:.14em;
   text-transform:uppercase;font-weight:700;margin-right:auto;
 }
+/* Sits at the left of the toolbar, next to the list it collapses. The
+   chevron flips to point right once the list is hidden. */
+.side-toggle{
+  width:28px;height:28px;border-radius:8px;flex-shrink:0;margin-right:2px;
+  display:inline-flex;align-items:center;justify-content:center;
+  color:var(--muted);transition:background .12s,color .12s;
+}
+.side-toggle svg{width:17px;height:17px;transition:transform .22s ease}
+.side-toggle:hover{background:var(--soft);color:var(--accent)}
+.app.side-collapsed .side-toggle svg{transform:rotate(180deg)}
 
-/* ── Detail panel ───────────────────────────────────────────────── */
-.panel{
-  background:var(--card);border:1px solid var(--line);
-  border-radius:18px;padding:34px 36px;box-shadow:var(--shadow-card);
+select.lvl-select{
+  font-size:12.5px;font-weight:700;letter-spacing:.06em;padding:7px 10px;
+  border-radius:999px;border:1px solid var(--soft-line);background:var(--card);
+  cursor:pointer;
 }
-.panel-head{display:flex;align-items:flex-start;gap:16px;margin-bottom:22px}
-.panel-icon{
-  width:52px;height:52px;border-radius:14px;flex-shrink:0;
-  background:var(--soft);border:1px solid var(--soft-line);
-  color:var(--accent);display:grid;place-items:center;
+select.lvl-select:focus{border-color:var(--accent)}
+
+/* Timer */
+.timer{
+  display:inline-flex;align-items:center;gap:2px;padding:3px 4px 3px 12px;
+  border:1px solid var(--soft-line);border-radius:999px;background:var(--card);
 }
-.panel-icon svg{width:26px;height:26px}
-.panel h1{font-size:1.75rem;font-weight:700;letter-spacing:-.025em;line-height:1.15}
-.panel .tagline{font-size:.95rem;color:var(--muted);margin-top:5px}
-.panel .lede{
-  font-size:1.02rem;color:var(--ink);max-width:62ch;
-  margin-bottom:26px;font-weight:400;
+.timer .tm{
+  font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;
+  letter-spacing:.04em;width:56px;text-align:center;padding:2px 0;
+  background:transparent;border-radius:8px;color:var(--ink);cursor:text;
+}
+.timer .tm:focus{background:var(--soft);color:var(--accent)}
+.timer.warn .tm{color:#c2740c}
+.timer.over .tm{color:var(--danger)}
+.timer button{
+  width:26px;height:26px;border-radius:999px;color:var(--muted);
+  display:inline-flex;align-items:center;justify-content:center;font-size:12px;
+}
+.timer button:hover{background:var(--soft);color:var(--accent)}
+
+/* ── Debate card: one neat 5:3 frame ────────────────────────────── */
+.debate-card{
+  background:var(--card);border:1px solid var(--line);border-radius:22px;
+  box-shadow:var(--shadow-card);display:grid;grid-template-columns:30% 1fr;
+  overflow:hidden;width:100%;max-width:1120px;margin:0 auto;aspect-ratio:5/3;
 }
 
-/* Features on the left, a preview of the tool filling the space on the right. */
-.split{
-  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.08fr);
-  gap:34px;align-items:start;margin-bottom:30px;
+/* Left: phrase bank, one flat alternating list */
+.bank{
+  padding:24px 22px;background:var(--bg);border-right:1px solid var(--line);
+  overflow-y:auto;
 }
-.features{display:grid;gap:16px;grid-template-columns:1fr}
-.feature{display:flex;gap:11px;align-items:flex-start}
-.feature .fi{color:var(--accent);flex-shrink:0;margin-top:2px}
-.feature .fi svg{width:17px;height:17px}
-.feature h3{font-size:.9rem;font-weight:700;letter-spacing:-.01em;margin-bottom:1px}
-.feature p{font-size:.85rem;color:var(--muted);line-height:1.5}
-
-/* ── Preview window ─────────────────────────────────────────────── */
-.preview{
-  display:block;text-decoration:none;color:inherit;
-  border:1px solid var(--line);border-radius:12px;overflow:hidden;
-  background:var(--bg);box-shadow:var(--shadow-card);
-  transition:border-color .16s,transform .16s;
+.bank-head{
+  font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--level);margin-bottom:16px;
 }
-.preview:hover{border-color:var(--accent);transform:translateY(-2px)}
-.preview:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-.pv-bar{
-  display:flex;align-items:center;gap:5px;
-  padding:0 10px;height:26px;
-  background:var(--card);border-bottom:1px solid var(--line);
+.bank-item{
+  font-size:13.5px;line-height:1.5;padding:2px 3px;border-radius:7px;
+  display:flex;align-items:center;gap:3px;cursor:pointer;margin-bottom:2px;
+  position:relative;
 }
-.pv-bar i{width:7px;height:7px;border-radius:999px;background:var(--line);flex-shrink:0}
-[data-theme="dark"] .pv-bar i{background:var(--soft-line)}
-/* Background image rather than <img>, so only the theme in use is downloaded. */
-.pv-shot{
-  display:block;aspect-ratio:1100/515;
-  background-image:url("/assets/debate-builder-light.png");
-  background-size:cover;background-position:top center;background-repeat:no-repeat;
+.bank-item:hover{background:var(--soft)}
+/* The grip sits in the gutter so the text column keeps exactly the width
+   the canvas export assumes. */
+.bank-item .grip{
+  position:absolute;left:-15px;top:50%;transform:translateY(-50%);
+  font-size:11px;line-height:1;color:var(--muted);opacity:0;
+  transition:opacity .12s;cursor:grab;user-select:none;
 }
-[data-theme="dark"] .pv-shot{background-image:url("/assets/debate-builder-dark.png")}
-.pv-cap{
+.bank-item:hover .grip{opacity:.5}
+.bank-item.dragging{opacity:.4}
+.bank-item.drop-above{box-shadow:inset 0 2px 0 var(--level)}
+.bank-item.drop-below{box-shadow:inset 0 -2px 0 var(--level)}
+.bank-item .phrase{flex:1;padding:2px 5px;transition:opacity .3s,text-decoration-color .3s}
+.bank-item.used .phrase{opacity:.3;text-decoration:line-through;text-decoration-thickness:1px}
+.bank-item:nth-child(odd) .phrase{color:var(--level);font-weight:600;font-style:italic}
+.bank-item:nth-child(even) .phrase{color:var(--ink);font-weight:600}
+.bank-item .phrase[contenteditable="true"]{
+  background:var(--card);cursor:text;opacity:1;text-decoration:none;
+  box-shadow:0 0 0 1px var(--level);font-style:normal;
+}
+.bank-item .rm{opacity:0;color:var(--muted);font-size:12px;padding:0 4px;transition:opacity .12s}
+.bank-item:hover .rm{opacity:.55}
+.bank-item .rm:hover{opacity:1;color:var(--danger)}
+.add-item{
+  font-size:11.5px;color:var(--muted);letter-spacing:.04em;
+  padding:3px 6px;margin-top:6px;font-weight:500;cursor:pointer;border-radius:7px;
+}
+.add-item:hover{color:var(--accent);background:var(--soft)}
+.bank-tools{
   display:flex;align-items:center;gap:6px;
-  padding:9px 12px;font-size:12px;font-weight:600;color:var(--muted);
-  background:var(--card);border-top:1px solid var(--line);
+  margin-top:10px;padding-top:8px;border-top:1px solid var(--line);
 }
-.preview:hover .pv-cap{color:var(--accent)}
-.pv-cap svg{width:13px;height:13px;flex-shrink:0}
+.bank-tools .add-item{flex:1;margin-top:0}
+.bank-tool{
+  width:24px;height:24px;border-radius:7px;flex-shrink:0;
+  display:inline-flex;align-items:center;justify-content:center;
+  color:var(--muted);transition:background .12s,color .12s,opacity .12s;
+}
+.bank-tool svg{width:14px;height:14px}
+.bank-tool:hover{background:var(--soft);color:var(--accent)}
+.bank-tool.wipe:hover{background:var(--danger-soft);color:var(--danger)}
+.bank-tool[disabled]{opacity:.25;cursor:not-allowed}
+.bank-tool[disabled]:hover{background:transparent;color:var(--muted)}
 
-.panel-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;
-  padding-top:24px;border-top:1px solid var(--line)}
-.panel-actions .note{font-size:12.5px;color:var(--muted);font-weight:500}
+/* Right: debate content */
+.content{
+  padding:30px 34px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;overflow:hidden;
+}
+.title-row{display:flex;align-items:center;gap:12px;width:100%}
+.debate-title{
+  font-size:26px;font-weight:800;letter-spacing:-.02em;text-transform:uppercase;
+  flex:1;padding:2px 6px;line-height:1.2;
+}
+.level-tag{
+  font-size:15px;font-weight:800;letter-spacing:.06em;
+  color:var(--level);flex-shrink:0;padding-right:4px;
+}
+.debate-question{
+  font-size:17px;font-weight:600;text-align:center;line-height:1.45;
+  margin:16px 0 26px;max-width:560px;padding:6px 10px;
+}
+/* Exactly three bubbles fit per row, so 4 and 5 wrap and centre beneath. */
+.bubbles{
+  display:flex;flex-wrap:wrap;justify-content:center;
+  gap:20px 26px;max-width:568px;margin:0 auto;
+}
+.bubble{
+  width:172px;height:172px;border-radius:50%;
+  border:1.5px solid var(--level);background:var(--card);
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  font-size:14px;font-weight:600;padding:18px;line-height:1.35;
+  position:relative;cursor:pointer;user-select:none;
+  transition:transform .15s,box-shadow .2s,background .2s,color .2s,opacity .3s;
+}
+.bubble:hover{transform:translateY(-2px);box-shadow:0 8px 20px -8px color-mix(in srgb,var(--level) 55%,transparent)}
+.bubble.highlighted{
+  background:var(--level);color:var(--level-ink);
+  box-shadow:0 0 0 5px color-mix(in srgb,var(--level) 16%,transparent),0 8px 22px -8px color-mix(in srgb,var(--level) 55%,transparent);
+}
+.bubble.faded{opacity:.26}
+.bubble.dragging{opacity:.4}
+.bubble.drop-target{box-shadow:0 0 0 3px var(--accent-deep)}
+.bubble .txt{width:100%;padding:4px;border-radius:8px;pointer-events:none}
+.bubble .txt[contenteditable="true"]{
+  pointer-events:auto;cursor:text;background:var(--card);color:var(--ink);
+  box-shadow:0 0 0 1px var(--level);
+}
+.bubble .rm,.bubble .ed{
+  position:absolute;font-size:12px;color:var(--muted);opacity:0;
+  transition:opacity .12s;padding:4px 6px;line-height:1;
+  background:var(--card);border-radius:999px;
+}
+.bubble .rm{top:8px;right:10px}
+.bubble .ed{top:8px;left:10px}
+.bubble:hover .rm,.bubble:hover .ed{opacity:.7}
+.bubble .rm:hover{opacity:1;color:var(--danger)}
+.bubble .ed:hover{opacity:1;color:var(--accent)}
+.bubble.highlighted .rm,.bubble.highlighted .ed{color:var(--level-ink);background:transparent}
+.add-bubble{
+  width:172px;height:172px;border-radius:50%;border:1.5px dashed var(--soft-line);
+  color:var(--muted);font-size:13px;font-weight:600;display:flex;
+  align-items:center;justify-content:center;transition:.15s;opacity:.5;
+}
+.add-bubble:hover{border-color:var(--accent);color:var(--accent);background:var(--soft);opacity:1}
+.debate-task{
+  font-size:15px;font-weight:600;font-style:italic;text-align:center;
+  max-width:540px;padding:6px 10px;margin-top:24px;color:var(--ink);
+}
+.progress{
+  font-size:10.5px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;
+  font-weight:700;margin-top:14px;display:flex;gap:16px;
+}
 
-.mobile-only{display:none}
+/* ── Presentation mode ──────────────────────────────────────────── */
+.present{position:fixed;inset:0;z-index:200;background:var(--bg);display:flex;flex-direction:column}
+.present[hidden]{display:none}
+.p-top{
+  display:flex;align-items:center;gap:16px;padding:16px 28px;
+  border-bottom:1px solid var(--line);flex-shrink:0;position:relative;
+}
+.p-title{font-size:20px;font-weight:800;letter-spacing:-.01em;text-transform:uppercase;flex:1;min-width:0;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.p-level{font-size:13px;font-weight:800;letter-spacing:.1em;color:var(--level-ink);background:var(--level);padding:4px 13px;border-radius:999px}
+.p-timer{font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.03em}
+.p-timer.warn{color:#c2740c}
+.p-timer.over{color:var(--danger)}
+/* Presentation mode shows the real debate card, moved into this stage and
+   scaled up to fill the screen. One layout, so what you project is exactly
+   what you edit and exactly what exports. */
+.p-stage{flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden;min-height:0}
+.present .debate-card{
+  width:1120px;max-width:none;flex:none;transform-origin:center center;
+  box-shadow:0 24px 70px -30px rgba(15,27,45,.35);
+}
+/* Editing affordances have no place on a projector. */
+.present .bubble .rm,.present .bubble .ed,.present .add-bubble,
+.present .add-item,.present .bank-tools,.present .progress,.present .bank-item .rm,
+.present .grip,.present .print-foot{display:none!important}
+.present [contenteditable]:hover,.present [contenteditable]:focus{background:transparent}
+.present .bubble{cursor:pointer}
+.present .bubble:hover{transform:none;box-shadow:none}
+.present .bubble.spot{
+  background:var(--level);color:var(--level-ink);
+  box-shadow:0 0 0 6px color-mix(in srgb,var(--level) 16%,transparent);
+}
+.present .bubble.spot .txt{color:var(--level-ink)}
+.present .bubble.dim{opacity:.24}
+.present.no-phrases .bank{display:none}
+.present.no-phrases .debate-card{grid-template-columns:1fr}
+/* In the flow, not fixed, so the stage shrinks to make room and the card
+   can never be overlapped by it. */
+.p-hint{
+  align-self:center;flex-shrink:0;margin:0 0 14px;
+  font-size:11px;color:var(--muted);letter-spacing:.08em;background:var(--card);
+  border:1px solid var(--line);border-radius:999px;padding:6px 16px;
+  box-shadow:var(--shadow-pop);opacity:.85;
+}
+.p-hint b{color:var(--ink);font-weight:700}
 
-@media (max-width:900px){
+/* ── Modal ──────────────────────────────────────────────────────── */
+.modal-backdrop{
+  position:fixed;inset:0;background:rgba(15,20,35,.45);backdrop-filter:blur(4px);
+  display:none;align-items:center;justify-content:center;padding:24px;z-index:300;
+}
+.modal-backdrop.show{display:flex}
+.modal{
+  background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px 28px;
+  width:100%;max-width:440px;box-shadow:var(--shadow-pop);
+}
+.modal.wide{max-width:520px}
+.modal h2{font-size:18px;font-weight:700;margin-bottom:6px;letter-spacing:-.01em}
+.modal p{color:var(--muted);font-size:14px;margin-bottom:20px;line-height:1.55}
+.modal .actions{display:flex;gap:8px;justify-content:flex-end}
+.keys{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:14px;align-items:center;margin-bottom:22px}
+.keys kbd{
+  font-family:inherit;font-size:11.5px;font-weight:700;background:var(--soft);
+  border:1px solid var(--soft-line);border-radius:7px;padding:3px 8px;
+  color:var(--accent);white-space:nowrap;text-align:center;
+}
+.keys span{color:var(--muted)}
+
+/* The long bar: runs the full width of the page along the bottom edge of the
+   header. It's moved into the presentation header when you present, so it
+   sits in the same place in both modes. */
+.timer-bar{
+  position:absolute;left:0;right:0;bottom:0;height:6px;z-index:60;
+  pointer-events:none;opacity:0;transition:opacity .25s;
+  background:var(--line);
+}
+.timer-bar.on{opacity:1}
+.timer-bar span{
+  display:block;height:100%;width:100%;background:var(--level);
+  transition:width .95s linear,background .3s;
+}
+.timer-bar.warn span{background:#c2740c}
+.timer-bar.over span{background:var(--danger);animation:tmPulse 1.1s ease-in-out infinite}
+@keyframes tmPulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+/* ── Save indicator ─────────────────────────────────────────────── */
+.save-indicator{
+  position:fixed;bottom:18px;right:18px;font-size:11px;color:var(--muted);
+  letter-spacing:.12em;text-transform:uppercase;font-weight:700;
+  opacity:0;transition:opacity .3s;pointer-events:none;z-index:150;
+  background:var(--card);border:1px solid var(--line);border-radius:999px;padding:5px 14px;
+}
+.save-indicator.visible{opacity:1}
+
+/* ── Responsive ─────────────────────────────────────────────────── */
+@media(max-width:1000px){
   .app{grid-template-columns:1fr}
-  aside{
-    position:static;height:auto;
-    border-right:none;border-bottom:1px solid var(--line);
-  }
+  aside{position:static;height:auto;max-height:42vh;border-right:none;border-bottom:1px solid var(--line)}
+  .debate-card{grid-template-columns:1fr;aspect-ratio:auto}
+  .bank{border-right:none;border-bottom:1px solid var(--line);overflow:visible}
+  .content{padding:22px 18px}
+  .bubble,.add-bubble{width:132px;height:132px;font-size:12.5px;padding:12px}
+  .bubbles{max-width:436px}
   .main-inner{padding:16px 14px 34px}
-  .split{grid-template-columns:1fr;gap:26px}
-  .panel{padding:24px 20px;border-radius:16px}
-  .panel h1{font-size:1.45rem}
-  .stopbar{padding:0 14px;gap:10px}
-  .hide-sm{display:none}
 }
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* ── Print: the same frame, one sheet ───────────────────────────── */
+@media print{
+  @page{margin:14mm}
+  .stopbar,aside,.toolbar,.save-indicator,.modal-backdrop,.present,
+  .bubble .rm,.bubble .ed,.add-bubble,.add-item,.bank-tools,.progress{display:none!important}
+  body{background:#fff}
+  .app{display:block;min-height:0}
+  main{display:block}
+  .main-inner{padding:0;max-width:none}
+  .debate-card{border-radius:0;border:none;box-shadow:none;max-width:none;aspect-ratio:auto}
+  .bank{background:#fff;border-right:1px solid #ddd;padding:18px 16px}
+  .bank-item{font-size:12px;line-height:1.4}
+  .bank-item.used .phrase{opacity:1;text-decoration:none}
+  .content{padding:20px 24px}
+  .debate-title{font-size:22px}
+  .debate-question{margin:12px 0 20px;font-size:15px}
+  .bubbles{gap:16px 20px;max-width:500px}
+  .bubble{width:152px;height:152px;font-size:12.5px;padding:14px;break-inside:avoid;box-shadow:none!important;opacity:1!important}
+  .bubble.highlighted{background:#fff!important;color:#000!important;border-width:3px}
+  .debate-task{margin-top:18px;font-size:13px}
+  .print-foot{display:block!important}
+}
+.print-foot{
+  display:none;text-align:center;font-size:9px;letter-spacing:.18em;
+  text-transform:uppercase;color:#b0b0b0;margin-top:22px;font-weight:700;
+}
+
+/* jpt:chrome */
+/* Site furniture spliced in by build.py. Not part of the tool. */
+.tools-nav{padding:14px 16px 12px;border-bottom:1px solid var(--line)}
+.jt-label{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);font-weight:700;margin-bottom:9px}
+.tool-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:11px;
+  border:1px solid transparent;text-decoration:none;color:var(--ink);
+  transition:background .12s,border-color .12s}
+.tool-item:hover{background:var(--soft)}
+.tool-item.active{background:var(--soft);border-color:var(--accent)}
+.ti-icon{width:28px;height:28px;border-radius:8px;flex-shrink:0;display:grid;place-items:center;
+  background:var(--soft);border:1px solid var(--soft-line);color:var(--accent)}
+.tool-item.active .ti-icon{background:var(--accent);border-color:var(--accent);color:#fff}
+.ti-icon svg{width:15px;height:15px;display:block}
+.ti-name{font-size:13.5px;font-weight:600;letter-spacing:-.01em}
+.side-foot{padding:10px 12px 12px;border-top:1px solid var(--line);flex-shrink:0}
+.side-foot a{display:flex;align-items:center;gap:8px;text-decoration:none;font-size:12.5px;
+  font-weight:600;color:var(--muted);padding:8px 10px;border-radius:10px;transition:.12s}
+.side-foot a:hover{background:var(--soft);color:var(--accent)}
+.side-foot a svg{width:15px;height:15px;flex-shrink:0}
+@media (max-width:900px){.tools-nav{padding:12px 14px 10px}}
+/* /jpt:chrome */
 </style>
 </head>
 <body>
 
 <header class="stopbar">
+  <!-- jpt:brand -->
   <a href="/" class="st-brand">
-    <span class="brand-icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-    </span>
-    <span class="brand-title"><span class="k">JohnPlusEnglish</span><span class="b">Tools</span></span>
+    <span class="brand-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span>
+    <span class="brand-title"><span class="k">JohnPlusTools</span><span class="b">Debate Builder</span></span>
   </a>
+  <!-- /jpt:brand -->
   <div class="grow"></div>
-  <button class="icon-btn" id="themeBtn" title="Light / dark" aria-label="Toggle light or dark theme">
+  <button class="icon-btn" onclick="toggleTheme()" title="Light / dark" aria-label="Toggle theme">
     <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
   </button>
-  <a class="btn ghost hide-sm" href="https://johnplusdictionary.com" target="_blank" rel="noopener">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-    Dictionary
-  </a>
+  <button class="icon-btn" onclick="showHelp()" title="Keyboard shortcuts" aria-label="Help">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+  </button>
+  <button class="btn" onclick="enterPresent()" title="Present (P)">
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+    Present
+  </button>
+  <div class="timer-bar" id="tmBar"><span id="tmBarFill"></span></div>
 </header>
 
-<div class="app">
-
+<div class="app" id="app">
   <aside>
-    <div class="side-top">
-      <div class="side-label">Tools</div>
-    </div>
-
-    <nav class="side-list">
-      <a class="side-item active" href="/tools/debate-builder.html">
-        <span class="si-icon">
-          <!-- The Debate Builder's own mark, so the icon you click matches the tool you land on. -->
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="4.6" cy="6" r="2.1"/><line x1="10" y1="6" x2="21" y2="6"/><circle cx="4.6" cy="12" r="2.1" fill="currentColor"/><line x1="10" y1="12" x2="21" y2="12"/><circle cx="4.6" cy="18" r="2.1"/><line x1="10" y1="18" x2="21" y2="18"/></svg>
-        </span>
-        <span class="si-text">
-          <span class="si-name">Debate Builder</span>
-          <div class="si-meta">Speaking · B1 to C2</div>
-        </span>
+    <!-- jpt:toolsnav -->
+    <div class="tools-nav">
+      <div class="jt-label">Tools</div>
+      <a class="tool-item active" href="/" aria-current="page">
+        <span class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="4.6" cy="6" r="2.1"/><line x1="10" y1="6" x2="21" y2="6"/><circle cx="4.6" cy="12" r="2.1" fill="currentColor"/><line x1="10" y1="12" x2="21" y2="12"/><circle cx="4.6" cy="18" r="2.1"/><line x1="10" y1="18" x2="21" y2="18"/></svg></span>
+        <span class="ti-name">Debate Builder</span>
       </a>
-    </nav>
-
+    </div>
+    <!-- /jpt:toolsnav -->
+    <div class="side-top">
+      <div class="searchwrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="search" type="text" placeholder="Search debates…" oninput="renderSidebar()" autocomplete="off">
+      </div>
+      <div class="side-row">
+        <button class="btn tiny" onclick="newDebate()">+ New</button>
+        <button class="btn ghost tiny" onclick="exportAll()" title="Back up every debate as a JSON file">Back up</button>
+        <button class="btn ghost tiny" onclick="document.getElementById('importFile').click()" title="Restore from a JSON backup">Restore</button>
+        <input type="file" id="importFile" accept="application/json" style="display:none" onchange="importAll(event)">
+      </div>
+    </div>
+    <div class="lvl-filter" id="lvlFilter"></div>
+    <div class="side-list" id="sideList"></div>
+    <!-- jpt:sidefoot -->
     <div class="side-foot">
       <a href="https://johnplusdictionary.com" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-        JohnPlusDictionary
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>JohnPlusDictionary
       </a>
     </div>
+    <!-- /jpt:sidefoot -->
   </aside>
 
   <main>
-    <div class="main-inner">
-
+    <div class="main-inner" id="cardHome">
       <div class="toolbar">
-        <div class="status">Debate Builder</div>
-        <a class="btn" href="/tools/debate-builder.html">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-          Open tool
-        </a>
+        <button class="side-toggle" id="sideToggle" onclick="toggleSide()"
+                title="Hide the debate list" aria-label="Hide the debate list" aria-expanded="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <div class="status" id="status">Saved</div>
+
+        <select class="lvl-select" id="lvlSelect" onchange="changeLevel(this.value)"></select>
+
+        <div class="timer" id="timerBox">
+          <input class="tm" id="tmInput" type="text" inputmode="numeric" value="05:00"
+                 aria-label="Timer length" title="Type a length (5, or 5:30) and press Enter to start"
+                 onfocus="timerFocus()" onkeydown="timerKey(event)" onblur="applyTimerInput()">
+          <button onclick="toggleTimer()" id="tmBtn" title="Start / pause (T)">▶</button>
+          <button onclick="resetTimer()" title="Reset">↺</button>
+        </div>
+
+        <button class="btn tiny" onclick="saveToBank()" title="File this as a new debate in your bank">Save to bank</button>
+        <button class="btn ghost tiny" onclick="exportPNG()" id="pngBtn">Export PNG</button>
+        <button class="btn ghost tiny" onclick="exportPDF()" id="pdfBtn">Export PDF</button>
+        <button class="btn ghost tiny" onclick="window.print()">Print</button>
+        <button class="btn ghost tiny" onclick="resetBank()">Reset bank</button>
       </div>
 
-      <section class="panel">
-        <div class="panel-head">
-          <span class="panel-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="4.6" cy="6" r="2.1"/><line x1="10" y1="6" x2="21" y2="6"/><circle cx="4.6" cy="12" r="2.1" fill="currentColor"/><line x1="10" y1="12" x2="21" y2="12"/><circle cx="4.6" cy="18" r="2.1"/><line x1="10" y1="18" x2="21" y2="18"/></svg>
-          </span>
-          <div>
-            <h1>Debate Builder</h1>
-            <div class="tagline">Build a speaking debate, then run it from the front of the room.</div>
-          </div>
+      <div class="debate-card" id="debateCard">
+        <div class="bank">
+          <div class="bank-head" id="bankHead">Useful phrases (C2)</div>
+          <div id="bankGroups"></div>
         </div>
 
-        <p class="lede">
-          Write the question, set the task, and pick a level. The phrase bank swaps
-          to match, so B1 gets different language from C2. When the lesson starts,
-          go full-screen and run the timer without leaving the page.
-        </p>
-
-        <div class="split">
-        <div class="features">
-          <div class="feature">
-            <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg></span>
-            <div>
-              <h3>Presentation mode</h3>
-              <p>Full-screen prompts, arrow keys to step, space to start the timer.</p>
-            </div>
+        <div class="content">
+          <div class="title-row">
+            <div class="debate-title" contenteditable="true" data-field="title" oninput="markDirty()">TITLE</div>
+            <div class="level-tag" id="levelTag">C2</div>
           </div>
-          <div class="feature">
-            <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg></span>
-            <div>
-              <h3>Saved debate bank</h3>
-              <p>Keep every debate you build and search it later. Back up to a file.</p>
-            </div>
-          </div>
-          <div class="feature">
-            <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
-            <div>
-              <h3>Built-in timer</h3>
-              <p>Set the minutes, start it from the keyboard, keep the room moving.</p>
-            </div>
-          </div>
-          <div class="feature">
-            <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></span>
-            <div>
-              <h3>Export and print</h3>
-              <p>PNG, PDF or straight to the printer if you want it on paper.</p>
-            </div>
-          </div>
+          <div class="debate-question" contenteditable="true" data-field="question" oninput="markDirty()">Type the debate question here.</div>
+          <div class="bubbles" id="bubbles"></div>
+          <div class="debate-task" contenteditable="true" data-field="task" oninput="markDirty()">Type the task instruction here.</div>
+          <div class="progress" id="progress"></div>
+          <div class="print-foot">JohnPlusEnglish</div>
         </div>
-
-        <a class="preview" href="/tools/debate-builder.html">
-          <span class="pv-bar" aria-hidden="true"><i></i><i></i><i></i></span>
-          <span class="pv-shot" role="img" aria-label="The Debate Builder in use: a debate titled AI in the classroom, with the question, four prompt circles and the C2 phrase bank down the left."></span>
-          <span class="pv-cap">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-            A debate mid-build. Have a look inside
-          </span>
-        </a>
-
-        </div>
-
-        <div class="panel-actions">
-          <a class="btn big" href="/tools/debate-builder.html">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            Open Debate Builder
-          </a>
-          <span class="note">Free, no sign-up. Your debates stay in your browser.</span>
-        </div>
-      </section>
-
+      </div>
     </div>
   </main>
-
 </div>
 
+<!-- Presentation mode -->
+<div class="present" id="present" hidden>
+  <div class="p-top">
+    <div class="p-level" id="pLevel">C2</div>
+    <div class="p-title" id="pTitle"></div>
+    <div class="p-timer" id="pTimer">05:00</div>
+    <button class="btn ghost tiny" onclick="togglePhrases()">Phrases</button>
+    <button class="btn ghost tiny" onclick="exitPresent()">Exit</button>
+  </div>
+  <div class="p-stage" id="pStage"></div>
+  <div class="p-hint">
+    <b>←</b> <b>→</b> step · <b>Space</b> timer · <b>B</b> hide phrases · <b>Esc</b> exit
+  </div>
+</div>
+
+<!-- Confirm modal -->
+<div class="modal-backdrop" id="modal">
+  <div class="modal">
+    <h2 id="modalTitle">Confirm</h2>
+    <p id="modalBody"></p>
+    <div class="actions">
+      <button class="btn ghost tiny" onclick="closeModal()">Cancel</button>
+      <button class="btn tiny" id="modalOk">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- Help modal -->
+<div class="modal-backdrop" id="helpModal">
+  <div class="modal wide">
+    <h2>Keyboard shortcuts</h2>
+    <p>Anywhere outside a text field.</p>
+    <div class="keys">
+      <kbd>P</kbd><span>Presentation mode</span>
+      <kbd>N</kbd><span>New debate</span>
+      <kbd>T</kbd><span>Start / pause the timer</span>
+      <kbd>/</kbd><span>Search your debates</span>
+      <kbd>D</kbd><span>Light / dark theme</span>
+      <kbd>Esc</kbd><span>Close anything open</span>
+    </div>
+    <h2 style="font-size:15px">In the editor</h2>
+    <p style="margin-bottom:12px">
+      Single-click a prompt to highlight it, double-click to fade it out.
+      Drag prompts to reorder, and drag phrases up and down the bank the same way.
+      Click <b>✎</b> to edit a prompt, and double-click any phrase to rewrite it.
+      Five prompts is the maximum, laid out three then two.<br><br>
+      Type a length straight into the timer (<b>5</b>, or <b>5:30</b>) and press Enter to start
+      it. A bar drains across the top of the screen as the time goes, amber under a minute and
+      red once you're over.<br><br>
+      Edits save as you type. <b>Save to bank</b> files what's on screen as a new
+      debate and puts the one you opened back the way it was, so you can use an
+      existing debate as a template.
+    </p>
+    <div class="actions">
+      <button class="btn tiny" onclick="closeHelp()">Got it</button>
+    </div>
+  </div>
+</div>
+
+<div class="save-indicator" id="saveInd">Saved</div>
+
 <script>
-/* Theme. Remembers your choice, otherwise follows the system. */
-(function () {
-  var root = document.documentElement;
-  var btn  = document.getElementById("themeBtn");
-  var icon = document.getElementById("themeIcon");
+const STORE = 'c2_debate_bank_v1';
+const MAX_BUBBLES = 5;
 
-  var SUN = '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/>'
-          + '<line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>'
-          + '<line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/>'
-          + '<line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>'
-          + '<line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
-  var MOON = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+const LEVEL_ORDER = ['B1','B2','C1','C2'];
 
-  function current () {
-    return root.getAttribute("data-theme")
-        || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-  }
-  function paint () { icon.innerHTML = current() === "dark" ? SUN : MOON; }
+/* One colour per level, brightened for dark mode so it stays legible on
+   the navy. Drives the phrases, the level tag and the circles. */
+const LEVEL_COLOURS = {
+  B1: {light:'#ad4c08', dark:'#f59547'},   // orange
+  B2: {light:'#237a4d', dark:'#4cbe86'},   // green
+  C1: {light:'#2563eb', dark:'#5b8def'},   // blue
+  C2: {light:'#6d28d9', dark:'#a78bfa'}    // purple
+};
+function levelColour(level) {
+  const l = LEVEL_COLOURS[level] || LEVEL_COLOURS.C2;
+  return document.documentElement.getAttribute('data-theme') === 'dark' ? l.dark : l.light;
+}
 
-  var saved = null;
-  try { saved = localStorage.getItem("jpt_theme"); } catch (e) {}
-  if (saved === "light" || saved === "dark") root.setAttribute("data-theme", saved);
-  paint();
-
-  btn.addEventListener("click", function () {
-    var next = current() === "dark" ? "light" : "dark";
-    root.setAttribute("data-theme", next);
-    try { localStorage.setItem("jpt_theme", next); } catch (e) {}
-    paint();
+/* Text on a filled level colour: white or near-black, whichever actually
+   reads better, biased to white so only the light fills flip. */
+const DARK_INK = '#10192b';
+function luminance(hex) {
+  const v = [1,3,5].map(i => {
+    const c = parseInt(hex.substr(i,2),16) / 255;
+    return c <= 0.03928 ? c/12.92 : Math.pow((c+0.055)/1.055, 2.4);
   });
-})();
-</script>
+  return 0.2126*v[0] + 0.7152*v[1] + 0.0722*v[2];
+}
+function inkOn(hex) {
+  const L = luminance(hex);
+  return ((L + 0.05) / (luminance(DARK_INK) + 0.05)) > (1.05 / (L + 0.05)) * 1.3 ? DARK_INK : '#ffffff';
+}
+function applyLevelColour(level) {
+  const c = levelColour(level);
+  document.documentElement.style.setProperty('--level', c);
+  document.documentElement.style.setProperty('--level-ink', inkOn(c));
+}
 
+const BANKS = {
+  B1: {
+    "Starting": [
+      "Shall I go first? – Yes, go ahead.",
+      "In my opinion, ...",
+      "What do you think about this?"
+    ],
+    "Discussing": [
+      "I agree with you because ...",
+      "I'm not sure about that.",
+      "That's a good point.",
+      "On the other hand, ...",
+      "For example, ...",
+      "It depends on the situation.",
+      "I see what you mean, but ...",
+      "Why do you say that?"
+    ],
+    "Moving on": [
+      "Let's move on to the next one.",
+      "What about the other option?",
+      "Shall we talk about ...?"
+    ],
+    "Finishing": [
+      "So we both agree that ...",
+      "In the end, I would choose ..."
+    ]
+  },
+  B2: {
+    "Starting": [
+      "Shall we start with ...?",
+      "The way I see it, ...",
+      "What's your view on this?"
+    ],
+    "Discussing": [
+      "That's a fair point, but ...",
+      "Actually, I'd say the opposite.",
+      "It's worth remembering that ...",
+      "There are two sides to this.",
+      "I can see the argument for ..., however ...",
+      "That's exactly what I was going to say.",
+      "To give you an example, ...",
+      "I'm not entirely convinced."
+    ],
+    "Moving forward": [
+      "Let's look at this from another angle.",
+      "Moving on to ...",
+      "The key issue here is ...",
+      "Can we narrow this down?"
+    ],
+    "Wrapping up": [
+      "So, where does that leave us?",
+      "On balance, I'd go with ...",
+      "I think we've reached an agreement."
+    ]
+  },
+  C1: {
+    "Starting": [
+      "Shall I get the ball rolling?",
+      "My initial reaction is ...",
+      "Where do you stand on this?"
+    ],
+    "Discussing": [
+      "That's a compelling argument.",
+      "I'd take issue with that.",
+      "You raise a valid point, although ...",
+      "It's not quite as straightforward as that.",
+      "That reinforces my point about ...",
+      "I'm rather on the fence here.",
+      "There's a clear trade-off.",
+      "We shouldn't lose sight of ..."
+    ],
+    "Moving forward": [
+      "What this really boils down to is ...",
+      "Let's zoom in on ...",
+      "Bearing that in mind, ...",
+      "Let's set that aside for now."
+    ],
+    "Wrapping up": [
+      "You've swayed me on that one.",
+      "So, what's the bottom line?"
+    ]
+  },
+  C2: {
+    "Starting": [
+      "Shall I kick things off? – Go ahead.",
+      "First and foremost, I believe ...",
+      "What's your take on it?"
+    ],
+    "Discussing": [
+      "What stands out for me is ...",
+      "You've hit the nail on the head.",
+      "I'd push back a little on that.",
+      "It's more nuanced than that.",
+      "That ties in nicely with ...",
+      "I'm inclined to disagree.",
+      "That's a double-edged sword.",
+      "We can't overlook the fact that ..."
+    ],
+    "Moving forward": [
+      "What it fundamentally comes down to is ...",
+      "Let's cut to the chase.",
+      "At the end of the day, ...",
+      "Let's narrow it down."
+    ],
+    "Wrapping up": [
+      "OK, you've won me over on that one.",
+      "So what's our main takeaway here?"
+    ]
+  }
+};
+
+function blankDebate(level) {
+  level = LEVEL_ORDER.includes(level) ? level : 'C2';
+  return {
+    id: 'd_' + Date.now() + '_' + Math.random().toString(36).slice(2,7),
+    title: 'NEW DEBATE',
+    level: level,
+    question: 'Type the debate question here.',
+    task: 'Type the task instruction here.',
+    bubbles: ['option one','option two','option three','option four','option five'],
+    bank: JSON.parse(JSON.stringify(BANKS[level])),
+    updated: Date.now()
+  };
+}
+
+let state = { debates: [], currentId: null };
+let filterLevel = 'all';
+let saveTimer = null;
+
+/* Session-only marks — never persisted, so every class starts clean,
+   but they survive re-renders while you're teaching. */
+const marks = {};
+function m() {
+  const id = state.currentId;
+  if (!marks[id]) marks[id] = { used:new Set(), hi:new Set(), faded:new Set() };
+  return marks[id];
+}
+
+/* Groups still exist in the data (each level ships four of them) but the
+   bank renders as one flat alternating list, so flatten() is the bridge. */
+function flatBank(d) {
+  const out = [];
+  Object.keys(d.bank).forEach((k, gi) => {
+    d.bank[k].forEach((item, ii) => out.push({ item, gi, ii }));
+  });
+  return out;
+}
+
+/* ── Storage ────────────────────────────────────────────────────── */
+function load() {
+  try {
+    const raw = localStorage.getItem(STORE);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed && Array.isArray(parsed.debates)) state = parsed;
+    }
+  } catch(e) { console.warn('Could not read saved debates:', e); }
+  if (!state.debates) state.debates = [];
+  state.debates.forEach(migrate);
+  if (!state.debates.length) {
+    const d = blankDebate();
+    state.debates.push(d);
+    state.currentId = d.id;
+  }
+  if (!state.currentId || !state.debates.find(d => d.id === state.currentId)) {
+    state.currentId = state.debates[0].id;
+  }
+}
+
+/* Older saves had no level and no guaranteed shape. Prompts are left
+   alone even if an old debate has more than five — nothing is deleted
+   behind your back; you just can't add any more. */
+function migrate(d) {
+  if (!LEVEL_ORDER.includes(d.level)) d.level = 'C2';
+  if (!Array.isArray(d.bubbles)) d.bubbles = [];
+  if (!d.bank || typeof d.bank !== 'object') d.bank = JSON.parse(JSON.stringify(BANKS[d.level]));
+  if (!d.updated) d.updated = Date.now();
+  if (typeof d.title !== 'string') d.title = 'UNTITLED';
+  if (typeof d.question !== 'string') d.question = '';
+  if (typeof d.task !== 'string') d.task = '';
+}
+
+function persist() {
+  try {
+    localStorage.setItem(STORE, JSON.stringify(state));
+  } catch(e) {
+    document.getElementById('status').textContent = 'Could not save — storage full';
+    return;
+  }
+  const ind = document.getElementById('saveInd');
+  ind.classList.add('visible');
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => ind.classList.remove('visible'), 900);
+}
+
+function current() { return state.debates.find(d => d.id === state.currentId); }
+
+function markDirty() {
+  const d = current(); if (!d) return;
+  d.title = document.querySelector('[data-field="title"]').textContent.trim() || 'UNTITLED';
+  d.question = document.querySelector('[data-field="question"]').textContent.trim();
+  d.task = document.querySelector('[data-field="task"]').textContent.trim();
+  d.updated = Date.now();
+  document.getElementById('status').textContent = 'Saved';
+  persist();
+  renderSidebar();
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+/* ── Sidebar ────────────────────────────────────────────────────── */
+function renderLevelFilter() {
+  document.getElementById('lvlFilter').innerHTML = ['all', ...LEVEL_ORDER].map(l => `
+    <button class="lvl-chip ${filterLevel === l ? 'on' : ''}" onclick="setFilter('${l}')">${l === 'all' ? 'All' : l}</button>
+  `).join('');
+}
+function setFilter(l) { filterLevel = l; renderLevelFilter(); renderSidebar(); }
+
+function renderSidebar() {
+  const list = document.getElementById('sideList');
+  const q = document.getElementById('search').value.trim().toLowerCase();
+  let items = [...state.debates];
+  if (filterLevel !== 'all') items = items.filter(d => d.level === filterLevel);
+  if (q) items = items.filter(d =>
+    (d.title + ' ' + d.question + ' ' + d.task + ' ' + d.bubbles.join(' ')).toLowerCase().includes(q)
+  );
+  items.sort((a,b) => b.updated - a.updated);
+
+  if (!items.length) {
+    list.innerHTML = `<div class="empty-list">${q || filterLevel !== 'all' ? 'Nothing matches that.' : 'No debates yet. Click + New.'}</div>`;
+    return;
+  }
+  list.innerHTML = items.map(d => `
+    <div class="side-item ${d.id === state.currentId ? 'active' : ''}" onclick="selectDebate('${d.id}')">
+      <div class="row1">
+        <span class="badge" style="background:${levelColour(d.level)};color:${inkOn(levelColour(d.level))}">${d.level}</span>
+        <span class="title">${escapeHtml(d.title || 'UNTITLED')}</span>
+      </div>
+      <div class="meta">${new Date(d.updated).toLocaleDateString()} · ${d.bubbles.length} prompt${d.bubbles.length === 1 ? '' : 's'}</div>
+      <button class="del" onclick="event.stopPropagation();deleteDebate('${d.id}')" title="Delete">✕</button>
+    </div>
+  `).join('');
+}
+
+/* ── Main render ────────────────────────────────────────────────── */
+function renderDebate() {
+  const d = current(); if (!d) return;
+  document.querySelector('[data-field="title"]').textContent = d.title;
+  document.querySelector('[data-field="question"]').textContent = d.question;
+  document.querySelector('[data-field="task"]').textContent = d.task;
+  document.getElementById('levelTag').textContent = d.level;
+  document.getElementById('bankHead').textContent = 'Useful phrases (' + d.level + ')';
+  bankUndo = null;
+  applyLevelColour(d.level);
+  document.getElementById('lvlSelect').value = d.level;
+  renderBubbles(d);
+  renderBank(d);
+  renderProgress();
+  document.getElementById('status').textContent = 'Saved';
+}
+
+function renderLevelSelect() {
+  document.getElementById('lvlSelect').innerHTML =
+    LEVEL_ORDER.map(l => `<option value="${l}">Level ${l}</option>`).join('');
+}
+
+function renderBubbles(d) {
+  const mk = m();
+  const full = d.bubbles.length >= MAX_BUBBLES;
+  document.getElementById('bubbles').innerHTML = d.bubbles.map((b, i) => `
+    <div class="bubble ${mk.hi.has(i) ? 'highlighted' : ''} ${mk.faded.has(i) ? 'faded' : ''}"
+         draggable="true" data-i="${i}"
+         onclick="bubbleClick(this,event,${i})" ondblclick="bubbleDbl(this,event,${i})">
+      <button class="ed" onclick="event.stopPropagation();editBubble(this,${i})" title="Edit">✎</button>
+      <button class="rm" onclick="event.stopPropagation();removeBubble(${i})" title="Remove">✕</button>
+      <div class="txt">${escapeHtml(b)}</div>
+    </div>
+  `).join('') + (full ? '' : `<button class="add-bubble" onclick="addBubble()">+ prompt</button>`);
+  wireDrag();
+  if (presenting()) { paintSpot(); setCardEditable(false); }
+}
+
+function renderBank(d) {
+  const mk = m();
+  document.getElementById('bankGroups').innerHTML = flatBank(d).map((f, idx) => `
+    <div class="bank-item ${mk.used.has(f.item) ? 'used' : ''}" draggable="true" data-idx="${idx}"
+         onclick="toggleUsed(this,event,${idx})">
+      <span class="grip" title="Drag to reorder">⠿</span>
+      <span class="phrase" ondblclick="beginEdit(this,event)" data-idx="${idx}">${escapeHtml(f.item)}</span>
+      <button class="rm" onclick="event.stopPropagation();removeBankItem(${idx})" title="Remove">✕</button>
+    </div>
+  `).join('') + `
+    <div class="bank-tools">
+      <div class="add-item" onclick="addBankItem()">+ add a phrase</div>
+      <button class="bank-tool wipe" onclick="clearAllPhrases()" title="Clear all phrases"${flatBank(d).length ? '' : ' disabled'}>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M6 6l1 14h10l1-14"/><path d="M10 11v5M14 11v5"/></svg>
+      </button>
+      <button class="bank-tool" onclick="undoBank()" title="${bankUndo ? 'Undo ' + bankUndo.label : 'Nothing to undo'}"${bankUndo ? '' : ' disabled'}>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+      </button>
+    </div>`;
+  wireBankDrag();
+  if (presenting()) setCardEditable(false);
+}
+
+function renderProgress() {
+  const d = current(); if (!d) return;
+  const mk = m();
+  const total = flatBank(d).length;
+  document.getElementById('progress').innerHTML =
+    `<span>${mk.hi.size} / ${d.bubbles.length} prompts covered</span><span>${mk.used.size} / ${total} phrases used</span>`;
+}
+
+/* ── Bubble interaction ─────────────────────────────────────────── */
+let bubbleClickTimer = null;
+function bubbleClick(bubble, ev, i) {
+  if (ev.target.closest('.rm, .ed')) return;
+  if (ev.target.isContentEditable) return;
+  clearTimeout(bubbleClickTimer);
+  bubbleClickTimer = setTimeout(() => {
+    if (presenting()) {            // on the projector a click spotlights
+      spotIndex = (spotIndex === i) ? -1 : i;
+      if (spotIndex >= 0) m().hi.add(spotIndex);
+      paintSpot();
+      return;
+    }
+    const on = bubble.classList.toggle('highlighted');
+    on ? m().hi.add(i) : m().hi.delete(i);
+    renderProgress();
+  }, 200);
+}
+function bubbleDbl(bubble, ev, i) {
+  if (ev.target.closest('.rm, .ed')) return;
+  if (ev.target.isContentEditable) return;
+  clearTimeout(bubbleClickTimer);
+  const on = bubble.classList.toggle('faded');
+  on ? m().faded.add(i) : m().faded.delete(i);
+}
+
+function editBubble(btn, i) {
+  const bubble = btn.closest('.bubble');
+  const txt = bubble.querySelector('.txt');
+  bubble.setAttribute('draggable', 'false');
+  txt.setAttribute('contenteditable', 'true');
+  txt.focus();
+  selectAll(txt);
+  const save = () => {
+    txt.removeAttribute('contenteditable');
+    bubble.setAttribute('draggable', 'true');
+    const d = current();
+    d.bubbles[i] = txt.textContent.trim() || 'prompt';
+    d.updated = Date.now();
+    persist();
+    renderSidebar();
+    txt.removeEventListener('blur', save);
+    txt.removeEventListener('keydown', keyH);
+  };
+  const keyH = e => { if (e.key === 'Enter' || e.key === 'Escape') { e.preventDefault(); txt.blur(); } };
+  txt.addEventListener('blur', save);
+  txt.addEventListener('keydown', keyH);
+}
+
+function selectAll(el) {
+  const range = document.createRange();
+  range.selectNodeContents(el);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+}
+
+/* Drag to reorder prompts */
+let dragFrom = null;
+function wireDrag() {
+  document.querySelectorAll('#bubbles .bubble').forEach(el => {
+    el.addEventListener('dragstart', e => {
+      dragFrom = Number(el.dataset.i);
+      el.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', String(dragFrom));
+    });
+    el.addEventListener('dragend', () => {
+      el.classList.remove('dragging');
+      document.querySelectorAll('.drop-target').forEach(x => x.classList.remove('drop-target'));
+    });
+    el.addEventListener('dragover', e => { e.preventDefault(); el.classList.add('drop-target'); });
+    el.addEventListener('dragleave', () => el.classList.remove('drop-target'));
+    el.addEventListener('drop', e => {
+      e.preventDefault();
+      el.classList.remove('drop-target');
+      const to = Number(el.dataset.i);
+      if (dragFrom === null || dragFrom === to) return;
+      moveBubble(dragFrom, to);
+      dragFrom = null;
+    });
+  });
+}
+
+/* Marks are stored by index, so any structural change has to remap them. */
+function remapMarks(fn) {
+  const mk = m();
+  mk.hi = new Set([...mk.hi].map(fn).filter(v => v !== null));
+  mk.faded = new Set([...mk.faded].map(fn).filter(v => v !== null));
+}
+
+function moveBubble(from, to) {
+  const d = current();
+  const [item] = d.bubbles.splice(from, 1);
+  d.bubbles.splice(to, 0, item);
+  remapMarks(i => {
+    if (i === from) return to;
+    if (from < to) return (i > from && i <= to) ? i - 1 : i;
+    return (i >= to && i < from) ? i + 1 : i;
+  });
+  renderBubbles(d);
+  markDirty();
+}
+
+function addBubble() {
+  const d = current();
+  if (d.bubbles.length >= MAX_BUBBLES) return;
+  d.bubbles.push('new prompt');
+  renderBubbles(d);
+  markDirty();
+  renderProgress();
+  openBubbleEditor(d.bubbles.length - 1);
+}
+
+/* Put a prompt into edit mode without needing its pencil button clicked. */
+function openBubbleEditor(i) {
+  const bubble = document.querySelectorAll('#bubbles .bubble')[i];
+  if (bubble) editBubble(bubble.querySelector('.ed'), i);
+}
+
+function removeBubble(i) {
+  const d = current();
+  d.bubbles.splice(i, 1);
+  remapMarks(x => x === i ? null : (x > i ? x - 1 : x));
+  renderBubbles(d);
+  markDirty();
+  renderProgress();
+}
+
+/* ── Phrase bank ──────────────────────────────────────────────────
+   The bank shows one flat list, so everything here addresses phrases by
+   their flat index and bankRef() maps that back onto the stored groups.
+   "Used" marks are keyed by the phrase text, so reordering can't orphan
+   them.                                                              */
+function bankRef(idx) {
+  const d = current();
+  let i = 0;
+  for (const key of Object.keys(d.bank)) {
+    if (idx < i + d.bank[key].length) return { key, ii: idx - i };
+    i += d.bank[key].length;
+  }
+  return null;
+}
+function bankPhrase(idx) {
+  const r = bankRef(idx);
+  return r ? current().bank[r.key][r.ii] : null;
+}
+
+function toggleUsed(row, ev, idx) {
+  if (ev.target.closest('.rm, .grip')) return;
+  if (ev.target.isContentEditable) return;
+  const phrase = bankPhrase(idx);
+  if (phrase === null) return;
+  const on = row.classList.toggle('used');
+  on ? m().used.add(phrase) : m().used.delete(phrase);
+  renderProgress();
+}
+
+function beginEdit(span, ev) {
+  if (ev) ev.stopPropagation();
+  const row = span.closest('.bank-item');
+  row.setAttribute('draggable', 'false');
+  span.setAttribute('contenteditable', 'true');
+  span.focus();
+  selectAll(span);
+  const idx = Number(span.dataset.idx);
+  const save = () => {
+    span.removeAttribute('contenteditable');
+    row.setAttribute('draggable', 'true');
+    const r = bankRef(idx);
+    if (r) {
+      const before = current().bank[r.key][r.ii];
+      const after = span.textContent.trim() || 'new phrase ...';
+      current().bank[r.key][r.ii] = after;
+      if (m().used.delete(before)) m().used.add(after);
+      markDirty();
+    }
+    span.removeEventListener('blur', save);
+    span.removeEventListener('keydown', keyH);
+  };
+  const keyH = e => { if (e.key === 'Enter' || e.key === 'Escape') { e.preventDefault(); span.blur(); } };
+  span.addEventListener('blur', save);
+  span.addEventListener('keydown', keyH);
+}
+
+/* Drag a phrase above or below any other. The stored groups keep their
+   sizes; only which phrase sits in which slot changes. */
+let bankDragFrom = null;
+function clearDropMarks() {
+  document.querySelectorAll('.bank-item.drop-above, .bank-item.drop-below')
+    .forEach(el => el.classList.remove('drop-above', 'drop-below'));
+}
+function wireBankDrag() {
+  document.querySelectorAll('#bankGroups .bank-item').forEach(el => {
+    el.addEventListener('dragstart', e => {
+      bankDragFrom = Number(el.dataset.idx);
+      el.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', String(bankDragFrom));
+    });
+    el.addEventListener('dragend', () => { el.classList.remove('dragging'); clearDropMarks(); });
+    el.addEventListener('dragover', e => {
+      e.preventDefault();
+      const r = el.getBoundingClientRect();
+      clearDropMarks();
+      el.classList.add((e.clientY - r.top) > r.height / 2 ? 'drop-below' : 'drop-above');
+    });
+    el.addEventListener('drop', e => {
+      e.preventDefault();
+      const r = el.getBoundingClientRect();
+      const below = (e.clientY - r.top) > r.height / 2;
+      clearDropMarks();
+      if (bankDragFrom === null) return;
+      let to = Number(el.dataset.idx) + (below ? 1 : 0);
+      if (bankDragFrom < to) to -= 1;
+      if (to !== bankDragFrom) moveBankItem(bankDragFrom, to);
+      bankDragFrom = null;
+    });
+  });
+}
+
+function moveBankItem(from, to) {
+  const d = current();
+  const flat = flatBank(d).map(f => f.item);
+  const [item] = flat.splice(from, 1);
+  flat.splice(to, 0, item);
+  let i = 0;
+  Object.keys(d.bank).forEach(key => {
+    const n = d.bank[key].length;
+    d.bank[key] = flat.slice(i, i + n);
+    i += n;
+  });
+  renderBank(d);
+  markDirty();
+}
+
+/* New phrases join the last group, which is where the wrap-up language sits. */
+function addBankItem() {
+  const d = current();
+  const keys = Object.keys(d.bank);
+  if (!keys.length) { d.bank['Phrases'] = []; keys.push('Phrases'); }
+  d.bank[keys[keys.length - 1]].push('new phrase ...');
+  renderBank(d);
+  markDirty();
+  renderProgress();
+  // Open it straight away with the placeholder selected — otherwise the
+  // only way in is a double-click, and a stray single click crosses it off.
+  const spans = document.querySelectorAll('#bankGroups .bank-item .phrase');
+  const last = spans[spans.length - 1];
+  if (last) { last.scrollIntoView({block:'nearest'}); beginEdit(last); }
+}
+
+/* One-level undo covering the actions that destroy phrases. Deliberately
+   NOT wired to a level change — John rejected an undo for that. */
+let bankUndo = null;
+
+function snapshotBank(label) {
+  bankUndo = { bank: JSON.parse(JSON.stringify(current().bank)), used: [...m().used], label };
+}
+
+function undoBank() {
+  if (!bankUndo) return;
+  const d = current();
+  d.bank = JSON.parse(JSON.stringify(bankUndo.bank));
+  m().used = new Set(bankUndo.used);
+  const what = bankUndo.label;
+  bankUndo = null;
+  renderBank(d);
+  markDirty();
+  renderProgress();
+  flashStatus('Undid ' + what);
+}
+
+/* No confirm dialog: the undo button next to it is the safety net. */
+function clearAllPhrases() {
+  const d = current();
+  if (!flatBank(d).length) return;
+  snapshotBank('clearing all phrases');
+  Object.keys(d.bank).forEach(k => { d.bank[k] = []; });
+  m().used.clear();
+  renderBank(d);
+  markDirty();
+  renderProgress();
+  flashStatus('Phrases cleared');
+}
+
+function removeBankItem(idx) {
+  const d = current();
+  const r = bankRef(idx);
+  if (!r) return;
+  snapshotBank('deleting a phrase');
+  m().used.delete(d.bank[r.key][r.ii]);
+  d.bank[r.key].splice(r.ii, 1);
+  renderBank(d);
+  markDirty();
+  renderProgress();
+}
+
+function resetBank() {
+  const d = current();
+  confirmModal('Reset phrase bank',
+    `Replace the bank with the default ${d.level} phrases? Your question, task and prompts stay exactly as they are.`,
+    () => {
+      snapshotBank('resetting the bank');
+      d.bank = JSON.parse(JSON.stringify(BANKS[d.level]));
+      m().used.clear();
+      renderBank(d);
+      markDirty();
+      renderProgress();
+    });
+}
+
+/* ── Level ──────────────────────────────────────────────────────────
+   Changing level just swaps the colour and the phrase bank, no dialog.
+   The old bank is kept for a few seconds behind an Undo in the status
+   line, so a bank you'd customised isn't lost without a way back.    */
+function changeLevel(level) {
+  const d = current();
+  d.level = level;
+  d.bank = JSON.parse(JSON.stringify(BANKS[level]));
+  m().used.clear();
+  document.getElementById('levelTag').textContent = level;
+  document.getElementById('bankHead').textContent = 'Useful phrases (' + level + ')';
+  document.getElementById('lvlSelect').value = level;
+  bankUndo = null;
+  applyLevelColour(level);
+  renderBank(d);
+  markDirty();
+  renderProgress();
+  flashStatus('Switched to ' + level);
+}
+
+/* ── Debate management ──────────────────────────────────────────── */
+
+/* A copy of the open debate as it was when you opened it, so "Save to
+   bank" can file your edits as a new debate and put the original back. */
+let openedAs = null;
+function snapshotOpen() {
+  const d = current();
+  openedAs = d ? JSON.parse(JSON.stringify(d)) : null;
+}
+function newId() { return 'd_' + Date.now() + '_' + Math.random().toString(36).slice(2,7); }
+function sameContent(a, b) {
+  const strip = x => JSON.stringify({t:x.title, q:x.question, k:x.task, b:x.bubbles, n:x.bank, l:x.level});
+  return strip(a) === strip(b);
+}
+/* True for a "+ New" debate nobody has typed into yet. */
+function isUntouchedTemplate(d) {
+  const blank = blankDebate(d.level);
+  return d.title === blank.title && d.question === blank.question &&
+         d.task === blank.task && JSON.stringify(d.bubbles) === JSON.stringify(blank.bubbles);
+}
+
+function saveToBank() {
+  const d = current(); if (!d) return;
+  const copy = JSON.parse(JSON.stringify(d));
+  copy.id = newId();
+  copy.updated = Date.now();
+
+  let note = '';
+  if (openedAs && !sameContent(openedAs, d)) {
+    if (isUntouchedTemplate(openedAs)) {
+      // Started from a blank, so don't leave an empty shell behind.
+      state.debates = state.debates.filter(x => x.id !== openedAs.id);
+      delete marks[openedAs.id];
+    } else {
+      const i = state.debates.findIndex(x => x.id === openedAs.id);
+      if (i > -1) state.debates[i] = JSON.parse(JSON.stringify(openedAs));
+      note = ' · "' + (openedAs.title || 'UNTITLED') + '" left as it was';
+    }
+  }
+  state.debates.push(copy);
+  state.currentId = copy.id;
+  snapshotOpen();
+  persist();
+  renderDebate();
+  renderSidebar();
+  flashStatus('Saved to bank' + note);
+}
+
+function flashStatus(msg) {
+  const el = document.getElementById('status');
+  el.textContent = msg;
+  clearTimeout(flashStatus._t);
+  flashStatus._t = setTimeout(() => { el.textContent = 'Saved'; }, 3500);
+}
+
+function selectDebate(id) {
+  state.currentId = id;
+  persist();
+  renderDebate();
+  renderSidebar();
+  snapshotOpen();
+}
+
+function newDebate() {
+  const d = blankDebate(current() ? current().level : 'C2');
+  state.debates.push(d);
+  state.currentId = d.id;
+  persist();
+  renderDebate();
+  renderSidebar();
+  snapshotOpen();
+  const t = document.querySelector('[data-field="title"]');
+  t.focus(); selectAll(t);
+}
+
+function deleteDebate(id) {
+  const d = state.debates.find(x => x.id === id);
+  if (!d) return;
+  confirmModal('Delete debate', `Delete "${d.title || 'UNTITLED'}"? This can't be undone.`, () => {
+    state.debates = state.debates.filter(x => x.id !== id);
+    delete marks[id];
+    if (state.currentId === id) {
+      if (state.debates.length) state.currentId = state.debates[0].id;
+      else { newDebate(); return; }
+    }
+    persist();
+    renderDebate();
+    renderSidebar();
+    snapshotOpen();
+  });
+}
+
+/* ── Export / Import (JSON backup) ──────────────────────────────── */
+function download(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function exportAll() {
+  const payload = {
+    format: 'c2-debate-bank-backup',
+    version: 2,
+    exportedAt: new Date().toISOString(),
+    data: state.debates
+  };
+  download(new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'}),
+           'debate-bank-' + new Date().toISOString().slice(0,10) + '.json');
+}
+
+function importAll(ev) {
+  const file = ev.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const payload = JSON.parse(e.target.result);
+      if (payload.format !== 'c2-debate-bank-backup' || !Array.isArray(payload.data)) {
+        confirmModal('Wrong file', "That doesn't look like a debate bank backup.", () => {});
+        return;
+      }
+      confirmModal('Restore debates',
+        `Merge ${payload.data.length} debate(s) into your bank? Anything with a matching id is replaced.`,
+        () => {
+          const existing = new Map(state.debates.map(d => [d.id, d]));
+          payload.data.forEach(d => { migrate(d); existing.set(d.id, d); });
+          state.debates = [...existing.values()];
+          persist();
+          renderDebate();
+          renderSidebar();
+        });
+    } catch(err) {
+      confirmModal('Could not read that file', err.message, () => {});
+    }
+    ev.target.value = '';
+  };
+  reader.readAsText(file);
+}
+
+/* ── Export as PNG / PDF ────────────────────────────────────────────
+   The card is drawn straight onto a canvas rather than screenshotted,
+   so the export always uses the real Outfit font and needs no library
+   and no network. Layout mirrors the 5:3 frame on screen.            */
+/* Canvas units are the same as the on-screen card (max-width 1120, 5:3),
+   so every number below is lifted straight from the CSS above and the
+   export lines up with what you see. EXPORT_SCALE only adds resolution. */
+const CARD_W = 1120, CARD_H = 672, BANK_W = CARD_W * 0.30;
+const EXPORT_SCALE = 3;
+
+function setFont(c, weight, size, italic) {
+  c.font = (italic ? 'italic ' : '') + weight + ' ' + size + 'px Outfit, -apple-system, sans-serif';
+}
+function wrapText(c, text, maxW) {
+  const words = String(text).split(/\s+/).filter(Boolean);
+  const lines = [];
+  let line = '';
+  words.forEach(w => {
+    const test = line ? line + ' ' + w : w;
+    if (line && c.measureText(test).width > maxW) { lines.push(line); line = w; }
+    else line = test;
+  });
+  if (line) lines.push(line);
+  return lines;
+}
+function tracking(c, px) { try { c.letterSpacing = px + 'px'; } catch(e) {} }
+
+function drawCard(scale) {
+  const d = current();
+  // Exports are always the light card, so use the light level colour.
+  const ACCENT = (LEVEL_COLOURS[d.level] || LEVEL_COLOURS.C2).light;
+  const INK = '#0f1b2d', CREAM = '#f4f3ec', LINE = '#eceadf', FOOT = '#b0b0b0';
+  const cv = document.createElement('canvas');
+  cv.width = Math.round(CARD_W * scale);
+  cv.height = Math.round(CARD_H * scale);
+  const c = cv.getContext('2d');
+  c.scale(scale, scale);
+  c.textBaseline = 'middle';
+
+  c.fillStyle = '#ffffff'; c.fillRect(0, 0, CARD_W, CARD_H);
+  c.fillStyle = CREAM;     c.fillRect(0, 0, BANK_W, CARD_H);
+  c.fillStyle = LINE;      c.fillRect(BANK_W - 1, 0, 1, CARD_H);
+
+  // Phrase bank — .bank padding 24/22, .bank-head 11px, .bank-item 13.5px/1.5
+  const BANK_PAD_X = 22, BANK_PAD_Y = 24, HEAD_LH = 17.6, ITEM_LH = 20.25;
+  c.textAlign = 'left';
+  c.fillStyle = ACCENT;
+  setFont(c, 800, 11); tracking(c, 1.54);
+  c.fillText(('Useful phrases (' + d.level + ')').toUpperCase(), BANK_PAD_X, BANK_PAD_Y + HEAD_LH / 2);
+  tracking(c, 0);
+
+  let by = BANK_PAD_Y + HEAD_LH + 16;
+  const phraseX = BANK_PAD_X + 8;      // .bank-item padding 3 + .phrase padding 5
+  flatBank(d).forEach((f, idx) => {
+    const odd = idx % 2 === 0;         // mirrors nth-child(odd) on screen
+    c.fillStyle = odd ? ACCENT : INK;
+    setFont(c, 600, 13.5, odd);
+    const lines = wrapText(c, f.item, 254);
+    let top = by + 2;
+    lines.forEach(line => { c.fillText(line, phraseX, top + ITEM_LH / 2); top += ITEM_LH; });
+    by += lines.length * ITEM_LH + 6;
+  });
+
+  // Content column — .content padding 30/34, justify-content:center
+  const PAD_X = 34, PAD_Y = 30;
+  const colX = BANK_W, colW = CARD_W - BANK_W;
+  const cx = colX + colW / 2;
+  const innerW = colW - PAD_X * 2;
+  const TITLE_LH = 31.2, Q_LH = 24.65, TASK_LH = 24, FOOT_LH = 16.8;
+  const R = 86, GAP_X = 26, GAP_Y = 20;
+
+  // Measure the whole block first so it can be centred as one unit.
+  setFont(c, 800, 15); tracking(c, 0.9);
+  const lvlW = c.measureText(d.level).width; tracking(c, 0);
+  setFont(c, 800, 26); tracking(c, -0.52);
+  const titleLines = wrapText(c, String(d.title || '').toUpperCase(), innerW - 24 - lvlW);
+  tracking(c, 0);
+  setFont(c, 600, 17);
+  const qLines = wrapText(c, d.question, 540);
+  setFont(c, 600, 15, true);
+  const tLines = wrapText(c, d.task, 520);
+
+  const n = Math.min(d.bubbles.length, MAX_BUBBLES);
+  const rows = [d.bubbles.slice(0, 3), d.bubbles.slice(3, n)].filter(row => row.length);
+  const titleH   = titleLines.length * TITLE_LH + 4;   // .debate-title padding 2px 6px
+  const qH       = qLines.length * Q_LH + 12;
+  const bubblesH = rows.length * (R * 2) + Math.max(0, rows.length - 1) * GAP_Y;
+  const taskH    = tLines.length * TASK_LH + 12;
+  const totalH   = titleH + 16 + qH + 26 + bubblesH + 24 + taskH + 14 + FOOT_LH;
+
+  let y = PAD_Y + Math.max(0, (CARD_H - PAD_Y * 2 - totalH) / 2);
+
+  // Title and level tag
+  c.fillStyle = INK; setFont(c, 800, 26); tracking(c, -0.52); c.textAlign = 'left';
+  let ty = y;
+  ty += 2;
+  titleLines.forEach(line => { c.fillText(line, colX + PAD_X + 6, ty + TITLE_LH / 2); ty += TITLE_LH; });
+  tracking(c, 0);
+  c.fillStyle = ACCENT; setFont(c, 800, 15); tracking(c, 0.9); c.textAlign = 'right';
+  c.fillText(d.level, CARD_W - PAD_X - 4, y + 2 + TITLE_LH / 2);
+  tracking(c, 0);
+  y += titleH + 16;
+
+  // Question
+  c.fillStyle = INK; setFont(c, 600, 17); c.textAlign = 'center';
+  let qy = y + 6;
+  qLines.forEach(line => { c.fillText(line, cx, qy + Q_LH / 2); qy += Q_LH; });
+  y += qH + 26;
+
+  // Prompts: three across, the rest centred beneath
+  let rowTop = y;
+  rows.forEach(row => {
+    const rowW = row.length * (R * 2) + (row.length - 1) * GAP_X;
+    let x = cx - rowW / 2 + R;
+    const ccy = rowTop + R;
+    row.forEach(label => {
+      c.beginPath();
+      c.arc(x, ccy, R, 0, Math.PI * 2);
+      c.strokeStyle = ACCENT; c.lineWidth = 1.5; c.stroke();
+      c.fillStyle = INK; setFont(c, 600, 14);
+      const lines = wrapText(c, label, 128);
+      let ly = ccy - (lines.length - 1) * 18.9 / 2;
+      lines.forEach(line => { c.fillText(line, x, ly); ly += 18.9; });
+      x += R * 2 + GAP_X;
+    });
+    rowTop += R * 2 + GAP_Y;
+  });
+  y += bubblesH + 24;
+
+  // Task
+  c.fillStyle = INK; setFont(c, 600, 15, true); c.textAlign = 'center';
+  let tky = y + 6;
+  tLines.forEach(line => { c.fillText(line, cx, tky + TASK_LH / 2); tky += TASK_LH; });
+  y += taskH + 14;
+
+  // Footer
+  c.fillStyle = FOOT; setFont(c, 700, 9); tracking(c, 1.62);
+  c.fillText('JOHNPLUSENGLISH', cx, y + FOOT_LH / 2);
+  tracking(c, 0);
+
+  return cv;
+}
+
+function slug(s) {
+  return String(s || 'debate').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,50) || 'debate';
+}
+
+async function withExportButton(id, label, fn) {
+  const btn = document.getElementById(id);
+  const original = btn.textContent;
+  btn.disabled = true; btn.textContent = 'Working…';
+  try {
+    if (document.fonts && document.fonts.ready) await document.fonts.ready;
+    await fn();
+    btn.textContent = label;
+  } catch(e) {
+    console.error(e);
+    btn.textContent = 'Failed';
+  }
+  setTimeout(() => { btn.textContent = original; btn.disabled = false; }, 1400);
+}
+
+function exportPNG() {
+  return withExportButton('pngBtn', 'Saved', () => new Promise(resolve => {
+    drawCard(EXPORT_SCALE).toBlob(blob => {
+      download(blob, slug(current().title) + '.png');
+      resolve();
+    }, 'image/png');
+  }));
+}
+
+function exportPDF() {
+  return withExportButton('pdfBtn', 'Saved', () => {
+    const jpeg = drawCard(EXPORT_SCALE).toDataURL('image/jpeg', 0.94);
+    const bin = atob(jpeg.split(',')[1]);
+    // The page IS the card: same 5:3 frame, edge to edge, no letterboxing.
+    // (Use Print for an A4 handout.)
+    const pageW = 842, pageH = Math.round(pageW * (CARD_H / CARD_W));
+    download(buildPdf(bin, Math.round(CARD_W * EXPORT_SCALE), Math.round(CARD_H * EXPORT_SCALE),
+                      pageW, pageH, 0, 0, pageW, pageH),
+             slug(current().title) + '.pdf');
+    return Promise.resolve();
+  });
+}
+
+/* Minimal single-page PDF wrapping one JPEG (DCTDecode) — no library. */
+function buildPdf(jpegBinary, iw, ih, pageW, pageH, x, y, dw, dh) {
+  const content = 'q ' + dw.toFixed(2) + ' 0 0 ' + dh.toFixed(2) + ' ' +
+                  x.toFixed(2) + ' ' + y.toFixed(2) + ' cm /Im0 Do Q';
+  let out = '%PDF-1.3\n';
+  const offsets = [];
+  const add = (num, dict, stream) => {
+    offsets[num] = out.length;
+    out += num + ' 0 obj\n' + dict + '\n';
+    if (stream !== undefined) out += 'stream\n' + stream + '\nendstream\n';
+    out += 'endobj\n';
+  };
+  add(1, '<</Type/Catalog/Pages 2 0 R>>');
+  add(2, '<</Type/Pages/Kids[3 0 R]/Count 1>>');
+  add(3, '<</Type/Page/Parent 2 0 R/MediaBox[0 0 ' + pageW + ' ' + pageH +
+         ']/Resources<</XObject<</Im0 4 0 R>>>>/Contents 5 0 R>>');
+  add(4, '<</Type/XObject/Subtype/Image/Width ' + iw + '/Height ' + ih +
+         '/ColorSpace/DeviceRGB/BitsPerComponent 8/Filter/DCTDecode/Length ' +
+         jpegBinary.length + '>>', jpegBinary);
+  add(5, '<</Length ' + content.length + '>>', content);
+  const xref = out.length;
+  out += 'xref\n0 6\n0000000000 65535 f \n';
+  for (let i = 1; i <= 5; i++) out += String(offsets[i]).padStart(10, '0') + ' 00000 n \n';
+  out += 'trailer\n<</Size 6/Root 1 0 R>>\nstartxref\n' + xref + '\n%%EOF';
+  const bytes = new Uint8Array(out.length);
+  for (let i = 0; i < out.length; i++) bytes[i] = out.charCodeAt(i) & 0xFF;
+  return new Blob([bytes], {type:'application/pdf'});
+}
+
+/* ── Timer ──────────────────────────────────────────────────────────
+   One typable field: type 5, or 5:30, press Enter and it starts. The
+   remaining time drains a bar across the top of the screen.          */
+let tmTotal = 300, tmRemaining = 300, tmRunning = false, tmInterval = null;
+
+function fmt(s) {
+  const neg = s < 0;
+  s = Math.abs(s);
+  return (neg ? '-' : '') + String(Math.floor(s/60)).padStart(2,'0') + ':' + String(s%60).padStart(2,'0');
+}
+
+/* Accepts "5" (minutes), "5:30", "0:45", "2.5". Returns seconds, or null. */
+function parseTime(str) {
+  str = String(str).trim().replace(/\s*min(ute)?s?$/i, '');
+  if (!str) return null;
+  let total;
+  if (str.includes(':')) {
+    const [a, b] = str.split(':');
+    const mins = parseInt(a, 10) || 0;
+    const secs = parseInt(b, 10) || 0;
+    if (secs > 59) return null;
+    total = mins * 60 + secs;
+  } else {
+    const mins = parseFloat(str);
+    if (!isFinite(mins)) return null;
+    total = Math.round(mins * 60);
+  }
+  if (!isFinite(total) || total <= 0) return null;
+  return Math.min(total, 99 * 60 + 59);
+}
+
+function timerFocus() {
+  if (tmRunning) toggleTimer();           // pause while you retype
+  const el = document.getElementById('tmInput');
+  requestAnimationFrame(() => el.select());
+}
+
+function timerKey(e) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    if (applyTimerInput() && !tmRunning) toggleTimer();   // typing it starts it
+    e.target.blur();
+  }
+  if (e.key === 'Escape') { e.preventDefault(); paintTimer(); e.target.blur(); }
+}
+
+function applyTimerInput() {
+  const el = document.getElementById('tmInput');
+  const v = parseTime(el.value);
+  if (v === null) { paintTimer(); return false; }   // unreadable, put it back
+  tmTotal = v;
+  tmRemaining = v;
+  paintTimer();
+  return true;
+}
+
+function paintTimer() {
+  const txt = fmt(tmRemaining);
+  const input = document.getElementById('tmInput');
+  if (document.activeElement !== input) input.value = txt;
+  document.getElementById('pTimer').textContent = txt;
+
+  const warn = tmRemaining <= 60 && tmRemaining > 0, over = tmRemaining <= 0;
+  const box = document.getElementById('timerBox'), pt = document.getElementById('pTimer');
+  box.classList.toggle('warn', warn); box.classList.toggle('over', over);
+  pt.classList.toggle('warn', warn);  pt.classList.toggle('over', over);
+  document.getElementById('tmBtn').textContent = tmRunning ? '❙❙' : '▶';
+
+  const bar = document.getElementById('tmBar');
+  bar.classList.toggle('on', tmRunning || tmRemaining < tmTotal || over);
+  bar.classList.toggle('warn', warn);
+  bar.classList.toggle('over', over);
+  // Once it runs out the bar fills red rather than vanishing to nothing.
+  document.getElementById('tmBarFill').style.width =
+    (over ? 100 : Math.max(0, Math.min(1, tmRemaining / tmTotal)) * 100) + '%';
+}
+
+function toggleTimer() {
+  tmRunning = !tmRunning;
+  clearInterval(tmInterval);
+  if (tmRunning) tmInterval = setInterval(() => { tmRemaining--; paintTimer(); }, 1000);
+  paintTimer();
+}
+
+function resetTimer() {
+  tmRemaining = tmTotal;
+  tmRunning = false;
+  clearInterval(tmInterval);
+  paintTimer();
+}
+
+/* ── Presentation mode ──────────────────────────────────────────────
+   The real card is moved into the overlay and scaled up, so the projected
+   layout IS the card layout by construction, with nothing to keep in sync. */
+let spotIndex = -1;
+
+function presenting() { return !document.getElementById('present').hidden; }
+
+function setCardEditable(on) {
+  document.querySelectorAll('[data-field]').forEach(el => {
+    if (on) el.setAttribute('contenteditable', 'true'); else el.removeAttribute('contenteditable');
+  });
+  document.querySelectorAll('.bank-item').forEach(el => el.setAttribute('draggable', on ? 'true' : 'false'));
+}
+
+function fitPresentCard() {
+  if (!presenting()) return;
+  const stage = document.getElementById('pStage');
+  const card = document.getElementById('debateCard');
+  const pad = 30;
+  const k = Math.min((stage.clientWidth - pad * 2) / 1120, (stage.clientHeight - pad * 2) / 672);
+  card.style.transform = 'scale(' + Math.max(0.2, k).toFixed(4) + ')';
+}
+
+function paintSpot() {
+  document.querySelectorAll('#bubbles .bubble').forEach((el, i) => {
+    el.classList.toggle('spot', spotIndex === i);
+    el.classList.toggle('dim', spotIndex >= 0 && spotIndex !== i);
+  });
+}
+
+function enterPresent() {
+  const d = current(); if (!d || presenting()) return;
+  spotIndex = -1;
+  document.getElementById('pLevel').textContent = d.level;
+  document.getElementById('pTitle').textContent = d.title;
+  document.getElementById('pStage').appendChild(document.getElementById('debateCard'));
+  document.querySelector('.p-top').appendChild(document.getElementById('tmBar'));
+  document.getElementById('present').hidden = false;
+  document.body.classList.add('presenting');
+  setCardEditable(false);
+  paintSpot();
+  paintTimer();
+  fitPresentCard();
+  if (document.documentElement.requestFullscreen) {
+    document.documentElement.requestFullscreen().then(fitPresentCard).catch(() => {});
+  }
+}
+
+function exitPresent() {
+  if (!presenting()) return;
+  const card = document.getElementById('debateCard');
+  card.style.transform = '';
+  document.getElementById('cardHome').appendChild(card);
+  document.querySelector('.stopbar').appendChild(document.getElementById('tmBar'));
+  document.getElementById('present').hidden = true;
+  document.getElementById('present').classList.remove('no-phrases');
+  document.body.classList.remove('presenting');
+  spotIndex = -1;
+  paintSpot();
+  setCardEditable(true);
+  if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(() => {});
+  renderProgress();
+}
+
+function stepPresent(dir) {
+  const n = current().bubbles.length;
+  if (!n) return;
+  // States run -1 (nothing spotlit) then 0..n-1, wrapping in both directions.
+  spotIndex = (spotIndex + 1 + dir + (n + 1)) % (n + 1) - 1;
+  if (spotIndex >= 0) m().hi.add(spotIndex);
+  paintSpot();
+}
+
+function togglePhrases() {
+  document.getElementById('present').classList.toggle('no-phrases');
+  fitPresentCard();
+}
+
+window.addEventListener('resize', fitPresentCard);
+document.addEventListener('fullscreenchange', () => setTimeout(fitPresentCard, 60));
+
+/* ── Modals ─────────────────────────────────────────────────────── */
+let modalCallback = null;
+function confirmModal(title, body, cb, labels) {
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalBody').textContent = body;
+  const ok = document.getElementById('modalOk');
+  ok.textContent = (labels && labels.ok) || 'Confirm';
+  document.querySelector('#modal .actions .ghost').textContent = (labels && labels.cancel) || 'Cancel';
+  modalCallback = cb;
+  document.getElementById('modal').classList.add('show');
+}
+function closeModal() {
+  document.getElementById('modal').classList.remove('show');
+  modalCallback = null;
+}
+document.getElementById('modalOk').onclick = () => {
+  const cb = modalCallback;
+  closeModal();
+  if (cb) cb();
+};
+document.getElementById('modal').addEventListener('click', e => { if (e.target.id === 'modal') closeModal(); });
+
+function showHelp() { document.getElementById('helpModal').classList.add('show'); }
+function closeHelp() { document.getElementById('helpModal').classList.remove('show'); }
+document.getElementById('helpModal').addEventListener('click', e => { if (e.target.id === 'helpModal') closeHelp(); });
+
+/* ── Theme ──────────────────────────────────────────────────────── */
+function toggleTheme() {
+  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('jpe_debate_theme', next);
+  paintThemeIcon();
+  const d = current();
+  if (d) { applyLevelColour(d.level); renderSidebar(); }
+}
+function paintThemeIcon() {
+  const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+  document.getElementById('themeIcon').innerHTML = dark
+    ? '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>'
+    : '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+}
+
+/* ── Sidebar collapse ───────────────────────────────────────────── */
+function toggleSide() {
+  const collapsed = document.getElementById('app').classList.toggle('side-collapsed');
+  const btn = document.getElementById('sideToggle');
+  const label = (collapsed ? 'Show' : 'Hide') + ' the debate list';
+  btn.title = label;
+  btn.setAttribute('aria-label', label);
+  btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+  localStorage.setItem('c2_debate_side_collapsed', collapsed ? '1' : '0');
+}
+
+/* ── Keyboard ───────────────────────────────────────────────────── */
+document.addEventListener('keydown', e => {
+  const presenting = !document.getElementById('present').hidden;
+
+  if (e.key === 'Escape') {
+    if (document.getElementById('modal').classList.contains('show')) return closeModal();
+    if (document.getElementById('helpModal').classList.contains('show')) return closeHelp();
+    if (presenting) return exitPresent();
+    return;
+  }
+
+  // isContentEditable is a property, so it's true whether the attribute is
+  // `contenteditable`, `contenteditable=""` or `contenteditable="true"`.
+  const typing = e.target.isContentEditable || e.target.matches('input, textarea, select');
+  if (typing || e.metaKey || e.ctrlKey || e.altKey) return;
+
+  if (presenting) {
+    if (e.key === 'ArrowRight') { e.preventDefault(); return stepPresent(1); }
+    if (e.key === 'ArrowLeft')  { e.preventDefault(); return stepPresent(-1); }
+    if (e.key === ' ')          { e.preventDefault(); return toggleTimer(); }
+    if (e.key.toLowerCase() === 'b') return togglePhrases();
+    if (e.key.toLowerCase() === 't') return toggleTimer();
+    return;
+  }
+
+  switch (e.key.toLowerCase()) {
+    case 'p': enterPresent(); break;
+    case 'n': newDebate(); break;
+    case 't': toggleTimer(); break;
+    case 'd': toggleTheme(); break;
+    case '?': showHelp(); break;
+    case '/': e.preventDefault(); document.getElementById('search').focus(); break;
+  }
+});
+
+/* ── Boot ───────────────────────────────────────────────────────── */
+load();
+renderLevelSelect();
+renderLevelFilter();
+renderDebate();
+renderSidebar();
+snapshotOpen();
+paintThemeIcon();
+paintTimer();
+if (localStorage.getItem('c2_debate_side_collapsed') === '1') toggleSide();
+</script>
 </body>
 </html>

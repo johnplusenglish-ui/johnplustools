@@ -108,10 +108,10 @@ input,select,textarea{font-family:inherit;color:inherit;outline:none;border:1px 
 /* ── Layout ─────────────────────────────────────────────────────── */
 .app{display:grid;grid-template-columns:302px 1fr;min-height:calc(100vh - 56px);transition:grid-template-columns .22s ease}
 .app.side-collapsed{grid-template-columns:0 1fr}
-.app.side-collapsed aside{border-right:none;overflow:hidden;opacity:0}
+.app.side-collapsed aside{border-right:none;overflow:hidden;opacity:0;visibility:hidden}
 aside{
   background:var(--card);border-right:1px solid var(--line);
-  display:flex;flex-direction:column;overflow:hidden;
+  display:flex;flex-direction:column;overflow:hidden;min-width:0;
   position:sticky;top:56px;height:calc(100vh - 56px);transition:opacity .18s;
 }
 main{overflow:visible;min-width:0}
@@ -171,6 +171,17 @@ main{overflow:visible;min-width:0}
   font-size:11px;color:var(--muted);letter-spacing:.14em;
   text-transform:uppercase;font-weight:700;margin-right:auto;
 }
+/* Sits at the left of the toolbar, next to the list it collapses. The
+   chevron flips to point right once the list is hidden. */
+.side-toggle{
+  width:28px;height:28px;border-radius:8px;flex-shrink:0;margin-right:2px;
+  display:inline-flex;align-items:center;justify-content:center;
+  color:var(--muted);transition:background .12s,color .12s;
+}
+.side-toggle svg{width:17px;height:17px;transition:transform .22s ease}
+.side-toggle:hover{background:var(--soft);color:var(--accent)}
+.app.side-collapsed .side-toggle svg{transform:rotate(180deg)}
+
 select.lvl-select{
   font-size:12.5px;font-weight:700;letter-spacing:.06em;padding:7px 10px;
   border-radius:999px;border:1px solid var(--soft-line);background:var(--card);
@@ -185,20 +196,12 @@ select.lvl-select:focus{border-color:var(--accent)}
 }
 .timer .tm{
   font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;
-  letter-spacing:.04em;min-width:48px;
+  letter-spacing:.04em;width:56px;text-align:center;padding:2px 0;
+  background:transparent;border-radius:8px;color:var(--ink);cursor:text;
 }
+.timer .tm:focus{background:var(--soft);color:var(--accent)}
 .timer.warn .tm{color:#c2740c}
 .timer.over .tm{color:var(--danger)}
-.timer .tm-set{
-  display:inline-flex;align-items:baseline;gap:2px;font-size:11px;
-  color:var(--muted);font-weight:600;letter-spacing:.04em;
-  margin:0 4px 0 8px;padding-left:9px;border-left:1px solid var(--soft-line);
-}
-.timer input{
-  width:26px;font-size:13px;font-weight:600;text-align:right;background:transparent;
-  border-radius:0;padding:0;color:var(--ink);
-}
-.timer input:focus{color:var(--accent)}
 .timer button{
   width:26px;height:26px;border-radius:999px;color:var(--muted);
   display:inline-flex;align-items:center;justify-content:center;font-size:12px;
@@ -254,6 +257,21 @@ select.lvl-select:focus{border-color:var(--accent)}
   padding:3px 6px;margin-top:6px;font-weight:500;cursor:pointer;border-radius:7px;
 }
 .add-item:hover{color:var(--accent);background:var(--soft)}
+.bank-tools{
+  display:flex;align-items:center;gap:6px;
+  margin-top:10px;padding-top:8px;border-top:1px solid var(--line);
+}
+.bank-tools .add-item{flex:1;margin-top:0}
+.bank-tool{
+  width:24px;height:24px;border-radius:7px;flex-shrink:0;
+  display:inline-flex;align-items:center;justify-content:center;
+  color:var(--muted);transition:background .12s,color .12s,opacity .12s;
+}
+.bank-tool svg{width:14px;height:14px}
+.bank-tool:hover{background:var(--soft);color:var(--accent)}
+.bank-tool.wipe:hover{background:var(--danger-soft);color:var(--danger)}
+.bank-tool[disabled]{opacity:.25;cursor:not-allowed}
+.bank-tool[disabled]:hover{background:transparent;color:var(--muted)}
 
 /* Right: debate content */
 .content{
@@ -330,7 +348,7 @@ select.lvl-select:focus{border-color:var(--accent)}
 .present[hidden]{display:none}
 .p-top{
   display:flex;align-items:center;gap:16px;padding:16px 28px;
-  border-bottom:1px solid var(--line);flex-shrink:0;
+  border-bottom:1px solid var(--line);flex-shrink:0;position:relative;
 }
 .p-title{font-size:20px;font-weight:800;letter-spacing:-.01em;text-transform:uppercase;flex:1;min-width:0;
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -348,7 +366,7 @@ select.lvl-select:focus{border-color:var(--accent)}
 }
 /* Editing affordances have no place on a projector. */
 .present .bubble .rm,.present .bubble .ed,.present .add-bubble,
-.present .add-item,.present .progress,.present .bank-item .rm,
+.present .add-item,.present .bank-tools,.present .progress,.present .bank-item .rm,
 .present .grip,.present .print-foot{display:none!important}
 .present [contenteditable]:hover,.present [contenteditable]:focus{background:transparent}
 .present .bubble{cursor:pointer}
@@ -393,6 +411,23 @@ select.lvl-select:focus{border-color:var(--accent)}
 }
 .keys span{color:var(--muted)}
 
+/* The long bar: runs the full width of the page along the bottom edge of the
+   header. It's moved into the presentation header when you present, so it
+   sits in the same place in both modes. */
+.timer-bar{
+  position:absolute;left:0;right:0;bottom:0;height:6px;z-index:60;
+  pointer-events:none;opacity:0;transition:opacity .25s;
+  background:var(--line);
+}
+.timer-bar.on{opacity:1}
+.timer-bar span{
+  display:block;height:100%;width:100%;background:var(--level);
+  transition:width .95s linear,background .3s;
+}
+.timer-bar.warn span{background:#c2740c}
+.timer-bar.over span{background:var(--danger);animation:tmPulse 1.1s ease-in-out infinite}
+@keyframes tmPulse{0%,100%{opacity:1}50%{opacity:.35}}
+
 /* ── Save indicator ─────────────────────────────────────────────── */
 .save-indicator{
   position:fixed;bottom:18px;right:18px;font-size:11px;color:var(--muted);
@@ -418,7 +453,7 @@ select.lvl-select:focus{border-color:var(--accent)}
 @media print{
   @page{margin:14mm}
   .stopbar,aside,.toolbar,.save-indicator,.modal-backdrop,.present,
-  .bubble .rm,.bubble .ed,.add-bubble,.add-item,.progress{display:none!important}
+  .bubble .rm,.bubble .ed,.add-bubble,.add-item,.bank-tools,.progress{display:none!important}
   body{background:#fff}
   .app{display:block;min-height:0}
   main{display:block}
@@ -446,7 +481,7 @@ select.lvl-select:focus{border-color:var(--accent)}
 
 <header class="stopbar">
   <a href="#" class="st-brand" onclick="return false">
-    <span class="brand-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="4.6" cy="6" r="2.1"/><line x1="10" y1="6" x2="21" y2="6"/><circle cx="4.6" cy="12" r="2.1" fill="currentColor"/><line x1="10" y1="12" x2="21" y2="12"/><circle cx="4.6" cy="18" r="2.1"/><line x1="10" y1="18" x2="21" y2="18"/></svg></span>
+    <span class="brand-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.5 4H3.5A1.8 1.8 0 0 0 1.7 5.8v5.4A1.8 1.8 0 0 0 3.5 13h.8v3.2L7.9 13h3.6a1.8 1.8 0 0 0 1.8-1.8V5.8A1.8 1.8 0 0 0 11.5 4z" fill="currentColor"/><path d="M15.6 8.2h4.9A1.8 1.8 0 0 1 22.3 10v5.4a1.8 1.8 0 0 1-1.8 1.8h-.8v3.2L16.1 17.2h-2.6a1.8 1.8 0 0 1-1.8-1.8v-.7"/></svg></span>
     <span class="brand-title"><span class="k">JohnPlusEnglish</span><span class="b">Debate Builder</span></span>
   </a>
   <div class="grow"></div>
@@ -460,6 +495,7 @@ select.lvl-select:focus{border-color:var(--accent)}
     <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
     Present
   </button>
+  <div class="timer-bar" id="tmBar"><span id="tmBarFill"></span></div>
 </header>
 
 <div class="app" id="app">
@@ -483,13 +519,18 @@ select.lvl-select:focus{border-color:var(--accent)}
   <main>
     <div class="main-inner" id="cardHome">
       <div class="toolbar">
+        <button class="side-toggle" id="sideToggle" onclick="toggleSide()"
+                title="Hide the debate list" aria-label="Hide the debate list" aria-expanded="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
         <div class="status" id="status">Saved</div>
 
         <select class="lvl-select" id="lvlSelect" onchange="changeLevel(this.value)"></select>
 
         <div class="timer" id="timerBox">
-          <span class="tm" id="tmDisplay">05:00</span>
-          <span class="tm-set"><input id="tmMins" type="number" min="1" max="99" value="5" onchange="resetTimer()" title="Length in minutes">min</span>
+          <input class="tm" id="tmInput" type="text" inputmode="numeric" value="05:00"
+                 aria-label="Timer length" title="Type a length (5, or 5:30) and press Enter to start"
+                 onfocus="timerFocus()" onkeydown="timerKey(event)" onblur="applyTimerInput()">
           <button onclick="toggleTimer()" id="tmBtn" title="Start / pause (T)">▶</button>
           <button onclick="resetTimer()" title="Reset">↺</button>
         </div>
@@ -499,7 +540,6 @@ select.lvl-select:focus{border-color:var(--accent)}
         <button class="btn ghost tiny" onclick="exportPDF()" id="pdfBtn">Export PDF</button>
         <button class="btn ghost tiny" onclick="window.print()">Print</button>
         <button class="btn ghost tiny" onclick="resetBank()">Reset bank</button>
-        <button class="btn ghost tiny" id="sideToggle" onclick="toggleSide()">Hide list</button>
       </div>
 
       <div class="debate-card" id="debateCard">
@@ -570,6 +610,9 @@ select.lvl-select:focus{border-color:var(--accent)}
       Drag prompts to reorder, and drag phrases up and down the bank the same way.
       Click <b>✎</b> to edit a prompt, and double-click any phrase to rewrite it.
       Five prompts is the maximum, laid out three then two.<br><br>
+      Type a length straight into the timer (<b>5</b>, or <b>5:30</b>) and press Enter to start
+      it. A bar drains across the top of the screen as the time goes, amber under a minute and
+      red once you're over.<br><br>
       Edits save as you type. <b>Save to bank</b> files what's on screen as a new
       debate and puts the one you opened back the way it was, so you can use an
       existing debate as a template.
@@ -875,6 +918,7 @@ function renderDebate() {
   document.querySelector('[data-field="task"]').textContent = d.task;
   document.getElementById('levelTag').textContent = d.level;
   document.getElementById('bankHead').textContent = 'Useful phrases (' + d.level + ')';
+  bankUndo = null;
   applyLevelColour(d.level);
   document.getElementById('lvlSelect').value = d.level;
   renderBubbles(d);
@@ -913,7 +957,16 @@ function renderBank(d) {
       <span class="phrase" ondblclick="beginEdit(this,event)" data-idx="${idx}">${escapeHtml(f.item)}</span>
       <button class="rm" onclick="event.stopPropagation();removeBankItem(${idx})" title="Remove">✕</button>
     </div>
-  `).join('') + `<div class="add-item" onclick="addBankItem()">+ add a phrase</div>`;
+  `).join('') + `
+    <div class="bank-tools">
+      <div class="add-item" onclick="addBankItem()">+ add a phrase</div>
+      <button class="bank-tool wipe" onclick="clearAllPhrases()" title="Clear all phrases"${flatBank(d).length ? '' : ' disabled'}>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M6 6l1 14h10l1-14"/><path d="M10 11v5M14 11v5"/></svg>
+      </button>
+      <button class="bank-tool" onclick="undoBank()" title="${bankUndo ? 'Undo ' + bankUndo.label : 'Nothing to undo'}"${bankUndo ? '' : ' disabled'}>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+      </button>
+    </div>`;
   wireBankDrag();
   if (presenting()) setCardEditable(false);
 }
@@ -1037,6 +1090,13 @@ function addBubble() {
   renderBubbles(d);
   markDirty();
   renderProgress();
+  openBubbleEditor(d.bubbles.length - 1);
+}
+
+/* Put a prompt into edit mode without needing its pencil button clicked. */
+function openBubbleEditor(i) {
+  const bubble = document.querySelectorAll('#bubbles .bubble')[i];
+  if (bubble) editBubble(bubble.querySelector('.ed'), i);
 }
 
 function removeBubble(i) {
@@ -1078,7 +1138,7 @@ function toggleUsed(row, ev, idx) {
 }
 
 function beginEdit(span, ev) {
-  ev.stopPropagation();
+  if (ev) ev.stopPropagation();
   const row = span.closest('.bank-item');
   row.setAttribute('draggable', 'false');
   span.setAttribute('contenteditable', 'true');
@@ -1164,12 +1224,52 @@ function addBankItem() {
   renderBank(d);
   markDirty();
   renderProgress();
+  // Open it straight away with the placeholder selected — otherwise the
+  // only way in is a double-click, and a stray single click crosses it off.
+  const spans = document.querySelectorAll('#bankGroups .bank-item .phrase');
+  const last = spans[spans.length - 1];
+  if (last) { last.scrollIntoView({block:'nearest'}); beginEdit(last); }
+}
+
+/* One-level undo covering the actions that destroy phrases. Deliberately
+   NOT wired to a level change — John rejected an undo for that. */
+let bankUndo = null;
+
+function snapshotBank(label) {
+  bankUndo = { bank: JSON.parse(JSON.stringify(current().bank)), used: [...m().used], label };
+}
+
+function undoBank() {
+  if (!bankUndo) return;
+  const d = current();
+  d.bank = JSON.parse(JSON.stringify(bankUndo.bank));
+  m().used = new Set(bankUndo.used);
+  const what = bankUndo.label;
+  bankUndo = null;
+  renderBank(d);
+  markDirty();
+  renderProgress();
+  flashStatus('Undid ' + what);
+}
+
+/* No confirm dialog: the undo button next to it is the safety net. */
+function clearAllPhrases() {
+  const d = current();
+  if (!flatBank(d).length) return;
+  snapshotBank('clearing all phrases');
+  Object.keys(d.bank).forEach(k => { d.bank[k] = []; });
+  m().used.clear();
+  renderBank(d);
+  markDirty();
+  renderProgress();
+  flashStatus('Phrases cleared');
 }
 
 function removeBankItem(idx) {
   const d = current();
   const r = bankRef(idx);
   if (!r) return;
+  snapshotBank('deleting a phrase');
   m().used.delete(d.bank[r.key][r.ii]);
   d.bank[r.key].splice(r.ii, 1);
   renderBank(d);
@@ -1182,6 +1282,7 @@ function resetBank() {
   confirmModal('Reset phrase bank',
     `Replace the bank with the default ${d.level} phrases? Your question, task and prompts stay exactly as they are.`,
     () => {
+      snapshotBank('resetting the bank');
       d.bank = JSON.parse(JSON.stringify(BANKS[d.level]));
       m().used.clear();
       renderBank(d);
@@ -1202,6 +1303,7 @@ function changeLevel(level) {
   document.getElementById('levelTag').textContent = level;
   document.getElementById('bankHead').textContent = 'Useful phrases (' + level + ')';
   document.getElementById('lvlSelect').value = level;
+  bankUndo = null;
   applyLevelColour(level);
   renderBank(d);
   markDirty();
@@ -1565,34 +1667,92 @@ function buildPdf(jpegBinary, iw, ih, pageW, pageH, x, y, dw, dh) {
   return new Blob([bytes], {type:'application/pdf'});
 }
 
-/* ── Timer ──────────────────────────────────────────────────────── */
-let tmRemaining = 300, tmRunning = false, tmInterval = null;
+/* ── Timer ──────────────────────────────────────────────────────────
+   One typable field: type 5, or 5:30, press Enter and it starts. The
+   remaining time drains a bar across the top of the screen.          */
+let tmTotal = 300, tmRemaining = 300, tmRunning = false, tmInterval = null;
 
 function fmt(s) {
   const neg = s < 0;
   s = Math.abs(s);
   return (neg ? '-' : '') + String(Math.floor(s/60)).padStart(2,'0') + ':' + String(s%60).padStart(2,'0');
 }
+
+/* Accepts "5" (minutes), "5:30", "0:45", "2.5". Returns seconds, or null. */
+function parseTime(str) {
+  str = String(str).trim().replace(/\s*min(ute)?s?$/i, '');
+  if (!str) return null;
+  let total;
+  if (str.includes(':')) {
+    const [a, b] = str.split(':');
+    const mins = parseInt(a, 10) || 0;
+    const secs = parseInt(b, 10) || 0;
+    if (secs > 59) return null;
+    total = mins * 60 + secs;
+  } else {
+    const mins = parseFloat(str);
+    if (!isFinite(mins)) return null;
+    total = Math.round(mins * 60);
+  }
+  if (!isFinite(total) || total <= 0) return null;
+  return Math.min(total, 99 * 60 + 59);
+}
+
+function timerFocus() {
+  if (tmRunning) toggleTimer();           // pause while you retype
+  const el = document.getElementById('tmInput');
+  requestAnimationFrame(() => el.select());
+}
+
+function timerKey(e) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    if (applyTimerInput() && !tmRunning) toggleTimer();   // typing it starts it
+    e.target.blur();
+  }
+  if (e.key === 'Escape') { e.preventDefault(); paintTimer(); e.target.blur(); }
+}
+
+function applyTimerInput() {
+  const el = document.getElementById('tmInput');
+  const v = parseTime(el.value);
+  if (v === null) { paintTimer(); return false; }   // unreadable, put it back
+  tmTotal = v;
+  tmRemaining = v;
+  paintTimer();
+  return true;
+}
+
 function paintTimer() {
   const txt = fmt(tmRemaining);
-  document.getElementById('tmDisplay').textContent = txt;
+  const input = document.getElementById('tmInput');
+  if (document.activeElement !== input) input.value = txt;
   document.getElementById('pTimer').textContent = txt;
+
   const warn = tmRemaining <= 60 && tmRemaining > 0, over = tmRemaining <= 0;
   const box = document.getElementById('timerBox'), pt = document.getElementById('pTimer');
   box.classList.toggle('warn', warn); box.classList.toggle('over', over);
-  pt.classList.toggle('warn', warn); pt.classList.toggle('over', over);
+  pt.classList.toggle('warn', warn);  pt.classList.toggle('over', over);
   document.getElementById('tmBtn').textContent = tmRunning ? '❙❙' : '▶';
+
+  const bar = document.getElementById('tmBar');
+  bar.classList.toggle('on', tmRunning || tmRemaining < tmTotal || over);
+  bar.classList.toggle('warn', warn);
+  bar.classList.toggle('over', over);
+  // Once it runs out the bar fills red rather than vanishing to nothing.
+  document.getElementById('tmBarFill').style.width =
+    (over ? 100 : Math.max(0, Math.min(1, tmRemaining / tmTotal)) * 100) + '%';
 }
+
 function toggleTimer() {
   tmRunning = !tmRunning;
   clearInterval(tmInterval);
   if (tmRunning) tmInterval = setInterval(() => { tmRemaining--; paintTimer(); }, 1000);
   paintTimer();
 }
+
 function resetTimer() {
-  const mins = Math.max(1, Math.min(99, Number(document.getElementById('tmMins').value) || 5));
-  document.getElementById('tmMins').value = mins;
-  tmRemaining = mins * 60;
+  tmRemaining = tmTotal;
   tmRunning = false;
   clearInterval(tmInterval);
   paintTimer();
@@ -1634,6 +1794,7 @@ function enterPresent() {
   document.getElementById('pLevel').textContent = d.level;
   document.getElementById('pTitle').textContent = d.title;
   document.getElementById('pStage').appendChild(document.getElementById('debateCard'));
+  document.querySelector('.p-top').appendChild(document.getElementById('tmBar'));
   document.getElementById('present').hidden = false;
   document.body.classList.add('presenting');
   setCardEditable(false);
@@ -1650,6 +1811,7 @@ function exitPresent() {
   const card = document.getElementById('debateCard');
   card.style.transform = '';
   document.getElementById('cardHome').appendChild(card);
+  document.querySelector('.stopbar').appendChild(document.getElementById('tmBar'));
   document.getElementById('present').hidden = true;
   document.getElementById('present').classList.remove('no-phrases');
   document.body.classList.remove('presenting');
@@ -1722,7 +1884,11 @@ function paintThemeIcon() {
 /* ── Sidebar collapse ───────────────────────────────────────────── */
 function toggleSide() {
   const collapsed = document.getElementById('app').classList.toggle('side-collapsed');
-  document.getElementById('sideToggle').textContent = collapsed ? 'Show list' : 'Hide list';
+  const btn = document.getElementById('sideToggle');
+  const label = (collapsed ? 'Show' : 'Hide') + ' the debate list';
+  btn.title = label;
+  btn.setAttribute('aria-label', label);
+  btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
   localStorage.setItem('c2_debate_side_collapsed', collapsed ? '1' : '0');
 }
 
@@ -1772,37 +1938,5 @@ paintThemeIcon();
 paintTimer();
 if (localStorage.getItem('c2_debate_side_collapsed') === '1') toggleSide();
 </script>
-<!-- jpt:backlink -->
-<style>
-/* Collapsed to a small disc so it sits in the corner of tools whose own UI
-   runs full height; expands to the label only on hover / keyboard focus. */
-#jpt-back{
-  position:fixed; left:12px; bottom:12px; z-index:50;
-  display:inline-flex; align-items:center; justify-content:center;
-  height:32px; min-width:32px; padding:0 8px; border-radius:99px;
-  font:600 12.5px/1 "Outfit",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  text-decoration:none; color:#6b7686;
-  background:rgba(255,255,255,.9); border:1px solid #eceadf;
-  box-shadow:0 2px 10px rgba(15,27,45,.10);
-  backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
-  opacity:.5; transition:opacity .18s ease, color .18s ease, border-color .18s ease;
-}
-#jpt-back:hover,#jpt-back:focus-visible{opacity:1; color:#2563eb; border-color:#dde3f8}
-#jpt-back .a{font-size:13px; line-height:1}
-#jpt-back .t{
-  max-width:0; overflow:hidden; white-space:nowrap; opacity:0;
-  transition:max-width .18s ease, opacity .18s ease, margin-left .18s ease;
-}
-#jpt-back:hover .t,#jpt-back:focus-visible .t{max-width:70px; opacity:1; margin-left:5px}
-@media (prefers-color-scheme:dark){
-  #jpt-back{background:rgba(22,33,58,.9); border-color:#26324c; color:#93a0bb;
-            box-shadow:0 2px 10px rgba(0,0,0,.3)}
-  #jpt-back:hover,#jpt-back:focus-visible{color:#5b8def; border-color:#2b3c5c}
-}
-@media print{#jpt-back{display:none !important}}
-@media (prefers-reduced-motion:reduce){#jpt-back,#jpt-back .t{transition:none}}
-</style>
-<a id="jpt-back" href="/" title="Back to all tools" aria-label="Back to all tools"><span class="a">&#8592;</span><span class="t">All tools</span></a>
-<!-- /jpt:backlink -->
 </body>
 </html>
