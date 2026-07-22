@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Template. build.py fills the {{...}} slots and writes index.html. -->
-<title>John + Tools · free teaching tools for English classrooms</title>
-<meta name="description" content="Free browser tools for English teachers, by John of JohnPlusEnglish. First tool: the Debate Builder. No sign-up, nothing to install.">
+{{TITLE}}
+{{DESC}}
 <meta name="color-scheme" content="light dark">
 <meta property="og:title" content="John + Tools · free teaching tools for English classrooms">
 <meta property="og:description" content="Free browser tools for English teachers. Nothing to install, no account to make.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://johnplustools.com">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z'/></svg>">
+{{FAVICON}}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap">
@@ -129,50 +129,13 @@ main{overflow:visible;min-width:0}
   .hide-sm{display:none}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
-
-/* jpt:chrome */
-/* Site furniture spliced in by build.py. Not part of the tool. */
-.tools-nav{padding:14px 16px 12px;border-bottom:1px solid var(--line)}
-.jt-label{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--muted);font-weight:700;margin-bottom:9px}
-.tool-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:11px;
-  border:1px solid transparent;text-decoration:none;color:var(--ink);
-  transition:background .12s,border-color .12s}
-.tool-item:hover{background:var(--soft)}
-.tool-item.active{background:var(--soft);border-color:var(--accent)}
-.ti-icon{width:28px;height:28px;border-radius:8px;flex-shrink:0;display:grid;place-items:center;
-  background:var(--soft);border:1px solid var(--soft-line);color:var(--accent)}
-.tool-item.active .ti-icon{background:var(--accent);border-color:var(--accent);color:#fff}
-.ti-icon svg{width:15px;height:15px;display:block}
-.ti-name{font-size:13.5px;font-weight:600;letter-spacing:-.01em}
-/* Names the tool inside the site, so the page reads JohnPlusTools first. */
-.tool-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
-.th-icon{width:38px;height:38px;border-radius:11px;flex-shrink:0;display:grid;place-items:center;
-  background:var(--soft);border:1px solid var(--soft-line);color:var(--accent)}
-.th-icon svg{width:20px;height:20px;display:block}
-.th-text h1{font-size:19px;font-weight:700;letter-spacing:-.02em;margin:0;line-height:1.2}
-.th-text p{font-size:12.5px;color:var(--muted);margin:2px 0 0;line-height:1.4}
-@media print{.tool-head{display:none}}
-@media (max-width:900px){.th-text p{display:none}}
-.side-foot{padding:10px 12px 12px;border-top:1px solid var(--line);flex-shrink:0}
-.side-foot a{display:flex;align-items:center;gap:8px;text-decoration:none;font-size:12.5px;
-  font-weight:600;color:var(--muted);padding:8px 10px;border-radius:10px;transition:.12s}
-.side-foot a:hover{background:var(--soft);color:var(--accent)}
-.side-foot a svg{width:15px;height:15px;flex-shrink:0}
-@media (max-width:900px){.tools-nav{padding:12px 14px 10px}}
-/* /jpt:chrome */
-
+{{CHROME_CSS}}
 </style>
 </head>
 <body>
 
 <header class="stopbar">
-<!-- jpt:brand -->
-  <a href="/" class="st-brand">
-    <span class="brand-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span>
-    <span class="brand-title"><span class="k">JohnPlusEnglish</span><span class="b">Tools</span></span>
-  </a>
-  <!-- /jpt:brand -->
+{{BRAND}}
   <div class="grow"></div>
   <button class="icon-btn" id="themeBtn" title="Light / dark" aria-label="Toggle light or dark theme">
     <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
@@ -185,25 +148,9 @@ main{overflow:visible;min-width:0}
 
 <div class="app">
   <aside>
-<!-- jpt:toolsnav -->
-    <div class="tools-nav">
-      <div class="jt-label">Tools</div>
-      <a class="tool-item" href="/debate-builder">
-        <span class="ti-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="4.6" cy="6" r="2.1"/><line x1="10" y1="6" x2="21" y2="6"/><circle cx="4.6" cy="12" r="2.1" fill="currentColor"/><line x1="10" y1="12" x2="21" y2="12"/><circle cx="4.6" cy="18" r="2.1"/><line x1="10" y1="18" x2="21" y2="18"/></svg></span>
-        <span class="ti-name">Debate Builder</span>
-      </a>
-    </div>
-    <!-- /jpt:toolsnav -->
-    
+{{NAV}}
     <div class="side-list"></div>
-<!-- jpt:sidefoot -->
-    <div class="side-foot">
-      <a href="https://johnplusdictionary.com" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>JohnPlusDictionary
-      </a>
-    </div>
-    <!-- /jpt:sidefoot -->
-  
+{{FOOT}}
   </aside>
 
   <main>
@@ -211,7 +158,7 @@ main{overflow:visible;min-width:0}
 
       <div class="toolbar">
         <div class="status">Debate Builder</div>
-        <a class="btn" href="/debate-builder">
+        <a class="btn" href="{{TOOL_URL}}">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
           Open tool
         </a>
@@ -219,7 +166,7 @@ main{overflow:visible;min-width:0}
 
       <section class="panel">
         <div class="panel-head">
-          <span class="panel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="4.6" cy="6" r="2.1"/><line x1="10" y1="6" x2="21" y2="6"/><circle cx="4.6" cy="12" r="2.1" fill="currentColor"/><line x1="10" y1="12" x2="21" y2="12"/><circle cx="4.6" cy="18" r="2.1"/><line x1="10" y1="18" x2="21" y2="18"/></svg></span>
+          <span class="panel-icon">{{PROMPTS}}</span>
           <div>
             <h1>Debate Builder</h1>
             <div class="tagline">Build a speaking debate, then run it from the front of the room.</div>
@@ -256,7 +203,7 @@ main{overflow:visible;min-width:0}
             </div>
           </div>
 
-          <a class="preview" href="/debate-builder">
+          <a class="preview" href="{{TOOL_URL}}">
             <span class="pv-bar" aria-hidden="true"><i></i><i></i><i></i></span>
             <span class="pv-shot" role="img" aria-label="The Debate Builder in use: a debate titled AI in the classroom, with the question, four prompt circles and the C2 phrase bank down the left."></span>
             <span class="pv-cap">
@@ -267,7 +214,7 @@ main{overflow:visible;min-width:0}
         </div>
 
         <div class="panel-actions">
-          <a class="btn big" href="/debate-builder">
+          <a class="btn big" href="{{TOOL_URL}}">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             Open Debate Builder
           </a>

@@ -4,25 +4,6 @@
 [build]
   publish = "."
 
-# Order matters: Netlify applies the first matching rule, so these specific
-# redirects have to sit above the /:tool catch-all or it swallows them.
-
-# The Debate Builder is the homepage now. Keep older links working.
-[[redirects]]
-  from = "/debate-builder"
-  to = "/"
-  status = 301
-
-[[redirects]]
-  from = "/tools/debate-builder.html"
-  to = "/"
-  status = 301
-
-[[redirects]]
-  from = "/tools/debate-builder"
-  to = "/"
-  status = 301
-
 # Short URLs for the tools still living in tools/ (unlinked for now).
 # force = false, so a real file at that path always wins.
 [[redirects]]

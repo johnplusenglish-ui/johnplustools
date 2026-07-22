@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
-"""Build index.html for johnplustools.com from the Debate Builder.
+"""Build the two johnplustools.com pages from John's Debate Builder.
 
-The homepage *is* the tool. Rather than hand-editing a merged copy (which would
-drift every time John edits his own file), this takes his tool verbatim and
-splices the site chrome into it: the JohnPlusTools brand, a Tools nav at the top
-of the sidebar, and a link across to the dictionary.
+The site is JohnPlusTools; the Debate Builder is its first tool. Both pages
+share one set of chrome defined here, so the brand and nav cannot drift apart:
 
-    python3 build.py                 # from src/debate-builder.html
-    python3 build.py ~/Downloads/debate-builder.html   # and refresh src/ too
+    index.html                 the landing page, from src/landing.html
+    tools/debate-builder.html  the tool, with the same shell spliced in
 
-Everything it injects is marked with jpt: comments, so it is easy to see what is
-the site's and what is John's, and it re-runs cleanly over its own output.
+    python3 build.py                 rebuild both from src/
+    python3 build.py ~/Downloads/debate-builder.html   and refresh src/ first
+
+src/debate-builder.html is John's file, verbatim. Never hand-edit the outputs;
+they are overwritten. Everything injected is fenced in jpt: markers and stripped
+before re-adding, so the build re-runs cleanly.
 """
 import pathlib
 import re
@@ -18,8 +20,10 @@ import shutil
 import sys
 
 ROOT = pathlib.Path(__file__).parent
-SRC = ROOT / 'src' / 'debate-builder.html'
-OUT = ROOT / 'index.html'
+SRC = ROOT / 'src' / 'debate-builder.html'      # John's tool, pristine
+LANDING = ROOT / 'src' / 'landing.html'         # front-door template
+OUT = ROOT / 'index.html'                       # generated: landing
+TOOL_OUT = ROOT / 'tools' / 'debate-builder.html'   # generated: tool in the shell
 
 ICON = ('fill="none" stroke="currentColor" stroke-linecap="round" '
         'stroke-linejoin="round" aria-hidden="true"')
@@ -45,10 +49,15 @@ FAVICON = ("<link rel=\"icon\" href=\"data:image/svg+xml,<svg xmlns='http://www.
            "0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 "
            "7.94-7.94l-3.76 3.76z'/></svg>\">")
 
+# Landing names the site; the tool page names itself within the site, so the two
+# are distinguishable in tabs and history.
 TITLE = '<title>John + Tools · free teaching tools for English classrooms</title>'
+TOOL_TITLE = '<title>Debate Builder · John + Tools</title>'
 
 DESC = ('<meta name="description" content="Free browser tools for English teachers, by John of '
         'JohnPlusEnglish. First tool: the Debate Builder. No sign-up, nothing to install.">')
+TOOL_DESC = ('<meta name="description" content="Build a speaking debate, set the level and phrase '
+             'bank, then run it full-screen with a timer. Part of John + Tools.">')
 
 # The site is JohnPlusTools. The Debate Builder is a tool inside it, named in the
 # sidebar and over the main pane, never in the brand.
@@ -70,16 +79,26 @@ HEAD = f'''<!-- jpt:toolhead -->
       <!-- /jpt:toolhead -->
       '''
 
-NAV = f'''<!-- jpt:toolsnav -->
+TOOL_URL = '/debate-builder'
+
+
+def nav(active):
+    """Sidebar tool list. `active` marks the tool you are currently inside."""
+    cls = 'tool-item active' if active else 'tool-item'
+    cur = ' aria-current="page"' if active else ''
+    return f'''<!-- jpt:toolsnav -->
     <div class="tools-nav">
       <div class="jt-label">Tools</div>
-      <a class="tool-item active" href="/" aria-current="page">
+      <a class="{cls}" href="{TOOL_URL}"{cur}>
         <span class="ti-icon">{PROMPTS}</span>
         <span class="ti-name">Debate Builder</span>
       </a>
     </div>
     <!-- /jpt:toolsnav -->
     '''
+
+
+NAV = nav(True)
 
 FOOT = f'''<!-- jpt:sidefoot -->
     <div class="side-foot">
@@ -130,7 +149,23 @@ def drop(html, tag):
     return re.sub(rf'<!-- {tag} -->.*?<!-- /{tag} -->\n?\s*', '', html, flags=re.S)
 
 
-def build(html):
+def build_landing():
+    """The site's front door: same shell, but a panel describing the tool."""
+    tpl = LANDING.read_text(encoding='utf-8')
+    slots = {
+        'TITLE': TITLE, 'DESC': DESC, 'FAVICON': FAVICON,
+        'BRAND': BRAND, 'NAV': nav(False), 'FOOT': FOOT,
+        'CHROME_CSS': CSS, 'PROMPTS': PROMPTS, 'TOOL_URL': TOOL_URL,
+    }
+    for key, val in slots.items():
+        tpl = tpl.replace('{{' + key + '}}', val)
+    left = re.findall(r'\{\{(\w+)\}\}', tpl)
+    if left:
+        raise SystemExit(f'build: landing template has unfilled slots: {sorted(set(left))}')
+    return tpl
+
+
+def build_tool(html):
     # Strip anything a previous run (or the old back-link injector) added.
     for tag in ('jpt:brand', 'jpt:toolsnav', 'jpt:sidefoot', 'jpt:toolhead',
                 'jpt:debateslabel', 'jpt:backlink'):
@@ -138,11 +173,11 @@ def build(html):
     html = re.sub(r'/\* jpt:chrome \*/.*?/\* /jpt:chrome \*/\n?', '', html, flags=re.S)
 
     # Head
-    html = re.sub(r'<title>.*?</title>', TITLE, html, count=1, flags=re.S)
+    html = re.sub(r'<title>.*?</title>', TOOL_TITLE, html, count=1, flags=re.S)
     if 'name="description"' not in html:
-        html = html.replace(TITLE, TITLE + '\n' + DESC, 1)
+        html = html.replace(TOOL_TITLE, TOOL_TITLE + '\n' + TOOL_DESC, 1)
     if 'rel="icon"' not in html:
-        html = html.replace(TITLE, TITLE + '\n' + FAVICON, 1)
+        html = html.replace(TOOL_TITLE, TOOL_TITLE + '\n' + FAVICON, 1)
 
     # Brand: replace the tool's own non-linking brand with one that points home.
     brand = re.search(r'<a href="#" class="st-brand".*?</a>', html, re.S)
@@ -196,25 +231,47 @@ def main():
     if not SRC.exists():
         raise SystemExit(f'build: no source at {SRC}. Pass the tool path once to seed it.')
 
-    out = build(SRC.read_text(encoding='utf-8'))
-    OUT.write_text(out, encoding='utf-8')
+    # The tool, wrapped in the site shell.
+    tool = build_tool(SRC.read_text(encoding='utf-8'))
+    TOOL_OUT.parent.mkdir(parents=True, exist_ok=True)
+    TOOL_OUT.write_text(tool, encoding='utf-8')
 
     for label, needle in [('brand', 'jpt:brand'), ('tools nav', 'jpt:toolsnav'),
                           ('side foot', 'jpt:sidefoot'), ('tool head', 'jpt:toolhead'),
                           ('debates label', 'jpt:debateslabel')]:
-        assert out.count(f'<!-- {needle} -->') == 1, f'{label} not injected exactly once'
+        assert tool.count(f'<!-- {needle} -->') == 1, f'{label} not injected exactly once'
     for fn in ('renderDebate', 'enterPresent', 'paintSpot', 'setCardEditable'):
-        assert f'function {fn}' in out, f'lost {fn} during build'
-    assert 'c2_debate_bank_v1' in out, 'lost the debate store key'
-    for dash in ('—', '–'):
-        assert dash not in CSS + BRAND + NAV + FOOT + HEAD + TITLE + DESC, \
-            'dash crept into injected copy'
-    # The site is JohnPlusTools; the tool is named in the sidebar and main pane only.
-    assert '<span class="b">Tools</span>' in out, 'brand should read Tools, not the tool name'
+        assert f'function {fn}' in tool, f'lost {fn} during build'
+    assert 'c2_debate_bank_v1' in tool, 'lost the debate store key'
     # The tool header must precede the card, or exitPresent reorders the pane.
-    assert out.index('jpt:toolhead') < out.index('id="debateCard"'), 'tool head is after the card'
+    assert tool.index('jpt:toolhead') < tool.index('id="debateCard"'), 'tool head is after the card'
 
-    print(f'  wrote {OUT.relative_to(ROOT)}  ({len(out):,} bytes)')
+    # The landing page, the site's front door.
+    landing = build_landing()
+    OUT.write_text(landing, encoding='utf-8')
+
+    for page, name in ((tool, 'tool'), (landing, 'landing')):
+        # The site is JohnPlusTools; the tool is named in the sidebar and main pane only.
+        assert '<span class="b">Tools</span>' in page, f'{name} brand should read Tools'
+        assert 'johnplusdictionary.com' in page, f'{name} lost the dictionary link'
+        for dash in ('—', '–'):
+            assert dash not in landing, f'dash in the landing copy'
+    # Only the tool page marks the nav item as the page you are on.
+    assert 'tool-item active' in tool and 'tool-item active' not in landing, \
+        'active nav state is on the wrong page'
+    assert f'href="{TOOL_URL}"' in landing, 'landing does not link to the tool'
+    import re as _re
+    t_title = _re.search(r'<title>(.*?)</title>', tool).group(1)
+    l_title = _re.search(r'<title>(.*?)</title>', landing).group(1)
+    assert t_title != l_title, 'both pages share a title; tabs and history cannot tell them apart'
+    assert 'John + Tools' in t_title and 'John + Tools' in l_title, 'a page lost the site name'
+
+    for dash in ('—', '–'):
+        assert dash not in CSS + BRAND + nav(True) + FOOT + HEAD + TITLE + DESC, \
+            'dash crept into injected copy'
+
+    print(f'  wrote {OUT.relative_to(ROOT)}       ({len(landing):,} bytes)  landing')
+    print(f'  wrote {TOOL_OUT.relative_to(ROOT)}  ({len(tool):,} bytes)  tool')
 
 
 if __name__ == '__main__':
