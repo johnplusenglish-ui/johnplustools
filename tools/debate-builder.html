@@ -11,7 +11,13 @@
   // Set the theme before first paint so there's no flash.
   (function(){
     var t = localStorage.getItem('jpe_debate_theme');
-    if(!t) t = window.matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light';
+    if(!t){
+      // Seed from the system once, then pin it. After this the theme only
+      // ever changes when you click the toggle — the OS switching to dark
+      // in the evening can't drag the app with it.
+      t = window.matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light';
+      try{ localStorage.setItem('jpe_debate_theme', t); }catch(e){}
+    }
     document.documentElement.setAttribute('data-theme', t);
   })();
 </script>
@@ -355,8 +361,10 @@ select.lvl-select:focus{border-color:var(--accent)}
 .present .bubble.dim{opacity:.24}
 .present.no-phrases .bank{display:none}
 .present.no-phrases .debate-card{grid-template-columns:1fr}
+/* In the flow, not fixed, so the stage shrinks to make room and the card
+   can never be overlapped by it. */
 .p-hint{
-  position:fixed;bottom:14px;left:50%;transform:translateX(-50%);
+  align-self:center;flex-shrink:0;margin:0 0 14px;
   font-size:11px;color:var(--muted);letter-spacing:.08em;background:var(--card);
   border:1px solid var(--line);border-radius:999px;padding:6px 16px;
   box-shadow:var(--shadow-pop);opacity:.85;
@@ -438,7 +446,7 @@ select.lvl-select:focus{border-color:var(--accent)}
 
 <header class="stopbar">
   <a href="#" class="st-brand" onclick="return false">
-    <span class="brand-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>
+    <span class="brand-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="4.6" cy="6" r="2.1"/><line x1="10" y1="6" x2="21" y2="6"/><circle cx="4.6" cy="12" r="2.1" fill="currentColor"/><line x1="10" y1="12" x2="21" y2="12"/><circle cx="4.6" cy="18" r="2.1"/><line x1="10" y1="18" x2="21" y2="18"/></svg></span>
     <span class="brand-title"><span class="k">JohnPlusEnglish</span><span class="b">Debate Builder</span></span>
   </a>
   <div class="grow"></div>
@@ -502,12 +510,12 @@ select.lvl-select:focus{border-color:var(--accent)}
 
         <div class="content">
           <div class="title-row">
-            <div class="debate-title" contenteditable data-field="title" oninput="markDirty()">TITLE</div>
+            <div class="debate-title" contenteditable="true" data-field="title" oninput="markDirty()">TITLE</div>
             <div class="level-tag" id="levelTag">C2</div>
           </div>
-          <div class="debate-question" contenteditable data-field="question" oninput="markDirty()">Type the debate question here.</div>
+          <div class="debate-question" contenteditable="true" data-field="question" oninput="markDirty()">Type the debate question here.</div>
           <div class="bubbles" id="bubbles"></div>
-          <div class="debate-task" contenteditable data-field="task" oninput="markDirty()">Type the task instruction here.</div>
+          <div class="debate-task" contenteditable="true" data-field="task" oninput="markDirty()">Type the task instruction here.</div>
           <div class="progress" id="progress"></div>
           <div class="print-foot">JohnPlusEnglish</div>
         </div>
@@ -893,6 +901,7 @@ function renderBubbles(d) {
     </div>
   `).join('') + (full ? '' : `<button class="add-bubble" onclick="addBubble()">+ prompt</button>`);
   wireDrag();
+  if (presenting()) { paintSpot(); setCardEditable(false); }
 }
 
 function renderBank(d) {
@@ -906,6 +915,7 @@ function renderBank(d) {
     </div>
   `).join('') + `<div class="add-item" onclick="addBankItem()">+ add a phrase</div>`;
   wireBankDrag();
+  if (presenting()) setCardEditable(false);
 }
 
 function renderProgress() {
@@ -920,9 +930,15 @@ function renderProgress() {
 let bubbleClickTimer = null;
 function bubbleClick(bubble, ev, i) {
   if (ev.target.closest('.rm, .ed')) return;
-  if (ev.target.getAttribute('contenteditable') === 'true') return;
+  if (ev.target.isContentEditable) return;
   clearTimeout(bubbleClickTimer);
   bubbleClickTimer = setTimeout(() => {
+    if (presenting()) {            // on the projector a click spotlights
+      spotIndex = (spotIndex === i) ? -1 : i;
+      if (spotIndex >= 0) m().hi.add(spotIndex);
+      paintSpot();
+      return;
+    }
     const on = bubble.classList.toggle('highlighted');
     on ? m().hi.add(i) : m().hi.delete(i);
     renderProgress();
@@ -930,7 +946,7 @@ function bubbleClick(bubble, ev, i) {
 }
 function bubbleDbl(bubble, ev, i) {
   if (ev.target.closest('.rm, .ed')) return;
-  if (ev.target.getAttribute('contenteditable') === 'true') return;
+  if (ev.target.isContentEditable) return;
   clearTimeout(bubbleClickTimer);
   const on = bubble.classList.toggle('faded');
   on ? m().faded.add(i) : m().faded.delete(i);
@@ -1053,7 +1069,7 @@ function bankPhrase(idx) {
 
 function toggleUsed(row, ev, idx) {
   if (ev.target.closest('.rm, .grip')) return;
-  if (ev.target.getAttribute('contenteditable') === 'true') return;
+  if (ev.target.isContentEditable) return;
   const phrase = bankPhrase(idx);
   if (phrase === null) return;
   const on = row.classList.toggle('used');
@@ -1582,79 +1598,84 @@ function resetTimer() {
   paintTimer();
 }
 
-/* ── Presentation mode ──────────────────────────────────────────── */
+/* ── Presentation mode ──────────────────────────────────────────────
+   The real card is moved into the overlay and scaled up, so the projected
+   layout IS the card layout by construction, with nothing to keep in sync. */
 let spotIndex = -1;
 
+function presenting() { return !document.getElementById('present').hidden; }
+
+function setCardEditable(on) {
+  document.querySelectorAll('[data-field]').forEach(el => {
+    if (on) el.setAttribute('contenteditable', 'true'); else el.removeAttribute('contenteditable');
+  });
+  document.querySelectorAll('.bank-item').forEach(el => el.setAttribute('draggable', on ? 'true' : 'false'));
+}
+
+function fitPresentCard() {
+  if (!presenting()) return;
+  const stage = document.getElementById('pStage');
+  const card = document.getElementById('debateCard');
+  const pad = 30;
+  const k = Math.min((stage.clientWidth - pad * 2) / 1120, (stage.clientHeight - pad * 2) / 672);
+  card.style.transform = 'scale(' + Math.max(0.2, k).toFixed(4) + ')';
+}
+
+function paintSpot() {
+  document.querySelectorAll('#bubbles .bubble').forEach((el, i) => {
+    el.classList.toggle('spot', spotIndex === i);
+    el.classList.toggle('dim', spotIndex >= 0 && spotIndex !== i);
+  });
+}
+
 function enterPresent() {
-  const d = current(); if (!d) return;
+  const d = current(); if (!d || presenting()) return;
   spotIndex = -1;
   document.getElementById('pLevel').textContent = d.level;
   document.getElementById('pTitle').textContent = d.title;
-  document.getElementById('pQuestion').textContent = d.question;
-  document.getElementById('pBankHead').textContent = 'Useful phrases (' + d.level + ')';
-  document.getElementById('pTask').textContent = d.task;
-  renderPresentBubbles();
-  renderPresentPhrases();
+  document.getElementById('pStage').appendChild(document.getElementById('debateCard'));
   document.getElementById('present').hidden = false;
+  document.body.classList.add('presenting');
+  setCardEditable(false);
+  paintSpot();
   paintTimer();
+  fitPresentCard();
   if (document.documentElement.requestFullscreen) {
-    document.documentElement.requestFullscreen().catch(() => {});
+    document.documentElement.requestFullscreen().then(fitPresentCard).catch(() => {});
   }
 }
 
 function exitPresent() {
+  if (!presenting()) return;
+  const card = document.getElementById('debateCard');
+  card.style.transform = '';
+  document.getElementById('cardHome').appendChild(card);
   document.getElementById('present').hidden = true;
+  document.getElementById('present').classList.remove('no-phrases');
+  document.body.classList.remove('presenting');
+  spotIndex = -1;
+  paintSpot();
+  setCardEditable(true);
   if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(() => {});
-  const d = current();
-  renderBubbles(d); renderProgress();
+  renderProgress();
 }
 
-function renderPresentBubbles() {
-  const d = current(); const mk = m();
-  document.getElementById('pBubbles').innerHTML = d.bubbles.map((b, i) => {
-    const cls = [
-      spotIndex === i ? 'spot' : '',
-      spotIndex >= 0 && spotIndex !== i ? 'dim' : '',
-      mk.faded.has(i) ? 'done' : ''
-    ].filter(Boolean).join(' ');
-    return `<div class="p-bubble ${cls}" onclick="presentSpot(${i})" ondblclick="presentDone(${i})">${escapeHtml(b)}</div>`;
-  }).join('');
-}
-
-function presentSpot(i) {
-  spotIndex = (spotIndex === i) ? -1 : i;
-  if (spotIndex >= 0) m().hi.add(spotIndex);
-  renderPresentBubbles();
-}
-function presentDone(i) {
-  const mk = m();
-  mk.faded.has(i) ? mk.faded.delete(i) : mk.faded.add(i);
-  renderPresentBubbles();
-}
 function stepPresent(dir) {
-  const d = current();
-  const n = d.bubbles.length;
+  const n = current().bubbles.length;
   if (!n) return;
   // States run -1 (nothing spotlit) then 0..n-1, wrapping in both directions.
   spotIndex = (spotIndex + 1 + dir + (n + 1)) % (n + 1) - 1;
   if (spotIndex >= 0) m().hi.add(spotIndex);
-  renderPresentBubbles();
+  paintSpot();
 }
 
-function renderPresentPhrases() {
-  const d = current(); const mk = m();
-  document.getElementById('pPhrases').innerHTML = flatBank(d).map((f, idx) => `
-    <div class="${mk.used.has(f.item) ? 'used' : ''}" onclick="presentUse(${idx},this)">${escapeHtml(f.item)}</div>
-  `).join('');
+function togglePhrases() {
+  document.getElementById('present').classList.toggle('no-phrases');
+  fitPresentCard();
 }
-function presentUse(idx, el) {
-  const phrase = bankPhrase(idx);
-  if (phrase === null) return;
-  const mk = m();
-  mk.used.has(phrase) ? mk.used.delete(phrase) : mk.used.add(phrase);
-  el.classList.toggle('used');
-}
-function togglePhrases() { document.getElementById('present').classList.toggle('no-phrases'); }
+
+window.addEventListener('resize', fitPresentCard);
+document.addEventListener('fullscreenchange', () => setTimeout(fitPresentCard, 60));
 
 /* ── Modals ─────────────────────────────────────────────────────── */
 let modalCallback = null;
@@ -1716,7 +1737,9 @@ document.addEventListener('keydown', e => {
     return;
   }
 
-  const typing = e.target.matches('input, textarea, select, [contenteditable="true"]');
+  // isContentEditable is a property, so it's true whether the attribute is
+  // `contenteditable`, `contenteditable=""` or `contenteditable="true"`.
+  const typing = e.target.isContentEditable || e.target.matches('input, textarea, select');
   if (typing || e.metaKey || e.ctrlKey || e.altKey) return;
 
   if (presenting) {
