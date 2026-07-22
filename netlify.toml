@@ -17,3 +17,9 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+# The test script is source, not part of the site.
+[[headers]]
+  for = "/tests/*"
+  [headers.values]
+    X-Robots-Tag = "noindex"
