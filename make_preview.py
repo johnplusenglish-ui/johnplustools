@@ -19,7 +19,7 @@ import threading
 ROOT = pathlib.Path(__file__).parent
 # Shoot the BUILT page, not src/, so the preview shows what a visitor actually
 # gets: the tool with the site's nav and header around it. Run build.py first.
-SRC = ROOT / 'tools' / 'debate-builder.html'
+SRC = ROOT / 'index.html'
 ASSETS = ROOT / 'assets'
 CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
 PORT = 8931
@@ -30,6 +30,12 @@ SEED = """
 (function () {
   function go() {
     try {
+      // The temp copy is served from its own path, so the router lands on the
+      // home view. Switch to the tool through the nav, the same way a visitor
+      // would, rather than reaching into the router.
+      var navItem = document.querySelector('.tool-item[data-view="tool"]');
+      if (navItem) navItem.click();
+
       var d = state.debates[state.debates.length - 1];
       d.title    = 'AI IN THE CLASSROOM';
       d.question = 'Should schools ban AI tools, or teach students to use them well?';

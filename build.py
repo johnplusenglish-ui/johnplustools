@@ -38,12 +38,15 @@ def svg(body, w=2):
 
 SPANNER = svg('<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 '
               '7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>')
-# John's own mark for the Debate Builder.
-PROMPTS = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" '
-           'stroke-linecap="round" aria-hidden="true">'
-           '<circle cx="4.6" cy="6" r="2.1"/><line x1="10" y1="6" x2="21" y2="6"/>'
-           '<circle cx="4.6" cy="12" r="2.1" fill="currentColor"/><line x1="10" y1="12" x2="21" y2="12"/>'
-           '<circle cx="4.6" cy="18" r="2.1"/><line x1="10" y1="18" x2="21" y2="18"/></svg>')
+# The Debate Builder's mark: two speech bubbles, the front one shaded. Both are
+# currentColor, so where the filled bubble overlaps the outlined one the seam is
+# invisible and no knockout is needed.
+PROMPTS = (f'<svg viewBox="0 0 24 24" {I} stroke-width="1.9">'
+           '<path d="M14.6 3H4.3A1.8 1.8 0 0 0 2.5 4.8v5.9a1.8 1.8 0 0 0 1.8 1.8h.8v3.1l3.3-3.1'
+           'h6.2a1.8 1.8 0 0 0 1.8-1.8V4.8A1.8 1.8 0 0 0 14.6 3z"/>'
+           '<path d="M20.2 9.6h-6.1A1.6 1.6 0 0 0 12.5 11.2v3.6a1.6 1.6 0 0 0 1.6 1.6h3.6l3 2.7'
+           'v-2.7h.5a1.6 1.6 0 0 0 1.3-1.6v-3.6a1.6 1.6 0 0 0-1.6-1.6z" '
+           'fill="currentColor" stroke="currentColor"/></svg>')
 BOOK = svg('<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>'
            '<path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>')
 HOME = svg('<path d="M3 9.5 12 3l9 6.5V20a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 20z"/>'
