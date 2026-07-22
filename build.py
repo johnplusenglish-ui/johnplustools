@@ -45,17 +45,30 @@ FAVICON = ("<link rel=\"icon\" href=\"data:image/svg+xml,<svg xmlns='http://www.
            "0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 "
            "7.94-7.94l-3.76 3.76z'/></svg>\">")
 
-TITLE = '<title>Debate Builder · John + Tools</title>'
+TITLE = '<title>John + Tools · free teaching tools for English classrooms</title>'
 
-DESC = ('<meta name="description" content="Build a speaking debate, set the level and the phrase '
-        'bank, then run it full-screen with a timer. Free, no sign-up, runs in your browser.">')
+DESC = ('<meta name="description" content="Free browser tools for English teachers, by John of '
+        'JohnPlusEnglish. First tool: the Debate Builder. No sign-up, nothing to install.">')
 
+# The site is JohnPlusTools. The Debate Builder is a tool inside it, named in the
+# sidebar and over the main pane, never in the brand.
 BRAND = f'''<!-- jpt:brand -->
   <a href="/" class="st-brand">
     <span class="brand-icon">{SPANNER}</span>
-    <span class="brand-title"><span class="k">JohnPlusTools</span><span class="b">Debate Builder</span></span>
+    <span class="brand-title"><span class="k">JohnPlusEnglish</span><span class="b">Tools</span></span>
   </a>
   <!-- /jpt:brand -->'''
+
+HEAD = f'''<!-- jpt:toolhead -->
+      <div class="tool-head">
+        <span class="th-icon">{PROMPTS}</span>
+        <div class="th-text">
+          <h1>Debate Builder</h1>
+          <p>Build a speaking debate, then run it from the front of the room.</p>
+        </div>
+      </div>
+      <!-- /jpt:toolhead -->
+      '''
 
 NAV = f'''<!-- jpt:toolsnav -->
     <div class="tools-nav">
@@ -93,6 +106,15 @@ CSS = '''
 .tool-item.active .ti-icon{background:var(--accent);border-color:var(--accent);color:#fff}
 .ti-icon svg{width:15px;height:15px;display:block}
 .ti-name{font-size:13.5px;font-weight:600;letter-spacing:-.01em}
+/* Names the tool inside the site, so the page reads JohnPlusTools first. */
+.tool-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.th-icon{width:38px;height:38px;border-radius:11px;flex-shrink:0;display:grid;place-items:center;
+  background:var(--soft);border:1px solid var(--soft-line);color:var(--accent)}
+.th-icon svg{width:20px;height:20px;display:block}
+.th-text h1{font-size:19px;font-weight:700;letter-spacing:-.02em;margin:0;line-height:1.2}
+.th-text p{font-size:12.5px;color:var(--muted);margin:2px 0 0;line-height:1.4}
+@media print{.tool-head{display:none}}
+@media (max-width:900px){.th-text p{display:none}}
 .side-foot{padding:10px 12px 12px;border-top:1px solid var(--line);flex-shrink:0}
 .side-foot a{display:flex;align-items:center;gap:8px;text-decoration:none;font-size:12.5px;
   font-weight:600;color:var(--muted);padding:8px 10px;border-radius:10px;transition:.12s}
@@ -110,7 +132,8 @@ def drop(html, tag):
 
 def build(html):
     # Strip anything a previous run (or the old back-link injector) added.
-    for tag in ('jpt:brand', 'jpt:toolsnav', 'jpt:sidefoot', 'jpt:backlink'):
+    for tag in ('jpt:brand', 'jpt:toolsnav', 'jpt:sidefoot', 'jpt:toolhead',
+                'jpt:debateslabel', 'jpt:backlink'):
         html = drop(html, tag)
     html = re.sub(r'/\* jpt:chrome \*/.*?/\* /jpt:chrome \*/\n?', '', html, flags=re.S)
 
@@ -134,6 +157,22 @@ def build(html):
                         '<aside>\n    ' + NAV + '<div class="side-top">', 1)
     html = html.replace('<div class="side-list" id="sideList"></div>\n  </aside>',
                         '<div class="side-list" id="sideList"></div>\n    ' + FOOT + '</aside>', 1)
+
+    # Label the debate controls, so they read as belonging to the selected tool
+    # rather than to the site.
+    label = ('<!-- jpt:debateslabel --><div class="jt-label" style="margin-bottom:9px">'
+             'Debates</div><!-- /jpt:debateslabel -->\n        ')
+    before = '<div class="side-top">\n      <div class="searchwrap">'
+    if before not in html:
+        raise SystemExit('build: could not find the sidebar search to label')
+    html = html.replace(before, '<div class="side-top">\n      ' + label + '<div class="searchwrap">', 1)
+
+    # Name the tool over the main pane. Must go FIRST inside #cardHome: exitPresent
+    # appends the card back with appendChild, so anything after it lands out of order.
+    home = '<div class="main-inner" id="cardHome">'
+    if home not in html:
+        raise SystemExit('build: could not find #cardHome')
+    html = html.replace(home, home + '\n      ' + HEAD, 1)
 
     # Styles
     html = html.replace('</style>', CSS + '</style>', 1)
@@ -161,13 +200,19 @@ def main():
     OUT.write_text(out, encoding='utf-8')
 
     for label, needle in [('brand', 'jpt:brand'), ('tools nav', 'jpt:toolsnav'),
-                          ('side foot', 'jpt:sidefoot'), ('chrome css', 'jpt:chrome')]:
-        assert out.count(f'<!-- {needle} -->') <= 1, f'{label} injected more than once'
+                          ('side foot', 'jpt:sidefoot'), ('tool head', 'jpt:toolhead'),
+                          ('debates label', 'jpt:debateslabel')]:
+        assert out.count(f'<!-- {needle} -->') == 1, f'{label} not injected exactly once'
     for fn in ('renderDebate', 'enterPresent', 'paintSpot', 'setCardEditable'):
         assert f'function {fn}' in out, f'lost {fn} during build'
     assert 'c2_debate_bank_v1' in out, 'lost the debate store key'
     for dash in ('—', '–'):
-        assert dash not in CSS + BRAND + NAV + FOOT + TITLE + DESC, 'dash crept into injected copy'
+        assert dash not in CSS + BRAND + NAV + FOOT + HEAD + TITLE + DESC, \
+            'dash crept into injected copy'
+    # The site is JohnPlusTools; the tool is named in the sidebar and main pane only.
+    assert '<span class="b">Tools</span>' in out, 'brand should read Tools, not the tool name'
+    # The tool header must precede the card, or exitPresent reorders the pane.
+    assert out.index('jpt:toolhead') < out.index('id="debateCard"'), 'tool head is after the card'
 
     print(f'  wrote {OUT.relative_to(ROOT)}  ({len(out):,} bytes)')
 
