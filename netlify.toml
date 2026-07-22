@@ -1,19 +1,11 @@
 # johnplustools.com. Static site, generated locally by build.py.
-# index.html is a single-page shell: it serves both / and /debate-builder,
-# and the router inside it picks the view from location.pathname.
+# index.html is the home page; each tool is its own page under tools/.
 
 [build]
   publish = "."
 
-# Serve the shell for the tool URL too (200 rewrite, so the URL stays pretty
-# and a hard refresh or a shared link lands on the right view).
-[[redirects]]
-  from = "/debate-builder"
-  to = "/index.html"
-  status = 200
-
-# Short URLs for the parked tools still in tools/ (unlinked for now).
-# force = false, so a real file at that path always wins.
+# Short URLs: /debate-builder serves /tools/debate-builder.html, and so on for
+# every tool. force = false, so a real file at that path always wins.
 [[redirects]]
   from = "/:tool"
   to = "/tools/:tool.html"
@@ -27,7 +19,7 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "geolocation=(), microphone=(), camera=()"
 
-# Source and tests are not part of the site.
+# Sources and tests are not part of the site.
 [[headers]]
   for = "/src/*"
   [headers.values]
