@@ -1,10 +1,18 @@
-# johnplustools.com. Static site, no build step on Netlify, no functions.
-# index.html is generated locally by build.py from src/debate-builder.html.
+# johnplustools.com. Static site, generated locally by build.py.
+# index.html is a single-page shell: it serves both / and /debate-builder,
+# and the router inside it picks the view from location.pathname.
 
 [build]
   publish = "."
 
-# Short URLs for the tools still living in tools/ (unlinked for now).
+# Serve the shell for the tool URL too (200 rewrite, so the URL stays pretty
+# and a hard refresh or a shared link lands on the right view).
+[[redirects]]
+  from = "/debate-builder"
+  to = "/index.html"
+  status = 200
+
+# Short URLs for the parked tools still in tools/ (unlinked for now).
 # force = false, so a real file at that path always wins.
 [[redirects]]
   from = "/:tool"

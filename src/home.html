@@ -1,0 +1,77 @@
+<!-- Home view. build.py fills the {{...}} slots and injects this into index.html
+     as a sibling of the tool's own pane, so switching between them is a class
+     toggle rather than a page load. -->
+<div class="main-inner view" id="homeView" hidden>
+
+  <div class="tool-head">
+    <span class="th-icon">{{SPANNER}}</span>
+    <div class="th-text">
+      <h1>Teaching tools</h1>
+      <p>Small, focused tools for English classrooms. Nothing to install, no account to make.</p>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <div class="status">1 tool</div>
+    <a class="btn" href="{{TOOL_URL}}" data-view="tool">
+      {{PLAY}}
+      Open Debate Builder
+    </a>
+  </div>
+
+  <section class="panel">
+    <div class="panel-head">
+      <span class="panel-icon">{{PROMPTS}}</span>
+      <div>
+        <h2>Debate Builder</h2>
+        <div class="tagline">Build a speaking debate, then run it from the front of the room.</div>
+      </div>
+    </div>
+
+    <p class="lede">
+      Write the question, set the task, and pick a level. The phrase bank swaps to
+      match, so B1 gets different language from C2. When the lesson starts, go
+      full-screen and run the timer without leaving the page.
+    </p>
+
+    <div class="split">
+      <div class="features">
+        <div class="feature">
+          <span class="fi">{{PLAY}}</span>
+          <div><h3>Presentation mode</h3>
+            <p>Full-screen prompts, arrow keys to step, space to start the timer. Click a prompt to spotlight it.</p></div>
+        </div>
+        <div class="feature">
+          <span class="fi">{{SAVE}}</span>
+          <div><h3>Saved debate bank</h3>
+            <p>Keep every debate you build and search it later. Back up to a file.</p></div>
+        </div>
+        <div class="feature">
+          <span class="fi">{{CLOCK}}</span>
+          <div><h3>Built-in timer</h3>
+            <p>Set the minutes, start it from the keyboard, keep the room moving.</p></div>
+        </div>
+        <div class="feature">
+          <span class="fi">{{DOWNLOAD}}</span>
+          <div><h3>Export and print</h3>
+            <p>PNG, PDF or straight to the printer if you want it on paper.</p></div>
+        </div>
+      </div>
+
+      <a class="preview" href="{{TOOL_URL}}" data-view="tool">
+        <span class="pv-bar" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="pv-shot" role="img" aria-label="The Debate Builder in use: a debate titled AI in the classroom, with the question, four prompt circles and the C2 phrase bank down the left."></span>
+        <span class="pv-cap">{{EYE}} A debate mid-build. Have a look inside</span>
+      </a>
+    </div>
+
+    <div class="panel-actions">
+      <a class="btn big" href="{{TOOL_URL}}" data-view="tool">
+        {{ARROW}}
+        Open Debate Builder
+      </a>
+      <span class="note">Free, no sign-up. Your debates stay in your browser.</span>
+    </div>
+  </section>
+
+</div>
