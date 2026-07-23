@@ -137,8 +137,8 @@ TOOLS = [
              'Five personal and five thought-provoking questions each. Switch simple to advanced in a click.'),
             (MAXIMISE, 'Focus mode',
              'One question, full screen, big enough to read from the back of the room.'),
-            (USERS, 'Random student picker',
-             'Keep your class list and pull a name out of it. Saved in your browser.'),
+            (CLOCK, 'Built-in timer',
+             'Time each answer or the whole round, right from the toolbar.'),
             (SHUFFLE, 'Random topic and roulette',
              'Stuck for a warm-up? Spin for a topic, or a single question at random.'),
         ],
@@ -460,6 +460,12 @@ SPEAKING_CSS = '''
   --sand:#2a2418;
 }
 body{background:var(--bg);color:var(--ink);margin:0}
+/* John dislikes the monospace the tool used for labels and numbers. Put every
+   one of them back on the site font. */
+.section-label,.deck-level-pill,.deck-section-label,.q-num,.timer-display,
+.deck-counter,.sr-topic,.focus-topic,.focus-type,.focus-counter,
+.roulette-topic,.topic-group-count{
+  font-family:"Outfit",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 
 /* ── Shell, matching the Debate Builder ──────────────────────────────── */
 .app{display:grid;grid-template-columns:302px 1fr;min-height:calc(100vh - var(--jpt-bar))}
@@ -676,7 +682,8 @@ def build_speaking(html, t):
     # on into the timer section and ate half of it.
     navrow = take(r'<div class="deck-nav" id="deckNav".*?</div>', 'the deck nav')
     timer  = take(r'<div class="timer-section">.*?</div>\s*</div>\s*</div>', 'the timer')
-    picker = take(r'<div class="name-picker" id="namePicker">.*?</div>\s*</div>\s*(?=</div>)', 'the student picker')
+    # John asked for the student picker to go. Taken out and not put back.
+    take(r'<div class="name-picker" id="namePicker">.*?</div>\s*</div>\s*(?=</div>)', 'the student picker')
 
     # Whatever is left of the old wrappers goes; the shell replaces them.
     html = re.sub(r'<div class="controls">\s*<div class="controls-top">\s*</div>\s*</div>', '', html, count=1, flags=re.S)
@@ -710,7 +717,6 @@ def build_speaking(html, t):
       {holder}
       {deck}
       {navrow}
-      {picker}
     </div>
   </main>
 </div>
@@ -730,8 +736,15 @@ def build_speaking(html, t):
     html = inject_before(html, '</head>', ico, 'the search icon')
 
     # The topics used to sit above the questions; they are a list on the left now.
+    # The picker is gone, but renderNames() still runs at boot and would write
+    # to the absent #nameTags, throwing before buildTopicGrid(). Guard it.
+    html = html.replace("var box = document.getElementById('nameTags');",
+                        "var box = document.getElementById('nameTags');\n  if (!box) return;", 1)
+
     html = html.replace('Select a topic above to see the questions.',
                         'Pick a topic from the list, or search for a question.', 1)
+
+    html = re.sub(r'&family=JetBrains\+Mono:wght@[0-9;]+', '', html, count=1)
 
     html = inject_before(html, '</body>', MENU_JS + THEME_JS, 'the page scripts')
     return html
