@@ -1540,6 +1540,18 @@ def build_speaking(html, t):
     html = html.replace('Select a topic above to see the questions.',
                         'Pick a topic from the list, or search for a question.', 1)
 
+    # Search placeholder still advertises the original 1,000. Compute the real
+    # count from what the tool actually ships — 20 questions per topic, 57
+    # topics after the additions above — so a future edit that changes either
+    # the topic count or the questions-per-topic will surface here rather than
+    # silently leaving the placeholder wrong.
+    total_qs = 20 * (50 + len(NEW_TOPICS))
+    old_placeholder = 'placeholder="Search all 1,000 questions..."'
+    new_placeholder = f'placeholder="Search all {total_qs:,} questions..."'
+    if old_placeholder not in html:
+        raise SystemExit('build: could not find the search placeholder in speaking-topics')
+    html = html.replace(old_placeholder, new_placeholder, 1)
+
     # A distinct icon per sidebar topic (John's call, over the tool's own
     # unused per-topic emoji field — see icons-never-emoji). buildTopicGrid()
     # runs at parse time as the tool's own script executes, before any script
