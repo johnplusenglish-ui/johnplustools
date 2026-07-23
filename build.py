@@ -727,7 +727,7 @@ body{background:var(--bg);color:var(--ink);margin:0}
 /* ── Shell, matching the Debate Builder ──────────────────────────────── */
 .app{display:grid;grid-template-columns:var(--jpt-side-w,302px) 1fr;
   min-height:calc(100vh - var(--jpt-bar));transition:grid-template-columns .22s ease}
-.app.side-collapsed aside{border-right:none;overflow:hidden;opacity:0;pointer-events:none}
+.app.side-collapsed > aside{border-right:none;overflow:hidden;opacity:0;pointer-events:none}
 aside{background:var(--card);border-right:1px solid var(--line);display:flex;
   flex-direction:column;overflow-y:auto;position:sticky;top:var(--jpt-bar);
   height:calc(100vh - var(--jpt-bar))}
