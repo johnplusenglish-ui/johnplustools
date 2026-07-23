@@ -873,7 +873,11 @@ main{overflow:visible;min-width:0}
 .phrases-panel{background:var(--card);border:1px solid var(--line);border-radius:16px;
   padding:16px 16px 14px;box-shadow:var(--shadow-card);
   position:sticky;top:calc(var(--jpt-bar) + 18px)}
-.ph-head{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+/* min-height matches .deck-topic's rendered height (icon + 1.2rem bold text),
+   so this row centres on the same line as .deck-header's: both toggles then
+   land at an identical offset from their card's top instead of the flipper
+   sitting 2-3px higher (its own row has nothing taller than it to centre on). */
+.ph-head{display:flex;align-items:center;gap:8px;margin-bottom:14px;min-height:31px}
 .ph-flip{display:inline-flex;flex-shrink:0;border:1.5px solid var(--soft-line);border-radius:9px;
   overflow:hidden}
 .ph-flip-btn{font-family:inherit;padding:5px 10px;border:none;background:transparent;
