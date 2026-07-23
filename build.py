@@ -446,6 +446,15 @@ SPEAKING_MENU = export_menu([
     ('Save as PDF', FILE_I, 'exportPDF()'),
 ], 'jptSpk', 'Save this topic')
 
+# Same rotate-ccw glyph as the timer's own reset button, so the two "undo"
+# actions on this toolbar read as one family.
+QUESTIONS_RESET_BTN = (
+    '<button class="icon-action" onclick="jptQuestionsReset()" '
+    'title="Reset all edited questions to the base wording" '
+    'aria-label="Reset all edited questions to the base wording">'
+    + svg('<polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>')
+    + '</button>')
+
 DEBATE_MENU = export_menu([
     ('Save as PNG', IMG_I, 'exportPNG()'),
     ('Save as PDF', FILE_I, 'exportPDF()'),
@@ -494,7 +503,7 @@ SPEAKING_PNG_JS = """<!-- jpt:speakingpng -->
         });
       }
       section('PERSONAL','#2563eb',data.personal,1);
-      section('THOUGHT-PROVOKING','#8a5cd0',data.thought,6);
+      section('THOUGHT-PROVOKING','#6b7686',data.thought,6);
       rows.push({k:'foot',text:'johnplustools.com'});
       var Y=PAD;
       rows.forEach(function(r){
@@ -673,6 +682,12 @@ QUESTIONS_JS = """<!-- jpt:questionsjs -->
     text = text.trim();
     if (!text || text === base) { delete over[k]; } else { over[k] = text; }
     try { localStorage.setItem(QKEY, JSON.stringify(over)); } catch (e) {}
+  };
+  window.jptQuestionsReset = function () {
+    if (!confirm('Reset all edited questions back to the original wording?')) return;
+    over = {};
+    try { localStorage.removeItem(QKEY); } catch (e) {}
+    if (typeof renderDeck === 'function' && typeof currentTopicIdx !== 'undefined' && currentTopicIdx !== null) renderDeck();
   };
 })();
 </script>
@@ -1185,6 +1200,7 @@ def build_speaking(html, t):
         <div class="status">Questions</div>
         {acts}
         {TIMER_HTML}
+        {QUESTIONS_RESET_BTN}
         {SPEAKING_MENU}
       </div>
       <div class="jpt-tmbar" id="jptTmBar"><span id="jptTmBarFill"></span></div>
