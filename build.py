@@ -389,6 +389,15 @@ PRESENT_BTN = (
     'stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
     '<polygon points="5 3 19 12 5 21 5 3"/></svg>\n    Present\n  </button>\n  <!-- /jpt:present -->')
 
+EXPORT_BTN = (
+    '<!-- jpt:export --><button class="icon-action" onclick="exportPDF()" '
+    'title="Export this topic as a PDF" aria-label="Export PDF">'
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
+    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+    '<polyline points="6 9 6 2 18 2 18 9"/>'
+    '<path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>'
+    '<rect x="6" y="14" width="12" height="8" rx="1"/></svg></button><!-- /jpt:export -->')
+
 TIMER_HTML = (
     '<div class="timer" id="jptTimerBox">'
     '<input class="tm" id="jptTmInput" type="text" inputmode="numeric" value="02:00" '
@@ -441,7 +450,7 @@ def strip_marks(html):
     for tag in ('jpt:brand', 'jpt:toolsnav', 'jpt:sidefoot', 'jpt:toolhead', 'jpt:debateslabel',
                 'jpt:homeview', 'jpt:router', 'jpt:backlink', 'jpt:menujs', 'jpt:themejs',
                 'jpt:themebtn', 'jpt:themeboot', 'jpt:strip',
-                'jpt:present', 'jpt:timerjs'):
+                'jpt:present', 'jpt:timerjs', 'jpt:export'):
         html = drop(html, tag)
     html = re.sub(r'/\* jpt:chrome \*/.*?/\* /jpt:chrome \*/\n?', '', html, flags=re.S)
     html = re.sub(r'/\* jpt:speaking \*/.*?/\* /jpt:speaking \*/\n?', '', html, flags=re.S)
@@ -627,6 +636,14 @@ main{overflow:visible;min-width:0}
   color:var(--muted);display:inline-flex;align-items:center;justify-content:center;
   cursor:pointer;transition:background .12s,color .12s}
 .timer button svg{width:15px;height:15px;display:block}
+/* Export PDF as a toolbar icon, right of the timer. */
+.icon-action{width:36px;height:36px;border-radius:999px;border:1px solid var(--soft-line);
+  background:transparent;color:var(--muted);display:inline-flex;align-items:center;
+  justify-content:center;cursor:pointer;transition:background .12s,color .12s,border-color .12s}
+.icon-action:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+.icon-action svg{width:16px;height:16px}
+/* The deck card's tool row is empty now that its buttons moved. */
+.deck-toolbar:empty{display:none}
 .timer button:hover{background:var(--soft);color:var(--accent)}
 /* A mouse click left a big focus ring on play, so it dwarfed the reset. Drop it
    for pointer focus; keep a ring for keyboard users. */
@@ -786,6 +803,7 @@ def build_speaking(html, t):
         <div class="status">Questions</div>
         {acts}
         {TIMER_HTML}
+        {EXPORT_BTN}
       </div>
       <div class="jpt-tmbar" id="jptTmBar"><span id="jptTmBarFill"></span></div>
       {holder}
@@ -813,7 +831,7 @@ def build_speaking(html, t):
     # Reveal-mode, Roulette and Uncross-all buttons, which built the busy second
     # row of tools under every topic. Each is one `h += '<button ...>';` line in
     # renderDeck; revealMode stays false so the questions simply always show.
-    for fn in ('toggleRevealMode', 'openRoulette', 'uncrossAll'):
+    for fn in ('toggleRevealMode', 'openRoulette', 'uncrossAll', 'exportPDF'):
         html, n = re.subn(
             r"h \+= '<button class=\"deck-tool-btn[^\n]*?onclick=\"" + fn + r"\(\)\"[^\n]*?</button>';\n?",
             '', html, count=1)
