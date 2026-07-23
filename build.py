@@ -390,13 +390,26 @@ PRESENT_BTN = (
     '<polygon points="5 3 19 12 5 21 5 3"/></svg>\n    Present\n  </button>\n  <!-- /jpt:present -->')
 
 EXPORT_BTN = (
-    '<!-- jpt:export --><button class="icon-action" onclick="exportPDF()" '
-    'title="Export this topic as a PDF" aria-label="Export PDF">'
+    '<!-- jpt:export -->'
+    '<div class="exp-wrap">'
+    '<button class="icon-action" id="jptExportBtn" aria-haspopup="true" aria-expanded="false" '
+    'aria-controls="jptExportMenu" title="Save this topic" aria-label="Save this topic">'
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
     'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
-    '<polyline points="6 9 6 2 18 2 18 9"/>'
-    '<path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>'
-    '<rect x="6" y="14" width="12" height="8" rx="1"/></svg></button><!-- /jpt:export -->')
+    '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>'
+    '<polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>'
+    '<div class="popmenu exp-menu" id="jptExportMenu" role="menu" hidden>'
+    '<div class="pm-label">Save topic</div>'
+    '<a class="pm-item" role="menuitem" href="#" data-exp="pdf">'
+    '<span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
+    'stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>'
+    '<polyline points="14 2 14 8 20 8"/></svg></span>Save as PDF</a>'
+    '<a class="pm-item" role="menuitem" href="#" data-exp="png">'
+    '<span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
+    'stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/>'
+    '<circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span>Save as PNG</a>'
+    '</div></div>'
+    '<!-- /jpt:export -->')
 
 TIMER_HTML = (
     '<div class="timer" id="jptTimerBox">'
@@ -442,6 +455,89 @@ TIMER_JS = """<!-- jpt:timerjs -->
 """
 
 
+EXPORT_JS = """<!-- jpt:exportjs -->
+<script>
+(function () {
+  var btn = document.getElementById('jptExportBtn');
+  var menu = document.getElementById('jptExportMenu');
+  if (!btn || !menu) return;
+  function close(){ if(menu.hidden)return; menu.hidden=true; btn.setAttribute('aria-expanded','false'); }
+  function open(){ menu.hidden=false; btn.setAttribute('aria-expanded','true'); }
+  btn.addEventListener('click', function(e){ e.stopPropagation(); menu.hidden?open():close(); });
+  document.addEventListener('click', function(e){ if(!menu.hidden && !menu.contains(e.target) && e.target!==btn) close(); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape' && !menu.hidden){ close(); btn.focus(); } });
+  menu.addEventListener('click', function(e){
+    var a = e.target.closest ? e.target.closest('[data-exp]') : null;
+    if(!a) return; e.preventDefault(); close();
+    if(a.dataset.exp==='pdf'){ if(typeof exportPDF==='function') exportPDF(); }
+    else { jptExportPNG(); }
+  });
+
+  // Render the current topic's questions to a PNG. Light, printable, fixed
+  // palette so the image looks the same regardless of the page theme.
+  window.jptExportPNG = function () {
+    if (typeof currentTopicIdx==='undefined' || currentTopicIdx===null){ alert('Pick a topic first.'); return; }
+    var t = topics[currentTopicIdx], data = t[currentLevel];
+    function render(){
+      var SC=2, W=860, PAD=56, colW=W-PAD*2, LH=25;
+      var c=document.createElement('canvas'), x=c.getContext('2d');
+      function F(px,w){ x.font=(w||'400')+' '+px+'px Outfit,-apple-system,BlinkMacSystemFont,sans-serif'; }
+      function wrap(txt,maxw){ var ws=txt.split(' '),ls=[],cur=''; for(var i=0;i<ws.length;i++){ var tt=cur?cur+' '+ws[i]:ws[i]; if(x.measureText(tt).width>maxw&&cur){ls.push(cur);cur=ws[i];}else cur=tt; } if(cur)ls.push(cur); return ls; }
+      var rows=[];
+      rows.push({k:'title',text:t.name});
+      rows.push({k:'sub',text:currentLevel.charAt(0).toUpperCase()+currentLevel.slice(1)+' level'});
+      function section(label,color,qs,start){
+        rows.push({k:'section',text:label,color:color});
+        qs.forEach(function(q,i){
+          F(17,'700'); var num=String(start+i), numW=x.measureText(num).width+14;
+          F(17,'400'); rows.push({k:'q',num:num,numW:numW,lines:wrap(q,colW-numW),color:color});
+        });
+      }
+      section('PERSONAL','#2563eb',data.personal,1);
+      section('THOUGHT-PROVOKING','#8a5cd0',data.thought,6);
+      rows.push({k:'foot',text:'johnplustools.com'});
+      var Y=PAD;
+      rows.forEach(function(r){
+        if(r.k==='title'){r.y=Y;Y+=42;}
+        else if(r.k==='sub'){r.y=Y;Y+=34;}
+        else if(r.k==='section'){Y+=16;r.y=Y;Y+=28;}
+        else if(r.k==='q'){r.y=Y;Y+=r.lines.length*LH+12;}
+        else if(r.k==='foot'){Y+=22;r.y=Y;Y+=24;}
+      });
+      var H=Y+PAD-12;
+      c.width=W*SC; c.height=H*SC; x.scale(SC,SC);
+      x.fillStyle='#ffffff'; x.fillRect(0,0,W,H);
+      x.textBaseline='alphabetic';
+      rows.forEach(function(r){
+        if(r.k==='title'){ F(30,'800'); x.fillStyle='#0f1b2d'; x.fillText(r.text,PAD,r.y+30); }
+        else if(r.k==='sub'){ F(14,'500'); x.fillStyle='#6b7686'; x.fillText(r.text,PAD,r.y+16); }
+        else if(r.k==='section'){ x.fillStyle=r.color;
+          x.beginPath(); x.arc(PAD+4,r.y+8,4,0,Math.PI*2); x.fill();
+          F(12.5,'700'); if('letterSpacing' in x) x.letterSpacing='2px';
+          x.fillText(r.text,PAD+16,r.y+13); if('letterSpacing' in x) x.letterSpacing='0px';
+        }
+        else if(r.k==='q'){ F(17,'700'); x.fillStyle=r.color; x.fillText(r.num,PAD,r.y+17);
+          F(17,'400'); x.fillStyle='#0f1b2d';
+          r.lines.forEach(function(ln,i){ x.fillText(ln,PAD+r.numW,r.y+17+i*LH); });
+        }
+        else if(r.k==='foot'){ F(12,'600'); x.fillStyle='#98a1b0'; x.fillText(r.text,PAD,r.y+12); }
+      });
+      c.toBlob(function(b){
+        var a=document.createElement('a');
+        a.href=URL.createObjectURL(b);
+        a.download=t.name.replace(/[^a-z0-9]+/gi,'-').toLowerCase().replace(/^-|-$/g,'')+'-'+currentLevel+'.png';
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function(){ URL.revokeObjectURL(a.href); },1500);
+      },'image/png');
+    }
+    if(document.fonts&&document.fonts.ready) document.fonts.ready.then(render); else render();
+  };
+})();
+</script>
+<!-- /jpt:exportjs -->
+"""
+
+
 def drop(html, tag):
     return re.sub(rf'<!-- {tag} -->.*?<!-- /{tag} -->\n?\s*', '', html, flags=re.S)
 
@@ -450,7 +546,7 @@ def strip_marks(html):
     for tag in ('jpt:brand', 'jpt:toolsnav', 'jpt:sidefoot', 'jpt:toolhead', 'jpt:debateslabel',
                 'jpt:homeview', 'jpt:router', 'jpt:backlink', 'jpt:menujs', 'jpt:themejs',
                 'jpt:themebtn', 'jpt:themeboot', 'jpt:strip',
-                'jpt:present', 'jpt:timerjs', 'jpt:export'):
+                'jpt:present', 'jpt:timerjs', 'jpt:export', 'jpt:exportjs'):
         html = drop(html, tag)
     html = re.sub(r'/\* jpt:chrome \*/.*?/\* /jpt:chrome \*/\n?', '', html, flags=re.S)
     html = re.sub(r'/\* jpt:speaking \*/.*?/\* /jpt:speaking \*/\n?', '', html, flags=re.S)
@@ -642,6 +738,9 @@ main{overflow:visible;min-width:0}
   justify-content:center;cursor:pointer;transition:background .12s,color .12s,border-color .12s}
 .icon-action:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
 .icon-action svg{width:16px;height:16px}
+.icon-action[aria-expanded="true"]{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+.exp-wrap{position:relative;display:inline-flex}
+.exp-menu{left:auto;right:0;min-width:190px}
 /* The deck card's tool row is empty now that its buttons moved. */
 .deck-toolbar:empty{display:none}
 .timer button:hover{background:var(--soft);color:var(--accent)}
@@ -849,7 +948,7 @@ def build_speaking(html, t):
 
     html = re.sub(r'&family=JetBrains\+Mono:wght@[0-9;]+', '', html, count=1)
 
-    html = inject_before(html, '</body>', MENU_JS + THEME_JS + TIMER_JS, 'the page scripts')
+    html = inject_before(html, '</body>', MENU_JS + THEME_JS + TIMER_JS + EXPORT_JS, 'the page scripts')
     return html
 
 
@@ -1033,7 +1132,11 @@ def main():
         assert out.count('<!-- jpt:brand -->') == 1, f"{t['slug']}: brand not injected once"
         assert out.count('<!-- jpt:toolhead -->') == 1, f"{t['slug']}: tool head not injected once"
         assert '<span class="b">Tools</span>' in out, f"{t['slug']}: brand should read Tools"
-        assert out.count('class="pm-item"') == len(TOOLS) + 2, f"{t['slug']}: dropdown wrong size"
+        # Count pm-items inside the brand dropdown only; the export menu reuses
+        # the same class.
+        brandmenu = re.search(r'id="toolsMenu".*?</div>\s*</div>', out, re.S)
+        assert brandmenu and brandmenu.group(0).count('class="pm-item"') == len(TOOLS) + 2, \
+            f"{t['slug']}: brand dropdown wrong size"
         # Count the attribute on real menu links, not the CSS selector that
         # also contains the string.
         assert len(re.findall(r'<a class="pm-item"[^>]*aria-current="true"', out)) == 1, \
