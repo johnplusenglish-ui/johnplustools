@@ -559,8 +559,11 @@ main{overflow:visible;min-width:0}
 .timer-section{display:contents}
 .timer-controls{display:inline-flex;align-items:center;gap:5px;
   border:1px solid var(--soft-line);border-radius:999px;padding:3px 4px;background:var(--card)}
+/* The tool gives each pill its own 1.5px border; inside the bordered timer
+   container that reads as four loose pills. Strip it so the presets are one
+   clean segmented control. */
 .timer-pill{font-size:11.5px;font-weight:700;color:var(--muted);cursor:pointer;
-  padding:4px 9px;border-radius:999px;transition:background .12s,color .12s}
+  padding:4px 10px;border-radius:999px;border:none;transition:background .12s,color .12s}
 .timer-pill:hover{color:var(--accent);background:var(--soft)}
 .timer-pill.on,.timer-pill.active{background:var(--accent);color:#fff}
 .timer-play{font-family:inherit;font-size:12.5px;font-weight:700;cursor:pointer;
@@ -734,6 +737,17 @@ def build_speaking(html, t):
            "r='7'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E\")}"
            "/* /jpt:strip */</style>")
     html = inject_before(html, '</head>', ico, 'the search icon')
+
+    # Declutter (John's call): keep only Export PDF on the deck card. Remove the
+    # Reveal-mode, Roulette and Uncross-all buttons, which built the busy second
+    # row of tools under every topic. Each is one `h += '<button ...>';` line in
+    # renderDeck; revealMode stays false so the questions simply always show.
+    for fn in ('toggleRevealMode', 'openRoulette', 'uncrossAll'):
+        html, n = re.subn(
+            r"h \+= '<button class=\"deck-tool-btn[^\n]*?onclick=\"" + fn + r"\(\)\"[^\n]*?</button>';\n?",
+            '', html, count=1)
+        if not n:
+            raise SystemExit(f'build: could not remove the {fn} button from speaking-topics')
 
     # The topics used to sit above the questions; they are a list on the left now.
     # The picker is gone, but renderNames() still runs at boot and would write
