@@ -867,13 +867,17 @@ main{overflow:visible;min-width:0}
   padding:16px 16px 14px;box-shadow:var(--shadow-card);
   position:sticky;top:calc(var(--jpt-bar) + 18px)}
 .ph-head{display:flex;align-items:center;gap:8px;margin-bottom:6px}
-.ph-flip{display:grid;grid-template-columns:1fr 1fr;gap:3px;background:var(--soft);
-  border:1px solid var(--soft-line);border-radius:999px;padding:3px;margin:2px 0 12px}
-.ph-flip-btn{font-family:inherit;font-size:12px;font-weight:700;letter-spacing:.02em;
-  padding:6px;border-radius:999px;border:none;background:transparent;color:var(--muted);
-  cursor:pointer;transition:background .12s,color .12s}
-.ph-flip-btn.on{background:var(--accent);color:#fff}
-.ph-flip-btn:not(.on):hover{color:var(--accent)}
+.ph-flip{display:inline-flex;border:1.5px solid var(--soft-line);border-radius:9px;
+  overflow:hidden;margin:2px 0 12px}
+.ph-flip-btn{font-family:inherit;padding:5px 14px;border:none;background:transparent;
+  color:var(--muted);cursor:pointer;display:inline-flex;align-items:center;gap:3px;
+  transition:background .12s,color .12s}
+.ph-flip-btn+.ph-flip-btn{border-left:1.5px solid var(--soft-line)}
+.ph-flip-btn:hover{color:var(--ink)}
+.ph-flip-btn.on{background:var(--ink);color:var(--card)}
+.ph-flip-btn svg{width:13px;height:13px;display:block}
+/* Alternate the phrases by colour, like the debate phrase bank. */
+.ph-row:nth-of-type(even) .ph-text{color:var(--accent)}
 .ph-title{flex:1;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--muted)}
 .ph-reset{font-family:inherit;font-size:11px;font-weight:700;color:var(--muted);background:transparent;
   border:none;cursor:pointer;padding:2px 5px;border-radius:6px}
@@ -1069,8 +1073,8 @@ def build_speaking(html, t):
             <button class="ph-reset" onclick="jptPhrasesReset()" title="Reset to the defaults">Reset</button>
           </div>
           <div class="ph-flip" role="group" aria-label="Phrase level">
-            <button class="ph-flip-btn on" data-lvl="simple" onclick="jptPhraseFlip('simple')">Simple</button>
-            <button class="ph-flip-btn" data-lvl="advanced" onclick="jptPhraseFlip('advanced')">Advanced</button>
+            <button class="ph-flip-btn on" data-lvl="simple" onclick="jptPhraseFlip('simple')" title="Simple" aria-label="Simple answers"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg></button>
+            <button class="ph-flip-btn" data-lvl="advanced" onclick="jptPhraseFlip('advanced')" title="Advanced" aria-label="Advanced answers"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg><svg viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg></button>
           </div>
           <div class="ph-list" id="jptPhraseList"></div>
           <button class="ph-add" onclick="jptPhraseAdd()">+ Add phrase</button>
