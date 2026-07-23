@@ -621,14 +621,17 @@ aside{top:var(--jpt-bar);height:calc(100vh - var(--jpt-bar))}
 .side-group-toggle:hover{background:var(--soft)}
 .side-group-name{flex:1;font-size:11px;letter-spacing:.13em;text-transform:uppercase;
   font-weight:700;color:var(--accent)}
-.side-group.lvl-B1 .side-group-name{color:#ad4c08}
-.side-group.lvl-B2 .side-group-name{color:#237a4d}
+/* Level scale kept in the blue family (John's call — no orange/green/purple):
+   B1 lightest → C2 deepest, matching LEVEL_COLOURS below. Shifted up in
+   luminance for dark mode so all four still read on the navy background. */
+.side-group.lvl-B1 .side-group-name{color:#6b8cd6}
+.side-group.lvl-B2 .side-group-name{color:#3b6ec4}
 .side-group.lvl-C1 .side-group-name{color:#2563eb}
-.side-group.lvl-C2 .side-group-name{color:#6d28d9}
-[data-theme="dark"] .side-group.lvl-B1 .side-group-name{color:#f59547}
-[data-theme="dark"] .side-group.lvl-B2 .side-group-name{color:#4cbe86}
+.side-group.lvl-C2 .side-group-name{color:#1e3a8a}
+[data-theme="dark"] .side-group.lvl-B1 .side-group-name{color:#b8d4f7}
+[data-theme="dark"] .side-group.lvl-B2 .side-group-name{color:#8fb3e8}
 [data-theme="dark"] .side-group.lvl-C1 .side-group-name{color:#5b8def}
-[data-theme="dark"] .side-group.lvl-C2 .side-group-name{color:#a78bfa}
+[data-theme="dark"] .side-group.lvl-C2 .side-group-name{color:#7ba4de}
 .side-group-chevron{font-size:9px;color:var(--muted);transition:transform .18s ease}
 .side-group.open .side-group-chevron{transform:rotate(180deg)}
 .side-group-body{display:none;padding:2px 0 4px}
@@ -819,10 +822,10 @@ const LEVEL_ORDER = ['B1','B2','C1','C2'];
 /* One colour per level, brightened for dark mode so it stays legible on
    the navy. Drives the phrases, the level tag and the circles. */
 const LEVEL_COLOURS = {
-  B1: {light:'#ad4c08', dark:'#f59547'},   // orange
-  B2: {light:'#237a4d', dark:'#4cbe86'},   // green
-  C1: {light:'#2563eb', dark:'#5b8def'},   // blue
-  C2: {light:'#6d28d9', dark:'#a78bfa'}    // purple
+  B1: {light:'#6b8cd6', dark:'#b8d4f7'},
+  B2: {light:'#3b6ec4', dark:'#8fb3e8'},
+  C1: {light:'#2563eb', dark:'#5b8def'},
+  C2: {light:'#1e3a8a', dark:'#7ba4de'}
 };
 function levelColour(level) {
   const l = LEVEL_COLOURS[level] || LEVEL_COLOURS.C2;

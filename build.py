@@ -754,14 +754,17 @@ aside{top:var(--jpt-bar);height:calc(100vh - var(--jpt-bar))}
 .side-group-toggle:hover{background:var(--soft)}
 .side-group-name{flex:1;font-size:11px;letter-spacing:.13em;text-transform:uppercase;
   font-weight:700;color:var(--accent)}
-.side-group.lvl-B1 .side-group-name{color:#ad4c08}
-.side-group.lvl-B2 .side-group-name{color:#237a4d}
+/* Level scale kept in the blue family (John's call — no orange/green/purple):
+   B1 lightest → C2 deepest, matching LEVEL_COLOURS below. Shifted up in
+   luminance for dark mode so all four still read on the navy background. */
+.side-group.lvl-B1 .side-group-name{color:#6b8cd6}
+.side-group.lvl-B2 .side-group-name{color:#3b6ec4}
 .side-group.lvl-C1 .side-group-name{color:#2563eb}
-.side-group.lvl-C2 .side-group-name{color:#6d28d9}
-[data-theme="dark"] .side-group.lvl-B1 .side-group-name{color:#f59547}
-[data-theme="dark"] .side-group.lvl-B2 .side-group-name{color:#4cbe86}
+.side-group.lvl-C2 .side-group-name{color:#1e3a8a}
+[data-theme="dark"] .side-group.lvl-B1 .side-group-name{color:#b8d4f7}
+[data-theme="dark"] .side-group.lvl-B2 .side-group-name{color:#8fb3e8}
 [data-theme="dark"] .side-group.lvl-C1 .side-group-name{color:#5b8def}
-[data-theme="dark"] .side-group.lvl-C2 .side-group-name{color:#a78bfa}
+[data-theme="dark"] .side-group.lvl-C2 .side-group-name{color:#7ba4de}
 .side-group-chevron{font-size:9px;color:var(--muted);transition:transform .18s ease}
 .side-group.open .side-group-chevron{transform:rotate(180deg)}
 .side-group-body{display:none;padding:2px 0 4px}
@@ -1069,6 +1072,22 @@ def build_debate(html, t):
     # export buttons become one download menu, and it would throw on null.
     html = html.replace('const btn = document.getElementById(id);',
                         'const btn = document.getElementById(id) || {};', 1)
+
+    # Level colours: monochromatic blue scale (John's call, was orange/green/
+    # blue/purple). Drives the sidebar headers via the CSS above and the tool's
+    # phrases panel, level tag, and bubble colouring via this object. Kept in
+    # sync with the .side-group.lvl-* CSS above so the sidebar and the tool's
+    # main pane agree on which shade of blue each level is.
+    lvl_old_re = re.compile(r'const LEVEL_COLOURS = \{.*?\};', re.S)
+    lvl_new = ('const LEVEL_COLOURS = {\n'
+               "  B1: {light:'#6b8cd6', dark:'#b8d4f7'},\n"
+               "  B2: {light:'#3b6ec4', dark:'#8fb3e8'},\n"
+               "  C1: {light:'#2563eb', dark:'#5b8def'},\n"
+               "  C2: {light:'#1e3a8a', dark:'#7ba4de'}\n"
+               '};')
+    html, n = lvl_old_re.subn(lvl_new, html, count=1)
+    if not n:
+        raise SystemExit('build: could not find LEVEL_COLOURS in debate-builder')
 
     # Reshape the sidebar list to match Speaking Topics: coloured-caps section
     # per level (B1/B2/C1/C2), collapsible, most-recent debate first inside
