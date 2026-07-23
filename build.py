@@ -52,11 +52,13 @@ BUBBLES = (f'<svg viewBox="0 0 24 24" {I} stroke-width="1.9">'
            'v-2.7h.5a1.6 1.6 0 0 0 1.3-1.6v-3.6a1.6 1.6 0 0 0-1.6-1.6z" '
            'fill="currentColor" stroke="currentColor"/></svg>')
 # Speaking Topics: a question mark inside a bubble, distinct from the debate pair.
+# Speaking Topics: a talk bubble with three dots (conversation), distinct from
+# the debate's two shaded bubbles.
 ASKING = (f'<svg viewBox="0 0 24 24" {I} stroke-width="1.9">'
-          '<path d="M20.5 4.9v8.6a1.9 1.9 0 0 1-1.9 1.9H9.1L4.6 19.4v-3.9a1.9 1.9 0 0 1-1.9-1.9V4.9'
-          'A1.9 1.9 0 0 1 4.6 3h14a1.9 1.9 0 0 1 1.9 1.9z"/>'
-          '<path d="M9.5 8.1a2.3 2.3 0 0 1 4.5.8c0 1.5-2.3 2.3-2.3 2.3" stroke-width="1.9"/>'
-          '<circle cx="11.7" cy="13.2" r="1.05" fill="currentColor" stroke="none"/></svg>')
+          '<path d="M21 11.5a8.5 8.5 0 0 1-12.2 7.6L3 21l1.9-5.8A8.5 8.5 0 1 1 21 11.5z"/>'
+          '<circle cx="8.2" cy="11.5" r="1.05" fill="currentColor" stroke="none"/>'
+          '<circle cx="12" cy="11.5" r="1.05" fill="currentColor" stroke="none"/>'
+          '<circle cx="15.8" cy="11.5" r="1.05" fill="currentColor" stroke="none"/></svg>')
 BOOK = svg('<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>'
            '<path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>')
 HOME_I = svg('<path d="M3 9.5 12 3l9 6.5V20a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 20z"/>'
@@ -311,6 +313,22 @@ button.st-brand[aria-expanded="true"] .brand-chev{transform:rotate(180deg)}
 .icon-action svg{width:16px;height:16px;display:block}
 .exp-wrap{position:relative;display:inline-flex}
 .exp-menu{left:auto;right:0;min-width:190px}
+/* Sidebar collapse handle, shared by every tool that has a sidebar, so the
+   chevron on the divider looks and behaves the same everywhere. */
+.app{--jpt-side-w:302px}
+.app.side-collapsed{--jpt-side-w:0px}
+.jpt-side-handle{position:fixed;top:152px;left:max(15px,var(--jpt-side-w));
+  transform:translateX(-50%);z-index:39;margin:0;width:30px;height:30px;border-radius:999px;
+  background:var(--card);border:1px solid var(--line);box-shadow:0 1px 4px rgba(15,27,45,.10);
+  color:var(--muted);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;
+  transition:left .22s ease,background .12s,color .12s,border-color .12s}
+[data-theme="dark"] .jpt-side-handle{box-shadow:0 1px 4px rgba(0,0,0,.35)}
+.jpt-side-handle:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+.jpt-side-handle:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.jpt-side-handle svg{width:15px;height:15px;transition:transform .22s ease}
+.app.side-collapsed .jpt-side-handle svg{transform:rotate(180deg)}
+@media (max-width:900px){.jpt-side-handle{display:none}}
+@media print{.jpt-side-handle{display:none!important}}
 /* /jpt:chrome */
 '''
 
@@ -564,6 +582,26 @@ TIMER_JS = """<!-- jpt:timerjs -->
 
 
 
+SIDE_JS = """<!-- jpt:sidejs -->
+<script>
+(function () {
+  var app = document.getElementById('app'), btn = document.getElementById('jptSideToggle');
+  if (!app || !btn) return;
+  var KEY = 'jpt_speaking_side_collapsed';
+  function apply(c){ app.classList.toggle('side-collapsed', c);
+    btn.setAttribute('aria-expanded', c ? 'false' : 'true');
+    var lbl = (c ? 'Show' : 'Hide') + ' the topic list';
+    btn.title = lbl; btn.setAttribute('aria-label', lbl); }
+  window.jptToggleSide = function(){ var c = !app.classList.contains('side-collapsed');
+    apply(c); try { localStorage.setItem(KEY, c ? '1' : '0'); } catch(e){} };
+  var saved; try { saved = localStorage.getItem(KEY); } catch(e){}
+  if (saved === '1') apply(true);
+})();
+</script>
+<!-- /jpt:sidejs -->
+"""
+
+
 def drop(html, tag):
     return re.sub(rf'<!-- {tag} -->.*?<!-- /{tag} -->\n?\s*', '', html, flags=re.S)
 
@@ -573,7 +611,7 @@ def strip_marks(html):
                 'jpt:homeview', 'jpt:router', 'jpt:backlink', 'jpt:menujs', 'jpt:themejs',
                 'jpt:themebtn', 'jpt:themeboot', 'jpt:strip',
                 'jpt:present', 'jpt:timerjs', 'jpt:export', 'jpt:exportjs',
-                'jpt:exportmenu', 'jpt:speakingpng'):
+                'jpt:exportmenu', 'jpt:speakingpng', 'jpt:sidejs'):
         html = drop(html, tag)
     html = re.sub(r'/\* jpt:chrome \*/.*?/\* /jpt:chrome \*/\n?', '', html, flags=re.S)
     html = re.sub(r'/\* jpt:speaking \*/.*?/\* /jpt:speaking \*/\n?', '', html, flags=re.S)
@@ -608,21 +646,7 @@ DEBATE_CSS = '''
    sidebar width. max() keeps it fully on screen once collapsed, where centring
    on a zero-width divider would cut it in half. */
 aside{top:var(--jpt-bar);height:calc(100vh - var(--jpt-bar))}
-.app{min-height:calc(100vh - var(--jpt-bar));--jpt-side-w:302px}
-.app.side-collapsed{--jpt-side-w:0px}
-#sideToggle{
-  position:fixed;top:152px;left:max(15px,var(--jpt-side-w));
-  transform:translateX(-50%);z-index:39;margin:0;
-  width:30px;height:30px;border-radius:999px;
-  background:var(--card);border:1px solid var(--line);
-  box-shadow:0 1px 4px rgba(15,27,45,.10);
-  transition:left .22s ease,background .12s,color .12s,border-color .12s;
-}
-[data-theme="dark"] #sideToggle{box-shadow:0 1px 4px rgba(0,0,0,.35)}
-#sideToggle:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
-#sideToggle:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-@media (max-width:900px){#sideToggle{display:none}}
-@media print{#sideToggle{display:none!important}}
+.app{min-height:calc(100vh - var(--jpt-bar))}
 /* /jpt:speaking */
 '''
 
@@ -651,7 +675,9 @@ body{background:var(--bg);color:var(--ink);margin:0}
   font-family:"Outfit",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 
 /* ── Shell, matching the Debate Builder ──────────────────────────────── */
-.app{display:grid;grid-template-columns:302px 1fr;min-height:calc(100vh - var(--jpt-bar))}
+.app{display:grid;grid-template-columns:var(--jpt-side-w,302px) 1fr;
+  min-height:calc(100vh - var(--jpt-bar));transition:grid-template-columns .22s ease}
+.app.side-collapsed aside{border-right:none;overflow:hidden;opacity:0;pointer-events:none}
 aside{background:var(--card);border-right:1px solid var(--line);display:flex;
   flex-direction:column;overflow-y:auto;position:sticky;top:var(--jpt-bar);
   height:calc(100vh - var(--jpt-bar))}
@@ -843,6 +869,11 @@ def build_debate(html, t):
 
     # Must be the FIRST child of #cardHome: exitPresent puts the card back with
     # appendChild, so anything after it leaves the pane reordered on the way out.
+    # Give John's collapse chevron the shared handle class so it matches the
+    # other tools' sidebars exactly.
+    html = html.replace('class="side-toggle" id="sideToggle"',
+                        'class="side-toggle jpt-side-handle" id="sideToggle"', 1)
+
     home = '<div class="main-inner" id="cardHome">'
     html = need(html, home, '#cardHome')
     html = html.replace(home, home + '\n      ' + tool_head(t), 1)
@@ -925,6 +956,10 @@ def build_speaking(html, t):
       {grid}
     </div>
   </aside>
+  <button class="jpt-side-handle" id="jptSideToggle" onclick="jptToggleSide()"
+          title="Hide the topic list" aria-label="Hide the topic list" aria-expanded="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
 
   <main>
     <div class="main-inner">
@@ -979,7 +1014,7 @@ def build_speaking(html, t):
 
     html = re.sub(r'&family=JetBrains\+Mono:wght@[0-9;]+', '', html, count=1)
 
-    html = inject_before(html, '</body>', MENU_JS + THEME_JS + TIMER_JS + EXPORT_MENU_JS + SPEAKING_PNG_JS, 'the page scripts')
+    html = inject_before(html, '</body>', MENU_JS + THEME_JS + TIMER_JS + EXPORT_MENU_JS + SPEAKING_PNG_JS + SIDE_JS, 'the page scripts')
     return html
 
 

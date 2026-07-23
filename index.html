@@ -121,6 +121,22 @@ button.st-brand[aria-expanded="true"] .brand-chev{transform:rotate(180deg)}
 .icon-action svg{width:16px;height:16px;display:block}
 .exp-wrap{position:relative;display:inline-flex}
 .exp-menu{left:auto;right:0;min-width:190px}
+/* Sidebar collapse handle, shared by every tool that has a sidebar, so the
+   chevron on the divider looks and behaves the same everywhere. */
+.app{--jpt-side-w:302px}
+.app.side-collapsed{--jpt-side-w:0px}
+.jpt-side-handle{position:fixed;top:152px;left:max(15px,var(--jpt-side-w));
+  transform:translateX(-50%);z-index:39;margin:0;width:30px;height:30px;border-radius:999px;
+  background:var(--card);border:1px solid var(--line);box-shadow:0 1px 4px rgba(15,27,45,.10);
+  color:var(--muted);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;
+  transition:left .22s ease,background .12s,color .12s,border-color .12s}
+[data-theme="dark"] .jpt-side-handle{box-shadow:0 1px 4px rgba(0,0,0,.35)}
+.jpt-side-handle:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+.jpt-side-handle:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.jpt-side-handle svg{width:15px;height:15px;transition:transform .22s ease}
+.app.side-collapsed .jpt-side-handle svg{transform:rotate(180deg)}
+@media (max-width:900px){.jpt-side-handle{display:none}}
+@media print{.jpt-side-handle{display:none!important}}
 /* /jpt:chrome */
 
 a.btn{text-decoration:none}
@@ -195,7 +211,7 @@ a.btn{text-decoration:none}
       <a class="pm-item" role="menuitem" href="/debate-builder" data-nav="debate-builder">
         <span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M14.6 3H4.3A1.8 1.8 0 0 0 2.5 4.8v5.9a1.8 1.8 0 0 0 1.8 1.8h.8v3.1l3.3-3.1h6.2a1.8 1.8 0 0 0 1.8-1.8V4.8A1.8 1.8 0 0 0 14.6 3z"/><path d="M20.2 9.6h-6.1A1.6 1.6 0 0 0 12.5 11.2v3.6a1.6 1.6 0 0 0 1.6 1.6h3.6l3 2.7v-2.7h.5a1.6 1.6 0 0 0 1.3-1.6v-3.6a1.6 1.6 0 0 0-1.6-1.6z" fill="currentColor" stroke="currentColor"/></svg></span>Debate Builder</a>
       <a class="pm-item" role="menuitem" href="/speaking-topics" data-nav="speaking-topics">
-        <span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M20.5 4.9v8.6a1.9 1.9 0 0 1-1.9 1.9H9.1L4.6 19.4v-3.9a1.9 1.9 0 0 1-1.9-1.9V4.9A1.9 1.9 0 0 1 4.6 3h14a1.9 1.9 0 0 1 1.9 1.9z"/><path d="M9.5 8.1a2.3 2.3 0 0 1 4.5.8c0 1.5-2.3 2.3-2.3 2.3" stroke-width="1.9"/><circle cx="11.7" cy="13.2" r="1.05" fill="currentColor" stroke="none"/></svg></span>Speaking Topics</a>
+        <span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M21 11.5a8.5 8.5 0 0 1-12.2 7.6L3 21l1.9-5.8A8.5 8.5 0 1 1 21 11.5z"/><circle cx="8.2" cy="11.5" r="1.05" fill="currentColor" stroke="none"/><circle cx="12" cy="11.5" r="1.05" fill="currentColor" stroke="none"/><circle cx="15.8" cy="11.5" r="1.05" fill="currentColor" stroke="none"/></svg></span>Speaking Topics</a>
       <div class="pm-sep"></div>
       <a class="pm-item" role="menuitem" href="https://johnplusdictionary.com" target="_blank" rel="noopener">
         <span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>JohnPlusDictionary<span class="pm-ext"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span></a>
@@ -266,7 +282,7 @@ a.btn{text-decoration:none}
 
       <section class="panel">
         <div class="panel-head">
-          <span class="panel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M20.5 4.9v8.6a1.9 1.9 0 0 1-1.9 1.9H9.1L4.6 19.4v-3.9a1.9 1.9 0 0 1-1.9-1.9V4.9A1.9 1.9 0 0 1 4.6 3h14a1.9 1.9 0 0 1 1.9 1.9z"/><path d="M9.5 8.1a2.3 2.3 0 0 1 4.5.8c0 1.5-2.3 2.3-2.3 2.3" stroke-width="1.9"/><circle cx="11.7" cy="13.2" r="1.05" fill="currentColor" stroke="none"/></svg></span>
+          <span class="panel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M21 11.5a8.5 8.5 0 0 1-12.2 7.6L3 21l1.9-5.8A8.5 8.5 0 1 1 21 11.5z"/><circle cx="8.2" cy="11.5" r="1.05" fill="currentColor" stroke="none"/><circle cx="12" cy="11.5" r="1.05" fill="currentColor" stroke="none"/><circle cx="15.8" cy="11.5" r="1.05" fill="currentColor" stroke="none"/></svg></span>
           <div>
             <h2>Speaking Topics</h2>
             <div class="tagline">A thousand conversation questions, sorted and ready to put on screen.</div>
