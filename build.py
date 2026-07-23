@@ -394,8 +394,8 @@ TIMER_HTML = (
     '<input class="tm" id="jptTmInput" type="text" inputmode="numeric" value="02:00" '
     'aria-label="Timer length" title="Type a length (2 or 2:30) and press Enter to start" '
     'onfocus="jptTmFocus()" onkeydown="jptTmKey(event)" onblur="jptTmApply()">'
-    '<button onclick="jptTmToggle()" id="jptTmBtn" title="Start / pause">\u25B6</button>'
-    '<button onclick="jptTmReset()" title="Reset">\u21BA</button></div>')
+    '<button onclick="jptTmToggle()" id="jptTmBtn" title="Start / pause"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="7 4 20 12 7 20 7 4"/></svg></button>'
+    '<button onclick="jptTmReset()" title="Reset" aria-label="Reset timer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></button></div>')
 
 TIMER_JS = """<!-- jpt:timerjs -->
 <script>
@@ -418,7 +418,9 @@ TIMER_JS = """<!-- jpt:timerjs -->
     if(bar){bar.classList.toggle('on',running||remaining<total||over);
       bar.classList.toggle('warn',warn);bar.classList.toggle('over',over);
       document.getElementById('jptTmBarFill').style.width=(over?100:Math.max(0,Math.min(1,remaining/total))*100)+'%';}
-    document.getElementById('jptTmBtn').textContent=running?'\u2759\u2759':'\u25B6';}
+    var _P='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="7 4 20 12 7 20 7 4"/></svg>';
+    var _PA='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4.5" width="4" height="15" rx="1"/><rect x="14" y="4.5" width="4" height="15" rx="1"/></svg>';
+    document.getElementById('jptTmBtn').innerHTML=running?_PA:_P;}
   window.jptTmFocus=function(){if(running)window.jptTmToggle();var el=document.getElementById('jptTmInput');requestAnimationFrame(function(){el.select();});};
   window.jptTmApply=function(){var el=document.getElementById('jptTmInput');var v=parse(el.value);if(v===null){paint();return false;}total=v;remaining=v;paint();return true;};
   window.jptTmKey=function(e){if(e.key==='Enter'){e.preventDefault();if(window.jptTmApply()&&!running)window.jptTmToggle();e.target.blur();}else if(e.key==='Escape'){e.preventDefault();paint();e.target.blur();}};
@@ -623,7 +625,8 @@ main{overflow:visible;min-width:0}
 .timer.over .tm{color:#c14343}
 .timer button{width:28px;height:28px;border-radius:999px;border:none;background:transparent;
   color:var(--muted);display:inline-flex;align-items:center;justify-content:center;
-  font-size:15px;line-height:1;cursor:pointer;transition:background .12s,color .12s}
+  cursor:pointer;transition:background .12s,color .12s}
+.timer button svg{width:15px;height:15px;display:block}
 .timer button:hover{background:var(--soft);color:var(--accent)}
 /* A mouse click left a big focus ring on play, so it dwarfed the reset. Drop it
    for pointer focus; keep a ring for keyboard users. */
