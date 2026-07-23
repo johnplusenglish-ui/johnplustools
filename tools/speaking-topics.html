@@ -370,7 +370,10 @@ body{background:var(--bg);color:var(--ink);margin:0}
 .q-item.thought .q-num{color:var(--muted)}
 .focus-type.thought{background:var(--soft);color:var(--muted)}
 .q-item{border-bottom:none}
-.q-text{cursor:text;border-radius:6px;padding:1px 4px;margin:-1px -4px}
+/* flex:1 so the text span fills the whole row after the number, leaving no
+   gap of empty .q-item space that would cross the question out instead of
+   focusing it to edit — the two click zones need a hard edge between them. */
+.q-text{cursor:text;border-radius:6px;padding:1px 4px;margin:-1px -4px;flex:1;min-width:0}
 .q-text:focus{outline:none;background:var(--soft);box-shadow:inset 0 0 0 1px var(--soft-line)}
 
 /* ── Shell, matching the Debate Builder ──────────────────────────────── */
