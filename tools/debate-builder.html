@@ -636,6 +636,25 @@ aside{top:var(--jpt-bar);height:calc(100vh - var(--jpt-bar))}
 .side-group.open .side-group-chevron{transform:rotate(180deg)}
 .side-group-body{display:none;padding:2px 0 4px}
 .side-group.open .side-group-body{display:block}
+
+/* Rating widget on each debate: half-star precision via a filled star row
+   clipped to the average percentage over an empty star row, with a 10-cell
+   invisible hit overlay so each half-star position is its own click target
+   (0.5 through 5). event.stopPropagation on the rating cells so voting
+   doesn't select the debate. */
+.side-item .rate{margin-top:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.side-item .rate-stars{position:relative;display:inline-block;line-height:1;
+  font-size:16px;letter-spacing:2px;height:1em;user-select:none}
+.side-item .rate-bg{color:var(--soft-line)}
+.side-item .rate-fg{position:absolute;top:0;left:0;overflow:hidden;
+  white-space:nowrap;color:var(--accent);pointer-events:none}
+.side-item .rate-hit{position:absolute;inset:0;display:flex}
+.side-item .rate-hit button{flex:1;min-width:0;height:100%;padding:0;background:transparent;
+  border:none;cursor:pointer}
+.side-item .rate-hit button:hover ~ button,
+.side-item .rate-hit button:hover{opacity:1}
+.side-item .rate-count{font-size:11px;color:var(--muted)}
+.side-item .rate-count-empty{font-style:italic;opacity:.7}
 /* /jpt:speaking */
 </style>
 </head>
@@ -1083,11 +1102,26 @@ function renderSidebar() {
     list.innerHTML = `<div class="empty-list">${q ? 'Nothing matches that.' : 'No debates yet. Click + New.'}</div>`;
     return;
   }
-  const itemHtml = d => `<div class="side-item ${d.id === state.currentId ? 'active' : ''}" onclick="selectDebate('${d.id}')">
-    <div class="title">${escapeHtml(d.title || 'UNTITLED')}</div>
-    <div class="meta">${new Date(d.updated).toLocaleDateString()} · ${d.bubbles.length} prompt${d.bubbles.length === 1 ? '' : 's'}</div>
-    <button class="del" onclick="event.stopPropagation();deleteDebate('${d.id}')" title="Delete">${'✕'}</button>
-  </div>`;
+  const HALVES = [0.5,1,1.5,2,2.5,3,3.5,4,4.5,5];
+  const itemHtml = d => {
+    const votes = Array.isArray(d.votes) ? d.votes : [];
+    const avg = votes.length ? Math.round((votes.reduce((a,b)=>a+b,0)/votes.length) * 2) / 2 : 0;
+    const pct = (avg / 5) * 100;
+    const hits = HALVES.map(v => `<button data-r="${v}" onclick="event.stopPropagation();rateDebate('${d.id}',${v})" title="Vote ${v} star${v===1?'':'s'}" aria-label="Vote ${v} star${v===1?'':'s'}"></button>`).join('');
+    const count = votes.length ? `<span class="rate-count">${avg.toFixed(1).replace(/\.0$/,'')} · ${votes.length} vote${votes.length===1?'':'s'}</span>` : '<span class="rate-count rate-count-empty">No votes yet</span>';
+    return `<div class="side-item ${d.id === state.currentId ? 'active' : ''}" onclick="selectDebate('${d.id}')">
+      <div class="title">${escapeHtml(d.title || 'UNTITLED')}</div>
+      <div class="rate">
+        <span class="rate-stars">
+          <span class="rate-bg">${'★'.repeat(5)}</span>
+          <span class="rate-fg" style="width:${pct}%">${'★'.repeat(5)}</span>
+          <span class="rate-hit">${hits}</span>
+        </span>
+        ${count}
+      </div>
+      <button class="del" onclick="event.stopPropagation();deleteDebate('${d.id}')" title="Delete">${'✕'}</button>
+    </div>`;
+  };
   if (q) {
     items.sort((a,b) => b.updated - a.updated);
     list.innerHTML = items.map(itemHtml).join('');
@@ -1117,6 +1151,14 @@ function toggleSideGroup(level) {
   catch(e) { open = new Set(LEVEL_ORDER); }
   if (open.has(level)) open.delete(level); else open.add(level);
   try { localStorage.setItem(key, JSON.stringify([...open])); } catch(e) {}
+  renderSidebar();
+}
+function rateDebate(id, r) {
+  const d = state.debates.find(x => x.id === id);
+  if (!d) return;
+  if (!Array.isArray(d.votes)) d.votes = [];
+  d.votes.push(r);
+  try { localStorage.setItem(STORE, JSON.stringify(state)); } catch(e) {}
   renderSidebar();
 }
 /* ── Main render ────────────────────────────────────────────────── */
