@@ -505,7 +505,9 @@ main{overflow:visible;min-width:0}
 .phrases-panel{background:var(--card);border:1px solid var(--line);border-radius:16px;
   padding:16px 16px 14px;box-shadow:var(--shadow-card);
   position:sticky;top:calc(var(--jpt-bar) + 18px)}
-.ph-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.ph-head{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.ph-sub{font-size:10px;letter-spacing:.13em;text-transform:uppercase;font-weight:700;color:var(--accent);margin:14px 2px 5px}
+.ph-sub:first-of-type{margin-top:4px}
 .ph-title{flex:1;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--muted)}
 .ph-reset{font-family:inherit;font-size:11px;font-weight:700;color:var(--muted);background:transparent;
   border:none;cursor:pointer;padding:2px 5px;border-radius:6px}
@@ -521,7 +523,7 @@ main{overflow:visible;min-width:0}
   color:var(--muted);cursor:pointer;border-radius:6px;font-size:16px;line-height:1}
 .ph-row:hover .ph-x{opacity:.55}
 .ph-x:hover{opacity:1;color:#c14343}
-.ph-add{margin-top:9px;width:100%;font-family:inherit;font-size:12.5px;font-weight:600;
+.ph-add{margin-top:7px;width:100%;font-family:inherit;font-size:12.5px;font-weight:600;
   color:var(--accent);background:transparent;border:1px dashed var(--soft-line);
   border-radius:9px;padding:8px;cursor:pointer;transition:.12s}
 .ph-add:hover{background:var(--soft);border-color:var(--accent)}
@@ -666,9 +668,13 @@ main{overflow:visible;min-width:0}
             <span class="ph-title">Useful phrases</span>
             <button class="ph-reset" onclick="jptPhrasesReset()" title="Reset to the defaults">Reset</button>
           </div>
-          <div class="ph-list" id="jptPhraseList"></div>
-          <button class="ph-add" onclick="jptPhraseAdd()">+ Add phrase</button>
-          <p class="ph-note">Buy time when a question catches you out. Edit these for your class.</p>
+          <div class="ph-sub">Buying time</div>
+          <div class="ph-list" id="jptPhraseBase"></div>
+          <button class="ph-add" onclick="jptPhraseAdd('base')">+ Add phrase</button>
+          <div class="ph-sub" id="jptPhraseLevelLabel">Simple answers</div>
+          <div class="ph-list" id="jptPhraseLevel"></div>
+          <button class="ph-add" onclick="jptPhraseAdd('level')">+ Add phrase</button>
+          <p class="ph-note">Natural ways to react and start an answer. The answers follow Simple / Advanced. Edit any of them for your class.</p>
         </aside>
       </div>
     </div>
@@ -1304,31 +1310,55 @@ buildTopicGrid();
 <!-- jpt:phrasesjs -->
 <script>
 (function () {
-  var KEY = 'jpt_speaking_phrases';
-  var DEFAULTS = ["Oh, that's a tough one.", "You've put me on the spot there.",
-    "I've never really thought about that.", "To tell you the truth, …",
-    "That's a really interesting question.", "Let me think about that for a moment."];
-  var list;
-  function load(){ try { var r = localStorage.getItem(KEY); if (r) { var a = JSON.parse(r); if (Array.isArray(a)) return a; } } catch(e){} return DEFAULTS.slice(); }
-  function save(){ try { localStorage.setItem(KEY, JSON.stringify(list)); } catch(e){} }
+  var KEY = 'jpt_speaking_phrases_v2';
+  var DEFAULTS = {
+    base: ["Oh, that's a tough one.", "You've put me on the spot there.",
+      "I've never really thought about that.", "To tell you the truth, …",
+      "That's a really good question.", "Let me think about that for a sec.",
+      "Hmm, where do I even start?", "Honestly, I'm not sure.", "It really depends.",
+      "Good question, give me a second.", "Off the top of my head…", "I'd probably say…"],
+    simple: ["I think…", "For me, …", "I'd say…", "I like it because…",
+      "The main reason is…", "For example, …", "To be honest, …",
+      "The thing is…", "What I mean is…", "One thing I'd say is…"],
+    advanced: ["I suppose it comes down to…", "There are two sides to this.",
+      "It's not that simple, really.", "I can see it both ways.", "If I'm being honest, …",
+      "It depends on how you look at it.", "What strikes me is…", "I'd go so far as to say…",
+      "That said, …", "At the end of the day, …", "There's a case for both.",
+      "It's a bit of a grey area."]
+  };
+  var data;
+  function clone(o){ return { base:o.base.slice(), simple:o.simple.slice(), advanced:o.advanced.slice() }; }
+  function load(){ try { var r = localStorage.getItem(KEY); if (r) { var o = JSON.parse(r);
+    if (o && o.base && o.simple && o.advanced) return o; } } catch(e){} return clone(DEFAULTS); }
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(data)); } catch(e){} }
   function esc(x){ return String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-  function render(){
-    var el = document.getElementById('jptPhraseList'); if (!el) return;
-    el.innerHTML = list.map(function (p, i) {
-      return '<div class="ph-row"><span class="ph-text" contenteditable="true" data-i="' + i + '">' + esc(p) + '</span>'
-        + '<button class="ph-x" data-i="' + i + '" title="Remove" aria-label="Remove phrase">×</button></div>';
-    }).join('');
-  }
-  window.jptPhraseAdd = function(){ list.push(''); save(); render();
-    var rows = document.querySelectorAll('#jptPhraseList .ph-text'); var last = rows[rows.length-1]; if (last) last.focus(); };
-  window.jptPhrasesReset = function(){ if (!confirm('Reset the phrases to the defaults?')) return; list = DEFAULTS.slice(); save(); render(); };
+  function lvl(){ return (typeof currentLevel !== 'undefined' && currentLevel === 'advanced') ? 'advanced' : 'simple'; }
+  function rows(arr, sec){ return arr.map(function (p, i) {
+    return '<div class="ph-row"><span class="ph-text" contenteditable="true" data-sec="' + sec + '" data-i="' + i + '">'
+      + esc(p) + '</span><button class="ph-x" data-sec="' + sec + '" data-i="' + i + '" title="Remove" aria-label="Remove phrase">×</button></div>';
+  }).join(''); }
+  function renderBase(){ var el = document.getElementById('jptPhraseBase'); if (el) el.innerHTML = rows(data.base, 'base'); }
+  function renderLevel(){ var el = document.getElementById('jptPhraseLevel'), lab = document.getElementById('jptPhraseLevelLabel'), L = lvl();
+    if (lab) lab.textContent = (L === 'advanced' ? 'Advanced' : 'Simple') + ' answers';
+    if (el) el.innerHTML = rows(data[L], L); }
+  function renderAll(){ renderBase(); renderLevel(); }
+  window.jptPhraseAdd = function (which) {
+    var sec = which === 'base' ? 'base' : lvl();
+    data[sec].push(''); save();
+    if (sec === 'base') renderBase(); else renderLevel();
+    var id = which === 'base' ? 'jptPhraseBase' : 'jptPhraseLevel';
+    var r = document.querySelectorAll('#' + id + ' .ph-text'); var last = r[r.length-1]; if (last) last.focus();
+  };
+  window.jptPhrasesReset = function () { if (!confirm('Reset all phrases to the defaults?')) return; data = clone(DEFAULTS); save(); renderAll(); };
   document.addEventListener('input', function (e) {
-    var t = e.target; if (t && t.classList && t.classList.contains('ph-text')) { list[+t.dataset.i] = t.textContent; save(); }
+    var t = e.target; if (t && t.classList && t.classList.contains('ph-text')) { data[t.dataset.sec][+t.dataset.i] = t.textContent; save(); }
   });
   document.addEventListener('click', function (e) {
-    var b = e.target.closest && e.target.closest('.ph-x'); if (b) { list.splice(+b.dataset.i, 1); save(); render(); }
+    var b = e.target.closest && e.target.closest('.ph-x');
+    if (b) { data[b.dataset.sec].splice(+b.dataset.i, 1); save(); if (b.dataset.sec === 'base') renderBase(); else renderLevel(); return; }
+    if (e.target.closest && e.target.closest('.level-btn, .deck-level-pill')) setTimeout(renderLevel, 0);
   });
-  list = load(); render();
+  data = load(); renderAll();
 })();
 </script>
 <!-- /jpt:phrasesjs -->
