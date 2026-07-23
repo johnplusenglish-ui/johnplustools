@@ -314,6 +314,14 @@ button.st-brand[aria-expanded="true"] .brand-chev{transform:rotate(180deg)}
 }
 @media print{.tool-head,.popmenu,.stopbar{display:none!important}}
 @media (prefers-reduced-motion:reduce){.popmenu{animation:none}}
+/* Download-icon dropdown, shared by the tools. */
+.icon-action{width:36px;height:36px;border-radius:999px;border:1px solid var(--soft-line);
+  background:transparent;color:var(--muted);display:inline-flex;align-items:center;
+  justify-content:center;cursor:pointer;transition:background .12s,color .12s,border-color .12s}
+.icon-action:hover,.icon-action[aria-expanded="true"]{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+.icon-action svg{width:16px;height:16px;display:block}
+.exp-wrap{position:relative;display:inline-flex}
+.exp-menu{left:auto;right:0;min-width:190px}
 /* /jpt:chrome */
 
 /* jpt:speaking */
@@ -448,15 +456,6 @@ main{overflow:visible;min-width:0}
   color:var(--muted);display:inline-flex;align-items:center;justify-content:center;
   cursor:pointer;transition:background .12s,color .12s}
 .timer button svg{width:15px;height:15px;display:block}
-/* Export PDF as a toolbar icon, right of the timer. */
-.icon-action{width:36px;height:36px;border-radius:999px;border:1px solid var(--soft-line);
-  background:transparent;color:var(--muted);display:inline-flex;align-items:center;
-  justify-content:center;cursor:pointer;transition:background .12s,color .12s,border-color .12s}
-.icon-action:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
-.icon-action svg{width:16px;height:16px}
-.icon-action[aria-expanded="true"]{background:var(--soft);color:var(--accent);border-color:var(--accent)}
-.exp-wrap{position:relative;display:inline-flex}
-.exp-menu{left:auto;right:0;min-width:190px}
 /* The deck card's tool row is empty now that its buttons moved. */
 .deck-toolbar:empty{display:none}
 .timer button:hover{background:var(--soft);color:var(--accent)}
@@ -598,7 +597,7 @@ main{overflow:visible;min-width:0}
 </div>
 
         <div class="timer" id="jptTimerBox"><input class="tm" id="jptTmInput" type="text" inputmode="numeric" value="02:00" aria-label="Timer length" title="Type a length (2 or 2:30) and press Enter to start" onfocus="jptTmFocus()" onkeydown="jptTmKey(event)" onblur="jptTmApply()"><button onclick="jptTmToggle()" id="jptTmBtn" title="Start / pause"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="7 4 20 12 7 20 7 4"/></svg></button><button onclick="jptTmReset()" title="Reset" aria-label="Reset timer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></button></div>
-        <!-- jpt:export --><div class="exp-wrap"><button class="icon-action" id="jptExportBtn" aria-haspopup="true" aria-expanded="false" aria-controls="jptExportMenu" title="Save this topic" aria-label="Save this topic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button><div class="popmenu exp-menu" id="jptExportMenu" role="menu" hidden><div class="pm-label">Save topic</div><a class="pm-item" role="menuitem" href="#" data-exp="pdf"><span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>Save as PDF</a><a class="pm-item" role="menuitem" href="#" data-exp="png"><span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span>Save as PNG</a></div></div><!-- /jpt:export -->
+        <div class="exp-wrap"><button class="icon-action" id="jptSpkBtn" aria-haspopup="true" aria-expanded="false" aria-controls="jptSpkMenu" title="Save this topic" aria-label="Save this topic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button><div class="popmenu exp-menu" id="jptSpkMenu" role="menu" hidden><div class="pm-label">Save</div><a class="pm-item" role="menuitem" href="#" onclick="jptExportPNG();return false;"><span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span>Save as PNG</a><a class="pm-item" role="menuitem" href="#" onclick="exportPDF();return false;"><span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>Save as PDF</a></div></div>
       </div>
       <div class="jpt-tmbar" id="jptTmBar"><span id="jptTmBarFill"></span></div>
       <div class="placeholder" id="placeholder">Pick a topic from the list, or search for a question.</div>
@@ -1140,26 +1139,27 @@ buildTopicGrid();
 })();
 </script>
 <!-- /jpt:timerjs -->
-<!-- jpt:exportjs -->
+<!-- jpt:exportmenu -->
 <script>
 (function () {
-  var btn = document.getElementById('jptExportBtn');
-  var menu = document.getElementById('jptExportMenu');
-  if (!btn || !menu) return;
-  function close(){ if(menu.hidden)return; menu.hidden=true; btn.setAttribute('aria-expanded','false'); }
-  function open(){ menu.hidden=false; btn.setAttribute('aria-expanded','true'); }
-  btn.addEventListener('click', function(e){ e.stopPropagation(); menu.hidden?open():close(); });
-  document.addEventListener('click', function(e){ if(!menu.hidden && !menu.contains(e.target) && e.target!==btn) close(); });
-  document.addEventListener('keydown', function(e){ if(e.key==='Escape' && !menu.hidden){ close(); btn.focus(); } });
-  menu.addEventListener('click', function(e){
-    var a = e.target.closest ? e.target.closest('[data-exp]') : null;
-    if(!a) return; e.preventDefault(); close();
-    if(a.dataset.exp==='pdf'){ if(typeof exportPDF==='function') exportPDF(); }
-    else { jptExportPNG(); }
+  Array.prototype.forEach.call(document.querySelectorAll('.exp-wrap'), function (wrap) {
+    var btn = wrap.querySelector('.icon-action'), menu = wrap.querySelector('.exp-menu');
+    if (!btn || !menu) return;
+    function close(){ if(menu.hidden) return; menu.hidden = true; btn.setAttribute('aria-expanded','false'); }
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      if (menu.hidden) { menu.hidden = false; btn.setAttribute('aria-expanded','true'); } else close();
+    });
+    menu.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('[role=menuitem]')) close(); });
+    document.addEventListener('click', function (e) { if (!menu.hidden && !wrap.contains(e.target)) close(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !menu.hidden) { close(); btn.focus(); } });
   });
-
-  // Render the current topic's questions to a PNG. Light, printable, fixed
-  // palette so the image looks the same regardless of the page theme.
+})();
+</script>
+<!-- /jpt:exportmenu -->
+<!-- jpt:speakingpng -->
+<script>
+(function () {
   window.jptExportPNG = function () {
     if (typeof currentTopicIdx==='undefined' || currentTopicIdx===null){ alert('Pick a topic first.'); return; }
     var t = topics[currentTopicIdx], data = t[currentLevel];
@@ -1219,6 +1219,6 @@ buildTopicGrid();
   };
 })();
 </script>
-<!-- /jpt:exportjs -->
+<!-- /jpt:speakingpng -->
 </body>
 </html>

@@ -303,6 +303,14 @@ button.st-brand[aria-expanded="true"] .brand-chev{transform:rotate(180deg)}
 }
 @media print{.tool-head,.popmenu,.stopbar{display:none!important}}
 @media (prefers-reduced-motion:reduce){.popmenu{animation:none}}
+/* Download-icon dropdown, shared by the tools. */
+.icon-action{width:36px;height:36px;border-radius:999px;border:1px solid var(--soft-line);
+  background:transparent;color:var(--muted);display:inline-flex;align-items:center;
+  justify-content:center;cursor:pointer;transition:background .12s,color .12s,border-color .12s}
+.icon-action:hover,.icon-action[aria-expanded="true"]{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+.icon-action svg{width:16px;height:16px;display:block}
+.exp-wrap{position:relative;display:inline-flex}
+.exp-menu{left:auto;right:0;min-width:190px}
 /* /jpt:chrome */
 '''
 
@@ -389,92 +397,65 @@ PRESENT_BTN = (
     'stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
     '<polygon points="5 3 19 12 5 21 5 3"/></svg>\n    Present\n  </button>\n  <!-- /jpt:present -->')
 
-EXPORT_BTN = (
-    '<!-- jpt:export -->'
-    '<div class="exp-wrap">'
-    '<button class="icon-action" id="jptExportBtn" aria-haspopup="true" aria-expanded="false" '
-    'aria-controls="jptExportMenu" title="Save this topic" aria-label="Save this topic">'
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
-    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
-    '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>'
-    '<polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>'
-    '<div class="popmenu exp-menu" id="jptExportMenu" role="menu" hidden>'
-    '<div class="pm-label">Save topic</div>'
-    '<a class="pm-item" role="menuitem" href="#" data-exp="pdf">'
-    '<span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
-    'stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>'
-    '<polyline points="14 2 14 8 20 8"/></svg></span>Save as PDF</a>'
-    '<a class="pm-item" role="menuitem" href="#" data-exp="png">'
-    '<span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
-    'stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/>'
-    '<circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span>Save as PNG</a>'
-    '</div></div>'
-    '<!-- /jpt:export -->')
+DOWNLOAD_I = svg('<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>'
+                 '<polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>')
+FILE_I = svg('<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>'
+             '<polyline points="14 2 14 8 20 8"/>')
+IMG_I = svg('<rect x="3" y="3" width="18" height="18" rx="2"/>'
+            '<circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>')
+PRINTER_I = svg('<polyline points="6 9 6 2 18 2 18 9"/>'
+                '<path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>'
+                '<rect x="6" y="14" width="12" height="8" rx="1"/>')
 
-TIMER_HTML = (
-    '<div class="timer" id="jptTimerBox">'
-    '<input class="tm" id="jptTmInput" type="text" inputmode="numeric" value="02:00" '
-    'aria-label="Timer length" title="Type a length (2 or 2:30) and press Enter to start" '
-    'onfocus="jptTmFocus()" onkeydown="jptTmKey(event)" onblur="jptTmApply()">'
-    '<button onclick="jptTmToggle()" id="jptTmBtn" title="Start / pause"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="7 4 20 12 7 20 7 4"/></svg></button>'
-    '<button onclick="jptTmReset()" title="Reset" aria-label="Reset timer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></button></div>')
 
-TIMER_JS = """<!-- jpt:timerjs -->
+def export_menu(items, mid, title):
+    """Reusable download-icon dropdown. items: list of (label, icon, onclick_js)."""
+    lis = ''.join(
+        '<a class="pm-item" role="menuitem" href="#" onclick="' + a + ';return false;">'
+        '<span class="pm-ico">' + ic + '</span>' + lb + '</a>'
+        for lb, ic, a in items)
+    return ('<div class="exp-wrap">'
+            '<button class="icon-action" id="' + mid + 'Btn" aria-haspopup="true" '
+            'aria-expanded="false" aria-controls="' + mid + 'Menu" title="' + title + '" '
+            'aria-label="' + title + '">' + DOWNLOAD_I + '</button>'
+            '<div class="popmenu exp-menu" id="' + mid + 'Menu" role="menu" hidden>'
+            '<div class="pm-label">Save</div>' + lis + '</div></div>')
+
+
+SPEAKING_MENU = export_menu([
+    ('Save as PNG', IMG_I, 'jptExportPNG()'),
+    ('Save as PDF', FILE_I, 'exportPDF()'),
+], 'jptSpk', 'Save this topic')
+
+DEBATE_MENU = export_menu([
+    ('Save as PNG', IMG_I, 'exportPNG()'),
+    ('Save as PDF', FILE_I, 'exportPDF()'),
+    ('Print', PRINTER_I, 'window.print()'),
+], 'jptDeb', 'Save this debate')
+
+EXPORT_MENU_JS = """<!-- jpt:exportmenu -->
 <script>
-/* Self-contained MM:SS timer, modelled on the Debate Builder's: type a length,
-   Enter starts it, the input shows the countdown. Namespaced so it does not
-   touch the tool's own (now removed) preset timer. */
 (function () {
-  var total = 120, remaining = 120, running = false, iv = null;
-  function fmt(s){var n=s<0;s=Math.abs(s);return (n?'-':'')+String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
-  function parse(str){str=String(str).trim().replace(/\s*min(ute)?s?$/i,'');if(!str)return null;var t;
-    if(str.indexOf(':')>=0){var pp=str.split(':');var m=parseInt(pp[0],10)||0;var sc=parseInt(pp[1],10)||0;if(sc>59)return null;t=m*60+sc;}
-    else{var mn=parseFloat(str);if(!isFinite(mn))return null;t=Math.round(mn*60);}
-    if(!isFinite(t)||t<=0)return null;return Math.min(t,99*60+59);}
-  function box(){return document.getElementById('jptTimerBox');}
-  function paint(){var input=document.getElementById('jptTmInput');if(!input)return;
-    var txt=fmt(remaining);if(document.activeElement!==input)input.value=txt;
-    var warn=remaining<=60&&remaining>0,over=remaining<=0;
-    box().classList.toggle('warn',warn);box().classList.toggle('over',over);
-    var bar=document.getElementById('jptTmBar');
-    if(bar){bar.classList.toggle('on',running||remaining<total||over);
-      bar.classList.toggle('warn',warn);bar.classList.toggle('over',over);
-      document.getElementById('jptTmBarFill').style.width=(over?100:Math.max(0,Math.min(1,remaining/total))*100)+'%';}
-    var _P='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="7 4 20 12 7 20 7 4"/></svg>';
-    var _PA='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4.5" width="4" height="15" rx="1"/><rect x="14" y="4.5" width="4" height="15" rx="1"/></svg>';
-    document.getElementById('jptTmBtn').innerHTML=running?_PA:_P;}
-  window.jptTmFocus=function(){if(running)window.jptTmToggle();var el=document.getElementById('jptTmInput');requestAnimationFrame(function(){el.select();});};
-  window.jptTmApply=function(){var el=document.getElementById('jptTmInput');var v=parse(el.value);if(v===null){paint();return false;}total=v;remaining=v;paint();return true;};
-  window.jptTmKey=function(e){if(e.key==='Enter'){e.preventDefault();if(window.jptTmApply()&&!running)window.jptTmToggle();e.target.blur();}else if(e.key==='Escape'){e.preventDefault();paint();e.target.blur();}};
-  window.jptTmToggle=function(){running=!running;clearInterval(iv);if(running)iv=setInterval(function(){remaining--;paint();},1000);paint();};
-  window.jptTmReset=function(){remaining=total;running=false;clearInterval(iv);paint();};
-  paint();
+  Array.prototype.forEach.call(document.querySelectorAll('.exp-wrap'), function (wrap) {
+    var btn = wrap.querySelector('.icon-action'), menu = wrap.querySelector('.exp-menu');
+    if (!btn || !menu) return;
+    function close(){ if(menu.hidden) return; menu.hidden = true; btn.setAttribute('aria-expanded','false'); }
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      if (menu.hidden) { menu.hidden = false; btn.setAttribute('aria-expanded','true'); } else close();
+    });
+    menu.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('[role=menuitem]')) close(); });
+    document.addEventListener('click', function (e) { if (!menu.hidden && !wrap.contains(e.target)) close(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !menu.hidden) { close(); btn.focus(); } });
+  });
 })();
 </script>
-<!-- /jpt:timerjs -->
+<!-- /jpt:exportmenu -->
 """
 
-
-EXPORT_JS = """<!-- jpt:exportjs -->
+SPEAKING_PNG_JS = """<!-- jpt:speakingpng -->
 <script>
 (function () {
-  var btn = document.getElementById('jptExportBtn');
-  var menu = document.getElementById('jptExportMenu');
-  if (!btn || !menu) return;
-  function close(){ if(menu.hidden)return; menu.hidden=true; btn.setAttribute('aria-expanded','false'); }
-  function open(){ menu.hidden=false; btn.setAttribute('aria-expanded','true'); }
-  btn.addEventListener('click', function(e){ e.stopPropagation(); menu.hidden?open():close(); });
-  document.addEventListener('click', function(e){ if(!menu.hidden && !menu.contains(e.target) && e.target!==btn) close(); });
-  document.addEventListener('keydown', function(e){ if(e.key==='Escape' && !menu.hidden){ close(); btn.focus(); } });
-  menu.addEventListener('click', function(e){
-    var a = e.target.closest ? e.target.closest('[data-exp]') : null;
-    if(!a) return; e.preventDefault(); close();
-    if(a.dataset.exp==='pdf'){ if(typeof exportPDF==='function') exportPDF(); }
-    else { jptExportPNG(); }
-  });
-
-  // Render the current topic's questions to a PNG. Light, printable, fixed
-  // palette so the image looks the same regardless of the page theme.
   window.jptExportPNG = function () {
     if (typeof currentTopicIdx==='undefined' || currentTopicIdx===null){ alert('Pick a topic first.'); return; }
     var t = topics[currentTopicIdx], data = t[currentLevel];
@@ -534,8 +515,53 @@ EXPORT_JS = """<!-- jpt:exportjs -->
   };
 })();
 </script>
-<!-- /jpt:exportjs -->
+<!-- /jpt:speakingpng -->
 """
+
+
+TIMER_HTML = (
+    '<div class="timer" id="jptTimerBox">'
+    '<input class="tm" id="jptTmInput" type="text" inputmode="numeric" value="02:00" '
+    'aria-label="Timer length" title="Type a length (2 or 2:30) and press Enter to start" '
+    'onfocus="jptTmFocus()" onkeydown="jptTmKey(event)" onblur="jptTmApply()">'
+    '<button onclick="jptTmToggle()" id="jptTmBtn" title="Start / pause"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="7 4 20 12 7 20 7 4"/></svg></button>'
+    '<button onclick="jptTmReset()" title="Reset" aria-label="Reset timer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></button></div>')
+
+TIMER_JS = """<!-- jpt:timerjs -->
+<script>
+/* Self-contained MM:SS timer, modelled on the Debate Builder's: type a length,
+   Enter starts it, the input shows the countdown. Namespaced so it does not
+   touch the tool's own (now removed) preset timer. */
+(function () {
+  var total = 120, remaining = 120, running = false, iv = null;
+  function fmt(s){var n=s<0;s=Math.abs(s);return (n?'-':'')+String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+  function parse(str){str=String(str).trim().replace(/\s*min(ute)?s?$/i,'');if(!str)return null;var t;
+    if(str.indexOf(':')>=0){var pp=str.split(':');var m=parseInt(pp[0],10)||0;var sc=parseInt(pp[1],10)||0;if(sc>59)return null;t=m*60+sc;}
+    else{var mn=parseFloat(str);if(!isFinite(mn))return null;t=Math.round(mn*60);}
+    if(!isFinite(t)||t<=0)return null;return Math.min(t,99*60+59);}
+  function box(){return document.getElementById('jptTimerBox');}
+  function paint(){var input=document.getElementById('jptTmInput');if(!input)return;
+    var txt=fmt(remaining);if(document.activeElement!==input)input.value=txt;
+    var warn=remaining<=60&&remaining>0,over=remaining<=0;
+    box().classList.toggle('warn',warn);box().classList.toggle('over',over);
+    var bar=document.getElementById('jptTmBar');
+    if(bar){bar.classList.toggle('on',running||remaining<total||over);
+      bar.classList.toggle('warn',warn);bar.classList.toggle('over',over);
+      document.getElementById('jptTmBarFill').style.width=(over?100:Math.max(0,Math.min(1,remaining/total))*100)+'%';}
+    var _P='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="7 4 20 12 7 20 7 4"/></svg>';
+    var _PA='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4.5" width="4" height="15" rx="1"/><rect x="14" y="4.5" width="4" height="15" rx="1"/></svg>';
+    document.getElementById('jptTmBtn').innerHTML=running?_PA:_P;}
+  window.jptTmFocus=function(){if(running)window.jptTmToggle();var el=document.getElementById('jptTmInput');requestAnimationFrame(function(){el.select();});};
+  window.jptTmApply=function(){var el=document.getElementById('jptTmInput');var v=parse(el.value);if(v===null){paint();return false;}total=v;remaining=v;paint();return true;};
+  window.jptTmKey=function(e){if(e.key==='Enter'){e.preventDefault();if(window.jptTmApply()&&!running)window.jptTmToggle();e.target.blur();}else if(e.key==='Escape'){e.preventDefault();paint();e.target.blur();}};
+  window.jptTmToggle=function(){running=!running;clearInterval(iv);if(running)iv=setInterval(function(){remaining--;paint();},1000);paint();};
+  window.jptTmReset=function(){remaining=total;running=false;clearInterval(iv);paint();};
+  paint();
+})();
+</script>
+<!-- /jpt:timerjs -->
+"""
+
 
 
 def drop(html, tag):
@@ -546,7 +572,8 @@ def strip_marks(html):
     for tag in ('jpt:brand', 'jpt:toolsnav', 'jpt:sidefoot', 'jpt:toolhead', 'jpt:debateslabel',
                 'jpt:homeview', 'jpt:router', 'jpt:backlink', 'jpt:menujs', 'jpt:themejs',
                 'jpt:themebtn', 'jpt:themeboot', 'jpt:strip',
-                'jpt:present', 'jpt:timerjs', 'jpt:export', 'jpt:exportjs'):
+                'jpt:present', 'jpt:timerjs', 'jpt:export', 'jpt:exportjs',
+                'jpt:exportmenu', 'jpt:speakingpng'):
         html = drop(html, tag)
     html = re.sub(r'/\* jpt:chrome \*/.*?/\* /jpt:chrome \*/\n?', '', html, flags=re.S)
     html = re.sub(r'/\* jpt:speaking \*/.*?/\* /jpt:speaking \*/\n?', '', html, flags=re.S)
@@ -732,15 +759,6 @@ main{overflow:visible;min-width:0}
   color:var(--muted);display:inline-flex;align-items:center;justify-content:center;
   cursor:pointer;transition:background .12s,color .12s}
 .timer button svg{width:15px;height:15px;display:block}
-/* Export PDF as a toolbar icon, right of the timer. */
-.icon-action{width:36px;height:36px;border-radius:999px;border:1px solid var(--soft-line);
-  background:transparent;color:var(--muted);display:inline-flex;align-items:center;
-  justify-content:center;cursor:pointer;transition:background .12s,color .12s,border-color .12s}
-.icon-action:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
-.icon-action svg{width:16px;height:16px}
-.icon-action[aria-expanded="true"]{background:var(--soft);color:var(--accent);border-color:var(--accent)}
-.exp-wrap{position:relative;display:inline-flex}
-.exp-menu{left:auto;right:0;min-width:190px}
 /* The deck card's tool row is empty now that its buttons moved. */
 .deck-toolbar:empty{display:none}
 .timer button:hover{background:var(--soft);color:var(--accent)}
@@ -829,7 +847,20 @@ def build_debate(html, t):
     html = need(html, home, '#cardHome')
     html = html.replace(home, home + '\n      ' + tool_head(t), 1)
 
-    html = inject_before(html, '</body>', MENU_JS, 'the menu script')
+    # Null-guard withExportButton: #pngBtn/#pdfBtn no longer exist once the three
+    # export buttons become one download menu, and it would throw on null.
+    html = html.replace('const btn = document.getElementById(id);',
+                        'const btn = document.getElementById(id) || {};', 1)
+
+    # Replace Export PNG / Export PDF / Print with the shared download dropdown.
+    three_re = (r'<button class="btn ghost tiny" onclick="exportPNG\(\)" id="pngBtn">Export PNG</button>\s*'
+                r'<button class="btn ghost tiny" onclick="exportPDF\(\)" id="pdfBtn">Export PDF</button>\s*'
+                r'<button class="btn ghost tiny" onclick="window\.print\(\)">Print</button>')
+    html, n = re.subn(three_re, lambda m: DEBATE_MENU, html, count=1)
+    if n != 1:
+        raise SystemExit('build: could not find the debate export buttons to replace')
+
+    html = inject_before(html, '</body>', MENU_JS + EXPORT_MENU_JS, 'the menu scripts')
     return html
 
 
@@ -902,7 +933,7 @@ def build_speaking(html, t):
         <div class="status">Questions</div>
         {acts}
         {TIMER_HTML}
-        {EXPORT_BTN}
+        {SPEAKING_MENU}
       </div>
       <div class="jpt-tmbar" id="jptTmBar"><span id="jptTmBarFill"></span></div>
       {holder}
@@ -948,7 +979,7 @@ def build_speaking(html, t):
 
     html = re.sub(r'&family=JetBrains\+Mono:wght@[0-9;]+', '', html, count=1)
 
-    html = inject_before(html, '</body>', MENU_JS + THEME_JS + TIMER_JS + EXPORT_JS, 'the page scripts')
+    html = inject_before(html, '</body>', MENU_JS + THEME_JS + TIMER_JS + EXPORT_MENU_JS + SPEAKING_PNG_JS, 'the page scripts')
     return html
 
 

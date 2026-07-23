@@ -113,6 +113,14 @@ button.st-brand[aria-expanded="true"] .brand-chev{transform:rotate(180deg)}
 }
 @media print{.tool-head,.popmenu,.stopbar{display:none!important}}
 @media (prefers-reduced-motion:reduce){.popmenu{animation:none}}
+/* Download-icon dropdown, shared by the tools. */
+.icon-action{width:36px;height:36px;border-radius:999px;border:1px solid var(--soft-line);
+  background:transparent;color:var(--muted);display:inline-flex;align-items:center;
+  justify-content:center;cursor:pointer;transition:background .12s,color .12s,border-color .12s}
+.icon-action:hover,.icon-action[aria-expanded="true"]{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+.icon-action svg{width:16px;height:16px;display:block}
+.exp-wrap{position:relative;display:inline-flex}
+.exp-menu{left:auto;right:0;min-width:190px}
 /* /jpt:chrome */
 
 a.btn{text-decoration:none}
