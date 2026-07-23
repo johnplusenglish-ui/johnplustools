@@ -652,6 +652,33 @@ PHRASES_JS = """<!-- jpt:phrasesjs -->
 <!-- /jpt:phrasesjs -->
 """
 
+QUESTIONS_JS = """<!-- jpt:questionsjs -->
+<script>
+(function () {
+  var QKEY = 'jpt_speaking_questions_v1';
+  var over = {};
+  try {
+    var raw = localStorage.getItem(QKEY);
+    if (raw) over = JSON.parse(raw) || {};
+  } catch (e) { over = {}; }
+  window.jptQEsc = function (s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  };
+  window.jptQOverride = function (topicIdx, level, cat, i, base) {
+    var k = topicIdx + ':' + level + ':' + cat + ':' + i;
+    return Object.prototype.hasOwnProperty.call(over, k) ? over[k] : base;
+  };
+  window.jptQSave = function (topicIdx, level, cat, i, base, text) {
+    var k = topicIdx + ':' + level + ':' + cat + ':' + i;
+    text = text.trim();
+    if (!text || text === base) { delete over[k]; } else { over[k] = text; }
+    try { localStorage.setItem(QKEY, JSON.stringify(over)); } catch (e) {}
+  };
+})();
+</script>
+<!-- /jpt:questionsjs -->
+"""
+
 
 def drop(html, tag):
     return re.sub(rf'<!-- {tag} -->.*?<!-- /{tag} -->\n?\s*', '', html, flags=re.S)
@@ -662,7 +689,7 @@ def strip_marks(html):
                 'jpt:homeview', 'jpt:router', 'jpt:backlink', 'jpt:menujs', 'jpt:themejs',
                 'jpt:themebtn', 'jpt:themeboot', 'jpt:strip',
                 'jpt:present', 'jpt:timerjs', 'jpt:export', 'jpt:exportjs',
-                'jpt:exportmenu', 'jpt:speakingpng', 'jpt:sidejs', 'jpt:phrasesjs'):
+                'jpt:exportmenu', 'jpt:speakingpng', 'jpt:sidejs', 'jpt:phrasesjs', 'jpt:questionsjs'):
         html = drop(html, tag)
     html = re.sub(r'/\* jpt:chrome \*/.*?/\* /jpt:chrome \*/\n?', '', html, flags=re.S)
     html = re.sub(r'/\* jpt:speaking \*/.*?/\* /jpt:speaking \*/\n?', '', html, flags=re.S)
@@ -732,6 +759,8 @@ body{background:var(--bg);color:var(--ink);margin:0}
 .q-item.thought .q-num{color:var(--muted)}
 .focus-type.thought{background:var(--soft);color:var(--muted)}
 .q-item{border-bottom:none}
+.q-text{cursor:text;border-radius:6px;padding:1px 4px;margin:-1px -4px}
+.q-text:focus{outline:none;background:var(--soft);box-shadow:inset 0 0 0 1px var(--soft-line)}
 
 /* ── Shell, matching the Debate Builder ──────────────────────────────── */
 .app{display:grid;grid-template-columns:var(--jpt-side-w,302px) 1fr;
@@ -1241,9 +1270,70 @@ def build_speaking(html, t):
     if not n:
         raise SystemExit('build: could not find the question card topic icon in speaking-topics')
 
+    # John's call: the shipped 1,000 questions are "the base" — make the text
+    # editable per class, kept in localStorage, falling back to the original
+    # wording. Overrides are sparse (only what's actually been edited), keyed
+    # by topic/level/category/index, so nothing needs to duplicate the full
+    # question set. See QUESTIONS_JS for jptQOverride/jptQEsc/jptQSave.
+    personal_old = ("h += '<li class=\"q-item personal' + (revealMode ? ' hidden-q' : '') + '\">"
+                    "<span class=\"q-num\">' + (i + 1) + '</span><span>' + q + '</span></li>';")
+    personal_new = ("var qv = window.jptQOverride(currentTopicIdx, currentLevel, 'personal', i, q);\n"
+                     "    h += '<li class=\"q-item personal' + (revealMode ? ' hidden-q' : '') + '\">"
+                     "<span class=\"q-num\">' + (i + 1) + '</span><span class=\"q-text\" "
+                     "contenteditable=\"true\" spellcheck=\"false\" data-cat=\"personal\" "
+                     "data-qi=\"' + i + '\">' + window.jptQEsc(qv) + '</span></li>';")
+    if personal_old not in html:
+        raise SystemExit('build: could not find the personal question row in speaking-topics')
+    html = html.replace(personal_old, personal_new, 1)
+
+    thought_old = ("h += '<li class=\"q-item thought' + (revealMode ? ' hidden-q' : '') + '\">"
+                   "<span class=\"q-num\">' + (i + 6) + '</span><span>' + q + '</span></li>';")
+    thought_new = ("var qv = window.jptQOverride(currentTopicIdx, currentLevel, 'thought', i, q);\n"
+                    "    h += '<li class=\"q-item thought' + (revealMode ? ' hidden-q' : '') + '\">"
+                    "<span class=\"q-num\">' + (i + 6) + '</span><span class=\"q-text\" "
+                    "contenteditable=\"true\" spellcheck=\"false\" data-cat=\"thought\" "
+                    "data-qi=\"' + i + '\">' + window.jptQEsc(qv) + '</span></li>';")
+    if thought_old not in html:
+        raise SystemExit('build: could not find the thought-provoking question row in speaking-topics')
+    html = html.replace(thought_old, thought_new, 1)
+
+    handlers_old = """  deck.querySelectorAll('.q-item').forEach(function(item) {
+    item.addEventListener('click', function() {
+      if (this.classList.contains('hidden-q') && !this.classList.contains('revealed')) {
+        this.classList.add('revealed');
+      } else if (!this.classList.contains('hidden-q') || this.classList.contains('revealed')) {
+        this.classList.toggle('crossed');
+      }
+    });
+  });"""
+    handlers_new = """  deck.querySelectorAll('.q-item').forEach(function(item) {
+    item.addEventListener('click', function(e) {
+      if (e.target.closest('.q-text')) return;
+      if (this.classList.contains('hidden-q') && !this.classList.contains('revealed')) {
+        this.classList.add('revealed');
+      } else if (!this.classList.contains('hidden-q') || this.classList.contains('revealed')) {
+        this.classList.toggle('crossed');
+      }
+    });
+    var qt = item.querySelector('.q-text');
+    if (!qt) return;
+    qt.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') { e.preventDefault(); qt.blur(); }
+    });
+    qt.addEventListener('blur', function() {
+      var cat = qt.getAttribute('data-cat');
+      var qi = parseInt(qt.getAttribute('data-qi'), 10);
+      var base = topics[currentTopicIdx][currentLevel][cat][qi];
+      window.jptQSave(currentTopicIdx, currentLevel, cat, qi, base, qt.textContent);
+    });
+  });"""
+    if handlers_old not in html:
+        raise SystemExit('build: could not find the question click handlers in speaking-topics')
+    html = html.replace(handlers_old, handlers_new, 1)
+
     html = re.sub(r'&family=JetBrains\+Mono:wght@[0-9;]+', '', html, count=1)
 
-    html = inject_before(html, '</body>', MENU_JS + THEME_JS + TIMER_JS + EXPORT_MENU_JS + SPEAKING_PNG_JS + SIDE_JS + PHRASES_JS, 'the page scripts')
+    html = inject_before(html, '</body>', MENU_JS + THEME_JS + TIMER_JS + EXPORT_MENU_JS + SPEAKING_PNG_JS + SIDE_JS + PHRASES_JS + QUESTIONS_JS, 'the page scripts')
     return html
 
 

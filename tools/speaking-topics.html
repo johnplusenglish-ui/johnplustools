@@ -370,6 +370,8 @@ body{background:var(--bg);color:var(--ink);margin:0}
 .q-item.thought .q-num{color:var(--muted)}
 .focus-type.thought{background:var(--soft);color:var(--muted)}
 .q-item{border-bottom:none}
+.q-text{cursor:text;border-radius:6px;padding:1px 4px;margin:-1px -4px}
+.q-text:focus{outline:none;background:var(--soft);box-shadow:inset 0 0 0 1px var(--soft-line)}
 
 /* ── Shell, matching the Debate Builder ──────────────────────────────── */
 .app{display:grid;grid-template-columns:var(--jpt-side-w,302px) 1fr;
@@ -830,7 +832,8 @@ function renderDeck() {
   h += '<div class="deck-section-label label-personal"><span class="label-dot dot-personal"></span> Personal</div>';
   h += '<ol class="q-list">';
   data.personal.forEach(function(q, i) {
-    h += '<li class="q-item personal' + (revealMode ? ' hidden-q' : '') + '"><span class="q-num">' + (i + 1) + '</span><span>' + q + '</span></li>';
+    var qv = window.jptQOverride(currentTopicIdx, currentLevel, 'personal', i, q);
+    h += '<li class="q-item personal' + (revealMode ? ' hidden-q' : '') + '"><span class="q-num">' + (i + 1) + '</span><span class="q-text" contenteditable="true" spellcheck="false" data-cat="personal" data-qi="' + i + '">' + window.jptQEsc(qv) + '</span></li>';
   });
   h += '</ol></div>';
 
@@ -839,7 +842,8 @@ function renderDeck() {
   h += '<div class="deck-section-label label-thought"><span class="label-dot dot-thought"></span> Thought-provoking</div>';
   h += '<ol class="q-list">';
   data.thought.forEach(function(q, i) {
-    h += '<li class="q-item thought' + (revealMode ? ' hidden-q' : '') + '"><span class="q-num">' + (i + 6) + '</span><span>' + q + '</span></li>';
+    var qv = window.jptQOverride(currentTopicIdx, currentLevel, 'thought', i, q);
+    h += '<li class="q-item thought' + (revealMode ? ' hidden-q' : '') + '"><span class="q-num">' + (i + 6) + '</span><span class="q-text" contenteditable="true" spellcheck="false" data-cat="thought" data-qi="' + i + '">' + window.jptQEsc(qv) + '</span></li>';
   });
   h += '</ol></div>';
 
@@ -847,12 +851,24 @@ function renderDeck() {
 
   // Add click handlers
   deck.querySelectorAll('.q-item').forEach(function(item) {
-    item.addEventListener('click', function() {
+    item.addEventListener('click', function(e) {
+      if (e.target.closest('.q-text')) return;
       if (this.classList.contains('hidden-q') && !this.classList.contains('revealed')) {
         this.classList.add('revealed');
       } else if (!this.classList.contains('hidden-q') || this.classList.contains('revealed')) {
         this.classList.toggle('crossed');
       }
+    });
+    var qt = item.querySelector('.q-text');
+    if (!qt) return;
+    qt.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') { e.preventDefault(); qt.blur(); }
+    });
+    qt.addEventListener('blur', function() {
+      var cat = qt.getAttribute('data-cat');
+      var qi = parseInt(qt.getAttribute('data-qi'), 10);
+      var base = topics[currentTopicIdx][currentLevel][cat][qi];
+      window.jptQSave(currentTopicIdx, currentLevel, cat, qi, base, qt.textContent);
     });
   });
   var nav = document.getElementById('deckNav');
@@ -1388,5 +1404,30 @@ buildTopicGrid();
 })();
 </script>
 <!-- /jpt:phrasesjs -->
+<!-- jpt:questionsjs -->
+<script>
+(function () {
+  var QKEY = 'jpt_speaking_questions_v1';
+  var over = {};
+  try {
+    var raw = localStorage.getItem(QKEY);
+    if (raw) over = JSON.parse(raw) || {};
+  } catch (e) { over = {}; }
+  window.jptQEsc = function (s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  };
+  window.jptQOverride = function (topicIdx, level, cat, i, base) {
+    var k = topicIdx + ':' + level + ':' + cat + ':' + i;
+    return Object.prototype.hasOwnProperty.call(over, k) ? over[k] : base;
+  };
+  window.jptQSave = function (topicIdx, level, cat, i, base, text) {
+    var k = topicIdx + ':' + level + ':' + cat + ':' + i;
+    text = text.trim();
+    if (!text || text === base) { delete over[k]; } else { over[k] = text; }
+    try { localStorage.setItem(QKEY, JSON.stringify(over)); } catch (e) {}
+  };
+})();
+</script>
+<!-- /jpt:questionsjs -->
 </body>
 </html>
