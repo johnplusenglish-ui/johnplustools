@@ -438,6 +438,9 @@ main{overflow:visible;min-width:0}
   border:1px solid transparent;background:transparent;color:var(--ink);
   transition:background .12s,border-color .12s}
 .topic-btn svg{flex-shrink:0;width:15px;height:15px}
+/* Same TOPIC_ICONS markup as the sidebar, sized/coloured for the question
+   card's header instead (this used to be one hardcoded chat-bubble icon). */
+.deck-topic svg{width:18px;height:18px;flex-shrink:0;color:var(--sky)}
 .topic-btn:hover{background:var(--soft)}
 .topic-btn.active,.topic-btn.on,.topic-btn[aria-pressed="true"]{
   background:var(--soft);border-color:var(--accent);color:var(--accent)}
@@ -806,7 +809,7 @@ function renderDeck() {
   var lvlLabel = currentLevel.charAt(0).toUpperCase() + currentLevel.slice(1);
 
   var h = '<div class="deck-header">';
-  h += '<span class="deck-topic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--sky);flex-shrink:0"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> ' + t.name + '</span>';
+  h += '<span class="deck-topic">' + TOPIC_ICONS[currentTopicIdx] + ' ' + t.name + '</span>';
   h += '<div class="deck-level-toggle"><span class="deck-level-pill' + (currentLevel === 'simple' ? ' on' : '') + '" onclick="switchLevelPill(\'simple\')">Simple</span><span class="deck-level-pill' + (currentLevel === 'advanced' ? ' on' : '') + '" onclick="switchLevelPill(\'advanced\')">Advanced</span></div>';
   h += '</div>';
 

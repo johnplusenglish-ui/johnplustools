@@ -800,6 +800,9 @@ main{overflow:visible;min-width:0}
   border:1px solid transparent;background:transparent;color:var(--ink);
   transition:background .12s,border-color .12s}
 .topic-btn svg{flex-shrink:0;width:15px;height:15px}
+/* Same TOPIC_ICONS markup as the sidebar, sized/coloured for the question
+   card's header instead (this used to be one hardcoded chat-bubble icon). */
+.deck-topic svg{width:18px;height:18px;flex-shrink:0;color:var(--sky)}
 .topic-btn:hover{background:var(--soft)}
 .topic-btn.active,.topic-btn.on,.topic-btn[aria-pressed="true"]{
   background:var(--soft);border-color:var(--accent);color:var(--accent)}
@@ -1220,6 +1223,15 @@ def build_speaking(html, t):
     if 'h += t.name;' not in html:
         raise SystemExit('build: could not find the topic button label in speaking-topics')
     html = html.replace('h += t.name;', "h += TOPIC_ICONS[i] + ' ' + t.name;", 1)
+
+    # Carry the same icon onto the question card's own header, in place of the
+    # single generic chat-bubble icon every topic used to share.
+    deck_topic_re = r"h \+= '<span class=\"deck-topic\">.*?</svg> ' \+ t\.name \+ '</span>';"
+    deck_topic_new = ("h += '<span class=\"deck-topic\">' + TOPIC_ICONS[currentTopicIdx] "
+                       "+ ' ' + t.name + '</span>';")
+    html, n = re.subn(deck_topic_re, deck_topic_new, html, count=1)
+    if not n:
+        raise SystemExit('build: could not find the question card topic icon in speaking-topics')
 
     html = re.sub(r'&family=JetBrains\+Mono:wght@[0-9;]+', '', html, count=1)
 
