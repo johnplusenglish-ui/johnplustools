@@ -505,10 +505,10 @@ main{overflow:visible;min-width:0}
 .phrases-panel{background:var(--card);border:1px solid var(--line);border-radius:16px;
   padding:16px 16px 14px;box-shadow:var(--shadow-card);
   position:sticky;top:calc(var(--jpt-bar) + 18px)}
-.ph-head{display:flex;align-items:center;gap:8px;margin-bottom:6px}
-.ph-flip{display:inline-flex;border:1.5px solid var(--soft-line);border-radius:9px;
-  overflow:hidden;margin:2px 0 12px}
-.ph-flip-btn{font-family:inherit;padding:5px 14px;border:none;background:transparent;
+.ph-head{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.ph-flip{display:inline-flex;flex-shrink:0;border:1.5px solid var(--soft-line);border-radius:9px;
+  overflow:hidden}
+.ph-flip-btn{font-family:inherit;padding:5px 10px;border:none;background:transparent;
   color:var(--muted);cursor:pointer;display:inline-flex;align-items:center;gap:3px;
   transition:background .12s,color .12s}
 .ph-flip-btn+.ph-flip-btn{border-left:1.5px solid var(--soft-line)}
@@ -675,11 +675,11 @@ main{overflow:visible;min-width:0}
         <aside class="phrases-panel" aria-label="Useful phrases">
           <div class="ph-head">
             <span class="ph-title">Useful phrases</span>
+            <div class="ph-flip" role="group" aria-label="Phrase level">
+              <button class="ph-flip-btn on" data-lvl="simple" onclick="jptPhraseFlip('simple')" title="Simple" aria-label="Simple answers"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg></button>
+              <button class="ph-flip-btn" data-lvl="advanced" onclick="jptPhraseFlip('advanced')" title="Advanced" aria-label="Advanced answers"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg><svg viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg></button>
+            </div>
             <button class="ph-reset" onclick="jptPhrasesReset()" title="Reset to the defaults">Reset</button>
-          </div>
-          <div class="ph-flip" role="group" aria-label="Phrase level">
-            <button class="ph-flip-btn on" data-lvl="simple" onclick="jptPhraseFlip('simple')" title="Simple" aria-label="Simple answers"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg></button>
-            <button class="ph-flip-btn" data-lvl="advanced" onclick="jptPhraseFlip('advanced')" title="Advanced" aria-label="Advanced answers"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg><svg viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg></button>
           </div>
           <div class="ph-list" id="jptPhraseList"></div>
           <button class="ph-add" onclick="jptPhraseAdd()">+ Add phrase</button>
