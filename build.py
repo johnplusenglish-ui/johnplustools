@@ -1112,6 +1112,10 @@ FEATHER = {
   'gift': '<polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>',
   'flag': '<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>',
   'sun': '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>',
+  'sunset': '<path d="M17 18a5 5 0 0 0-10 0"/><line x1="12" y1="9" x2="12" y2="2"/><line x1="4.22" y1="10.22" x2="5.64" y2="11.64"/><line x1="1" y1="18" x2="3" y2="18"/><line x1="21" y1="18" x2="23" y2="18"/><line x1="18.36" y1="11.64" x2="19.78" y2="10.22"/><line x1="23" y1="22" x2="1" y2="22"/><polyline points="16 5 12 9 8 5"/>',
+  'star': '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
+  'pen-tool': '<path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/>',
+  'target': '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
 }
 
 # One icon per topic, chosen so no two topics in the same sidebar group (see
@@ -1129,8 +1133,15 @@ TOPIC_ICON_NAMES = {
     40: 'image', 41: 'music', 42: 'book', 43: 'check-circle', 44: 'search',
     45: 'globe', 46: 'trending-down', 47: 'thumbs-up', 48: 'gift', 49: 'flag',
     # Added by build.py, not present in John's source. See NEW_TOPICS below.
-    50: 'sun',      # Mental Health — sits with Health & Wellbeing
-    51: 'heart',    # Love, Dating & Marriage — sits with Family/Friendship
+    50: 'sun',       # Mental Health — Health, Nature & Travel
+    51: 'heart',     # Love, Dating & Marriage — You & Your Life
+    52: 'heart',     # Volunteering & Charity — Work, Money & Education (heart
+                     # reused: it's already Love in a different sidebar group;
+                     # within Work/Money/Education itself, still unique)
+    53: 'sunset',    # Retirement & Later Life — Work, Money & Education
+    54: 'star',      # Space & Exploration — Technology & The Future
+    55: 'pen-tool',  # Art & Design — Culture, Language & Ideas
+    56: 'target',    # Advertising & Marketing — Society & The World
 }
 
 
@@ -1208,6 +1219,186 @@ NEW_TOPICS = [
                 "How is technology reshaping what it means to be in a relationship?",
                 "Is marriage a genuinely useful institution today, or a leftover from a very different society?",
                 "Can two people who want completely different lives ever really make it work?",
+            ],
+        },
+    },
+    {
+        "name": "Volunteering & Charity",
+        "emoji": "\U0001F49D",
+        "simple": {
+            "personal": [
+                "Have you ever done any volunteer work?",
+                "Do you give money to charity?",
+                "What kind of causes are important to you?",
+                "Would you volunteer abroad?",
+                "What's the best way to help someone in need?",
+            ],
+            "thought": [
+                "Why do people volunteer?",
+                "Should students do volunteer work at school?",
+                "Is it better to give time or money to charity?",
+                "Do charities do more good than governments?",
+                "Should famous people give more to charity?",
+            ],
+        },
+        "advanced": {
+            "personal": [
+                "What's the most rewarding thing you've ever done for someone else with no expectation of anything in return?",
+                "If you had a whole year off and enough money to live on, which cause would you give that year to?",
+                "Have you ever seen a charity change someone's life close to you?",
+                "Why do we help strangers we'll never meet again?",
+                "When was the last time a small act of kindness stayed with you?",
+            ],
+            "thought": [
+                "Are charities a genuine force for good, or a sign that the state has abandoned its responsibilities?",
+                "To what extent does volunteering benefit the volunteer more than the people they're trying to help?",
+                "Should the wealthy be legally obliged to give a percentage of their income to charity?",
+                "Is public giving, the kind that gets talked about on social media, still generosity, or is it self-promotion?",
+                "Can a society that relies on food banks and charity really call itself a fair one?",
+            ],
+        },
+    },
+    {
+        "name": "Retirement & Later Life",
+        "emoji": "\U0001F334",
+        "simple": {
+            "personal": [
+                "At what age would you like to retire?",
+                "What do you plan to do after you stop working?",
+                "Do you know anyone who's retired and happy?",
+                "Where would you like to live in your old age?",
+                "What are you saving up for?",
+            ],
+            "thought": [
+                "Is 65 too young or too old to retire?",
+                "Should older people keep working if they can?",
+                "Do young people take care of their parents enough?",
+                "Is old age respected in your country?",
+                "Are people afraid of getting old?",
+            ],
+        },
+        "advanced": {
+            "personal": [
+                "When you picture yourself at 70, what does a good day look like?",
+                "What have you seen a parent or grandparent do in retirement that you'd want to copy, or avoid?",
+                "Is there a skill or hobby you're saving for later in life, and why haven't you started already?",
+                "How much of your identity is tied to your job, and what happens when that's gone?",
+                "If you could freeze time at any age, would you? Which one?",
+            ],
+            "thought": [
+                "Should the retirement age keep rising as we live longer, or is that the state quietly moving the goalposts?",
+                "To what extent are we responsible for our parents' care in old age, and where does the state come in?",
+                "Is retirement even a coherent idea any more in an economy where careers keep changing?",
+                "Are we living longer lives, or just slower deaths?",
+                "Has society decided that old age is a problem to be managed rather than a stage to be respected?",
+            ],
+        },
+    },
+    {
+        "name": "Space & Exploration",
+        "emoji": "\U0001F680",
+        "simple": {
+            "personal": [
+                "Are you interested in space?",
+                "Would you go to space if you could?",
+                "Do you look at the stars at night?",
+                "What do you know about the moon landing?",
+                "Have you ever been to a planetarium?",
+            ],
+            "thought": [
+                "Should governments spend money on space?",
+                "Do you think there's life on other planets?",
+                "Will humans live on Mars one day?",
+                "Are space missions worth the risk?",
+                "Why are people so fascinated by space?",
+            ],
+        },
+        "advanced": {
+            "personal": [
+                "If there were an eight-hour queue for a fifteen-minute trip to the edge of space, would you join it?",
+                "When you look up at a clear night sky, what does it make you think about?",
+                "What discovery about the universe has genuinely surprised you?",
+                "Would you want to know for certain whether we're alone in the universe?",
+                "Is there a science-fiction future you'd genuinely like to live in?",
+            ],
+            "thought": [
+                "Should we be pouring resources into reaching Mars while we still can't feed everyone on Earth?",
+                "Is space becoming another territory for the rich, or genuinely a new frontier for humanity?",
+                "To what extent does exploring space help us understand ourselves?",
+                "Should there be an international treaty stopping any one country claiming a piece of the moon?",
+                "Has commercial spaceflight cheapened the whole idea of exploration?",
+            ],
+        },
+    },
+    {
+        "name": "Art & Design",
+        "emoji": "\U0001F3A8",
+        "simple": {
+            "personal": [
+                "Do you enjoy visiting art galleries?",
+                "What kind of art do you like?",
+                "Can you draw or paint?",
+                "Is there a famous artwork you love?",
+                "Do you have any art in your home?",
+            ],
+            "thought": [
+                "Is art important in schools?",
+                "Should the government pay artists?",
+                "Is a painting worth millions of pounds ever really worth that much?",
+                "Do children make better art than adults?",
+                "Is graffiti art or vandalism?",
+            ],
+        },
+        "advanced": {
+            "personal": [
+                "Is there a piece of art that has moved you unexpectedly, and can you explain why?",
+                "What role does good design play in your daily life, even in things you don't think of as designed?",
+                "If you had to fill a room with one artist's work, whose would it be?",
+                "Have you ever paid more for something purely because it was beautifully designed?",
+                "Do you have a strong opinion about a particular style you love or can't stand, and where does that come from?",
+            ],
+            "thought": [
+                "To what extent is the price of a work of art related to its artistic value, and to what extent is it just a game?",
+                "Has good design become a luxury only the wealthy get to enjoy?",
+                "Can something be genuinely beautiful without being useful, or is that a contradiction?",
+                "Is AI-generated art really art, or does the human intention matter more than the result?",
+                "Should offensive or provocative art be protected by law, or should communities have the right to remove it?",
+            ],
+        },
+    },
+    {
+        "name": "Advertising & Marketing",
+        "emoji": "\U0001F4E3",
+        "simple": {
+            "personal": [
+                "Do adverts influence what you buy?",
+                "What's an advert you remember from childhood?",
+                "Have you ever bought something because of an ad?",
+                "Are there any adverts you actually enjoy watching?",
+                "Do you use ad blockers online?",
+            ],
+            "thought": [
+                "Are there too many adverts everywhere?",
+                "Should adverts for junk food be banned?",
+                "Is it fair to show ads to children?",
+                "Do celebrities in adverts really change our minds?",
+                "Are online ads worse than TV ads?",
+            ],
+        },
+        "advanced": {
+            "personal": [
+                "What's the most manipulative advert you can remember, and did it work on you?",
+                "Is there a brand you'd genuinely defend to someone who criticised it, and what does that say about you?",
+                "Have you ever caught yourself wanting something purely because you saw it in your feed?",
+                "What does the advertising you see about you say about how algorithms think you are?",
+                "Would you pay a small monthly fee for a version of the internet with no advertising at all?",
+            ],
+            "thought": [
+                "Has advertising become so sophisticated that we can no longer meaningfully consent to being persuaded by it?",
+                "Should political advertising follow the same truth-in-advertising rules as commercial advertising?",
+                "To what extent does modern advertising create wants we would never otherwise have had?",
+                "Is the attention economy quietly becoming a bigger threat to democracy than we realise?",
+                "Should influencers who are paid to promote a product be legally obliged to make that as visible as a TV ad break?",
             ],
         },
     },
@@ -1377,6 +1568,14 @@ def build_speaking(html, t):
          'indices: [4, 6, 50, 14, 22, 31]', 'Health, Nature & Travel'),
         ('indices: [0, 2, 10, 19, 26, 27, 37, 38, 39]',
          'indices: [0, 2, 51, 10, 19, 26, 27, 37, 38, 39]', 'You & Your Life'),
+        ('indices: [1, 8, 11, 23]',
+         'indices: [1, 8, 11, 23, 52, 53]', 'Work, Money & Education'),
+        ('indices: [7, 15, 35, 36, 18, 44]',
+         'indices: [7, 15, 35, 36, 18, 44, 54]', 'Technology & The Future'),
+        ('indices: [13, 16, 17, 24, 25, 33, 40, 41, 42, 43]',
+         'indices: [13, 16, 17, 24, 25, 33, 40, 41, 42, 43, 55]', 'Culture, Language & Ideas'),
+        ('indices: [12, 21, 28, 34, 45, 46, 47, 49]',
+         'indices: [12, 21, 28, 34, 45, 46, 47, 49, 56]', 'Society & The World'),
     ):
         if old not in html:
             raise SystemExit(f'build: could not find the {group} indices in speaking-topics')
