@@ -725,6 +725,14 @@ body{background:var(--bg);color:var(--ink);margin:0}
 .roulette-topic,.topic-group-count{
   font-family:"Outfit",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 
+/* John's call: no purple accent on Thought-provoking (was var(--lavender)
+   throughout), and no divider line between questions. */
+.label-thought{color:var(--muted)}
+.dot-thought{background:var(--muted)}
+.q-item.thought .q-num{color:var(--muted)}
+.focus-type.thought{background:var(--soft);color:var(--muted)}
+.q-item{border-bottom:none}
+
 /* ── Shell, matching the Debate Builder ──────────────────────────────── */
 .app{display:grid;grid-template-columns:var(--jpt-side-w,302px) 1fr;
   min-height:calc(100vh - var(--jpt-bar));transition:grid-template-columns .22s ease}
