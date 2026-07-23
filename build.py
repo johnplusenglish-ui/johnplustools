@@ -383,6 +383,50 @@ def inject_before(html, needle, payload, what):
     return html[:i] + payload + html[i:]
 
 
+PRESENT_BTN = (
+    '<!-- jpt:present -->\n  <button class="btn" onclick="openFocusMode()" title="Present">\n'
+    '    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" '
+    'stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
+    '<polygon points="5 3 19 12 5 21 5 3"/></svg>\n    Present\n  </button>\n  <!-- /jpt:present -->')
+
+TIMER_HTML = (
+    '<div class="timer" id="jptTimerBox">'
+    '<input class="tm" id="jptTmInput" type="text" inputmode="numeric" value="02:00" '
+    'aria-label="Timer length" title="Type a length (2 or 2:30) and press Enter to start" '
+    'onfocus="jptTmFocus()" onkeydown="jptTmKey(event)" onblur="jptTmApply()">'
+    '<button onclick="jptTmToggle()" id="jptTmBtn" title="Start / pause">\u25B6</button>'
+    '<button onclick="jptTmReset()" title="Reset">\u21BA</button></div>')
+
+TIMER_JS = """<!-- jpt:timerjs -->
+<script>
+/* Self-contained MM:SS timer, modelled on the Debate Builder's: type a length,
+   Enter starts it, the input shows the countdown. Namespaced so it does not
+   touch the tool's own (now removed) preset timer. */
+(function () {
+  var total = 120, remaining = 120, running = false, iv = null;
+  function fmt(s){var n=s<0;s=Math.abs(s);return (n?'-':'')+String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+  function parse(str){str=String(str).trim().replace(/\s*min(ute)?s?$/i,'');if(!str)return null;var t;
+    if(str.indexOf(':')>=0){var pp=str.split(':');var m=parseInt(pp[0],10)||0;var sc=parseInt(pp[1],10)||0;if(sc>59)return null;t=m*60+sc;}
+    else{var mn=parseFloat(str);if(!isFinite(mn))return null;t=Math.round(mn*60);}
+    if(!isFinite(t)||t<=0)return null;return Math.min(t,99*60+59);}
+  function box(){return document.getElementById('jptTimerBox');}
+  function paint(){var input=document.getElementById('jptTmInput');if(!input)return;
+    var txt=fmt(remaining);if(document.activeElement!==input)input.value=txt;
+    var warn=remaining<=60&&remaining>0,over=remaining<=0;
+    box().classList.toggle('warn',warn);box().classList.toggle('over',over);
+    document.getElementById('jptTmBtn').textContent=running?'\u2759\u2759':'\u25B6';}
+  window.jptTmFocus=function(){if(running)window.jptTmToggle();var el=document.getElementById('jptTmInput');requestAnimationFrame(function(){el.select();});};
+  window.jptTmApply=function(){var el=document.getElementById('jptTmInput');var v=parse(el.value);if(v===null){paint();return false;}total=v;remaining=v;paint();return true;};
+  window.jptTmKey=function(e){if(e.key==='Enter'){e.preventDefault();if(window.jptTmApply()&&!running)window.jptTmToggle();e.target.blur();}else if(e.key==='Escape'){e.preventDefault();paint();e.target.blur();}};
+  window.jptTmToggle=function(){running=!running;clearInterval(iv);if(running)iv=setInterval(function(){remaining--;paint();},1000);paint();};
+  window.jptTmReset=function(){remaining=total;running=false;clearInterval(iv);paint();};
+  paint();
+})();
+</script>
+<!-- /jpt:timerjs -->
+"""
+
+
 def drop(html, tag):
     return re.sub(rf'<!-- {tag} -->.*?<!-- /{tag} -->\n?\s*', '', html, flags=re.S)
 
@@ -390,7 +434,8 @@ def drop(html, tag):
 def strip_marks(html):
     for tag in ('jpt:brand', 'jpt:toolsnav', 'jpt:sidefoot', 'jpt:toolhead', 'jpt:debateslabel',
                 'jpt:homeview', 'jpt:router', 'jpt:backlink', 'jpt:menujs', 'jpt:themejs',
-                'jpt:themebtn', 'jpt:themeboot', 'jpt:strip'):
+                'jpt:themebtn', 'jpt:themeboot', 'jpt:strip',
+                'jpt:present', 'jpt:timerjs'):
         html = drop(html, tag)
     html = re.sub(r'/\* jpt:chrome \*/.*?/\* /jpt:chrome \*/\n?', '', html, flags=re.S)
     html = re.sub(r'/\* jpt:speaking \*/.*?/\* /jpt:speaking \*/\n?', '', html, flags=re.S)
@@ -555,28 +600,27 @@ main{overflow:visible;min-width:0}
 .action-btn:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
 .action-btn svg{width:14px;height:14px;flex-shrink:0}
 
-/* Timer, sitting in the toolbar like the Debate Builder's */
-.timer-section{display:contents}
-.timer-controls{display:inline-flex;align-items:center;gap:5px;
-  border:1px solid var(--soft-line);border-radius:999px;padding:3px 4px;background:var(--card)}
-/* The tool gives each pill its own 1.5px border; inside the bordered timer
-   container that reads as four loose pills. Strip it so the presets are one
-   clean segmented control. */
-.timer-pill{font-size:11.5px;font-weight:700;color:var(--muted);cursor:pointer;
-  padding:4px 10px;border-radius:999px;border:none;transition:background .12s,color .12s}
-.timer-pill:hover{color:var(--accent);background:var(--soft)}
-.timer-pill.on,.timer-pill.active{background:var(--accent);color:#fff}
-.timer-play{font-family:inherit;font-size:12.5px;font-weight:700;cursor:pointer;
-  padding:5px 13px;border-radius:999px;border:none;background:var(--accent);color:#fff}
-.timer-play:hover{background:var(--accent-deep)}
-.timer-display{font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;
-  color:var(--ink);min-width:44px;text-align:center}
-.timer-restart{font-family:inherit;font-size:11.5px;font-weight:700;cursor:pointer;
-  padding:4px 10px;border-radius:999px;border:none;background:transparent;color:var(--muted)}
-.timer-restart:hover{color:var(--accent);background:var(--soft)}
-.timer-progress{width:100%;height:3px;border-radius:999px;background:var(--line);
-  overflow:hidden;margin:0 0 16px}
-.timer-progress-fill{height:100%;background:var(--accent);border-radius:999px}
+/* Present button (topbar), matching the Debate Builder's. The chrome media
+   query collapses .stopbar .btn to its icon on a phone. */
+.btn{font-family:inherit;font-size:13px;font-weight:600;padding:8px 14px;border-radius:999px;
+  border:1px solid transparent;background:var(--accent);color:#fff;cursor:pointer;
+  display:inline-flex;align-items:center;gap:7px;white-space:nowrap;transition:background .15s}
+.btn:hover{background:var(--accent-deep)}
+.btn svg{width:14px;height:14px;flex-shrink:0}
+
+/* Timer, a typed MM:SS control like the Debate Builder's, not preset pills. */
+.timer{display:inline-flex;align-items:center;gap:2px;padding:3px 4px 3px 12px;
+  border:1px solid var(--soft-line);border-radius:999px;background:var(--card)}
+.timer .tm{font-family:inherit;font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;
+  letter-spacing:.04em;width:58px;text-align:center;padding:2px 0;background:transparent;
+  border:none;outline:none;color:var(--ink)}
+.timer .tm:focus{background:var(--soft);color:var(--accent);border-radius:8px}
+.timer.warn .tm{color:#c2740c}
+.timer.over .tm{color:#c14343}
+.timer button{width:26px;height:26px;border-radius:999px;border:none;background:transparent;
+  color:var(--muted);display:inline-flex;align-items:center;justify-content:center;
+  font-size:12px;cursor:pointer}
+.timer button:hover{background:var(--soft);color:var(--accent)}
 
 /* Questions */
 .placeholder{background:var(--card);border:1px dashed var(--line);border-radius:16px;
@@ -677,6 +721,8 @@ def build_speaking(html, t):
     # right beside the questions, so a second set in the sidebar is noise.
     take(r'<div class="level-toggle">.*?</div>\s*(?=<div style="display:flex)', 'the level toggle')
     acts   = take(r'<div style="display:flex;gap:\.5rem;flex-wrap:wrap">.*?</div>\s*(?=</div>)', 'the action buttons')
+    # Focus mode is now the topbar Present button; keep only Random topic here.
+    acts = re.sub(r'<button class="action-btn" onclick="openFocusMode\(\)">.*?</button>', '', acts, count=1, flags=re.S)
     search = take(r'<div class="search-wrap">.*?</div>\s*</div>', 'the search box')
     grid   = take(r'<div id="topicGrid"></div>', 'the topic grid')
     holder = take(r'<div class="placeholder" id="placeholder">.*?</div>', 'the placeholder')
@@ -696,6 +742,7 @@ def build_speaking(html, t):
 {brand(t['slug'])}
   <div class="grow"></div>
   {THEME_BTN}
+  {PRESENT_BTN}
 </header>
 
 <div class="app" id="app">
@@ -715,7 +762,7 @@ def build_speaking(html, t):
       <div class="toolbar">
         <div class="status">Questions</div>
         {acts}
-        {timer}
+        {TIMER_HTML}
       </div>
       {holder}
       {deck}
@@ -760,7 +807,7 @@ def build_speaking(html, t):
 
     html = re.sub(r'&family=JetBrains\+Mono:wght@[0-9;]+', '', html, count=1)
 
-    html = inject_before(html, '</body>', MENU_JS + THEME_JS, 'the page scripts')
+    html = inject_before(html, '</body>', MENU_JS + THEME_JS + TIMER_JS, 'the page scripts')
     return html
 
 
