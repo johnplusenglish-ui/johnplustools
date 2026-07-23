@@ -498,6 +498,35 @@ main{overflow:visible;min-width:0}
 .placeholder{background:var(--card);border:1px dashed var(--line);border-radius:16px;
   padding:48px 24px;text-align:center;color:var(--muted);font-size:.95rem}
 .deck{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+/* Questions no longer span the full width: they share the pane with an editable
+   Useful phrases panel, the way the Debate Builder has its phrase bank. */
+.deck-row{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:18px;align-items:start}
+.deck-col{min-width:0}
+.phrases-panel{background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:16px 16px 14px;box-shadow:var(--shadow-card);
+  position:sticky;top:calc(var(--jpt-bar) + 18px)}
+.ph-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.ph-title{flex:1;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.ph-reset{font-family:inherit;font-size:11px;font-weight:700;color:var(--muted);background:transparent;
+  border:none;cursor:pointer;padding:2px 5px;border-radius:6px}
+.ph-reset:hover{color:var(--accent);background:var(--soft)}
+.ph-list{display:flex;flex-direction:column;gap:2px}
+.ph-row{display:flex;align-items:flex-start;gap:4px;border-radius:9px}
+.ph-row:hover{background:var(--soft)}
+.ph-text{flex:1;font-size:13.5px;line-height:1.5;color:var(--ink);font-style:italic;
+  padding:5px 8px;border-radius:8px;outline:none;cursor:text;min-width:0}
+.ph-text:focus{background:var(--bg);box-shadow:inset 0 0 0 1px var(--soft-line);font-style:normal}
+.ph-text:empty::before{content:'New phrase6';color:var(--muted);font-style:normal}
+.ph-x{opacity:0;flex-shrink:0;width:22px;height:26px;border:none;background:transparent;
+  color:var(--muted);cursor:pointer;border-radius:6px;font-size:16px;line-height:1}
+.ph-row:hover .ph-x{opacity:.55}
+.ph-x:hover{opacity:1;color:#c14343}
+.ph-add{margin-top:9px;width:100%;font-family:inherit;font-size:12.5px;font-weight:600;
+  color:var(--accent);background:transparent;border:1px dashed var(--soft-line);
+  border-radius:9px;padding:8px;cursor:pointer;transition:.12s}
+.ph-add:hover{background:var(--soft);border-color:var(--accent)}
+.ph-note{margin:10px 2px 0;font-size:11px;line-height:1.5;color:var(--muted)}
+@media (max-width:900px){.deck-row{grid-template-columns:1fr}.phrases-panel{position:static}}
 .deck-nav{display:flex;align-items:center;gap:10px;margin-top:18px}
 .deck-counter{font-size:11px;letter-spacing:.14em;text-transform:uppercase;
   font-weight:700;color:var(--muted);margin:0 auto}
@@ -622,13 +651,26 @@ main{overflow:visible;min-width:0}
         <div class="exp-wrap"><button class="icon-action" id="jptSpkBtn" aria-haspopup="true" aria-expanded="false" aria-controls="jptSpkMenu" title="Save this topic" aria-label="Save this topic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button><div class="popmenu exp-menu" id="jptSpkMenu" role="menu" hidden><div class="pm-label">Save</div><a class="pm-item" role="menuitem" href="#" onclick="jptExportPNG();return false;"><span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span>Save as PNG</a><a class="pm-item" role="menuitem" href="#" onclick="exportPDF();return false;"><span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>Save as PDF</a></div></div>
       </div>
       <div class="jpt-tmbar" id="jptTmBar"><span id="jptTmBarFill"></span></div>
-      <div class="placeholder" id="placeholder">Pick a topic from the list, or search for a question.</div>
-      <div class="deck" id="deck"></div>
-      <div class="deck-nav" id="deckNav" style="display:none">
+      <div class="deck-row">
+        <div class="deck-col">
+          <div class="placeholder" id="placeholder">Pick a topic from the list, or search for a question.</div>
+          <div class="deck" id="deck"></div>
+          <div class="deck-nav" id="deckNav" style="display:none">
 <button class="nav-btn" id="prevTopic" onclick="goTopic(-1)">&larr; Previous topic</button>
 <span class="deck-counter" id="deckCounter"></span>
 <button class="nav-btn primary" id="nextTopic" onclick="goTopic(1)">Next topic &rarr;</button>
 </div>
+        </div>
+        <aside class="phrases-panel" aria-label="Useful phrases">
+          <div class="ph-head">
+            <span class="ph-title">Useful phrases</span>
+            <button class="ph-reset" onclick="jptPhrasesReset()" title="Reset to the defaults">Reset</button>
+          </div>
+          <div class="ph-list" id="jptPhraseList"></div>
+          <button class="ph-add" onclick="jptPhraseAdd()">+ Add phrase</button>
+          <p class="ph-note">Buy time when a question catches you out. Edit these for your class.</p>
+        </aside>
+      </div>
     </div>
   </main>
 </div>
@@ -1259,5 +1301,36 @@ buildTopicGrid();
 })();
 </script>
 <!-- /jpt:sidejs -->
+<!-- jpt:phrasesjs -->
+<script>
+(function () {
+  var KEY = 'jpt_speaking_phrases';
+  var DEFAULTS = ["Oh, that's a tough one.", "You've put me on the spot there.",
+    "I've never really thought about that.", "To tell you the truth, …",
+    "That's a really interesting question.", "Let me think about that for a moment."];
+  var list;
+  function load(){ try { var r = localStorage.getItem(KEY); if (r) { var a = JSON.parse(r); if (Array.isArray(a)) return a; } } catch(e){} return DEFAULTS.slice(); }
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(list)); } catch(e){} }
+  function esc(x){ return String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function render(){
+    var el = document.getElementById('jptPhraseList'); if (!el) return;
+    el.innerHTML = list.map(function (p, i) {
+      return '<div class="ph-row"><span class="ph-text" contenteditable="true" data-i="' + i + '">' + esc(p) + '</span>'
+        + '<button class="ph-x" data-i="' + i + '" title="Remove" aria-label="Remove phrase">×</button></div>';
+    }).join('');
+  }
+  window.jptPhraseAdd = function(){ list.push(''); save(); render();
+    var rows = document.querySelectorAll('#jptPhraseList .ph-text'); var last = rows[rows.length-1]; if (last) last.focus(); };
+  window.jptPhrasesReset = function(){ if (!confirm('Reset the phrases to the defaults?')) return; list = DEFAULTS.slice(); save(); render(); };
+  document.addEventListener('input', function (e) {
+    var t = e.target; if (t && t.classList && t.classList.contains('ph-text')) { list[+t.dataset.i] = t.textContent; save(); }
+  });
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('.ph-x'); if (b) { list.splice(+b.dataset.i, 1); save(); render(); }
+  });
+  list = load(); render();
+})();
+</script>
+<!-- /jpt:phrasesjs -->
 </body>
 </html>

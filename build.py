@@ -602,6 +602,40 @@ SIDE_JS = """<!-- jpt:sidejs -->
 """
 
 
+PHRASES_JS = """<!-- jpt:phrasesjs -->
+<script>
+(function () {
+  var KEY = 'jpt_speaking_phrases';
+  var DEFAULTS = ["Oh, that's a tough one.", "You've put me on the spot there.",
+    "I've never really thought about that.", "To tell you the truth, \u2026",
+    "That's a really interesting question.", "Let me think about that for a moment."];
+  var list;
+  function load(){ try { var r = localStorage.getItem(KEY); if (r) { var a = JSON.parse(r); if (Array.isArray(a)) return a; } } catch(e){} return DEFAULTS.slice(); }
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(list)); } catch(e){} }
+  function esc(x){ return String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function render(){
+    var el = document.getElementById('jptPhraseList'); if (!el) return;
+    el.innerHTML = list.map(function (p, i) {
+      return '<div class="ph-row"><span class="ph-text" contenteditable="true" data-i="' + i + '">' + esc(p) + '</span>'
+        + '<button class="ph-x" data-i="' + i + '" title="Remove" aria-label="Remove phrase">\u00d7</button></div>';
+    }).join('');
+  }
+  window.jptPhraseAdd = function(){ list.push(''); save(); render();
+    var rows = document.querySelectorAll('#jptPhraseList .ph-text'); var last = rows[rows.length-1]; if (last) last.focus(); };
+  window.jptPhrasesReset = function(){ if (!confirm('Reset the phrases to the defaults?')) return; list = DEFAULTS.slice(); save(); render(); };
+  document.addEventListener('input', function (e) {
+    var t = e.target; if (t && t.classList && t.classList.contains('ph-text')) { list[+t.dataset.i] = t.textContent; save(); }
+  });
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('.ph-x'); if (b) { list.splice(+b.dataset.i, 1); save(); render(); }
+  });
+  list = load(); render();
+})();
+</script>
+<!-- /jpt:phrasesjs -->
+"""
+
+
 def drop(html, tag):
     return re.sub(rf'<!-- {tag} -->.*?<!-- /{tag} -->\n?\s*', '', html, flags=re.S)
 
@@ -611,7 +645,7 @@ def strip_marks(html):
                 'jpt:homeview', 'jpt:router', 'jpt:backlink', 'jpt:menujs', 'jpt:themejs',
                 'jpt:themebtn', 'jpt:themeboot', 'jpt:strip',
                 'jpt:present', 'jpt:timerjs', 'jpt:export', 'jpt:exportjs',
-                'jpt:exportmenu', 'jpt:speakingpng', 'jpt:sidejs'):
+                'jpt:exportmenu', 'jpt:speakingpng', 'jpt:sidejs', 'jpt:phrasesjs'):
         html = drop(html, tag)
     html = re.sub(r'/\* jpt:chrome \*/.*?/\* /jpt:chrome \*/\n?', '', html, flags=re.S)
     html = re.sub(r'/\* jpt:speaking \*/.*?/\* /jpt:speaking \*/\n?', '', html, flags=re.S)
@@ -809,6 +843,35 @@ main{overflow:visible;min-width:0}
 .placeholder{background:var(--card);border:1px dashed var(--line);border-radius:16px;
   padding:48px 24px;text-align:center;color:var(--muted);font-size:.95rem}
 .deck{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+/* Questions no longer span the full width: they share the pane with an editable
+   Useful phrases panel, the way the Debate Builder has its phrase bank. */
+.deck-row{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:18px;align-items:start}
+.deck-col{min-width:0}
+.phrases-panel{background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:16px 16px 14px;box-shadow:var(--shadow-card);
+  position:sticky;top:calc(var(--jpt-bar) + 18px)}
+.ph-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.ph-title{flex:1;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.ph-reset{font-family:inherit;font-size:11px;font-weight:700;color:var(--muted);background:transparent;
+  border:none;cursor:pointer;padding:2px 5px;border-radius:6px}
+.ph-reset:hover{color:var(--accent);background:var(--soft)}
+.ph-list{display:flex;flex-direction:column;gap:2px}
+.ph-row{display:flex;align-items:flex-start;gap:4px;border-radius:9px}
+.ph-row:hover{background:var(--soft)}
+.ph-text{flex:1;font-size:13.5px;line-height:1.5;color:var(--ink);font-style:italic;
+  padding:5px 8px;border-radius:8px;outline:none;cursor:text;min-width:0}
+.ph-text:focus{background:var(--bg);box-shadow:inset 0 0 0 1px var(--soft-line);font-style:normal}
+.ph-text:empty::before{content:'New phrase\2026';color:var(--muted);font-style:normal}
+.ph-x{opacity:0;flex-shrink:0;width:22px;height:26px;border:none;background:transparent;
+  color:var(--muted);cursor:pointer;border-radius:6px;font-size:16px;line-height:1}
+.ph-row:hover .ph-x{opacity:.55}
+.ph-x:hover{opacity:1;color:#c14343}
+.ph-add{margin-top:9px;width:100%;font-family:inherit;font-size:12.5px;font-weight:600;
+  color:var(--accent);background:transparent;border:1px dashed var(--soft-line);
+  border-radius:9px;padding:8px;cursor:pointer;transition:.12s}
+.ph-add:hover{background:var(--soft);border-color:var(--accent)}
+.ph-note{margin:10px 2px 0;font-size:11px;line-height:1.5;color:var(--muted)}
+@media (max-width:900px){.deck-row{grid-template-columns:1fr}.phrases-panel{position:static}}
 .deck-nav{display:flex;align-items:center;gap:10px;margin-top:18px}
 .deck-counter{font-size:11px;letter-spacing:.14em;text-transform:uppercase;
   font-weight:700;color:var(--muted);margin:0 auto}
@@ -971,9 +1034,22 @@ def build_speaking(html, t):
         {SPEAKING_MENU}
       </div>
       <div class="jpt-tmbar" id="jptTmBar"><span id="jptTmBarFill"></span></div>
-      {holder}
-      {deck}
-      {navrow}
+      <div class="deck-row">
+        <div class="deck-col">
+          {holder}
+          {deck}
+          {navrow}
+        </div>
+        <aside class="phrases-panel" aria-label="Useful phrases">
+          <div class="ph-head">
+            <span class="ph-title">Useful phrases</span>
+            <button class="ph-reset" onclick="jptPhrasesReset()" title="Reset to the defaults">Reset</button>
+          </div>
+          <div class="ph-list" id="jptPhraseList"></div>
+          <button class="ph-add" onclick="jptPhraseAdd()">+ Add phrase</button>
+          <p class="ph-note">Buy time when a question catches you out. Edit these for your class.</p>
+        </aside>
+      </div>
     </div>
   </main>
 </div>
@@ -1014,7 +1090,7 @@ def build_speaking(html, t):
 
     html = re.sub(r'&family=JetBrains\+Mono:wght@[0-9;]+', '', html, count=1)
 
-    html = inject_before(html, '</body>', MENU_JS + THEME_JS + TIMER_JS + EXPORT_MENU_JS + SPEAKING_PNG_JS + SIDE_JS, 'the page scripts')
+    html = inject_before(html, '</body>', MENU_JS + THEME_JS + TIMER_JS + EXPORT_MENU_JS + SPEAKING_PNG_JS + SIDE_JS + PHRASES_JS, 'the page scripts')
     return html
 
 
