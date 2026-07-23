@@ -502,6 +502,13 @@ main{overflow:visible;min-width:0}
    Useful phrases panel, the way the Debate Builder has its phrase bank. */
 .deck-row{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:18px;align-items:start}
 .deck-col{min-width:0}
+/* Bring the tool's own Simple/Advanced toggle onto the same register as the
+   phrases panel's star flipper: same border, same transparent-vs-ink colours,
+   same height (padding matches, line-height stands in for the star icon's
+   13px box), so the two toggles read as one family across the two cards. */
+.deck-level-toggle{border:1.5px solid var(--soft-line);border-radius:9px}
+.deck-level-pill{background:transparent;color:var(--muted);padding:5px 12px;line-height:13px}
+.deck-level-pill.on{background:var(--ink);color:var(--card)}
 .phrases-panel{background:var(--card);border:1px solid var(--line);border-radius:16px;
   padding:16px 16px 14px;box-shadow:var(--shadow-card);
   position:sticky;top:calc(var(--jpt-bar) + 18px)}
