@@ -1111,6 +1111,8 @@ FEATHER = {
   'thumbs-up': '<path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>',
   'gift': '<polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>',
   'flag': '<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>',
+  'wind': '<path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/>',
+  'link': '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
 }
 
 # One icon per topic, chosen so no two topics in the same sidebar group (see
@@ -1127,7 +1129,90 @@ TOPIC_ICON_NAMES = {
     35: 'lock', 36: 'cpu', 37: 'alert-triangle', 38: 'repeat', 39: 'help-circle',
     40: 'image', 41: 'music', 42: 'book', 43: 'check-circle', 44: 'search',
     45: 'globe', 46: 'trending-down', 47: 'thumbs-up', 48: 'gift', 49: 'flag',
+    # Added by build.py, not present in John's source. See NEW_TOPICS below.
+    50: 'wind',     # Mental Health — sits with Health & Wellbeing
+    51: 'link',     # Love, Dating & Marriage — sits with Family/Friendship
 }
+
+
+# Two topics John asked for on top of his shipped 50, added at build time so
+# src/speaking-topics.html stays a clean mirror of his Downloads copy. If he
+# ever adds these himself in a future Downloads refresh, remove them here
+# (and their entries in TOPIC_ICON_NAMES + the topicGroups patches below).
+NEW_TOPICS = [
+    {
+        "name": "Mental Health",
+        "emoji": "\U0001F9D8",
+        "simple": {
+            "personal": [
+                "How do you usually deal with stress?",
+                "What helps you relax after a long day?",
+                "Do you talk about your feelings with people close to you?",
+                "What's something small that always lifts your mood?",
+                "When you're feeling low, what tends to help?",
+            ],
+            "thought": [
+                "Is it easier to talk about mental health today than it used to be?",
+                "Should schools teach children about mental health?",
+                "Is exercise good for the mind as well as the body?",
+                "Are social media and mental health connected?",
+                "Is it better to keep your problems to yourself or share them?",
+            ],
+        },
+        "advanced": {
+            "personal": [
+                "What's the healthiest habit you've built for looking after your mind, and what made it stick?",
+                "When was the last time you felt genuinely burnt out, and how did you find your way back?",
+                "How do you tell the difference between a bad day and something more serious?",
+                "What do you do that you know isn't good for your mental health, but you do anyway?",
+                "Who in your life do you turn to when things feel heavy?",
+            ],
+            "thought": [
+                "Has the language we now use around mental health helped, or has it made ordinary struggles look like illness?",
+                "To what extent are our mental health problems the result of the way society is structured rather than of individual weakness?",
+                "Should employers be legally required to protect their staff's mental wellbeing?",
+                "Are apps and self-help books a real solution, or a distraction from getting proper help?",
+                "Is happiness a reasonable goal, or should we aim for something else instead?",
+            ],
+        },
+    },
+    {
+        "name": "Love, Dating & Marriage",
+        "emoji": "\U0001F495",
+        "simple": {
+            "personal": [
+                "What do you look for in a partner?",
+                "Do you believe in love at first sight?",
+                "What's the most romantic thing anyone has done for you?",
+                "Where's a good place for a first date?",
+                "How did your parents or grandparents meet?",
+            ],
+            "thought": [
+                "Is marriage still important today?",
+                "Do you think online dating works?",
+                "Is a big age gap in a relationship a problem?",
+                "Should couples live together before they marry?",
+                "What makes a relationship last?",
+            ],
+        },
+        "advanced": {
+            "personal": [
+                "What's a lesson about love you had to learn the hard way?",
+                "How have your ideas about relationships changed as you've got older?",
+                "What's the difference between someone you can date and someone you can build a life with?",
+                "When have you had to compromise in a relationship, and did you feel it was worth it?",
+                "Is there a small gesture from someone you love that means more to you than any grand romantic act?",
+            ],
+            "thought": [
+                "Has dating culture become too transactional, or is that just realism about what people actually want?",
+                "To what extent is the idea of 'the one' a myth we tell ourselves?",
+                "How is technology reshaping what it means to be in a relationship?",
+                "Is marriage a genuinely useful institution today, or a leftover from a very different society?",
+                "Can two people who want completely different lives ever really make it work?",
+            ],
+        },
+    },
+]
 
 
 def build_speaking(html, t):
@@ -1276,6 +1361,27 @@ def build_speaking(html, t):
     if 'var topics = [' not in html:
         raise SystemExit('build: could not find the topics array in speaking-topics')
     html = html.replace('var topics = [', topic_icons_js + 'var topics = [', 1)
+
+    # Append the extra topics (see NEW_TOPICS) just before the closing `];` of
+    # the topics array. Anchor on `}];\n` immediately followed by
+    # `var currentLevel` (unique — the tool has exactly one topics array), so
+    # a future refresh of John's source won't quietly slip past this splice.
+    new_topics_json = ','.join(json.dumps(t, ensure_ascii=False) for t in NEW_TOPICS)
+    topics_end_re = re.compile(r'\}\](;\s*\n\s*var currentLevel)')
+    html, n = topics_end_re.subn(r'},' + new_topics_json + r']\1', html, count=1)
+    if not n:
+        raise SystemExit('build: could not append the extra topics to the array')
+
+    # Slot the new topic indices into their sidebar groups (see NEW_TOPICS).
+    for old, new, group in (
+        ('indices: [4, 6, 14, 22, 31]',
+         'indices: [4, 6, 50, 14, 22, 31]', 'Health, Nature & Travel'),
+        ('indices: [0, 2, 10, 19, 26, 27, 37, 38, 39]',
+         'indices: [0, 2, 51, 10, 19, 26, 27, 37, 38, 39]', 'You & Your Life'),
+    ):
+        if old not in html:
+            raise SystemExit(f'build: could not find the {group} indices in speaking-topics')
+        html = html.replace(old, new, 1)
     if 'h += t.name;' not in html:
         raise SystemExit('build: could not find the topic button label in speaking-topics')
     html = html.replace('h += t.name;', "h += TOPIC_ICONS[i] + ' ' + t.name;", 1)
