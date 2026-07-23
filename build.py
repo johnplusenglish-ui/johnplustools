@@ -740,6 +740,32 @@ DEBATE_CSS = '''
    on a zero-width divider would cut it in half. */
 aside{top:var(--jpt-bar);height:calc(100vh - var(--jpt-bar))}
 .app{min-height:calc(100vh - var(--jpt-bar))}
+
+/* ── Sidebar, restyled to match Speaking Topics ────────────────────────
+   Debates grouped by level into collapsible sections with coloured caps
+   headers (B1 orange, B2 green, C1 blue, C2 purple, so the level is
+   readable at a glance without a per-item badge). Each item drops the
+   level badge and just carries its title + date/prompt count. */
+.lvl-filter{display:none}
+.side-list{padding:2px 10px 16px}
+.side-group{margin-bottom:6px}
+.side-group-toggle{display:flex;align-items:center;gap:8px;cursor:pointer;width:100%;
+  padding:7px 10px;border-radius:9px;background:transparent;transition:background .12s}
+.side-group-toggle:hover{background:var(--soft)}
+.side-group-name{flex:1;font-size:11px;letter-spacing:.13em;text-transform:uppercase;
+  font-weight:700;color:var(--accent)}
+.side-group.lvl-B1 .side-group-name{color:#ad4c08}
+.side-group.lvl-B2 .side-group-name{color:#237a4d}
+.side-group.lvl-C1 .side-group-name{color:#2563eb}
+.side-group.lvl-C2 .side-group-name{color:#6d28d9}
+[data-theme="dark"] .side-group.lvl-B1 .side-group-name{color:#f59547}
+[data-theme="dark"] .side-group.lvl-B2 .side-group-name{color:#4cbe86}
+[data-theme="dark"] .side-group.lvl-C1 .side-group-name{color:#5b8def}
+[data-theme="dark"] .side-group.lvl-C2 .side-group-name{color:#a78bfa}
+.side-group-chevron{font-size:9px;color:var(--muted);transition:transform .18s ease}
+.side-group.open .side-group-chevron{transform:rotate(180deg)}
+.side-group-body{display:none;padding:2px 0 4px}
+.side-group.open .side-group-body{display:block}
 /* /jpt:speaking */
 '''
 
@@ -1043,6 +1069,66 @@ def build_debate(html, t):
     # export buttons become one download menu, and it would throw on null.
     html = html.replace('const btn = document.getElementById(id);',
                         'const btn = document.getElementById(id) || {};', 1)
+
+    # Reshape the sidebar list to match Speaking Topics: coloured-caps section
+    # per level (B1/B2/C1/C2), collapsible, most-recent debate first inside
+    # each. Level chips overhead (still rendered into a hidden div — the tool
+    # writes into #lvlFilter which the CSS in DEBATE_CSS hides). Search bar
+    # still bypasses the grouping and shows a flat list of matches.
+    render_re = re.compile(
+        r'function renderSidebar\(\) \{.*?`\)\.join\(\'\'\);\s*\}\s*\n',
+        re.S)
+    render_new = '''function renderSidebar() {
+  const list = document.getElementById('sideList');
+  const q = document.getElementById('search').value.trim().toLowerCase();
+  let items = [...state.debates];
+  if (q) items = items.filter(d =>
+    (d.title + ' ' + d.question + ' ' + d.task + ' ' + d.bubbles.join(' ')).toLowerCase().includes(q)
+  );
+  if (!items.length) {
+    list.innerHTML = `<div class="empty-list">${q ? 'Nothing matches that.' : 'No debates yet. Click + New.'}</div>`;
+    return;
+  }
+  const itemHtml = d => `<div class="side-item ${d.id === state.currentId ? 'active' : ''}" onclick="selectDebate('${d.id}')">
+    <div class="title">${escapeHtml(d.title || 'UNTITLED')}</div>
+    <div class="meta">${new Date(d.updated).toLocaleDateString()} · ${d.bubbles.length} prompt${d.bubbles.length === 1 ? '' : 's'}</div>
+    <button class="del" onclick="event.stopPropagation();deleteDebate('${d.id}')" title="Delete">${'✕'}</button>
+  </div>`;
+  if (q) {
+    items.sort((a,b) => b.updated - a.updated);
+    list.innerHTML = items.map(itemHtml).join('');
+    return;
+  }
+  const openKey = 'c2_debate_open_levels';
+  let open;
+  try { open = new Set(JSON.parse(localStorage.getItem(openKey) || 'null') || LEVEL_ORDER); }
+  catch(e) { open = new Set(LEVEL_ORDER); }
+  const byLevel = {};
+  items.forEach(d => { (byLevel[d.level] = byLevel[d.level] || []).push(d); });
+  Object.values(byLevel).forEach(arr => arr.sort((a,b) => b.updated - a.updated));
+  list.innerHTML = LEVEL_ORDER.filter(l => byLevel[l] && byLevel[l].length).map(l => `
+    <div class="side-group lvl-${l} ${open.has(l) ? 'open' : ''}">
+      <div class="side-group-toggle" onclick="toggleSideGroup('${l}')">
+        <span class="side-group-name">Level ${l}</span>
+        <span class="side-group-chevron">${'▼'}</span>
+      </div>
+      <div class="side-group-body">${byLevel[l].map(itemHtml).join('')}</div>
+    </div>
+  `).join('');
+}
+function toggleSideGroup(level) {
+  const key = 'c2_debate_open_levels';
+  let open;
+  try { open = new Set(JSON.parse(localStorage.getItem(key) || 'null') || LEVEL_ORDER); }
+  catch(e) { open = new Set(LEVEL_ORDER); }
+  if (open.has(level)) open.delete(level); else open.add(level);
+  try { localStorage.setItem(key, JSON.stringify([...open])); } catch(e) {}
+  renderSidebar();
+}
+'''
+    html, n = render_re.subn(render_new, html, count=1)
+    if not n:
+        raise SystemExit('build: could not rewrite renderSidebar in debate-builder')
 
     # Replace Export PNG / Export PDF / Print with the shared download dropdown.
     three_re = (r'<button class="btn ghost tiny" onclick="exportPNG\(\)" id="pngBtn">Export PNG</button>\s*'
