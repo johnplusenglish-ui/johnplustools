@@ -836,7 +836,7 @@ def build_debate(html, t):
     html = html[:m.start()] + brand(t['slug']) + html[m.end():]
 
     label = ('<!-- jpt:debateslabel --><div class="jt-label" style="margin-bottom:9px">'
-             'Debates</div><!-- /jpt:debateslabel -->\n        ')
+             'Debate bank</div><!-- /jpt:debateslabel -->\n        ')
     before = '<div class="side-top">\n      <div class="searchwrap">'
     html = need(html, before, 'the sidebar search to label')
     html = html.replace(before, '<div class="side-top">\n      ' + label + '<div class="searchwrap">', 1)
