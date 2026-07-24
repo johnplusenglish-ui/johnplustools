@@ -704,7 +704,8 @@ def strip_marks(html):
                 'jpt:homeview', 'jpt:router', 'jpt:backlink', 'jpt:menujs', 'jpt:themejs',
                 'jpt:themebtn', 'jpt:themeboot', 'jpt:strip',
                 'jpt:present', 'jpt:timerjs', 'jpt:export', 'jpt:exportjs',
-                'jpt:exportmenu', 'jpt:speakingpng', 'jpt:sidejs', 'jpt:phrasesjs', 'jpt:questionsjs'):
+                'jpt:exportmenu', 'jpt:speakingpng', 'jpt:sidejs', 'jpt:phrasesjs', 'jpt:questionsjs',
+                'jpt:seed'):
         html = drop(html, tag)
     html = re.sub(r'/\* jpt:chrome \*/.*?/\* /jpt:chrome \*/\n?', '', html, flags=re.S)
     html = re.sub(r'/\* jpt:speaking \*/.*?/\* /jpt:speaking \*/\n?', '', html, flags=re.S)
@@ -1059,6 +1060,108 @@ main{overflow:visible;min-width:0}
 '''
 
 
+# Seed debates for the Debate Builder — one-shot, only ever runs if the user
+# has no meaningful debates yet. Level-adjusted (B1 concrete/personal → C2
+# nuanced/abstract), four per level, matching the tool's own shape (5-bubble
+# option set with a framing question and a "choose two" task). The bank field
+# is filled in by the tool's own migrate() at load, so it's omitted here.
+_DEBATES = []
+def _dbt(level, title, question, task, bubbles):
+    _DEBATES.append({'level': level, 'title': title, 'question': question,
+                      'task': task, 'bubbles': bubbles})
+
+# B1 — everyday, concrete, personal preference
+_dbt('B1', 'FREE TIME',
+     'How do people spend their free time?',
+     'Which two are best for you?',
+     ['watching TV', 'playing sports', 'meeting friends',
+      'using social media', 'reading books'])
+_dbt('B1', 'HEALTHY EATING',
+     'What makes a meal healthy?',
+     'Which two matter most?',
+     ['lots of vegetables', 'small portions', 'no sugar',
+      'cooked at home', 'plenty of water'])
+_dbt('B1', 'LEARNING ENGLISH',
+     'How do people improve their English?',
+     'Which two work best?',
+     ['watching films', 'speaking every day', 'reading books',
+      'using apps', 'studying grammar'])
+_dbt('B1', 'A GOOD HOLIDAY',
+     'What makes a good holiday?',
+     'Which two matter most?',
+     ['sunny weather', 'good food', 'cheap prices',
+      'safe places', 'exciting activities'])
+
+# B2 — broader social themes, some abstraction
+_dbt('B2', 'SOCIAL MEDIA',
+     'Why do people use social media so much?',
+     'Which two are the strongest reasons?',
+     ['staying in touch', 'fear of missing out', 'entertainment',
+      'work and business', 'sharing photos'])
+_dbt('B2', 'WORK-LIFE BALANCE',
+     'What makes it hard to switch off from work?',
+     'Which two are hardest to fix?',
+     ['emails on our phones', 'long working hours', 'financial pressure',
+      'loving the job', 'fear of losing it'])
+_dbt('B2', 'CITY LIVING',
+     'Why do so many people move to cities?',
+     'Which two matter most?',
+     ['better jobs', 'easier transport', 'more entertainment',
+      'better healthcare', 'meeting new people'])
+_dbt('B2', 'LEARNING A NEW SKILL',
+     'What stops adults from learning something new?',
+     'Which two are hardest to overcome?',
+     ['no time', 'feeling too old', 'no money',
+      'fear of failing', 'no clear reason to'])
+
+# C1 — nuanced, analytical
+_dbt('C1', 'TRUST IN THE NEWS',
+     'Why has it become harder to trust the news?',
+     'Which two damage trust the most?',
+     ['bias in reporting', 'noise on social media', 'deepfakes and AI',
+      'political interference', 'anyone can publish'])
+_dbt('C1', 'MONEY AND HAPPINESS',
+     'How much does money really buy happiness?',
+     'Which two matter most?',
+     ['it pays for security', 'it buys free time', 'it opens experiences',
+      'it protects against illness', 'only up to a point'])
+_dbt('C1', 'THE FUTURE OF WORK',
+     'How will work change over the next twenty years?',
+     'Which two shifts are most likely?',
+     ['AI replacing tasks', 'remote work by default', 'four-day weeks',
+      'growth of the gig economy', 'later retirement'])
+_dbt('C1', 'MODERN RELATIONSHIPS',
+     'Why are people delaying marriage?',
+     'Which two are the strongest reasons?',
+     ['prioritising careers', 'financial worries', 'dating-app culture',
+      'changing values', 'watching others divorce'])
+
+# C2 — philosophical, high abstraction
+_dbt('C2', 'FREEDOM OF SPEECH',
+     'Where should the line on free speech be drawn?',
+     'Which two, if any, should genuinely be limited?',
+     ['incitement to violence', 'hate speech against groups',
+      'health misinformation', 'offensive humour', 'criticism of institutions'])
+_dbt('C2', 'AI AND CREATIVITY',
+     'Can AI ever be genuinely creative?',
+     'Which two arguments are strongest?',
+     ['copying is not creating', 'novelty from randomness',
+      'humans invented the tool', 'art needs intention',
+      'we can’t define creativity ourselves'])
+_dbt('C2', 'INHERITED INEQUALITY',
+     'What most entrenches inequality across generations?',
+     'Which two are hardest to break?',
+     ['unequal schooling', 'inherited wealth', 'social networks',
+      'housing costs', 'expectations from birth'])
+_dbt('C2', 'THE ATTENTION ECONOMY',
+     'What have we lost by trading our attention for free services?',
+     'Which two losses matter most?',
+     ['depth of thought', 'meaningful conversation', 'patience with boredom',
+      'the capacity to be alone', 'privacy of the mind'])
+
+SEED_DEBATES = _DEBATES
+
+
 # ── Page builders ────────────────────────────────────────────────────────────
 
 def build_debate(html, t):
@@ -1199,7 +1302,36 @@ function rateDebate(id, r) {
     if n != 1:
         raise SystemExit('build: could not find the debate export buttons to replace')
 
-    html = inject_before(html, '</body>', MENU_JS + EXPORT_MENU_JS, 'the menu scripts')
+    # First-time seed: 16 pre-populated debates (see SEED_DEBATES). Guarded by a
+    # localStorage flag so we never re-seed. Also only seeds if the tool's own
+    # boot produced its default single "NEW DEBATE" (or nothing) — as soon as
+    # John (or a student) has real work, we leave it alone.
+    seed_json = json.dumps(SEED_DEBATES, ensure_ascii=False)
+    seed_script = ('<!-- jpt:seed --><script>(function(){\n'
+                    "var FLAG='jpt_debate_seeded_v1';\n"
+                    'if (localStorage.getItem(FLAG)) return;\n'
+                    'var isDefault = state.debates.length === 1\n'
+                    '  && state.debates[0].title === "NEW DEBATE"\n'
+                    '  && Array.isArray(state.debates[0].bubbles)\n'
+                    '  && state.debates[0].bubbles[0] === "option one";\n'
+                    'if (state.debates.length && !isDefault) {\n'
+                    '  localStorage.setItem(FLAG, "1"); return;\n'
+                    '}\n'
+                    'var seeds = ' + seed_json + ';\n'
+                    'var now = Date.now();\n'
+                    'state.debates = seeds.map(function(d,i){\n'
+                    '  return Object.assign({}, d,\n'
+                    '    {id:"d_seed_"+d.level+"_"+i, updated: now - i*1000});\n'
+                    '});\n'
+                    'state.debates.forEach(migrate);\n'
+                    'state.currentId = state.debates[0].id;\n'
+                    'try { localStorage.setItem(STORE, JSON.stringify(state)); } catch(e){}\n'
+                    'localStorage.setItem(FLAG, "1");\n'
+                    'if (typeof renderSidebar === "function") renderSidebar();\n'
+                    'if (typeof renderDebate === "function") renderDebate();\n'
+                    'if (typeof renderLevelFilter === "function") renderLevelFilter();\n'
+                    '})();</script><!-- /jpt:seed -->')
+    html = inject_before(html, '</body>', MENU_JS + EXPORT_MENU_JS + seed_script, 'the menu scripts')
     return html
 
 

@@ -2226,5 +2226,28 @@ if (localStorage.getItem('c2_debate_side_collapsed') === '1') toggleSide();
 })();
 </script>
 <!-- /jpt:exportmenu -->
-</body>
+<!-- jpt:seed --><script>(function(){
+var FLAG='jpt_debate_seeded_v1';
+if (localStorage.getItem(FLAG)) return;
+var isDefault = state.debates.length === 1
+  && state.debates[0].title === "NEW DEBATE"
+  && Array.isArray(state.debates[0].bubbles)
+  && state.debates[0].bubbles[0] === "option one";
+if (state.debates.length && !isDefault) {
+  localStorage.setItem(FLAG, "1"); return;
+}
+var seeds = [{"level": "B1", "title": "FREE TIME", "question": "How do people spend their free time?", "task": "Which two are best for you?", "bubbles": ["watching TV", "playing sports", "meeting friends", "using social media", "reading books"]}, {"level": "B1", "title": "HEALTHY EATING", "question": "What makes a meal healthy?", "task": "Which two matter most?", "bubbles": ["lots of vegetables", "small portions", "no sugar", "cooked at home", "plenty of water"]}, {"level": "B1", "title": "LEARNING ENGLISH", "question": "How do people improve their English?", "task": "Which two work best?", "bubbles": ["watching films", "speaking every day", "reading books", "using apps", "studying grammar"]}, {"level": "B1", "title": "A GOOD HOLIDAY", "question": "What makes a good holiday?", "task": "Which two matter most?", "bubbles": ["sunny weather", "good food", "cheap prices", "safe places", "exciting activities"]}, {"level": "B2", "title": "SOCIAL MEDIA", "question": "Why do people use social media so much?", "task": "Which two are the strongest reasons?", "bubbles": ["staying in touch", "fear of missing out", "entertainment", "work and business", "sharing photos"]}, {"level": "B2", "title": "WORK-LIFE BALANCE", "question": "What makes it hard to switch off from work?", "task": "Which two are hardest to fix?", "bubbles": ["emails on our phones", "long working hours", "financial pressure", "loving the job", "fear of losing it"]}, {"level": "B2", "title": "CITY LIVING", "question": "Why do so many people move to cities?", "task": "Which two matter most?", "bubbles": ["better jobs", "easier transport", "more entertainment", "better healthcare", "meeting new people"]}, {"level": "B2", "title": "LEARNING A NEW SKILL", "question": "What stops adults from learning something new?", "task": "Which two are hardest to overcome?", "bubbles": ["no time", "feeling too old", "no money", "fear of failing", "no clear reason to"]}, {"level": "C1", "title": "TRUST IN THE NEWS", "question": "Why has it become harder to trust the news?", "task": "Which two damage trust the most?", "bubbles": ["bias in reporting", "noise on social media", "deepfakes and AI", "political interference", "anyone can publish"]}, {"level": "C1", "title": "MONEY AND HAPPINESS", "question": "How much does money really buy happiness?", "task": "Which two matter most?", "bubbles": ["it pays for security", "it buys free time", "it opens experiences", "it protects against illness", "only up to a point"]}, {"level": "C1", "title": "THE FUTURE OF WORK", "question": "How will work change over the next twenty years?", "task": "Which two shifts are most likely?", "bubbles": ["AI replacing tasks", "remote work by default", "four-day weeks", "growth of the gig economy", "later retirement"]}, {"level": "C1", "title": "MODERN RELATIONSHIPS", "question": "Why are people delaying marriage?", "task": "Which two are the strongest reasons?", "bubbles": ["prioritising careers", "financial worries", "dating-app culture", "changing values", "watching others divorce"]}, {"level": "C2", "title": "FREEDOM OF SPEECH", "question": "Where should the line on free speech be drawn?", "task": "Which two, if any, should genuinely be limited?", "bubbles": ["incitement to violence", "hate speech against groups", "health misinformation", "offensive humour", "criticism of institutions"]}, {"level": "C2", "title": "AI AND CREATIVITY", "question": "Can AI ever be genuinely creative?", "task": "Which two arguments are strongest?", "bubbles": ["copying is not creating", "novelty from randomness", "humans invented the tool", "art needs intention", "we can’t define creativity ourselves"]}, {"level": "C2", "title": "INHERITED INEQUALITY", "question": "What most entrenches inequality across generations?", "task": "Which two are hardest to break?", "bubbles": ["unequal schooling", "inherited wealth", "social networks", "housing costs", "expectations from birth"]}, {"level": "C2", "title": "THE ATTENTION ECONOMY", "question": "What have we lost by trading our attention for free services?", "task": "Which two losses matter most?", "bubbles": ["depth of thought", "meaningful conversation", "patience with boredom", "the capacity to be alone", "privacy of the mind"]}];
+var now = Date.now();
+state.debates = seeds.map(function(d,i){
+  return Object.assign({}, d,
+    {id:"d_seed_"+d.level+"_"+i, updated: now - i*1000});
+});
+state.debates.forEach(migrate);
+state.currentId = state.debates[0].id;
+try { localStorage.setItem(STORE, JSON.stringify(state)); } catch(e){}
+localStorage.setItem(FLAG, "1");
+if (typeof renderSidebar === "function") renderSidebar();
+if (typeof renderDebate === "function") renderDebate();
+if (typeof renderLevelFilter === "function") renderLevelFilter();
+})();</script><!-- /jpt:seed --></body>
 </html>
