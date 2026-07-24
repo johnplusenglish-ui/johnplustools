@@ -175,6 +175,7 @@ main{overflow:visible;min-width:0}
           <button class="vm-tab" type="button" data-mode="print" onclick="vmSetMode('print')">Print</button>
         </div>
         <button class="vm-clear" type="button" onclick="vmClear()">Clear all</button>
+        <!-- jpt:savemenu -->
         <div class="timer" id="jptTimerBox"><input class="tm" id="jptTmInput" type="text" inputmode="numeric" value="02:00" aria-label="Timer length" title="Type a length (2 or 2:30) and press Enter to start" onfocus="jptTmFocus()" onkeydown="jptTmKey(event)" onblur="jptTmApply()"><button onclick="jptTmToggle()" id="jptTmBtn" title="Start / pause"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="7 4 20 12 7 20 7 4"/></svg></button><button onclick="jptTmReset()" title="Reset" aria-label="Reset timer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></button></div>
       </div>
       <div class="jpt-tmbar" id="jptTmBar"><span id="jptTmBarFill"></span></div>
@@ -571,6 +572,167 @@ function vmPrintShuffle() {
   vmPrintOrder = null;
   vmRenderPrint();
 }
+
+/* ── Export: PNG (FHD), PDF, Print ──────────────────────────────
+   PNG is rendered on a 1920×1080 canvas at 2× so it comes out crisp on a
+   retina screen. Definitions wrap. Answer key sits at the bottom.
+   PDF and Print reuse the Print view + browser print dialog (Save as PDF
+   from the dialog is the PDF path — no third-party libraries needed). */
+
+function vmDownloadName(ext) {
+  var base = (vmSetName || 'matching').replace(/[^a-z0-9]+/gi, '-').toLowerCase().replace(/^-|-$/g, '') || 'matching';
+  return base + '.' + ext;
+}
+
+function vmWrapText(ctx, text, maxWidth) {
+  var words = String(text).split(/\s+/), lines = [], current = '';
+  for (var i = 0; i < words.length; i++) {
+    var test = current ? current + ' ' + words[i] : words[i];
+    if (ctx.measureText(test).width <= maxWidth || !current) {
+      current = test;
+    } else {
+      lines.push(current);
+      current = words[i];
+    }
+  }
+  if (current) lines.push(current);
+  return lines;
+}
+
+window.vmExportPNG = function () {
+  var active = vmActivePairs();
+  if (active.length < 2) { alert('Add at least two pairs first.'); return; }
+  var W = 1920, H = 1080, SC = 2;
+  var canvas = document.createElement('canvas');
+  canvas.width = W * SC; canvas.height = H * SC;
+  var ctx = canvas.getContext('2d');
+  ctx.scale(SC, SC);
+  ctx.textBaseline = 'top';
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, W, H);
+
+  var PAD = 80, TITLE_H = 60, SUB_H = 34, GAP = 32, KEY_H = 80;
+  /* Layout budget: PAD top, title + subtitle, exercise rows, PAD/KEY at
+     bottom. Divide remaining height by row count for row height, then
+     centre each pair's content within its row so tall wrapped defs stay
+     tidy against short words. */
+  var contentTop = PAD + TITLE_H + SUB_H + GAP;
+  var contentBottom = H - PAD - KEY_H;
+  var rowsH = contentBottom - contentTop;
+  var rowH = Math.min(90, rowsH / active.length);
+  var actualRowsH = rowH * active.length;
+  var startY = contentTop + Math.max(0, (rowsH - actualRowsH) / 2);
+
+  /* Title + subtitle. */
+  ctx.font = '800 44px Outfit, sans-serif';
+  ctx.fillStyle = '#0f1b2d';
+  ctx.fillText(vmSetName || 'Matching', PAD, PAD);
+  ctx.font = '500 20px Outfit, sans-serif';
+  ctx.fillStyle = '#6b7686';
+  ctx.fillText('Match the words on the left to the definitions on the right.', PAD, PAD + TITLE_H);
+
+  /* Shuffle definitions (reuse the current print order if one exists so PNG
+     and Print match; otherwise generate a fresh one). */
+  if (!vmPrintOrder || vmPrintOrder.length !== active.length) {
+    vmPrintOrder = vmShuffle(active.map(function(_, i){ return i; }));
+  }
+
+  /* Column geometry. */
+  var COL_GAP = 40, LABEL_W = 44;
+  var col1X = PAD, col2X = W / 2 + 10;
+  var col1W = W / 2 - PAD - COL_GAP / 2;
+  var col2W = W - col2X - PAD;
+  var textIndent = LABEL_W + 20;
+
+  function drawRow(x, colW, y, label, labelBg, text, isBold) {
+    /* Label pill (rounded). */
+    ctx.fillStyle = labelBg;
+    ctx.beginPath();
+    var r = 8, lx = x, ly = y + 6, lw = LABEL_W, lh = 32;
+    ctx.moveTo(lx + r, ly);
+    ctx.arcTo(lx + lw, ly, lx + lw, ly + lh, r);
+    ctx.arcTo(lx + lw, ly + lh, lx, ly + lh, r);
+    ctx.arcTo(lx, ly + lh, lx, ly, r);
+    ctx.arcTo(lx, ly, lx + lw, ly, r);
+    ctx.closePath();
+    ctx.fill();
+    ctx.fillStyle = '#6b7686';
+    ctx.font = '700 15px Outfit, sans-serif';
+    var lm = ctx.measureText(label);
+    ctx.fillText(label, lx + (lw - lm.width) / 2, ly + 9);
+
+    /* Text (wrapped). */
+    ctx.fillStyle = '#0f1b2d';
+    ctx.font = (isBold ? '700 22px' : '400 20px') + ' Outfit, sans-serif';
+    var lines = vmWrapText(ctx, text, colW - textIndent);
+    var lh2 = isBold ? 28 : 26;
+    lines.forEach(function (ln, li) { ctx.fillText(ln, x + textIndent, y + 8 + li * lh2); });
+  }
+
+  active.forEach(function (p, i) {
+    var y = startY + i * rowH;
+    drawRow(col1X, col1W, y, String(i + 1), '#eceffc', p.w, true);
+    var origIdx = vmPrintOrder[i];
+    var letter = String.fromCharCode(65 + i);
+    drawRow(col2X, col2W, y, letter, '#eceffc', active[origIdx].d, false);
+  });
+
+  /* Answer key strip. */
+  ctx.font = '700 13px Outfit, sans-serif';
+  ctx.fillStyle = '#6b7686';
+  ctx.fillText('ANSWER KEY', PAD, H - PAD - KEY_H + 6);
+  var keyY = H - PAD - KEY_H + 32;
+  ctx.font = '600 16px Outfit, sans-serif';
+  var pos = {};
+  vmPrintOrder.forEach(function (origIdx, i) { pos[origIdx] = i; });
+  var keyX = PAD;
+  active.forEach(function (_, i) {
+    var letter = String.fromCharCode(65 + pos[i]);
+    ctx.fillStyle = '#2563eb';
+    ctx.fillText(String(i + 1), keyX, keyY);
+    var numW = ctx.measureText(String(i + 1)).width;
+    ctx.fillStyle = '#0f1b2d';
+    ctx.fillText(' · ' + letter, keyX + numW, keyY);
+    var chunkW = ctx.measureText(String(i + 1) + ' · ' + letter).width + 22;
+    keyX += chunkW;
+    if (keyX > W - PAD - 60 && i < active.length - 1) {
+      keyX = PAD;
+      keyY += 22;
+    }
+  });
+
+  /* Footer wordmark. */
+  ctx.font = '600 12px Outfit, sans-serif';
+  ctx.fillStyle = '#98a1b0';
+  ctx.fillText('johnplustools.com', W - PAD - ctx.measureText('johnplustools.com').width, H - 30);
+
+  function save() {
+    canvas.toBlob(function (blob) {
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = vmDownloadName('png');
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(a.href); }, 1500);
+    }, 'image/png');
+  }
+  /* Wait for the font to be ready so the first PNG doesn't render in a
+     fallback face. */
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(save); else save();
+};
+
+window.vmExportPDF = function () {
+  /* Print CSS already hides everything except the print sheet; the browser's
+     print dialog lets the user Save as PDF. */
+  var wasMode = vmMode;
+  vmSetMode('print');
+  setTimeout(function () {
+    window.print();
+    /* Don't switch back automatically — the user might want to tweak and
+       print again. vmMode stays on 'print'. */
+  }, 60);
+};
+
+window.vmPrintNow = window.vmExportPDF;
 
 /* ── Boot ────────────────────────────────────────────────────────── */
 vmLoad();
