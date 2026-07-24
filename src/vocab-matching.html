@@ -93,13 +93,22 @@ main{overflow:visible;min-width:0}
 
 .vm-play-columns{display:grid;grid-template-columns:1fr 1.4fr;gap:14px;margin-top:6px}
 .vm-play-col{display:flex;flex-direction:column;gap:8px}
-.vm-cell{background:var(--card);border:1.5px solid var(--soft-line);border-radius:12px;padding:14px 16px;font-size:15px;line-height:1.4;cursor:pointer;transition:border-color .12s,background .12s,transform .1s;text-align:left;font-family:inherit;color:var(--ink);position:relative}
+.vm-cell{background:var(--card);border:1.5px solid var(--soft-line);border-radius:12px;padding:14px 16px;font-size:15px;line-height:1.4;cursor:pointer;transition:border-color .12s,background .12s,transform .1s;text-align:left;font-family:inherit;color:var(--ink);position:relative;display:flex;align-items:center;gap:12px}
 .vm-cell:hover:not(.matched){border-color:var(--accent);background:var(--soft)}
 .vm-cell.selected{border-color:var(--accent);background:var(--soft);box-shadow:0 0 0 3px rgba(37,99,235,.15)}
 .vm-cell.matched{border-color:#7cbf7f;background:#e6f4e7;color:#2a622d;cursor:default}
 .vm-cell.wrong{animation:vmWrong .35s ease}
 @keyframes vmWrong{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px);border-color:#c14343}75%{transform:translateX(4px);border-color:#c14343}}
 .vm-cell .vm-word{font-weight:700}
+.vm-cell .vm-text{flex:1;min-width:0}
+/* Persistent label pill on every cell — number on words, letter on
+   definitions. On match, the label expands to show BOTH sides of the pair
+   ("1 · C" on the word, "C · 1" on the definition), visually tying partners
+   together so a solved board reads as pairs rather than a scattered wall
+   of green. */
+.vm-label{flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:26px;padding:0 9px;background:var(--soft);color:var(--muted);font-weight:700;font-size:11.5px;letter-spacing:.06em;border-radius:999px;font-variant-numeric:tabular-nums;transition:background .18s,color .18s,min-width .18s}
+.vm-cell.selected .vm-label{background:var(--accent);color:#fff}
+.vm-cell.matched .vm-label{background:#7cbf7f;color:#fff;min-width:52px}
 
 /* ── Print view: static handout ──────────────────────────────────── */
 .vm-print{margin-top:10px}
@@ -405,13 +414,35 @@ function vmRenderPlay() {
     vmPlayOrder = { n: active.length, def: vmShuffle(active.map(function(_,i){ return i; })), matched: [], selected: null };
   }
   vmSelectedIdx = null;
+  /* For each original pair index origIdx, its scrambled position is where
+     origIdx sits in vmPlayOrder.def. Position → letter A-H, so a matched
+     word can show its partner's letter and vice versa. */
+  var posOf = {};
+  vmPlayOrder.def.forEach(function(origIdx, pos) { posOf[origIdx] = pos; });
+  function letterFor(pos) { return String.fromCharCode(65 + pos); }
+  function wordLabel(i) {
+    var matched = vmPlayOrder.matched.indexOf(i) !== -1;
+    var num = (i + 1);
+    return matched ? (num + ' · ' + letterFor(posOf[i])) : String(num);
+  }
+  function defLabel(origIdx) {
+    var matched = vmPlayOrder.matched.indexOf(origIdx) !== -1;
+    var letter = letterFor(posOf[origIdx]);
+    return matched ? (letter + ' · ' + (origIdx + 1)) : letter;
+  }
   var wordsHtml = active.map(function(p, i) {
     var matched = vmPlayOrder.matched.indexOf(i) !== -1;
-    return '<button class="vm-cell ' + (matched ? 'matched' : '') + '" type="button" data-side="w" data-i="' + i + '" onclick="vmPlayClick(this)"><span class="vm-word">' + vmEsc(p.w) + '</span></button>';
+    return '<button class="vm-cell ' + (matched ? 'matched' : '') + '" type="button" data-side="w" data-i="' + i + '" onclick="vmPlayClick(this)">' +
+      '<span class="vm-label">' + wordLabel(i) + '</span>' +
+      '<span class="vm-text vm-word">' + vmEsc(p.w) + '</span>' +
+    '</button>';
   }).join('');
   var defsHtml = vmPlayOrder.def.map(function(origIdx) {
     var matched = vmPlayOrder.matched.indexOf(origIdx) !== -1;
-    return '<button class="vm-cell ' + (matched ? 'matched' : '') + '" type="button" data-side="d" data-i="' + origIdx + '" onclick="vmPlayClick(this)">' + vmEsc(active[origIdx].d) + '</button>';
+    return '<button class="vm-cell ' + (matched ? 'matched' : '') + '" type="button" data-side="d" data-i="' + origIdx + '" onclick="vmPlayClick(this)">' +
+      '<span class="vm-label">' + defLabel(origIdx) + '</span>' +
+      '<span class="vm-text">' + vmEsc(active[origIdx].d) + '</span>' +
+    '</button>';
   }).join('');
   cols.innerHTML = '<div class="vm-play-col">' + wordsHtml + '</div><div class="vm-play-col">' + defsHtml + '</div>';
   vmUpdateScore();
@@ -437,10 +468,20 @@ function vmPlayClick(el) {
   /* Different side: check the match. Both cells reference the SAME original
      pair index — that's what defines a match. */
   if (vmSelectedIdx.i === i) {
-    /* Correct! Mark both. */
+    /* Correct! Mark both, and rewrite each cell's label to show the pair
+       ("1" → "1 · C" on the word, "C" → "C · 1" on the definition), so
+       matched partners are obviously linked. */
     vmPlayOrder.matched.push(i);
+    var pos = vmPlayOrder.def.indexOf(i);
+    var letter = String.fromCharCode(65 + pos);
+    var number = i + 1;
     document.querySelectorAll('.vm-cell.selected').forEach(function(c){ c.classList.remove('selected'); });
-    document.querySelectorAll('.vm-cell[data-i="' + i + '"]').forEach(function(c){ c.classList.add('matched'); c.classList.remove('selected'); });
+    document.querySelectorAll('.vm-cell[data-i="' + i + '"]').forEach(function(c) {
+      c.classList.add('matched');
+      c.classList.remove('selected');
+      var lbl = c.querySelector('.vm-label');
+      if (lbl) lbl.textContent = c.dataset.side === 'w' ? (number + ' · ' + letter) : (letter + ' · ' + number);
+    });
     vmSelectedIdx = null;
     vmUpdateScore();
   } else {
