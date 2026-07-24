@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vocab Matching</title>
+<meta name="description" content="Build word-and-definition matching exercises for English vocabulary.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f3ec;--card:#fff;--ink:#0f1b2d;--muted:#6b7686;--line:#eceadf;--accent:#2563eb;--soft:#eceffc;--soft-line:#dde3f8;--jpt-bar:68px;--jpt-side-w:302px}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Outfit',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink)}
+button{font-family:inherit;cursor:pointer}
+
+.app{display:grid;grid-template-columns:var(--jpt-side-w) 1fr;min-height:calc(100vh - var(--jpt-bar));transition:grid-template-columns .22s ease}
+.app.side-collapsed{grid-template-columns:0 1fr}
+.app.side-collapsed > aside{border-right:none;overflow:hidden;opacity:0;pointer-events:none}
+.app > aside{background:var(--card);border-right:1px solid var(--line);display:flex;flex-direction:column;overflow-y:auto;position:sticky;top:var(--jpt-bar);height:calc(100vh - var(--jpt-bar))}
+main{overflow:visible;min-width:0}
+.main-inner{padding:20px 24px 40px;max-width:1180px;margin:0 auto}
+
+/* ── Sidebar, matching the other tools ────────────────────────────── */
+.side-top{padding:16px 16px 12px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--card);z-index:2}
+.jt-label{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:9px}
+.side-hint{font-size:12px;color:var(--muted);line-height:1.45}
+.side-hint b{color:var(--ink);font-weight:600}
+
+.side-list{padding:10px 10px 16px}
+.side-group{margin-bottom:6px}
+.side-group-toggle{display:flex;align-items:center;gap:8px;cursor:pointer;width:100%;padding:7px 10px;border-radius:9px;background:transparent;border:none;transition:background .12s}
+.side-group-toggle:hover{background:var(--soft)}
+.side-group-name{flex:1;font-size:11px;letter-spacing:.13em;text-transform:uppercase;font-weight:700;color:var(--accent);text-align:left}
+.side-group-chevron{font-size:9px;color:var(--muted);transition:transform .18s ease}
+.side-group.open .side-group-chevron{transform:rotate(180deg)}
+.side-group-body{display:none;padding:2px 0 4px}
+.side-group.open .side-group-body{display:block}
+.vm-item{display:flex;align-items:center;gap:8px;width:100%;text-align:left;font-family:inherit;padding:8px 11px;border-radius:10px;cursor:pointer;border:1px solid transparent;background:transparent;color:var(--ink);margin-bottom:2px;transition:background .12s,border-color .12s;line-height:1.35}
+.vm-item:hover{background:var(--soft)}
+.vm-item.active{background:var(--soft);border-color:var(--accent);color:var(--accent)}
+.vm-item .vm-title{font-size:13.5px;font-weight:600;letter-spacing:-.01em;flex:1;min-width:0}
+.vm-item .vm-count{font-size:10.5px;color:var(--muted);font-weight:700}
+
+/* ── Toolbar ─────────────────────────────────────────────────────── */
+.vm-toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 4px 14px;border-bottom:1px solid var(--line);margin-bottom:6px}
+.vm-tabs{display:inline-flex;border:1.5px solid var(--soft-line);border-radius:9px;overflow:hidden}
+.vm-tab{font-family:inherit;font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:6px 14px;border:none;background:transparent;color:var(--muted);cursor:pointer;transition:background .12s,color .12s}
+.vm-tab+.vm-tab{border-left:1.5px solid var(--soft-line)}
+.vm-tab:hover{color:var(--ink)}
+.vm-tab.on{background:var(--ink);color:var(--card)}
+.vm-status{font-size:11px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-right:auto}
+.vm-clear{font-family:inherit;font-size:12px;font-weight:600;padding:6px 12px;border-radius:999px;border:1px solid var(--soft-line);background:transparent;color:var(--muted);cursor:pointer}
+.vm-clear:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+
+/* ── Timer (shared classes from TIMER_JS) ────────────────────────── */
+.timer{display:inline-flex;align-items:center;gap:2px;padding:3px 4px 3px 12px;border:1px solid var(--soft-line);border-radius:999px;background:var(--card)}
+.timer .tm{font-family:inherit;font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.04em;width:58px;text-align:center;padding:2px 0;background:transparent;border:none;outline:none;color:var(--ink)}
+.timer .tm:focus{background:var(--soft);color:var(--accent);border-radius:8px}
+.timer.warn .tm{color:#c2740c}
+.timer.over .tm{color:#c14343}
+.timer button{width:28px;height:28px;border-radius:999px;border:none;background:transparent;color:var(--muted);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:background .12s,color .12s}
+.timer button svg{width:15px;height:15px;display:block}
+.timer button:hover{background:var(--soft);color:var(--accent)}
+.timer button:focus{outline:none}
+.timer button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.jpt-tmbar{height:4px;border-radius:999px;background:var(--line);overflow:hidden;margin:-2px 4px 14px;opacity:0;transition:opacity .25s}
+.jpt-tmbar.on{opacity:1}
+.jpt-tmbar span{display:block;height:100%;width:100%;background:var(--accent);border-radius:999px;transition:width .95s linear,background .3s}
+.jpt-tmbar.warn span{background:#c2740c}
+.jpt-tmbar.over span{background:#c14343;animation:jptTmPulse 1.1s ease-in-out infinite}
+@keyframes jptTmPulse{0%,100%{opacity:1}50%{opacity:.55}}
+
+/* ── Edit view: table of word/definition rows ────────────────────── */
+.vm-edit{margin-top:10px}
+.vm-edit-head{display:grid;grid-template-columns:1fr 1.4fr 36px;gap:10px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700;padding:6px 4px 10px}
+.vm-row{display:grid;grid-template-columns:1fr 1.4fr 36px;gap:10px;margin-bottom:6px;align-items:start}
+.vm-in{font-family:inherit;font-size:14.5px;padding:9px 12px;border-radius:10px;border:1px solid var(--soft-line);background:var(--card);color:var(--ink);outline:none;width:100%;line-height:1.35;resize:none;transition:border-color .12s}
+.vm-in:focus{border-color:var(--accent)}
+.vm-in::placeholder{color:var(--muted);opacity:.7}
+.vm-row-del{width:36px;height:36px;border-radius:10px;border:1px solid transparent;background:transparent;color:var(--muted);font-size:16px;cursor:pointer;transition:.12s;line-height:1;padding:0}
+.vm-row:hover .vm-row-del{border-color:var(--soft-line)}
+.vm-row-del:hover{background:var(--soft);color:#c14343;border-color:var(--soft-line)}
+.vm-add{display:inline-flex;align-items:center;gap:6px;font-family:inherit;font-size:13px;font-weight:600;padding:9px 16px;border-radius:999px;border:1px dashed var(--soft-line);background:transparent;color:var(--accent);cursor:pointer;margin-top:6px;transition:.12s}
+.vm-add:hover{background:var(--soft);border-color:var(--accent)}
+
+/* ── Play view: click-to-match ───────────────────────────────────── */
+.vm-play-top{display:flex;align-items:center;gap:12px;padding:6px 4px 14px;flex-wrap:wrap}
+.vm-play-status{font-size:12px;color:var(--muted);font-weight:600;margin-right:auto}
+.vm-play-status b{color:var(--ink)}
+.vm-play-btn{font-family:inherit;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;border:1px solid var(--soft-line);background:transparent;color:var(--muted);cursor:pointer;transition:.12s}
+.vm-play-btn:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+
+.vm-play-columns{display:grid;grid-template-columns:1fr 1.4fr;gap:14px;margin-top:6px}
+.vm-play-col{display:flex;flex-direction:column;gap:8px}
+.vm-cell{background:var(--card);border:1.5px solid var(--soft-line);border-radius:12px;padding:14px 16px;font-size:15px;line-height:1.4;cursor:pointer;transition:border-color .12s,background .12s,transform .1s;text-align:left;font-family:inherit;color:var(--ink);position:relative}
+.vm-cell:hover:not(.matched){border-color:var(--accent);background:var(--soft)}
+.vm-cell.selected{border-color:var(--accent);background:var(--soft);box-shadow:0 0 0 3px rgba(37,99,235,.15)}
+.vm-cell.matched{border-color:#7cbf7f;background:#e6f4e7;color:#2a622d;cursor:default}
+.vm-cell.wrong{animation:vmWrong .35s ease}
+@keyframes vmWrong{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px);border-color:#c14343}75%{transform:translateX(4px);border-color:#c14343}}
+.vm-cell .vm-word{font-weight:700}
+
+/* ── Print view: static handout ──────────────────────────────────── */
+.vm-print{margin-top:10px}
+.vm-print-actions{display:flex;gap:10px;padding:2px 4px 16px;flex-wrap:wrap}
+.vm-print-btn{font-family:inherit;font-size:13px;font-weight:600;padding:8px 16px;border-radius:999px;border:none;background:var(--accent);color:#fff;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:background .12s}
+.vm-print-btn:hover{background:var(--accent-deep,#1d4ed8)}
+.vm-print-btn svg{width:14px;height:14px}
+.vm-print-sheet{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:34px 40px;max-width:820px;margin:0 auto;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+.vm-print-title{font-size:1.6rem;font-weight:800;margin-bottom:6px;letter-spacing:-.02em}
+.vm-print-sub{font-size:13px;color:var(--muted);margin-bottom:24px}
+.vm-print-cols{display:grid;grid-template-columns:1fr 1.4fr;gap:26px;margin-bottom:26px}
+.vm-print-col ol{list-style:none;counter-reset:vp;padding:0;margin:0}
+.vm-print-col li{counter-increment:vp;padding:8px 0;border-bottom:1px dashed var(--line);font-size:14.5px;line-height:1.45;position:relative;padding-left:28px}
+.vm-print-col li::before{content:counter(vp) '.';position:absolute;left:0;font-weight:700;color:var(--muted);font-size:12px;top:11px;letter-spacing:.02em}
+.vm-print-col.vm-print-defs li::before{content:counter(vp,upper-alpha) '.'}
+.vm-answer-key{margin-top:12px;padding-top:16px;border-top:2px dashed var(--soft-line)}
+.vm-answer-key h3{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:10px}
+.vm-answer-key .vm-key-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:6px 18px;font-size:13px}
+.vm-answer-key .vm-key-grid span{color:var(--ink);font-weight:500}
+.vm-answer-key .vm-key-grid b{color:var(--accent);font-weight:700;margin-right:4px}
+
+.vm-empty{padding:52px 24px;text-align:center;color:var(--muted);font-style:italic;font-size:14px;background:var(--card);border:1px dashed var(--line);border-radius:16px;margin-top:14px}
+
+/* Print CSS: hide everything except the print sheet, tighten margins */
+@media print{
+  body{background:#fff}
+  header,aside,.jpt-side-handle,.vm-toolbar,.jpt-tmbar,.vm-tabs,.vm-print-actions,.tool-head{display:none !important}
+  .main-inner{padding:0;max-width:100%}
+  .vm-print-sheet{border:none;box-shadow:none;padding:16px;max-width:100%;margin:0}
+}
+
+@media (max-width:900px){
+  .vm-play-columns{grid-template-columns:1fr}
+  .vm-print-cols{grid-template-columns:1fr}
+  .vm-edit-head,.vm-row{grid-template-columns:1fr 1.4fr 32px;gap:8px}
+}
+</style>
+</head>
+<body>
+
+<div class="app" id="app">
+  <aside>
+    <div class="side-top">
+      <div class="jt-label">Starter sets</div>
+      <div class="side-hint">Pick a set to load its pairs, or start typing your own on the right. Edits are saved automatically.</div>
+    </div>
+    <div class="side-list" id="vmList"></div>
+  </aside>
+
+  <main>
+    <div class="main-inner">
+      <div class="vm-toolbar">
+        <div class="vm-status" id="vmSetName">Untitled matching</div>
+        <div class="vm-tabs" role="group" aria-label="View mode">
+          <button class="vm-tab on" type="button" data-mode="edit" onclick="vmSetMode('edit')">Edit</button>
+          <button class="vm-tab" type="button" data-mode="play" onclick="vmSetMode('play')">Play</button>
+          <button class="vm-tab" type="button" data-mode="print" onclick="vmSetMode('print')">Print</button>
+        </div>
+        <button class="vm-clear" type="button" onclick="vmClear()">Clear all</button>
+        <div class="timer" id="jptTimerBox"><input class="tm" id="jptTmInput" type="text" inputmode="numeric" value="02:00" aria-label="Timer length" title="Type a length (2 or 2:30) and press Enter to start" onfocus="jptTmFocus()" onkeydown="jptTmKey(event)" onblur="jptTmApply()"><button onclick="jptTmToggle()" id="jptTmBtn" title="Start / pause"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="7 4 20 12 7 20 7 4"/></svg></button><button onclick="jptTmReset()" title="Reset" aria-label="Reset timer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></button></div>
+      </div>
+      <div class="jpt-tmbar" id="jptTmBar"><span id="jptTmBarFill"></span></div>
+
+      <div class="vm-edit" id="vmEdit">
+        <div class="vm-edit-head">
+          <div>Word</div>
+          <div>Definition</div>
+          <div></div>
+        </div>
+        <div id="vmRows"></div>
+        <button class="vm-add" type="button" onclick="vmAddRow()">+ Add pair</button>
+      </div>
+
+      <div class="vm-play" id="vmPlay" hidden>
+        <div class="vm-play-top">
+          <div class="vm-play-status"><b id="vmScore">0 / 0</b> matched</div>
+          <button class="vm-play-btn" type="button" onclick="vmPlayShuffle()">Reshuffle</button>
+          <button class="vm-play-btn" type="button" onclick="vmPlayReset()">Start over</button>
+        </div>
+        <div class="vm-play-columns" id="vmPlayColumns"></div>
+        <div class="vm-empty" id="vmPlayEmpty" hidden>Add some pairs on the Edit tab to play.</div>
+      </div>
+
+      <div class="vm-print" id="vmPrint" hidden>
+        <div class="vm-print-actions">
+          <button class="vm-print-btn" type="button" onclick="window.print()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg>
+            Print
+          </button>
+          <button class="vm-play-btn" type="button" onclick="vmPrintShuffle()">Reshuffle definitions</button>
+        </div>
+        <div class="vm-print-sheet" id="vmPrintSheet"></div>
+        <div class="vm-empty" id="vmPrintEmpty" hidden>Add some pairs on the Edit tab to print.</div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+var VM_SETS = [{"id":1,"cat":"Travel & transport","title":"At the airport","pairs":[{"w":"check-in","d":"the place where you show your ticket and hand over your suitcase"},{"w":"boarding pass","d":"the ticket you need to get on the plane"},{"w":"gate","d":"the door in the airport where you go to catch your plane"},{"w":"delayed","d":"starting later than planned"},{"w":"cancelled","d":"not going to happen anymore"},{"w":"carry-on","d":"a small bag you take on the plane with you"},{"w":"passport control","d":"the desk where an officer checks your passport"},{"w":"customs","d":"the area where officers can check what you're bringing into the country"}]},{"id":2,"cat":"Travel & transport","title":"Hotels & stays","pairs":[{"w":"reception","d":"the desk where you check in when you arrive"},{"w":"key card","d":"a plastic card that opens the door of your room"},{"w":"double room","d":"a room with a bed for two people"},{"w":"en suite","d":"a room with its own bathroom"},{"w":"check out","d":"to pay your bill and leave the hotel"},{"w":"room service","d":"a service that brings food to your room"},{"w":"wake-up call","d":"a phone call that wakes you up in the morning"},{"w":"housekeeping","d":"the staff who clean the rooms"}]},{"id":3,"cat":"Food & drink","title":"In the kitchen","pairs":[{"w":"chop","d":"to cut into small pieces with a knife"},{"w":"boil","d":"to heat water until it bubbles"},{"w":"fry","d":"to cook in hot oil"},{"w":"stir","d":"to move food around in a pan with a spoon"},{"w":"season","d":"to add salt, pepper and other flavours"},{"w":"simmer","d":"to cook gently in liquid, just below boiling"},{"w":"whisk","d":"to mix quickly to add air"},{"w":"marinate","d":"to leave food in a sauce so it takes on flavour"}]},{"id":4,"cat":"Food & drink","title":"At the restaurant","pairs":[{"w":"starter","d":"the small dish you eat before the main course"},{"w":"main course","d":"the biggest, most important dish of the meal"},{"w":"bill","d":"the paper that tells you how much to pay"},{"w":"tip","d":"extra money you leave for the waiter"},{"w":"vegetarian","d":"someone who doesn't eat meat"},{"w":"takeaway","d":"food you buy to eat somewhere else"},{"w":"reservation","d":"a table you book in advance"},{"w":"service charge","d":"an extra fee already added to your bill"}]},{"id":5,"cat":"Work & office","title":"Office life","pairs":[{"w":"deadline","d":"the last day you can finish something"},{"w":"meeting","d":"a time when people come together to talk about work"},{"w":"colleague","d":"a person you work with"},{"w":"promotion","d":"getting a better position at work"},{"w":"overtime","d":"extra hours you work after your normal day"},{"w":"commute","d":"the journey to and from work"},{"w":"teamwork","d":"working well with other people to reach a goal"},{"w":"feedback","d":"comments about how well you're doing your job"}]},{"id":6,"cat":"Work & office","title":"Job hunting","pairs":[{"w":"CV","d":"a document that lists your work experience and skills"},{"w":"cover letter","d":"a short letter you send with your CV to explain why you want the job"},{"w":"interview","d":"a meeting where a company asks you questions about a job"},{"w":"salary","d":"the money you get paid each month or year"},{"w":"qualifications","d":"the exams, degrees or certificates you have"},{"w":"references","d":"people who can say good things about you to an employer"},{"w":"shortlist","d":"the small group of people chosen to move to the next round"},{"w":"offer","d":"when a company says they want to give you the job"}]},{"id":7,"cat":"Home & family","title":"Rooms & furniture","pairs":[{"w":"kitchen","d":"the room where you cook food"},{"w":"living room","d":"the room where you relax, watch TV and receive guests"},{"w":"bedroom","d":"the room where you sleep"},{"w":"wardrobe","d":"a large cupboard where you keep your clothes"},{"w":"sofa","d":"a long, soft seat for two or more people"},{"w":"bookshelf","d":"a piece of furniture where you keep books"},{"w":"desk","d":"a table where you sit to work or study"},{"w":"rug","d":"a small carpet that covers only part of the floor"}]},{"id":8,"cat":"Home & family","title":"Household chores","pairs":[{"w":"do the washing up","d":"to clean the dishes after a meal"},{"w":"hoover","d":"to clean the floor with an electric machine that sucks up dirt"},{"w":"do the laundry","d":"to wash your clothes"},{"w":"take out the bins","d":"to put the rubbish outside for collection"},{"w":"make the bed","d":"to tidy the sheets and pillows after you get up"},{"w":"dust","d":"to remove dry dirt from surfaces with a cloth"},{"w":"iron","d":"to make clothes smooth using a hot metal tool"},{"w":"mop","d":"to clean a wet floor with a long stick and a cloth"}]},{"id":9,"cat":"Feelings & people","title":"Emotions","pairs":[{"w":"thrilled","d":"extremely happy and excited"},{"w":"nervous","d":"worried about something that is going to happen"},{"w":"embarrassed","d":"uncomfortable because of something silly you did"},{"w":"relieved","d":"happy that something bad didn't happen or is over"},{"w":"frustrated","d":"annoyed because you can't do or change something"},{"w":"proud","d":"pleased with something you or someone close to you did"},{"w":"disappointed","d":"sad because something wasn't as good as you'd hoped"},{"w":"overwhelmed","d":"unable to cope because there's too much going on"}]},{"id":10,"cat":"Feelings & people","title":"Personality","pairs":[{"w":"reliable","d":"someone you can always count on"},{"w":"ambitious","d":"wanting very much to succeed"},{"w":"outgoing","d":"friendly and enjoying the company of others"},{"w":"thoughtful","d":"kind and considering other people's feelings"},{"w":"stubborn","d":"refusing to change your mind"},{"w":"easy-going","d":"relaxed and not easily upset"},{"w":"bossy","d":"always telling other people what to do"},{"w":"modest","d":"not talking too much about your own achievements"}]},{"id":11,"cat":"Idioms & phrases","title":"Everyday idioms","pairs":[{"w":"piece of cake","d":"very easy"},{"w":"under the weather","d":"not feeling well"},{"w":"hit the books","d":"to start studying seriously"},{"w":"costs an arm and a leg","d":"very expensive"},{"w":"break the ice","d":"to make people feel more relaxed in a new situation"},{"w":"pull someone's leg","d":"to joke with someone by telling them something untrue"},{"w":"call it a day","d":"to decide to stop what you're doing"},{"w":"miss the boat","d":"to be too late for an opportunity"}]},{"id":12,"cat":"Idioms & phrases","title":"Body idioms","pairs":[{"w":"get cold feet","d":"to suddenly become nervous about doing something you'd planned"},{"w":"pull yourself together","d":"to calm down and control your emotions"},{"w":"keep an eye on","d":"to watch carefully"},{"w":"give someone a hand","d":"to help someone"},{"w":"bite your tongue","d":"to stop yourself from saying something"},{"w":"cost an arm and a leg","d":"to be very expensive"},{"w":"head over heels","d":"completely in love"},{"w":"lose your head","d":"to panic and act without thinking clearly"}]}];
+var VM_CATS = ["Travel & transport", "Food & drink", "Work & office", "Home & family", "Feelings & people", "Idioms & phrases"];
+var vmMode = 'edit';
+var vmPairs = [];
+var vmActiveSetId = null;
+var vmSetName = 'Untitled matching';
+var vmPlayOrder = null;
+var vmPrintOrder = null;
+var vmSelectedIdx = null;
+
+/* Persistence: the currently loaded pairs are saved so a refresh doesn't lose
+   work. There's no formal "bank" — the sidebar is the fixed starter library. */
+function vmLoad() {
+  try {
+    var raw = localStorage.getItem('jpt_vm_state');
+    if (raw) {
+      var s = JSON.parse(raw);
+      if (s && Array.isArray(s.pairs)) {
+        vmPairs = s.pairs;
+        vmActiveSetId = s.activeSetId || null;
+        vmSetName = s.setName || 'Untitled matching';
+        return;
+      }
+    }
+  } catch(e){}
+  /* Default: 8 empty rows so the editor doesn't look empty on first visit. */
+  vmPairs = Array.from({length: 8}, function(){ return {w:'', d:''}; });
+}
+
+function vmSave() {
+  try {
+    localStorage.setItem('jpt_vm_state', JSON.stringify({
+      pairs: vmPairs, activeSetId: vmActiveSetId, setName: vmSetName
+    }));
+  } catch(e){}
+}
+
+function vmEsc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+
+/* ── Sidebar ───────────────────────────────────────────────────── */
+function vmBuildSidebar() {
+  var list = document.getElementById('vmList');
+  var openKey = 'jpt_vm_open_cats';
+  var openArr = null;
+  try { openArr = JSON.parse(localStorage.getItem(openKey) || 'null'); } catch(e){}
+  if (!Array.isArray(openArr)) openArr = [VM_CATS[0]];
+  var openSet = {};
+  openArr.forEach(function(c){ openSet[c] = true; });
+
+  var byCat = {};
+  VM_SETS.forEach(function(s){ (byCat[s.cat] = byCat[s.cat] || []).push(s); });
+
+  list.innerHTML = VM_CATS.filter(function(c){ return byCat[c] && byCat[c].length; }).map(function(c) {
+    var items = byCat[c].map(function(s) {
+      return '<button class="vm-item ' + (s.id === vmActiveSetId ? 'active' : '') + '" type="button" onclick="vmLoadSet(' + s.id + ')">' +
+        '<span class="vm-title">' + vmEsc(s.title) + '</span>' +
+        '<span class="vm-count">' + s.pairs.length + '</span>' +
+      '</button>';
+    }).join('');
+    return '<div class="side-group ' + (openSet[c] ? 'open' : '') + '">' +
+      '<button class="side-group-toggle" type="button" onclick="vmToggleCat(' + JSON.stringify(c).replace(/"/g,'&quot;').replace(/'/g,'&#39;') + ')">' +
+        '<span class="side-group-name">' + vmEsc(c) + '</span>' +
+        '<span class="side-group-chevron">' + String.fromCharCode(9660) + '</span>' +
+      '</button>' +
+      '<div class="side-group-body">' + items + '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function vmToggleCat(c) {
+  var openKey = 'jpt_vm_open_cats';
+  var openArr = null;
+  try { openArr = JSON.parse(localStorage.getItem(openKey) || 'null'); } catch(e){}
+  if (!Array.isArray(openArr)) openArr = [VM_CATS[0]];
+  var openSet = {};
+  openArr.forEach(function(x){ openSet[x] = true; });
+  if (openSet[c]) delete openSet[c]; else openSet[c] = true;
+  openArr = VM_CATS.filter(function(x){ return openSet[x]; });
+  try { localStorage.setItem(openKey, JSON.stringify(openArr)); } catch(e){}
+  vmBuildSidebar();
+}
+
+function vmLoadSet(id) {
+  var s = null;
+  for (var i = 0; i < VM_SETS.length; i++) if (VM_SETS[i].id === id) { s = VM_SETS[i]; break; }
+  if (!s) return;
+  vmPairs = s.pairs.map(function(p){ return {w: p.w, d: p.d}; });
+  vmActiveSetId = s.id;
+  vmSetName = s.title;
+  vmPlayOrder = null;
+  vmPrintOrder = null;
+  vmSelectedIdx = null;
+  vmSave();
+  vmRefreshAll();
+}
+
+/* ── Toolbar / modes ─────────────────────────────────────────────── */
+function vmSetMode(m) {
+  vmMode = m;
+  ['edit','play','print'].forEach(function(x) {
+    document.getElementById('vm' + x[0].toUpperCase() + x.slice(1)).hidden = (x !== m);
+    var tab = document.querySelector('.vm-tab[data-mode="' + x + '"]');
+    if (tab) tab.classList.toggle('on', x === m);
+  });
+  if (m === 'play') vmRenderPlay();
+  if (m === 'print') vmRenderPrint();
+}
+
+function vmClear() {
+  if (!confirm('Clear all pairs and start with an empty exercise?')) return;
+  vmPairs = Array.from({length: 8}, function(){ return {w:'', d:''}; });
+  vmActiveSetId = null;
+  vmSetName = 'Untitled matching';
+  vmPlayOrder = null;
+  vmPrintOrder = null;
+  vmSelectedIdx = null;
+  vmSave();
+  vmRefreshAll();
+}
+
+function vmRefreshAll() {
+  document.getElementById('vmSetName').textContent = vmSetName;
+  vmBuildSidebar();
+  vmRenderEdit();
+  if (vmMode === 'play') vmRenderPlay();
+  if (vmMode === 'print') vmRenderPrint();
+}
+
+/* ── Edit view ───────────────────────────────────────────────────── */
+function vmRenderEdit() {
+  var rows = document.getElementById('vmRows');
+  rows.innerHTML = vmPairs.map(function(p, i) {
+    return '<div class="vm-row">' +
+      '<textarea class="vm-in" rows="1" data-i="' + i + '" data-f="w" oninput="vmOnInput(this)" placeholder="e.g. deadline">' + vmEsc(p.w) + '</textarea>' +
+      '<textarea class="vm-in" rows="1" data-i="' + i + '" data-f="d" oninput="vmOnInput(this)" placeholder="the last day you can finish something">' + vmEsc(p.d) + '</textarea>' +
+      '<button class="vm-row-del" type="button" title="Remove pair" onclick="vmRemoveRow(' + i + ')">&times;</button>' +
+    '</div>';
+  }).join('');
+  /* Auto-size textareas to their content. */
+  rows.querySelectorAll('textarea').forEach(vmAutosize);
+}
+
+function vmAutosize(el) {
+  /* On first paint (before web fonts settle), scrollHeight on an empty
+     textarea can return the container's height and blow the row up to 200+px.
+     Empty textareas don't need autosizing — leave them at their natural
+     one-row height. */
+  if (!el.value) { el.style.height = ''; return; }
+  el.style.height = 'auto';
+  el.style.height = (el.scrollHeight + 2) + 'px';
+}
+
+function vmOnInput(el) {
+  var i = parseInt(el.dataset.i, 10), f = el.dataset.f;
+  vmPairs[i][f] = el.value;
+  vmAutosize(el);
+  vmSave();
+  document.getElementById('vmSetName').textContent = vmSetName;
+}
+
+function vmAddRow() {
+  vmPairs.push({w:'', d:''});
+  vmSave();
+  vmRenderEdit();
+  /* Focus the newly added word input. */
+  var last = document.querySelectorAll('.vm-in[data-f="w"]');
+  if (last.length) last[last.length - 1].focus();
+}
+
+function vmRemoveRow(i) {
+  vmPairs.splice(i, 1);
+  if (vmPairs.length === 0) vmPairs.push({w:'', d:''});
+  vmSave();
+  vmRenderEdit();
+}
+
+/* ── Play view: click-to-match ───────────────────────────────────── */
+function vmActivePairs() {
+  return vmPairs.filter(function(p){ return String(p.w).trim() && String(p.d).trim(); });
+}
+
+function vmShuffle(arr) {
+  var a = arr.slice();
+  for (var i = a.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a;
+}
+
+function vmRenderPlay() {
+  var active = vmActivePairs();
+  var empty = document.getElementById('vmPlayEmpty');
+  var cols = document.getElementById('vmPlayColumns');
+  if (active.length < 2) {
+    empty.hidden = false;
+    cols.hidden = true;
+    document.getElementById('vmScore').textContent = '0 / 0';
+    return;
+  }
+  empty.hidden = true;
+  cols.hidden = false;
+  if (!vmPlayOrder || vmPlayOrder.n !== active.length) {
+    vmPlayOrder = { n: active.length, def: vmShuffle(active.map(function(_,i){ return i; })), matched: [], selected: null };
+  }
+  vmSelectedIdx = null;
+  var wordsHtml = active.map(function(p, i) {
+    var matched = vmPlayOrder.matched.indexOf(i) !== -1;
+    return '<button class="vm-cell ' + (matched ? 'matched' : '') + '" type="button" data-side="w" data-i="' + i + '" onclick="vmPlayClick(this)"><span class="vm-word">' + vmEsc(p.w) + '</span></button>';
+  }).join('');
+  var defsHtml = vmPlayOrder.def.map(function(origIdx) {
+    var matched = vmPlayOrder.matched.indexOf(origIdx) !== -1;
+    return '<button class="vm-cell ' + (matched ? 'matched' : '') + '" type="button" data-side="d" data-i="' + origIdx + '" onclick="vmPlayClick(this)">' + vmEsc(active[origIdx].d) + '</button>';
+  }).join('');
+  cols.innerHTML = '<div class="vm-play-col">' + wordsHtml + '</div><div class="vm-play-col">' + defsHtml + '</div>';
+  vmUpdateScore();
+}
+
+function vmPlayClick(el) {
+  if (el.classList.contains('matched')) return;
+  var side = el.dataset.side, i = parseInt(el.dataset.i, 10);
+  if (vmSelectedIdx === null) {
+    /* First click: select this cell and remember its side + index. */
+    document.querySelectorAll('.vm-cell.selected').forEach(function(c){ c.classList.remove('selected'); });
+    el.classList.add('selected');
+    vmSelectedIdx = { side: side, i: i };
+    return;
+  }
+  /* Second click: same side just changes the selection. */
+  if (vmSelectedIdx.side === side) {
+    document.querySelectorAll('.vm-cell.selected').forEach(function(c){ c.classList.remove('selected'); });
+    el.classList.add('selected');
+    vmSelectedIdx = { side: side, i: i };
+    return;
+  }
+  /* Different side: check the match. Both cells reference the SAME original
+     pair index — that's what defines a match. */
+  if (vmSelectedIdx.i === i) {
+    /* Correct! Mark both. */
+    vmPlayOrder.matched.push(i);
+    document.querySelectorAll('.vm-cell.selected').forEach(function(c){ c.classList.remove('selected'); });
+    document.querySelectorAll('.vm-cell[data-i="' + i + '"]').forEach(function(c){ c.classList.add('matched'); c.classList.remove('selected'); });
+    vmSelectedIdx = null;
+    vmUpdateScore();
+  } else {
+    /* Wrong. Flash both cells. */
+    var other = document.querySelector('.vm-cell.selected');
+    el.classList.add('wrong');
+    if (other) other.classList.add('wrong');
+    setTimeout(function() {
+      el.classList.remove('wrong');
+      if (other) other.classList.remove('wrong', 'selected');
+      vmSelectedIdx = null;
+    }, 400);
+  }
+}
+
+function vmUpdateScore() {
+  var active = vmActivePairs();
+  document.getElementById('vmScore').textContent = vmPlayOrder.matched.length + ' / ' + active.length;
+}
+
+function vmPlayShuffle() {
+  vmPlayOrder = null;
+  vmSelectedIdx = null;
+  vmRenderPlay();
+}
+
+function vmPlayReset() {
+  if (vmPlayOrder) {
+    vmPlayOrder.matched = [];
+    vmSelectedIdx = null;
+  }
+  vmRenderPlay();
+}
+
+/* ── Print view: static handout ──────────────────────────────────── */
+function vmRenderPrint() {
+  var active = vmActivePairs();
+  var sheet = document.getElementById('vmPrintSheet');
+  var empty = document.getElementById('vmPrintEmpty');
+  if (active.length < 2) {
+    empty.hidden = false;
+    sheet.hidden = true;
+    return;
+  }
+  empty.hidden = true;
+  sheet.hidden = false;
+  if (!vmPrintOrder || vmPrintOrder.length !== active.length) {
+    vmPrintOrder = vmShuffle(active.map(function(_, i){ return i; }));
+  }
+  var wordsHtml = '<ol>' + active.map(function(p){ return '<li>' + vmEsc(p.w) + '</li>'; }).join('') + '</ol>';
+  var defsHtml = '<ol>' + vmPrintOrder.map(function(idx){ return '<li>' + vmEsc(active[idx].d) + '</li>'; }).join('') + '</ol>';
+  /* Answer key: for word 1 the correct letter is the position of index 0 in vmPrintOrder + 'A'. */
+  var pos = {};
+  vmPrintOrder.forEach(function(origIdx, i){ pos[origIdx] = i; });
+  var keyHtml = active.map(function(p, i) {
+    var letter = String.fromCharCode(65 + pos[i]);
+    return '<span><b>' + (i+1) + '</b> ' + letter + '</span>';
+  }).join('');
+  sheet.innerHTML =
+    '<div class="vm-print-title">' + vmEsc(vmSetName) + '</div>' +
+    '<div class="vm-print-sub">Match the words on the left to the definitions on the right.</div>' +
+    '<div class="vm-print-cols">' +
+      '<div class="vm-print-col">' + wordsHtml + '</div>' +
+      '<div class="vm-print-col vm-print-defs">' + defsHtml + '</div>' +
+    '</div>' +
+    '<div class="vm-answer-key">' +
+      '<h3>Answer key</h3>' +
+      '<div class="vm-key-grid">' + keyHtml + '</div>' +
+    '</div>';
+}
+
+function vmPrintShuffle() {
+  vmPrintOrder = null;
+  vmRenderPrint();
+}
+
+/* ── Boot ────────────────────────────────────────────────────────── */
+vmLoad();
+vmBuildSidebar();
+vmRenderEdit();
+document.getElementById('vmSetName').textContent = vmSetName;
+</script>
+</body>
+</html>

@@ -48,6 +48,11 @@ SEEDS = {
       rpSelect(2);
       if (document.getElementById('rpView').style.display === 'none') throw new Error('role-plays view is hidden');
     """,
+    'vocab-matching': """
+      vmLoadSet(1);
+      vmSetMode('play');
+      if (!document.querySelectorAll('.vm-cell').length) throw new Error('play columns empty');
+    """,
 }
 
 # Something that must be on screen afterwards, as proof the seed actually took.
@@ -55,6 +60,7 @@ PROOF = {
     'debate-builder': 'AI IN THE CLASSROOM',
     'speaking-topics': 'deck',
     'role-plays': 'Student A',
+    'vocab-matching': 'boarding pass',
 }
 
 WRAPPER = """

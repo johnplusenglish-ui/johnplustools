@@ -87,6 +87,19 @@ USERS = svg('<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9"
 MAXIMISE = svg('<polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/>'
                '<line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>')
 
+# Vocab Matching: three dots on the left, three on the right, lines
+# connecting one from each column, so the icon reads as "match these up".
+MATCHING = (f'<svg viewBox="0 0 24 24" {I} stroke-width="1.9">'
+            '<circle cx="4.5" cy="6" r="1.7"/>'
+            '<circle cx="4.5" cy="12" r="1.7"/>'
+            '<circle cx="4.5" cy="18" r="1.7"/>'
+            '<circle cx="19.5" cy="6" r="1.7"/>'
+            '<circle cx="19.5" cy="12" r="1.7"/>'
+            '<circle cx="19.5" cy="18" r="1.7"/>'
+            '<line x1="6.5" y1="6" x2="17.5" y2="12"/>'
+            '<line x1="6.5" y1="12" x2="17.5" y2="18"/>'
+            '<line x1="6.5" y1="18" x2="17.5" y2="6"/></svg>')
+
 FAVICON = ("<link rel=\"icon\" href=\"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' "
            "viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' "
            "stroke-linejoin='round'><path d='M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 "
@@ -124,6 +137,31 @@ TOOLS = [
         'shot_dark': '/assets/debate-builder-dark.png',
         'shot_alt': ('The Debate Builder in use: a debate titled AI in the classroom, with the '
                      'question, four prompt circles and the C2 phrase bank down the left.'),
+    },
+    {
+        'slug': 'vocab-matching',
+        'name': 'Vocab Matching',
+        'icon': MATCHING,
+        'tagline': 'Type word-definition pairs. Print, present or let students match live.',
+        'desc': ('Build word-and-definition matching exercises in a couple of minutes. '
+                 'Type pairs into the editor (or load a starter set from the sidebar), '
+                 'then flip to Play for an interactive click-to-match on the projector, '
+                 'or Print for a paper handout with a scrambled definition column and an '
+                 'answer key at the bottom.'),
+        'meta': ('A matching-exercise builder for English vocabulary teachers, with an '
+                 'interactive play mode and a printable handout.'),
+        'features': [
+            (GRID, 'Edit, Play, Print',
+             'Three views for the same set of pairs. Type on Edit, project on Play, hand out on Print.'),
+            (SHUFFLE, 'Scrambled every time',
+             'Play and Print both re-order the definitions on demand, so the exercise looks fresh each round.'),
+            (BOOK, 'Starter sets to build on',
+             'A short library of common vocab sets (kitchen, hotel, feelings and more) grouped in the sidebar, ready to load and edit.'),
+        ],
+        'shot': '/assets/vocab-matching-light.png',
+        'shot_dark': '/assets/vocab-matching-dark.png',
+        'shot_alt': ('Vocab Matching in use: a two-column editor listing words on the left '
+                     'and their definitions on the right, with Edit / Play / Print tabs and a timer.'),
     },
     {
         'slug': 'role-plays',
@@ -1984,8 +2022,46 @@ def build_roleplays(html, t):
     return html
 
 
+def build_matching(html, t):
+    """Wrap src/vocab-matching.html in the JPT shell.
+
+    Same lightweight wrap as build_roleplays — the source already carries the
+    .app/aside/main skeleton, so build.py only prepends the topbar, drops a
+    tool-head badge inside .main-inner, adds the side-collapse handle, and
+    injects the shared theme/menu/side-collapse/timer scripts.
+    """
+    html = strip_marks(html)
+    html = head_bits(html, f"{t['name']} · {SITE}", t['meta'], '')
+
+    inner = '<div class="main-inner">'
+    if inner not in html:
+        raise SystemExit('build: could not find .main-inner in vocab-matching')
+    html = html.replace(inner, inner + '\n      ' + tool_head(t), 1)
+
+    app = '<div class="app" id="app">'
+    if app not in html:
+        raise SystemExit('build: could not find .app in vocab-matching')
+    topbar = (f'<header class="stopbar">\n{brand(t["slug"])}\n'
+              f'  <div class="grow"></div>\n  {THEME_BTN}\n</header>\n\n')
+    html = html.replace(app, topbar + app, 1)
+
+    aside_close = '</aside>'
+    if aside_close not in html:
+        raise SystemExit('build: could not find </aside> in vocab-matching')
+    handle = ('<button class="jpt-side-handle" id="jptSideToggle" onclick="jptToggleSide()"\n'
+              '          title="Hide the starter list" '
+              'aria-label="Hide the starter list" aria-expanded="true">\n'
+              '    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+              'stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
+              '<polyline points="15 18 9 12 15 6"/></svg>\n  </button>\n')
+    html = html.replace(aside_close, aside_close + '\n  ' + handle, 1)
+
+    html = inject_before(html, '</body>', MENU_JS + THEME_JS + SIDE_JS + TIMER_JS, 'the page scripts')
+    return html
+
+
 BUILDERS = {'debate-builder': build_debate, 'speaking-topics': build_speaking,
-            'role-plays': build_roleplays}
+            'role-plays': build_roleplays, 'vocab-matching': build_matching}
 
 
 def home_page():
