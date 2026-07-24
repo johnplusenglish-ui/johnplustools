@@ -138,7 +138,6 @@ main{overflow:visible;min-width:0}
         <div class="gf-tabs" role="group" aria-label="View mode">
           <button class="gf-tab on" type="button" data-mode="edit" onclick="gfSetMode('edit')">Edit</button>
           <button class="gf-tab" type="button" data-mode="play" onclick="gfSetMode('play')">Play</button>
-          <button class="gf-tab" type="button" data-mode="print" onclick="gfSetMode('print')">Print</button>
         </div>
         <button class="gf-btn" type="button" onclick="gfClear()">Clear</button>
         <button class="gf-btn" type="button" onclick="gfClearBlanks()">Unmark all</button>
@@ -687,8 +686,15 @@ window.gfExportPNG = function(){
 };
 
 window.gfExportPDF = function(){
+  /* Switch to Print mode so the print sheet is in the DOM, run the browser's
+     print dialog (blocking — user picks Save as PDF from there), then flip
+     back to whichever tab the user was on so they don't get stranded. */
+  var prev = gfMode;
   gfSetMode('print');
-  setTimeout(function(){ window.print(); }, 60);
+  setTimeout(function(){
+    window.print();
+    if (prev !== 'print') gfSetMode(prev);
+  }, 60);
 };
 
 /* ── Boot ──────────────────────────────────────────────────────── */
