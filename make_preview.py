@@ -45,7 +45,7 @@ SEEDS = {
       if (!document.getElementById('deck').children.length) throw new Error('deck is empty');
     """,
     'role-plays': """
-      rpSelect(6);
+      rpSelect(2);
       if (document.getElementById('rpView').style.display === 'none') throw new Error('role-plays view is hidden');
     """,
 }
@@ -54,7 +54,7 @@ SEEDS = {
 PROOF = {
     'debate-builder': 'AI IN THE CLASSROOM',
     'speaking-topics': 'deck',
-    'role-plays': 'STUDENT A',
+    'role-plays': 'Student A',
 }
 
 WRAPPER = """

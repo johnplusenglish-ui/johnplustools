@@ -130,17 +130,17 @@ TOOLS = [
         'name': 'Role Plays',
         'icon': USERS,
         'tagline': 'Two role cards, one scenario. Hand them out and let students act.',
-        'desc': ('Two hundred pair role plays across four levels: Simple, Everyday, Advanced '
-                 'and Fun. Pick a scenario from the sidebar, and the two cards appear side by '
-                 'side ready to hand one to each student. Search across every prompt when you '
-                 'want a specific situation.'),
-        'meta': ('Two hundred pair role plays for English speaking practice, across four '
-                 'levels, ready to hand a card to each student.'),
+        'desc': ('A hundred pair role plays grouped by setting: café, restaurant, airport, '
+                 'job interview, doctor and twenty more. Each setting carries the same scene '
+                 'at four CEFR levels (B1, B2, C1, C2), so you can pitch the same situation '
+                 'to any class you teach.'),
+        'meta': ('A hundred pair role plays for English speaking practice, grouped by setting '
+                 'and pitched at B1, B2, C1 and C2.'),
         'features': [
             (USERS, 'Two cards, one scenario',
              'Student A and Student B side by side, each with their own situation to work from.'),
-            (GRID, 'Four levels, sorted',
-             'Simple, Everyday, Advanced and Fun grouped in the sidebar, most useful for the level in front of you.'),
+            (GRID, 'Twenty-five settings',
+             'Café, restaurant, airport, job interview, doctor and more. Each setting carries the same scene at B1, B2, C1 and C2.'),
             (BOOK, 'Search across the lot',
              'Type a keyword and every role and scenario searches at once.'),
         ],
