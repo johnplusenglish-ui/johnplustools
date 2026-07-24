@@ -187,7 +187,7 @@ function rpBuildSidebar() {
   rpOpenSettings.forEach(function(s) { openSet[s] = true; });
   list.innerHTML = RP_SETTINGS.filter(function(s) { return bySetting[s] && bySetting[s].length; }).map(function(s) {
     return '<div class="side-group ' + (openSet[s] ? 'open' : '') + '">' +
-      '<button class="side-group-toggle" type="button" onclick="rpToggleSetting(' + JSON.stringify(s) + ')">' +
+      '<button class="side-group-toggle" type="button" onclick="rpToggleSetting(' + JSON.stringify(s).replace(/"/g, '&quot;').replace(/'/g, '&#39;') + ')">' +
         '<span class="side-group-name">' + rpEsc(s) + '</span>' +
         '<span class="side-group-chevron">' + String.fromCharCode(9660) + '</span>' +
       '</button>' +
