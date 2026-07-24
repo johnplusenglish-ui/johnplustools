@@ -74,7 +74,14 @@ main{overflow:visible;min-width:0}
 /* ── Edit view: table of word/definition rows ────────────────────── */
 .vm-edit{margin-top:10px}
 .vm-edit-head{display:grid;grid-template-columns:1fr 1.4fr 36px;gap:10px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700;padding:6px 4px 10px}
+.vm-edit-head > div:first-child{padding-left:38px}
+.vm-edit-head > div:nth-child(2){padding-left:38px}
 .vm-row{display:grid;grid-template-columns:1fr 1.4fr 36px;gap:10px;margin-bottom:6px;align-items:start}
+.vm-cell-wrap{display:flex;align-items:flex-start;gap:8px;min-width:0}
+.vm-cell-wrap .vm-in{flex:1;min-width:0}
+/* Row labels: number on the word input, letter on the definition input,
+   so the Edit view uses the same labelling convention as Play and Print. */
+.vm-row-label{flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:38px;padding:0 9px;background:var(--soft);color:var(--muted);font-weight:700;font-size:11.5px;letter-spacing:.06em;border-radius:10px;font-variant-numeric:tabular-nums}
 .vm-in{font-family:inherit;font-size:14.5px;padding:9px 12px;border-radius:10px;border:1px solid var(--soft-line);background:var(--card);color:var(--ink);outline:none;width:100%;line-height:1.35;resize:none;transition:border-color .12s}
 .vm-in:focus{border-color:var(--accent)}
 .vm-in::placeholder{color:var(--muted);opacity:.7}
@@ -340,9 +347,16 @@ function vmRefreshAll() {
 function vmRenderEdit() {
   var rows = document.getElementById('vmRows');
   rows.innerHTML = vmPairs.map(function(p, i) {
+    var letter = i < 26 ? String.fromCharCode(65 + i) : '';
     return '<div class="vm-row">' +
-      '<textarea class="vm-in" rows="1" data-i="' + i + '" data-f="w" oninput="vmOnInput(this)" placeholder="e.g. deadline">' + vmEsc(p.w) + '</textarea>' +
-      '<textarea class="vm-in" rows="1" data-i="' + i + '" data-f="d" oninput="vmOnInput(this)" placeholder="the last day you can finish something">' + vmEsc(p.d) + '</textarea>' +
+      '<div class="vm-cell-wrap">' +
+        '<span class="vm-row-label">' + (i + 1) + '</span>' +
+        '<textarea class="vm-in" rows="1" data-i="' + i + '" data-f="w" oninput="vmOnInput(this)" placeholder="word">' + vmEsc(p.w) + '</textarea>' +
+      '</div>' +
+      '<div class="vm-cell-wrap">' +
+        '<span class="vm-row-label">' + letter + '</span>' +
+        '<textarea class="vm-in" rows="1" data-i="' + i + '" data-f="d" oninput="vmOnInput(this)" placeholder="definition">' + vmEsc(p.d) + '</textarea>' +
+      '</div>' +
       '<button class="vm-row-del" type="button" title="Remove pair" onclick="vmRemoveRow(' + i + ')">&times;</button>' +
     '</div>';
   }).join('');
