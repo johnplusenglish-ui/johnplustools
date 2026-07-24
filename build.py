@@ -87,6 +87,14 @@ USERS = svg('<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9"
 MAXIMISE = svg('<polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/>'
                '<line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>')
 
+# Gap-fill: three horizontal lines representing a paragraph, with the middle
+# line broken to show a gap — reads as "fill in the blank".
+GAPFILL = (f'<svg viewBox="0 0 24 24" {I} stroke-width="1.9">'
+           '<line x1="4" y1="7" x2="20" y2="7"/>'
+           '<line x1="4" y1="12" x2="10" y2="12"/>'
+           '<line x1="14" y1="12" x2="20" y2="12"/>'
+           '<line x1="4" y1="17" x2="16" y2="17"/></svg>')
+
 # Vocab Matching: three dots on the left, three on the right, lines
 # connecting one from each column, so the icon reads as "match these up".
 MATCHING = (f'<svg viewBox="0 0 24 24" {I} stroke-width="1.9">'
@@ -137,6 +145,30 @@ TOOLS = [
         'shot_dark': '/assets/debate-builder-dark.png',
         'shot_alt': ('The Debate Builder in use: a debate titled AI in the classroom, with the '
                      'question, four prompt circles and the C2 phrase bank down the left.'),
+    },
+    {
+        'slug': 'gap-fill',
+        'name': 'Gap-fill',
+        'icon': GAPFILL,
+        'tagline': 'Paste a text, click words to blank out. Print or fill in live.',
+        'desc': ('Build cloze (gap-fill) exercises in a couple of minutes. Paste the text, '
+                 'click any word to mark it as a blank, then flip to Play for interactive '
+                 'input on the projector or student devices, or Print for a paper handout '
+                 'with a word bank at the top and an answer key at the bottom.'),
+        'meta': ('A gap-fill (cloze) builder for English vocabulary and grammar '
+                 'exercises, with an interactive play mode and a printable handout.'),
+        'features': [
+            (GRID, 'Edit, Play, Print',
+             'Three views for the same passage. Type on Edit, project on Play, hand out on Print.'),
+            (BOOK, 'Word bank + answer key',
+             'The Print and PNG outputs both carry a shuffled word bank at the top and a numbered answer key at the bottom.'),
+            (SHUFFLE, 'Starter passages to build on',
+             'A short library of ready-made cloze texts across grammar and vocabulary, grouped in the sidebar.'),
+        ],
+        'shot': '/assets/gap-fill-light.png',
+        'shot_dark': '/assets/gap-fill-dark.png',
+        'shot_alt': ('Gap-fill in use: a text with several words marked as blanks, a word bank '
+                     'above and the answer key beneath.'),
     },
     {
         'slug': 'vocab-matching',
@@ -527,6 +559,11 @@ VOCAB_MENU = export_menu([
     ('Save as PNG (1920×1080)', IMG_I, 'vmExportPNG()'),
     ('Save as PDF', FILE_I, 'vmExportPDF()'),
 ], 'jptVm', 'Save this matching exercise')
+
+GAPFILL_MENU = export_menu([
+    ('Save as PNG (1920×1080)', IMG_I, 'gfExportPNG()'),
+    ('Save as PDF', FILE_I, 'gfExportPDF()'),
+], 'jptGf', 'Save this gap-fill')
 
 EXPORT_MENU_JS = """<!-- jpt:exportmenu -->
 <script>
@@ -2071,8 +2108,52 @@ def build_matching(html, t):
     return html
 
 
+def build_gapfill(html, t):
+    """Wrap src/gap-fill.html in the JPT shell.
+
+    Same lightweight wrap as build_matching — source already carries the JPT
+    skeleton, so build.py only prepends the topbar, drops the tool-head,
+    wedges the side-collapse handle, splices the save menu into the toolbar
+    marker, and injects the shared scripts.
+    """
+    html = strip_marks(html)
+    html = head_bits(html, f"{t['name']} · {SITE}", t['meta'], '')
+
+    inner = '<div class="main-inner">'
+    if inner not in html:
+        raise SystemExit('build: could not find .main-inner in gap-fill')
+    html = html.replace(inner, inner + '\n      ' + tool_head(t), 1)
+
+    app = '<div class="app" id="app">'
+    if app not in html:
+        raise SystemExit('build: could not find .app in gap-fill')
+    topbar = (f'<header class="stopbar">\n{brand(t["slug"])}\n'
+              f'  <div class="grow"></div>\n  {THEME_BTN}\n</header>\n\n')
+    html = html.replace(app, topbar + app, 1)
+
+    aside_close = '</aside>'
+    if aside_close not in html:
+        raise SystemExit('build: could not find </aside> in gap-fill')
+    handle = ('<button class="jpt-side-handle" id="jptSideToggle" onclick="jptToggleSide()"\n'
+              '          title="Hide the starter list" '
+              'aria-label="Hide the starter list" aria-expanded="true">\n'
+              '    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+              'stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
+              '<polyline points="15 18 9 12 15 6"/></svg>\n  </button>\n')
+    html = html.replace(aside_close, aside_close + '\n  ' + handle, 1)
+
+    savemenu_marker = '<!-- jpt:savemenu -->'
+    if savemenu_marker not in html:
+        raise SystemExit('build: could not find jpt:savemenu marker in gap-fill')
+    html = html.replace(savemenu_marker, GAPFILL_MENU, 1)
+
+    html = inject_before(html, '</body>', MENU_JS + THEME_JS + SIDE_JS + TIMER_JS + EXPORT_MENU_JS, 'the page scripts')
+    return html
+
+
 BUILDERS = {'debate-builder': build_debate, 'speaking-topics': build_speaking,
-            'role-plays': build_roleplays, 'vocab-matching': build_matching}
+            'role-plays': build_roleplays, 'vocab-matching': build_matching,
+            'gap-fill': build_gapfill}
 
 
 def home_page():

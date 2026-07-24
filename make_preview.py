@@ -53,6 +53,11 @@ SEEDS = {
       vmSetMode('play');
       if (!document.querySelectorAll('.vm-cell').length) throw new Error('play columns empty');
     """,
+    'gap-fill': """
+      gfLoadStarter(4);
+      gfSetMode('print');
+      if (!document.querySelectorAll('.gf-print-blank').length) throw new Error('gap-fill print empty');
+    """,
 }
 
 # Something that must be on screen afterwards, as proof the seed actually took.
@@ -61,6 +66,7 @@ PROOF = {
     'speaking-topics': 'deck',
     'role-plays': 'Student A',
     'vocab-matching': 'boarding pass',
+    'gap-fill': 'Word bank',
 }
 
 WRAPPER = """
