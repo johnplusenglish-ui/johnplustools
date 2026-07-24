@@ -526,7 +526,6 @@ DEBATE_MENU = export_menu([
 VOCAB_MENU = export_menu([
     ('Save as PNG (1920×1080)', IMG_I, 'vmExportPNG()'),
     ('Save as PDF', FILE_I, 'vmExportPDF()'),
-    ('Print', PRINTER_I, 'vmPrintNow()'),
 ], 'jptVm', 'Save this matching exercise')
 
 EXPORT_MENU_JS = """<!-- jpt:exportmenu -->
