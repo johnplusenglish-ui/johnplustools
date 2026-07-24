@@ -126,6 +126,30 @@ TOOLS = [
                      'question, four prompt circles and the C2 phrase bank down the left.'),
     },
     {
+        'slug': 'role-plays',
+        'name': 'Role Plays',
+        'icon': USERS,
+        'tagline': 'Two role cards, one scenario. Hand them out and let students act.',
+        'desc': ('Two hundred pair role plays across four levels: Simple, Everyday, Advanced '
+                 'and Fun. Pick a scenario from the sidebar, and the two cards appear side by '
+                 'side ready to hand one to each student. Search across every prompt when you '
+                 'want a specific situation.'),
+        'meta': ('Two hundred pair role plays for English speaking practice, across four '
+                 'levels, ready to hand a card to each student.'),
+        'features': [
+            (USERS, 'Two cards, one scenario',
+             'Student A and Student B side by side, each with their own situation to work from.'),
+            (GRID, 'Four levels, sorted',
+             'Simple, Everyday, Advanced and Fun grouped in the sidebar, most useful for the level in front of you.'),
+            (BOOK, 'Search across the lot',
+             'Type a keyword and every role and scenario searches at once.'),
+        ],
+        'shot': '/assets/role-plays-light.png',
+        'shot_dark': '/assets/role-plays-dark.png',
+        'shot_alt': ('Role Plays in use: two cards on screen labelled Student A and Student B, '
+                     'each with a role and a short description.'),
+    },
+    {
         'slug': 'speaking-topics',
         'name': 'Speaking Topics',
         'icon': ASKING,
@@ -1921,7 +1945,47 @@ def build_speaking(html, t):
     return html
 
 
-BUILDERS = {'debate-builder': build_debate, 'speaking-topics': build_speaking}
+def build_roleplays(html, t):
+    """Wrap src/role-plays.html in the JPT shell.
+
+    The source is built to fit the shell (already carries the .app/aside/main
+    skeleton the other tools' shells build up to), so nothing gets stripped
+    or diced up — just prepend the topbar, drop a tool-head badge inside
+    .main-inner, wedge the side-collapse handle after </aside>, and add the
+    site's shared theme/menu/side-collapse scripts before </body>.
+    """
+    html = strip_marks(html)
+    html = head_bits(html, f"{t['name']} · {SITE}", t['meta'], '')
+
+    inner = '<div class="main-inner">'
+    if inner not in html:
+        raise SystemExit('build: could not find .main-inner in role-plays')
+    html = html.replace(inner, inner + '\n      ' + tool_head(t), 1)
+
+    app = '<div class="app" id="app">'
+    if app not in html:
+        raise SystemExit('build: could not find .app in role-plays')
+    topbar = (f'<header class="stopbar">\n{brand(t["slug"])}\n'
+              f'  <div class="grow"></div>\n  {THEME_BTN}\n</header>\n\n')
+    html = html.replace(app, topbar + app, 1)
+
+    aside_close = '</aside>'
+    if aside_close not in html:
+        raise SystemExit('build: could not find </aside> in role-plays')
+    handle = ('<button class="jpt-side-handle" id="jptSideToggle" onclick="jptToggleSide()"\n'
+              '          title="Hide the scenario list" '
+              'aria-label="Hide the scenario list" aria-expanded="true">\n'
+              '    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+              'stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
+              '<polyline points="15 18 9 12 15 6"/></svg>\n  </button>\n')
+    html = html.replace(aside_close, aside_close + '\n  ' + handle, 1)
+
+    html = inject_before(html, '</body>', MENU_JS + THEME_JS + SIDE_JS, 'the page scripts')
+    return html
+
+
+BUILDERS = {'debate-builder': build_debate, 'speaking-topics': build_speaking,
+            'role-plays': build_roleplays}
 
 
 def home_page():
