@@ -636,7 +636,14 @@ aside{top:var(--jpt-bar);height:calc(100vh - var(--jpt-bar))}
 .side-group.open .side-group-chevron{transform:rotate(180deg)}
 .side-group-body{display:none;padding:2px 0 4px}
 .side-group.open .side-group-body{display:block}
-
+/* Item styling — brought in line with Speaking Topics' .topic-btn (padding,
+   radius, spacing, font weight/size) so the two sidebars read as one family.
+   Also normalises the delete affordance's position to fit the tighter row. */
+.side-item{padding:8px 11px;border-radius:10px;margin-bottom:2px}
+.side-item.active{background:var(--soft);border-color:var(--accent)}
+.side-item .title{font-size:13.5px;font-weight:600;letter-spacing:-.01em;
+  text-transform:capitalize}
+.side-item .del{top:6px;right:4px;font-size:12px}
 /* /jpt:speaking */
 </style>
 </head>
@@ -1084,8 +1091,14 @@ function renderSidebar() {
     list.innerHTML = `<div class="empty-list">${q ? 'Nothing matches that.' : 'No debates yet. Click + New.'}</div>`;
     return;
   }
+  // Sidebar titles show as Title Case regardless of typed case: the tool's
+  // main .debate-title has text-transform:uppercase, so users often type
+  // titles in caps to match what they see there. Lowercasing here + CSS
+  // text-transform:capitalize on .title normalises both "FREE TIME" and
+  // "free time" to display "Free Time" — matches Speaking Topics' item look
+  // without touching stored data.
   const itemHtml = d => `<div class="side-item ${d.id === state.currentId ? 'active' : ''}" onclick="selectDebate('${d.id}')">
-    <div class="title">${escapeHtml(d.title || 'UNTITLED')}</div>
+    <div class="title">${escapeHtml((d.title || 'Untitled').toLowerCase())}</div>
     <button class="del" onclick="event.stopPropagation();deleteDebate('${d.id}')" title="Delete">${'✕'}</button>
   </div>`;
   if (q) {
