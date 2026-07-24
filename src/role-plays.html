@@ -83,6 +83,28 @@ main{overflow:visible;min-width:0}
 .rp-nav-btn:hover:not(:disabled){background:var(--soft);color:var(--accent);border-color:var(--accent)}
 .rp-nav-btn:disabled{opacity:.35;cursor:default}
 
+/* Toolbar with the timer, sitting above the placeholder / scenario view.
+   Timer is the same MM:SS control the Speaking Topics tool uses; classes
+   are namespaced (jptTimerBox etc.) so the shared TIMER_JS finds it. */
+.rp-toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 4px 14px;border-bottom:1px solid var(--line);margin-bottom:6px}
+.rp-status{font-size:11px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-right:auto}
+.timer{display:inline-flex;align-items:center;gap:2px;padding:3px 4px 3px 12px;border:1px solid var(--soft-line);border-radius:999px;background:var(--card)}
+.timer .tm{font-family:inherit;font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.04em;width:58px;text-align:center;padding:2px 0;background:transparent;border:none;outline:none;color:var(--ink)}
+.timer .tm:focus{background:var(--soft);color:var(--accent);border-radius:8px}
+.timer.warn .tm{color:#c2740c}
+.timer.over .tm{color:#c14343}
+.timer button{width:28px;height:28px;border-radius:999px;border:none;background:transparent;color:var(--muted);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:background .12s,color .12s}
+.timer button svg{width:15px;height:15px;display:block}
+.timer button:hover{background:var(--soft);color:var(--accent)}
+.timer button:focus{outline:none}
+.timer button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.jpt-tmbar{height:4px;border-radius:999px;background:var(--line);overflow:hidden;margin:-2px 4px 14px;opacity:0;transition:opacity .25s}
+.jpt-tmbar.on{opacity:1}
+.jpt-tmbar span{display:block;height:100%;width:100%;background:var(--accent);border-radius:999px;transition:width .95s linear,background .3s}
+.jpt-tmbar.warn span{background:#c2740c}
+.jpt-tmbar.over span{background:#c14343;animation:jptTmPulse 1.1s ease-in-out infinite}
+@keyframes jptTmPulse{0%,100%{opacity:1}50%{opacity:.55}}
+
 @media (max-width:900px){
   .rp-cards{grid-template-columns:1fr}
 }
@@ -104,6 +126,11 @@ main{overflow:visible;min-width:0}
 
   <main>
     <div class="main-inner">
+      <div class="rp-toolbar">
+        <div class="rp-status">Scenario</div>
+        <div class="timer" id="jptTimerBox"><input class="tm" id="jptTmInput" type="text" inputmode="numeric" value="02:00" aria-label="Timer length" title="Type a length (2 or 2:30) and press Enter to start" onfocus="jptTmFocus()" onkeydown="jptTmKey(event)" onblur="jptTmApply()"><button onclick="jptTmToggle()" id="jptTmBtn" title="Start / pause"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="7 4 20 12 7 20 7 4"/></svg></button><button onclick="jptTmReset()" title="Reset" aria-label="Reset timer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></button></div>
+      </div>
+      <div class="jpt-tmbar" id="jptTmBar"><span id="jptTmBarFill"></span></div>
       <div class="rp-placeholder" id="rpPlaceholder">Pick a scenario from the list, or search for a role play.</div>
       <div class="rp-view" id="rpView" style="display:none">
         <div class="rp-head">

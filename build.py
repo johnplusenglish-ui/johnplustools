@@ -1980,7 +1980,7 @@ def build_roleplays(html, t):
               '<polyline points="15 18 9 12 15 6"/></svg>\n  </button>\n')
     html = html.replace(aside_close, aside_close + '\n  ' + handle, 1)
 
-    html = inject_before(html, '</body>', MENU_JS + THEME_JS + SIDE_JS, 'the page scripts')
+    html = inject_before(html, '</body>', MENU_JS + THEME_JS + SIDE_JS + TIMER_JS, 'the page scripts')
     return html
 
 
