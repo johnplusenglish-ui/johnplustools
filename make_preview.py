@@ -59,7 +59,11 @@ SEEDS = {
       if (!document.querySelectorAll('.gf-print-blank').length) throw new Error('gap-fill print empty');
     """,
     'spin-wheel': """
-      swLoadPreset(4);
+      swNewWheel();
+      document.getElementById('swNameInput').value = 'Class names (example)';
+      swOnNameInput(document.getElementById('swNameInput'));
+      document.getElementById('swTextarea').value = 'Alex\\nSam\\nJordan\\nTaylor\\nCasey\\nMorgan\\nRiley\\nQuinn';
+      swOnTextareaInput();
       if (!document.querySelectorAll('.sw-label-text').length) throw new Error('wheel has no labels');
     """,
 }
@@ -71,7 +75,7 @@ PROOF = {
     'role-plays': 'Student A',
     'vocab-matching': 'boarding pass',
     'gap-fill': 'Word bank',
-    'spin-wheel': 'Alex',
+    'spin-wheel': 'Riley',
 }
 
 WRAPPER = """
@@ -113,10 +117,15 @@ def shoot(slug, theme, httpd):
     try:
         # Prove the seed ran before photographing. It once silently shot an
         # unseeded page after an element it clicked had been renamed.
+        # Checking for the bare 'PREVIEW-OK' string is not enough: the
+        # wrapper's own <script> text contains that literal substring
+        # regardless of whether it ever executed, since --dump-dom
+        # serialises script source verbatim. Check for the rendered
+        # <title> tag specifically, plus the tool's own PROOF text.
         dom = subprocess.run([CHROME, '--headless', '--disable-gpu', '--dump-dom',
                               '--virtual-time-budget=8000', url],
                              check=True, capture_output=True, text=True).stdout
-        if 'PREVIEW-OK' not in dom:
+        if '<title>PREVIEW-OK</title>' not in dom or PROOF[slug] not in dom:
             raise SystemExit(f'make_preview: the seed for {slug} did not run. '
                              f'The preview would be of an empty tool.')
         raw = ROOT / f'_pv-{slug}-{theme}.png'

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Spin the Wheel · John + Tools</title>
-<meta name="description" content="A random-picker spinning wheel for English classrooms: names, topics, grammar points or vocabulary categories, with an optional elimination mode.">
+<meta name="description" content="A random-picker spinning wheel for English classrooms: names, topics, grammar points or vocabulary categories, with an optional elimination mode and shareable links.">
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z'/></svg>">
 <!-- jpt:themeboot -->
@@ -29,22 +29,27 @@ main{overflow:visible;min-width:0}
 
 .side-top{padding:16px 16px 12px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--card);z-index:2}
 .jt-label{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:9px}
-.side-hint{font-size:12px;color:var(--muted);line-height:1.45}
+.search-wrap{position:relative;margin-top:2px}
+.search-input{width:100%;font-family:inherit;font-size:13.5px;padding:9px 12px 9px 34px;border-radius:999px;border:1px solid var(--soft-line);background:var(--bg);color:var(--ink);outline:none;transition:border-color .15s}
+.search-input:focus{border-color:var(--accent)}
+.search-input::placeholder{color:var(--muted)}
+.search-icon{position:absolute;left:12px;top:50%;width:14px;height:14px;transform:translateY(-50%);pointer-events:none;color:var(--muted)}
+.side-row{display:flex;gap:8px;margin-top:10px}
+.sw-side-btn{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:5px;font-family:inherit;font-size:12px;font-weight:600;padding:7px 10px;border-radius:999px;border:none;background:var(--accent);color:#fff;cursor:pointer;transition:filter .12s}
+.sw-side-btn:hover{filter:brightness(1.08)}
+.sw-side-btn.ghost{background:transparent;color:var(--muted);border:1px solid var(--soft-line)}
+.sw-side-btn.ghost:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
 
 .side-list{padding:10px 10px 16px}
-.side-group{margin-bottom:6px}
-.side-group-toggle{display:flex;align-items:center;gap:8px;cursor:pointer;width:100%;padding:7px 10px;border-radius:9px;background:transparent;border:none;transition:background .12s}
-.side-group-toggle:hover{background:var(--soft)}
-.side-group-name{flex:1;font-size:11px;letter-spacing:.13em;text-transform:uppercase;font-weight:700;color:var(--accent);text-align:left}
-.side-group-chevron{font-size:9px;color:var(--muted);transition:transform .18s ease}
-.side-group.open .side-group-chevron{transform:rotate(180deg)}
-.side-group-body{display:none;padding:2px 0 4px}
-.side-group.open .side-group-body{display:block}
-.sw-item{display:flex;align-items:center;gap:8px;width:100%;text-align:left;font-family:inherit;padding:8px 11px;border-radius:10px;cursor:pointer;border:1px solid transparent;background:transparent;color:var(--ink);margin-bottom:2px;transition:background .12s,border-color .12s;line-height:1.35}
-.sw-item:hover{background:var(--soft)}
-.sw-item.active{background:var(--soft);border-color:var(--accent);color:var(--accent)}
-.sw-item .sw-title{font-size:13.5px;font-weight:600;letter-spacing:-.01em;flex:1;min-width:0}
-.sw-item .sw-count{font-size:10.5px;color:var(--muted);font-weight:700}
+.side-item{padding:10px 30px 10px 12px;border-radius:12px;cursor:pointer;position:relative;border:1px solid transparent;margin-bottom:4px;transition:background .12s}
+.side-item:hover{background:var(--soft)}
+.side-item.active{background:var(--soft);border-color:var(--accent)}
+.side-item .title{font-weight:600;font-size:13.5px;letter-spacing:-.01em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.side-item .meta{font-size:11px;color:var(--muted);margin-top:2px;letter-spacing:.02em}
+.side-item .del{position:absolute;right:6px;top:10px;font-size:14px;color:var(--muted);opacity:0;transition:opacity .12s;border-radius:6px;padding:2px 6px;line-height:1;background:transparent;border:none;cursor:pointer}
+.side-item:hover .del{opacity:.6}
+.side-item .del:hover{opacity:1;color:#c14343;background:#fbe9e9}
+.empty-list{padding:34px 18px;text-align:center;color:var(--muted);font-size:13px;font-style:italic}
 
 /* ── Toolbar ─────────────────────────────────────────────────────── */
 .sw-toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 4px 14px;border-bottom:1px solid var(--line);margin-bottom:18px}
@@ -55,13 +60,17 @@ main{overflow:visible;min-width:0}
 .sw-toggle input{accent-color:var(--accent);width:15px;height:15px}
 .sw-clear{font-family:inherit;font-size:12px;font-weight:600;padding:6px 12px;border-radius:999px;border:1px solid var(--soft-line);background:transparent;color:var(--muted);cursor:pointer;transition:.12s}
 .sw-clear:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
-.sw-mute{width:34px;height:34px;border-radius:999px;border:1px solid var(--soft-line);background:transparent;color:var(--muted);display:inline-flex;align-items:center;justify-content:center;transition:.12s;flex-shrink:0}
-.sw-mute svg{width:16px;height:16px}
-.sw-mute:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+.sw-icon-btn{width:34px;height:34px;border-radius:999px;border:1px solid var(--soft-line);background:transparent;color:var(--muted);display:inline-flex;align-items:center;justify-content:center;transition:.12s;flex-shrink:0}
+.sw-icon-btn svg{width:16px;height:16px}
+.sw-icon-btn:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
 .sw-mute.off{color:#c14343;border-color:#e8b8b8}
 .sw-present-btn{display:inline-flex;align-items:center;gap:7px;font-family:inherit;font-size:12.5px;font-weight:700;padding:8px 15px;border-radius:999px;border:none;background:var(--accent);color:#fff;cursor:pointer;transition:background .12s}
 .sw-present-btn:hover{background:var(--accent-deep,#1d4ed8)}
 .sw-present-btn svg{width:14px;height:14px}
+
+/* ── Toast: confirms a copied link or an imported shared wheel ────────── */
+.sw-toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,12px);background:var(--ink);color:var(--card);font-size:13px;font-weight:600;padding:10px 20px;border-radius:999px;box-shadow:0 8px 24px -8px rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:400;max-width:86vw;text-align:center}
+.sw-toast.show{opacity:1;transform:translate(-50%,0)}
 
 /* ── Present mode: the wheel fills the screen ─────────────────────────
    No DOM duplication — .sw-wheel-col is lifted out of the grid with
@@ -280,8 +289,17 @@ button.st-brand[aria-expanded="true"] .brand-chev{transform:rotate(180deg)}
 <div class="app" id="app">
   <aside>
     <div class="side-top">
-      <div class="jt-label">Starter wheels</div>
-      <div class="side-hint">Pick a wheel to load it, or type your own list on the right. Edits are saved automatically.</div>
+      <div class="jt-label">Your wheels</div>
+      <div class="search-wrap">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="search-input" id="swSearch" placeholder="Search your wheels..." autocomplete="off" oninput="swBuildSidebar()">
+      </div>
+      <div class="side-row">
+        <button class="sw-side-btn" type="button" onclick="swNewWheel()">+ New</button>
+        <button class="sw-side-btn ghost" type="button" onclick="swExportAll()" title="Back up every wheel as a JSON file">Back up</button>
+        <button class="sw-side-btn ghost" type="button" onclick="document.getElementById('swImportFile').click()" title="Restore from a JSON backup">Restore</button>
+        <input type="file" id="swImportFile" accept="application/json" style="display:none" onchange="swImportAll(event)">
+      </div>
     </div>
     <div class="side-list" id="swList"></div>
   </aside>
@@ -304,12 +322,15 @@ button.st-brand[aria-expanded="true"] .brand-chev{transform:rotate(180deg)}
       <!-- /jpt:toolhead -->
       
       <div class="sw-toolbar">
-        <input class="sw-name" id="swNameInput" type="text" value="My wheel" maxlength="60" oninput="swOnNameInput(this)" aria-label="Wheel name">
+        <input class="sw-name" id="swNameInput" type="text" maxlength="60" oninput="swOnNameInput(this)" aria-label="Wheel name">
         <label class="sw-toggle"><input type="checkbox" id="swEliminateBox" onchange="swOnEliminateChange(this)"> Remove winner after spin</label>
-        <button class="sw-mute" id="swMuteBtn" type="button" onclick="swToggleSound()" title="Mute sound" aria-label="Mute sound">
+        <button class="sw-icon-btn sw-mute" id="swMuteBtn" type="button" onclick="swToggleSound()" title="Mute sound" aria-label="Mute sound">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
         </button>
-        <button class="sw-clear" type="button" onclick="swClear()">Clear all</button>
+        <button class="sw-icon-btn" id="swShareBtn" type="button" onclick="swShare()" title="Copy a shareable link" aria-label="Copy a shareable link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="10.5" x2="15.4" y2="6.5"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/></svg>
+        </button>
+        <button class="sw-clear" type="button" onclick="swClear()">Clear items</button>
         <button class="sw-present-btn" type="button" onclick="swEnterPresent()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
           Present
@@ -342,7 +363,7 @@ button.st-brand[aria-expanded="true"] .brand-chev{transform:rotate(180deg)}
             <span class="sw-editor-count" id="swCount">0 items</span>
           </div>
           <textarea class="sw-textarea" id="swTextarea" placeholder="One item per line, names, topics, numbers, anything." oninput="swOnTextareaInput()"></textarea>
-          <div class="sw-editor-hint">Paste a class list, or pick a starter wheel on the left. Blank lines are ignored.</div>
+          <div class="sw-editor-hint">Paste a class list, one item per line. Saved automatically to this wheel. Blank lines are ignored.</div>
         </div>
       </div>
     </div>
@@ -350,22 +371,6 @@ button.st-brand[aria-expanded="true"] .brand-chev{transform:rotate(180deg)}
 </div>
 
 <script>
-/* Starter wheels, grouped by category in the sidebar. Editing the textarea
-   detaches from whichever preset was loaded (swActivePresetId is cleared),
-   same convention as Vocab Matching. */
-var SW_CATS = ["Random pickers", "Warm-ups", "Grammar review", "Vocabulary games"];
-var SW_PRESETS = [
-  {id: 1, cat: "Random pickers", title: "Yes or No", items: ["Yes", "No"]},
-  {id: 2, cat: "Random pickers", title: "Numbers 1-6", items: ["1", "2", "3", "4", "5", "6"]},
-  {id: 3, cat: "Random pickers", title: "Points (1-5)", items: ["1 point", "2 points", "3 points", "4 points", "5 points"]},
-  {id: 4, cat: "Random pickers", title: "Class names (example)", items: ["Alex", "Sam", "Jordan", "Taylor", "Casey", "Morgan", "Riley", "Quinn"]},
-  {id: 5, cat: "Warm-ups", title: "Would you rather...", items: ["Travel to the past", "Travel to the future", "Read minds", "Fly", "Be invisible", "Never sleep again", "Always be 10 minutes late", "Always be too early"]},
-  {id: 6, cat: "Warm-ups", title: "Icebreaker topics", items: ["Your last holiday", "A skill you'd like to learn", "Your favourite meal", "A film that made you cry", "Your dream job", "A place you want to visit", "Something you're proud of", "Your morning routine"]},
-  {id: 7, cat: "Grammar review", title: "Verb tenses", items: ["Present Simple", "Present Continuous", "Past Simple", "Past Continuous", "Present Perfect", "Past Perfect", "Future Simple", "Future Continuous"]},
-  {id: 8, cat: "Grammar review", title: "Question words", items: ["What", "Where", "When", "Who", "Why", "How", "Which", "How much / How many"]},
-  {id: 9, cat: "Vocabulary games", title: "Categories", items: ["Animals", "Food", "Jobs", "Countries", "Sports", "Colours", "Weather", "Family"]},
-  {id: 10, cat: "Vocabulary games", title: "Word types", items: ["Noun", "Verb", "Adjective", "Adverb", "Preposition", "Phrasal verb", "Idiom", "Collocation"]}
-];
 /* Blues and whites (the site's own palette) with a gold accent for pop,
    rather than a rainbow. Each entry carries its own text colour, alternating
    dark/light so neighbouring slices always contrast: the pale slices need
@@ -379,9 +384,11 @@ var SW_COLORS = [
   {bg: '#60a5fa', text: '#0f1b2d'}
 ];
 
-var swName = 'My wheel';
-var swActivePresetId = null;
-var swEliminate = false;
+var SW_BANK_KEY = 'jpt_wheel_bank_v1';
+var SW_SOUND_KEY = 'jpt_wheel_sound';
+
+var swBank = [];
+var swCurrentId = null;
 var swSoundOn = true;
 var swRotation = 0;
 var swSpinning = false;
@@ -389,38 +396,46 @@ var swHistory = [];
 var swAudioCtx = null;
 
 function swEsc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function swUid() { return 'w' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
 
-/* ── Persistence ───────────────────────────────────────────────────
-   One active wheel is saved, same model as Vocab Matching: there's no
-   formal bank, the sidebar is the fixed starter library. */
-function swLoad() {
+/* ── Persistence: a bank of named wheels, same shape as the Debate
+   Builder's saved bank (search / New / Back up / Restore / list). ────── */
+function swLoadBank() {
   try {
-    var raw = localStorage.getItem('jpt_wheel_state');
+    var raw = localStorage.getItem(SW_BANK_KEY);
     if (raw) {
       var s = JSON.parse(raw);
-      if (s && typeof s.text === 'string') {
-        document.getElementById('swTextarea').value = s.text;
-        swName = s.name || 'My wheel';
-        swActivePresetId = s.activePresetId || null;
-        swEliminate = !!s.eliminate;
-        swSoundOn = s.sound !== false;
-        swHistory = Array.isArray(s.history) ? s.history.slice(0, 30) : [];
-        return;
-      }
+      if (s && Array.isArray(s.bank)) { swBank = s.bank; swCurrentId = s.currentId || null; }
     }
   } catch(e){}
-  document.getElementById('swTextarea').value = 'Alex\nSam\nJordan\nTaylor\nCasey\nMorgan';
+  try { swSoundOn = localStorage.getItem(SW_SOUND_KEY) !== '0'; } catch(e){}
 }
 
-function swSave() {
-  try {
-    localStorage.setItem('jpt_wheel_state', JSON.stringify({
-      text: document.getElementById('swTextarea').value,
-      name: swName, activePresetId: swActivePresetId,
-      eliminate: swEliminate, sound: swSoundOn, history: swHistory.slice(0, 30)
-    }));
-  } catch(e){}
+function swSaveBank() {
+  try { localStorage.setItem(SW_BANK_KEY, JSON.stringify({bank: swBank, currentId: swCurrentId})); } catch(e){}
 }
+
+function swSaveSound() {
+  try { localStorage.setItem(SW_SOUND_KEY, swSoundOn ? '1' : '0'); } catch(e){}
+}
+
+/* First visit: seed one example wheel so the bank isn't empty. Also
+   backstops swDeleteWheel emptying the bank entirely. */
+function swEnsureBank() {
+  if (!swBank.length) {
+    swBank.push({id: swUid(), name: 'My wheel', text: 'Alex\nSam\nJordan\nTaylor\nCasey\nMorgan', eliminate: false, updated: Date.now()});
+  }
+  if (!swCurrentId || !swBank.some(function(w) { return w.id === swCurrentId; })) {
+    swCurrentId = swBank[0].id;
+  }
+}
+
+function swCurrent() {
+  for (var i = 0; i < swBank.length; i++) if (swBank[i].id === swCurrentId) return swBank[i];
+  return null;
+}
+
+function swTouch(w) { w.updated = Date.now(); }
 
 function swRawLines() { return document.getElementById('swTextarea').value.split('\n'); }
 
@@ -429,86 +444,200 @@ function swActiveEntries() {
     .filter(function(o) { return o.text; });
 }
 
-/* ── Sidebar ───────────────────────────────────────────────────────── */
+/* ── Bank actions ──────────────────────────────────────────────────── */
+function swNewWheel() {
+  var w = {id: swUid(), name: 'New wheel', text: '', eliminate: false, updated: Date.now()};
+  swBank.unshift(w);
+  swCurrentId = w.id;
+  swHistory = [];
+  swSaveBank();
+  swRefreshAll();
+  var nameEl = document.getElementById('swNameInput');
+  nameEl.focus(); nameEl.select();
+}
+
+function swSelectWheel(id) {
+  if (id === swCurrentId) return;
+  swCurrentId = id;
+  swHistory = [];
+  swSaveBank();
+  swRefreshAll();
+}
+
+function swDeleteWheel(id) {
+  var w = null;
+  for (var i = 0; i < swBank.length; i++) if (swBank[i].id === id) { w = swBank[i]; break; }
+  if (!w) return;
+  if (!confirm('Delete "' + (w.name || 'Untitled') + '"? This can\'t be undone.')) return;
+  swBank = swBank.filter(function(x) { return x.id !== id; });
+  if (swCurrentId === id) swCurrentId = null;
+  swEnsureBank();
+  swHistory = [];
+  swSaveBank();
+  swRefreshAll();
+}
+
+/* ── Sidebar: flat, searchable list of the teacher's own wheels ──────── */
 function swBuildSidebar() {
   var list = document.getElementById('swList');
-  var openKey = 'jpt_wheel_open_cats';
-  var openArr = null;
-  try { openArr = JSON.parse(localStorage.getItem(openKey) || 'null'); } catch(e){}
-  if (!Array.isArray(openArr)) openArr = [SW_CATS[0]];
-  var openSet = {};
-  openArr.forEach(function(c) { openSet[c] = true; });
-
-  var byCat = {};
-  SW_PRESETS.forEach(function(p) { (byCat[p.cat] = byCat[p.cat] || []).push(p); });
-
-  list.innerHTML = SW_CATS.filter(function(c) { return byCat[c] && byCat[c].length; }).map(function(c) {
-    var items = byCat[c].map(function(p) {
-      return '<button class="sw-item ' + (p.id === swActivePresetId ? 'active' : '') + '" type="button" onclick="swLoadPreset(' + p.id + ')">' +
-        '<span class="sw-title">' + swEsc(p.title) + '</span>' +
-        '<span class="sw-count">' + p.items.length + '</span>' +
-      '</button>';
-    }).join('');
-    return '<div class="side-group ' + (openSet[c] ? 'open' : '') + '">' +
-      '<button class="side-group-toggle" type="button" onclick="swToggleCat(' + JSON.stringify(c).replace(/"/g, '&quot;').replace(/'/g, '&#39;') + ')">' +
-        '<span class="side-group-name">' + swEsc(c) + '</span>' +
-        '<span class="side-group-chevron">' + String.fromCharCode(9660) + '</span>' +
-      '</button>' +
-      '<div class="side-group-body">' + items + '</div>' +
+  var q = document.getElementById('swSearch').value.trim().toLowerCase();
+  var items = swBank.slice().sort(function(a, b) { return (b.updated || 0) - (a.updated || 0); });
+  if (q) items = items.filter(function(w) {
+    return ((w.name || '') + ' ' + (w.text || '')).toLowerCase().indexOf(q) !== -1;
+  });
+  if (!items.length) {
+    list.innerHTML = '<div class="empty-list">' + (q ? 'Nothing matches that.' : 'No wheels yet. Click + New.') + '</div>';
+    return;
+  }
+  list.innerHTML = items.map(function(w) {
+    var n = (w.text || '').split('\n').map(function(s) { return s.trim(); }).filter(Boolean).length;
+    return '<div class="side-item ' + (w.id === swCurrentId ? 'active' : '') + '" onclick="swSelectWheel(\'' + w.id + '\')">' +
+      '<div class="title">' + swEsc(w.name || 'Untitled') + '</div>' +
+      '<div class="meta">' + n + (n === 1 ? ' item' : ' items') + '</div>' +
+      '<button class="del" type="button" onclick="event.stopPropagation();swDeleteWheel(\'' + w.id + '\')" title="Delete">&times;</button>' +
     '</div>';
   }).join('');
 }
 
-function swToggleCat(c) {
-  var openKey = 'jpt_wheel_open_cats';
-  var openArr = null;
-  try { openArr = JSON.parse(localStorage.getItem(openKey) || 'null'); } catch(e){}
-  if (!Array.isArray(openArr)) openArr = [SW_CATS[0]];
-  var openSet = {};
-  openArr.forEach(function(x) { openSet[x] = true; });
-  if (openSet[c]) delete openSet[c]; else openSet[c] = true;
-  openArr = SW_CATS.filter(function(x) { return openSet[x]; });
-  try { localStorage.setItem(openKey, JSON.stringify(openArr)); } catch(e){}
-  swBuildSidebar();
+/* ── JSON backup / restore, same convention as the Debate Builder ───── */
+function swDownload(blob, filename) {
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
 }
 
-function swLoadPreset(id) {
-  var p = null;
-  for (var i = 0; i < SW_PRESETS.length; i++) if (SW_PRESETS[i].id === id) { p = SW_PRESETS[i]; break; }
-  if (!p) return;
-  document.getElementById('swTextarea').value = p.items.join('\n');
-  swActivePresetId = p.id;
-  swName = p.title;
-  document.getElementById('swNameInput').value = swName;
-  swHistory = [];
-  swSave();
-  swRefreshAll();
+function swExportAll() {
+  var payload = {format: 'jpt-wheel-bank-backup', version: 1, exportedAt: new Date().toISOString(), data: swBank};
+  swDownload(new Blob([JSON.stringify(payload, null, 2)], {type: 'application/json'}),
+    'spin-wheel-bank-' + new Date().toISOString().slice(0, 10) + '.json');
+}
+
+function swImportAll(ev) {
+  var file = ev.target.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      var payload = JSON.parse(e.target.result);
+      if (payload.format !== 'jpt-wheel-bank-backup' || !Array.isArray(payload.data)) {
+        alert("That doesn't look like a Spin the Wheel backup.");
+        return;
+      }
+      if (!confirm('Merge ' + payload.data.length + ' wheel(s) into your bank? Anything with a matching id is replaced.')) return;
+      var existing = {};
+      swBank.forEach(function(w) { existing[w.id] = w; });
+      payload.data.forEach(function(w) {
+        if (w && w.id) existing[w.id] = {id: w.id, name: w.name || 'Untitled', text: w.text || '', eliminate: !!w.eliminate, updated: w.updated || Date.now()};
+      });
+      swBank = Object.keys(existing).map(function(k) { return existing[k]; });
+      swSaveBank();
+      swRefreshAll();
+    } catch(err) {
+      alert('Could not read that file.');
+    }
+  };
+  reader.readAsText(file);
+  ev.target.value = '';
+}
+
+/* ── Share: no backend, so a shared wheel travels entirely inside the
+   link itself (base64 JSON in ?w=). Opening a shared link imports it as
+   a new entry in the opener's own bank — nothing is hosted centrally. */
+function swEncodeWheel(w) {
+  var payload = {n: w.name || 'Untitled', t: w.text || '', e: !!w.eliminate};
+  return btoa(encodeURIComponent(JSON.stringify(payload)));
+}
+
+function swDecodeWheel(str) {
+  try {
+    var payload = JSON.parse(decodeURIComponent(atob(str)));
+    if (!payload || typeof payload.t !== 'string') return null;
+    return {name: String(payload.n || 'Shared wheel').slice(0, 60), text: String(payload.t), eliminate: !!payload.e};
+  } catch(e) { return null; }
+}
+
+function swShare() {
+  var w = swCurrent();
+  if (!w) return;
+  if (swActiveEntries().length < 2) { alert('Add at least two items before sharing this wheel.'); return; }
+  var url = location.origin + location.pathname + '?w=' + encodeURIComponent(swEncodeWheel(w));
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url)
+      .then(function() { swToast('Link copied! Anyone with it can open this wheel.'); })
+      .catch(function() { window.prompt('Copy this link:', url); });
+  } else {
+    window.prompt('Copy this link:', url);
+  }
+}
+
+/* Runs once at boot, before swEnsureBank(), so an incoming shared wheel
+   becomes the wheel already open when the page paints. */
+function swImportSharedFromUrl() {
+  var encoded = new URLSearchParams(location.search).get('w');
+  if (!encoded) return;
+  history.replaceState(null, '', location.pathname);
+  var shared = swDecodeWheel(encoded);
+  if (!shared) return;
+  var w = {id: swUid(), name: shared.name, text: shared.text, eliminate: shared.eliminate, updated: Date.now()};
+  swBank.unshift(w);
+  swCurrentId = w.id;
+  swSaveBank();
+  swToast('Saved "' + shared.name + '" to your wheels');
+}
+
+function swToast(msg) {
+  var el = document.getElementById('swToast');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'swToast';
+    el.className = 'sw-toast';
+    document.body.appendChild(el);
+  }
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(function() { el.classList.remove('show'); }, 2600);
 }
 
 /* ── Toolbar ───────────────────────────────────────────────────────── */
-function swOnNameInput(el) { swName = el.value; swSave(); }
-function swOnEliminateChange(el) { swEliminate = el.checked; swSave(); }
+function swOnNameInput(el) {
+  var w = swCurrent(); if (!w) return;
+  w.name = el.value;
+  swTouch(w);
+  swSaveBank();
+  swBuildSidebar();
+}
+
+function swOnEliminateChange(el) {
+  var w = swCurrent(); if (!w) return;
+  w.eliminate = el.checked;
+  swTouch(w);
+  swSaveBank();
+}
 
 function swToggleSound() {
   swSoundOn = !swSoundOn;
   document.getElementById('swMuteBtn').classList.toggle('off', !swSoundOn);
-  swSave();
+  swSaveSound();
 }
 
 function swClear() {
-  if (!confirm('Clear the item list and start a new wheel?')) return;
-  document.getElementById('swTextarea').value = '';
-  swActivePresetId = null;
-  swName = 'My wheel';
-  document.getElementById('swNameInput').value = swName;
+  var w = swCurrent(); if (!w) return;
+  if (!confirm('Clear all items in "' + (w.name || 'Untitled') + '"?')) return;
+  w.text = '';
+  swTouch(w);
   swHistory = [];
-  swSave();
+  swSaveBank();
   swRefreshAll();
 }
 
 function swOnTextareaInput() {
-  swActivePresetId = null;
-  swSave();
+  var w = swCurrent(); if (!w) return;
+  w.text = document.getElementById('swTextarea').value;
+  swTouch(w);
+  swSaveBank();
   swRenderWheel();
   swUpdateCount();
   swBuildSidebar();
@@ -677,13 +806,16 @@ function swOnSpinEnd(idx) {
   swHistory = swHistory.slice(0, 30);
   swRenderHistory();
 
-  if (swEliminate) {
+  var w = swCurrent();
+  if (w && w.eliminate) {
     var lines = swRawLines();
     lines.splice(winner.i, 1);
-    document.getElementById('swTextarea').value = lines.join('\n');
-    swActivePresetId = null;
+    var joined = lines.join('\n');
+    document.getElementById('swTextarea').value = joined;
+    w.text = joined;
+    swTouch(w);
   }
-  swSave();
+  swSaveBank();
   swRenderWheel();
   swUpdateCount();
   document.getElementById('swSpinBtn').disabled = swActiveEntries().length < 2;
@@ -698,9 +830,12 @@ function swRenderHistory() {
 }
 
 function swRefreshAll() {
-  document.getElementById('swNameInput').value = swName;
-  document.getElementById('swEliminateBox').checked = swEliminate;
+  var w = swCurrent();
+  document.getElementById('swNameInput').value = w ? (w.name || '') : '';
+  document.getElementById('swEliminateBox').checked = !!(w && w.eliminate);
+  document.getElementById('swTextarea').value = w ? (w.text || '') : '';
   document.getElementById('swMuteBtn').classList.toggle('off', !swSoundOn);
+  document.getElementById('swWinnerBox').innerHTML = '';
   swBuildSidebar();
   swRenderWheel();
   swUpdateCount();
@@ -739,7 +874,9 @@ document.addEventListener('keydown', function(e) {
   if (e.key === ' ' && !swSpinning) { e.preventDefault(); swSpin(); }
 }, true);
 
-swLoad();
+swLoadBank();
+swImportSharedFromUrl();
+swEnsureBank();
 swRefreshAll();
 </script>
 <!-- jpt:menujs -->

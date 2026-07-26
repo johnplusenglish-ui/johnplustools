@@ -261,22 +261,23 @@ TOOLS = [
         'tagline': 'Type a list, spin for a random pick. Great for names, topics or points.',
         'desc': ('Paste a list of names, topics or numbers, one per line, and spin a wheel to '
                  'pick one at random. Turn on "Remove winner after spin" to work through a class '
-                 'list fairly, or leave it off for a repeatable random picker. Starter wheels for '
-                 'warm-ups, grammar review and vocabulary games are ready in the sidebar.'),
+                 'list fairly, or leave it off for a repeatable random picker. Keep as many wheels '
+                 'as you like in your own bank, and share any of them with a link.'),
         'meta': ('A random-picker spinning wheel for English classrooms: names, topics, grammar '
-                 'points or vocabulary categories, with an optional elimination mode.'),
+                 'points or vocabulary categories, with an optional elimination mode and shareable '
+                 'links.'),
         'features': [
             (SHUFFLE, 'Paste and spin',
              'One item per line. Spin instantly, no setup beyond typing or pasting a list.'),
             (USERS, 'Fair turn-taking',
              'Turn on elimination mode and the winner drops off the wheel, so everyone gets a go.'),
-            (GRID, 'Starter wheels',
-             'Verb tenses, question words, vocabulary categories and warm-up topics, ready to load.'),
+            (GRID, 'Your own wheel bank',
+             'Save as many wheels as you like, search them, back them up, and share any one with a link.'),
         ],
         'shot': '/assets/spin-wheel-light.png',
         'shot_dark': '/assets/spin-wheel-dark.png',
-        'shot_alt': ('Spin the Wheel in use: a six-slice colour wheel with student names, a Spin '
-                     'button and a winner card beneath it.'),
+        'shot_alt': ('Spin the Wheel in use: an eight-slice colour wheel with student names, a '
+                     'saved wheel bank in the sidebar, and a Spin button below.'),
     },
 ]
 
