@@ -53,6 +53,25 @@ main{overflow:visible;min-width:0}
 .sw-mute svg{width:16px;height:16px}
 .sw-mute:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
 .sw-mute.off{color:#c14343;border-color:#e8b8b8}
+.sw-present-btn{display:inline-flex;align-items:center;gap:7px;font-family:inherit;font-size:12.5px;font-weight:700;padding:8px 15px;border-radius:999px;border:none;background:var(--accent);color:#fff;cursor:pointer;transition:background .12s}
+.sw-present-btn:hover{background:var(--accent-deep,#1d4ed8)}
+.sw-present-btn svg{width:14px;height:14px}
+
+/* ── Present mode: the wheel fills the screen ─────────────────────────
+   No DOM duplication — .sw-wheel-col is lifted out of the grid with
+   position:fixed and sized off the viewport, while an opaque backdrop
+   (lower z-index, same stacking context) covers everything behind it. */
+body.sw-presenting{overflow:hidden}
+.sw-present-backdrop{position:fixed;inset:0;z-index:300;background:var(--bg);display:none}
+body.sw-presenting .sw-present-backdrop{display:block}
+.sw-present-close{position:fixed;top:20px;right:20px;z-index:302;display:none;width:42px;height:42px;border-radius:999px;border:1px solid var(--soft-line);background:var(--card);color:var(--muted);align-items:center;justify-content:center;cursor:pointer;font-size:22px;line-height:1;transition:.12s}
+.sw-present-close:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+body.sw-presenting .sw-present-close{display:flex}
+body.sw-presenting .sw-wheel-col{position:fixed;inset:0;z-index:301;justify-content:center;gap:20px;padding:20px 0}
+/* The Spin button, winner card and history sit below the wheel too, so the
+   cap leaves room for them (roughly 280px) rather than sizing off 100vh
+   alone, or the wheel pushes itself off the top of the screen. */
+body.sw-presenting .sw-wheel-wrap{width:max(200px,min(72vw,calc(100vh - 280px),720px))}
 
 /* ── Main split: wheel left, editor right ─────────────────────────── */
 .sw-grid{display:grid;grid-template-columns:1fr 340px;gap:30px;align-items:start}
@@ -121,7 +140,14 @@ main{overflow:visible;min-width:0}
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
         </button>
         <button class="sw-clear" type="button" onclick="swClear()">Clear all</button>
+        <button class="sw-present-btn" type="button" onclick="swEnterPresent()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+          Present
+        </button>
       </div>
+
+      <div class="sw-present-backdrop"></div>
+      <button class="sw-present-close" type="button" onclick="swExitPresent()" title="Exit present mode (Esc)" aria-label="Exit present mode">&times;</button>
 
       <div class="sw-grid">
         <div class="sw-wheel-col">
@@ -528,6 +554,36 @@ function swRefreshAll() {
 }
 
 window.addEventListener('resize', function() { if (!swSpinning) swRenderWheel(); });
+
+/* ── Present mode ──────────────────────────────────────────────────────
+   No overlay markup to sync with the real wheel: .sw-wheel-col is lifted
+   to fill the viewport by CSS alone (see body.sw-presenting rules), so
+   the same #swWheel / #swLabels just get re-measured and redrawn bigger. */
+function swEnterPresent() {
+  document.body.classList.add('sw-presenting');
+  swRenderWheel();
+  try {
+    if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(function(){});
+  } catch(e){}
+}
+
+function swExitPresent() {
+  document.body.classList.remove('sw-presenting');
+  swRenderWheel();
+  try {
+    if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(function(){});
+  } catch(e){}
+}
+
+document.addEventListener('fullscreenchange', function() {
+  if (!document.fullscreenElement && document.body.classList.contains('sw-presenting')) swExitPresent();
+});
+
+document.addEventListener('keydown', function(e) {
+  if (!document.body.classList.contains('sw-presenting')) return;
+  if (e.key === 'Escape') { swExitPresent(); return; }
+  if (e.key === ' ' && !swSpinning) { e.preventDefault(); swSpin(); }
+}, true);
 
 swLoad();
 swRefreshAll();
