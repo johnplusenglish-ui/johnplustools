@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spin the Wheel · John + Tools</title>
+<meta name="description" content="A random-picker spinning wheel for English classrooms: names, topics, grammar points or vocabulary categories, with an optional elimination mode.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z'/></svg>">
+<!-- jpt:themeboot -->
+<script>(function(){var t;try{t=localStorage.getItem('jpe_debate_theme')}catch(e){}if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)})();</script>
+<!-- /jpt:themeboot -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f3ec;--card:#fff;--ink:#0f1b2d;--muted:#6b7686;--line:#eceadf;--accent:#2563eb;--soft:#eceffc;--soft-line:#dde3f8;--jpt-bar:68px;--jpt-side-w:302px}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Outfit',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink)}
+button{font-family:inherit;cursor:pointer}
+
+.app{display:grid;grid-template-columns:var(--jpt-side-w) 1fr;min-height:calc(100vh - var(--jpt-bar));transition:grid-template-columns .22s ease}
+.app.side-collapsed{grid-template-columns:0 1fr}
+.app.side-collapsed > aside{border-right:none;overflow:hidden;opacity:0;pointer-events:none}
+.app > aside{background:var(--card);border-right:1px solid var(--line);display:flex;flex-direction:column;overflow-y:auto;position:sticky;top:var(--jpt-bar);height:calc(100vh - var(--jpt-bar))}
+main{overflow:visible;min-width:0}
+.main-inner{padding:20px 24px 40px;max-width:1180px;margin:0 auto}
+
+.side-top{padding:16px 16px 12px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--card);z-index:2}
+.jt-label{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:9px}
+.side-hint{font-size:12px;color:var(--muted);line-height:1.45}
+
+.side-list{padding:10px 10px 16px}
+.side-group{margin-bottom:6px}
+.side-group-toggle{display:flex;align-items:center;gap:8px;cursor:pointer;width:100%;padding:7px 10px;border-radius:9px;background:transparent;border:none;transition:background .12s}
+.side-group-toggle:hover{background:var(--soft)}
+.side-group-name{flex:1;font-size:11px;letter-spacing:.13em;text-transform:uppercase;font-weight:700;color:var(--accent);text-align:left}
+.side-group-chevron{font-size:9px;color:var(--muted);transition:transform .18s ease}
+.side-group.open .side-group-chevron{transform:rotate(180deg)}
+.side-group-body{display:none;padding:2px 0 4px}
+.side-group.open .side-group-body{display:block}
+.sw-item{display:flex;align-items:center;gap:8px;width:100%;text-align:left;font-family:inherit;padding:8px 11px;border-radius:10px;cursor:pointer;border:1px solid transparent;background:transparent;color:var(--ink);margin-bottom:2px;transition:background .12s,border-color .12s;line-height:1.35}
+.sw-item:hover{background:var(--soft)}
+.sw-item.active{background:var(--soft);border-color:var(--accent);color:var(--accent)}
+.sw-item .sw-title{font-size:13.5px;font-weight:600;letter-spacing:-.01em;flex:1;min-width:0}
+.sw-item .sw-count{font-size:10.5px;color:var(--muted);font-weight:700}
+
+/* ── Toolbar ─────────────────────────────────────────────────────── */
+.sw-toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 4px 14px;border-bottom:1px solid var(--line);margin-bottom:18px}
+.sw-name{font-family:inherit;font-size:15px;font-weight:700;letter-spacing:-.01em;border:1px solid transparent;background:transparent;color:var(--ink);padding:6px 8px;border-radius:8px;min-width:120px;max-width:260px}
+.sw-name:hover{border-color:var(--soft-line)}
+.sw-name:focus{outline:none;border-color:var(--accent);background:var(--card)}
+.sw-toggle{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:var(--muted);cursor:pointer;user-select:none;margin-left:auto}
+.sw-toggle input{accent-color:var(--accent);width:15px;height:15px}
+.sw-clear{font-family:inherit;font-size:12px;font-weight:600;padding:6px 12px;border-radius:999px;border:1px solid var(--soft-line);background:transparent;color:var(--muted);cursor:pointer;transition:.12s}
+.sw-clear:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+.sw-mute{width:34px;height:34px;border-radius:999px;border:1px solid var(--soft-line);background:transparent;color:var(--muted);display:inline-flex;align-items:center;justify-content:center;transition:.12s;flex-shrink:0}
+.sw-mute svg{width:16px;height:16px}
+.sw-mute:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+.sw-mute.off{color:#c14343;border-color:#e8b8b8}
+
+/* ── Main split: wheel left, editor right ─────────────────────────── */
+.sw-grid{display:grid;grid-template-columns:1fr 340px;gap:30px;align-items:start}
+@media (max-width:900px){.sw-grid{grid-template-columns:1fr}}
+
+.sw-wheel-col{display:flex;flex-direction:column;align-items:center;gap:18px}
+.sw-wheel-wrap{position:relative;width:min(72vw,420px);aspect-ratio:1;margin-top:8px}
+.sw-pointer{position:absolute;top:-2px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:24px solid var(--ink);z-index:3;filter:drop-shadow(0 2px 3px rgba(0,0,0,.25))}
+.sw-wheel{position:absolute;inset:0;border-radius:50%;box-shadow:0 20px 44px -20px rgba(20,30,60,.35);border:6px solid var(--card);outline:1px solid var(--line)}
+.sw-labels{position:absolute;inset:0;pointer-events:none}
+.sw-label-text{position:absolute;font-weight:700;white-space:nowrap;max-width:130px;overflow:hidden;text-overflow:ellipsis;text-align:center;pointer-events:none}
+.sw-hub{position:absolute;left:50%;top:50%;width:18%;height:18%;transform:translate(-50%,-50%);border-radius:50%;background:var(--card);border:3px solid var(--line);z-index:2;box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.sw-empty-wheel{position:absolute;inset:0;border-radius:50%;background:var(--soft);border:2px dashed var(--soft-line);display:flex;align-items:center;justify-content:center;text-align:center;color:var(--muted);font-size:13px;padding:24px}
+.sw-empty-wheel[hidden]{display:none}
+.sw-spin-btn{font-family:inherit;font-size:15px;font-weight:700;padding:13px 36px;border-radius:999px;border:none;background:var(--accent);color:#fff;cursor:pointer;transition:background .12s,transform .08s;box-shadow:0 8px 20px -8px rgba(37,99,235,.55)}
+.sw-spin-btn:hover:not(:disabled){background:var(--accent-deep,#1d4ed8)}
+.sw-spin-btn:active:not(:disabled){transform:scale(.97)}
+.sw-spin-btn:disabled{opacity:.4;cursor:default;box-shadow:none}
+.sw-winner{min-height:60px;display:flex;align-items:center;justify-content:center;width:100%}
+.sw-winner-card{background:var(--card);border:1.5px solid var(--accent);border-radius:16px;padding:12px 26px;text-align:center;box-shadow:0 8px 24px -12px rgba(37,99,235,.35);animation:swPop .35s cubic-bezier(.2,1.4,.4,1)}
+.sw-winner-card .sw-w-label{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:4px}
+.sw-winner-card .sw-w-name{font-size:22px;font-weight:800;color:var(--accent);letter-spacing:-.01em}
+@keyframes swPop{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
+
+.sw-history{width:100%;max-width:480px}
+.sw-history h3{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:0 0 8px;text-align:center}
+.sw-history-list{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.sw-history-chip{font-size:12px;font-weight:600;padding:5px 11px;border-radius:999px;background:var(--soft);color:var(--ink);border:1px solid var(--soft-line)}
+.sw-history-empty{font-size:12.5px;color:var(--muted);font-style:italic}
+
+/* ── Editor ──────────────────────────────────────────────────────── */
+.sw-editor{display:flex;flex-direction:column;gap:10px}
+.sw-editor-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.sw-editor-label{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.sw-editor-count{font-size:11.5px;color:var(--muted);font-weight:600}
+.sw-editor-actions{display:flex;gap:6px}
+.sw-mini-btn{font-family:inherit;font-size:11.5px;font-weight:600;padding:5px 10px;border-radius:999px;border:1px solid var(--soft-line);background:transparent;color:var(--muted);cursor:pointer;transition:.12s}
+.sw-mini-btn:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+.sw-textarea{font-family:inherit;font-size:14.5px;line-height:1.7;padding:14px;border-radius:12px;border:1px solid var(--soft-line);background:var(--card);color:var(--ink);outline:none;resize:vertical;min-height:340px;width:100%;transition:border-color .12s}
+.sw-textarea:focus{border-color:var(--accent)}
+.sw-textarea::placeholder{color:var(--muted)}
+.sw-editor-hint{font-size:12px;color:var(--muted);line-height:1.5}
+
+@media (max-width:900px){
+  .sw-wheel-wrap{width:min(80vw,360px)}
+}
+</style>
+<style>
+/* jpt:chrome */
+/* Site furniture. Identical on every page, so nothing shifts between them. */
+:root{
+  --bg:#f4f3ec; --card:#ffffff; --ink:#0f1b2d; --muted:#6b7686;
+  --line:#eceadf; --accent:#2563eb; --accent-deep:#1d4ed8;
+  --soft:#eceffc; --soft-line:#dde3f8;
+  --shadow-card:0 1px 2px rgba(20,30,60,.04),0 20px 44px -28px rgba(30,50,110,.35);
+}
+[data-theme="dark"]{
+  --bg:#0f1728; --card:#16213a; --ink:#eef2fb; --muted:#93a0bb;
+  --line:#26324c; --accent:#5b8def; --accent-deep:#93b4f6;
+  --soft:#1d2b46; --soft-line:#2b3c5c;
+  --shadow-card:0 1px 2px rgba(0,0,0,.2),0 20px 44px -28px rgba(0,0,0,.7);
+}
+
+/* The brand is the site's name; John wants it prominent, so the bar is sized
+   around it rather than the other way about. --jpt-bar is the single source of
+   truth: the tools pin their sidebars to it. */
+:root{--jpt-bar:68px}
+.stopbar{position:sticky;top:0;z-index:40;background:var(--card);
+  border-bottom:1px solid var(--line);padding:0 24px;height:var(--jpt-bar);flex-shrink:0;
+  display:flex;align-items:center;gap:14px}
+.st-brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;
+  color:var(--ink);line-height:1}
+.st-brand .brand-icon{color:var(--accent);width:29px;height:29px;display:inline-flex;flex-shrink:0}
+.st-brand .brand-icon svg{width:29px;height:29px}
+.st-brand .brand-title{display:inline-flex;flex-direction:column;justify-content:center;gap:2px;line-height:1}
+.brand-title{gap:3px}
+.brand-title .k{font-size:10.5px;letter-spacing:.17em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.brand-title .b{font-size:20px;font-weight:800;letter-spacing:-.02em}
+.grow{flex:1}
+.icon-btn{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;
+  border-radius:999px;background:transparent;border:none;cursor:pointer;color:var(--muted);
+  transition:background .12s,color .12s}
+.icon-btn svg{width:18px;height:18px;display:block}
+.icon-btn:hover{background:var(--soft);color:var(--accent)}
+
+.brand-wrap{position:relative;display:inline-flex}
+button.st-brand{background:none;border:none;cursor:pointer;font-family:inherit;
+  padding:6px 8px;margin-left:-8px;border-radius:11px;transition:background .12s}
+button.st-brand:hover{background:var(--soft)}
+.brand-chev{color:var(--muted);display:inline-flex;margin-left:2px;transition:transform .18s ease}
+.brand-chev svg{width:16px;height:16px}
+button.st-brand[aria-expanded="true"] .brand-chev{transform:rotate(180deg)}
+.popmenu{position:absolute;top:calc(100% + 6px);left:0;z-index:60;min-width:246px;
+  background:var(--card);border:1px solid var(--line);border-radius:14px;padding:7px;
+  box-shadow:0 12px 40px -12px rgba(15,27,45,.28),0 2px 8px rgba(15,27,45,.06);
+  animation:pmIn .14s ease}
+[data-theme="dark"] .popmenu{box-shadow:0 12px 40px -12px rgba(0,0,0,.6)}
+.popmenu[hidden]{display:none}
+@keyframes pmIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.pm-label{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
+  font-weight:700;padding:6px 10px 7px}
+.pm-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;
+  text-decoration:none;color:var(--ink);font-size:13.5px;font-weight:600;transition:background .12s}
+.pm-item:hover,.pm-item:focus-visible{background:var(--soft);color:var(--accent);outline:none}
+.pm-item[aria-current="true"]{background:var(--soft);color:var(--accent)}
+.pm-ico{width:18px;height:18px;flex-shrink:0;color:var(--accent);display:inline-flex}
+.pm-ico svg{width:18px;height:18px}
+.pm-ext{margin-left:auto;color:var(--muted);display:inline-flex}
+.pm-ext svg{width:13px;height:13px}
+.pm-sep{height:1px;background:var(--line);margin:6px 4px}
+
+/* Content geometry. Identical on the home page and every tool page. */
+.shell{min-height:calc(100vh - var(--jpt-bar))}
+.main-inner{padding:20px 24px 40px;max-width:1180px;margin:0 auto}
+.tool-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.th-icon{width:38px;height:38px;border-radius:11px;flex-shrink:0;display:grid;place-items:center;
+  background:var(--soft);border:1px solid var(--soft-line);color:var(--accent)}
+.th-icon svg{width:20px;height:20px;display:block}
+.th-text h1{font-size:19px;font-weight:700;letter-spacing:-.02em;margin:0;line-height:1.2}
+.th-text p{font-size:12.5px;color:var(--muted);margin:2px 0 0;line-height:1.4}
+
+@media (max-width:900px){.th-text p{display:none}}
+/* The brand is a button with padding and a chevron, wider than a plain mark.
+   Left full width it pushes the topbar actions off a phone screen. */
+@media (max-width:700px){
+  .stopbar{padding:0 14px;gap:8px}
+  button.st-brand{padding:6px;margin-left:-6px}
+  .popmenu{min-width:210px}
+  /* Collapse the topbar's labelled button to its icon rather than shrinking the
+     brand. font-size:0 hides the text node, which no selector can reach. */
+  .stopbar .btn{font-size:0;gap:0;padding:9px 11px}
+  .stopbar .btn svg{width:17px;height:17px}
+}
+@media print{.tool-head,.popmenu,.stopbar{display:none!important}}
+@media (prefers-reduced-motion:reduce){.popmenu{animation:none}}
+/* Download-icon dropdown, shared by the tools. */
+.icon-action{width:36px;height:36px;border-radius:999px;border:1px solid var(--soft-line);
+  background:transparent;color:var(--muted);display:inline-flex;align-items:center;
+  justify-content:center;cursor:pointer;transition:background .12s,color .12s,border-color .12s}
+.icon-action:hover,.icon-action[aria-expanded="true"]{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+.icon-action svg{width:16px;height:16px;display:block}
+.exp-wrap{position:relative;display:inline-flex}
+.exp-menu{left:auto;right:0;min-width:190px}
+/* Sidebar collapse handle, shared by every tool that has a sidebar, so the
+   chevron on the divider looks and behaves the same everywhere. */
+.app{--jpt-side-w:302px}
+.app.side-collapsed{--jpt-side-w:0px}
+.jpt-side-handle{position:fixed;top:152px;left:max(15px,var(--jpt-side-w));
+  transform:translateX(-50%);z-index:39;margin:0;width:30px;height:30px;border-radius:999px;
+  background:var(--card);border:1px solid var(--line);box-shadow:0 1px 4px rgba(15,27,45,.10);
+  color:var(--muted);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;
+  transition:left .22s ease,background .12s,color .12s,border-color .12s}
+[data-theme="dark"] .jpt-side-handle{box-shadow:0 1px 4px rgba(0,0,0,.35)}
+.jpt-side-handle:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+.jpt-side-handle:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.jpt-side-handle svg{width:15px;height:15px;transition:transform .22s ease}
+.app.side-collapsed .jpt-side-handle svg{transform:rotate(180deg)}
+@media (max-width:900px){.jpt-side-handle{display:none}}
+@media print{.jpt-side-handle{display:none!important}}
+/* /jpt:chrome */
+</style>
+</head>
+<body>
+
+<header class="stopbar">
+<!-- jpt:brand -->
+  <div class="brand-wrap">
+    <button class="st-brand" id="brandBtn" aria-haspopup="true" aria-expanded="false" aria-controls="toolsMenu">
+      <span class="brand-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span>
+      <span class="brand-title"><span class="k">JohnPlusEnglish</span><span class="b">Tools</span></span>
+      <span class="brand-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </button>
+    <div class="popmenu" id="toolsMenu" role="menu" aria-labelledby="brandBtn" hidden>
+      <div class="pm-label">Go to</div>
+      <a class="pm-item" role="menuitem" href="/" data-nav="home">
+        <span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><path d="M3 9.5 12 3l9 6.5V20a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 20z"/><path d="M9.5 21.5v-7h5v7"/></svg></span>Home</a>
+      <a class="pm-item" role="menuitem" href="/debate-builder" data-nav="debate-builder">
+        <span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M14.6 3H4.3A1.8 1.8 0 0 0 2.5 4.8v5.9a1.8 1.8 0 0 0 1.8 1.8h.8v3.1l3.3-3.1h6.2a1.8 1.8 0 0 0 1.8-1.8V4.8A1.8 1.8 0 0 0 14.6 3z"/><path d="M20.2 9.6h-6.1A1.6 1.6 0 0 0 12.5 11.2v3.6a1.6 1.6 0 0 0 1.6 1.6h3.6l3 2.7v-2.7h.5a1.6 1.6 0 0 0 1.3-1.6v-3.6a1.6 1.6 0 0 0-1.6-1.6z" fill="currentColor" stroke="currentColor"/></svg></span>Debate Builder</a>
+      <a class="pm-item" role="menuitem" href="/gap-fill" data-nav="gap-fill">
+        <span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="10" y2="12"/><line x1="14" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="16" y2="17"/></svg></span>Gap-fill</a>
+      <a class="pm-item" role="menuitem" href="/vocab-matching" data-nav="vocab-matching">
+        <span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><circle cx="4.5" cy="6" r="1.7"/><circle cx="4.5" cy="12" r="1.7"/><circle cx="4.5" cy="18" r="1.7"/><circle cx="19.5" cy="6" r="1.7"/><circle cx="19.5" cy="12" r="1.7"/><circle cx="19.5" cy="18" r="1.7"/><line x1="6.5" y1="6" x2="17.5" y2="12"/><line x1="6.5" y1="12" x2="17.5" y2="18"/><line x1="6.5" y1="18" x2="17.5" y2="6"/></svg></span>Vocab Matching</a>
+      <a class="pm-item" role="menuitem" href="/role-plays" data-nav="role-plays">
+        <span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>Role Plays</a>
+      <a class="pm-item" role="menuitem" href="/speaking-topics" data-nav="speaking-topics">
+        <span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M21 11.5a8.5 8.5 0 0 1-12.2 7.6L3 21l1.9-5.8A8.5 8.5 0 1 1 21 11.5z"/><circle cx="8.2" cy="11.5" r="1.05" fill="currentColor" stroke="none"/><circle cx="12" cy="11.5" r="1.05" fill="currentColor" stroke="none"/><circle cx="15.8" cy="11.5" r="1.05" fill="currentColor" stroke="none"/></svg></span>Speaking Topics</a>
+      <a class="pm-item" role="menuitem" href="/spin-wheel" data-nav="spin-wheel" aria-current="true">
+        <span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><circle cx="12" cy="13" r="8.2"/><line x1="12" y1="13" x2="12" y2="5"/><line x1="12" y1="13" x2="18.6" y2="16.9"/><line x1="12" y1="13" x2="5.4" y2="16.9"/><circle cx="12" cy="13" r="1.5" fill="currentColor" stroke="none"/><path d="M12 1.8 L9.8 5.2 L14.2 5.2 Z" fill="currentColor" stroke="none"/></svg></span>Spin the Wheel</a>
+      <div class="pm-sep"></div>
+      <a class="pm-item" role="menuitem" href="https://johnplusdictionary.com" target="_blank" rel="noopener">
+        <span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>JohnPlusDictionary<span class="pm-ext"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span></a>
+    </div>
+  </div>
+  <!-- /jpt:brand -->
+  <div class="grow"></div>
+  <!-- jpt:themebtn -->
+  <button class="icon-btn" id="jptThemeBtn" title="Light / dark" aria-label="Toggle light or dark theme">
+    <svg id="jptThemeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  </button>
+  <!-- /jpt:themebtn -->
+</header>
+
+<div class="app" id="app">
+  <aside>
+    <div class="side-top">
+      <div class="jt-label">Starter wheels</div>
+      <div class="side-hint">Pick a wheel to load it, or type your own list on the right. Edits are saved automatically.</div>
+    </div>
+    <div class="side-list" id="swList"></div>
+  </aside>
+  <button class="jpt-side-handle" id="jptSideToggle" onclick="jptToggleSide()"
+          title="Hide the starter wheels" aria-label="Hide the starter wheels" aria-expanded="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+
+
+  <main>
+    <div class="main-inner">
+      <!-- jpt:toolhead -->
+      <div class="tool-head">
+        <span class="th-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><circle cx="12" cy="13" r="8.2"/><line x1="12" y1="13" x2="12" y2="5"/><line x1="12" y1="13" x2="18.6" y2="16.9"/><line x1="12" y1="13" x2="5.4" y2="16.9"/><circle cx="12" cy="13" r="1.5" fill="currentColor" stroke="none"/><path d="M12 1.8 L9.8 5.2 L14.2 5.2 Z" fill="currentColor" stroke="none"/></svg></span>
+        <div class="th-text">
+          <h1>Spin the Wheel</h1>
+          <p>Type a list, spin for a random pick. Great for names, topics or points.</p>
+        </div>
+      </div>
+      <!-- /jpt:toolhead -->
+      
+      <div class="sw-toolbar">
+        <input class="sw-name" id="swNameInput" type="text" value="My wheel" maxlength="60" oninput="swOnNameInput(this)" aria-label="Wheel name">
+        <label class="sw-toggle"><input type="checkbox" id="swEliminateBox" onchange="swOnEliminateChange(this)"> Remove winner after spin</label>
+        <button class="sw-mute" id="swMuteBtn" type="button" onclick="swToggleSound()" title="Mute sound" aria-label="Mute sound">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+        </button>
+        <button class="sw-clear" type="button" onclick="swClear()">Clear all</button>
+      </div>
+
+      <div class="sw-grid">
+        <div class="sw-wheel-col">
+          <div class="sw-wheel-wrap" id="swWheelWrap">
+            <div class="sw-pointer"></div>
+            <div class="sw-wheel" id="swWheel"></div>
+            <div class="sw-labels" id="swLabels"></div>
+            <div class="sw-hub"></div>
+            <div class="sw-empty-wheel" id="swEmptyWheel" hidden>Add at least two items on the right to spin the wheel.</div>
+          </div>
+          <button class="sw-spin-btn" id="swSpinBtn" type="button" onclick="swSpin()">Spin</button>
+          <div class="sw-winner" id="swWinnerBox"></div>
+          <div class="sw-history">
+            <h3>This session</h3>
+            <div class="sw-history-list" id="swHistoryList"></div>
+          </div>
+        </div>
+
+        <div class="sw-editor">
+          <div class="sw-editor-head">
+            <span class="sw-editor-label">Items</span>
+            <span class="sw-editor-count" id="swCount">0 items</span>
+          </div>
+          <div class="sw-editor-actions">
+            <button class="sw-mini-btn" type="button" onclick="swShuffleList()">Shuffle order</button>
+            <button class="sw-mini-btn" type="button" onclick="swSortList()">Sort A-Z</button>
+          </div>
+          <textarea class="sw-textarea" id="swTextarea" placeholder="One item per line, names, topics, numbers, anything." oninput="swOnTextareaInput()"></textarea>
+          <div class="sw-editor-hint">Paste a class list, or pick a starter wheel on the left. Blank lines are ignored.</div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+/* Starter wheels, grouped by category in the sidebar. Editing the textarea
+   detaches from whichever preset was loaded (swActivePresetId is cleared),
+   same convention as Vocab Matching. */
+var SW_CATS = ["Random pickers", "Warm-ups", "Grammar review", "Vocabulary games"];
+var SW_PRESETS = [
+  {id: 1, cat: "Random pickers", title: "Yes or No", items: ["Yes", "No"]},
+  {id: 2, cat: "Random pickers", title: "Numbers 1-6", items: ["1", "2", "3", "4", "5", "6"]},
+  {id: 3, cat: "Random pickers", title: "Points (1-5)", items: ["1 point", "2 points", "3 points", "4 points", "5 points"]},
+  {id: 4, cat: "Random pickers", title: "Class names (example)", items: ["Alex", "Sam", "Jordan", "Taylor", "Casey", "Morgan", "Riley", "Quinn"]},
+  {id: 5, cat: "Warm-ups", title: "Would you rather...", items: ["Travel to the past", "Travel to the future", "Read minds", "Fly", "Be invisible", "Never sleep again", "Always be 10 minutes late", "Always be too early"]},
+  {id: 6, cat: "Warm-ups", title: "Icebreaker topics", items: ["Your last holiday", "A skill you'd like to learn", "Your favourite meal", "A film that made you cry", "Your dream job", "A place you want to visit", "Something you're proud of", "Your morning routine"]},
+  {id: 7, cat: "Grammar review", title: "Verb tenses", items: ["Present Simple", "Present Continuous", "Past Simple", "Past Continuous", "Present Perfect", "Past Perfect", "Future Simple", "Future Continuous"]},
+  {id: 8, cat: "Grammar review", title: "Question words", items: ["What", "Where", "When", "Who", "Why", "How", "Which", "How much / How many"]},
+  {id: 9, cat: "Vocabulary games", title: "Categories", items: ["Animals", "Food", "Jobs", "Countries", "Sports", "Colours", "Weather", "Family"]},
+  {id: 10, cat: "Vocabulary games", title: "Word types", items: ["Noun", "Verb", "Adjective", "Adverb", "Preposition", "Phrasal verb", "Idiom", "Collocation"]}
+];
+/* Blues and whites (the site's own palette) with a gold accent for pop,
+   rather than a rainbow. Each entry carries its own text colour: the pale
+   and gold slices need dark ink text, the deep blues need white. */
+var SW_COLORS = [
+  {bg: '#1e3a8a', text: '#ffffff'},
+  {bg: '#eab308', text: '#0f1b2d'},
+  {bg: '#2563eb', text: '#ffffff'},
+  {bg: '#ffffff', text: '#0f1b2d'},
+  {bg: '#1d4ed8', text: '#ffffff'},
+  {bg: '#93c5fd', text: '#0f1b2d'},
+  {bg: '#0f1b2d', text: '#ffffff'},
+  {bg: '#60a5fa', text: '#0f1b2d'}
+];
+
+var swName = 'My wheel';
+var swActivePresetId = null;
+var swEliminate = false;
+var swSoundOn = true;
+var swRotation = 0;
+var swSpinning = false;
+var swHistory = [];
+var swAudioCtx = null;
+
+function swEsc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+/* ── Persistence ───────────────────────────────────────────────────
+   One active wheel is saved, same model as Vocab Matching: there's no
+   formal bank, the sidebar is the fixed starter library. */
+function swLoad() {
+  try {
+    var raw = localStorage.getItem('jpt_wheel_state');
+    if (raw) {
+      var s = JSON.parse(raw);
+      if (s && typeof s.text === 'string') {
+        document.getElementById('swTextarea').value = s.text;
+        swName = s.name || 'My wheel';
+        swActivePresetId = s.activePresetId || null;
+        swEliminate = !!s.eliminate;
+        swSoundOn = s.sound !== false;
+        swHistory = Array.isArray(s.history) ? s.history.slice(0, 30) : [];
+        return;
+      }
+    }
+  } catch(e){}
+  document.getElementById('swTextarea').value = 'Alex\nSam\nJordan\nTaylor\nCasey\nMorgan';
+}
+
+function swSave() {
+  try {
+    localStorage.setItem('jpt_wheel_state', JSON.stringify({
+      text: document.getElementById('swTextarea').value,
+      name: swName, activePresetId: swActivePresetId,
+      eliminate: swEliminate, sound: swSoundOn, history: swHistory.slice(0, 30)
+    }));
+  } catch(e){}
+}
+
+function swRawLines() { return document.getElementById('swTextarea').value.split('\n'); }
+
+function swActiveEntries() {
+  return swRawLines().map(function(s, i) { return {text: s.trim(), i: i}; })
+    .filter(function(o) { return o.text; });
+}
+
+/* ── Sidebar ───────────────────────────────────────────────────────── */
+function swBuildSidebar() {
+  var list = document.getElementById('swList');
+  var openKey = 'jpt_wheel_open_cats';
+  var openArr = null;
+  try { openArr = JSON.parse(localStorage.getItem(openKey) || 'null'); } catch(e){}
+  if (!Array.isArray(openArr)) openArr = [SW_CATS[0]];
+  var openSet = {};
+  openArr.forEach(function(c) { openSet[c] = true; });
+
+  var byCat = {};
+  SW_PRESETS.forEach(function(p) { (byCat[p.cat] = byCat[p.cat] || []).push(p); });
+
+  list.innerHTML = SW_CATS.filter(function(c) { return byCat[c] && byCat[c].length; }).map(function(c) {
+    var items = byCat[c].map(function(p) {
+      return '<button class="sw-item ' + (p.id === swActivePresetId ? 'active' : '') + '" type="button" onclick="swLoadPreset(' + p.id + ')">' +
+        '<span class="sw-title">' + swEsc(p.title) + '</span>' +
+        '<span class="sw-count">' + p.items.length + '</span>' +
+      '</button>';
+    }).join('');
+    return '<div class="side-group ' + (openSet[c] ? 'open' : '') + '">' +
+      '<button class="side-group-toggle" type="button" onclick="swToggleCat(' + JSON.stringify(c).replace(/"/g, '&quot;').replace(/'/g, '&#39;') + ')">' +
+        '<span class="side-group-name">' + swEsc(c) + '</span>' +
+        '<span class="side-group-chevron">' + String.fromCharCode(9660) + '</span>' +
+      '</button>' +
+      '<div class="side-group-body">' + items + '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function swToggleCat(c) {
+  var openKey = 'jpt_wheel_open_cats';
+  var openArr = null;
+  try { openArr = JSON.parse(localStorage.getItem(openKey) || 'null'); } catch(e){}
+  if (!Array.isArray(openArr)) openArr = [SW_CATS[0]];
+  var openSet = {};
+  openArr.forEach(function(x) { openSet[x] = true; });
+  if (openSet[c]) delete openSet[c]; else openSet[c] = true;
+  openArr = SW_CATS.filter(function(x) { return openSet[x]; });
+  try { localStorage.setItem(openKey, JSON.stringify(openArr)); } catch(e){}
+  swBuildSidebar();
+}
+
+function swLoadPreset(id) {
+  var p = null;
+  for (var i = 0; i < SW_PRESETS.length; i++) if (SW_PRESETS[i].id === id) { p = SW_PRESETS[i]; break; }
+  if (!p) return;
+  document.getElementById('swTextarea').value = p.items.join('\n');
+  swActivePresetId = p.id;
+  swName = p.title;
+  document.getElementById('swNameInput').value = swName;
+  swHistory = [];
+  swSave();
+  swRefreshAll();
+}
+
+/* ── Toolbar ───────────────────────────────────────────────────────── */
+function swOnNameInput(el) { swName = el.value; swSave(); }
+function swOnEliminateChange(el) { swEliminate = el.checked; swSave(); }
+
+function swToggleSound() {
+  swSoundOn = !swSoundOn;
+  document.getElementById('swMuteBtn').classList.toggle('off', !swSoundOn);
+  swSave();
+}
+
+function swClear() {
+  if (!confirm('Clear the item list and start a new wheel?')) return;
+  document.getElementById('swTextarea').value = '';
+  swActivePresetId = null;
+  swName = 'My wheel';
+  document.getElementById('swNameInput').value = swName;
+  swHistory = [];
+  swSave();
+  swRefreshAll();
+}
+
+function swShuffleList() {
+  var arr = swActiveEntries().map(function(o) { return o.text; });
+  for (var i = arr.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+  }
+  document.getElementById('swTextarea').value = arr.join('\n');
+  swActivePresetId = null;
+  swSave();
+  swRefreshAll();
+}
+
+function swSortList() {
+  var arr = swActiveEntries().map(function(o) { return o.text; });
+  arr.sort(function(a, b) { return a.localeCompare(b, undefined, {sensitivity: 'base'}); });
+  document.getElementById('swTextarea').value = arr.join('\n');
+  swActivePresetId = null;
+  swSave();
+  swRefreshAll();
+}
+
+function swOnTextareaInput() {
+  swActivePresetId = null;
+  swSave();
+  swRenderWheel();
+  swUpdateCount();
+  swBuildSidebar();
+}
+
+function swUpdateCount() {
+  var n = swActiveEntries().length;
+  document.getElementById('swCount').textContent = n + (n === 1 ? ' item' : ' items');
+}
+
+/* ── Wheel rendering ───────────────────────────────────────────────── */
+function swRenderWheel() {
+  var entries = swActiveEntries();
+  var n = entries.length;
+  var wheel = document.getElementById('swWheel');
+  var labels = document.getElementById('swLabels');
+  var empty = document.getElementById('swEmptyWheel');
+  var spinBtn = document.getElementById('swSpinBtn');
+
+  if (n < 2) {
+    wheel.style.background = 'none';
+    labels.innerHTML = '';
+    empty.hidden = false;
+    spinBtn.disabled = true;
+    return;
+  }
+  empty.hidden = true;
+  spinBtn.disabled = swSpinning;
+
+  var sliceAngle = 360 / n;
+  var stops = entries.map(function(e, i) {
+    var color = SW_COLORS[i % SW_COLORS.length].bg;
+    return color + ' ' + (i * sliceAngle).toFixed(3) + 'deg ' + ((i + 1) * sliceAngle).toFixed(3) + 'deg';
+  });
+  wheel.style.background = 'conic-gradient(from 0deg, ' + stops.join(', ') + ')';
+
+  var wrap = document.getElementById('swWheelWrap');
+  var cx = wrap.clientWidth / 2, cy = wrap.clientHeight / 2;
+  var R = Math.min(cx, cy) * 0.62;
+  var fontSize = n > 16 ? 10 : (n > 10 ? 11.5 : 13.5);
+
+  labels.innerHTML = entries.map(function(e, i) {
+    var center = (i + 0.5) * sliceAngle;
+    var rad = center * Math.PI / 180;
+    var x = cx + Math.sin(rad) * R;
+    var y = cy - Math.cos(rad) * R;
+    var swatch = SW_COLORS[i % SW_COLORS.length];
+    var shadow = swatch.text === '#ffffff' ? '0 1px 2px rgba(0,0,0,.4)' : '0 1px 2px rgba(255,255,255,.5)';
+    return '<span class="sw-label-text" style="left:' + x.toFixed(1) + 'px;top:' + y.toFixed(1) + 'px;' +
+      'font-size:' + fontSize + 'px;color:' + swatch.text + ';text-shadow:' + shadow + ';' +
+      'transform:translate(-50%,-50%) rotate(' + center.toFixed(2) + 'deg)">' +
+      swEsc(e.text) + '</span>';
+  }).join('');
+}
+
+function swSetRotation(deg) {
+  swRotation = deg;
+  var t = 'rotate(' + deg + 'deg)';
+  document.getElementById('swWheel').style.transform = t;
+  document.getElementById('swLabels').style.transform = t;
+}
+
+/* ── Sound: two short Web Audio blips, no external assets ───────────── */
+function swEnsureAudio() {
+  if (!swAudioCtx) {
+    try { swAudioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e){}
+  }
+  if (swAudioCtx && swAudioCtx.state === 'suspended') swAudioCtx.resume();
+}
+
+function swTick() {
+  if (!swSoundOn || !swAudioCtx) return;
+  var t = swAudioCtx.currentTime;
+  var osc = swAudioCtx.createOscillator(), gain = swAudioCtx.createGain();
+  osc.type = 'square';
+  osc.frequency.setValueAtTime(720, t);
+  gain.gain.setValueAtTime(0.06, t);
+  gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.05);
+  osc.connect(gain); gain.connect(swAudioCtx.destination);
+  osc.start(t); osc.stop(t + 0.06);
+}
+
+function swDing() {
+  if (!swSoundOn || !swAudioCtx) return;
+  var t = swAudioCtx.currentTime;
+  [880, 1320].forEach(function(freq, idx) {
+    var at = t + idx * 0.09;
+    var osc = swAudioCtx.createOscillator(), gain = swAudioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, at);
+    gain.gain.setValueAtTime(0.0001, at);
+    gain.gain.exponentialRampToValueAtTime(0.09, at + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, at + 0.35);
+    osc.connect(gain); gain.connect(swAudioCtx.destination);
+    osc.start(at); osc.stop(at + 0.4);
+  });
+}
+
+/* ── Spin ──────────────────────────────────────────────────────────── */
+function swSpin() {
+  if (swSpinning) return;
+  var entries = swActiveEntries();
+  var n = entries.length;
+  if (n < 2) return;
+  swEnsureAudio();
+  swSpinning = true;
+  document.getElementById('swSpinBtn').disabled = true;
+  document.getElementById('swWinnerBox').innerHTML = '';
+
+  var duration = 4200 + Math.random() * 1400;
+  var startRot = swRotation;
+  var extraTurns = 6 + Math.random() * 4;
+  var offset = Math.random() * 360;
+  var endRot = startRot + extraTurns * 360 + offset;
+  var sliceAngle = 360 / n;
+  var startTime = null;
+  var lastSlice = null;
+
+  function ease(t) { return 1 - Math.pow(1 - t, 3); }
+
+  function frame(ts) {
+    if (startTime === null) startTime = ts;
+    var elapsed = ts - startTime;
+    var t = Math.min(elapsed / duration, 1);
+    var rot = startRot + (endRot - startRot) * ease(t);
+    swSetRotation(rot);
+    var theta = (((-rot) % 360) + 360) % 360;
+    var idx = Math.floor(theta / sliceAngle) % n;
+    if (idx !== lastSlice) { swTick(); lastSlice = idx; }
+    if (t < 1) requestAnimationFrame(frame);
+    else swOnSpinEnd(idx);
+  }
+  requestAnimationFrame(frame);
+}
+
+function swOnSpinEnd(idx) {
+  var entries = swActiveEntries();
+  var winner = entries[idx];
+  swSpinning = false;
+  swDing();
+
+  document.getElementById('swWinnerBox').innerHTML =
+    '<div class="sw-winner-card"><div class="sw-w-label">Winner</div><div class="sw-w-name">' +
+    swEsc(winner.text) + '</div></div>';
+
+  swHistory.unshift({name: winner.text});
+  swHistory = swHistory.slice(0, 30);
+  swRenderHistory();
+
+  if (swEliminate) {
+    var lines = swRawLines();
+    lines.splice(winner.i, 1);
+    document.getElementById('swTextarea').value = lines.join('\n');
+    swActivePresetId = null;
+  }
+  swSave();
+  swRenderWheel();
+  swUpdateCount();
+  document.getElementById('swSpinBtn').disabled = swActiveEntries().length < 2;
+}
+
+function swRenderHistory() {
+  var list = document.getElementById('swHistoryList');
+  if (!swHistory.length) { list.innerHTML = '<span class="sw-history-empty">No spins yet.</span>'; return; }
+  list.innerHTML = swHistory.map(function(h) {
+    return '<span class="sw-history-chip">' + swEsc(h.name) + '</span>';
+  }).join('');
+}
+
+function swRefreshAll() {
+  document.getElementById('swNameInput').value = swName;
+  document.getElementById('swEliminateBox').checked = swEliminate;
+  document.getElementById('swMuteBtn').classList.toggle('off', !swSoundOn);
+  swBuildSidebar();
+  swRenderWheel();
+  swUpdateCount();
+  swRenderHistory();
+}
+
+window.addEventListener('resize', function() { if (!swSpinning) swRenderWheel(); });
+
+swLoad();
+swRefreshAll();
+</script>
+<!-- jpt:menujs -->
+<script>
+/* Pop-out switcher. The only navigation on the site. */
+(function () {
+  var btn = document.getElementById('brandBtn');
+  var menu = document.getElementById('toolsMenu');
+  if (!btn || !menu) return;
+  function close() { if (menu.hidden) return; menu.hidden = true; btn.setAttribute('aria-expanded', 'false'); }
+  function open()  { menu.hidden = false; btn.setAttribute('aria-expanded', 'true'); }
+  btn.addEventListener('click', function (e) { e.stopPropagation(); menu.hidden ? open() : close(); });
+  document.addEventListener('click', function (e) {
+    if (!menu.hidden && !menu.contains(e.target) && e.target !== btn) close();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !menu.hidden) { close(); btn.focus(); }
+  });
+})();
+</script>
+<!-- /jpt:menujs -->
+<!-- jpt:themejs -->
+<script>
+/* Theme toggle for pages whose tool does not bring its own. Shares the Debate
+   Builder's key so the preference carries across the whole site. */
+(function () {
+  var root = document.documentElement;
+  var btn = document.getElementById('jptThemeBtn');
+  var icon = document.getElementById('jptThemeIcon');
+  if (!btn || !icon) return;
+  var SUN = '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/>'
+          + '<line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>'
+          + '<line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/>'
+          + '<line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>'
+          + '<line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+  var MOON = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+  function now(){ return root.getAttribute('data-theme')
+      || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); }
+  function paint(){ icon.innerHTML = now() === 'dark' ? SUN : MOON; }
+  paint();
+  btn.addEventListener('click', function () {
+    var next = now() === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('jpe_debate_theme', next); } catch (e) {}
+    paint();
+  });
+})();
+</script>
+<!-- /jpt:themejs -->
+<!-- jpt:sidejs -->
+<script>
+(function () {
+  var app = document.getElementById('app'), btn = document.getElementById('jptSideToggle');
+  if (!app || !btn) return;
+  var KEY = 'jpt_speaking_side_collapsed';
+  function apply(c){ app.classList.toggle('side-collapsed', c);
+    btn.setAttribute('aria-expanded', c ? 'false' : 'true');
+    var lbl = (c ? 'Show' : 'Hide') + ' the topic list';
+    btn.title = lbl; btn.setAttribute('aria-label', lbl); }
+  window.jptToggleSide = function(){ var c = !app.classList.contains('side-collapsed');
+    apply(c); try { localStorage.setItem(KEY, c ? '1' : '0'); } catch(e){} };
+  var saved; try { saved = localStorage.getItem(KEY); } catch(e){}
+  if (saved === '1') apply(true);
+})();
+</script>
+<!-- /jpt:sidejs -->
+</body>
+</html>

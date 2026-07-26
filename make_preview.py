@@ -58,6 +58,10 @@ SEEDS = {
       gfSetMode('print');
       if (!document.querySelectorAll('.gf-print-blank').length) throw new Error('gap-fill print empty');
     """,
+    'spin-wheel': """
+      swLoadPreset(4);
+      if (!document.querySelectorAll('.sw-label-text').length) throw new Error('wheel has no labels');
+    """,
 }
 
 # Something that must be on screen afterwards, as proof the seed actually took.
@@ -67,6 +71,7 @@ PROOF = {
     'role-plays': 'Student A',
     'vocab-matching': 'boarding pass',
     'gap-fill': 'Word bank',
+    'spin-wheel': 'Alex',
 }
 
 WRAPPER = """

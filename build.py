@@ -108,6 +108,16 @@ MATCHING = (f'<svg viewBox="0 0 24 24" {I} stroke-width="1.9">'
             '<line x1="6.5" y1="12" x2="17.5" y2="18"/>'
             '<line x1="6.5" y1="18" x2="17.5" y2="6"/></svg>')
 
+# Spin the Wheel: a circle with spokes and a pointer triangle at the top,
+# distinct from every other mark (spanner, bubbles, lines, dots, bubble-Q).
+WHEEL = (f'<svg viewBox="0 0 24 24" {I} stroke-width="1.9">'
+         '<circle cx="12" cy="13" r="8.2"/>'
+         '<line x1="12" y1="13" x2="12" y2="5"/>'
+         '<line x1="12" y1="13" x2="18.6" y2="16.9"/>'
+         '<line x1="12" y1="13" x2="5.4" y2="16.9"/>'
+         '<circle cx="12" cy="13" r="1.5" fill="currentColor" stroke="none"/>'
+         '<path d="M12 1.8 L9.8 5.2 L14.2 5.2 Z" fill="currentColor" stroke="none"/></svg>')
+
 FAVICON = ("<link rel=\"icon\" href=\"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' "
            "viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' "
            "stroke-linejoin='round'><path d='M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 "
@@ -243,6 +253,30 @@ TOOLS = [
         'shot_dark': '/assets/speaking-topics-dark.png',
         'shot_alt': ('Speaking Topics in use: a grid of topics, with a deck of conversation '
                      'questions and a timer below.'),
+    },
+    {
+        'slug': 'spin-wheel',
+        'name': 'Spin the Wheel',
+        'icon': WHEEL,
+        'tagline': 'Type a list, spin for a random pick. Great for names, topics or points.',
+        'desc': ('Paste a list of names, topics or numbers, one per line, and spin a wheel to '
+                 'pick one at random. Turn on "Remove winner after spin" to work through a class '
+                 'list fairly, or leave it off for a repeatable random picker. Starter wheels for '
+                 'warm-ups, grammar review and vocabulary games are ready in the sidebar.'),
+        'meta': ('A random-picker spinning wheel for English classrooms: names, topics, grammar '
+                 'points or vocabulary categories, with an optional elimination mode.'),
+        'features': [
+            (SHUFFLE, 'Paste and spin',
+             'One item per line. Spin instantly, no setup beyond typing or pasting a list.'),
+            (USERS, 'Fair turn-taking',
+             'Turn on elimination mode and the winner drops off the wheel, so everyone gets a go.'),
+            (GRID, 'Starter wheels',
+             'Verb tenses, question words, vocabulary categories and warm-up topics, ready to load.'),
+        ],
+        'shot': '/assets/spin-wheel-light.png',
+        'shot_dark': '/assets/spin-wheel-dark.png',
+        'shot_alt': ('Spin the Wheel in use: a six-slice colour wheel with student names, a Spin '
+                     'button and a winner card beneath it.'),
     },
 ]
 
@@ -2151,9 +2185,48 @@ def build_gapfill(html, t):
     return html
 
 
+def build_spinwheel(html, t):
+    """Wrap src/spin-wheel.html in the JPT shell.
+
+    Same lightweight wrap as build_roleplays — the source already carries the
+    .app/aside/main skeleton, so build.py only prepends the topbar, drops a
+    tool-head badge inside .main-inner, adds the side-collapse handle, and
+    injects the shared theme/menu/side-collapse scripts. No timer or export
+    menu: the wheel doesn't need either.
+    """
+    html = strip_marks(html)
+    html = head_bits(html, f"{t['name']} · {SITE}", t['meta'], '')
+
+    inner = '<div class="main-inner">'
+    if inner not in html:
+        raise SystemExit('build: could not find .main-inner in spin-wheel')
+    html = html.replace(inner, inner + '\n      ' + tool_head(t), 1)
+
+    app = '<div class="app" id="app">'
+    if app not in html:
+        raise SystemExit('build: could not find .app in spin-wheel')
+    topbar = (f'<header class="stopbar">\n{brand(t["slug"])}\n'
+              f'  <div class="grow"></div>\n  {THEME_BTN}\n</header>\n\n')
+    html = html.replace(app, topbar + app, 1)
+
+    aside_close = '</aside>'
+    if aside_close not in html:
+        raise SystemExit('build: could not find </aside> in spin-wheel')
+    handle = ('<button class="jpt-side-handle" id="jptSideToggle" onclick="jptToggleSide()"\n'
+              '          title="Hide the starter wheels" '
+              'aria-label="Hide the starter wheels" aria-expanded="true">\n'
+              '    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+              'stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
+              '<polyline points="15 18 9 12 15 6"/></svg>\n  </button>\n')
+    html = html.replace(aside_close, aside_close + '\n  ' + handle, 1)
+
+    html = inject_before(html, '</body>', MENU_JS + THEME_JS + SIDE_JS, 'the page scripts')
+    return html
+
+
 BUILDERS = {'debate-builder': build_debate, 'speaking-topics': build_speaking,
             'role-plays': build_roleplays, 'vocab-matching': build_matching,
-            'gap-fill': build_gapfill}
+            'gap-fill': build_gapfill, 'spin-wheel': build_spinwheel}
 
 
 def home_page():

@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spin the Wheel</title>
+<meta name="description" content="A random picker wheel for names, topics or points. Type a list, spin, and optionally remove the winner each round.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f3ec;--card:#fff;--ink:#0f1b2d;--muted:#6b7686;--line:#eceadf;--accent:#2563eb;--soft:#eceffc;--soft-line:#dde3f8;--jpt-bar:68px;--jpt-side-w:302px}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Outfit',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink)}
+button{font-family:inherit;cursor:pointer}
+
+.app{display:grid;grid-template-columns:var(--jpt-side-w) 1fr;min-height:calc(100vh - var(--jpt-bar));transition:grid-template-columns .22s ease}
+.app.side-collapsed{grid-template-columns:0 1fr}
+.app.side-collapsed > aside{border-right:none;overflow:hidden;opacity:0;pointer-events:none}
+.app > aside{background:var(--card);border-right:1px solid var(--line);display:flex;flex-direction:column;overflow-y:auto;position:sticky;top:var(--jpt-bar);height:calc(100vh - var(--jpt-bar))}
+main{overflow:visible;min-width:0}
+.main-inner{padding:20px 24px 40px;max-width:1180px;margin:0 auto}
+
+.side-top{padding:16px 16px 12px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--card);z-index:2}
+.jt-label{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:9px}
+.side-hint{font-size:12px;color:var(--muted);line-height:1.45}
+
+.side-list{padding:10px 10px 16px}
+.side-group{margin-bottom:6px}
+.side-group-toggle{display:flex;align-items:center;gap:8px;cursor:pointer;width:100%;padding:7px 10px;border-radius:9px;background:transparent;border:none;transition:background .12s}
+.side-group-toggle:hover{background:var(--soft)}
+.side-group-name{flex:1;font-size:11px;letter-spacing:.13em;text-transform:uppercase;font-weight:700;color:var(--accent);text-align:left}
+.side-group-chevron{font-size:9px;color:var(--muted);transition:transform .18s ease}
+.side-group.open .side-group-chevron{transform:rotate(180deg)}
+.side-group-body{display:none;padding:2px 0 4px}
+.side-group.open .side-group-body{display:block}
+.sw-item{display:flex;align-items:center;gap:8px;width:100%;text-align:left;font-family:inherit;padding:8px 11px;border-radius:10px;cursor:pointer;border:1px solid transparent;background:transparent;color:var(--ink);margin-bottom:2px;transition:background .12s,border-color .12s;line-height:1.35}
+.sw-item:hover{background:var(--soft)}
+.sw-item.active{background:var(--soft);border-color:var(--accent);color:var(--accent)}
+.sw-item .sw-title{font-size:13.5px;font-weight:600;letter-spacing:-.01em;flex:1;min-width:0}
+.sw-item .sw-count{font-size:10.5px;color:var(--muted);font-weight:700}
+
+/* ── Toolbar ─────────────────────────────────────────────────────── */
+.sw-toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 4px 14px;border-bottom:1px solid var(--line);margin-bottom:18px}
+.sw-name{font-family:inherit;font-size:15px;font-weight:700;letter-spacing:-.01em;border:1px solid transparent;background:transparent;color:var(--ink);padding:6px 8px;border-radius:8px;min-width:120px;max-width:260px}
+.sw-name:hover{border-color:var(--soft-line)}
+.sw-name:focus{outline:none;border-color:var(--accent);background:var(--card)}
+.sw-toggle{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:var(--muted);cursor:pointer;user-select:none;margin-left:auto}
+.sw-toggle input{accent-color:var(--accent);width:15px;height:15px}
+.sw-clear{font-family:inherit;font-size:12px;font-weight:600;padding:6px 12px;border-radius:999px;border:1px solid var(--soft-line);background:transparent;color:var(--muted);cursor:pointer;transition:.12s}
+.sw-clear:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+.sw-mute{width:34px;height:34px;border-radius:999px;border:1px solid var(--soft-line);background:transparent;color:var(--muted);display:inline-flex;align-items:center;justify-content:center;transition:.12s;flex-shrink:0}
+.sw-mute svg{width:16px;height:16px}
+.sw-mute:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+.sw-mute.off{color:#c14343;border-color:#e8b8b8}
+
+/* ── Main split: wheel left, editor right ─────────────────────────── */
+.sw-grid{display:grid;grid-template-columns:1fr 340px;gap:30px;align-items:start}
+@media (max-width:900px){.sw-grid{grid-template-columns:1fr}}
+
+.sw-wheel-col{display:flex;flex-direction:column;align-items:center;gap:18px}
+.sw-wheel-wrap{position:relative;width:min(72vw,420px);aspect-ratio:1;margin-top:8px}
+.sw-pointer{position:absolute;top:-2px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:24px solid var(--ink);z-index:3;filter:drop-shadow(0 2px 3px rgba(0,0,0,.25))}
+.sw-wheel{position:absolute;inset:0;border-radius:50%;box-shadow:0 20px 44px -20px rgba(20,30,60,.35);border:6px solid var(--card);outline:1px solid var(--line)}
+.sw-labels{position:absolute;inset:0;pointer-events:none}
+.sw-label-text{position:absolute;font-weight:700;white-space:nowrap;max-width:130px;overflow:hidden;text-overflow:ellipsis;text-align:center;pointer-events:none}
+.sw-hub{position:absolute;left:50%;top:50%;width:18%;height:18%;transform:translate(-50%,-50%);border-radius:50%;background:var(--card);border:3px solid var(--line);z-index:2;box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.sw-empty-wheel{position:absolute;inset:0;border-radius:50%;background:var(--soft);border:2px dashed var(--soft-line);display:flex;align-items:center;justify-content:center;text-align:center;color:var(--muted);font-size:13px;padding:24px}
+.sw-empty-wheel[hidden]{display:none}
+.sw-spin-btn{font-family:inherit;font-size:15px;font-weight:700;padding:13px 36px;border-radius:999px;border:none;background:var(--accent);color:#fff;cursor:pointer;transition:background .12s,transform .08s;box-shadow:0 8px 20px -8px rgba(37,99,235,.55)}
+.sw-spin-btn:hover:not(:disabled){background:var(--accent-deep,#1d4ed8)}
+.sw-spin-btn:active:not(:disabled){transform:scale(.97)}
+.sw-spin-btn:disabled{opacity:.4;cursor:default;box-shadow:none}
+.sw-winner{min-height:60px;display:flex;align-items:center;justify-content:center;width:100%}
+.sw-winner-card{background:var(--card);border:1.5px solid var(--accent);border-radius:16px;padding:12px 26px;text-align:center;box-shadow:0 8px 24px -12px rgba(37,99,235,.35);animation:swPop .35s cubic-bezier(.2,1.4,.4,1)}
+.sw-winner-card .sw-w-label{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:4px}
+.sw-winner-card .sw-w-name{font-size:22px;font-weight:800;color:var(--accent);letter-spacing:-.01em}
+@keyframes swPop{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
+
+.sw-history{width:100%;max-width:480px}
+.sw-history h3{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:0 0 8px;text-align:center}
+.sw-history-list{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.sw-history-chip{font-size:12px;font-weight:600;padding:5px 11px;border-radius:999px;background:var(--soft);color:var(--ink);border:1px solid var(--soft-line)}
+.sw-history-empty{font-size:12.5px;color:var(--muted);font-style:italic}
+
+/* ── Editor ──────────────────────────────────────────────────────── */
+.sw-editor{display:flex;flex-direction:column;gap:10px}
+.sw-editor-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.sw-editor-label{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.sw-editor-count{font-size:11.5px;color:var(--muted);font-weight:600}
+.sw-editor-actions{display:flex;gap:6px}
+.sw-mini-btn{font-family:inherit;font-size:11.5px;font-weight:600;padding:5px 10px;border-radius:999px;border:1px solid var(--soft-line);background:transparent;color:var(--muted);cursor:pointer;transition:.12s}
+.sw-mini-btn:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+.sw-textarea{font-family:inherit;font-size:14.5px;line-height:1.7;padding:14px;border-radius:12px;border:1px solid var(--soft-line);background:var(--card);color:var(--ink);outline:none;resize:vertical;min-height:340px;width:100%;transition:border-color .12s}
+.sw-textarea:focus{border-color:var(--accent)}
+.sw-textarea::placeholder{color:var(--muted)}
+.sw-editor-hint{font-size:12px;color:var(--muted);line-height:1.5}
+
+@media (max-width:900px){
+  .sw-wheel-wrap{width:min(80vw,360px)}
+}
+</style>
+</head>
+<body>
+
+<div class="app" id="app">
+  <aside>
+    <div class="side-top">
+      <div class="jt-label">Starter wheels</div>
+      <div class="side-hint">Pick a wheel to load it, or type your own list on the right. Edits are saved automatically.</div>
+    </div>
+    <div class="side-list" id="swList"></div>
+  </aside>
+
+  <main>
+    <div class="main-inner">
+      <div class="sw-toolbar">
+        <input class="sw-name" id="swNameInput" type="text" value="My wheel" maxlength="60" oninput="swOnNameInput(this)" aria-label="Wheel name">
+        <label class="sw-toggle"><input type="checkbox" id="swEliminateBox" onchange="swOnEliminateChange(this)"> Remove winner after spin</label>
+        <button class="sw-mute" id="swMuteBtn" type="button" onclick="swToggleSound()" title="Mute sound" aria-label="Mute sound">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+        </button>
+        <button class="sw-clear" type="button" onclick="swClear()">Clear all</button>
+      </div>
+
+      <div class="sw-grid">
+        <div class="sw-wheel-col">
+          <div class="sw-wheel-wrap" id="swWheelWrap">
+            <div class="sw-pointer"></div>
+            <div class="sw-wheel" id="swWheel"></div>
+            <div class="sw-labels" id="swLabels"></div>
+            <div class="sw-hub"></div>
+            <div class="sw-empty-wheel" id="swEmptyWheel" hidden>Add at least two items on the right to spin the wheel.</div>
+          </div>
+          <button class="sw-spin-btn" id="swSpinBtn" type="button" onclick="swSpin()">Spin</button>
+          <div class="sw-winner" id="swWinnerBox"></div>
+          <div class="sw-history">
+            <h3>This session</h3>
+            <div class="sw-history-list" id="swHistoryList"></div>
+          </div>
+        </div>
+
+        <div class="sw-editor">
+          <div class="sw-editor-head">
+            <span class="sw-editor-label">Items</span>
+            <span class="sw-editor-count" id="swCount">0 items</span>
+          </div>
+          <div class="sw-editor-actions">
+            <button class="sw-mini-btn" type="button" onclick="swShuffleList()">Shuffle order</button>
+            <button class="sw-mini-btn" type="button" onclick="swSortList()">Sort A-Z</button>
+          </div>
+          <textarea class="sw-textarea" id="swTextarea" placeholder="One item per line, names, topics, numbers, anything." oninput="swOnTextareaInput()"></textarea>
+          <div class="sw-editor-hint">Paste a class list, or pick a starter wheel on the left. Blank lines are ignored.</div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+/* Starter wheels, grouped by category in the sidebar. Editing the textarea
+   detaches from whichever preset was loaded (swActivePresetId is cleared),
+   same convention as Vocab Matching. */
+var SW_CATS = ["Random pickers", "Warm-ups", "Grammar review", "Vocabulary games"];
+var SW_PRESETS = [
+  {id: 1, cat: "Random pickers", title: "Yes or No", items: ["Yes", "No"]},
+  {id: 2, cat: "Random pickers", title: "Numbers 1-6", items: ["1", "2", "3", "4", "5", "6"]},
+  {id: 3, cat: "Random pickers", title: "Points (1-5)", items: ["1 point", "2 points", "3 points", "4 points", "5 points"]},
+  {id: 4, cat: "Random pickers", title: "Class names (example)", items: ["Alex", "Sam", "Jordan", "Taylor", "Casey", "Morgan", "Riley", "Quinn"]},
+  {id: 5, cat: "Warm-ups", title: "Would you rather...", items: ["Travel to the past", "Travel to the future", "Read minds", "Fly", "Be invisible", "Never sleep again", "Always be 10 minutes late", "Always be too early"]},
+  {id: 6, cat: "Warm-ups", title: "Icebreaker topics", items: ["Your last holiday", "A skill you'd like to learn", "Your favourite meal", "A film that made you cry", "Your dream job", "A place you want to visit", "Something you're proud of", "Your morning routine"]},
+  {id: 7, cat: "Grammar review", title: "Verb tenses", items: ["Present Simple", "Present Continuous", "Past Simple", "Past Continuous", "Present Perfect", "Past Perfect", "Future Simple", "Future Continuous"]},
+  {id: 8, cat: "Grammar review", title: "Question words", items: ["What", "Where", "When", "Who", "Why", "How", "Which", "How much / How many"]},
+  {id: 9, cat: "Vocabulary games", title: "Categories", items: ["Animals", "Food", "Jobs", "Countries", "Sports", "Colours", "Weather", "Family"]},
+  {id: 10, cat: "Vocabulary games", title: "Word types", items: ["Noun", "Verb", "Adjective", "Adverb", "Preposition", "Phrasal verb", "Idiom", "Collocation"]}
+];
+/* Blues and whites (the site's own palette) with a gold accent for pop,
+   rather than a rainbow. Each entry carries its own text colour: the pale
+   and gold slices need dark ink text, the deep blues need white. */
+var SW_COLORS = [
+  {bg: '#1e3a8a', text: '#ffffff'},
+  {bg: '#eab308', text: '#0f1b2d'},
+  {bg: '#2563eb', text: '#ffffff'},
+  {bg: '#ffffff', text: '#0f1b2d'},
+  {bg: '#1d4ed8', text: '#ffffff'},
+  {bg: '#93c5fd', text: '#0f1b2d'},
+  {bg: '#0f1b2d', text: '#ffffff'},
+  {bg: '#60a5fa', text: '#0f1b2d'}
+];
+
+var swName = 'My wheel';
+var swActivePresetId = null;
+var swEliminate = false;
+var swSoundOn = true;
+var swRotation = 0;
+var swSpinning = false;
+var swHistory = [];
+var swAudioCtx = null;
+
+function swEsc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+/* ── Persistence ───────────────────────────────────────────────────
+   One active wheel is saved, same model as Vocab Matching: there's no
+   formal bank, the sidebar is the fixed starter library. */
+function swLoad() {
+  try {
+    var raw = localStorage.getItem('jpt_wheel_state');
+    if (raw) {
+      var s = JSON.parse(raw);
+      if (s && typeof s.text === 'string') {
+        document.getElementById('swTextarea').value = s.text;
+        swName = s.name || 'My wheel';
+        swActivePresetId = s.activePresetId || null;
+        swEliminate = !!s.eliminate;
+        swSoundOn = s.sound !== false;
+        swHistory = Array.isArray(s.history) ? s.history.slice(0, 30) : [];
+        return;
+      }
+    }
+  } catch(e){}
+  document.getElementById('swTextarea').value = 'Alex\nSam\nJordan\nTaylor\nCasey\nMorgan';
+}
+
+function swSave() {
+  try {
+    localStorage.setItem('jpt_wheel_state', JSON.stringify({
+      text: document.getElementById('swTextarea').value,
+      name: swName, activePresetId: swActivePresetId,
+      eliminate: swEliminate, sound: swSoundOn, history: swHistory.slice(0, 30)
+    }));
+  } catch(e){}
+}
+
+function swRawLines() { return document.getElementById('swTextarea').value.split('\n'); }
+
+function swActiveEntries() {
+  return swRawLines().map(function(s, i) { return {text: s.trim(), i: i}; })
+    .filter(function(o) { return o.text; });
+}
+
+/* ── Sidebar ───────────────────────────────────────────────────────── */
+function swBuildSidebar() {
+  var list = document.getElementById('swList');
+  var openKey = 'jpt_wheel_open_cats';
+  var openArr = null;
+  try { openArr = JSON.parse(localStorage.getItem(openKey) || 'null'); } catch(e){}
+  if (!Array.isArray(openArr)) openArr = [SW_CATS[0]];
+  var openSet = {};
+  openArr.forEach(function(c) { openSet[c] = true; });
+
+  var byCat = {};
+  SW_PRESETS.forEach(function(p) { (byCat[p.cat] = byCat[p.cat] || []).push(p); });
+
+  list.innerHTML = SW_CATS.filter(function(c) { return byCat[c] && byCat[c].length; }).map(function(c) {
+    var items = byCat[c].map(function(p) {
+      return '<button class="sw-item ' + (p.id === swActivePresetId ? 'active' : '') + '" type="button" onclick="swLoadPreset(' + p.id + ')">' +
+        '<span class="sw-title">' + swEsc(p.title) + '</span>' +
+        '<span class="sw-count">' + p.items.length + '</span>' +
+      '</button>';
+    }).join('');
+    return '<div class="side-group ' + (openSet[c] ? 'open' : '') + '">' +
+      '<button class="side-group-toggle" type="button" onclick="swToggleCat(' + JSON.stringify(c).replace(/"/g, '&quot;').replace(/'/g, '&#39;') + ')">' +
+        '<span class="side-group-name">' + swEsc(c) + '</span>' +
+        '<span class="side-group-chevron">' + String.fromCharCode(9660) + '</span>' +
+      '</button>' +
+      '<div class="side-group-body">' + items + '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function swToggleCat(c) {
+  var openKey = 'jpt_wheel_open_cats';
+  var openArr = null;
+  try { openArr = JSON.parse(localStorage.getItem(openKey) || 'null'); } catch(e){}
+  if (!Array.isArray(openArr)) openArr = [SW_CATS[0]];
+  var openSet = {};
+  openArr.forEach(function(x) { openSet[x] = true; });
+  if (openSet[c]) delete openSet[c]; else openSet[c] = true;
+  openArr = SW_CATS.filter(function(x) { return openSet[x]; });
+  try { localStorage.setItem(openKey, JSON.stringify(openArr)); } catch(e){}
+  swBuildSidebar();
+}
+
+function swLoadPreset(id) {
+  var p = null;
+  for (var i = 0; i < SW_PRESETS.length; i++) if (SW_PRESETS[i].id === id) { p = SW_PRESETS[i]; break; }
+  if (!p) return;
+  document.getElementById('swTextarea').value = p.items.join('\n');
+  swActivePresetId = p.id;
+  swName = p.title;
+  document.getElementById('swNameInput').value = swName;
+  swHistory = [];
+  swSave();
+  swRefreshAll();
+}
+
+/* ── Toolbar ───────────────────────────────────────────────────────── */
+function swOnNameInput(el) { swName = el.value; swSave(); }
+function swOnEliminateChange(el) { swEliminate = el.checked; swSave(); }
+
+function swToggleSound() {
+  swSoundOn = !swSoundOn;
+  document.getElementById('swMuteBtn').classList.toggle('off', !swSoundOn);
+  swSave();
+}
+
+function swClear() {
+  if (!confirm('Clear the item list and start a new wheel?')) return;
+  document.getElementById('swTextarea').value = '';
+  swActivePresetId = null;
+  swName = 'My wheel';
+  document.getElementById('swNameInput').value = swName;
+  swHistory = [];
+  swSave();
+  swRefreshAll();
+}
+
+function swShuffleList() {
+  var arr = swActiveEntries().map(function(o) { return o.text; });
+  for (var i = arr.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+  }
+  document.getElementById('swTextarea').value = arr.join('\n');
+  swActivePresetId = null;
+  swSave();
+  swRefreshAll();
+}
+
+function swSortList() {
+  var arr = swActiveEntries().map(function(o) { return o.text; });
+  arr.sort(function(a, b) { return a.localeCompare(b, undefined, {sensitivity: 'base'}); });
+  document.getElementById('swTextarea').value = arr.join('\n');
+  swActivePresetId = null;
+  swSave();
+  swRefreshAll();
+}
+
+function swOnTextareaInput() {
+  swActivePresetId = null;
+  swSave();
+  swRenderWheel();
+  swUpdateCount();
+  swBuildSidebar();
+}
+
+function swUpdateCount() {
+  var n = swActiveEntries().length;
+  document.getElementById('swCount').textContent = n + (n === 1 ? ' item' : ' items');
+}
+
+/* ── Wheel rendering ───────────────────────────────────────────────── */
+function swRenderWheel() {
+  var entries = swActiveEntries();
+  var n = entries.length;
+  var wheel = document.getElementById('swWheel');
+  var labels = document.getElementById('swLabels');
+  var empty = document.getElementById('swEmptyWheel');
+  var spinBtn = document.getElementById('swSpinBtn');
+
+  if (n < 2) {
+    wheel.style.background = 'none';
+    labels.innerHTML = '';
+    empty.hidden = false;
+    spinBtn.disabled = true;
+    return;
+  }
+  empty.hidden = true;
+  spinBtn.disabled = swSpinning;
+
+  var sliceAngle = 360 / n;
+  var stops = entries.map(function(e, i) {
+    var color = SW_COLORS[i % SW_COLORS.length].bg;
+    return color + ' ' + (i * sliceAngle).toFixed(3) + 'deg ' + ((i + 1) * sliceAngle).toFixed(3) + 'deg';
+  });
+  wheel.style.background = 'conic-gradient(from 0deg, ' + stops.join(', ') + ')';
+
+  var wrap = document.getElementById('swWheelWrap');
+  var cx = wrap.clientWidth / 2, cy = wrap.clientHeight / 2;
+  var R = Math.min(cx, cy) * 0.62;
+  var fontSize = n > 16 ? 10 : (n > 10 ? 11.5 : 13.5);
+
+  labels.innerHTML = entries.map(function(e, i) {
+    var center = (i + 0.5) * sliceAngle;
+    var rad = center * Math.PI / 180;
+    var x = cx + Math.sin(rad) * R;
+    var y = cy - Math.cos(rad) * R;
+    var swatch = SW_COLORS[i % SW_COLORS.length];
+    var shadow = swatch.text === '#ffffff' ? '0 1px 2px rgba(0,0,0,.4)' : '0 1px 2px rgba(255,255,255,.5)';
+    return '<span class="sw-label-text" style="left:' + x.toFixed(1) + 'px;top:' + y.toFixed(1) + 'px;' +
+      'font-size:' + fontSize + 'px;color:' + swatch.text + ';text-shadow:' + shadow + ';' +
+      'transform:translate(-50%,-50%) rotate(' + center.toFixed(2) + 'deg)">' +
+      swEsc(e.text) + '</span>';
+  }).join('');
+}
+
+function swSetRotation(deg) {
+  swRotation = deg;
+  var t = 'rotate(' + deg + 'deg)';
+  document.getElementById('swWheel').style.transform = t;
+  document.getElementById('swLabels').style.transform = t;
+}
+
+/* ── Sound: two short Web Audio blips, no external assets ───────────── */
+function swEnsureAudio() {
+  if (!swAudioCtx) {
+    try { swAudioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e){}
+  }
+  if (swAudioCtx && swAudioCtx.state === 'suspended') swAudioCtx.resume();
+}
+
+function swTick() {
+  if (!swSoundOn || !swAudioCtx) return;
+  var t = swAudioCtx.currentTime;
+  var osc = swAudioCtx.createOscillator(), gain = swAudioCtx.createGain();
+  osc.type = 'square';
+  osc.frequency.setValueAtTime(720, t);
+  gain.gain.setValueAtTime(0.06, t);
+  gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.05);
+  osc.connect(gain); gain.connect(swAudioCtx.destination);
+  osc.start(t); osc.stop(t + 0.06);
+}
+
+function swDing() {
+  if (!swSoundOn || !swAudioCtx) return;
+  var t = swAudioCtx.currentTime;
+  [880, 1320].forEach(function(freq, idx) {
+    var at = t + idx * 0.09;
+    var osc = swAudioCtx.createOscillator(), gain = swAudioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, at);
+    gain.gain.setValueAtTime(0.0001, at);
+    gain.gain.exponentialRampToValueAtTime(0.09, at + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, at + 0.35);
+    osc.connect(gain); gain.connect(swAudioCtx.destination);
+    osc.start(at); osc.stop(at + 0.4);
+  });
+}
+
+/* ── Spin ──────────────────────────────────────────────────────────── */
+function swSpin() {
+  if (swSpinning) return;
+  var entries = swActiveEntries();
+  var n = entries.length;
+  if (n < 2) return;
+  swEnsureAudio();
+  swSpinning = true;
+  document.getElementById('swSpinBtn').disabled = true;
+  document.getElementById('swWinnerBox').innerHTML = '';
+
+  var duration = 4200 + Math.random() * 1400;
+  var startRot = swRotation;
+  var extraTurns = 6 + Math.random() * 4;
+  var offset = Math.random() * 360;
+  var endRot = startRot + extraTurns * 360 + offset;
+  var sliceAngle = 360 / n;
+  var startTime = null;
+  var lastSlice = null;
+
+  function ease(t) { return 1 - Math.pow(1 - t, 3); }
+
+  function frame(ts) {
+    if (startTime === null) startTime = ts;
+    var elapsed = ts - startTime;
+    var t = Math.min(elapsed / duration, 1);
+    var rot = startRot + (endRot - startRot) * ease(t);
+    swSetRotation(rot);
+    var theta = (((-rot) % 360) + 360) % 360;
+    var idx = Math.floor(theta / sliceAngle) % n;
+    if (idx !== lastSlice) { swTick(); lastSlice = idx; }
+    if (t < 1) requestAnimationFrame(frame);
+    else swOnSpinEnd(idx);
+  }
+  requestAnimationFrame(frame);
+}
+
+function swOnSpinEnd(idx) {
+  var entries = swActiveEntries();
+  var winner = entries[idx];
+  swSpinning = false;
+  swDing();
+
+  document.getElementById('swWinnerBox').innerHTML =
+    '<div class="sw-winner-card"><div class="sw-w-label">Winner</div><div class="sw-w-name">' +
+    swEsc(winner.text) + '</div></div>';
+
+  swHistory.unshift({name: winner.text});
+  swHistory = swHistory.slice(0, 30);
+  swRenderHistory();
+
+  if (swEliminate) {
+    var lines = swRawLines();
+    lines.splice(winner.i, 1);
+    document.getElementById('swTextarea').value = lines.join('\n');
+    swActivePresetId = null;
+  }
+  swSave();
+  swRenderWheel();
+  swUpdateCount();
+  document.getElementById('swSpinBtn').disabled = swActiveEntries().length < 2;
+}
+
+function swRenderHistory() {
+  var list = document.getElementById('swHistoryList');
+  if (!swHistory.length) { list.innerHTML = '<span class="sw-history-empty">No spins yet.</span>'; return; }
+  list.innerHTML = swHistory.map(function(h) {
+    return '<span class="sw-history-chip">' + swEsc(h.name) + '</span>';
+  }).join('');
+}
+
+function swRefreshAll() {
+  document.getElementById('swNameInput').value = swName;
+  document.getElementById('swEliminateBox').checked = swEliminate;
+  document.getElementById('swMuteBtn').classList.toggle('off', !swSoundOn);
+  swBuildSidebar();
+  swRenderWheel();
+  swUpdateCount();
+  swRenderHistory();
+}
+
+window.addEventListener('resize', function() { if (!swSpinning) swRenderWheel(); });
+
+swLoad();
+swRefreshAll();
+</script>
+</body>
+</html>
