@@ -113,9 +113,6 @@ body.sw-presenting .sw-wheel-wrap{width:max(200px,min(72vw,calc(100vh - 280px),7
 .sw-editor-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .sw-editor-label{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700}
 .sw-editor-count{font-size:11.5px;color:var(--muted);font-weight:600}
-.sw-editor-actions{display:flex;gap:6px}
-.sw-mini-btn{font-family:inherit;font-size:11.5px;font-weight:600;padding:5px 10px;border-radius:999px;border:1px solid var(--soft-line);background:transparent;color:var(--muted);cursor:pointer;transition:.12s}
-.sw-mini-btn:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
 .sw-textarea{font-family:inherit;font-size:14.5px;line-height:1.7;padding:14px;border-radius:12px;border:1px solid var(--soft-line);background:var(--card);color:var(--ink);outline:none;resize:vertical;min-height:340px;width:100%;transition:border-color .12s}
 .sw-textarea:focus{border-color:var(--accent)}
 .sw-textarea::placeholder{color:var(--muted)}
@@ -344,10 +341,6 @@ button.st-brand[aria-expanded="true"] .brand-chev{transform:rotate(180deg)}
             <span class="sw-editor-label">Items</span>
             <span class="sw-editor-count" id="swCount">0 items</span>
           </div>
-          <div class="sw-editor-actions">
-            <button class="sw-mini-btn" type="button" onclick="swShuffleList()">Shuffle order</button>
-            <button class="sw-mini-btn" type="button" onclick="swSortList()">Sort A-Z</button>
-          </div>
           <textarea class="sw-textarea" id="swTextarea" placeholder="One item per line, names, topics, numbers, anything." oninput="swOnTextareaInput()"></textarea>
           <div class="sw-editor-hint">Paste a class list, or pick a starter wheel on the left. Blank lines are ignored.</div>
         </div>
@@ -509,27 +502,6 @@ function swClear() {
   swName = 'My wheel';
   document.getElementById('swNameInput').value = swName;
   swHistory = [];
-  swSave();
-  swRefreshAll();
-}
-
-function swShuffleList() {
-  var arr = swActiveEntries().map(function(o) { return o.text; });
-  for (var i = arr.length - 1; i > 0; i--) {
-    var j = Math.floor(Math.random() * (i + 1));
-    var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
-  }
-  document.getElementById('swTextarea').value = arr.join('\n');
-  swActivePresetId = null;
-  swSave();
-  swRefreshAll();
-}
-
-function swSortList() {
-  var arr = swActiveEntries().map(function(o) { return o.text; });
-  arr.sort(function(a, b) { return a.localeCompare(b, undefined, {sensitivity: 'base'}); });
-  document.getElementById('swTextarea').value = arr.join('\n');
-  swActivePresetId = null;
   swSave();
   swRefreshAll();
 }
