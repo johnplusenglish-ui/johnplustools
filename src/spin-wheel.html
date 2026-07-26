@@ -63,7 +63,7 @@ main{overflow:visible;min-width:0}
 .sw-pointer{position:absolute;top:-2px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:24px solid var(--ink);z-index:3;filter:drop-shadow(0 2px 3px rgba(0,0,0,.25))}
 .sw-wheel{position:absolute;inset:0;border-radius:50%;box-shadow:0 20px 44px -20px rgba(20,30,60,.35);border:6px solid var(--card);outline:1px solid var(--line)}
 .sw-labels{position:absolute;inset:0;pointer-events:none}
-.sw-label-text{position:absolute;font-weight:700;white-space:nowrap;max-width:130px;overflow:hidden;text-overflow:ellipsis;text-align:center;pointer-events:none}
+.sw-label-text{position:absolute;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center;pointer-events:none}
 .sw-hub{position:absolute;left:50%;top:50%;width:18%;height:18%;transform:translate(-50%,-50%);border-radius:50%;background:var(--card);border:3px solid var(--line);z-index:2;box-shadow:0 1px 3px rgba(0,0,0,.15)}
 .sw-empty-wheel{position:absolute;inset:0;border-radius:50%;background:var(--soft);border:2px dashed var(--soft-line);display:flex;align-items:center;justify-content:center;text-align:center;color:var(--muted);font-size:13px;padding:24px}
 .sw-empty-wheel[hidden]{display:none}
@@ -175,14 +175,13 @@ var SW_PRESETS = [
   {id: 10, cat: "Vocabulary games", title: "Word types", items: ["Noun", "Verb", "Adjective", "Adverb", "Preposition", "Phrasal verb", "Idiom", "Collocation"]}
 ];
 /* Blues and whites (the site's own palette) with a gold accent for pop,
-   rather than a rainbow. Each entry carries its own text colour: the pale
-   and gold slices need dark ink text, the deep blues need white. */
+   rather than a rainbow. Each entry carries its own text colour, alternating
+   dark/light so neighbouring slices always contrast: the pale slices need
+   dark ink text, the deep blues need white. */
 var SW_COLORS = [
   {bg: '#1e3a8a', text: '#ffffff'},
-  {bg: '#eab308', text: '#0f1b2d'},
-  {bg: '#2563eb', text: '#ffffff'},
   {bg: '#ffffff', text: '#0f1b2d'},
-  {bg: '#1d4ed8', text: '#ffffff'},
+  {bg: '#2563eb', text: '#ffffff'},
   {bg: '#93c5fd', text: '#0f1b2d'},
   {bg: '#0f1b2d', text: '#ffffff'},
   {bg: '#60a5fa', text: '#0f1b2d'}
@@ -377,19 +376,29 @@ function swRenderWheel() {
 
   var wrap = document.getElementById('swWheelWrap');
   var cx = wrap.clientWidth / 2, cy = wrap.clientHeight / 2;
-  var R = Math.min(cx, cy) * 0.62;
-  var fontSize = n > 16 ? 10 : (n > 10 ? 11.5 : 13.5);
+  var R = Math.min(cx, cy) * 0.58;
+  var hubR = Math.min(cx, cy) * 0.09;
+  var fontSize = n > 16 ? 9.5 : (n > 10 ? 11 : 13);
+  /* Text runs RADIALLY (along the spoke), not tangentially (across it) — a
+     tangential label's length eats into neighbouring slices at the same
+     radius, which is what made long presets like "Icebreaker topics"
+     unreadable. Radial length only competes with the hub and the rim, so
+     max-width is capped by whichever of those is tighter. */
+  var maxWidthPx = Math.max(46, Math.min(R - hubR, cx - R) * 1.85 - 8);
 
   labels.innerHTML = entries.map(function(e, i) {
     var center = (i + 0.5) * sliceAngle;
     var rad = center * Math.PI / 180;
     var x = cx + Math.sin(rad) * R;
     var y = cy - Math.cos(rad) * R;
+    var rot = center - 90;
+    if (center > 180 && center < 360) rot += 180;
     var swatch = SW_COLORS[i % SW_COLORS.length];
     var shadow = swatch.text === '#ffffff' ? '0 1px 2px rgba(0,0,0,.4)' : '0 1px 2px rgba(255,255,255,.5)';
     return '<span class="sw-label-text" style="left:' + x.toFixed(1) + 'px;top:' + y.toFixed(1) + 'px;' +
-      'font-size:' + fontSize + 'px;color:' + swatch.text + ';text-shadow:' + shadow + ';' +
-      'transform:translate(-50%,-50%) rotate(' + center.toFixed(2) + 'deg)">' +
+      'font-size:' + fontSize + 'px;max-width:' + maxWidthPx.toFixed(0) + 'px;' +
+      'color:' + swatch.text + ';text-shadow:' + shadow + ';' +
+      'transform:translate(-50%,-50%) rotate(' + rot.toFixed(2) + 'deg)">' +
       swEsc(e.text) + '</span>';
   }).join('');
 }
