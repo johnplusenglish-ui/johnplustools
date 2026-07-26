@@ -366,8 +366,17 @@ function swRenderWheel() {
   spinBtn.disabled = swSpinning;
 
   var sliceAngle = 360 / n;
+  var paletteLen = SW_COLORS.length;
+  var colorIdx = entries.map(function(e, i) { return i % paletteLen; });
+  /* The wheel wraps: slice n-1 borders slice 0 across the top. Removing a
+     winner reshuffles every index below it, and whenever the new count
+     lands the palette cycle back on colour 0 (n % paletteLen === 1), that
+     seam shows two same-coloured slices touching. Nudge the last one. */
+  if (n > 1 && colorIdx[n - 1] === colorIdx[0]) {
+    colorIdx[n - 1] = (colorIdx[n - 1] + 1) % paletteLen;
+  }
   var stops = entries.map(function(e, i) {
-    var color = SW_COLORS[i % SW_COLORS.length].bg;
+    var color = SW_COLORS[colorIdx[i]].bg;
     return color + ' ' + (i * sliceAngle).toFixed(3) + 'deg ' + ((i + 1) * sliceAngle).toFixed(3) + 'deg';
   });
   wheel.style.background = 'conic-gradient(from 0deg, ' + stops.join(', ') + ')';
@@ -391,7 +400,7 @@ function swRenderWheel() {
     var y = cy - Math.cos(rad) * R;
     var rot = center - 90;
     if (center > 180 && center < 360) rot += 180;
-    var swatch = SW_COLORS[i % SW_COLORS.length];
+    var swatch = SW_COLORS[colorIdx[i]];
     var shadow = swatch.text === '#ffffff' ? '0 1px 2px rgba(0,0,0,.4)' : '0 1px 2px rgba(255,255,255,.5)';
     return '<span class="sw-label-text" style="left:' + x.toFixed(1) + 'px;top:' + y.toFixed(1) + 'px;' +
       'font-size:' + fontSize + 'px;max-width:' + maxWidthPx.toFixed(0) + 'px;' +
