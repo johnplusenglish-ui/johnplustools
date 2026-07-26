@@ -227,6 +227,50 @@ button.st-brand[aria-expanded="true"] .brand-chev{transform:rotate(180deg)}
 .app.side-collapsed .jpt-side-handle svg{transform:rotate(180deg)}
 @media (max-width:900px){.jpt-side-handle{display:none}}
 @media print{.jpt-side-handle{display:none!important}}
+
+/* Floating timer: a small permanent hourglass, bottom-right, on every tool
+   page. Independent of any tool's own inline timer: this one survives
+   navigation between tools (it's driven off a stored end-timestamp, not a
+   per-page countdown) so a teacher can start it on one tool and check it
+   from another. z-index sits above every present-mode overlay on the site
+   (the highest of those is 302) so it stays usable mid-presentation. */
+.jft-wrap{position:fixed;right:20px;bottom:20px;z-index:999;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.jft-btn{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 14px 0 0;
+  border-radius:999px;border:1px solid var(--soft-line);background:var(--card);color:var(--ink);
+  box-shadow:0 8px 24px -10px rgba(15,27,45,.35);cursor:pointer;transition:border-color .12s;font-family:inherit}
+.jft-btn:hover{border-color:var(--accent)}
+.jft-icon{width:44px;height:44px;border-radius:999px;background:var(--soft);color:var(--accent);
+  display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.jft-icon svg{width:20px;height:20px}
+.jft-live{font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.02em;display:none;padding-right:2px}
+.jft-wrap.running .jft-live{display:inline}
+.jft-wrap.running .jft-icon{animation:jftPulse 1.6s ease-in-out infinite;color:var(--accent)}
+.jft-wrap.warn .jft-live,.jft-wrap.warn .jft-icon{color:#c2740c}
+.jft-wrap.over .jft-live,.jft-wrap.over .jft-icon{color:#c14343}
+@keyframes jftPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.jft-panel{width:220px;background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:14px;box-shadow:0 20px 44px -20px rgba(15,27,45,.4);display:none}
+.jft-wrap.open .jft-panel{display:block}
+.jft-panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.jft-panel-title{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.jft-panel-close{width:22px;height:22px;border-radius:999px;border:none;background:transparent;
+  color:var(--muted);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;line-height:1}
+.jft-panel-close:hover{background:var(--soft);color:var(--accent)}
+.jft-controls{display:flex;align-items:center;justify-content:center;gap:2px;border:1px solid var(--soft-line);
+  border-radius:999px;padding:3px 4px 3px 14px}
+.jft-in{font-family:inherit;font-size:15px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.04em;
+  width:64px;text-align:center;background:transparent;border:none;outline:none;color:var(--ink)}
+.jft-controls button{width:30px;height:30px;border-radius:999px;border:none;background:transparent;color:var(--muted);
+  display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:background .12s,color .12s}
+.jft-controls button svg{width:15px;height:15px}
+.jft-controls button:hover{background:var(--soft);color:var(--accent)}
+.jft-bar{height:4px;border-radius:999px;background:var(--line);overflow:hidden;margin-top:10px}
+.jft-bar span{display:block;height:100%;width:100%;background:var(--accent);border-radius:999px;transition:width .95s linear,background .3s}
+.jft-wrap.warn .jft-bar span{background:#c2740c}
+.jft-wrap.over .jft-bar span{background:#c14343;animation:jftOverPulse 1.1s ease-in-out infinite}
+@keyframes jftOverPulse{0%,100%{opacity:1}50%{opacity:.55}}
+@media (max-width:700px){.jft-wrap{right:14px;bottom:14px}.jft-panel{width:190px}}
+@media print{.jft-wrap{display:none!important}}
 /* /jpt:chrome */
 </style>
 </head>
@@ -559,5 +603,99 @@ rpBuildSidebar();
 })();
 </script>
 <!-- /jpt:timerjs -->
+<!-- jpt:floattimer -->
+<script>
+(function () {
+  var KEY = 'jpt_ftimer';
+  var st = {total: 300, remaining: 300, running: false, endAt: null, open: false};
+  try {
+    var raw = localStorage.getItem(KEY);
+    if (raw) { var s = JSON.parse(raw); if (s && typeof s.total === 'number') st = s; }
+  } catch(e){}
+
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(st)); } catch(e){} }
+  function fmt(s){ var n=s<0; s=Math.abs(s);
+    return (n?'-':'')+String(Math.floor(s/60)).padStart(2,'0')+':'+String(Math.floor(s%60)).padStart(2,'0'); }
+  function parse(str){ str=String(str).trim().replace(/\s*min(ute)?s?$/i,''); if(!str) return null; var t;
+    if(str.indexOf(':')>=0){ var pp=str.split(':'); var m=parseInt(pp[0],10)||0; var sc=parseInt(pp[1],10)||0;
+      if(sc>59) return null; t=m*60+sc; }
+    else { var mn=parseFloat(str); if(!isFinite(mn)) return null; t=Math.round(mn*60); }
+    if(!isFinite(t)||t<=0) return null; return Math.min(t, 99*60+59); }
+  function currentRemaining(){ return st.running ? Math.round((st.endAt - Date.now())/1000) : st.remaining; }
+
+  var HOURGLASS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
+    + 'stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h14L12 12 5 3M5 21h14L12 12 5 21"/></svg>';
+  var PLAY = '<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="7 4 20 12 7 20 7 4"/></svg>';
+  var PAUSE = '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4.5" width="4" height="15" rx="1"/>'
+    + '<rect x="14" y="4.5" width="4" height="15" rx="1"/></svg>';
+  var RESET = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" '
+    + 'stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>';
+
+  var wrap = document.createElement('div');
+  wrap.className = 'jft-wrap';
+  wrap.innerHTML =
+    '<div class="jft-panel">' +
+      '<div class="jft-panel-head"><span class="jft-panel-title">Timer</span>' +
+        '<button class="jft-panel-close" type="button" title="Hide" aria-label="Hide timer panel">&times;</button></div>' +
+      '<div class="jft-controls">' +
+        '<input class="jft-in" type="text" inputmode="numeric" aria-label="Timer length" ' +
+          'title="Type a length (5, or 5:30) and press Enter to start">' +
+        '<button class="jft-play" type="button" title="Start / pause" aria-label="Start or pause">' + PLAY + '</button>' +
+        '<button class="jft-reset" type="button" title="Reset" aria-label="Reset timer">' + RESET + '</button>' +
+      '</div>' +
+      '<div class="jft-bar"><span></span></div>' +
+    '</div>' +
+    '<button class="jft-btn" type="button" title="Timer" aria-label="Timer">' +
+      '<span class="jft-icon">' + HOURGLASS + '</span><span class="jft-live"></span>' +
+    '</button>';
+  document.body.appendChild(wrap);
+
+  var input = wrap.querySelector('.jft-in'), live = wrap.querySelector('.jft-live');
+  var barFill = wrap.querySelector('.jft-bar span'), playBtn = wrap.querySelector('.jft-play');
+  var btn = wrap.querySelector('.jft-btn');
+  var iv = null;
+
+  function paint(){
+    var r = currentRemaining(), txt = fmt(r);
+    live.textContent = txt;
+    if (document.activeElement !== input) input.value = txt;
+    var warn = r <= 60 && r > 0, over = r <= 0;
+    wrap.classList.toggle('running', st.running);
+    wrap.classList.toggle('warn', warn);
+    wrap.classList.toggle('over', over);
+    barFill.style.width = (over ? 100 : Math.max(0, Math.min(1, r / st.total)) * 100) + '%';
+    playBtn.innerHTML = st.running ? PAUSE : PLAY;
+  }
+  function startTicking(){ clearInterval(iv); iv = setInterval(paint, 1000); }
+  function stopTicking(){ clearInterval(iv); iv = null; }
+  function applyOpen(){ wrap.classList.toggle('open', st.open); }
+  function toggle(){
+    if (st.running) { st.remaining = currentRemaining(); st.running = false; st.endAt = null; stopTicking(); }
+    else { st.endAt = Date.now() + currentRemaining() * 1000; st.running = true; startTicking(); }
+    save(); paint();
+  }
+
+  btn.addEventListener('click', function(){ st.open = !st.open; save(); applyOpen(); });
+  wrap.querySelector('.jft-panel-close').addEventListener('click', function(){ st.open = false; save(); applyOpen(); });
+  input.addEventListener('focus', function(){ if (st.running) toggle(); requestAnimationFrame(function(){ input.select(); }); });
+  input.addEventListener('keydown', function(e){
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      var v = parse(input.value);
+      if (v !== null) { st.total = v; st.remaining = v; st.running = false; st.endAt = null; save(); toggle(); }
+      input.blur();
+    } else if (e.key === 'Escape') { e.preventDefault(); paint(); input.blur(); }
+  });
+  playBtn.addEventListener('click', toggle);
+  wrap.querySelector('.jft-reset').addEventListener('click', function(){
+    st.running = false; st.endAt = null; st.remaining = st.total; stopTicking(); save(); paint();
+  });
+
+  applyOpen();
+  paint();
+  if (st.running) startTicking();
+})();
+</script>
+<!-- /jpt:floattimer -->
 </body>
 </html>
