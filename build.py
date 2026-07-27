@@ -2288,6 +2288,12 @@ BUILDERS = {'debate-builder': build_debate, 'speaking-topics': build_speaking,
 
 
 def home_page():
+    snapshot = '\n'.join(
+        f'''        <a class="snap-tile" href="#{t['slug']}">
+          <span class="snap-icon">{t['icon']}</span>
+          <span class="snap-name">{t['name']}</span>
+        </a>''' for t in TOOLS)
+
     cards = []
     for t in TOOLS:
         feats = '\n'.join(
@@ -2295,7 +2301,7 @@ def home_page():
               <span class="fi">{ic}</span>
               <div><h3>{h}</h3><p>{p}</p></div>
             </div>''' for ic, h, p in t['features'])
-        cards.append(f'''      <section class="panel">
+        cards.append(f'''      <section class="panel" id="{t['slug']}">
         <div class="panel-head">
           <span class="panel-icon">{t['icon']}</span>
           <div>
@@ -2359,8 +2365,28 @@ a.btn{{text-decoration:none}}
 .btn.big svg{{width:15px;height:15px}}
 .count{{font-size:11px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;
   font-weight:700;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line)}}
+/* Quick-glance snapshot: a jump-link tile per tool, so the whole toolset
+   is visible at once above the full write-up for each one. Landing a jump
+   flush under the sticky topbar looked cramped, hence scroll-margin-top
+   on .panel rather than on the tile or the target id alone. Smooth
+   scrolling is done in JS (see the snap-tile click handler below), not
+   with html{{scroll-behavior:smooth}}: that CSS property suppresses
+   Chromium's native scroll-to-fragment on a direct #slug page load, so a
+   shared/bookmarked link into a tool's panel would silently fail to jump. */
+.snapshot{{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:10px;margin:22px 0 30px}}
+.snap-tile{{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:13px;
+  border:1px solid var(--line);background:var(--card);text-decoration:none;color:inherit;
+  box-shadow:var(--shadow-card);transition:border-color .15s,transform .15s}}
+.snap-tile:hover{{border-color:var(--accent);transform:translateY(-2px)}}
+.snap-tile:focus-visible{{outline:2px solid var(--accent);outline-offset:2px}}
+.snap-icon{{width:34px;height:34px;border-radius:10px;flex-shrink:0;background:var(--soft);
+  border:1px solid var(--soft-line);color:var(--accent);display:grid;place-items:center}}
+.snap-icon svg{{width:18px;height:18px}}
+.snap-name{{font-size:.86rem;font-weight:700;letter-spacing:-.01em;line-height:1.25}}
 .panel{{background:var(--card);border:1px solid var(--line);border-radius:18px;
-  padding:30px 32px;box-shadow:var(--shadow-card);margin-bottom:20px}}
+  padding:30px 32px;box-shadow:var(--shadow-card);margin-bottom:20px;
+  scroll-margin-top:calc(var(--jpt-bar) + 16px)}}
 .panel-head{{display:flex;align-items:flex-start;gap:16px;margin-bottom:20px}}
 .panel-icon{{width:48px;height:48px;border-radius:13px;flex-shrink:0;background:var(--soft);
   border:1px solid var(--soft-line);color:var(--accent);display:grid;place-items:center}}
@@ -2423,6 +2449,10 @@ a.btn{{text-decoration:none}}
         </div>
       </div>
 
+      <div class="snapshot">
+{snapshot}
+      </div>
+
       <div class="count">{count}</div>
 
 {cards}
@@ -2432,6 +2462,30 @@ a.btn{{text-decoration:none}}
 </div>
 
 {MENU_JS}{THEME_JS}
+<script>
+/* Scroll to a panel by hand rather than relying on the browser's native
+   scroll-to-fragment: html{{scroll-behavior:smooth}} actively breaks that
+   native behaviour on a direct #slug link (see the CSS comment above
+   .snapshot), and even without it, the native jump does not reliably
+   honour .panel's scroll-margin-top: it landed the heading half under
+   the sticky topbar when tested. scrollIntoView does honour it, so both
+   a snapshot-tile click and a direct #slug link go through it. */
+function jumpToPanel(id, smooth) {{
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.scrollIntoView({{behavior: smooth ? 'smooth' : 'auto', block: 'start'}});
+}}
+document.querySelectorAll('.snap-tile').forEach(function (a) {{
+  a.addEventListener('click', function (e) {{
+    var id = a.getAttribute('href').slice(1);
+    if (!document.getElementById(id)) return;
+    e.preventDefault();
+    jumpToPanel(id, true);
+    history.pushState(null, '', '#' + id);
+  }});
+}});
+if (location.hash) jumpToPanel(location.hash.slice(1), false);
+</script>
 </body>
 </html>
 '''

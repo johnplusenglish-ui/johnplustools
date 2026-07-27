@@ -194,8 +194,28 @@ a.btn{text-decoration:none}
 .btn.big svg{width:15px;height:15px}
 .count{font-size:11px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;
   font-weight:700;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+/* Quick-glance snapshot: a jump-link tile per tool, so the whole toolset
+   is visible at once above the full write-up for each one. Landing a jump
+   flush under the sticky topbar looked cramped, hence scroll-margin-top
+   on .panel rather than on the tile or the target id alone. Smooth
+   scrolling is done in JS (see the snap-tile click handler below), not
+   with html{scroll-behavior:smooth}: that CSS property suppresses
+   Chromium's native scroll-to-fragment on a direct #slug page load, so a
+   shared/bookmarked link into a tool's panel would silently fail to jump. */
+.snapshot{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:10px;margin:22px 0 30px}
+.snap-tile{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:13px;
+  border:1px solid var(--line);background:var(--card);text-decoration:none;color:inherit;
+  box-shadow:var(--shadow-card);transition:border-color .15s,transform .15s}
+.snap-tile:hover{border-color:var(--accent);transform:translateY(-2px)}
+.snap-tile:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.snap-icon{width:34px;height:34px;border-radius:10px;flex-shrink:0;background:var(--soft);
+  border:1px solid var(--soft-line);color:var(--accent);display:grid;place-items:center}
+.snap-icon svg{width:18px;height:18px}
+.snap-name{font-size:.86rem;font-weight:700;letter-spacing:-.01em;line-height:1.25}
 .panel{background:var(--card);border:1px solid var(--line);border-radius:18px;
-  padding:30px 32px;box-shadow:var(--shadow-card);margin-bottom:20px}
+  padding:30px 32px;box-shadow:var(--shadow-card);margin-bottom:20px;
+  scroll-margin-top:calc(var(--jpt-bar) + 16px)}
 .panel-head{display:flex;align-items:flex-start;gap:16px;margin-bottom:20px}
 .panel-icon{width:48px;height:48px;border-radius:13px;flex-shrink:0;background:var(--soft);
   border:1px solid var(--soft-line);color:var(--accent);display:grid;place-items:center}
@@ -290,9 +310,36 @@ a.btn{text-decoration:none}
         </div>
       </div>
 
+      <div class="snapshot">
+        <a class="snap-tile" href="#debate-builder">
+          <span class="snap-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M14.6 3H4.3A1.8 1.8 0 0 0 2.5 4.8v5.9a1.8 1.8 0 0 0 1.8 1.8h.8v3.1l3.3-3.1h6.2a1.8 1.8 0 0 0 1.8-1.8V4.8A1.8 1.8 0 0 0 14.6 3z"/><path d="M20.2 9.6h-6.1A1.6 1.6 0 0 0 12.5 11.2v3.6a1.6 1.6 0 0 0 1.6 1.6h3.6l3 2.7v-2.7h.5a1.6 1.6 0 0 0 1.3-1.6v-3.6a1.6 1.6 0 0 0-1.6-1.6z" fill="currentColor" stroke="currentColor"/></svg></span>
+          <span class="snap-name">Debate Builder</span>
+        </a>
+        <a class="snap-tile" href="#gap-fill">
+          <span class="snap-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="10" y2="12"/><line x1="14" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="16" y2="17"/></svg></span>
+          <span class="snap-name">Gap-fill</span>
+        </a>
+        <a class="snap-tile" href="#vocab-matching">
+          <span class="snap-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><circle cx="4.5" cy="6" r="1.7"/><circle cx="4.5" cy="12" r="1.7"/><circle cx="4.5" cy="18" r="1.7"/><circle cx="19.5" cy="6" r="1.7"/><circle cx="19.5" cy="12" r="1.7"/><circle cx="19.5" cy="18" r="1.7"/><line x1="6.5" y1="6" x2="17.5" y2="12"/><line x1="6.5" y1="12" x2="17.5" y2="18"/><line x1="6.5" y1="18" x2="17.5" y2="6"/></svg></span>
+          <span class="snap-name">Vocab Matching</span>
+        </a>
+        <a class="snap-tile" href="#role-plays">
+          <span class="snap-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+          <span class="snap-name">Role Plays</span>
+        </a>
+        <a class="snap-tile" href="#speaking-topics">
+          <span class="snap-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M21 11.5a8.5 8.5 0 0 1-12.2 7.6L3 21l1.9-5.8A8.5 8.5 0 1 1 21 11.5z"/><circle cx="8.2" cy="11.5" r="1.05" fill="currentColor" stroke="none"/><circle cx="12" cy="11.5" r="1.05" fill="currentColor" stroke="none"/><circle cx="15.8" cy="11.5" r="1.05" fill="currentColor" stroke="none"/></svg></span>
+          <span class="snap-name">Speaking Topics</span>
+        </a>
+        <a class="snap-tile" href="#spin-wheel">
+          <span class="snap-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><circle cx="12" cy="13" r="8.2"/><line x1="12" y1="13" x2="12" y2="5"/><line x1="12" y1="13" x2="18.6" y2="16.9"/><line x1="12" y1="13" x2="5.4" y2="16.9"/><circle cx="12" cy="13" r="1.5" fill="currentColor" stroke="none"/><path d="M12 1.8 L9.8 5.2 L14.2 5.2 Z" fill="currentColor" stroke="none"/></svg></span>
+          <span class="snap-name">Spin the Wheel</span>
+        </a>
+      </div>
+
       <div class="count">6 tools</div>
 
-      <section class="panel">
+      <section class="panel" id="debate-builder">
         <div class="panel-head">
           <span class="panel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M14.6 3H4.3A1.8 1.8 0 0 0 2.5 4.8v5.9a1.8 1.8 0 0 0 1.8 1.8h.8v3.1l3.3-3.1h6.2a1.8 1.8 0 0 0 1.8-1.8V4.8A1.8 1.8 0 0 0 14.6 3z"/><path d="M20.2 9.6h-6.1A1.6 1.6 0 0 0 12.5 11.2v3.6a1.6 1.6 0 0 0 1.6 1.6h3.6l3 2.7v-2.7h.5a1.6 1.6 0 0 0 1.3-1.6v-3.6a1.6 1.6 0 0 0-1.6-1.6z" fill="currentColor" stroke="currentColor"/></svg></span>
           <div>
@@ -328,7 +375,7 @@ a.btn{text-decoration:none}
         </div>
       </section>
 
-      <section class="panel">
+      <section class="panel" id="gap-fill">
         <div class="panel-head">
           <span class="panel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="10" y2="12"/><line x1="14" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="16" y2="17"/></svg></span>
           <div>
@@ -364,7 +411,7 @@ a.btn{text-decoration:none}
         </div>
       </section>
 
-      <section class="panel">
+      <section class="panel" id="vocab-matching">
         <div class="panel-head">
           <span class="panel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><circle cx="4.5" cy="6" r="1.7"/><circle cx="4.5" cy="12" r="1.7"/><circle cx="4.5" cy="18" r="1.7"/><circle cx="19.5" cy="6" r="1.7"/><circle cx="19.5" cy="12" r="1.7"/><circle cx="19.5" cy="18" r="1.7"/><line x1="6.5" y1="6" x2="17.5" y2="12"/><line x1="6.5" y1="12" x2="17.5" y2="18"/><line x1="6.5" y1="18" x2="17.5" y2="6"/></svg></span>
           <div>
@@ -400,7 +447,7 @@ a.btn{text-decoration:none}
         </div>
       </section>
 
-      <section class="panel">
+      <section class="panel" id="role-plays">
         <div class="panel-head">
           <span class="panel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
           <div>
@@ -436,7 +483,7 @@ a.btn{text-decoration:none}
         </div>
       </section>
 
-      <section class="panel">
+      <section class="panel" id="speaking-topics">
         <div class="panel-head">
           <span class="panel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M21 11.5a8.5 8.5 0 0 1-12.2 7.6L3 21l1.9-5.8A8.5 8.5 0 1 1 21 11.5z"/><circle cx="8.2" cy="11.5" r="1.05" fill="currentColor" stroke="none"/><circle cx="12" cy="11.5" r="1.05" fill="currentColor" stroke="none"/><circle cx="15.8" cy="11.5" r="1.05" fill="currentColor" stroke="none"/></svg></span>
           <div>
@@ -472,7 +519,7 @@ a.btn{text-decoration:none}
         </div>
       </section>
 
-      <section class="panel">
+      <section class="panel" id="spin-wheel">
         <div class="panel-head">
           <span class="panel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><circle cx="12" cy="13" r="8.2"/><line x1="12" y1="13" x2="12" y2="5"/><line x1="12" y1="13" x2="18.6" y2="16.9"/><line x1="12" y1="13" x2="5.4" y2="16.9"/><circle cx="12" cy="13" r="1.5" fill="currentColor" stroke="none"/><path d="M12 1.8 L9.8 5.2 L14.2 5.2 Z" fill="currentColor" stroke="none"/></svg></span>
           <div>
@@ -560,5 +607,29 @@ a.btn{text-decoration:none}
 </script>
 <!-- /jpt:themejs -->
 
+<script>
+/* Scroll to a panel by hand rather than relying on the browser's native
+   scroll-to-fragment: html{scroll-behavior:smooth} actively breaks that
+   native behaviour on a direct #slug link (see the CSS comment above
+   .snapshot), and even without it, the native jump does not reliably
+   honour .panel's scroll-margin-top: it landed the heading half under
+   the sticky topbar when tested. scrollIntoView does honour it, so both
+   a snapshot-tile click and a direct #slug link go through it. */
+function jumpToPanel(id, smooth) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.scrollIntoView({behavior: smooth ? 'smooth' : 'auto', block: 'start'});
+}
+document.querySelectorAll('.snap-tile').forEach(function (a) {
+  a.addEventListener('click', function (e) {
+    var id = a.getAttribute('href').slice(1);
+    if (!document.getElementById(id)) return;
+    e.preventDefault();
+    jumpToPanel(id, true);
+    history.pushState(null, '', '#' + id);
+  });
+});
+if (location.hash) jumpToPanel(location.hash.slice(1), false);
+</script>
 </body>
 </html>
