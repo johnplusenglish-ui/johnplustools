@@ -2364,7 +2364,11 @@ a.btn{{text-decoration:none}}
 .btn.big{{font-size:14px;padding:11px 20px}}
 .btn.big svg{{width:15px;height:15px}}
 .count{{font-size:11px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;
-  font-weight:700;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line)}}
+  font-weight:700;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--line)}}
+/* Tighter hero on the home page only: redeclared after {{CHROME_CSS}} in this
+   same stylesheet, so it wins the cascade without touching the shared rule
+   every tool page's own tool-head badge also uses. */
+.tool-head{{margin-bottom:10px}}
 /* Quick-glance snapshot: a jump-link tile per tool, so the whole toolset
    is visible at once above the full write-up for each one. Landing a jump
    flush under the sticky topbar looked cramped, hence scroll-margin-top
@@ -2373,7 +2377,7 @@ a.btn{{text-decoration:none}}
    with html{{scroll-behavior:smooth}}: that CSS property suppresses
    Chromium's native scroll-to-fragment on a direct #slug page load, so a
    shared/bookmarked link into a tool's panel would silently fail to jump. */
-.snapshot{{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 28px}}
+.snapshot{{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 18px}}
 .snap-tile{{display:inline-flex;align-items:center;gap:7px;padding:6px 12px 6px 6px;
   border-radius:999px;border:1px solid var(--line);background:var(--card);
   text-decoration:none;color:inherit;transition:border-color .15s,background .15s}}
@@ -2383,47 +2387,47 @@ a.btn{{text-decoration:none}}
   border:1px solid var(--soft-line);color:var(--accent);display:grid;place-items:center}}
 .snap-icon svg{{width:13px;height:13px}}
 .snap-name{{font-size:.78rem;font-weight:700;letter-spacing:-.01em;white-space:nowrap}}
-.panel{{background:var(--card);border:1px solid var(--line);border-radius:18px;
-  padding:30px 32px;box-shadow:var(--shadow-card);margin-bottom:20px;
+.panel{{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:18px 20px;box-shadow:var(--shadow-card);margin-bottom:12px;
   scroll-margin-top:calc(var(--jpt-bar) + 16px)}}
-.panel-head{{display:flex;align-items:flex-start;gap:16px;margin-bottom:20px}}
-.panel-icon{{width:48px;height:48px;border-radius:13px;flex-shrink:0;background:var(--soft);
+.panel-head{{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px}}
+.panel-icon{{width:38px;height:38px;border-radius:11px;flex-shrink:0;background:var(--soft);
   border:1px solid var(--soft-line);color:var(--accent);display:grid;place-items:center}}
-.panel-icon svg{{width:24px;height:24px}}
-.panel h2{{font-size:1.5rem;font-weight:700;letter-spacing:-.025em;line-height:1.15;margin:0}}
-.panel .tagline{{font-size:.93rem;color:var(--muted);margin-top:4px}}
-.panel .lede{{font-size:1rem;color:var(--ink);max-width:62ch;margin-bottom:24px;line-height:1.65}}
+.panel-icon svg{{width:19px;height:19px}}
+.panel h2{{font-size:1.2rem;font-weight:700;letter-spacing:-.02em;line-height:1.15;margin:0}}
+.panel .tagline{{font-size:.85rem;color:var(--muted);margin-top:2px}}
+.panel .lede{{font-size:.9rem;color:var(--ink);max-width:64ch;margin-bottom:14px;line-height:1.5}}
 .split{{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.08fr);
-  gap:32px;align-items:start;margin-bottom:28px}}
-.features{{display:grid;gap:15px;grid-template-columns:1fr}}
-.feature{{display:flex;gap:11px;align-items:flex-start}}
+  gap:20px;align-items:start;margin-bottom:16px}}
+.features{{display:grid;gap:9px;grid-template-columns:1fr}}
+.feature{{display:flex;gap:9px;align-items:flex-start}}
 .feature .fi{{color:var(--accent);flex-shrink:0;margin-top:2px;display:inline-flex}}
-.feature .fi svg{{width:17px;height:17px}}
-.feature h3{{font-size:.88rem;font-weight:700;letter-spacing:-.01em;margin-bottom:1px}}
-.feature p{{font-size:.84rem;color:var(--muted);line-height:1.5}}
+.feature .fi svg{{width:15px;height:15px}}
+.feature h3{{font-size:.82rem;font-weight:700;letter-spacing:-.01em;margin-bottom:1px}}
+.feature p{{font-size:.78rem;color:var(--muted);line-height:1.4}}
 .preview{{display:block;text-decoration:none;color:inherit;border:1px solid var(--line);
-  border-radius:12px;overflow:hidden;background:var(--bg);box-shadow:var(--shadow-card);
+  border-radius:10px;overflow:hidden;background:var(--bg);box-shadow:var(--shadow-card);
   transition:border-color .16s,transform .16s}}
 .preview:hover{{border-color:var(--accent);transform:translateY(-2px)}}
 .preview:focus-visible{{outline:2px solid var(--accent);outline-offset:3px}}
-.pv-bar{{display:flex;align-items:center;gap:5px;padding:0 10px;height:26px;
+.pv-bar{{display:flex;align-items:center;gap:5px;padding:0 10px;height:22px;
   background:var(--card);border-bottom:1px solid var(--line)}}
-.pv-bar i{{width:7px;height:7px;border-radius:999px;background:var(--line);flex-shrink:0}}
+.pv-bar i{{width:6px;height:6px;border-radius:999px;background:var(--line);flex-shrink:0}}
 [data-theme="dark"] .pv-bar i{{background:var(--soft-line)}}
 /* Background image, not <img>, so only the theme in use is downloaded. */
 .pv-shot{{display:block;aspect-ratio:1100/515;background-image:var(--shot);
   background-size:cover;background-position:top center;background-repeat:no-repeat}}
 [data-theme="dark"] .pv-shot{{background-image:var(--shot-dark)}}
-.pv-cap{{display:flex;align-items:center;gap:6px;padding:9px 12px;font-size:12px;
+.pv-cap{{display:flex;align-items:center;gap:6px;padding:7px 10px;font-size:11px;
   font-weight:600;color:var(--muted);background:var(--card);border-top:1px solid var(--line)}}
-.pv-cap svg{{width:13px;height:13px;flex-shrink:0}}
+.pv-cap svg{{width:12px;height:12px;flex-shrink:0}}
 .preview:hover .pv-cap{{color:var(--accent)}}
 .panel-actions{{display:flex;gap:10px;flex-wrap:wrap;align-items:center;
-  padding-top:22px;border-top:1px solid var(--line)}}
-.panel-actions .note{{font-size:12.5px;color:var(--muted);font-weight:500}}
+  padding-top:12px;border-top:1px solid var(--line)}}
+.panel-actions .note{{font-size:11.5px;color:var(--muted);font-weight:500}}
 @media (max-width:900px){{
-  .split{{grid-template-columns:1fr;gap:24px}}
-  .panel{{padding:22px 18px;border-radius:16px}}
+  .split{{grid-template-columns:1fr;gap:14px}}
+  .panel{{padding:16px 14px;border-radius:12px}}
   .main-inner{{padding:16px 14px 34px}}
 }}
 </style>
