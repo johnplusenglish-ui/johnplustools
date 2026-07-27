@@ -202,17 +202,16 @@ a.btn{text-decoration:none}
    with html{scroll-behavior:smooth}: that CSS property suppresses
    Chromium's native scroll-to-fragment on a direct #slug page load, so a
    shared/bookmarked link into a tool's panel would silently fail to jump. */
-.snapshot{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-  gap:10px;margin:22px 0 30px}
-.snap-tile{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:13px;
-  border:1px solid var(--line);background:var(--card);text-decoration:none;color:inherit;
-  box-shadow:var(--shadow-card);transition:border-color .15s,transform .15s}
-.snap-tile:hover{border-color:var(--accent);transform:translateY(-2px)}
+.snapshot{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 28px}
+.snap-tile{display:inline-flex;align-items:center;gap:7px;padding:6px 12px 6px 6px;
+  border-radius:999px;border:1px solid var(--line);background:var(--card);
+  text-decoration:none;color:inherit;transition:border-color .15s,background .15s}
+.snap-tile:hover{border-color:var(--accent);background:var(--soft)}
 .snap-tile:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.snap-icon{width:34px;height:34px;border-radius:10px;flex-shrink:0;background:var(--soft);
+.snap-icon{width:24px;height:24px;border-radius:8px;flex-shrink:0;background:var(--soft);
   border:1px solid var(--soft-line);color:var(--accent);display:grid;place-items:center}
-.snap-icon svg{width:18px;height:18px}
-.snap-name{font-size:.86rem;font-weight:700;letter-spacing:-.01em;line-height:1.25}
+.snap-icon svg{width:13px;height:13px}
+.snap-name{font-size:.78rem;font-weight:700;letter-spacing:-.01em;white-space:nowrap}
 .panel{background:var(--card);border:1px solid var(--line);border-radius:18px;
   padding:30px 32px;box-shadow:var(--shadow-card);margin-bottom:20px;
   scroll-margin-top:calc(var(--jpt-bar) + 16px)}
