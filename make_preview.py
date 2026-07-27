@@ -36,6 +36,7 @@ SEEDS = {
       d.question = 'Should schools ban AI tools, or teach students to use them well?';
       d.task     = 'Take a position, defend it for two minutes, then answer one objection.';
       d.bubbles  = ['banning it','the gap widens','assessment','thinking time'];
+      state.currentId = d.id;
       renderDebate();
       renderSidebar();
       if (!document.getElementById('debateCard')) throw new Error('no debate card');

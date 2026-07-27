@@ -189,25 +189,6 @@ select.lvl-select{
 }
 select.lvl-select:focus{border-color:var(--accent)}
 
-/* Timer */
-.timer{
-  display:inline-flex;align-items:center;gap:2px;padding:3px 4px 3px 12px;
-  border:1px solid var(--soft-line);border-radius:999px;background:var(--card);
-}
-.timer .tm{
-  font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;
-  letter-spacing:.04em;width:56px;text-align:center;padding:2px 0;
-  background:transparent;border-radius:8px;color:var(--ink);cursor:text;
-}
-.timer .tm:focus{background:var(--soft);color:var(--accent)}
-.timer.warn .tm{color:#c2740c}
-.timer.over .tm{color:var(--danger)}
-.timer button{
-  width:26px;height:26px;border-radius:999px;color:var(--muted);
-  display:inline-flex;align-items:center;justify-content:center;font-size:12px;
-}
-.timer button:hover{background:var(--soft);color:var(--accent)}
-
 /* ── Debate card: one neat 5:3 frame ────────────────────────────── */
 .debate-card{
   background:var(--card);border:1px solid var(--line);border-radius:22px;
@@ -353,9 +334,6 @@ select.lvl-select:focus{border-color:var(--accent)}
 .p-title{font-size:20px;font-weight:800;letter-spacing:-.01em;text-transform:uppercase;flex:1;min-width:0;
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .p-level{font-size:13px;font-weight:800;letter-spacing:.1em;color:var(--level-ink);background:var(--level);padding:4px 13px;border-radius:999px}
-.p-timer{font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.03em}
-.p-timer.warn{color:#c2740c}
-.p-timer.over{color:var(--danger)}
 /* Presentation mode shows the real debate card, moved into this stage and
    scaled up to fill the screen. One layout, so what you project is exactly
    what you edit and exactly what exports. */
@@ -410,23 +388,6 @@ select.lvl-select:focus{border-color:var(--accent)}
   color:var(--accent);white-space:nowrap;text-align:center;
 }
 .keys span{color:var(--muted)}
-
-/* The long bar: runs the full width of the page along the bottom edge of the
-   header. It's moved into the presentation header when you present, so it
-   sits in the same place in both modes. */
-.timer-bar{
-  position:absolute;left:0;right:0;bottom:0;height:6px;z-index:60;
-  pointer-events:none;opacity:0;transition:opacity .25s;
-  background:var(--line);
-}
-.timer-bar.on{opacity:1}
-.timer-bar span{
-  display:block;height:100%;width:100%;background:var(--level);
-  transition:width .95s linear,background .3s;
-}
-.timer-bar.warn span{background:#c2740c}
-.timer-bar.over span{background:var(--danger);animation:tmPulse 1.1s ease-in-out infinite}
-@keyframes tmPulse{0%,100%{opacity:1}50%{opacity:.35}}
 
 /* ── Save indicator ─────────────────────────────────────────────── */
 .save-indicator{
@@ -495,7 +456,6 @@ select.lvl-select:focus{border-color:var(--accent)}
     <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
     Present
   </button>
-  <div class="timer-bar" id="tmBar"><span id="tmBarFill"></span></div>
 </header>
 
 <div class="app" id="app">
@@ -526,14 +486,6 @@ select.lvl-select:focus{border-color:var(--accent)}
         <div class="status" id="status">Saved</div>
 
         <select class="lvl-select" id="lvlSelect" onchange="changeLevel(this.value)"></select>
-
-        <div class="timer" id="timerBox">
-          <input class="tm" id="tmInput" type="text" inputmode="numeric" value="05:00"
-                 aria-label="Timer length" title="Type a length (5, or 5:30) and press Enter to start"
-                 onfocus="timerFocus()" onkeydown="timerKey(event)" onblur="applyTimerInput()">
-          <button onclick="toggleTimer()" id="tmBtn" title="Start / pause (T)">▶</button>
-          <button onclick="resetTimer()" title="Reset">↺</button>
-        </div>
 
         <button class="btn tiny" onclick="saveToBank()" title="File this as a new debate in your bank">Save to bank</button>
         <button class="btn ghost tiny" onclick="exportPNG()" id="pngBtn">Export PNG</button>
@@ -569,13 +521,12 @@ select.lvl-select:focus{border-color:var(--accent)}
   <div class="p-top">
     <div class="p-level" id="pLevel">C2</div>
     <div class="p-title" id="pTitle"></div>
-    <div class="p-timer" id="pTimer">05:00</div>
     <button class="btn ghost tiny" onclick="togglePhrases()">Phrases</button>
     <button class="btn ghost tiny" onclick="exitPresent()">Exit</button>
   </div>
   <div class="p-stage" id="pStage"></div>
   <div class="p-hint">
-    <b>←</b> <b>→</b> step · <b>Space</b> timer · <b>B</b> hide phrases · <b>Esc</b> exit
+    <b>←</b> <b>→</b> step · <b>B</b> hide phrases · <b>Esc</b> exit
   </div>
 </div>
 
@@ -599,7 +550,6 @@ select.lvl-select:focus{border-color:var(--accent)}
     <div class="keys">
       <kbd>P</kbd><span>Presentation mode</span>
       <kbd>N</kbd><span>New debate</span>
-      <kbd>T</kbd><span>Start / pause the timer</span>
       <kbd>/</kbd><span>Search your debates</span>
       <kbd>D</kbd><span>Light / dark theme</span>
       <kbd>Esc</kbd><span>Close anything open</span>
@@ -610,9 +560,6 @@ select.lvl-select:focus{border-color:var(--accent)}
       Drag prompts to reorder, and drag phrases up and down the bank the same way.
       Click <b>✎</b> to edit a prompt, and double-click any phrase to rewrite it.
       Five prompts is the maximum, laid out three then two.<br><br>
-      Type a length straight into the timer (<b>5</b>, or <b>5:30</b>) and press Enter to start
-      it. A bar drains across the top of the screen as the time goes, amber under a minute and
-      red once you're over.<br><br>
       Edits save as you type. <b>Save to bank</b> files what's on screen as a new
       debate and puts the one you opened back the way it was, so you can use an
       existing debate as a template.
@@ -1667,97 +1614,6 @@ function buildPdf(jpegBinary, iw, ih, pageW, pageH, x, y, dw, dh) {
   return new Blob([bytes], {type:'application/pdf'});
 }
 
-/* ── Timer ──────────────────────────────────────────────────────────
-   One typable field: type 5, or 5:30, press Enter and it starts. The
-   remaining time drains a bar across the top of the screen.          */
-let tmTotal = 300, tmRemaining = 300, tmRunning = false, tmInterval = null;
-
-function fmt(s) {
-  const neg = s < 0;
-  s = Math.abs(s);
-  return (neg ? '-' : '') + String(Math.floor(s/60)).padStart(2,'0') + ':' + String(s%60).padStart(2,'0');
-}
-
-/* Accepts "5" (minutes), "5:30", "0:45", "2.5". Returns seconds, or null. */
-function parseTime(str) {
-  str = String(str).trim().replace(/\s*min(ute)?s?$/i, '');
-  if (!str) return null;
-  let total;
-  if (str.includes(':')) {
-    const [a, b] = str.split(':');
-    const mins = parseInt(a, 10) || 0;
-    const secs = parseInt(b, 10) || 0;
-    if (secs > 59) return null;
-    total = mins * 60 + secs;
-  } else {
-    const mins = parseFloat(str);
-    if (!isFinite(mins)) return null;
-    total = Math.round(mins * 60);
-  }
-  if (!isFinite(total) || total <= 0) return null;
-  return Math.min(total, 99 * 60 + 59);
-}
-
-function timerFocus() {
-  if (tmRunning) toggleTimer();           // pause while you retype
-  const el = document.getElementById('tmInput');
-  requestAnimationFrame(() => el.select());
-}
-
-function timerKey(e) {
-  if (e.key === 'Enter') {
-    e.preventDefault();
-    if (applyTimerInput() && !tmRunning) toggleTimer();   // typing it starts it
-    e.target.blur();
-  }
-  if (e.key === 'Escape') { e.preventDefault(); paintTimer(); e.target.blur(); }
-}
-
-function applyTimerInput() {
-  const el = document.getElementById('tmInput');
-  const v = parseTime(el.value);
-  if (v === null) { paintTimer(); return false; }   // unreadable, put it back
-  tmTotal = v;
-  tmRemaining = v;
-  paintTimer();
-  return true;
-}
-
-function paintTimer() {
-  const txt = fmt(tmRemaining);
-  const input = document.getElementById('tmInput');
-  if (document.activeElement !== input) input.value = txt;
-  document.getElementById('pTimer').textContent = txt;
-
-  const warn = tmRemaining <= 60 && tmRemaining > 0, over = tmRemaining <= 0;
-  const box = document.getElementById('timerBox'), pt = document.getElementById('pTimer');
-  box.classList.toggle('warn', warn); box.classList.toggle('over', over);
-  pt.classList.toggle('warn', warn);  pt.classList.toggle('over', over);
-  document.getElementById('tmBtn').textContent = tmRunning ? '❙❙' : '▶';
-
-  const bar = document.getElementById('tmBar');
-  bar.classList.toggle('on', tmRunning || tmRemaining < tmTotal || over);
-  bar.classList.toggle('warn', warn);
-  bar.classList.toggle('over', over);
-  // Once it runs out the bar fills red rather than vanishing to nothing.
-  document.getElementById('tmBarFill').style.width =
-    (over ? 100 : Math.max(0, Math.min(1, tmRemaining / tmTotal)) * 100) + '%';
-}
-
-function toggleTimer() {
-  tmRunning = !tmRunning;
-  clearInterval(tmInterval);
-  if (tmRunning) tmInterval = setInterval(() => { tmRemaining--; paintTimer(); }, 1000);
-  paintTimer();
-}
-
-function resetTimer() {
-  tmRemaining = tmTotal;
-  tmRunning = false;
-  clearInterval(tmInterval);
-  paintTimer();
-}
-
 /* ── Presentation mode ──────────────────────────────────────────────
    The real card is moved into the overlay and scaled up, so the projected
    layout IS the card layout by construction, with nothing to keep in sync. */
@@ -1794,12 +1650,10 @@ function enterPresent() {
   document.getElementById('pLevel').textContent = d.level;
   document.getElementById('pTitle').textContent = d.title;
   document.getElementById('pStage').appendChild(document.getElementById('debateCard'));
-  document.querySelector('.p-top').appendChild(document.getElementById('tmBar'));
   document.getElementById('present').hidden = false;
   document.body.classList.add('presenting');
   setCardEditable(false);
   paintSpot();
-  paintTimer();
   fitPresentCard();
   if (document.documentElement.requestFullscreen) {
     document.documentElement.requestFullscreen().then(fitPresentCard).catch(() => {});
@@ -1811,7 +1665,6 @@ function exitPresent() {
   const card = document.getElementById('debateCard');
   card.style.transform = '';
   document.getElementById('cardHome').appendChild(card);
-  document.querySelector('.stopbar').appendChild(document.getElementById('tmBar'));
   document.getElementById('present').hidden = true;
   document.getElementById('present').classList.remove('no-phrases');
   document.body.classList.remove('presenting');
@@ -1911,16 +1764,13 @@ document.addEventListener('keydown', e => {
   if (presenting) {
     if (e.key === 'ArrowRight') { e.preventDefault(); return stepPresent(1); }
     if (e.key === 'ArrowLeft')  { e.preventDefault(); return stepPresent(-1); }
-    if (e.key === ' ')          { e.preventDefault(); return toggleTimer(); }
     if (e.key.toLowerCase() === 'b') return togglePhrases();
-    if (e.key.toLowerCase() === 't') return toggleTimer();
     return;
   }
 
   switch (e.key.toLowerCase()) {
     case 'p': enterPresent(); break;
     case 'n': newDebate(); break;
-    case 't': toggleTimer(); break;
     case 'd': toggleTheme(); break;
     case '?': showHelp(); break;
     case '/': e.preventDefault(); document.getElementById('search').focus(); break;
@@ -1935,7 +1785,6 @@ renderDebate();
 renderSidebar();
 snapshotOpen();
 paintThemeIcon();
-paintTimer();
 if (localStorage.getItem('c2_debate_side_collapsed') === '1') toggleSide();
 </script>
 </body>

@@ -138,16 +138,14 @@ TOOLS = [
         'tagline': 'Build a speaking debate, then run it from the front of the room.',
         'desc': ('Write the question, set the task, and pick a level. The phrase bank swaps '
                  'to match, so B1 gets different language from C2. When the lesson starts, go '
-                 'full-screen and run the timer without leaving the page.'),
+                 'full-screen and step through the prompts from the front of the room.'),
         'meta': ('Build a speaking debate, set the level and phrase bank, then run it '
-                 'full-screen with a timer.'),
+                 'full-screen from the front of the room.'),
         'features': [
             (PLAY, 'Presentation mode',
-             'Full-screen prompts, arrow keys to step, space to start the timer. Click a prompt to spotlight it.'),
+             'Full-screen prompts, arrow keys to step. Click a prompt to spotlight it.'),
             (SAVE, 'Saved debate bank',
              'Keep every debate you build and search it later. Back up to a file.'),
-            (CLOCK, 'Built-in timer',
-             'Set the minutes, start it from the keyboard, keep the room moving.'),
             (DOWNLOAD, 'Export and print',
              'PNG, PDF or straight to the printer if you want it on paper.'),
         ],
@@ -203,7 +201,7 @@ TOOLS = [
         'shot': '/assets/vocab-matching-light.png',
         'shot_dark': '/assets/vocab-matching-dark.png',
         'shot_alt': ('Vocab Matching in use: a two-column editor listing words on the left '
-                     'and their definitions on the right, with Edit / Play / Print tabs and a timer.'),
+                     'and their definitions on the right, with Edit / Play / Print tabs.'),
     },
     {
         'slug': 'role-plays',
@@ -238,21 +236,19 @@ TOOLS = [
                  'two levels. Pick a topic, switch between simple and advanced, and put a single '
                  'question on the screen when you want the room looking the same way.'),
         'meta': ('A thousand conversation questions across fifty topics, at two levels, with a '
-                 'timer and a random student picker.'),
+                 'random student picker.'),
         'features': [
             (GRID, 'Fifty topics, two levels',
              'Five personal and five thought-provoking questions each. Switch simple to advanced in a click.'),
             (MAXIMISE, 'Focus mode',
              'One question, full screen, big enough to read from the back of the room.'),
-            (CLOCK, 'Built-in timer',
-             'Time each answer or the whole round, right from the toolbar.'),
             (SHUFFLE, 'Random topic and roulette',
              'Stuck for a warm-up? Spin for a topic, or a single question at random.'),
         ],
         'shot': '/assets/speaking-topics-light.png',
         'shot_dark': '/assets/speaking-topics-dark.png',
         'shot_alt': ('Speaking Topics in use: a grid of topics, with a deck of conversation '
-                     'questions and a timer below.'),
+                     'questions below.'),
     },
     {
         'slug': 'spin-wheel',
@@ -619,8 +615,7 @@ SPEAKING_MENU = export_menu([
     ('Save as PDF', FILE_I, 'exportPDF()'),
 ], 'jptSpk', 'Save this topic')
 
-# Same rotate-ccw glyph as the timer's own reset button, so the two "undo"
-# actions on this toolbar read as one family.
+# Same rotate-ccw glyph as the floating timer's own reset button.
 QUESTIONS_RESET_BTN = (
     '<button class="icon-action" onclick="jptQuestionsReset()" '
     'title="Reset all edited questions to the base wording" '
@@ -728,51 +723,6 @@ SPEAKING_PNG_JS = """<!-- jpt:speakingpng -->
 </script>
 <!-- /jpt:speakingpng -->
 """
-
-
-TIMER_HTML = (
-    '<div class="timer" id="jptTimerBox">'
-    '<input class="tm" id="jptTmInput" type="text" inputmode="numeric" value="02:00" '
-    'aria-label="Timer length" title="Type a length (2 or 2:30) and press Enter to start" '
-    'onfocus="jptTmFocus()" onkeydown="jptTmKey(event)" onblur="jptTmApply()">'
-    '<button onclick="jptTmToggle()" id="jptTmBtn" title="Start / pause"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="7 4 20 12 7 20 7 4"/></svg></button>'
-    '<button onclick="jptTmReset()" title="Reset" aria-label="Reset timer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></button></div>')
-
-TIMER_JS = """<!-- jpt:timerjs -->
-<script>
-/* Self-contained MM:SS timer, modelled on the Debate Builder's: type a length,
-   Enter starts it, the input shows the countdown. Namespaced so it does not
-   touch the tool's own (now removed) preset timer. */
-(function () {
-  var total = 120, remaining = 120, running = false, iv = null;
-  function fmt(s){var n=s<0;s=Math.abs(s);return (n?'-':'')+String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
-  function parse(str){str=String(str).trim().replace(/\s*min(ute)?s?$/i,'');if(!str)return null;var t;
-    if(str.indexOf(':')>=0){var pp=str.split(':');var m=parseInt(pp[0],10)||0;var sc=parseInt(pp[1],10)||0;if(sc>59)return null;t=m*60+sc;}
-    else{var mn=parseFloat(str);if(!isFinite(mn))return null;t=Math.round(mn*60);}
-    if(!isFinite(t)||t<=0)return null;return Math.min(t,99*60+59);}
-  function box(){return document.getElementById('jptTimerBox');}
-  function paint(){var input=document.getElementById('jptTmInput');if(!input)return;
-    var txt=fmt(remaining);if(document.activeElement!==input)input.value=txt;
-    var warn=remaining<=60&&remaining>0,over=remaining<=0;
-    box().classList.toggle('warn',warn);box().classList.toggle('over',over);
-    var bar=document.getElementById('jptTmBar');
-    if(bar){bar.classList.toggle('on',running||remaining<total||over);
-      bar.classList.toggle('warn',warn);bar.classList.toggle('over',over);
-      document.getElementById('jptTmBarFill').style.width=(over?100:Math.max(0,Math.min(1,remaining/total))*100)+'%';}
-    var _P='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="7 4 20 12 7 20 7 4"/></svg>';
-    var _PA='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4.5" width="4" height="15" rx="1"/><rect x="14" y="4.5" width="4" height="15" rx="1"/></svg>';
-    document.getElementById('jptTmBtn').innerHTML=running?_PA:_P;}
-  window.jptTmFocus=function(){if(running)window.jptTmToggle();var el=document.getElementById('jptTmInput');requestAnimationFrame(function(){el.select();});};
-  window.jptTmApply=function(){var el=document.getElementById('jptTmInput');var v=parse(el.value);if(v===null){paint();return false;}total=v;remaining=v;paint();return true;};
-  window.jptTmKey=function(e){if(e.key==='Enter'){e.preventDefault();if(window.jptTmApply()&&!running)window.jptTmToggle();e.target.blur();}else if(e.key==='Escape'){e.preventDefault();paint();e.target.blur();}};
-  window.jptTmToggle=function(){running=!running;clearInterval(iv);if(running)iv=setInterval(function(){remaining--;paint();},1000);paint();};
-  window.jptTmReset=function(){remaining=total;running=false;clearInterval(iv);paint();};
-  paint();
-})();
-</script>
-<!-- /jpt:timerjs -->
-"""
-
 
 
 SIDE_JS = """<!-- jpt:sidejs -->
@@ -982,7 +932,7 @@ def strip_marks(html):
     for tag in ('jpt:brand', 'jpt:toolsnav', 'jpt:sidefoot', 'jpt:toolhead', 'jpt:debateslabel',
                 'jpt:homeview', 'jpt:router', 'jpt:backlink', 'jpt:menujs', 'jpt:themejs',
                 'jpt:themebtn', 'jpt:themeboot', 'jpt:strip',
-                'jpt:present', 'jpt:timerjs', 'jpt:export', 'jpt:exportjs',
+                'jpt:present', 'jpt:export', 'jpt:exportjs',
                 'jpt:exportmenu', 'jpt:speakingpng', 'jpt:sidejs', 'jpt:phrasesjs', 'jpt:questionsjs',
                 'jpt:seed', 'jpt:floattimer'):
         html = drop(html, tag)
@@ -1079,7 +1029,7 @@ SPEAKING_CSS = '''
 body{background:var(--bg);color:var(--ink);margin:0}
 /* John dislikes the monospace the tool used for labels and numbers. Put every
    one of them back on the site font. */
-.section-label,.deck-level-pill,.deck-section-label,.q-num,.timer-display,
+.section-label,.deck-level-pill,.deck-section-label,.q-num,
 .deck-counter,.sr-topic,.focus-topic,.focus-type,.focus-counter,
 .roulette-topic,.topic-group-count{
   font-family:"Outfit",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
@@ -1199,38 +1149,8 @@ main{overflow:visible;min-width:0}
 .btn:hover{background:var(--accent-deep)}
 .btn svg{width:14px;height:14px;flex-shrink:0}
 
-/* Timer, a typed MM:SS control like the Debate Builder's, not preset pills. */
-.timer{display:inline-flex;align-items:center;gap:2px;padding:3px 4px 3px 12px;
-  border:1px solid var(--soft-line);border-radius:999px;background:var(--card)}
-.timer .tm{font-family:inherit;font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;
-  letter-spacing:.04em;width:58px;text-align:center;padding:2px 0;background:transparent;
-  border:none;outline:none;color:var(--ink)}
-.timer .tm:focus{background:var(--soft);color:var(--accent);border-radius:8px}
-.timer.warn .tm{color:#c2740c}
-.timer.over .tm{color:#c14343}
-.timer button{width:28px;height:28px;border-radius:999px;border:none;background:transparent;
-  color:var(--muted);display:inline-flex;align-items:center;justify-content:center;
-  cursor:pointer;transition:background .12s,color .12s}
-.timer button svg{width:15px;height:15px;display:block}
 /* The deck card's tool row is empty now that its buttons moved. */
 .deck-toolbar:empty{display:none}
-.timer button:hover{background:var(--soft);color:var(--accent)}
-/* A mouse click left a big focus ring on play, so it dwarfed the reset. Drop it
-   for pointer focus; keep a ring for keyboard users. */
-.timer button:focus{outline:none}
-.timer button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
-
-/* The long progress bar under the toolbar, like the Debate Builder's: fills red
-   once time is up rather than vanishing to nothing. Hidden until the timer is
-   armed. */
-.jpt-tmbar{height:4px;border-radius:999px;background:var(--line);overflow:hidden;
-  margin:-4px 0 18px;opacity:0;transition:opacity .25s}
-.jpt-tmbar.on{opacity:1}
-.jpt-tmbar span{display:block;height:100%;width:100%;background:var(--accent);
-  border-radius:999px;transition:width .95s linear,background .3s}
-.jpt-tmbar.warn span{background:#c2740c}
-.jpt-tmbar.over span{background:#c14343;animation:jptTmPulse 1.1s ease-in-out infinite}
-@keyframes jptTmPulse{0%,100%{opacity:1}50%{opacity:.55}}
 
 /* Questions */
 .placeholder{background:var(--card);border:1px dashed var(--line);border-radius:16px;
@@ -1966,10 +1886,9 @@ def build_speaking(html, t):
     grid   = take(r'<div id="topicGrid"></div>', 'the topic grid')
     holder = take(r'<div class="placeholder" id="placeholder">.*?</div>', 'the placeholder')
     deck   = take(r'<div class="deck" id="deck"></div>', 'the deck')
-    # deck-nav has no nested divs, so one </div> closes it. Asking for two ran
-    # on into the timer section and ate half of it.
+    # deck-nav has no nested divs, so one </div> closes it. Asking for two ate
+    # into whatever followed it.
     navrow = take(r'<div class="deck-nav" id="deckNav".*?</div>', 'the deck nav')
-    timer  = take(r'<div class="timer-section">.*?</div>\s*</div>\s*</div>', 'the timer')
     # John asked for the student picker to go. Taken out and not put back.
     take(r'<div class="name-picker" id="namePicker">.*?</div>\s*</div>\s*(?=</div>)', 'the student picker')
 
@@ -2005,11 +1924,9 @@ def build_speaking(html, t):
       <div class="toolbar">
         <div class="status">Questions</div>
         {acts}
-        {TIMER_HTML}
         {QUESTIONS_RESET_BTN}
         {SPEAKING_MENU}
       </div>
-      <div class="jpt-tmbar" id="jptTmBar"><span id="jptTmBarFill"></span></div>
       <div class="deck-row">
         <div class="deck-col">
           {holder}
@@ -2196,7 +2113,7 @@ def build_speaking(html, t):
 
     html = re.sub(r'&family=JetBrains\+Mono:wght@[0-9;]+', '', html, count=1)
 
-    html = inject_before(html, '</body>', MENU_JS + THEME_JS + TIMER_JS + EXPORT_MENU_JS + SPEAKING_PNG_JS + SIDE_JS + PHRASES_JS + QUESTIONS_JS + FLOAT_TIMER_JS, 'the page scripts')
+    html = inject_before(html, '</body>', MENU_JS + THEME_JS + EXPORT_MENU_JS + SPEAKING_PNG_JS + SIDE_JS + PHRASES_JS + QUESTIONS_JS + FLOAT_TIMER_JS, 'the page scripts')
     return html
 
 
@@ -2235,7 +2152,7 @@ def build_roleplays(html, t):
               '<polyline points="15 18 9 12 15 6"/></svg>\n  </button>\n')
     html = html.replace(aside_close, aside_close + '\n  ' + handle, 1)
 
-    html = inject_before(html, '</body>', MENU_JS + THEME_JS + SIDE_JS + TIMER_JS + FLOAT_TIMER_JS, 'the page scripts')
+    html = inject_before(html, '</body>', MENU_JS + THEME_JS + SIDE_JS + FLOAT_TIMER_JS, 'the page scripts')
     return html
 
 
@@ -2245,7 +2162,7 @@ def build_matching(html, t):
     Same lightweight wrap as build_roleplays — the source already carries the
     .app/aside/main skeleton, so build.py only prepends the topbar, drops a
     tool-head badge inside .main-inner, adds the side-collapse handle, and
-    injects the shared theme/menu/side-collapse/timer scripts.
+    injects the shared theme/menu/side-collapse scripts.
     """
     html = strip_marks(html)
     html = head_bits(html, f"{t['name']} · {SITE}", t['meta'], '')
@@ -2279,7 +2196,7 @@ def build_matching(html, t):
         raise SystemExit('build: could not find jpt:savemenu marker in vocab-matching')
     html = html.replace(savemenu_marker, VOCAB_MENU, 1)
 
-    html = inject_before(html, '</body>', MENU_JS + THEME_JS + SIDE_JS + TIMER_JS + EXPORT_MENU_JS + FLOAT_TIMER_JS, 'the page scripts')
+    html = inject_before(html, '</body>', MENU_JS + THEME_JS + SIDE_JS + EXPORT_MENU_JS + FLOAT_TIMER_JS, 'the page scripts')
     return html
 
 
@@ -2322,7 +2239,7 @@ def build_gapfill(html, t):
         raise SystemExit('build: could not find jpt:savemenu marker in gap-fill')
     html = html.replace(savemenu_marker, GAPFILL_MENU, 1)
 
-    html = inject_before(html, '</body>', MENU_JS + THEME_JS + SIDE_JS + TIMER_JS + EXPORT_MENU_JS + FLOAT_TIMER_JS, 'the page scripts')
+    html = inject_before(html, '</body>', MENU_JS + THEME_JS + SIDE_JS + EXPORT_MENU_JS + FLOAT_TIMER_JS, 'the page scripts')
     return html
 
 
