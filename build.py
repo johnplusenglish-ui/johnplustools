@@ -129,6 +129,33 @@ HOME_TITLE = f'{SITE} · free teaching tools for English classrooms'
 HOME_DESC = ('Free browser tools for English teachers, by John of JohnPlusEnglish. '
              'No sign-up, nothing to install.')
 
+# ── Gallery accent palette ───────────────────────────────────────────────────
+# 12 named colours, each a pill (light bg / dark text) and a filled (solid bg /
+# white text) pair, same shape as John's reference. Built from his 14-swatch
+# reference rather than copied wholesale: Coral sat ~7deg from Red and
+# Tangerine/Warm both sat within 5deg of Orange, so those three (all near-
+# duplicates, not distinct colours) are replaced with Green and Purple, which
+# fill real gaps instead (Lime-to-Mint was a bare 77deg with nothing in it;
+# Violet-to-Berry had room for one more). Warm's own slot survives, repurposed
+# as the one deliberately desaturated "neutral" rather than a 12th competing
+# hue. Hue in degrees, so picking well-spread ones for new tools is a glance,
+# not a colour-wheel guess: Red 353, Orange 35, Yellow 47, Lime 90, Green 145,
+# Mint 167, Sky 205, Blue 217, Violet 265, Purple 292, Berry 320, Warm (neutral).
+PALETTE = {
+    'red':    {'fill': '#EF233C', 'pill': '#FFE8EB', 'pill_text': '#BF1C30'},
+    'orange': {'fill': '#FF9100', 'pill': '#FFF0E0', 'pill_text': '#CC7000'},
+    'yellow': {'fill': '#FFDD4A', 'pill': '#FFF3CC', 'pill_text': '#994F00', 'fill_text': '#4D3300'},
+    'lime':   {'fill': '#8AE234', 'pill': '#F2FFE6', 'pill_text': '#377A10', 'fill_text': '#1F4D08'},
+    'green':  {'fill': '#22A55E', 'pill': '#E3F8EC', 'pill_text': '#0F6B3A'},
+    'mint':   {'fill': '#1DD3B0', 'pill': '#E4FBF7', 'pill_text': '#0E7D6A'},
+    'sky':    {'fill': '#49B6FF', 'pill': '#E6F4FF', 'pill_text': '#135E99'},
+    'blue':   {'fill': '#2176FF', 'pill': '#E8EEFF', 'pill_text': '#2176FF'},
+    'violet': {'fill': '#8338EC', 'pill': '#F0E8FF', 'pill_text': '#5E28BD'},
+    'purple': {'fill': '#D946EF', 'pill': '#FCE7FA', 'pill_text': '#86198F'},
+    'berry':  {'fill': '#E040A0', 'pill': '#FDE8F4', 'pill_text': '#7C1B60'},
+    'warm':   {'fill': '#B8AA94', 'pill': '#FAF7F2', 'pill_text': '#584D44', 'fill_text': '#3A332D'},
+}
+
 # ── The tools ────────────────────────────────────────────────────────────────
 TOOLS = [
     {
@@ -153,7 +180,7 @@ TOOLS = [
         'shot_dark': '/assets/debate-builder-dark.png',
         'shot_alt': ('The Debate Builder in use: a debate titled AI in the classroom, with the '
                      'question, four prompt circles and the C2 phrase bank down the left.'),
-        'accent': '#EF233C',
+        'accent': 'red',
     },
     {
         'slug': 'gap-fill',
@@ -178,7 +205,7 @@ TOOLS = [
         'shot_dark': '/assets/gap-fill-dark.png',
         'shot_alt': ('Gap-fill in use: a text with several words marked as blanks, a word bank '
                      'above and the answer key beneath.'),
-        'accent': '#FF9100',
+        'accent': 'orange',
     },
     {
         'slug': 'vocab-matching',
@@ -204,7 +231,7 @@ TOOLS = [
         'shot_dark': '/assets/vocab-matching-dark.png',
         'shot_alt': ('Vocab Matching in use: a two-column editor listing words on the left '
                      'and their definitions on the right, with Edit / Play / Print tabs.'),
-        'accent': '#B88EFF',
+        'accent': 'violet',
     },
     {
         'slug': 'role-plays',
@@ -229,7 +256,7 @@ TOOLS = [
         'shot_dark': '/assets/role-plays-dark.png',
         'shot_alt': ('Role Plays in use: two cards on screen labelled Student A and Student B, '
                      'each with a role and a short description.'),
-        'accent': '#FF937B',
+        'accent': 'sky',
     },
     {
         'slug': 'speaking-topics',
@@ -253,7 +280,7 @@ TOOLS = [
         'shot_dark': '/assets/speaking-topics-dark.png',
         'shot_alt': ('Speaking Topics in use: a grid of topics, with a deck of conversation '
                      'questions below.'),
-        'accent': '#F592CB',
+        'accent': 'berry',
     },
     {
         'slug': 'spin-wheel',
@@ -279,7 +306,7 @@ TOOLS = [
         'shot_dark': '/assets/spin-wheel-dark.png',
         'shot_alt': ('Spin the Wheel in use: an eight-slice colour wheel with student names, a '
                      'saved wheel bank in the sidebar, and a Spin button below.'),
-        'accent': '#19BD9E',
+        'accent': 'mint',
     },
 ]
 
@@ -2296,11 +2323,12 @@ BUILDERS = {'debate-builder': build_debate, 'speaking-topics': build_speaking,
 def home_page():
     cards = []
     for t in TOOLS:
-        cards.append(f'''      <a class="gcard" href="{url(t['slug'])}">
+        c = PALETTE[t['accent']]
+        cards.append(f'''      <a class="gcard" href="{url(t['slug'])}" style="border-top-color:{c['fill']}">
         <span class="gcard-shot" style="--shot:url('{t['shot']}');--shot-dark:url('{t['shot_dark']}')"
               role="img" aria-label="{t['shot_alt']}"></span>
         <span class="gcard-body">
-          <span class="gcard-icon" style="background:{t['accent']}22;border-color:{t['accent']}3d;color:{t['accent']}">{t['icon']}</span>
+          <span class="gcard-icon" style="background:{c['pill']};border-color:{c['fill']}59;color:{c['pill_text']}">{t['icon']}</span>
           <span class="gcard-text">
             <span class="gcard-name">{t['name']}</span>
             <span class="gcard-tagline">{t['tagline']}</span>
@@ -2358,10 +2386,14 @@ a.btn{{text-decoration:none}}
    the screenshot and name carry it now, and the full detail is still one
    click away on each tool's own page. */
 .gallery{{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}}
+/* border-top-color is set per card inline, from PALETTE: the colour tags
+   the whole section, not just the icon badge, so it has to survive hover.
+   border-top-width/style live here since every card shares them. */
 .gcard{{display:flex;flex-direction:column;text-decoration:none;color:inherit;
-  background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;
-  box-shadow:var(--shadow-card);transition:border-color .15s,transform .15s}}
-.gcard:hover{{border-color:var(--accent);transform:translateY(-3px)}}
+  background:var(--card);border:1px solid var(--line);border-top:4px solid var(--line);
+  border-radius:14px;overflow:hidden;box-shadow:var(--shadow-card);
+  transition:transform .15s,box-shadow .15s}}
+.gcard:hover{{transform:translateY(-3px);box-shadow:0 20px 44px -20px rgba(20,30,60,.35)}}
 .gcard:focus-visible{{outline:2px solid var(--accent);outline-offset:2px}}
 /* Background image, not <img>, so only the theme in use is downloaded. */
 .gcard-shot{{display:block;aspect-ratio:1100/515;background-image:var(--shot);
