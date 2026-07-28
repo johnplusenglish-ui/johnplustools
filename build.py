@@ -2288,43 +2288,19 @@ BUILDERS = {'debate-builder': build_debate, 'speaking-topics': build_speaking,
 
 
 def home_page():
-    snapshot = '\n'.join(
-        f'''        <a class="snap-tile" href="#{t['slug']}">
-          <span class="snap-icon">{t['icon']}</span>
-          <span class="snap-name">{t['name']}</span>
-        </a>''' for t in TOOLS)
-
     cards = []
     for t in TOOLS:
-        feats = '\n'.join(
-            f'''            <div class="feature">
-              <span class="fi">{ic}</span>
-              <div><h3>{h}</h3><p>{p}</p></div>
-            </div>''' for ic, h, p in t['features'])
-        cards.append(f'''      <section class="panel" id="{t['slug']}">
-        <div class="panel-head">
-          <span class="panel-icon">{t['icon']}</span>
-          <div>
-            <h2>{t['name']}</h2>
-            <div class="tagline">{t['tagline']}</div>
-          </div>
-        </div>
-        <p class="lede">{t['desc']}</p>
-        <div class="split">
-          <div class="features">
-{feats}
-          </div>
-          <a class="preview" href="{url(t['slug'])}" style="--shot:url('{t['shot']}');--shot-dark:url('{t['shot_dark']}')">
-            <span class="pv-bar" aria-hidden="true"><i></i><i></i><i></i></span>
-            <span class="pv-shot" role="img" aria-label="{t['shot_alt']}"></span>
-            <span class="pv-cap">{EYE} Have a look inside</span>
-          </a>
-        </div>
-        <div class="panel-actions">
-          <a class="btn big" href="{url(t['slug'])}">{ARROW} Open {t['name']}</a>
-          <span class="note">Free, no sign-up. Your work stays in your browser.</span>
-        </div>
-      </section>''')
+        cards.append(f'''      <a class="gcard" href="{url(t['slug'])}">
+        <span class="gcard-shot" style="--shot:url('{t['shot']}');--shot-dark:url('{t['shot_dark']}')"
+              role="img" aria-label="{t['shot_alt']}"></span>
+        <span class="gcard-body">
+          <span class="gcard-icon">{t['icon']}</span>
+          <span class="gcard-text">
+            <span class="gcard-name">{t['name']}</span>
+            <span class="gcard-tagline">{t['tagline']}</span>
+          </span>
+        </span>
+      </a>''')
     cards = '\n\n'.join(cards)
     count = f"{len(TOOLS)} tool" + ('s' if len(TOOLS) != 1 else '')
 
@@ -2369,66 +2345,37 @@ a.btn{{text-decoration:none}}
    same stylesheet, so it wins the cascade without touching the shared rule
    every tool page's own tool-head badge also uses. */
 .tool-head{{margin-bottom:10px}}
-/* Quick-glance snapshot: a jump-link tile per tool, so the whole toolset
-   is visible at once above the full write-up for each one. Landing a jump
-   flush under the sticky topbar looked cramped, hence scroll-margin-top
-   on .panel rather than on the tile or the target id alone. Smooth
-   scrolling is done in JS (see the snap-tile click handler below), not
-   with html{{scroll-behavior:smooth}}: that CSS property suppresses
-   Chromium's native scroll-to-fragment on a direct #slug page load, so a
-   shared/bookmarked link into a tool's panel would silently fail to jump. */
-.snapshot{{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 18px}}
-.snap-tile{{display:inline-flex;align-items:center;gap:7px;padding:6px 12px 6px 6px;
-  border-radius:999px;border:1px solid var(--line);background:var(--card);
-  text-decoration:none;color:inherit;transition:border-color .15s,background .15s}}
-.snap-tile:hover{{border-color:var(--accent);background:var(--soft)}}
-.snap-tile:focus-visible{{outline:2px solid var(--accent);outline-offset:2px}}
-.snap-icon{{width:24px;height:24px;border-radius:8px;flex-shrink:0;background:var(--soft);
-  border:1px solid var(--soft-line);color:var(--accent);display:grid;place-items:center}}
-.snap-icon svg{{width:13px;height:13px}}
-.snap-name{{font-size:.78rem;font-weight:700;letter-spacing:-.01em;white-space:nowrap}}
-.panel{{background:var(--card);border:1px solid var(--line);border-radius:14px;
-  padding:18px 20px;box-shadow:var(--shadow-card);margin-bottom:12px;
-  scroll-margin-top:calc(var(--jpt-bar) + 16px)}}
-.panel-head{{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px}}
-.panel-icon{{width:38px;height:38px;border-radius:11px;flex-shrink:0;background:var(--soft);
-  border:1px solid var(--soft-line);color:var(--accent);display:grid;place-items:center}}
-.panel-icon svg{{width:19px;height:19px}}
-.panel h2{{font-size:1.2rem;font-weight:700;letter-spacing:-.02em;line-height:1.15;margin:0}}
-.panel .tagline{{font-size:.85rem;color:var(--muted);margin-top:2px}}
-.panel .lede{{font-size:.9rem;color:var(--ink);max-width:64ch;margin-bottom:14px;line-height:1.5}}
-.split{{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.08fr);
-  gap:20px;align-items:start;margin-bottom:16px}}
-.features{{display:grid;gap:9px;grid-template-columns:1fr}}
-.feature{{display:flex;gap:9px;align-items:flex-start}}
-.feature .fi{{color:var(--accent);flex-shrink:0;margin-top:2px;display:inline-flex}}
-.feature .fi svg{{width:15px;height:15px}}
-.feature h3{{font-size:.82rem;font-weight:700;letter-spacing:-.01em;margin-bottom:1px}}
-.feature p{{font-size:.78rem;color:var(--muted);line-height:1.4}}
-.preview{{display:block;text-decoration:none;color:inherit;border:1px solid var(--line);
-  border-radius:10px;overflow:hidden;background:var(--bg);box-shadow:var(--shadow-card);
-  transition:border-color .16s,transform .16s}}
-.preview:hover{{border-color:var(--accent);transform:translateY(-2px)}}
-.preview:focus-visible{{outline:2px solid var(--accent);outline-offset:3px}}
-.pv-bar{{display:flex;align-items:center;gap:5px;padding:0 10px;height:22px;
-  background:var(--card);border-bottom:1px solid var(--line)}}
-.pv-bar i{{width:6px;height:6px;border-radius:999px;background:var(--line);flex-shrink:0}}
-[data-theme="dark"] .pv-bar i{{background:var(--soft-line)}}
+/* Gallery: every tool as one clickable thumbnail, sized so all six sit in
+   two rows without scrolling on a normal laptop screen. This replaces an
+   earlier version with a full write-up per tool: long description, a
+   feature list, a separate preview link. Dropped rather than relocated;
+   the screenshot and name carry it now, and the full detail is still one
+   click away on each tool's own page. */
+.gallery{{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}}
+.gcard{{display:flex;flex-direction:column;text-decoration:none;color:inherit;
+  background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  box-shadow:var(--shadow-card);transition:border-color .15s,transform .15s}}
+.gcard:hover{{border-color:var(--accent);transform:translateY(-3px)}}
+.gcard:focus-visible{{outline:2px solid var(--accent);outline-offset:2px}}
 /* Background image, not <img>, so only the theme in use is downloaded. */
-.pv-shot{{display:block;aspect-ratio:1100/515;background-image:var(--shot);
-  background-size:cover;background-position:top center;background-repeat:no-repeat}}
-[data-theme="dark"] .pv-shot{{background-image:var(--shot-dark)}}
-.pv-cap{{display:flex;align-items:center;gap:6px;padding:7px 10px;font-size:11px;
-  font-weight:600;color:var(--muted);background:var(--card);border-top:1px solid var(--line)}}
-.pv-cap svg{{width:12px;height:12px;flex-shrink:0}}
-.preview:hover .pv-cap{{color:var(--accent)}}
-.panel-actions{{display:flex;gap:10px;flex-wrap:wrap;align-items:center;
-  padding-top:12px;border-top:1px solid var(--line)}}
-.panel-actions .note{{font-size:11.5px;color:var(--muted);font-weight:500}}
+.gcard-shot{{display:block;aspect-ratio:1100/515;background-image:var(--shot);
+  background-size:cover;background-position:top center;background-repeat:no-repeat;
+  border-bottom:1px solid var(--line)}}
+[data-theme="dark"] .gcard-shot{{background-image:var(--shot-dark)}}
+.gcard-body{{display:flex;align-items:center;gap:10px;padding:10px 12px}}
+.gcard-icon{{width:30px;height:30px;border-radius:9px;flex-shrink:0;background:var(--soft);
+  border:1px solid var(--soft-line);color:var(--accent);display:grid;place-items:center}}
+.gcard-icon svg{{width:16px;height:16px}}
+.gcard-text{{display:flex;flex-direction:column;min-width:0}}
+.gcard-name{{font-size:.92rem;font-weight:700;letter-spacing:-.01em;line-height:1.25}}
+.gcard-tagline{{font-size:.72rem;color:var(--muted);line-height:1.3;margin-top:1px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
 @media (max-width:900px){{
-  .split{{grid-template-columns:1fr;gap:14px}}
-  .panel{{padding:16px 14px;border-radius:12px}}
+  .gallery{{grid-template-columns:repeat(2,1fr)}}
   .main-inner{{padding:16px 14px 34px}}
+}}
+@media (max-width:560px){{
+  .gallery{{grid-template-columns:1fr}}
 }}
 </style>
 </head>
@@ -2452,43 +2399,17 @@ a.btn{{text-decoration:none}}
         </div>
       </div>
 
-      <div class="snapshot">
-{snapshot}
-      </div>
-
       <div class="count">{count}</div>
 
+      <div class="gallery">
 {cards}
+      </div>
 
     </div>
   </main>
 </div>
 
 {MENU_JS}{THEME_JS}
-<script>
-/* Scroll to a panel by hand rather than relying on the browser's native
-   scroll-to-fragment: html{{scroll-behavior:smooth}} actively breaks that
-   native behaviour on a direct #slug link (see the CSS comment above
-   .snapshot), and even without it, the native jump does not reliably
-   honour .panel's scroll-margin-top: it landed the heading half under
-   the sticky topbar when tested. scrollIntoView does honour it, so both
-   a snapshot-tile click and a direct #slug link go through it. */
-function jumpToPanel(id, smooth) {{
-  var el = document.getElementById(id);
-  if (!el) return;
-  el.scrollIntoView({{behavior: smooth ? 'smooth' : 'auto', block: 'start'}});
-}}
-document.querySelectorAll('.snap-tile').forEach(function (a) {{
-  a.addEventListener('click', function (e) {{
-    var id = a.getAttribute('href').slice(1);
-    if (!document.getElementById(id)) return;
-    e.preventDefault();
-    jumpToPanel(id, true);
-    history.pushState(null, '', '#' + id);
-  }});
-}});
-if (location.hash) jumpToPanel(location.hash.slice(1), false);
-</script>
 </body>
 </html>
 '''
@@ -2538,7 +2459,7 @@ def main():
 
     home = home_page()
     HOME_OUT.write_text(home, encoding='utf-8')
-    assert home.count('class="panel"') == len(TOOLS), 'home should show every tool'
+    assert home.count('class="gcard"') == len(TOOLS), 'home should show every tool'
     assert len(re.findall(r'<a class="pm-item"[^>]*aria-current="true"', home)) == 1, \
         'home not marked exactly once in its own dropdown'
     for dash in ('—', '–'):
