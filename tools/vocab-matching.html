@@ -91,7 +91,7 @@ main{overflow:visible;min-width:0}
 .vm-play-col{display:flex;flex-direction:column;gap:8px}
 .vm-cell{background:var(--card);border:1.5px solid var(--soft-line);border-radius:12px;padding:14px 16px;font-size:15px;line-height:1.4;cursor:pointer;transition:border-color .12s,background .12s,transform .1s;text-align:left;font-family:inherit;color:var(--ink);position:relative;display:flex;align-items:center;gap:12px}
 .vm-cell:hover:not(.matched){border-color:var(--accent);background:var(--soft)}
-.vm-cell.selected{border-color:var(--accent);background:var(--soft);box-shadow:0 0 0 3px rgba(131,56,236,.15)}
+.vm-cell.selected{border-color:var(--accent);background:var(--soft);box-shadow:0 0 0 3px rgba(37,99,235,.15)}
 .vm-cell.matched{border-color:#7cbf7f;background:#e6f4e7;color:#2a622d;cursor:default}
 .vm-cell.wrong{animation:vmWrong .35s ease}
 @keyframes vmWrong{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px);border-color:#c14343}75%{transform:translateX(4px);border-color:#c14343}}
@@ -887,7 +887,7 @@ window.vmExportPNG = function () {
   var keyX = PAD;
   active.forEach(function (_, i) {
     var letter = String.fromCharCode(65 + pos[i]);
-    ctx.fillStyle = '#8338EC';
+    ctx.fillStyle = '#2563eb';
     ctx.fillText(String(i + 1), keyX, keyY);
     var numW = ctx.measureText(String(i + 1)).width;
     ctx.fillStyle = '#0f1b2d';

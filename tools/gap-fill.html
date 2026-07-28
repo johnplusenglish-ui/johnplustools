@@ -861,7 +861,7 @@ window.gfExportPNG = function(){
     var lbl = (i + 1) + '. ' + tokens[idx].t;
     var lw = ctx.measureText(lbl).width + 24;
     if (kx + lw > W - PAD){ kx = PAD; ky += 22; }
-    ctx.fillStyle = '#FF9100';
+    ctx.fillStyle = '#2563eb';
     ctx.fillText(String(i + 1) + '.', kx, ky);
     var numW = ctx.measureText(String(i + 1) + '.').width;
     ctx.fillStyle = '#0f1b2d';
