@@ -79,11 +79,58 @@ PROOF = {
     'spin-wheel': 'Riley',
 }
 
-# Each tool's own accent colour is now baked into its built page by build.py
-# (see accent_css_block there), so the built page handed to Chrome already
-# reads as its own colour before any seed runs. No JS override needed here
-# any more: doing one would only risk the screenshot showing something (e.g.
-# a recoloured --level) the live page deliberately does not.
+def _hex_to_rgb(h):
+    h = h.lstrip('#')
+    return tuple(int(h[i:i + 2], 16) for i in (0, 2, 4))
+
+
+def _rgb_to_hex(rgb):
+    return '#%02x%02x%02x' % tuple(max(0, min(255, round(c))) for c in rgb)
+
+
+def _blend(hex_color, target_rgb, amount):
+    """hex_color shifted toward target_rgb by amount (0-1)."""
+    r1, g1, b1 = _hex_to_rgb(hex_color)
+    r2, g2, b2 = target_rgb
+    return _rgb_to_hex((r1 + (r2 - r1) * amount, g1 + (g2 - g1) * amount, b1 + (b2 - b1) * amount))
+
+
+# Each gallery card now tags its screenshot with its own PALETTE colour
+# instead of the site's default blue, so the accent stripe / badge / preview
+# read as one thing. --accent and --soft aren't separate hand-picked colours
+# in CHROME_CSS, so a straight swap would leave the wash the wrong hue; both
+# are derived here from the same PALETTE fill instead, same relationship the
+# real blue tokens have to each other (light theme washes toward white, dark
+# theme toward the dark card colour, which is what made the default palette
+# read as blue everywhere in the first place).
+_WHITE, _BLACK = (255, 255, 255), (0, 0, 0)
+_DARK_CARD, _DARK_BG = (0x16, 0x21, 0x3a), (0x0f, 0x17, 0x28)
+
+
+def accent_vars_css(fill, theme):
+    if theme == 'dark':
+        accent = _blend(fill, _WHITE, 0.28)
+        accent_deep = _blend(fill, _WHITE, 0.45)
+        soft = _blend(fill, _DARK_CARD, 0.82)
+        soft_line = _blend(fill, _DARK_BG, 0.62)
+    else:
+        accent = fill
+        accent_deep = _blend(fill, _BLACK, 0.16)
+        soft = _blend(fill, _WHITE, 0.92)
+        soft_line = _blend(fill, _WHITE, 0.82)
+    # --level/--level-ink: the Debate Builder's own colour, independent of
+    # --accent (its bubbles and phrase bank are levelled blue "on John's
+    # call", not accent-linked). Same fill, so it still reads as the one
+    # colour on screen; harmless no-op on every other tool, since none of
+    # them define --level in the first place.
+    return (f"documentElement.style.setProperty('--accent','{accent}');"
+            f"documentElement.style.setProperty('--accent-deep','{accent_deep}');"
+            f"documentElement.style.setProperty('--soft','{soft}');"
+            f"documentElement.style.setProperty('--soft-line','{soft_line}');"
+            f"documentElement.style.setProperty('--level','{accent}');"
+            f"documentElement.style.setProperty('--level-ink','#fff');")
+
+
 WRAPPER = """
 <script>
 /* preview-seed: temporary, written by make_preview.py, never committed */
@@ -92,6 +139,11 @@ WRAPPER = """
     try {
       var documentElement = document.documentElement;
 __SEED__
+      /* After the seed, not before: some tools' own render functions
+         (e.g. the Debate Builder's applyLevelColour) set colour custom
+         properties themselves as a side effect of rendering, and would
+         clobber an earlier override right back to blue. */
+__ACCENT_VARS__
       document.documentElement.setAttribute('data-theme', '__THEME__');
       document.title = 'PREVIEW-OK';
     } catch (e) { console.error('seed failed', e); document.title = 'PREVIEW-FAILED'; }
@@ -116,7 +168,9 @@ def shoot(slug, theme, httpd):
     if not page.exists():
         raise SystemExit(f'make_preview: {page} missing. Run build.py first.')
     base = page.read_text(encoding='utf-8')
-    seeded = WRAPPER.replace('__SEED__', SEEDS[slug]).replace('__THEME__', theme)
+    fill = build.PALETTE[build.BY_SLUG[slug]['accent']]['fill']
+    seeded = (WRAPPER.replace('__ACCENT_VARS__', accent_vars_css(fill, theme))
+                      .replace('__SEED__', SEEDS[slug]).replace('__THEME__', theme))
     i = build.sole_position(base, '</body>', 'the preview seed')
     tmp = ROOT / f'_pv-{slug}-{theme}.html'
     tmp.write_text(base[:i] + seeded + base[i:], encoding='utf-8')

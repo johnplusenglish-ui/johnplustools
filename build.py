@@ -312,63 +312,6 @@ TOOLS = [
 
 BY_SLUG = {t['slug']: t for t in TOOLS}
 
-# ── Per-tool accent recolour ─────────────────────────────────────────────────
-# Every token below is *derived* from a PALETTE fill, using the same
-# relationship the hand-picked default (blue) tokens already have to one
-# another: light theme washes the fill toward white, dark theme washes it
-# toward the dark card/bg colours. Baked into each tool's own live page (not
-# just its gallery card screenshot), so opening Debate Builder for real shows
-# red, not blue. CEFR level badges and the wheel's own slice colours are
-# deliberately left alone: both are hardcoded elsewhere, on John's own call,
-# independent of --accent.
-_WHITE, _BLACK = (255, 255, 255), (0, 0, 0)
-_DARK_CARD, _DARK_BG = (0x16, 0x21, 0x3a), (0x0f, 0x17, 0x28)
-
-
-def _hex_to_rgb(h):
-    h = h.lstrip('#')
-    return tuple(int(h[i:i + 2], 16) for i in (0, 2, 4))
-
-
-def _rgb_to_hex(rgb):
-    return '#%02x%02x%02x' % tuple(max(0, min(255, round(c))) for c in rgb)
-
-
-def _blend(hex_color, target_rgb, amount):
-    """hex_color shifted toward target_rgb by amount (0-1)."""
-    r1, g1, b1 = _hex_to_rgb(hex_color)
-    r2, g2, b2 = target_rgb
-    return _rgb_to_hex((r1 + (r2 - r1) * amount, g1 + (g2 - g1) * amount, b1 + (b2 - b1) * amount))
-
-
-def accent_tokens(fill, theme):
-    """--accent/--accent-deep/--soft/--soft-line for a PALETTE fill, one theme."""
-    if theme == 'dark':
-        return {
-            'accent': _blend(fill, _WHITE, 0.28),
-            'accent-deep': _blend(fill, _WHITE, 0.45),
-            'soft': _blend(fill, _DARK_CARD, 0.82),
-            'soft-line': _blend(fill, _DARK_BG, 0.62),
-        }
-    return {
-        'accent': fill,
-        'accent-deep': _blend(fill, _BLACK, 0.16),
-        'soft': _blend(fill, _WHITE, 0.92),
-        'soft-line': _blend(fill, _WHITE, 0.82),
-    }
-
-
-def accent_css_block(t):
-    """CSS overriding a tool's default blue tokens with its own PALETTE accent.
-    Appended after CHROME_CSS in the same <style> tag, so source order alone
-    (equal selector specificity) makes it win, no !important needed."""
-    fill = PALETTE[t['accent']]['fill']
-    light = accent_tokens(fill, 'light')
-    dark = accent_tokens(fill, 'dark')
-    root = ';'.join(f'--{k}:{v}' for k, v in light.items())
-    night = ';'.join(f'--{k}:{v}' for k, v in dark.items())
-    return f'\n/* jpt:accent */\n:root{{{root}}}\n[data-theme="dark"]{{{night}}}\n/* /jpt:accent */\n'
-
 
 def url(slug):
     return f'/{slug}'
@@ -1444,7 +1387,7 @@ SEED_DEBATES = _DEBATES
 
 def build_debate(html, t):
     html = strip_marks(html)
-    html = head_bits(html, f"{t['name']} · {SITE}", t['meta'], DEBATE_CSS + accent_css_block(t))
+    html = head_bits(html, f"{t['name']} · {SITE}", t['meta'], DEBATE_CSS)
 
     m = re.search(r'<a href="#" class="st-brand".*?</a>', html, re.S)
     if not m:
@@ -1945,7 +1888,7 @@ NEW_TOPICS = [
 
 def build_speaking(html, t):
     html = strip_marks(html)
-    html = head_bits(html, f"{t['name']} · {SITE}", t['meta'], SPEAKING_CSS + accent_css_block(t))
+    html = head_bits(html, f"{t['name']} · {SITE}", t['meta'], SPEAKING_CSS)
 
     # Strip the tool's own site chrome.
     for pat, what in [(r'<div class="topnav">.*?</div>\s*</div>\s*', 'its top nav'),
@@ -2217,7 +2160,7 @@ def build_roleplays(html, t):
     site's shared theme/menu/side-collapse scripts before </body>.
     """
     html = strip_marks(html)
-    html = head_bits(html, f"{t['name']} · {SITE}", t['meta'], accent_css_block(t))
+    html = head_bits(html, f"{t['name']} · {SITE}", t['meta'], '')
 
     inner = '<div class="main-inner">'
     if inner not in html:
@@ -2255,7 +2198,7 @@ def build_matching(html, t):
     injects the shared theme/menu/side-collapse scripts.
     """
     html = strip_marks(html)
-    html = head_bits(html, f"{t['name']} · {SITE}", t['meta'], accent_css_block(t))
+    html = head_bits(html, f"{t['name']} · {SITE}", t['meta'], '')
 
     inner = '<div class="main-inner">'
     if inner not in html:
@@ -2299,7 +2242,7 @@ def build_gapfill(html, t):
     marker, and injects the shared scripts.
     """
     html = strip_marks(html)
-    html = head_bits(html, f"{t['name']} · {SITE}", t['meta'], accent_css_block(t))
+    html = head_bits(html, f"{t['name']} · {SITE}", t['meta'], '')
 
     inner = '<div class="main-inner">'
     if inner not in html:
@@ -2343,7 +2286,7 @@ def build_spinwheel(html, t):
     menu: the wheel doesn't need either.
     """
     html = strip_marks(html)
-    html = head_bits(html, f"{t['name']} · {SITE}", t['meta'], accent_css_block(t))
+    html = head_bits(html, f"{t['name']} · {SITE}", t['meta'], '')
 
     inner = '<div class="main-inner">'
     if inner not in html:
