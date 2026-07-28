@@ -1047,6 +1047,24 @@ def need(html, needle, what):
     return html
 
 
+def accent_rgb(t):
+    return _hex_to_rgb(PALETTE[t['accent']]['fill'])
+
+
+def fixup(html, old, new, what):
+    """Swap one leftover hardcoded-blue literal for the tool's own accent.
+
+    CSS custom properties recolour everything that references --accent, but
+    a handful of spots (box-shadow glows, canvas fillStyle in PNG export)
+    predate the accent system and hardcode the old default blue directly, so
+    they stay blue no matter which tool's page they're on. Exact-count check
+    because these are one-off literal swaps, not a marker to inject at.
+    """
+    if html.count(old) != 1:
+        raise SystemExit(f'build: expected exactly one {what}, found {html.count(old)}')
+    return html.replace(old, new, 1)
+
+
 # ── Per-tool CSS ─────────────────────────────────────────────────────────────
 
 DEBATE_CSS = '''
@@ -1445,6 +1463,9 @@ SEED_DEBATES = _DEBATES
 def build_debate(html, t):
     html = strip_marks(html)
     html = head_bits(html, f"{t['name']} · {SITE}", t['meta'], DEBATE_CSS + accent_css_block(t))
+    r, g, b = accent_rgb(t)
+    html = fixup(html, 'rgba(37,99,235,.12)', f'rgba({r},{g},{b},.12)',
+                 'the search-focus glow in debate-builder')
 
     m = re.search(r'<a href="#" class="st-brand".*?</a>', html, re.S)
     if not m:
@@ -2256,6 +2277,11 @@ def build_matching(html, t):
     """
     html = strip_marks(html)
     html = head_bits(html, f"{t['name']} · {SITE}", t['meta'], accent_css_block(t))
+    r, g, b = accent_rgb(t)
+    html = fixup(html, 'rgba(37,99,235,.15)', f'rgba({r},{g},{b},.15)',
+                 'the selected-cell glow in vocab-matching')
+    html = fixup(html, "ctx.fillStyle = '#2563eb';", f"ctx.fillStyle = '{PALETTE[t['accent']]['fill']}';",
+                 "the answer-key number colour in vocab-matching's PNG export")
 
     inner = '<div class="main-inner">'
     if inner not in html:
@@ -2300,6 +2326,8 @@ def build_gapfill(html, t):
     """
     html = strip_marks(html)
     html = head_bits(html, f"{t['name']} · {SITE}", t['meta'], accent_css_block(t))
+    html = fixup(html, "ctx.fillStyle = '#2563eb';", f"ctx.fillStyle = '{PALETTE[t['accent']]['fill']}';",
+                 "the answer-key number colour in gap-fill's PNG export")
 
     inner = '<div class="main-inner">'
     if inner not in html:
@@ -2344,6 +2372,11 @@ def build_spinwheel(html, t):
     """
     html = strip_marks(html)
     html = head_bits(html, f"{t['name']} · {SITE}", t['meta'], accent_css_block(t))
+    r, g, b = accent_rgb(t)
+    html = fixup(html, 'rgba(37,99,235,.55)', f'rgba({r},{g},{b},.55)',
+                 'the spin-button shadow in spin-wheel')
+    html = fixup(html, 'rgba(37,99,235,.35)', f'rgba({r},{g},{b},.35)',
+                 'the winner-card shadow in spin-wheel')
 
     inner = '<div class="main-inner">'
     if inner not in html:
