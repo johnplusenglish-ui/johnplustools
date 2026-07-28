@@ -153,7 +153,6 @@ TOOLS = [
         'shot_dark': '/assets/debate-builder-dark.png',
         'shot_alt': ('The Debate Builder in use: a debate titled AI in the classroom, with the '
                      'question, four prompt circles and the C2 phrase bank down the left.'),
-        'accent': '#EF233C',
     },
     {
         'slug': 'gap-fill',
@@ -178,7 +177,6 @@ TOOLS = [
         'shot_dark': '/assets/gap-fill-dark.png',
         'shot_alt': ('Gap-fill in use: a text with several words marked as blanks, a word bank '
                      'above and the answer key beneath.'),
-        'accent': '#FF9100',
     },
     {
         'slug': 'vocab-matching',
@@ -204,7 +202,6 @@ TOOLS = [
         'shot_dark': '/assets/vocab-matching-dark.png',
         'shot_alt': ('Vocab Matching in use: a two-column editor listing words on the left '
                      'and their definitions on the right, with Edit / Play / Print tabs.'),
-        'accent': '#B88EFF',
     },
     {
         'slug': 'role-plays',
@@ -229,7 +226,6 @@ TOOLS = [
         'shot_dark': '/assets/role-plays-dark.png',
         'shot_alt': ('Role Plays in use: two cards on screen labelled Student A and Student B, '
                      'each with a role and a short description.'),
-        'accent': '#FF937B',
     },
     {
         'slug': 'speaking-topics',
@@ -253,7 +249,6 @@ TOOLS = [
         'shot_dark': '/assets/speaking-topics-dark.png',
         'shot_alt': ('Speaking Topics in use: a grid of topics, with a deck of conversation '
                      'questions below.'),
-        'accent': '#F592CB',
     },
     {
         'slug': 'spin-wheel',
@@ -279,7 +274,6 @@ TOOLS = [
         'shot_dark': '/assets/spin-wheel-dark.png',
         'shot_alt': ('Spin the Wheel in use: an eight-slice colour wheel with student names, a '
                      'saved wheel bank in the sidebar, and a Spin button below.'),
-        'accent': '#19BD9E',
     },
 ]
 
@@ -2300,7 +2294,7 @@ def home_page():
         <span class="gcard-shot" style="--shot:url('{t['shot']}');--shot-dark:url('{t['shot_dark']}')"
               role="img" aria-label="{t['shot_alt']}"></span>
         <span class="gcard-body">
-          <span class="gcard-icon" style="background:{t['accent']}22;border-color:{t['accent']}3d;color:{t['accent']}">{t['icon']}</span>
+          <span class="gcard-icon">{t['icon']}</span>
           <span class="gcard-text">
             <span class="gcard-name">{t['name']}</span>
             <span class="gcard-tagline">{t['tagline']}</span>
