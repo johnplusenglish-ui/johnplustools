@@ -279,18 +279,35 @@ function tmrRenderHourglass(progress, running) {
         '<clipPath id="tmrTopClip"><rect x="0" y="' + topClipY.toFixed(1) + '" width="160" height="' + (topH + 1).toFixed(1) + '"/></clipPath>' +
         '<clipPath id="tmrBotClip"><rect x="0" y="' + botClipY.toFixed(1) + '" width="160" height="' + (botH + 1).toFixed(1) + '"/></clipPath>' +
         '<clipPath id="tmrGlassClipTop"><polygon points="30,26 130,26 80,100"/></clipPath>' +
-        '<linearGradient id="tmrSandGrad" x1="0" y1="0" x2="0.7" y2="1">' +
-          '<stop offset="0" stop-color="#ffd27a"/><stop offset="0.55" stop-color="#f0b84e"/><stop offset="1" stop-color="#d99a2f"/>' +
+        '<clipPath id="tmrGlassClipBot"><polygon points="30,174 130,174 80,100"/></clipPath>' +
+        '<linearGradient id="tmrSandGrad" x1="0.1" y1="0" x2="0.8" y2="1">' +
+          '<stop offset="0" stop-color="#ffe3a3"/><stop offset="0.4" stop-color="#f5bd54"/>' +
+          '<stop offset="0.75" stop-color="#dc932c"/><stop offset="1" stop-color="#b06f1e"/>' +
         '</linearGradient>' +
+        '<linearGradient id="tmrCapGrad" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0" stop-color="var(--ink)" stop-opacity="0.85"/><stop offset="1" stop-color="var(--ink)"/>' +
+        '</linearGradient>' +
+        '<pattern id="tmrGrain" width="7" height="7" patternUnits="userSpaceOnUse">' +
+          '<circle cx="1.2" cy="1.4" r="0.5" fill="#5c3b0e" opacity="0.16"/>' +
+          '<circle cx="4.6" cy="3.1" r="0.4" fill="#5c3b0e" opacity="0.12"/>' +
+          '<circle cx="2.8" cy="5.4" r="0.45" fill="#fff6df" opacity="0.22"/>' +
+          '<circle cx="6.1" cy="6" r="0.35" fill="#5c3b0e" opacity="0.1"/>' +
+        '</pattern>' +
       '</defs>' +
-      '<ellipse cx="80" cy="192" rx="36" ry="5" fill="var(--ink)" opacity="0.08"/>' +
+      '<ellipse cx="80" cy="193" rx="34" ry="4.5" fill="var(--ink)" opacity="0.09"/>' +
+      '<ellipse cx="80" cy="190" rx="20" ry="2.5" fill="var(--ink)" opacity="0.14"/>' +
       '<polygon points="30,26 130,26 80,100" fill="url(#tmrSandGrad)" clip-path="url(#tmrTopClip)"/>' +
+      '<polygon points="30,26 130,26 80,100" fill="url(#tmrGrain)" opacity="0.5" clip-path="url(#tmrTopClip)"/>' +
       '<polygon points="30,174 130,174 80,100" fill="url(#tmrSandGrad)" clip-path="url(#tmrBotClip)"/>' +
+      '<polygon points="30,174 130,174 80,100" fill="url(#tmrGrain)" opacity="0.5" clip-path="url(#tmrBotClip)"/>' +
+      '<line x1="69" y1="97" x2="69" y2="103" stroke="#7a4f14" stroke-width="1.4" opacity="0.35" clip-path="url(#tmrGlassClipBot)"/>' +
       grains +
-      '<polygon points="40,26 56,26 100,100 84,100" fill="#ffffff" opacity="0.3" clip-path="url(#tmrGlassClipTop)"/>' +
+      '<polygon points="40,26 56,26 100,100 84,100" fill="#ffffff" opacity="0.28" clip-path="url(#tmrGlassClipTop)"/>' +
+      '<polygon points="40,174 56,174 100,100 84,100" fill="#ffffff" opacity="0.14" clip-path="url(#tmrGlassClipBot)"/>' +
       '<path d="M30 26 L130 26 L80 100 Z M30 174 L130 174 L80 100 Z" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>' +
-      '<line x1="24" y1="20" x2="136" y2="20" stroke="var(--ink)" stroke-width="7" stroke-linecap="round"/>' +
-      '<line x1="24" y1="180" x2="136" y2="180" stroke="var(--ink)" stroke-width="7" stroke-linecap="round"/>' +
+      '<line x1="24" y1="20" x2="136" y2="20" stroke="url(#tmrCapGrad)" stroke-width="7" stroke-linecap="round"/>' +
+      '<line x1="24" y1="180" x2="136" y2="180" stroke="url(#tmrCapGrad)" stroke-width="7" stroke-linecap="round"/>' +
+      '<line x1="30" y1="17.5" x2="130" y2="17.5" stroke="#ffffff" stroke-width="1" opacity="0.2" stroke-linecap="round"/>' +
       '<circle cx="24" cy="20" r="4" fill="var(--ink)"/><circle cx="136" cy="20" r="4" fill="var(--ink)"/>' +
       '<circle cx="24" cy="180" r="4" fill="var(--ink)"/><circle cx="136" cy="180" r="4" fill="var(--ink)"/>' +
     '</svg>';
@@ -320,21 +337,31 @@ function tmrRenderIce(progress, running) {
   return '' +
     '<svg viewBox="0 0 160 200" class="tmr-svg" xmlns="http://www.w3.org/2000/svg">' +
       '<defs>' +
-        '<linearGradient id="tmrIceGrad" x1="0" y1="0" x2="1" y2="1">' +
-          '<stop offset="0" stop-color="#eaf8ff"/><stop offset="0.5" stop-color="#bfe8fb"/><stop offset="1" stop-color="#8fd0f2"/>' +
+        '<linearGradient id="tmrIceGrad" x1="0.05" y1="0" x2="0.9" y2="1">' +
+          '<stop offset="0" stop-color="#f5fcff"/><stop offset="0.35" stop-color="#cdedfc"/>' +
+          '<stop offset="0.7" stop-color="#8fd0f2"/><stop offset="1" stop-color="#5fa9d6"/>' +
         '</linearGradient>' +
         '<radialGradient id="tmrPuddleGrad" cx="0.5" cy="0.35" r="0.65">' +
-          '<stop offset="0" stop-color="#d3f1fd"/><stop offset="1" stop-color="#8fd0f2"/>' +
+          '<stop offset="0" stop-color="#e2f6ff"/><stop offset="0.6" stop-color="#a9ddf5"/><stop offset="1" stop-color="#79bfe8"/>' +
         '</radialGradient>' +
+        '<pattern id="tmrFrost" width="8" height="8" patternUnits="userSpaceOnUse">' +
+          '<circle cx="1.4" cy="1.6" r="0.5" fill="#ffffff" opacity="0.5"/>' +
+          '<circle cx="5.2" cy="3.4" r="0.35" fill="#ffffff" opacity="0.35"/>' +
+          '<circle cx="3.1" cy="6.2" r="0.4" fill="#1a5a86" opacity="0.12"/>' +
+          '<circle cx="6.8" cy="6.6" r="0.3" fill="#ffffff" opacity="0.3"/>' +
+        '</pattern>' +
       '</defs>' +
       '<ellipse cx="80" cy="176" rx="' + puddleRx.toFixed(1) + '" ry="' + puddleRy.toFixed(1) + '" fill="url(#tmrPuddleGrad)" opacity="' + puddleOpacity + '"/>' +
       (puddleRx > 28 ? '<ellipse cx="80" cy="176" rx="' + (puddleRx * 0.65).toFixed(1) + '" ry="' + (puddleRy * 0.65).toFixed(1) + '" fill="none" stroke="#ffffff" stroke-width="0.8" opacity="0.4"/>' : '') +
-      '<rect x="' + x + '" y="' + topY.toFixed(1) + '" width="' + w + '" height="' + h.toFixed(1) + '" rx="' + rx.toFixed(1) + '" fill="url(#tmrIceGrad)" fill-opacity="0.92" stroke="#8fd0f2" stroke-width="2"/>' +
-      (h > 26 ? '<line x1="' + (x + 8) + '" y1="' + (topY + h * 0.3).toFixed(1) + '" x2="' + (x + w - 10) + '" y2="' + (topY + h * 0.5).toFixed(1) + '" stroke="#ffffff" stroke-width="1" opacity="0.3"/>' : '') +
-      (h > 26 ? '<line x1="' + (x + w - 12) + '" y1="' + (topY + h * 0.2).toFixed(1) + '" x2="' + (x + 14) + '" y2="' + (topY + h * 0.85).toFixed(1) + '" stroke="#ffffff" stroke-width="0.7" opacity="0.2"/>' : '') +
+      '<ellipse cx="80" cy="' + (bottomY + 1).toFixed(1) + '" rx="' + (w * 0.42).toFixed(1) + '" ry="2.4" fill="#3d7ba8" opacity="0.22"/>' +
+      '<rect x="' + x + '" y="' + topY.toFixed(1) + '" width="' + w + '" height="' + h.toFixed(1) + '" rx="' + rx.toFixed(1) + '" fill="url(#tmrIceGrad)" fill-opacity="0.94" stroke="#5fa9d6" stroke-width="1.6"/>' +
+      '<rect x="' + x + '" y="' + topY.toFixed(1) + '" width="' + w + '" height="' + h.toFixed(1) + '" rx="' + rx.toFixed(1) + '" fill="url(#tmrFrost)" opacity="0.55"/>' +
+      (h > 26 ? '<line x1="' + (x + 8) + '" y1="' + (topY + h * 0.3).toFixed(1) + '" x2="' + (x + w - 10) + '" y2="' + (topY + h * 0.5).toFixed(1) + '" stroke="#ffffff" stroke-width="1" opacity="0.35"/>' : '') +
+      (h > 26 ? '<line x1="' + (x + w - 12) + '" y1="' + (topY + h * 0.2).toFixed(1) + '" x2="' + (x + 14) + '" y2="' + (topY + h * 0.85).toFixed(1) + '" stroke="#ffffff" stroke-width="0.7" opacity="0.22"/>' : '') +
+      (h > 26 ? '<line x1="' + (x + 22) + '" y1="' + (topY + h * 0.08).toFixed(1) + '" x2="' + (x + 6) + '" y2="' + (topY + h * 0.6).toFixed(1) + '" stroke="#2f6f9c" stroke-width="0.6" opacity="0.18"/>' : '') +
       bubbleMarkup +
-      '<rect x="' + (x + 10) + '" y="' + (topY + 8).toFixed(1) + '" width="9" height="' + Math.max(0, h - 20).toFixed(1) + '" rx="4" fill="#ffffff" opacity="0.6"/>' +
-      '<rect x="' + (x + w - 15) + '" y="' + (topY + 14).toFixed(1) + '" width="4" height="' + Math.max(0, h - 30).toFixed(1) + '" rx="2" fill="#ffffff" opacity="0.35"/>' +
+      '<rect x="' + (x + 10) + '" y="' + (topY + 8).toFixed(1) + '" width="9" height="' + Math.max(0, h - 20).toFixed(1) + '" rx="4" fill="#ffffff" opacity="0.65"/>' +
+      '<rect x="' + (x + w - 15) + '" y="' + (topY + 14).toFixed(1) + '" width="4" height="' + Math.max(0, h - 30).toFixed(1) + '" rx="2" fill="#ffffff" opacity="0.4"/>' +
       (dripsOn ?
         '<circle cx="' + (x + 16) + '" cy="' + (bottomY + phaseA * 14).toFixed(1) + '" r="3" fill="#8fd0f2" opacity="' + (1 - phaseA).toFixed(2) + '"/>' +
         '<circle cx="' + (x + 52) + '" cy="' + (bottomY + phaseB * 14).toFixed(1) + '" r="2.4" fill="#8fd0f2" opacity="' + (1 - phaseB).toFixed(2) + '"/>'
@@ -358,24 +385,35 @@ function tmrRenderCandle(progress, running) {
     '<svg viewBox="0 0 160 200" class="tmr-svg" xmlns="http://www.w3.org/2000/svg">' +
       '<defs>' +
         '<linearGradient id="tmrWaxGrad" x1="0" y1="0" x2="1" y2="0">' +
-          '<stop offset="0" stop-color="#fffaf0"/><stop offset="0.45" stop-color="#fbeed9"/><stop offset="1" stop-color="#ecd9b4"/>' +
+          '<stop offset="0" stop-color="#fffdf5"/><stop offset="0.35" stop-color="#fbeed9"/>' +
+          '<stop offset="0.75" stop-color="#e8d0a0"/><stop offset="1" stop-color="#c9a874"/>' +
         '</linearGradient>' +
         '<radialGradient id="tmrFlameGlow" cx="0.5" cy="0.5" r="0.5">' +
           '<stop offset="0" stop-color="#ffd35b" stop-opacity="0.55"/><stop offset="1" stop-color="#ffd35b" stop-opacity="0"/>' +
         '</radialGradient>' +
+        '<radialGradient id="tmrFlameCore" cx="0.5" cy="0.72" r="0.6">' +
+          '<stop offset="0" stop-color="#fffdf0"/><stop offset="0.45" stop-color="#ffd35b"/><stop offset="1" stop-color="#ff8a3d"/>' +
+        '</radialGradient>' +
+        '<pattern id="tmrWaxGrain" width="7" height="7" patternUnits="userSpaceOnUse">' +
+          '<circle cx="1.3" cy="1.5" r="0.4" fill="#c9a874" opacity="0.25"/>' +
+          '<circle cx="4.8" cy="3.2" r="0.3" fill="#ffffff" opacity="0.3"/>' +
+          '<circle cx="2.9" cy="5.6" r="0.35" fill="#c9a874" opacity="0.2"/>' +
+        '</pattern>' +
       '</defs>' +
-      '<ellipse cx="80" cy="185" rx="28" ry="6.5" fill="var(--ink)" opacity="0.1"/>' +
-      '<rect x="' + x + '" y="' + topY.toFixed(1) + '" width="' + w + '" height="' + h.toFixed(1) + '" rx="7" fill="url(#tmrWaxGrad)" stroke="#e7d3ac" stroke-width="1.5"/>' +
-      '<rect x="' + (x + 4) + '" y="' + topY.toFixed(1) + '" width="6" height="' + h.toFixed(1) + '" rx="3" fill="#ffffff" opacity="0.45"/>' +
+      '<ellipse cx="80" cy="186" rx="30" ry="7" fill="var(--ink)" opacity="0.08"/>' +
+      '<ellipse cx="80" cy="184" rx="18" ry="3" fill="var(--ink)" opacity="0.15"/>' +
+      '<rect x="' + x + '" y="' + topY.toFixed(1) + '" width="' + w + '" height="' + h.toFixed(1) + '" rx="7" fill="url(#tmrWaxGrad)" stroke="#d8bc8a" stroke-width="1.4"/>' +
+      '<rect x="' + x + '" y="' + topY.toFixed(1) + '" width="' + w + '" height="' + h.toFixed(1) + '" rx="7" fill="url(#tmrWaxGrain)" opacity="0.6"/>' +
+      '<rect x="' + (x + 4) + '" y="' + topY.toFixed(1) + '" width="6" height="' + h.toFixed(1) + '" rx="3" fill="#ffffff" opacity="0.5"/>' +
+      '<rect x="' + (x + w - 9) + '" y="' + topY.toFixed(1) + '" width="3" height="' + h.toFixed(1) + '" rx="1.5" fill="#8a6f42" opacity="0.18"/>' +
       '<ellipse cx="80" cy="' + topY.toFixed(1) + '" rx="9" ry="2.6" fill="#e9d3a4"/>' +
       (dripOn ? '<path d="M' + (x + w - 4) + ' ' + dripY.toFixed(1) + ' q4.5 3.5 0 9 q-4.5 -3.5 0 -9 Z" fill="#f4e2bd"/>' : '') +
       '<line x1="80" y1="' + topY.toFixed(1) + '" x2="80" y2="' + (topY - 9).toFixed(1) + '" stroke="#4a3c28" stroke-width="2" stroke-linecap="round"/>' +
       (lit ?
         '<circle cx="80" cy="' + (topY - 15).toFixed(1) + '" r="' + (13 + flick * 1.3).toFixed(1) + '" fill="url(#tmrFlameGlow)" opacity="' + glowPulse + '"/>' +
         '<g transform="translate(80,' + (topY - 9).toFixed(1) + ') scale(' + flameScale + ') skewX(' + flameSkew + ')">' +
-          '<path d="M0 -22 C 9 -12 9 -2 0 4 C -9 -2 -9 -12 0 -22 Z" fill="#ff8a3d"/>' +
-          '<path d="M0 -15 C 5 -8 5 -1 0 3 C -5 -1 -5 -8 0 -15 Z" fill="#ffd35b"/>' +
-          '<path d="M0 -8 C 2.4 -4 2.4 -1 0 2 C -2.4 -1 -2.4 -4 0 -8 Z" fill="#fff6d8"/>' +
+          '<path d="M0 -22 C 9 -12 9 -2 0 4 C -9 -2 -9 -12 0 -22 Z" fill="url(#tmrFlameCore)"/>' +
+          '<path d="M0 -8 C 2.4 -4 2.4 -1 0 2 C -2.4 -1 -2.4 -4 0 -8 Z" fill="#fff6d8" opacity="0.9"/>' +
         '</g>'
       :
         '<path d="M80 ' + (topY - 9).toFixed(1) + ' C 86 ' + (topY - 20).toFixed(1) + ' 76 ' + (topY - 30).toFixed(1) + ' 82 ' + (topY - 42).toFixed(1) + '" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" opacity="0.5"/>'
