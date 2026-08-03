@@ -126,27 +126,27 @@ body.tmr-floating .tmr-placeholder{display:block}
           <div class="tmr-controls">
             <div class="tmr-len tmr-present-only-hide">
               <input type="text" id="tmrLenInput" inputmode="numeric" aria-label="Timer length"
-                     title="Type a length (5, or 5:30) and press Enter" onchange="tmrOnLenInput(this)">
-              <button type="button" onclick="tmrNudge(-1)" title="Minus 1 minute" aria-label="Minus 1 minute">
+                     title="Type a length (5, or 5:30) and press Enter">
+              <button type="button" id="tmrMinusBtn" title="Minus 1 minute" aria-label="Minus 1 minute">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
               </button>
-              <button type="button" onclick="tmrNudge(1)" title="Plus 1 minute" aria-label="Plus 1 minute">
+              <button type="button" id="tmrPlusBtn" title="Plus 1 minute" aria-label="Plus 1 minute">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
               </button>
             </div>
             <div class="tmr-presets tmr-present-only-hide" id="tmrPresets"></div>
-            <button class="tmr-icon-btn tmr-mute" id="tmrMuteBtn" type="button" onclick="tmrToggleSound()" title="Mute sound" aria-label="Mute sound">
+            <button class="tmr-icon-btn tmr-mute" id="tmrMuteBtn" type="button" title="Mute sound" aria-label="Mute sound">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
             </button>
-            <button class="tmr-icon-btn" type="button" onclick="tmrReset()" title="Reset" aria-label="Reset">
+            <button class="tmr-icon-btn" id="tmrResetBtn" type="button" title="Reset" aria-label="Reset">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
             </button>
-            <button class="tmr-btn" id="tmrStartBtn" type="button" onclick="tmrToggle()"></button>
-            <button class="tmr-icon-btn tmr-present-only-hide" id="tmrPopBtn" type="button" onclick="tmrTogglePip()"
+            <button class="tmr-btn" id="tmrStartBtn" type="button"></button>
+            <button class="tmr-icon-btn tmr-present-only-hide" id="tmrPopBtn" type="button"
                     title="Float on top" aria-label="Float the timer above other windows">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><rect x="12" y="12" width="8" height="6" rx="1" fill="currentColor" stroke="none"/></svg>
             </button>
-            <button class="tmr-btn tmr-present-only-hide" type="button" onclick="tmrEnterPresent()">
+            <button class="tmr-btn tmr-present-only-hide" id="tmrPresentBtn" type="button">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
               Present
             </button>
@@ -856,11 +856,23 @@ function tmrBuildStyles() {
   }).join('');
 }
 
+/* Built as real elements with addEventListener, not innerHTML with inline
+   onclick: an inline handler compiles lazily against whichever document the
+   element belongs to the first time it fires, so a preset clicked for the
+   first time after the card has floated into the pip window would resolve
+   tmrSetPreset against that window's (empty) global scope and silently do
+   nothing. A listener bound here always calls this exact function. */
 function tmrBuildPresets() {
-  tmrPresetsEl.innerHTML = TMR_PRESETS.map(function (sec) {
+  tmrPresetsEl.innerHTML = '';
+  TMR_PRESETS.forEach(function (sec) {
     var label = sec < 60 ? sec + 's' : (sec / 60) + ' min';
-    return '<button type="button" class="tmr-preset" onclick="tmrSetPreset(' + sec + ')">' + label + '</button>';
-  }).join('');
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'tmr-preset';
+    b.textContent = label;
+    b.addEventListener('click', function () { tmrSetPreset(sec); });
+    tmrPresetsEl.appendChild(b);
+  });
 }
 
 /* ── Present mode ──────────────────────────────────────────────────── */
@@ -924,8 +936,29 @@ var tmrLenInputEl = document.getElementById('tmrLenInput');
 var tmrMuteBtnEl = document.getElementById('tmrMuteBtn');
 var tmrStartBtnEl = document.getElementById('tmrStartBtn');
 var tmrPresetsEl = document.getElementById('tmrPresets');
+var tmrMinusBtnEl = document.getElementById('tmrMinusBtn');
+var tmrPlusBtnEl = document.getElementById('tmrPlusBtn');
+var tmrResetBtnEl = document.getElementById('tmrResetBtn');
+var tmrPopBtnEl = document.getElementById('tmrPopBtn');
+var tmrPresentBtnEl = document.getElementById('tmrPresentBtn');
 
-if (!('documentPictureInPicture' in window)) document.getElementById('tmrPopBtn').style.display = 'none';
+/* addEventListener, not inline onclick attributes: every one of these lives
+   inside .tmr-card and can end up moved into the pip window. An inline
+   handler compiles lazily against whichever document currently owns the
+   element, so one clicked for the first time after floating would resolve
+   against the pip window's empty global scope and do nothing - this is why
+   the buttons stopped responding once popped out. A listener bound here,
+   before any move can happen, always calls the same function regardless. */
+tmrLenInputEl.addEventListener('change', function () { tmrOnLenInput(tmrLenInputEl); });
+tmrMinusBtnEl.addEventListener('click', function () { tmrNudge(-1); });
+tmrPlusBtnEl.addEventListener('click', function () { tmrNudge(1); });
+tmrMuteBtnEl.addEventListener('click', tmrToggleSound);
+tmrResetBtnEl.addEventListener('click', tmrReset);
+tmrStartBtnEl.addEventListener('click', tmrToggle);
+tmrPopBtnEl.addEventListener('click', tmrTogglePip);
+tmrPresentBtnEl.addEventListener('click', tmrEnterPresent);
+
+if (!('documentPictureInPicture' in window)) tmrPopBtnEl.style.display = 'none';
 
 tmrLoad();
 tmrBuildStyles();
