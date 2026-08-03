@@ -243,6 +243,18 @@ function tmrPolar(cx, cy, r, angleDeg) {
 /* Pie-slice path for the remaining (uneaten) wedge, starting at 12 o'clock
    and sweeping clockwise. A single arc command can't do a full 360, so a
    whole pizza is drawn as two half-circle arcs instead. */
+/* A longer countdown starts with a visibly bigger object (more ice, a
+   taller candle, a bigger pizza, a balloon that inflates further before it
+   bursts) - not just a longer wait. Log-scaled, so the difference is
+   meaningful across 15s to 99:59 without a 1-minute timer looking identical
+   to a 3-minute one, or a 45-minute one looking absurd. */
+function tmrSizeForDuration(minSize, maxSize) {
+  var minDur = 15, maxDur = 99 * 60 + 59;
+  var d = Math.max(minDur, Math.min(maxDur, state.total));
+  var frac = (Math.log(d) - Math.log(minDur)) / (Math.log(maxDur) - Math.log(minDur));
+  return minSize + (maxSize - minSize) * frac;
+}
+
 function tmrWedgePath(cx, cy, r, remainingDeg) {
   if (remainingDeg <= 0.5) return '';
   if (remainingDeg >= 359.5) {
@@ -418,7 +430,7 @@ function tmrRenderHourglass(progress, running) {
 function tmrRenderIce(progress, running) {
   /* A cube, not a slab: width always equals height, so it's square at
      every point in the melt, not just at the start. */
-  var maxSize = 92, minSize = 16;
+  var maxSize = tmrSizeForDuration(58, 128), minSize = 16;
   var h = Math.max(minSize, maxSize * (1 - progress));
   var w = h;
   var bottomY = 168, topY = bottomY - h, x = 80 - w / 2;
@@ -475,7 +487,7 @@ function tmrRenderIce(progress, running) {
 }
 
 function tmrRenderCandle(progress, running) {
-  var maxH = 130, minH = 14;
+  var maxH = tmrSizeForDuration(75, 138), minH = 14;
   var h = Math.max(minH, maxH * (1 - progress));
   var bottomY = 178, topY = bottomY - h, w = 30, x = 65;
   var lit = progress < 0.999;
@@ -576,7 +588,7 @@ function tmrRenderBomb(progress, running) {
 }
 
 function tmrRenderPizza(progress, running) {
-  var cx = 80, cy = 108, r = 55, plateR = 66;
+  var cx = 80, cy = 108, r = tmrSizeForDuration(36, 68), plateR = r + 11;
   var remainingDeg = 360 * (1 - progress);
   var wedge = tmrWedgePath(cx, cy, r, remainingDeg);
   var sway = running ? Math.sin(Date.now() / 500) * 3 : 0;
@@ -626,9 +638,14 @@ function tmrRenderPizza(progress, running) {
 }
 
 function tmrRenderBalloon(progress, running) {
-  var knotY = 152, cx = 80;
-  var maxR = 42, minR = 15;
-  var r = maxR - (maxR - minR) * progress;
+  /* Grows and pops, not shrinks and pops: bursting is caused by
+     over-inflation, not under-inflation, so this reads correctly where the
+     old deflate-then-pop version didn't. Max size scales with the timer's
+     length, same as the ice/candle/pizza - a longer countdown inflates it
+     further before it bursts. */
+  var knotY = 140, cx = 80;
+  var maxR = tmrSizeForDuration(28, 55), minR = 13;
+  var r = minR + (maxR - minR) * progress;
   var cy = knotY - r - 3;
   var sway = running ? Math.sin(Date.now() / 480) * 4 : 2;
 
@@ -646,20 +663,22 @@ function tmrRenderBalloon(progress, running) {
     return '' +
       '<svg viewBox="0 0 160 200" class="tmr-svg" xmlns="http://www.w3.org/2000/svg">' +
         '<ellipse cx="80" cy="' + (knotY + 4) + '" rx="26" ry="5" fill="var(--ink)" opacity="0.08"/>' +
-        '<circle cx="' + cx + '" cy="' + cy.toFixed(1) + '" r="' + (28 * (1 - t * 0.7)).toFixed(1) + '" fill="#fff6d8" opacity="' + ((1 - t) * 0.7).toFixed(2) + '"/>' +
+        '<circle cx="' + cx + '" cy="' + cy.toFixed(1) + '" r="' + (32 * (1 - t * 0.7)).toFixed(1) + '" fill="#fff6d8" opacity="' + ((1 - t) * 0.7).toFixed(2) + '"/>' +
         shards +
         (t > 0.4 ? '<path d="M74 ' + (knotY - 6) + ' Q80 ' + (knotY + 4) + ' 88 ' + (knotY - 4) + ' Q82 ' + knotY + ' 74 ' + (knotY - 6) + ' Z" fill="#c22a44" opacity="0.85"/>' : '') +
         (t > 0.4 ? '<circle cx="80" cy="' + (knotY - 2) + '" r="3" fill="#8a1830"/>' : '') +
       '</svg>';
   }
 
-  var wrinkleCount = Math.floor(progress * 4);
-  var wrinkles = [];
-  for (var i = 0; i < wrinkleCount; i++) {
-    var wy = cy - r * 0.5 + i * (r * 0.35);
-    wrinkles.push('<path d="M' + (cx - r * 0.6).toFixed(1) + ' ' + wy.toFixed(1) + ' Q' + cx + ' ' + (wy + 4).toFixed(1) +
-      ' ' + (cx + r * 0.6).toFixed(1) + ' ' + wy.toFixed(1) + '" fill="none" stroke="#a8283f" stroke-width="1" opacity="0.25"/>');
-  }
+  /* Stress lines near the surface, only in the last stretch before it
+     bursts - a taut-rubber tension cue, not a wrinkle (the opposite of what
+     a deflating balloon would show). */
+  var tension = progress > 0.7 ? ((progress - 0.7) / 0.3 * 0.4).toFixed(2) : 0;
+  var tensionLines = progress <= 0.7 ? '' :
+    '<path d="M' + (cx - r * 0.5).toFixed(1) + ' ' + (cy - r * 0.6).toFixed(1) + ' Q' + cx + ' ' + (cy - r * 0.75).toFixed(1) +
+      ' ' + (cx + r * 0.5).toFixed(1) + ' ' + (cy - r * 0.6).toFixed(1) + '" fill="none" stroke="#ffd7de" stroke-width="1" opacity="' + tension + '"/>' +
+    '<path d="M' + (cx - r * 0.35).toFixed(1) + ' ' + (cy + r * 0.3).toFixed(1) + ' Q' + cx + ' ' + (cy + r * 0.42).toFixed(1) +
+      ' ' + (cx + r * 0.35).toFixed(1) + ' ' + (cy + r * 0.3).toFixed(1) + '" fill="none" stroke="#ffd7de" stroke-width="0.8" opacity="' + (tension * 0.7).toFixed(2) + '"/>';
 
   return '' +
     '<svg viewBox="0 0 160 200" class="tmr-svg" xmlns="http://www.w3.org/2000/svg">' +
@@ -668,15 +687,15 @@ function tmrRenderBalloon(progress, running) {
           '<stop offset="0" stop-color="#ff8fa3"/><stop offset="0.55" stop-color="#f0435f"/><stop offset="1" stop-color="#c21f3d"/>' +
         '</radialGradient>' +
       '</defs>' +
-      '<ellipse cx="80" cy="' + (knotY + r + 30).toFixed(1) + '" rx="24" ry="5" fill="var(--ink)" opacity="0.08"/>' +
-      '<path d="M80 ' + knotY + ' Q' + (80 + sway).toFixed(1) + ' ' + (knotY + 20) + ' ' + (80 - sway).toFixed(1) + ' ' + (knotY + 40) +
-        ' Q' + (80 + sway).toFixed(1) + ' ' + (knotY + 55) + ' 80 ' + (knotY + 68) + '" fill="none" stroke="var(--muted)" stroke-width="1.4" opacity="0.6"/>' +
+      '<ellipse cx="80" cy="190" rx="24" ry="5" fill="var(--ink)" opacity="0.08"/>' +
+      '<path d="M80 ' + knotY + ' Q' + (80 + sway).toFixed(1) + ' ' + (knotY + 15) + ' ' + (80 - sway).toFixed(1) + ' ' + (knotY + 28) +
+        ' Q' + (80 + sway).toFixed(1) + ' ' + (knotY + 38) + ' 80 ' + (knotY + 46) + '" fill="none" stroke="var(--muted)" stroke-width="1.4" opacity="0.6"/>' +
       '<ellipse cx="' + cx + '" cy="' + cy.toFixed(1) + '" rx="' + r.toFixed(1) + '" ry="' + (r * 1.14).toFixed(1) + '" fill="url(#tmrBalloonGrad)"/>' +
       '<path d="M' + (cx - 6) + ' ' + (cy + r * 1.1).toFixed(1) + ' Q80 ' + (cy + r * 1.3).toFixed(1) + ' ' + (cx + 6) + ' ' + (cy + r * 1.1).toFixed(1) + ' Z" fill="#c21f3d"/>' +
       '<ellipse cx="80" cy="' + knotY + '" rx="4" ry="3" fill="#8a1830"/>' +
-      wrinkles.join('') +
+      tensionLines +
       '<ellipse cx="' + (cx - r * 0.32).toFixed(1) + '" cy="' + (cy - r * 0.4).toFixed(1) + '" rx="' + (r * 0.24).toFixed(1) + '" ry="' + (r * 0.36).toFixed(1) +
-        '" fill="#ffffff" opacity="' + (0.45 - progress * 0.25).toFixed(2) + '" transform="rotate(-25 ' + (cx - r * 0.32).toFixed(1) + ' ' + (cy - r * 0.4).toFixed(1) + ')"/>' +
+        '" fill="#ffffff" opacity="' + (0.3 + progress * 0.35).toFixed(2) + '" transform="rotate(-25 ' + (cx - r * 0.32).toFixed(1) + ' ' + (cy - r * 0.4).toFixed(1) + ')"/>' +
     '</svg>';
 }
 
