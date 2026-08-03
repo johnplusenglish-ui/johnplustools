@@ -146,14 +146,22 @@ var TMR_STYLES = [
   {id: 'hourglass', name: 'Hourglass', desc: 'Sand runs through'},
   {id: 'ice', name: 'Melting ice', desc: 'Watch it shrink'},
   {id: 'candle', name: 'Burning candle', desc: 'Burns to the wick'},
-  {id: 'bomb', name: 'Ticking bomb', desc: 'Boom at zero'}
+  {id: 'bomb', name: 'Ticking bomb', desc: 'Boom at zero'},
+  {id: 'pizza', name: 'Pizza', desc: 'Gets eaten, slice by slice'},
+  {id: 'balloon', name: 'Balloon', desc: 'Deflates, then pops'}
 ];
+
+/* Styles whose stage gets a one-off burst animation at zero, on top of the
+   normal render loop, instead of just freezing on the final frame. */
+var TMR_POP_STYLES = {bomb: true, balloon: true};
 
 var TMR_ICONS = {
   hourglass: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h14L12 12 5 3M5 21h14L12 12 5 21"/></svg>',
   ice: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="12" height="12" rx="3"/><path d="M12 17c1.5 1.7 2.5 2.9 2.5 4.1a2.5 2.5 0 0 1-5 0c0-1.2 1-2.4 2.5-4.1z"/></svg>',
   candle: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c1.8 2 2.6 3.4 2.6 4.6a2.6 2.6 0 1 1-5.2 0C9.4 5.4 10.2 4 12 2z"/><rect x="9" y="9" width="6" height="11" rx="1.5"/><line x1="12" y1="9" x2="12" y2="6.6"/></svg>',
-  bomb: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="14" r="7"/><path d="M12 7 L15 3"/><path d="M15 3c1 0 2 .4 2 1.6"/></svg>'
+  bomb: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="14" r="7"/><path d="M12 7 L15 3"/><path d="M15 3c1 0 2 .4 2 1.6"/></svg>',
+  pizza: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 L21 20 L3 20 Z"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="10" cy="16" r="1" fill="currentColor" stroke="none"/><circle cx="14" cy="16" r="1" fill="currentColor" stroke="none"/></svg>',
+  balloon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="10" rx="7" ry="8"/><path d="M12 18 L10 20 L12 21 L14 20 Z"/><path d="M12 21 C 12 21 15 22 13 24"/></svg>'
 };
 
 var TMR_ICON_PLAY = '<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="7 4 20 12 7 20 7 4"/></svg>';
@@ -205,7 +213,7 @@ var tmrExplodeIv = null;
 function tmrResetExplosion() { tmrExplodeAt = null; clearInterval(tmrExplodeIv); tmrExplodeIv = null; }
 
 function tmrTriggerExplosion() {
-  if (state.style !== 'bomb') return;
+  if (!TMR_POP_STYLES[state.style]) return;
   tmrExplodeAt = Date.now();
   clearInterval(tmrExplodeIv);
   tmrExplodeIv = setInterval(function () {
@@ -222,6 +230,28 @@ function tmrStarPoints(cx, cy, spikes, outerR, innerR) {
     pts.push((cx + Math.cos(a) * r).toFixed(1) + ',' + (cy + Math.sin(a) * r).toFixed(1));
   }
   return pts.join(' ');
+}
+
+/* Point at angleDeg clockwise from 12 o'clock, distance r from (cx,cy). "x,y"
+   so it drops straight into an SVG path/point list; callers needing x and y
+   separately split on the one comma it's guaranteed to contain. */
+function tmrPolar(cx, cy, r, angleDeg) {
+  var rad = angleDeg * Math.PI / 180;
+  return (cx + r * Math.sin(rad)).toFixed(2) + ',' + (cy - r * Math.cos(rad)).toFixed(2);
+}
+
+/* Pie-slice path for the remaining (uneaten) wedge, starting at 12 o'clock
+   and sweeping clockwise. A single arc command can't do a full 360, so a
+   whole pizza is drawn as two half-circle arcs instead. */
+function tmrWedgePath(cx, cy, r, remainingDeg) {
+  if (remainingDeg <= 0.5) return '';
+  if (remainingDeg >= 359.5) {
+    return 'M' + (cx - r) + ',' + cy + ' A' + r + ',' + r + ' 0 1,1 ' + (cx + r) + ',' + cy +
+           ' A' + r + ',' + r + ' 0 1,1 ' + (cx - r) + ',' + cy + ' Z';
+  }
+  var large = remainingDeg > 180 ? 1 : 0;
+  return 'M' + cx + ',' + cy + ' L' + tmrPolar(cx, cy, r, 0) +
+         ' A' + r + ',' + r + ' 0 ' + large + ',1 ' + tmrPolar(cx, cy, r, remainingDeg) + ' Z';
 }
 
 function tmrFmt(s) {
@@ -314,7 +344,27 @@ function tmrBoom() {
   hiss.start(t); hiss.stop(t + 0.25);
 }
 
-/* ── The four visuals: each a pure function of (progress 0-1, running).
+function tmrPop() {
+  if (!soundOn || !tmrAudioCtx) return;
+  var t = tmrAudioCtx.currentTime;
+  var osc = tmrAudioCtx.createOscillator(), gain = tmrAudioCtx.createGain();
+  osc.type = 'triangle';
+  osc.frequency.setValueAtTime(620, t);
+  osc.frequency.exponentialRampToValueAtTime(180, t + 0.09);
+  gain.gain.setValueAtTime(0.22, t);
+  gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.12);
+  osc.connect(gain); gain.connect(tmrAudioCtx.destination);
+  osc.start(t); osc.stop(t + 0.13);
+  var click = tmrAudioCtx.createOscillator(), clickGain = tmrAudioCtx.createGain();
+  click.type = 'square';
+  click.frequency.setValueAtTime(2200, t);
+  clickGain.gain.setValueAtTime(0.08, t);
+  clickGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.025);
+  click.connect(clickGain); clickGain.connect(tmrAudioCtx.destination);
+  click.start(t); click.stop(t + 0.03);
+}
+
+/* ── The six visuals: each a pure function of (progress 0-1, running).
    Redrawn wholesale every tick rather than patched in place, so decorative
    motion (the falling stream, the drip, the flicker) is computed straight
    from Date.now() each time instead of a CSS animation, which would
@@ -525,7 +575,115 @@ function tmrRenderBomb(progress, running) {
     '</svg>';
 }
 
-var TMR_RENDER = {hourglass: tmrRenderHourglass, ice: tmrRenderIce, candle: tmrRenderCandle, bomb: tmrRenderBomb};
+function tmrRenderPizza(progress, running) {
+  var cx = 80, cy = 108, r = 55, plateR = 66;
+  var remainingDeg = 360 * (1 - progress);
+  var wedge = tmrWedgePath(cx, cy, r, remainingDeg);
+  var sway = running ? Math.sin(Date.now() / 500) * 3 : 0;
+  var steamOn = running && progress < 0.95;
+  var pepperoni = [
+    {a: 15, f: 0.55}, {a: 55, f: 0.32}, {a: 95, f: 0.62}, {a: 135, f: 0.4},
+    {a: 175, f: 0.58}, {a: 215, f: 0.35}, {a: 255, f: 0.6}, {a: 300, f: 0.42},
+    {a: 340, f: 0.5}
+  ];
+  var slices = [0, 45, 90, 135, 180, 225, 270, 315];
+  var body = !wedge ? '' : '' +
+    '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="url(#tmrCrustGrad)" clip-path="url(#tmrPizzaClip)"/>' +
+    '<circle cx="' + cx + '" cy="' + cy + '" r="' + (r - 9) + '" fill="#c0392b" opacity="0.5" clip-path="url(#tmrPizzaClip)"/>' +
+    '<circle cx="' + cx + '" cy="' + cy + '" r="' + (r - 12) + '" fill="url(#tmrCheeseGrad)" clip-path="url(#tmrPizzaClip)"/>' +
+    slices.map(function (a) {
+      return '<line x1="' + cx + '" y1="' + cy + '" x2="' + tmrPolar(cx, cy, r - 1, a).replace(',', '" y2="') +
+        '" stroke="#c0392b" stroke-width="0.8" opacity="0.3" clip-path="url(#tmrPizzaClip)"/>';
+    }).join('') +
+    pepperoni.map(function (p) {
+      return '<circle cx="' + tmrPolar(cx, cy, (r - 14) * p.f, p.a).replace(',', '" cy="') +
+        '" r="5.5" fill="url(#tmrPepperoniGrad)" clip-path="url(#tmrPizzaClip)"/>';
+    }).join('') +
+    '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="none" stroke="#a3651f" stroke-width="2" clip-path="url(#tmrPizzaClip)"/>';
+  return '' +
+    '<svg viewBox="0 0 160 200" class="tmr-svg" xmlns="http://www.w3.org/2000/svg">' +
+      '<defs>' +
+        '<clipPath id="tmrPizzaClip">' + (wedge ? '<path d="' + wedge + '"/>' : '<rect width="0" height="0"/>') + '</clipPath>' +
+        '<radialGradient id="tmrCrustGrad" cx="0.5" cy="0.5" r="0.5">' +
+          '<stop offset="0.75" stop-color="#f0c674"/><stop offset="1" stop-color="#c9862f"/>' +
+        '</radialGradient>' +
+        '<radialGradient id="tmrCheeseGrad" cx="0.4" cy="0.35" r="0.7">' +
+          '<stop offset="0" stop-color="#fff3c4"/><stop offset="0.6" stop-color="#ffde85"/><stop offset="1" stop-color="#f3bd42"/>' +
+        '</radialGradient>' +
+        '<radialGradient id="tmrPepperoniGrad" cx="0.35" cy="0.3" r="0.7">' +
+          '<stop offset="0" stop-color="#e8663f"/><stop offset="1" stop-color="#a3271a"/>' +
+        '</radialGradient>' +
+      '</defs>' +
+      '<ellipse cx="80" cy="184" rx="60" ry="8" fill="var(--ink)" opacity="0.08"/>' +
+      '<circle cx="' + cx + '" cy="' + cy + '" r="' + plateR + '" fill="var(--card)" stroke="var(--soft-line)" stroke-width="2"/>' +
+      '<circle cx="' + cx + '" cy="' + cy + '" r="' + (plateR - 6) + '" fill="none" stroke="var(--soft-line)" stroke-width="1" opacity="0.6"/>' +
+      body +
+      (steamOn ?
+        '<path d="M' + (cx - 10 + sway) + ' ' + (cy - r - 6) + ' C ' + (cx - 16) + ' ' + (cy - r - 20) + ' ' + (cx - 4) + ' ' + (cy - r - 28) + ' ' + (cx - 8 + sway) + ' ' + (cy - r - 42) + '" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.3"/>' +
+        '<path d="M' + (cx + 10 - sway) + ' ' + (cy - r - 4) + ' C ' + (cx + 16) + ' ' + (cy - r - 18) + ' ' + (cx + 4) + ' ' + (cy - r - 26) + ' ' + (cx + 8 - sway) + ' ' + (cy - r - 40) + '" fill="none" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" opacity="0.22"/>'
+      : '') +
+    '</svg>';
+}
+
+function tmrRenderBalloon(progress, running) {
+  var knotY = 152, cx = 80;
+  var maxR = 42, minR = 15;
+  var r = maxR - (maxR - minR) * progress;
+  var cy = knotY - r - 3;
+  var sway = running ? Math.sin(Date.now() / 480) * 4 : 2;
+
+  if (progress >= 0.999) {
+    var t = tmrExplodeAt ? Math.min(1, (Date.now() - tmrExplodeAt) / 650) : 1;
+    var shardAngles = [10, 55, 95, 140, 185, 230, 275, 320];
+    var shards = shardAngles.map(function (a, i) {
+      var dist = 8 + t * (55 + (i % 3) * 10);
+      var xy = tmrPolar(cx, cy, dist, a).split(',');
+      var size = (5 - t * 3).toFixed(1);
+      return '<rect x="' + (parseFloat(xy[0]) - size / 2).toFixed(1) + '" y="' + (parseFloat(xy[1]) - size / 2).toFixed(1) +
+        '" width="' + size + '" height="' + size + '" fill="#e0435c" opacity="' + (1 - t).toFixed(2) +
+        '" transform="rotate(' + (a + t * 90).toFixed(0) + ' ' + xy[0] + ' ' + xy[1] + ')"/>';
+    }).join('');
+    return '' +
+      '<svg viewBox="0 0 160 200" class="tmr-svg" xmlns="http://www.w3.org/2000/svg">' +
+        '<ellipse cx="80" cy="' + (knotY + 4) + '" rx="26" ry="5" fill="var(--ink)" opacity="0.08"/>' +
+        '<circle cx="' + cx + '" cy="' + cy.toFixed(1) + '" r="' + (28 * (1 - t * 0.7)).toFixed(1) + '" fill="#fff6d8" opacity="' + ((1 - t) * 0.7).toFixed(2) + '"/>' +
+        shards +
+        (t > 0.4 ? '<path d="M74 ' + (knotY - 6) + ' Q80 ' + (knotY + 4) + ' 88 ' + (knotY - 4) + ' Q82 ' + knotY + ' 74 ' + (knotY - 6) + ' Z" fill="#c22a44" opacity="0.85"/>' : '') +
+        (t > 0.4 ? '<circle cx="80" cy="' + (knotY - 2) + '" r="3" fill="#8a1830"/>' : '') +
+      '</svg>';
+  }
+
+  var wrinkleCount = Math.floor(progress * 4);
+  var wrinkles = [];
+  for (var i = 0; i < wrinkleCount; i++) {
+    var wy = cy - r * 0.5 + i * (r * 0.35);
+    wrinkles.push('<path d="M' + (cx - r * 0.6).toFixed(1) + ' ' + wy.toFixed(1) + ' Q' + cx + ' ' + (wy + 4).toFixed(1) +
+      ' ' + (cx + r * 0.6).toFixed(1) + ' ' + wy.toFixed(1) + '" fill="none" stroke="#a8283f" stroke-width="1" opacity="0.25"/>');
+  }
+
+  return '' +
+    '<svg viewBox="0 0 160 200" class="tmr-svg" xmlns="http://www.w3.org/2000/svg">' +
+      '<defs>' +
+        '<radialGradient id="tmrBalloonGrad" cx="0.35" cy="0.3" r="0.75">' +
+          '<stop offset="0" stop-color="#ff8fa3"/><stop offset="0.55" stop-color="#f0435f"/><stop offset="1" stop-color="#c21f3d"/>' +
+        '</radialGradient>' +
+      '</defs>' +
+      '<ellipse cx="80" cy="' + (knotY + r + 30).toFixed(1) + '" rx="24" ry="5" fill="var(--ink)" opacity="0.08"/>' +
+      '<path d="M80 ' + knotY + ' Q' + (80 + sway).toFixed(1) + ' ' + (knotY + 20) + ' ' + (80 - sway).toFixed(1) + ' ' + (knotY + 40) +
+        ' Q' + (80 + sway).toFixed(1) + ' ' + (knotY + 55) + ' 80 ' + (knotY + 68) + '" fill="none" stroke="var(--muted)" stroke-width="1.4" opacity="0.6"/>' +
+      '<ellipse cx="' + cx + '" cy="' + cy.toFixed(1) + '" rx="' + r.toFixed(1) + '" ry="' + (r * 1.14).toFixed(1) + '" fill="url(#tmrBalloonGrad)"/>' +
+      '<path d="M' + (cx - 6) + ' ' + (cy + r * 1.1).toFixed(1) + ' Q80 ' + (cy + r * 1.3).toFixed(1) + ' ' + (cx + 6) + ' ' + (cy + r * 1.1).toFixed(1) + ' Z" fill="#c21f3d"/>' +
+      '<ellipse cx="80" cy="' + knotY + '" rx="4" ry="3" fill="#8a1830"/>' +
+      wrinkles.join('') +
+      '<ellipse cx="' + (cx - r * 0.32).toFixed(1) + '" cy="' + (cy - r * 0.4).toFixed(1) + '" rx="' + (r * 0.24).toFixed(1) + '" ry="' + (r * 0.36).toFixed(1) +
+        '" fill="#ffffff" opacity="' + (0.45 - progress * 0.25).toFixed(2) + '" transform="rotate(-25 ' + (cx - r * 0.32).toFixed(1) + ' ' + (cy - r * 0.4).toFixed(1) + ')"/>' +
+    '</svg>';
+}
+
+var TMR_RENDER = {
+  hourglass: tmrRenderHourglass, ice: tmrRenderIce, candle: tmrRenderCandle, bomb: tmrRenderBomb,
+  pizza: tmrRenderPizza, balloon: tmrRenderBalloon
+};
 
 /* ── Ticking ───────────────────────────────────────────────────────── */
 function tmrRenderStage(progress) {
@@ -592,7 +750,9 @@ function tmrFinish() {
   state.running = false; state.endAt = null; state.remaining = 0;
   tmrStopLoop();
   tmrResetSand();
-  if (state.style === 'bomb') { tmrBoom(); tmrTriggerExplosion(); } else { tmrDing(); }
+  if (state.style === 'bomb') { tmrBoom(); tmrTriggerExplosion(); }
+  else if (state.style === 'balloon') { tmrPop(); tmrTriggerExplosion(); }
+  else { tmrDing(); }
   tmrSave();
   tmrTick();
   tmrPaintButtons();
