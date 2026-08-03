@@ -118,6 +118,11 @@ WHEEL = (f'<svg viewBox="0 0 24 24" {I} stroke-width="1.9">'
          '<circle cx="12" cy="13" r="1.5" fill="currentColor" stroke="none"/>'
          '<path d="M12 1.8 L9.8 5.2 L14.2 5.2 Z" fill="currentColor" stroke="none"/></svg>')
 
+# Timers: the same two-triangle hourglass silhouette the tool's own big
+# visual is built from, so the nav icon and the thing it opens match.
+HOURGLASS = (f'<svg viewBox="0 0 24 24" {I} stroke-width="1.9">'
+             '<path d="M5 3h14L12 12 5 3M5 21h14L12 12 5 21"/></svg>')
+
 FAVICON = ("<link rel=\"icon\" href=\"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' "
            "viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' "
            "stroke-linejoin='round'><path d='M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 "
@@ -274,6 +279,18 @@ TOOLS = [
         'shot_dark': '/assets/spin-wheel-dark.png',
         'shot_alt': ('Spin the Wheel in use: an eight-slice colour wheel with student names, a '
                      'saved wheel bank in the sidebar, and a Spin button below.'),
+    },
+    {
+        'slug': 'timers',
+        'name': 'Timers',
+        'icon': HOURGLASS,
+        'tagline': 'A big, fun countdown for the room: hourglass, melting ice or a burning candle.',
+        'meta': ('A classroom countdown timer with a large animated visual: an hourglass, '
+                 'melting ice or a burning candle, alongside the numbers.'),
+        'shot': '/assets/timers-light.png',
+        'shot_dark': '/assets/timers-dark.png',
+        'shot_alt': ('Timers in use: a large animated hourglass with sand draining through, a '
+                     'countdown clock beneath it, and Start and Present buttons.'),
     },
 ]
 
@@ -2282,9 +2299,37 @@ def build_spinwheel(html, t):
     return html
 
 
+def build_timers(html, t):
+    """Wrap src/timers.html in the JPT shell.
+
+    No sidebar and no side-collapse handle: unlike the other six tools there
+    is nothing to browse, save or search, just one countdown running one of
+    a few visual styles, so build.py only prepends the topbar, drops the
+    tool-head badge inside .main-inner, and injects the shared scripts.
+    """
+    html = strip_marks(html)
+    html = head_bits(html, f"{t['name']} · {SITE}", t['meta'], '')
+
+    inner = '<div class="main-inner">'
+    if inner not in html:
+        raise SystemExit('build: could not find .main-inner in timers')
+    html = html.replace(inner, inner + '\n      ' + tool_head(t), 1)
+
+    app = '<div class="app" id="app">'
+    if app not in html:
+        raise SystemExit('build: could not find .app in timers')
+    topbar = (f'<header class="stopbar">\n{brand(t["slug"])}\n'
+              f'  <div class="grow"></div>\n  {THEME_BTN}\n</header>\n\n')
+    html = html.replace(app, topbar + app, 1)
+
+    html = inject_before(html, '</body>', MENU_JS + THEME_JS + FLOAT_TIMER_JS, 'the page scripts')
+    return html
+
+
 BUILDERS = {'debate-builder': build_debate, 'speaking-topics': build_speaking,
             'role-plays': build_roleplays, 'vocab-matching': build_matching,
-            'gap-fill': build_gapfill, 'spin-wheel': build_spinwheel}
+            'gap-fill': build_gapfill, 'spin-wheel': build_spinwheel,
+            'timers': build_timers}
 
 
 def home_page():

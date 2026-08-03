@@ -67,6 +67,17 @@ SEEDS = {
       swOnTextareaInput();
       if (!document.querySelectorAll('.sw-label-text').length) throw new Error('wheel has no labels');
     """,
+    'timers': """
+      state.style = 'hourglass';
+      state.total = 300;
+      state.remaining = 150;
+      state.running = false;
+      state.endAt = null;
+      tmrBuildStyles();
+      document.getElementById('tmrLenInput').value = tmrFmt(state.total);
+      tmrTick();
+      if (!document.querySelector('.tmr-svg')) throw new Error('no timer visual rendered');
+    """,
 }
 
 # Something that must be on screen afterwards, as proof the seed actually took.
@@ -77,6 +88,7 @@ PROOF = {
     'vocab-matching': 'boarding pass',
     'gap-fill': 'Word bank',
     'spin-wheel': 'Riley',
+    'timers': 'Sand runs through',
 }
 
 WRAPPER = """

@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timers</title>
+<meta name="description" content="A classroom countdown timer with a large, animated visual: an hourglass, melting ice or a burning candle.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f3ec;--card:#fff;--ink:#0f1b2d;--muted:#6b7686;--line:#eceadf;--accent:#2563eb;--soft:#eceffc;--soft-line:#dde3f8;--jpt-bar:68px}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Outfit',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink)}
+button{font-family:inherit;cursor:pointer}
+
+.main-inner{padding:20px 24px 48px;max-width:640px;margin:0 auto}
+
+/* ── Style picker ──────────────────────────────────────────────────── */
+.tmr-styles{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.tmr-style-btn{flex:1;min-width:150px;display:flex;align-items:center;gap:10px;padding:11px 13px;
+  border-radius:14px;border:1.5px solid var(--soft-line);background:var(--card);cursor:pointer;
+  transition:border-color .12s,background .12s;text-align:left}
+.tmr-style-btn:hover{border-color:var(--accent)}
+.tmr-style-btn.active{border-color:var(--accent);background:var(--soft)}
+.tmr-style-ico{width:34px;height:34px;border-radius:10px;flex-shrink:0;display:grid;place-items:center;
+  background:var(--soft);color:var(--accent)}
+.tmr-style-btn.active .tmr-style-ico{background:var(--accent);color:#fff}
+.tmr-style-ico svg{width:18px;height:18px}
+.tmr-style-name{font-size:13.5px;font-weight:700;display:block}
+.tmr-style-desc{font-size:11px;color:var(--muted);margin-top:1px;display:block}
+
+/* ── Stage ─────────────────────────────────────────────────────────── */
+.tmr-card{background:var(--card);border:1px solid var(--line);border-radius:20px;
+  padding:30px 24px 26px;box-shadow:0 1px 2px rgba(20,30,60,.04),0 20px 44px -28px rgba(30,50,110,.35);
+  text-align:center}
+.tmr-stage{width:min(100%,300px);aspect-ratio:4/5;margin:0 auto}
+.tmr-svg{width:100%;height:100%;display:block}
+.tmr-clock{font-size:46px;font-weight:800;letter-spacing:-.01em;font-variant-numeric:tabular-nums;
+  margin-top:10px;transition:color .2s}
+.tmr-clock.warn{color:#c2740c}
+.tmr-clock.over{color:#c14343}
+.tmr-status{font-size:11.5px;color:var(--muted);font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;margin-top:2px}
+
+/* ── Controls ──────────────────────────────────────────────────────── */
+.tmr-controls{display:flex;align-items:center;justify-content:center;gap:9px;margin-top:22px;flex-wrap:wrap}
+.tmr-len{display:inline-flex;align-items:center;border:1px solid var(--soft-line);border-radius:999px;
+  padding:3px 3px 3px 16px}
+.tmr-len input{width:60px;font-family:inherit;font-size:15px;font-weight:700;text-align:center;
+  border:none;outline:none;background:transparent;color:var(--ink);font-variant-numeric:tabular-nums}
+.tmr-len button{width:30px;height:30px;border-radius:999px;border:none;background:transparent;
+  color:var(--muted);display:inline-flex;align-items:center;justify-content:center;transition:.12s}
+.tmr-len button svg{width:14px;height:14px}
+.tmr-len button:hover{background:var(--soft);color:var(--accent)}
+.tmr-presets{display:flex;gap:6px}
+.tmr-preset{font-family:inherit;font-size:12px;font-weight:600;padding:7px 12px;border-radius:999px;
+  border:1px solid var(--soft-line);background:transparent;color:var(--muted);transition:.12s}
+.tmr-preset:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+.tmr-btn{display:inline-flex;align-items:center;gap:7px;font-family:inherit;font-size:13.5px;
+  font-weight:700;padding:10px 20px;border-radius:999px;border:none;background:var(--accent);
+  color:#fff;transition:background .12s}
+.tmr-btn:hover{background:var(--accent-deep,#1d4ed8)}
+.tmr-btn svg{width:14px;height:14px;flex-shrink:0}
+.tmr-icon-btn{width:38px;height:38px;border-radius:999px;border:1px solid var(--soft-line);
+  background:transparent;color:var(--muted);display:inline-flex;align-items:center;justify-content:center;
+  transition:.12s;flex-shrink:0}
+.tmr-icon-btn svg{width:16px;height:16px}
+.tmr-icon-btn:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+.tmr-mute.off{color:#c14343;border-color:#e8b8b8}
+
+/* ── Present mode: same convention as Spin the Wheel's full-screen wheel,
+   .tmr-stack lifted out with position:fixed rather than duplicated markup. */
+body.tmr-presenting{overflow:hidden}
+.tmr-present-backdrop{position:fixed;inset:0;z-index:300;background:var(--bg);display:none}
+body.tmr-presenting .tmr-present-backdrop{display:block}
+.tmr-present-close{position:fixed;top:20px;right:20px;z-index:302;display:none;width:42px;height:42px;
+  border-radius:999px;border:1px solid var(--soft-line);background:var(--card);color:var(--muted);
+  align-items:center;justify-content:center;cursor:pointer;font-size:22px;line-height:1;transition:.12s}
+.tmr-present-close:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+body.tmr-presenting .tmr-present-close{display:flex}
+body.tmr-presenting .tmr-stack{position:fixed;inset:0;z-index:301;display:flex;align-items:center;
+  justify-content:center;background:var(--bg)}
+body.tmr-presenting .tmr-card{background:transparent;border:none;box-shadow:none;padding:0}
+body.tmr-presenting .tmr-stage{width:min(70vw,60vh,520px)}
+body.tmr-presenting .tmr-clock{font-size:min(9vw,7.5vh,84px)}
+body.tmr-presenting .tmr-present-only-hide{display:none}
+
+@media (max-width:560px){.tmr-styles{flex-direction:column}.tmr-style-btn{min-width:0}}
+</style>
+</head>
+<body>
+
+<div class="app" id="app">
+  <main>
+    <div class="main-inner">
+
+      <div class="tmr-styles tmr-present-only-hide" id="tmrStyles"></div>
+
+      <div class="tmr-present-backdrop"></div>
+      <button class="tmr-present-close" type="button" onclick="tmrExitPresent()" title="Exit present mode (Esc)" aria-label="Exit present mode">&times;</button>
+
+      <div class="tmr-stack">
+        <div class="tmr-card">
+          <div class="tmr-stage" id="tmrStage"></div>
+          <div class="tmr-clock" id="tmrClock">05:00</div>
+          <div class="tmr-status" id="tmrStatus">Ready</div>
+
+          <div class="tmr-controls">
+            <div class="tmr-len tmr-present-only-hide">
+              <input type="text" id="tmrLenInput" inputmode="numeric" aria-label="Timer length"
+                     title="Type a length (5, or 5:30) and press Enter" onchange="tmrOnLenInput(this)">
+              <button type="button" onclick="tmrNudge(-1)" title="Minus 1 minute" aria-label="Minus 1 minute">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </button>
+              <button type="button" onclick="tmrNudge(1)" title="Plus 1 minute" aria-label="Plus 1 minute">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </button>
+            </div>
+            <div class="tmr-presets tmr-present-only-hide" id="tmrPresets"></div>
+            <button class="tmr-icon-btn tmr-mute" id="tmrMuteBtn" type="button" onclick="tmrToggleSound()" title="Mute sound" aria-label="Mute sound">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+            </button>
+            <button class="tmr-icon-btn" type="button" onclick="tmrReset()" title="Reset" aria-label="Reset">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+            </button>
+            <button class="tmr-btn" id="tmrStartBtn" type="button" onclick="tmrToggle()"></button>
+            <button class="tmr-btn tmr-present-only-hide" type="button" onclick="tmrEnterPresent()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+              Present
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script>
+var TMR_KEY = 'jpt_timers_v1';
+var TMR_SOUND_KEY = 'jpt_timers_sound';
+var TMR_PRESETS = [60, 180, 300, 600];
+
+var TMR_STYLES = [
+  {id: 'hourglass', name: 'Hourglass', desc: 'Sand runs through'},
+  {id: 'ice', name: 'Melting ice', desc: 'Watch it shrink'},
+  {id: 'candle', name: 'Burning candle', desc: 'Burns to the wick'}
+];
+
+var TMR_ICONS = {
+  hourglass: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h14L12 12 5 3M5 21h14L12 12 5 21"/></svg>',
+  ice: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="12" height="12" rx="3"/><path d="M12 17c1.5 1.7 2.5 2.9 2.5 4.1a2.5 2.5 0 0 1-5 0c0-1.2 1-2.4 2.5-4.1z"/></svg>',
+  candle: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c1.8 2 2.6 3.4 2.6 4.6a2.6 2.6 0 1 1-5.2 0C9.4 5.4 10.2 4 12 2z"/><rect x="9" y="9" width="6" height="11" rx="1.5"/><line x1="12" y1="9" x2="12" y2="6.6"/></svg>'
+};
+
+var TMR_ICON_PLAY = '<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="7 4 20 12 7 20 7 4"/></svg>';
+var TMR_ICON_PAUSE = '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4.5" width="4" height="15" rx="1"/><rect x="14" y="4.5" width="4" height="15" rx="1"/></svg>';
+
+var state = {style: 'hourglass', total: 300, remaining: 300, running: false, endAt: null};
+var soundOn = true;
+var tmrIv = null;
+var tmrAudioCtx = null;
+var tmrLastShown = null;
+
+function tmrFmt(s) {
+  s = Math.max(0, Math.round(s));
+  return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(Math.floor(s % 60)).padStart(2, '0');
+}
+
+function tmrParse(str) {
+  str = String(str).trim();
+  if (!str) return null;
+  var t;
+  if (str.indexOf(':') >= 0) {
+    var pp = str.split(':');
+    var m = parseInt(pp[0], 10) || 0, sc = parseInt(pp[1], 10) || 0;
+    if (sc > 59) return null;
+    t = m * 60 + sc;
+  } else {
+    var mn = parseFloat(str);
+    if (!isFinite(mn)) return null;
+    t = Math.round(mn * 60);
+  }
+  if (!isFinite(t) || t <= 0) return null;
+  return Math.min(t, 99 * 60 + 59);
+}
+
+function tmrCurrentRemaining() {
+  return state.running ? Math.max(0, (state.endAt - Date.now()) / 1000) : state.remaining;
+}
+
+/* ── Persistence ───────────────────────────────────────────────────── */
+function tmrLoad() {
+  try {
+    var raw = localStorage.getItem(TMR_KEY);
+    if (raw) {
+      var s = JSON.parse(raw);
+      if (s && typeof s.total === 'number') state = s;
+    }
+  } catch (e) {}
+  try { soundOn = localStorage.getItem(TMR_SOUND_KEY) !== '0'; } catch (e) {}
+  if (state.running && state.endAt && (state.endAt - Date.now()) <= 0) {
+    state.running = false; state.endAt = null; state.remaining = 0;
+  }
+}
+
+function tmrSave() { try { localStorage.setItem(TMR_KEY, JSON.stringify(state)); } catch (e) {} }
+function tmrSaveSound() { try { localStorage.setItem(TMR_SOUND_KEY, soundOn ? '1' : '0'); } catch (e) {} }
+
+/* ── Sound: two short Web Audio tones, no external assets ────────────── */
+function tmrEnsureAudio() {
+  if (!tmrAudioCtx) {
+    try { tmrAudioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {}
+  }
+  if (tmrAudioCtx && tmrAudioCtx.state === 'suspended') tmrAudioCtx.resume();
+}
+
+function tmrDing() {
+  if (!soundOn || !tmrAudioCtx) return;
+  var t = tmrAudioCtx.currentTime;
+  [880, 1320].forEach(function (freq, idx) {
+    var at = t + idx * 0.1;
+    var osc = tmrAudioCtx.createOscillator(), gain = tmrAudioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, at);
+    gain.gain.setValueAtTime(0.0001, at);
+    gain.gain.exponentialRampToValueAtTime(0.12, at + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, at + 0.5);
+    osc.connect(gain); gain.connect(tmrAudioCtx.destination);
+    osc.start(at); osc.stop(at + 0.55);
+  });
+}
+
+/* ── The three visuals: each a pure function of (progress 0-1, running).
+   Redrawn wholesale every tick rather than patched in place, so decorative
+   motion (the falling stream, the drip, the flicker) is computed straight
+   from Date.now() each time instead of a CSS animation, which would
+   restart from frame zero every tick if left running on a replaced node. */
+function tmrRenderHourglass(progress, running) {
+  var topH = 74 * (1 - progress), botH = 74 * progress;
+  var topClipY = 100 - topH, botClipY = 174 - botH;
+  var streamOn = running && progress > 0.003 && progress < 0.997;
+  var shimmer = (0.55 + 0.45 * Math.abs(Math.sin(Date.now() / 90))).toFixed(2);
+  return '' +
+    '<svg viewBox="0 0 160 200" class="tmr-svg" xmlns="http://www.w3.org/2000/svg">' +
+      '<defs>' +
+        '<clipPath id="tmrTopClip"><rect x="0" y="' + topClipY.toFixed(1) + '" width="160" height="' + (topH + 1).toFixed(1) + '"/></clipPath>' +
+        '<clipPath id="tmrBotClip"><rect x="0" y="' + botClipY.toFixed(1) + '" width="160" height="' + (botH + 1).toFixed(1) + '"/></clipPath>' +
+      '</defs>' +
+      '<polygon points="30,26 130,26 80,100" fill="#f0b84e" clip-path="url(#tmrTopClip)"/>' +
+      '<polygon points="30,174 130,174 80,100" fill="#f0b84e" clip-path="url(#tmrBotClip)"/>' +
+      (streamOn ? '<line x1="80" y1="97" x2="80" y2="103" stroke="#f0b84e" stroke-width="2.5" stroke-linecap="round" opacity="' + shimmer + '"/>' : '') +
+      '<path d="M30 26 L130 26 L80 100 Z M30 174 L130 174 L80 100 Z" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>' +
+      '<line x1="24" y1="20" x2="136" y2="20" stroke="var(--ink)" stroke-width="7" stroke-linecap="round"/>' +
+      '<line x1="24" y1="180" x2="136" y2="180" stroke="var(--ink)" stroke-width="7" stroke-linecap="round"/>' +
+    '</svg>';
+}
+
+function tmrRenderIce(progress, running) {
+  var maxH = 120, minH = 6;
+  var h = Math.max(minH, maxH * (1 - progress));
+  var bottomY = 168, topY = bottomY - h, w = 70, x = 45;
+  var rx = Math.min(10 + 22 * progress, w / 2, h / 2);
+  var puddleRx = 22 + 46 * progress, puddleRy = 6 + 9 * progress;
+  var puddleOpacity = (0.35 + 0.35 * progress).toFixed(2);
+  var dripsOn = running && progress > 0.02 && progress < 0.98 && h > 14;
+  var phaseA = (Date.now() % 1800) / 1800;
+  var phaseB = ((Date.now() + 900) % 1800) / 1800;
+  return '' +
+    '<svg viewBox="0 0 160 200" class="tmr-svg" xmlns="http://www.w3.org/2000/svg">' +
+      '<ellipse cx="80" cy="176" rx="' + puddleRx.toFixed(1) + '" ry="' + puddleRy.toFixed(1) + '" fill="#8fd0f2" opacity="' + puddleOpacity + '"/>' +
+      '<rect x="' + x + '" y="' + topY.toFixed(1) + '" width="' + w + '" height="' + h.toFixed(1) + '" rx="' + rx.toFixed(1) + '" fill="#bfe8fb" fill-opacity="0.85" stroke="#8fd0f2" stroke-width="2"/>' +
+      '<rect x="' + (x + 10) + '" y="' + (topY + 8).toFixed(1) + '" width="9" height="' + Math.max(0, h - 20).toFixed(1) + '" rx="4" fill="#ffffff" opacity="0.55"/>' +
+      (dripsOn ?
+        '<circle cx="' + (x + 16) + '" cy="' + (bottomY + phaseA * 14).toFixed(1) + '" r="3" fill="#8fd0f2" opacity="' + (1 - phaseA).toFixed(2) + '"/>' +
+        '<circle cx="' + (x + 52) + '" cy="' + (bottomY + phaseB * 14).toFixed(1) + '" r="2.4" fill="#8fd0f2" opacity="' + (1 - phaseB).toFixed(2) + '"/>'
+      : '') +
+    '</svg>';
+}
+
+function tmrRenderCandle(progress, running) {
+  var maxH = 130, minH = 14;
+  var h = Math.max(minH, maxH * (1 - progress));
+  var bottomY = 178, topY = bottomY - h, w = 30, x = 65;
+  var lit = progress < 0.999;
+  var flick = running ? Math.sin(Date.now() / 140) : 0;
+  var flameScale = (1 + flick * 0.08).toFixed(3);
+  var flameSkew = (flick * 4).toFixed(2);
+  var dripOn = running && lit && h > 24;
+  var dripPhase = (Date.now() % 2600) / 2600;
+  var dripY = topY + 14 + dripPhase * Math.min(h - 10, 40);
+  return '' +
+    '<svg viewBox="0 0 160 200" class="tmr-svg" xmlns="http://www.w3.org/2000/svg">' +
+      '<ellipse cx="80" cy="184" rx="26" ry="6" fill="var(--ink)" opacity="0.12"/>' +
+      '<rect x="' + x + '" y="' + topY.toFixed(1) + '" width="' + w + '" height="' + h.toFixed(1) + '" rx="7" fill="#fbeed9" stroke="#e7d3ac" stroke-width="1.5"/>' +
+      '<rect x="' + (x + 4) + '" y="' + topY.toFixed(1) + '" width="6" height="' + h.toFixed(1) + '" rx="3" fill="#ffffff" opacity="0.45"/>' +
+      (dripOn ? '<circle cx="' + (x + w - 5) + '" cy="' + dripY.toFixed(1) + '" r="2.6" fill="#f4e2bd"/>' : '') +
+      '<line x1="80" y1="' + topY.toFixed(1) + '" x2="80" y2="' + (topY - 9).toFixed(1) + '" stroke="#4a3c28" stroke-width="2" stroke-linecap="round"/>' +
+      (lit ?
+        '<g transform="translate(80,' + (topY - 9).toFixed(1) + ') scale(' + flameScale + ') skewX(' + flameSkew + ')">' +
+          '<path d="M0 -22 C 9 -12 9 -2 0 4 C -9 -2 -9 -12 0 -22 Z" fill="#ff8a3d"/>' +
+          '<path d="M0 -15 C 5 -8 5 -1 0 3 C -5 -1 -5 -8 0 -15 Z" fill="#ffd35b"/>' +
+        '</g>'
+      :
+        '<path d="M80 ' + (topY - 9).toFixed(1) + ' C 86 ' + (topY - 20).toFixed(1) + ' 76 ' + (topY - 30).toFixed(1) + ' 82 ' + (topY - 42).toFixed(1) + '" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" opacity="0.5"/>'
+      ) +
+    '</svg>';
+}
+
+var TMR_RENDER = {hourglass: tmrRenderHourglass, ice: tmrRenderIce, candle: tmrRenderCandle};
+
+/* ── Ticking ───────────────────────────────────────────────────────── */
+function tmrRenderStage(progress) {
+  document.getElementById('tmrStage').innerHTML = TMR_RENDER[state.style](progress, state.running);
+}
+
+function tmrTick() {
+  var r = tmrCurrentRemaining();
+  var progress = state.total > 0 ? 1 - (r / state.total) : 1;
+  if (progress < 0) progress = 0;
+  if (progress > 1) progress = 1;
+  tmrRenderStage(progress);
+
+  var whole = Math.ceil(r);
+  if (whole !== tmrLastShown) {
+    tmrLastShown = whole;
+    document.getElementById('tmrClock').textContent = tmrFmt(r);
+  }
+  var clock = document.getElementById('tmrClock');
+  var warn = r <= 60 && r > 0.05, over = r <= 0.05;
+  clock.classList.toggle('warn', warn);
+  clock.classList.toggle('over', over);
+  document.getElementById('tmrStatus').textContent =
+    over ? "Time's up" : (state.running ? 'Running' : (progress > 0.001 ? 'Paused' : 'Ready'));
+
+  if (state.running && r <= 0.05) { tmrFinish(); return; }
+}
+
+function tmrStartLoop() { clearInterval(tmrIv); tmrIv = setInterval(tmrTick, 120); }
+function tmrStopLoop() { clearInterval(tmrIv); tmrIv = null; }
+
+/* ── Controls ──────────────────────────────────────────────────────── */
+function tmrToggle() {
+  tmrEnsureAudio();
+  if (state.running) {
+    state.remaining = tmrCurrentRemaining();
+    state.running = false; state.endAt = null;
+    tmrStopLoop();
+  } else {
+    if (state.remaining <= 0.05) state.remaining = state.total;
+    state.endAt = Date.now() + state.remaining * 1000;
+    state.running = true;
+    tmrStartLoop();
+  }
+  tmrSave();
+  tmrLastShown = null;
+  tmrTick();
+  tmrPaintButtons();
+}
+
+function tmrReset() {
+  state.running = false; state.endAt = null; state.remaining = state.total;
+  tmrStopLoop();
+  tmrLastShown = null;
+  tmrSave();
+  tmrTick();
+  tmrPaintButtons();
+}
+
+function tmrFinish() {
+  state.running = false; state.endAt = null; state.remaining = 0;
+  tmrStopLoop();
+  tmrDing();
+  tmrSave();
+  tmrTick();
+  tmrPaintButtons();
+}
+
+function tmrApplyLength(secs) {
+  state.total = secs; state.remaining = secs;
+  state.running = false; state.endAt = null;
+  tmrStopLoop();
+  tmrLastShown = null;
+  tmrSave();
+  document.getElementById('tmrLenInput').value = tmrFmt(secs);
+  tmrTick();
+  tmrPaintButtons();
+}
+
+function tmrOnLenInput(el) {
+  var secs = tmrParse(el.value);
+  if (secs == null) { el.value = tmrFmt(state.total); return; }
+  tmrApplyLength(secs);
+}
+
+function tmrNudge(deltaMin) {
+  tmrApplyLength(Math.max(15, Math.min(99 * 60 + 59, state.total + deltaMin * 60)));
+}
+
+function tmrSetPreset(sec) { tmrApplyLength(sec); }
+
+function tmrToggleSound() {
+  soundOn = !soundOn;
+  document.getElementById('tmrMuteBtn').classList.toggle('off', !soundOn);
+  tmrSaveSound();
+}
+
+function tmrSetStyle(id) {
+  state.style = id;
+  tmrSave();
+  tmrBuildStyles();
+  tmrTick();
+}
+
+function tmrPaintButtons() {
+  var btn = document.getElementById('tmrStartBtn');
+  btn.innerHTML = (state.running ? TMR_ICON_PAUSE : TMR_ICON_PLAY) +
+    (state.running ? ' Pause' : (state.remaining < state.total ? ' Resume' : ' Start'));
+  document.getElementById('tmrMuteBtn').classList.toggle('off', !soundOn);
+}
+
+function tmrBuildStyles() {
+  document.getElementById('tmrStyles').innerHTML = TMR_STYLES.map(function (s) {
+    return '<button type="button" class="tmr-style-btn ' + (s.id === state.style ? 'active' : '') +
+      '" onclick="tmrSetStyle(\'' + s.id + '\')">' +
+      '<span class="tmr-style-ico">' + TMR_ICONS[s.id] + '</span>' +
+      '<span><span class="tmr-style-name">' + s.name + '</span><span class="tmr-style-desc">' + s.desc + '</span></span>' +
+      '</button>';
+  }).join('');
+}
+
+function tmrBuildPresets() {
+  document.getElementById('tmrPresets').innerHTML = TMR_PRESETS.map(function (sec) {
+    var label = sec < 60 ? sec + 's' : (sec / 60) + ' min';
+    return '<button type="button" class="tmr-preset" onclick="tmrSetPreset(' + sec + ')">' + label + '</button>';
+  }).join('');
+}
+
+/* ── Present mode ──────────────────────────────────────────────────── */
+function tmrEnterPresent() {
+  document.body.classList.add('tmr-presenting');
+  try { if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(function () {}); } catch (e) {}
+}
+
+function tmrExitPresent() {
+  document.body.classList.remove('tmr-presenting');
+  try { if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(function () {}); } catch (e) {}
+}
+
+document.addEventListener('fullscreenchange', function () {
+  if (!document.fullscreenElement && document.body.classList.contains('tmr-presenting')) tmrExitPresent();
+});
+
+document.addEventListener('keydown', function (e) {
+  if (!document.body.classList.contains('tmr-presenting')) return;
+  if (e.key === 'Escape') { tmrExitPresent(); return; }
+  if (e.key === ' ') { e.preventDefault(); tmrToggle(); }
+}, true);
+
+tmrLoad();
+tmrBuildStyles();
+tmrBuildPresets();
+document.getElementById('tmrLenInput').value = tmrFmt(state.total);
+tmrPaintButtons();
+tmrTick();
+if (state.running) tmrStartLoop();
+</script>
+</body>
+</html>
