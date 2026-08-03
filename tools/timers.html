@@ -92,6 +92,23 @@ body.tmr-presenting .tmr-stage{width:min(70vw,60vh,520px)}
 body.tmr-presenting .tmr-clock{font-size:min(9vw,7.5vh,84px)}
 body.tmr-presenting .tmr-present-only-hide{display:none}
 
+/* ── Float on top: the real .tmr-card, moved into a Document Picture-in-
+   Picture window rather than duplicated, same convention as present mode
+   above. body.tmr-pip is set on the PIP WINDOW's own document (a separate
+   document from this page), so it needs its own copy of these rules -
+   the stylesheet is cloned wholesale into that window, so one extra
+   selector here is enough. */
+body.tmr-pip .tmr-present-only-hide{display:none}
+body.tmr-pip{margin:0;overflow:hidden}
+body.tmr-pip .tmr-card{padding:16px 12px 14px;box-shadow:none;border:none;border-radius:0}
+body.tmr-pip .tmr-stage{width:min(100%,150px)}
+body.tmr-pip .tmr-clock{font-size:30px;margin-top:8px}
+body.tmr-pip .tmr-status{font-size:10px}
+body.tmr-pip .tmr-controls{margin-top:14px;gap:8px}
+.tmr-placeholder{display:none;text-align:center;padding:70px 20px;color:var(--muted)}
+.tmr-placeholder p{margin:0 0 16px;font-size:14px}
+body.tmr-floating .tmr-placeholder{display:block}
+
 @media (max-width:560px){.tmr-styles{flex-direction:column}.tmr-style-btn{min-width:0}}
 </style>
 <style>
@@ -353,11 +370,19 @@ button.st-brand[aria-expanded="true"] .brand-chev{transform:rotate(180deg)}
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
             </button>
             <button class="tmr-btn" id="tmrStartBtn" type="button" onclick="tmrToggle()"></button>
+            <button class="tmr-icon-btn tmr-present-only-hide" id="tmrPopBtn" type="button" onclick="tmrTogglePip()"
+                    title="Float on top" aria-label="Float the timer above other windows">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><rect x="12" y="12" width="8" height="6" rx="1" fill="currentColor" stroke="none"/></svg>
+            </button>
             <button class="tmr-btn tmr-present-only-hide" type="button" onclick="tmrEnterPresent()">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
               Present
             </button>
           </div>
+        </div>
+        <div class="tmr-placeholder" id="tmrPlaceholder">
+          <p>The timer is floating in its own window.</p>
+          <button class="tmr-btn" type="button" onclick="tmrClosePip()">Bring it back</button>
         </div>
       </div>
 
@@ -934,7 +959,7 @@ var TMR_RENDER = {
 
 /* ── Ticking ───────────────────────────────────────────────────────── */
 function tmrRenderStage(progress) {
-  document.getElementById('tmrStage').innerHTML = TMR_RENDER[state.style](progress, state.running);
+  tmrStageEl.innerHTML = TMR_RENDER[state.style](progress, state.running);
 }
 
 function tmrTick() {
@@ -948,13 +973,12 @@ function tmrTick() {
   var whole = Math.ceil(r);
   if (whole !== tmrLastShown) {
     tmrLastShown = whole;
-    document.getElementById('tmrClock').textContent = tmrFmt(r);
+    tmrClockEl.textContent = tmrFmt(r);
   }
-  var clock = document.getElementById('tmrClock');
   var warn = r <= 60 && r > 0.05, over = r <= 0.05;
-  clock.classList.toggle('warn', warn);
-  clock.classList.toggle('over', over);
-  document.getElementById('tmrStatus').textContent =
+  tmrClockEl.classList.toggle('warn', warn);
+  tmrClockEl.classList.toggle('over', over);
+  tmrStatusEl.textContent =
     over ? "Time's up" : (state.running ? 'Running' : (progress > 0.001 ? 'Paused' : 'Ready'));
 
   if (state.running && r <= 0.05) { tmrFinish(); return; }
@@ -1013,7 +1037,7 @@ function tmrApplyLength(secs) {
   tmrResetExplosion();
   tmrLastShown = null;
   tmrSave();
-  document.getElementById('tmrLenInput').value = tmrFmt(secs);
+  tmrLenInputEl.value = tmrFmt(secs);
   tmrTick();
   tmrPaintButtons();
 }
@@ -1032,7 +1056,7 @@ function tmrSetPreset(sec) { tmrApplyLength(sec); }
 
 function tmrToggleSound() {
   soundOn = !soundOn;
-  document.getElementById('tmrMuteBtn').classList.toggle('off', !soundOn);
+  tmrMuteBtnEl.classList.toggle('off', !soundOn);
   tmrSaveSound();
 }
 
@@ -1045,10 +1069,9 @@ function tmrSetStyle(id) {
 }
 
 function tmrPaintButtons() {
-  var btn = document.getElementById('tmrStartBtn');
-  btn.innerHTML = (state.running ? TMR_ICON_PAUSE : TMR_ICON_PLAY) +
+  tmrStartBtnEl.innerHTML = (state.running ? TMR_ICON_PAUSE : TMR_ICON_PLAY) +
     (state.running ? ' Pause' : (state.remaining < state.total ? ' Resume' : ' Start'));
-  document.getElementById('tmrMuteBtn').classList.toggle('off', !soundOn);
+  tmrMuteBtnEl.classList.toggle('off', !soundOn);
 }
 
 function tmrBuildStyles() {
@@ -1062,7 +1085,7 @@ function tmrBuildStyles() {
 }
 
 function tmrBuildPresets() {
-  document.getElementById('tmrPresets').innerHTML = TMR_PRESETS.map(function (sec) {
+  tmrPresetsEl.innerHTML = TMR_PRESETS.map(function (sec) {
     var label = sec < 60 ? sec + 's' : (sec / 60) + ' min';
     return '<button type="button" class="tmr-preset" onclick="tmrSetPreset(' + sec + ')">' + label + '</button>';
   }).join('');
@@ -1089,10 +1112,53 @@ document.addEventListener('keydown', function (e) {
   if (e.key === ' ') { e.preventDefault(); tmrToggle(); }
 }, true);
 
+/* ── Float on top ──────────────────────────────────────────────────── */
+var tmrCardEl = document.querySelector('.tmr-card');
+var tmrCardHome = tmrCardEl.parentNode;
+var tmrCardNext = tmrCardEl.nextSibling;
+var tmrPip = null;
+
+function tmrClosePip() {
+  if (!tmrPip) return;
+  tmrCardHome.insertBefore(tmrCardEl, tmrCardNext);
+  document.body.classList.remove('tmr-floating');
+  tmrPip = null;
+}
+
+function tmrOpenPip() {
+  documentPictureInPicture.requestWindow({width: 220, height: 340}).then(function (win) {
+    tmrPip = win;
+    win.document.title = 'Timer';
+    Array.prototype.forEach.call(document.querySelectorAll('head style, head link[rel="stylesheet"]'), function (node) {
+      win.document.head.appendChild(node.cloneNode(true));
+    });
+    win.document.body.className = 'tmr-pip';
+    win.document.body.appendChild(tmrCardEl);
+    document.body.classList.add('tmr-floating');
+    win.addEventListener('pagehide', tmrClosePip, { once: true });
+  }).catch(function () {});
+}
+
+function tmrTogglePip() {
+  if (tmrPip) { tmrPip.focus(); return; }
+  tmrOpenPip();
+}
+
+/* ── Wire up cached elements, now that everything above is defined ──── */
+var tmrStageEl = document.getElementById('tmrStage');
+var tmrClockEl = document.getElementById('tmrClock');
+var tmrStatusEl = document.getElementById('tmrStatus');
+var tmrLenInputEl = document.getElementById('tmrLenInput');
+var tmrMuteBtnEl = document.getElementById('tmrMuteBtn');
+var tmrStartBtnEl = document.getElementById('tmrStartBtn');
+var tmrPresetsEl = document.getElementById('tmrPresets');
+
+if (!('documentPictureInPicture' in window)) document.getElementById('tmrPopBtn').style.display = 'none';
+
 tmrLoad();
 tmrBuildStyles();
 tmrBuildPresets();
-document.getElementById('tmrLenInput').value = tmrFmt(state.total);
+tmrLenInputEl.value = tmrFmt(state.total);
 tmrPaintButtons();
 tmrTick();
 if (state.running) tmrStartLoop();
