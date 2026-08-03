@@ -644,7 +644,7 @@ function tmrRenderHourglass(progress, running) {
 function tmrRenderIce(progress, running) {
   /* A cube, not a slab: width always equals height, so it's square at
      every point in the melt, not just at the start. */
-  var maxSize = tmrSizeForDuration(58, 128), minSize = 16;
+  var maxSize = tmrSizeForDuration(64, 136), minSize = 16;
   var h = Math.max(minSize, maxSize * (1 - progress));
   var w = h;
   var bottomY = 168, topY = bottomY - h, x = 80 - w / 2;
@@ -701,9 +701,9 @@ function tmrRenderIce(progress, running) {
 }
 
 function tmrRenderCandle(progress, running) {
-  var maxH = tmrSizeForDuration(75, 138), minH = 14;
+  var maxH = tmrSizeForDuration(78, 144), minH = 14;
   var h = Math.max(minH, maxH * (1 - progress));
-  var bottomY = 178, topY = bottomY - h, w = 30, x = 65;
+  var bottomY = 178, topY = bottomY - h, w = 33, x = 63.5;
   var lit = progress < 0.999;
   var flick = running ? Math.sin(Date.now() / 140) : 0;
   var flameScale = (1 + flick * 0.08).toFixed(3);
@@ -753,7 +753,7 @@ function tmrRenderCandle(progress, running) {
 }
 
 function tmrRenderBomb(progress, running) {
-  var cx = 80, bodyR = 32, cy = 138;
+  var cx = 80, bodyR = 36, cy = 138;
   if (progress >= 0.999) {
     var t = tmrExplodeAt ? Math.min(1, (Date.now() - tmrExplodeAt) / 700) : 1;
     var burstR = 18 + t * 60;
@@ -802,7 +802,7 @@ function tmrRenderBomb(progress, running) {
 }
 
 function tmrRenderPizza(progress, running) {
-  var cx = 80, cy = 108, r = tmrSizeForDuration(36, 68), plateR = r + 11;
+  var cx = 80, cy = 108, r = tmrSizeForDuration(40, 72), plateR = r + 11;
   var remainingDeg = 360 * (1 - progress);
   var wedge = tmrWedgePath(cx, cy, r, remainingDeg);
   var sway = running ? Math.sin(Date.now() / 500) * 3 : 0;
@@ -858,7 +858,7 @@ function tmrRenderBalloon(progress, running) {
      length, same as the ice/candle/pizza - a longer countdown inflates it
      further before it bursts. */
   var knotY = 140, cx = 80;
-  var maxR = tmrSizeForDuration(28, 55), minR = 13;
+  var maxR = tmrSizeForDuration(31, 60), minR = 14;
   var r = minR + (maxR - minR) * progress;
   var cy = knotY - r - 3;
   var sway = running ? Math.sin(Date.now() / 480) * 4 : 2;
