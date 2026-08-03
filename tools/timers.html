@@ -359,13 +359,15 @@ var TMR_PRESETS = [60, 180, 300, 600];
 var TMR_STYLES = [
   {id: 'hourglass', name: 'Hourglass', desc: 'Sand runs through'},
   {id: 'ice', name: 'Melting ice', desc: 'Watch it shrink'},
-  {id: 'candle', name: 'Burning candle', desc: 'Burns to the wick'}
+  {id: 'candle', name: 'Burning candle', desc: 'Burns to the wick'},
+  {id: 'bomb', name: 'Ticking bomb', desc: 'Boom at zero'}
 ];
 
 var TMR_ICONS = {
   hourglass: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h14L12 12 5 3M5 21h14L12 12 5 21"/></svg>',
   ice: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="12" height="12" rx="3"/><path d="M12 17c1.5 1.7 2.5 2.9 2.5 4.1a2.5 2.5 0 0 1-5 0c0-1.2 1-2.4 2.5-4.1z"/></svg>',
-  candle: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c1.8 2 2.6 3.4 2.6 4.6a2.6 2.6 0 1 1-5.2 0C9.4 5.4 10.2 4 12 2z"/><rect x="9" y="9" width="6" height="11" rx="1.5"/><line x1="12" y1="9" x2="12" y2="6.6"/></svg>'
+  candle: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c1.8 2 2.6 3.4 2.6 4.6a2.6 2.6 0 1 1-5.2 0C9.4 5.4 10.2 4 12 2z"/><rect x="9" y="9" width="6" height="11" rx="1.5"/><line x1="12" y1="9" x2="12" y2="6.6"/></svg>',
+  bomb: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="14" r="7"/><path d="M12 7 L15 3"/><path d="M15 3c1 0 2 .4 2 1.6"/></svg>'
 };
 
 var TMR_ICON_PLAY = '<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="7 4 20 12 7 20 7 4"/></svg>';
@@ -405,6 +407,35 @@ function tmrUpdateSand(progress, running) {
       r: 1.1 + Math.random() * 0.7
     });
   }
+}
+
+/* Bomb explosion: a short one-off burst animation on top of the normal
+   render loop. tmrExplodeAt marks when it started; a brief extra interval
+   keeps repainting the stage while the burst expands and fades, since the
+   main tick loop stops the instant the countdown reaches zero. */
+var tmrExplodeAt = null;
+var tmrExplodeIv = null;
+
+function tmrResetExplosion() { tmrExplodeAt = null; clearInterval(tmrExplodeIv); tmrExplodeIv = null; }
+
+function tmrTriggerExplosion() {
+  if (state.style !== 'bomb') return;
+  tmrExplodeAt = Date.now();
+  clearInterval(tmrExplodeIv);
+  tmrExplodeIv = setInterval(function () {
+    tmrRenderStage(1);
+    if (Date.now() - tmrExplodeAt > 900) { clearInterval(tmrExplodeIv); tmrExplodeIv = null; tmrRenderStage(1); }
+  }, 30);
+}
+
+function tmrStarPoints(cx, cy, spikes, outerR, innerR) {
+  var pts = [];
+  for (var i = 0; i < spikes * 2; i++) {
+    var r = i % 2 === 0 ? outerR : innerR;
+    var a = (Math.PI / spikes) * i - Math.PI / 2;
+    pts.push((cx + Math.cos(a) * r).toFixed(1) + ',' + (cy + Math.sin(a) * r).toFixed(1));
+  }
+  return pts.join(' ');
 }
 
 function tmrFmt(s) {
@@ -476,7 +507,28 @@ function tmrDing() {
   });
 }
 
-/* ── The three visuals: each a pure function of (progress 0-1, running).
+function tmrBoom() {
+  if (!soundOn || !tmrAudioCtx) return;
+  var t = tmrAudioCtx.currentTime;
+  var osc = tmrAudioCtx.createOscillator(), gain = tmrAudioCtx.createGain();
+  osc.type = 'square';
+  osc.frequency.setValueAtTime(160, t);
+  osc.frequency.exponentialRampToValueAtTime(38, t + 0.35);
+  gain.gain.setValueAtTime(0.2, t);
+  gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.55);
+  osc.connect(gain); gain.connect(tmrAudioCtx.destination);
+  osc.start(t); osc.stop(t + 0.6);
+  var hiss = tmrAudioCtx.createOscillator(), hissGain = tmrAudioCtx.createGain();
+  hiss.type = 'sawtooth';
+  hiss.frequency.setValueAtTime(900, t);
+  hiss.frequency.exponentialRampToValueAtTime(120, t + 0.2);
+  hissGain.gain.setValueAtTime(0.05, t);
+  hissGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.22);
+  hiss.connect(hissGain); hissGain.connect(tmrAudioCtx.destination);
+  hiss.start(t); hiss.stop(t + 0.25);
+}
+
+/* ── The four visuals: each a pure function of (progress 0-1, running).
    Redrawn wholesale every tick rather than patched in place, so decorative
    motion (the falling stream, the drip, the flicker) is computed straight
    from Date.now() each time instead of a CSS animation, which would
@@ -528,9 +580,13 @@ function tmrRenderHourglass(progress, running) {
 }
 
 function tmrRenderIce(progress, running) {
-  var maxH = 120, minH = 6;
+  /* A cube, not a slab: full-size block is nearly square (92x92), and width
+     shrinks with height as it melts (slower than height) so it reads as a
+     shrinking cube rather than a flattening rectangle at every stage. */
+  var maxH = 92, minH = 10, maxW = 92, minW = 56;
   var h = Math.max(minH, maxH * (1 - progress));
-  var bottomY = 168, topY = bottomY - h, w = 70, x = 45;
+  var w = minW + (maxW - minW) * (1 - progress);
+  var bottomY = 168, topY = bottomY - h, x = 80 - w / 2;
   var rx = Math.min(10 + 22 * progress, w / 2, h / 2);
   var puddleRx = 22 + 46 * progress, puddleRy = 6 + 9 * progress;
   var puddleOpacity = (0.35 + 0.35 * progress).toFixed(2);
@@ -570,15 +626,15 @@ function tmrRenderIce(progress, running) {
       '<ellipse cx="80" cy="' + (bottomY + 1).toFixed(1) + '" rx="' + (w * 0.42).toFixed(1) + '" ry="2.4" fill="#3d7ba8" opacity="0.22"/>' +
       '<rect x="' + x + '" y="' + topY.toFixed(1) + '" width="' + w + '" height="' + h.toFixed(1) + '" rx="' + rx.toFixed(1) + '" fill="url(#tmrIceGrad)" fill-opacity="0.94" stroke="#5fa9d6" stroke-width="1.6"/>' +
       '<rect x="' + x + '" y="' + topY.toFixed(1) + '" width="' + w + '" height="' + h.toFixed(1) + '" rx="' + rx.toFixed(1) + '" fill="url(#tmrFrost)" opacity="0.55"/>' +
-      (h > 26 ? '<line x1="' + (x + 8) + '" y1="' + (topY + h * 0.3).toFixed(1) + '" x2="' + (x + w - 10) + '" y2="' + (topY + h * 0.5).toFixed(1) + '" stroke="#ffffff" stroke-width="1" opacity="0.35"/>' : '') +
-      (h > 26 ? '<line x1="' + (x + w - 12) + '" y1="' + (topY + h * 0.2).toFixed(1) + '" x2="' + (x + 14) + '" y2="' + (topY + h * 0.85).toFixed(1) + '" stroke="#ffffff" stroke-width="0.7" opacity="0.22"/>' : '') +
-      (h > 26 ? '<line x1="' + (x + 22) + '" y1="' + (topY + h * 0.08).toFixed(1) + '" x2="' + (x + 6) + '" y2="' + (topY + h * 0.6).toFixed(1) + '" stroke="#2f6f9c" stroke-width="0.6" opacity="0.18"/>' : '') +
+      (h > 26 ? '<line x1="' + (x + w * 0.11).toFixed(1) + '" y1="' + (topY + h * 0.3).toFixed(1) + '" x2="' + (x + w * 0.86).toFixed(1) + '" y2="' + (topY + h * 0.5).toFixed(1) + '" stroke="#ffffff" stroke-width="1" opacity="0.35"/>' : '') +
+      (h > 26 ? '<line x1="' + (x + w * 0.83).toFixed(1) + '" y1="' + (topY + h * 0.2).toFixed(1) + '" x2="' + (x + w * 0.2).toFixed(1) + '" y2="' + (topY + h * 0.85).toFixed(1) + '" stroke="#ffffff" stroke-width="0.7" opacity="0.22"/>' : '') +
+      (h > 26 ? '<line x1="' + (x + w * 0.31).toFixed(1) + '" y1="' + (topY + h * 0.08).toFixed(1) + '" x2="' + (x + w * 0.09).toFixed(1) + '" y2="' + (topY + h * 0.6).toFixed(1) + '" stroke="#2f6f9c" stroke-width="0.6" opacity="0.18"/>' : '') +
       bubbleMarkup +
-      '<rect x="' + (x + 10) + '" y="' + (topY + 8).toFixed(1) + '" width="9" height="' + Math.max(0, h - 20).toFixed(1) + '" rx="4" fill="#ffffff" opacity="0.65"/>' +
-      '<rect x="' + (x + w - 15) + '" y="' + (topY + 14).toFixed(1) + '" width="4" height="' + Math.max(0, h - 30).toFixed(1) + '" rx="2" fill="#ffffff" opacity="0.4"/>' +
+      '<rect x="' + (x + w * 0.14).toFixed(1) + '" y="' + (topY + 8).toFixed(1) + '" width="' + (w * 0.13).toFixed(1) + '" height="' + Math.max(0, h - 20).toFixed(1) + '" rx="4" fill="#ffffff" opacity="0.65"/>' +
+      '<rect x="' + (x + w * 0.79).toFixed(1) + '" y="' + (topY + 14).toFixed(1) + '" width="' + (w * 0.06).toFixed(1) + '" height="' + Math.max(0, h - 30).toFixed(1) + '" rx="2" fill="#ffffff" opacity="0.4"/>' +
       (dripsOn ?
-        '<circle cx="' + (x + 16) + '" cy="' + (bottomY + phaseA * 14).toFixed(1) + '" r="3" fill="#8fd0f2" opacity="' + (1 - phaseA).toFixed(2) + '"/>' +
-        '<circle cx="' + (x + 52) + '" cy="' + (bottomY + phaseB * 14).toFixed(1) + '" r="2.4" fill="#8fd0f2" opacity="' + (1 - phaseB).toFixed(2) + '"/>'
+        '<circle cx="' + (x + w * 0.23).toFixed(1) + '" cy="' + (bottomY + phaseA * 14).toFixed(1) + '" r="3" fill="#8fd0f2" opacity="' + (1 - phaseA).toFixed(2) + '"/>' +
+        '<circle cx="' + (x + w * 0.74).toFixed(1) + '" cy="' + (bottomY + phaseB * 14).toFixed(1) + '" r="2.4" fill="#8fd0f2" opacity="' + (1 - phaseB).toFixed(2) + '"/>'
       : '') +
     '</svg>';
 }
@@ -635,7 +691,56 @@ function tmrRenderCandle(progress, running) {
     '</svg>';
 }
 
-var TMR_RENDER = {hourglass: tmrRenderHourglass, ice: tmrRenderIce, candle: tmrRenderCandle};
+function tmrRenderBomb(progress, running) {
+  var cx = 80, bodyR = 32, cy = 138;
+  if (progress >= 0.999) {
+    var t = tmrExplodeAt ? Math.min(1, (Date.now() - tmrExplodeAt) / 700) : 1;
+    var burstR = 18 + t * 60;
+    var starPts = tmrStarPoints(cx, cy, 8, burstR, burstR * 0.45);
+    return '' +
+      '<svg viewBox="0 0 160 200" class="tmr-svg" xmlns="http://www.w3.org/2000/svg">' +
+        '<defs>' +
+          '<radialGradient id="tmrBurstGrad" cx="0.5" cy="0.5" r="0.5">' +
+            '<stop offset="0" stop-color="#fff6d8"/><stop offset="0.4" stop-color="#ffcf5b"/>' +
+            '<stop offset="0.75" stop-color="#ff7a3d"/><stop offset="1" stop-color="#d6431f"/>' +
+          '</radialGradient>' +
+        '</defs>' +
+        '<ellipse cx="' + cx + '" cy="' + (cy + bodyR + 4).toFixed(1) + '" rx="30" ry="6" fill="var(--ink)" opacity="0.14"/>' +
+        '<circle cx="' + cx + '" cy="' + cy.toFixed(1) + '" r="' + (burstR * 1.2).toFixed(1) + '" fill="#fff6d8" opacity="' + (1 - t).toFixed(2) + '"/>' +
+        '<polygon points="' + starPts + '" fill="url(#tmrBurstGrad)" opacity="' + (1 - t * 0.95).toFixed(2) + '"/>' +
+        (t > 0.3 ? '<circle cx="' + (cx - 22).toFixed(1) + '" cy="' + (cy - 30 - t * 22).toFixed(1) + '" r="' + (8 + t * 7).toFixed(1) + '" fill="var(--muted)" opacity="' + ((1 - t) * 0.4).toFixed(2) + '"/>' : '') +
+        (t > 0.3 ? '<circle cx="' + (cx + 26).toFixed(1) + '" cy="' + (cy - 24 - t * 28).toFixed(1) + '" r="' + (7 + t * 6).toFixed(1) + '" fill="var(--muted)" opacity="' + ((1 - t) * 0.35).toFixed(2) + '"/>' : '') +
+      '</svg>';
+  }
+  var fuseFull = 34;
+  var fuseLen = Math.max(2, fuseFull * (1 - progress));
+  var flick = running ? Math.sin(Date.now() / 130) : 0;
+  var jitter = (running && progress > 0.85) ? Math.sin(Date.now() / 90) * (progress - 0.85) * 20 : 0;
+  var bx = cx + jitter;
+  var fuseTopX = bx - fuseLen * 0.55, fuseTopY = cy - bodyR - fuseLen * 0.85;
+  return '' +
+    '<svg viewBox="0 0 160 200" class="tmr-svg" xmlns="http://www.w3.org/2000/svg">' +
+      '<defs>' +
+        '<radialGradient id="tmrBombGrad" cx="0.35" cy="0.32" r="0.75">' +
+          '<stop offset="0" stop-color="#5a5f6b"/><stop offset="0.5" stop-color="#2b2f38"/><stop offset="1" stop-color="#0e1116"/>' +
+        '</radialGradient>' +
+        '<radialGradient id="tmrSparkGrad" cx="0.5" cy="0.5" r="0.5">' +
+          '<stop offset="0" stop-color="#fffdf0"/><stop offset="0.5" stop-color="#ffd35b"/><stop offset="1" stop-color="#ff8a3d"/>' +
+        '</radialGradient>' +
+      '</defs>' +
+      '<ellipse cx="80" cy="' + (cy + bodyR + 5).toFixed(1) + '" rx="30" ry="6" fill="var(--ink)" opacity="0.12"/>' +
+      '<path d="M' + bx.toFixed(1) + ' ' + (cy - bodyR).toFixed(1) + ' Q ' + (bx - fuseLen * 0.3).toFixed(1) + ' ' + (cy - bodyR - fuseLen * 0.5).toFixed(1) + ' ' + fuseTopX.toFixed(1) + ' ' + fuseTopY.toFixed(1) + '" fill="none" stroke="#8a6f42" stroke-width="2.4" stroke-linecap="round"/>' +
+      (running && fuseLen > 3 ?
+        '<circle cx="' + fuseTopX.toFixed(1) + '" cy="' + fuseTopY.toFixed(1) + '" r="' + (9 + flick * 1.5).toFixed(1) + '" fill="#ffd35b" opacity="0.3"/>' +
+        '<circle cx="' + fuseTopX.toFixed(1) + '" cy="' + fuseTopY.toFixed(1) + '" r="' + (5 + flick * 1).toFixed(1) + '" fill="url(#tmrSparkGrad)"/>'
+      : '') +
+      '<circle cx="' + bx.toFixed(1) + '" cy="' + cy.toFixed(1) + '" r="' + bodyR + '" fill="url(#tmrBombGrad)" stroke="#05070a" stroke-width="1.5"/>' +
+      '<ellipse cx="' + (bx - bodyR * 0.32).toFixed(1) + '" cy="' + (cy - bodyR * 0.35).toFixed(1) + '" rx="' + (bodyR * 0.28).toFixed(1) + '" ry="' + (bodyR * 0.18).toFixed(1) + '" fill="#ffffff" opacity="0.22" transform="rotate(-30 ' + (bx - bodyR * 0.32).toFixed(1) + ' ' + (cy - bodyR * 0.35).toFixed(1) + ')"/>' +
+      '<circle cx="' + bx.toFixed(1) + '" cy="' + (cy - bodyR).toFixed(1) + '" r="2.5" fill="#4a3c28"/>' +
+    '</svg>';
+}
+
+var TMR_RENDER = {hourglass: tmrRenderHourglass, ice: tmrRenderIce, candle: tmrRenderCandle, bomb: tmrRenderBomb};
 
 /* ── Ticking ───────────────────────────────────────────────────────── */
 function tmrRenderStage(progress) {
@@ -691,6 +796,7 @@ function tmrReset() {
   state.running = false; state.endAt = null; state.remaining = state.total;
   tmrStopLoop();
   tmrResetSand();
+  tmrResetExplosion();
   tmrLastShown = null;
   tmrSave();
   tmrTick();
@@ -701,7 +807,7 @@ function tmrFinish() {
   state.running = false; state.endAt = null; state.remaining = 0;
   tmrStopLoop();
   tmrResetSand();
-  tmrDing();
+  if (state.style === 'bomb') { tmrBoom(); tmrTriggerExplosion(); } else { tmrDing(); }
   tmrSave();
   tmrTick();
   tmrPaintButtons();
@@ -712,6 +818,7 @@ function tmrApplyLength(secs) {
   state.running = false; state.endAt = null;
   tmrStopLoop();
   tmrResetSand();
+  tmrResetExplosion();
   tmrLastShown = null;
   tmrSave();
   document.getElementById('tmrLenInput').value = tmrFmt(secs);
@@ -739,6 +846,7 @@ function tmrToggleSound() {
 
 function tmrSetStyle(id) {
   state.style = id;
+  tmrResetExplosion();
   tmrSave();
   tmrBuildStyles();
   tmrTick();
