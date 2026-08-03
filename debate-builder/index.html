@@ -576,15 +576,29 @@ button.st-brand[aria-expanded="true"] .brand-chev{transform:rotate(180deg)}
 .jft-wrap.running .jft-icon{animation:jftPulse 1.6s ease-in-out infinite;color:var(--accent)}
 .jft-wrap.warn .jft-live,.jft-wrap.warn .jft-icon{color:#c2740c}
 .jft-wrap.over .jft-live,.jft-wrap.over .jft-icon{color:#c14343}
+/* Piped: the panel itself has been moved (real node, not a copy) into a
+   Document Picture-in-Picture window, which Chromium keeps on top of every
+   other window/app - not just other tabs. Only the corner bubble is left
+   behind here; it now focuses that window instead of opening the panel. */
+.jft-wrap.piped .jft-btn{border-color:var(--accent)}
 @keyframes jftPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
 .jft-panel{width:220px;background:var(--card);border:1px solid var(--line);border-radius:16px;
   padding:14px;box-shadow:0 20px 44px -20px rgba(15,27,45,.4);display:none}
 .jft-wrap.open .jft-panel{display:block}
 .jft-panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .jft-panel-title{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.jft-panel-head-btns{display:flex;align-items:center;gap:2px}
+.jft-pop{width:22px;height:22px;border-radius:999px;border:none;background:transparent;
+  color:var(--muted);display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.jft-pop svg{width:13px;height:13px}
+.jft-pop:hover{background:var(--soft);color:var(--accent)}
 .jft-panel-close{width:22px;height:22px;border-radius:999px;border:none;background:transparent;
   color:var(--muted);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;line-height:1}
 .jft-panel-close:hover{background:var(--soft);color:var(--accent)}
+/* The pip window's own body: the cloned page stylesheet has no rule for a
+   document that is nothing but this panel, so it gets one here. */
+.jft-pip-body{margin:0;padding:18px;box-sizing:border-box;min-height:100vh;
+  display:flex;align-items:center;justify-content:center;background:var(--bg)}
 .jft-controls{display:flex;align-items:center;justify-content:center;gap:2px;border:1px solid var(--soft-line);
   border-radius:999px;padding:3px 4px 3px 14px}
 .jft-in{font-family:inherit;font-size:15px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.04em;
@@ -2150,13 +2164,19 @@ if (typeof renderLevelFilter === "function") renderLevelFilter();
     + '<rect x="14" y="4.5" width="4" height="15" rx="1"/></svg>';
   var RESET = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" '
     + 'stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>';
+  var POP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" '
+    + 'stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/>'
+    + '<rect x="12" y="12" width="8" height="6" rx="1" fill="currentColor" stroke="none"/></svg>';
 
   var wrap = document.createElement('div');
   wrap.className = 'jft-wrap';
   wrap.innerHTML =
     '<div class="jft-panel">' +
       '<div class="jft-panel-head"><span class="jft-panel-title">Timer</span>' +
-        '<button class="jft-panel-close" type="button" title="Hide" aria-label="Hide timer panel">&times;</button></div>' +
+        '<span class="jft-panel-head-btns">' +
+          '<button class="jft-pop" type="button" title="Float on top" aria-label="Float timer above other windows">' + POP + '</button>' +
+          '<button class="jft-panel-close" type="button" title="Hide" aria-label="Hide timer panel">&times;</button>' +
+        '</span></div>' +
       '<div class="jft-controls">' +
         '<input class="jft-in" type="text" inputmode="numeric" aria-label="Timer length" ' +
           'title="Type a length (5, or 5:30) and press Enter to start">' +
@@ -2172,13 +2192,19 @@ if (typeof renderLevelFilter === "function") renderLevelFilter();
 
   var input = wrap.querySelector('.jft-in'), live = wrap.querySelector('.jft-live');
   var barFill = wrap.querySelector('.jft-bar span'), playBtn = wrap.querySelector('.jft-play');
-  var btn = wrap.querySelector('.jft-btn');
+  var btn = wrap.querySelector('.jft-btn'), popBtn = wrap.querySelector('.jft-pop');
+  var panel = wrap.querySelector('.jft-panel');
   var iv = null;
+  var pipWin = null;
+  if (!('documentPictureInPicture' in window)) popBtn.style.display = 'none';
 
   function paint(){
     var r = currentRemaining(), txt = fmt(r);
     live.textContent = txt;
-    if (document.activeElement !== input) input.value = txt;
+    /* input now lives wherever the panel last landed (this page or the pip
+       window), so focus has to be checked against its own document, not
+       this script's document - the two are different once piped. */
+    if (input.ownerDocument.activeElement !== input) input.value = txt;
     var warn = r <= 60 && r > 0, over = r <= 0;
     wrap.classList.toggle('running', st.running);
     wrap.classList.toggle('warn', warn);
@@ -2189,14 +2215,50 @@ if (typeof renderLevelFilter === "function") renderLevelFilter();
   function startTicking(){ clearInterval(iv); iv = setInterval(paint, 1000); }
   function stopTicking(){ clearInterval(iv); iv = null; }
   function applyOpen(){ wrap.classList.toggle('open', st.open); }
+
+  /* The panel is the real node, moved into the pip window rather than
+     rebuilt there, so every listener below survives untouched - same trick
+     the tools themselves use for presentation mode. */
+  function closePip(){
+    if (!pipWin) return;
+    wrap.insertBefore(panel, btn);
+    panel.style.display = '';
+    popBtn.style.display = '';
+    wrap.classList.remove('piped');
+    pipWin = null;
+  }
+  function openPip(){
+    documentPictureInPicture.requestWindow({width: 252, height: 190}).then(function (win) {
+      pipWin = win;
+      win.document.title = 'Timer';
+      Array.prototype.forEach.call(document.querySelectorAll('head style, head link[rel="stylesheet"]'), function (node) {
+        win.document.head.appendChild(node.cloneNode(true));
+      });
+      win.document.body.className = 'jft-pip-body';
+      panel.style.display = 'block';
+      popBtn.style.display = 'none';
+      win.document.body.appendChild(panel);
+      wrap.classList.add('piped');
+      st.open = false; save(); applyOpen();
+      win.addEventListener('pagehide', closePip, {once: true});
+    }).catch(function () {});
+  }
+
   function toggle(){
     if (st.running) { st.remaining = currentRemaining(); st.running = false; st.endAt = null; stopTicking(); }
     else { st.endAt = Date.now() + currentRemaining() * 1000; st.running = true; startTicking(); }
     save(); paint();
   }
 
-  btn.addEventListener('click', function(){ st.open = !st.open; save(); applyOpen(); });
-  wrap.querySelector('.jft-panel-close').addEventListener('click', function(){ st.open = false; save(); applyOpen(); });
+  btn.addEventListener('click', function(){
+    if (pipWin) { pipWin.focus(); return; }
+    st.open = !st.open; save(); applyOpen();
+  });
+  popBtn.addEventListener('click', function(){ if (!pipWin) openPip(); });
+  wrap.querySelector('.jft-panel-close').addEventListener('click', function(){
+    if (pipWin) { pipWin.close(); return; }
+    st.open = false; save(); applyOpen();
+  });
   input.addEventListener('focus', function(){ if (st.running) toggle(); requestAnimationFrame(function(){ input.select(); }); });
   input.addEventListener('keydown', function(e){
     if (e.key === 'Enter') {

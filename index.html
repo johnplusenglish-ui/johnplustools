@@ -157,15 +157,29 @@ button.st-brand[aria-expanded="true"] .brand-chev{transform:rotate(180deg)}
 .jft-wrap.running .jft-icon{animation:jftPulse 1.6s ease-in-out infinite;color:var(--accent)}
 .jft-wrap.warn .jft-live,.jft-wrap.warn .jft-icon{color:#c2740c}
 .jft-wrap.over .jft-live,.jft-wrap.over .jft-icon{color:#c14343}
+/* Piped: the panel itself has been moved (real node, not a copy) into a
+   Document Picture-in-Picture window, which Chromium keeps on top of every
+   other window/app - not just other tabs. Only the corner bubble is left
+   behind here; it now focuses that window instead of opening the panel. */
+.jft-wrap.piped .jft-btn{border-color:var(--accent)}
 @keyframes jftPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
 .jft-panel{width:220px;background:var(--card);border:1px solid var(--line);border-radius:16px;
   padding:14px;box-shadow:0 20px 44px -20px rgba(15,27,45,.4);display:none}
 .jft-wrap.open .jft-panel{display:block}
 .jft-panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .jft-panel-title{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.jft-panel-head-btns{display:flex;align-items:center;gap:2px}
+.jft-pop{width:22px;height:22px;border-radius:999px;border:none;background:transparent;
+  color:var(--muted);display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.jft-pop svg{width:13px;height:13px}
+.jft-pop:hover{background:var(--soft);color:var(--accent)}
 .jft-panel-close{width:22px;height:22px;border-radius:999px;border:none;background:transparent;
   color:var(--muted);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;line-height:1}
 .jft-panel-close:hover{background:var(--soft);color:var(--accent)}
+/* The pip window's own body: the cloned page stylesheet has no rule for a
+   document that is nothing but this panel, so it gets one here. */
+.jft-pip-body{margin:0;padding:18px;box-sizing:border-box;min-height:100vh;
+  display:flex;align-items:center;justify-content:center;background:var(--bg)}
 .jft-controls{display:flex;align-items:center;justify-content:center;gap:2px;border:1px solid var(--soft-line);
   border-radius:999px;padding:3px 4px 3px 14px}
 .jft-in{font-family:inherit;font-size:15px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.04em;
