@@ -16,6 +16,9 @@ because a combined page would grow past half a megabyte as tools are added.
     (the home page is generated from the TOOLS registry below)
     index.html        GENERATED
     tools/<slug>.html GENERATED
+    <slug>/index.html GENERATED, identical copy, for GitHub Pages short URLs
+                       (no redirect engine there, unlike Netlify's netlify.toml,
+                       but a folder's index.html is served for free)
 
     python3 build.py
     python3 build.py ~/Downloads/debate-builder.html    refresh a source first
@@ -2484,6 +2487,16 @@ def main():
         dest = OUT_TOOLS / f"{t['slug']}.html"
         dest.write_text(out, encoding='utf-8')
 
+        # Same content, also written to /<slug>/index.html. GitHub Pages has
+        # no redirect engine like Netlify's, but it does serve a folder's
+        # index.html for a request to that folder, so this is what keeps
+        # short URLs (/debate-builder) working without one. All internal
+        # links are absolute (checked: no relative hrefs anywhere in this
+        # file), so the same built HTML is correct at both locations.
+        short_dir = ROOT / t['slug']
+        short_dir.mkdir(exist_ok=True)
+        (short_dir / 'index.html').write_text(out, encoding='utf-8')
+
         assert out.count('<!-- jpt:brand -->') == 1, f"{t['slug']}: brand not injected once"
         assert out.count('<!-- jpt:toolhead -->') == 1, f"{t['slug']}: tool head not injected once"
         assert '<span class="b">Tools</span>' in out, f"{t['slug']}: brand should read Tools"
@@ -2500,7 +2513,7 @@ def main():
         for dash in ('—', '–'):
             assert dash not in CHROME_CSS + MENU_JS + THEME_JS + brand(t['slug']) + tool_head(t), \
                 'dash crept into injected copy'
-        print(f"  wrote tools/{t['slug']}.html  ({len(out):,} bytes)")
+        print(f"  wrote tools/{t['slug']}.html + {t['slug']}/index.html  ({len(out):,} bytes)")
 
     home = home_page()
     HOME_OUT.write_text(home, encoding='utf-8')

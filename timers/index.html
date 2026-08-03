@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timers · John + Tools</title>
+<meta name="description" content="A classroom countdown timer with a large animated visual: an hourglass, melting ice or a burning candle, alongside the numbers.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z'/></svg>">
+<!-- jpt:themeboot -->
+<script>(function(){var t;try{t=localStorage.getItem('jpe_debate_theme')}catch(e){}if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)})();</script>
+<!-- /jpt:themeboot -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f3ec;--card:#fff;--ink:#0f1b2d;--muted:#6b7686;--line:#eceadf;--accent:#2563eb;--soft:#eceffc;--soft-line:#dde3f8;--jpt-bar:68px}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Outfit',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink)}
+button{font-family:inherit;cursor:pointer}
+
+.main-inner{padding:20px 24px 48px;max-width:640px;margin:0 auto}
+
+/* ── Style picker ──────────────────────────────────────────────────── */
+.tmr-styles{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.tmr-style-btn{flex:1;min-width:150px;display:flex;align-items:center;gap:10px;padding:11px 13px;
+  border-radius:14px;border:1.5px solid var(--soft-line);background:var(--card);cursor:pointer;
+  transition:border-color .12s,background .12s;text-align:left}
+.tmr-style-btn:hover{border-color:var(--accent)}
+.tmr-style-btn.active{border-color:var(--accent);background:var(--soft)}
+.tmr-style-ico{width:34px;height:34px;border-radius:10px;flex-shrink:0;display:grid;place-items:center;
+  background:var(--soft);color:var(--accent)}
+.tmr-style-btn.active .tmr-style-ico{background:var(--accent);color:#fff}
+.tmr-style-ico svg{width:18px;height:18px}
+.tmr-style-name{font-size:13.5px;font-weight:700;display:block}
+.tmr-style-desc{font-size:11px;color:var(--muted);margin-top:1px;display:block}
+
+/* ── Stage ─────────────────────────────────────────────────────────── */
+.tmr-card{background:var(--card);border:1px solid var(--line);border-radius:20px;
+  padding:30px 24px 26px;box-shadow:0 1px 2px rgba(20,30,60,.04),0 20px 44px -28px rgba(30,50,110,.35);
+  text-align:center}
+.tmr-stage{width:min(100%,300px);aspect-ratio:4/5;margin:0 auto}
+.tmr-svg{width:100%;height:100%;display:block}
+.tmr-clock{font-size:46px;font-weight:800;letter-spacing:-.01em;font-variant-numeric:tabular-nums;
+  margin-top:10px;transition:color .2s}
+.tmr-clock.warn{color:#c2740c}
+.tmr-clock.over{color:#c14343}
+.tmr-status{font-size:11.5px;color:var(--muted);font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;margin-top:2px}
+
+/* ── Controls ──────────────────────────────────────────────────────── */
+.tmr-controls{display:flex;align-items:center;justify-content:center;gap:9px;margin-top:22px;flex-wrap:wrap}
+.tmr-len{display:inline-flex;align-items:center;border:1px solid var(--soft-line);border-radius:999px;
+  padding:3px 3px 3px 16px}
+.tmr-len input{width:60px;font-family:inherit;font-size:15px;font-weight:700;text-align:center;
+  border:none;outline:none;background:transparent;color:var(--ink);font-variant-numeric:tabular-nums}
+.tmr-len button{width:30px;height:30px;border-radius:999px;border:none;background:transparent;
+  color:var(--muted);display:inline-flex;align-items:center;justify-content:center;transition:.12s}
+.tmr-len button svg{width:14px;height:14px}
+.tmr-len button:hover{background:var(--soft);color:var(--accent)}
+.tmr-presets{display:flex;gap:6px}
+.tmr-preset{font-family:inherit;font-size:12px;font-weight:600;padding:7px 12px;border-radius:999px;
+  border:1px solid var(--soft-line);background:transparent;color:var(--muted);transition:.12s}
+.tmr-preset:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+.tmr-btn{display:inline-flex;align-items:center;gap:7px;font-family:inherit;font-size:13.5px;
+  font-weight:700;padding:10px 20px;border-radius:999px;border:none;background:var(--accent);
+  color:#fff;transition:background .12s}
+.tmr-btn:hover{background:var(--accent-deep,#1d4ed8)}
+.tmr-btn svg{width:14px;height:14px;flex-shrink:0}
+.tmr-icon-btn{width:38px;height:38px;border-radius:999px;border:1px solid var(--soft-line);
+  background:transparent;color:var(--muted);display:inline-flex;align-items:center;justify-content:center;
+  transition:.12s;flex-shrink:0}
+.tmr-icon-btn svg{width:16px;height:16px}
+.tmr-icon-btn:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+.tmr-mute.off{color:#c14343;border-color:#e8b8b8}
+
+/* ── Present mode: same convention as Spin the Wheel's full-screen wheel,
+   .tmr-stack lifted out with position:fixed rather than duplicated markup. */
+body.tmr-presenting{overflow:hidden}
+.tmr-present-backdrop{position:fixed;inset:0;z-index:300;background:var(--bg);display:none}
+body.tmr-presenting .tmr-present-backdrop{display:block}
+.tmr-present-close{position:fixed;top:20px;right:20px;z-index:302;display:none;width:42px;height:42px;
+  border-radius:999px;border:1px solid var(--soft-line);background:var(--card);color:var(--muted);
+  align-items:center;justify-content:center;cursor:pointer;font-size:22px;line-height:1;transition:.12s}
+.tmr-present-close:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+body.tmr-presenting .tmr-present-close{display:flex}
+body.tmr-presenting .tmr-stack{position:fixed;inset:0;z-index:301;display:flex;align-items:center;
+  justify-content:center;background:var(--bg)}
+body.tmr-presenting .tmr-card{background:transparent;border:none;box-shadow:none;padding:0}
+body.tmr-presenting .tmr-stage{width:min(70vw,60vh,520px)}
+body.tmr-presenting .tmr-clock{font-size:min(9vw,7.5vh,84px)}
+body.tmr-presenting .tmr-present-only-hide{display:none}
+
+@media (max-width:560px){.tmr-styles{flex-direction:column}.tmr-style-btn{min-width:0}}
+</style>
+<style>
+/* jpt:chrome */
+/* Site furniture. Identical on every page, so nothing shifts between them. */
+:root{
+  --bg:#f4f3ec; --card:#ffffff; --ink:#0f1b2d; --muted:#6b7686;
+  --line:#eceadf; --accent:#2563eb; --accent-deep:#1d4ed8;
+  --soft:#eceffc; --soft-line:#dde3f8;
+  --shadow-card:0 1px 2px rgba(20,30,60,.04),0 20px 44px -28px rgba(30,50,110,.35);
+}
+[data-theme="dark"]{
+  --bg:#0f1728; --card:#16213a; --ink:#eef2fb; --muted:#93a0bb;
+  --line:#26324c; --accent:#5b8def; --accent-deep:#93b4f6;
+  --soft:#1d2b46; --soft-line:#2b3c5c;
+  --shadow-card:0 1px 2px rgba(0,0,0,.2),0 20px 44px -28px rgba(0,0,0,.7);
+}
+
+/* The brand is the site's name; John wants it prominent, so the bar is sized
+   around it rather than the other way about. --jpt-bar is the single source of
+   truth: the tools pin their sidebars to it. */
+:root{--jpt-bar:68px}
+.stopbar{position:sticky;top:0;z-index:40;background:var(--card);
+  border-bottom:1px solid var(--line);padding:0 24px;height:var(--jpt-bar);flex-shrink:0;
+  display:flex;align-items:center;gap:14px}
+.st-brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;
+  color:var(--ink);line-height:1}
+.st-brand .brand-icon{color:var(--accent);width:29px;height:29px;display:inline-flex;flex-shrink:0}
+.st-brand .brand-icon svg{width:29px;height:29px}
+.st-brand .brand-title{display:inline-flex;flex-direction:column;justify-content:center;gap:2px;line-height:1}
+.brand-title{gap:3px}
+.brand-title .k{font-size:10.5px;letter-spacing:.17em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.brand-title .b{font-size:20px;font-weight:800;letter-spacing:-.02em}
+.grow{flex:1}
+.icon-btn{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;
+  border-radius:999px;background:transparent;border:none;cursor:pointer;color:var(--muted);
+  transition:background .12s,color .12s}
+.icon-btn svg{width:18px;height:18px;display:block}
+.icon-btn:hover{background:var(--soft);color:var(--accent)}
+
+.brand-wrap{position:relative;display:inline-flex}
+button.st-brand{background:none;border:none;cursor:pointer;font-family:inherit;
+  padding:6px 8px;margin-left:-8px;border-radius:11px;transition:background .12s}
+button.st-brand:hover{background:var(--soft)}
+.brand-chev{color:var(--muted);display:inline-flex;margin-left:2px;transition:transform .18s ease}
+.brand-chev svg{width:16px;height:16px}
+button.st-brand[aria-expanded="true"] .brand-chev{transform:rotate(180deg)}
+.popmenu{position:absolute;top:calc(100% + 6px);left:0;z-index:60;min-width:246px;
+  background:var(--card);border:1px solid var(--line);border-radius:14px;padding:7px;
+  box-shadow:0 12px 40px -12px rgba(15,27,45,.28),0 2px 8px rgba(15,27,45,.06);
+  animation:pmIn .14s ease}
+[data-theme="dark"] .popmenu{box-shadow:0 12px 40px -12px rgba(0,0,0,.6)}
+.popmenu[hidden]{display:none}
+@keyframes pmIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.pm-label{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
+  font-weight:700;padding:6px 10px 7px}
+.pm-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;
+  text-decoration:none;color:var(--ink);font-size:13.5px;font-weight:600;transition:background .12s}
+.pm-item:hover,.pm-item:focus-visible{background:var(--soft);color:var(--accent);outline:none}
+.pm-item[aria-current="true"]{background:var(--soft);color:var(--accent)}
+.pm-ico{width:18px;height:18px;flex-shrink:0;color:var(--accent);display:inline-flex}
+.pm-ico svg{width:18px;height:18px}
+.pm-ext{margin-left:auto;color:var(--muted);display:inline-flex}
+.pm-ext svg{width:13px;height:13px}
+.pm-sep{height:1px;background:var(--line);margin:6px 4px}
+
+/* Content geometry. Identical on the home page and every tool page. */
+.shell{min-height:calc(100vh - var(--jpt-bar))}
+.main-inner{padding:20px 24px 40px;max-width:1180px;margin:0 auto}
+.tool-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.th-icon{width:38px;height:38px;border-radius:11px;flex-shrink:0;display:grid;place-items:center;
+  background:var(--soft);border:1px solid var(--soft-line);color:var(--accent)}
+.th-icon svg{width:20px;height:20px;display:block}
+.th-text h1{font-size:19px;font-weight:700;letter-spacing:-.02em;margin:0;line-height:1.2}
+.th-text p{font-size:12.5px;color:var(--muted);margin:2px 0 0;line-height:1.4}
+
+@media (max-width:900px){.th-text p{display:none}}
+/* The brand is a button with padding and a chevron, wider than a plain mark.
+   Left full width it pushes the topbar actions off a phone screen. */
+@media (max-width:700px){
+  .stopbar{padding:0 14px;gap:8px}
+  button.st-brand{padding:6px;margin-left:-6px}
+  .popmenu{min-width:210px}
+  /* Collapse the topbar's labelled button to its icon rather than shrinking the
+     brand. font-size:0 hides the text node, which no selector can reach. */
+  .stopbar .btn{font-size:0;gap:0;padding:9px 11px}
+  .stopbar .btn svg{width:17px;height:17px}
+}
+@media print{.tool-head,.popmenu,.stopbar{display:none!important}}
+@media (prefers-reduced-motion:reduce){.popmenu{animation:none}}
+/* Download-icon dropdown, shared by the tools. */
+.icon-action{width:36px;height:36px;border-radius:999px;border:1px solid var(--soft-line);
+  background:transparent;color:var(--muted);display:inline-flex;align-items:center;
+  justify-content:center;cursor:pointer;transition:background .12s,color .12s,border-color .12s}
+.icon-action:hover,.icon-action[aria-expanded="true"]{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+.icon-action svg{width:16px;height:16px;display:block}
+.exp-wrap{position:relative;display:inline-flex}
+.exp-menu{left:auto;right:0;min-width:190px}
+/* Sidebar collapse handle, shared by every tool that has a sidebar, so the
+   chevron on the divider looks and behaves the same everywhere. */
+.app{--jpt-side-w:302px}
+.app.side-collapsed{--jpt-side-w:0px}
+.jpt-side-handle{position:fixed;top:152px;left:max(15px,var(--jpt-side-w));
+  transform:translateX(-50%);z-index:39;margin:0;width:30px;height:30px;border-radius:999px;
+  background:var(--card);border:1px solid var(--line);box-shadow:0 1px 4px rgba(15,27,45,.10);
+  color:var(--muted);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;
+  transition:left .22s ease,background .12s,color .12s,border-color .12s}
+[data-theme="dark"] .jpt-side-handle{box-shadow:0 1px 4px rgba(0,0,0,.35)}
+.jpt-side-handle:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+.jpt-side-handle:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.jpt-side-handle svg{width:15px;height:15px;transition:transform .22s ease}
+.app.side-collapsed .jpt-side-handle svg{transform:rotate(180deg)}
+@media (max-width:900px){.jpt-side-handle{display:none}}
+@media print{.jpt-side-handle{display:none!important}}
+
+/* Floating timer: a small permanent hourglass, bottom-right, on every tool
+   page. Independent of any tool's own inline timer: this one survives
+   navigation between tools (it's driven off a stored end-timestamp, not a
+   per-page countdown) so a teacher can start it on one tool and check it
+   from another. z-index sits above every present-mode overlay on the site
+   (the highest of those is 302) so it stays usable mid-presentation. */
+.jft-wrap{position:fixed;right:20px;bottom:20px;z-index:999;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.jft-btn{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 14px 0 0;
+  border-radius:999px;border:1px solid var(--soft-line);background:var(--card);color:var(--ink);
+  box-shadow:0 8px 24px -10px rgba(15,27,45,.35);cursor:pointer;transition:border-color .12s;font-family:inherit}
+.jft-btn:hover{border-color:var(--accent)}
+.jft-icon{width:44px;height:44px;border-radius:999px;background:var(--soft);color:var(--accent);
+  display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.jft-icon svg{width:20px;height:20px}
+.jft-live{font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.02em;display:none;padding-right:2px}
+.jft-wrap.running .jft-live{display:inline}
+.jft-wrap.running .jft-icon{animation:jftPulse 1.6s ease-in-out infinite;color:var(--accent)}
+.jft-wrap.warn .jft-live,.jft-wrap.warn .jft-icon{color:#c2740c}
+.jft-wrap.over .jft-live,.jft-wrap.over .jft-icon{color:#c14343}
+@keyframes jftPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.jft-panel{width:220px;background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:14px;box-shadow:0 20px 44px -20px rgba(15,27,45,.4);display:none}
+.jft-wrap.open .jft-panel{display:block}
+.jft-panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.jft-panel-title{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.jft-panel-close{width:22px;height:22px;border-radius:999px;border:none;background:transparent;
+  color:var(--muted);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;line-height:1}
+.jft-panel-close:hover{background:var(--soft);color:var(--accent)}
+.jft-controls{display:flex;align-items:center;justify-content:center;gap:2px;border:1px solid var(--soft-line);
+  border-radius:999px;padding:3px 4px 3px 14px}
+.jft-in{font-family:inherit;font-size:15px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.04em;
+  width:64px;text-align:center;background:transparent;border:none;outline:none;color:var(--ink)}
+.jft-controls button{width:30px;height:30px;border-radius:999px;border:none;background:transparent;color:var(--muted);
+  display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:background .12s,color .12s}
+.jft-controls button svg{width:15px;height:15px}
+.jft-controls button:hover{background:var(--soft);color:var(--accent)}
+.jft-bar{height:4px;border-radius:999px;background:var(--line);overflow:hidden;margin-top:10px}
+.jft-bar span{display:block;height:100%;width:100%;background:var(--accent);border-radius:999px;transition:width .95s linear,background .3s}
+.jft-wrap.warn .jft-bar span{background:#c2740c}
+.jft-wrap.over .jft-bar span{background:#c14343;animation:jftOverPulse 1.1s ease-in-out infinite}
+@keyframes jftOverPulse{0%,100%{opacity:1}50%{opacity:.55}}
+@media (max-width:700px){.jft-wrap{right:14px;bottom:14px}.jft-panel{width:190px}}
+@media print{.jft-wrap{display:none!important}}
+/* /jpt:chrome */
+</style>
+</head>
+<body>
+
+<header class="stopbar">
+<!-- jpt:brand -->
+  <div class="brand-wrap">
+    <button class="st-brand" id="brandBtn" aria-haspopup="true" aria-expanded="false" aria-controls="toolsMenu">
+      <span class="brand-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span>
+      <span class="brand-title"><span class="k">JohnPlusEnglish</span><span class="b">Tools</span></span>
+      <span class="brand-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </button>
+    <div class="popmenu" id="toolsMenu" role="menu" aria-labelledby="brandBtn" hidden>
+      <div class="pm-label">Go to</div>
+      <a class="pm-item" role="menuitem" href="/" data-nav="home">
+        <span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><path d="M3 9.5 12 3l9 6.5V20a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 20z"/><path d="M9.5 21.5v-7h5v7"/></svg></span>Home</a>
+      <a class="pm-item" role="menuitem" href="/debate-builder" data-nav="debate-builder">
+        <span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M14.6 3H4.3A1.8 1.8 0 0 0 2.5 4.8v5.9a1.8 1.8 0 0 0 1.8 1.8h.8v3.1l3.3-3.1h6.2a1.8 1.8 0 0 0 1.8-1.8V4.8A1.8 1.8 0 0 0 14.6 3z"/><path d="M20.2 9.6h-6.1A1.6 1.6 0 0 0 12.5 11.2v3.6a1.6 1.6 0 0 0 1.6 1.6h3.6l3 2.7v-2.7h.5a1.6 1.6 0 0 0 1.3-1.6v-3.6a1.6 1.6 0 0 0-1.6-1.6z" fill="currentColor" stroke="currentColor"/></svg></span>Debate Builder</a>
+      <a class="pm-item" role="menuitem" href="/gap-fill" data-nav="gap-fill">
+        <span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="10" y2="12"/><line x1="14" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="16" y2="17"/></svg></span>Gap-fill</a>
+      <a class="pm-item" role="menuitem" href="/vocab-matching" data-nav="vocab-matching">
+        <span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><circle cx="4.5" cy="6" r="1.7"/><circle cx="4.5" cy="12" r="1.7"/><circle cx="4.5" cy="18" r="1.7"/><circle cx="19.5" cy="6" r="1.7"/><circle cx="19.5" cy="12" r="1.7"/><circle cx="19.5" cy="18" r="1.7"/><line x1="6.5" y1="6" x2="17.5" y2="12"/><line x1="6.5" y1="12" x2="17.5" y2="18"/><line x1="6.5" y1="18" x2="17.5" y2="6"/></svg></span>Vocab Matching</a>
+      <a class="pm-item" role="menuitem" href="/role-plays" data-nav="role-plays">
+        <span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>Role Plays</a>
+      <a class="pm-item" role="menuitem" href="/speaking-topics" data-nav="speaking-topics">
+        <span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M21 11.5a8.5 8.5 0 0 1-12.2 7.6L3 21l1.9-5.8A8.5 8.5 0 1 1 21 11.5z"/><circle cx="8.2" cy="11.5" r="1.05" fill="currentColor" stroke="none"/><circle cx="12" cy="11.5" r="1.05" fill="currentColor" stroke="none"/><circle cx="15.8" cy="11.5" r="1.05" fill="currentColor" stroke="none"/></svg></span>Speaking Topics</a>
+      <a class="pm-item" role="menuitem" href="/spin-wheel" data-nav="spin-wheel">
+        <span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><circle cx="12" cy="13" r="8.2"/><line x1="12" y1="13" x2="12" y2="5"/><line x1="12" y1="13" x2="18.6" y2="16.9"/><line x1="12" y1="13" x2="5.4" y2="16.9"/><circle cx="12" cy="13" r="1.5" fill="currentColor" stroke="none"/><path d="M12 1.8 L9.8 5.2 L14.2 5.2 Z" fill="currentColor" stroke="none"/></svg></span>Spin the Wheel</a>
+      <a class="pm-item" role="menuitem" href="/timers" data-nav="timers" aria-current="true">
+        <span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M5 3h14L12 12 5 3M5 21h14L12 12 5 21"/></svg></span>Timers</a>
+      <div class="pm-sep"></div>
+      <a class="pm-item" role="menuitem" href="https://johnplusdictionary.com" target="_blank" rel="noopener">
+        <span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>JohnPlusDictionary<span class="pm-ext"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span></a>
+    </div>
+  </div>
+  <!-- /jpt:brand -->
+  <div class="grow"></div>
+  <!-- jpt:themebtn -->
+  <button class="icon-btn" id="jptThemeBtn" title="Light / dark" aria-label="Toggle light or dark theme">
+    <svg id="jptThemeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  </button>
+  <!-- /jpt:themebtn -->
+</header>
+
+<div class="app" id="app">
+  <main>
+    <div class="main-inner">
+      <!-- jpt:toolhead -->
+      <div class="tool-head">
+        <span class="th-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M5 3h14L12 12 5 3M5 21h14L12 12 5 21"/></svg></span>
+        <div class="th-text">
+          <h1>Timers</h1>
+          <p>A big, fun countdown for the room: hourglass, melting ice or a burning candle.</p>
+        </div>
+      </div>
+      <!-- /jpt:toolhead -->
+      
+
+      <div class="tmr-styles tmr-present-only-hide" id="tmrStyles"></div>
+
+      <div class="tmr-present-backdrop"></div>
+      <button class="tmr-present-close" type="button" onclick="tmrExitPresent()" title="Exit present mode (Esc)" aria-label="Exit present mode">&times;</button>
+
+      <div class="tmr-stack">
+        <div class="tmr-card">
+          <div class="tmr-stage" id="tmrStage"></div>
+          <div class="tmr-clock" id="tmrClock">05:00</div>
+          <div class="tmr-status" id="tmrStatus">Ready</div>
+
+          <div class="tmr-controls">
+            <div class="tmr-len tmr-present-only-hide">
+              <input type="text" id="tmrLenInput" inputmode="numeric" aria-label="Timer length"
+                     title="Type a length (5, or 5:30) and press Enter" onchange="tmrOnLenInput(this)">
+              <button type="button" onclick="tmrNudge(-1)" title="Minus 1 minute" aria-label="Minus 1 minute">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </button>
+              <button type="button" onclick="tmrNudge(1)" title="Plus 1 minute" aria-label="Plus 1 minute">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </button>
+            </div>
+            <div class="tmr-presets tmr-present-only-hide" id="tmrPresets"></div>
+            <button class="tmr-icon-btn tmr-mute" id="tmrMuteBtn" type="button" onclick="tmrToggleSound()" title="Mute sound" aria-label="Mute sound">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+            </button>
+            <button class="tmr-icon-btn" type="button" onclick="tmrReset()" title="Reset" aria-label="Reset">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+            </button>
+            <button class="tmr-btn" id="tmrStartBtn" type="button" onclick="tmrToggle()"></button>
+            <button class="tmr-btn tmr-present-only-hide" type="button" onclick="tmrEnterPresent()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+              Present
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script>
+var TMR_KEY = 'jpt_timers_v1';
+var TMR_SOUND_KEY = 'jpt_timers_sound';
+var TMR_PRESETS = [60, 180, 300, 600];
+
+var TMR_STYLES = [
+  {id: 'hourglass', name: 'Hourglass', desc: 'Sand runs through'},
+  {id: 'ice', name: 'Melting ice', desc: 'Watch it shrink'},
+  {id: 'candle', name: 'Burning candle', desc: 'Burns to the wick'},
+  {id: 'bomb', name: 'Ticking bomb', desc: 'Boom at zero'}
+];
+
+var TMR_ICONS = {
+  hourglass: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h14L12 12 5 3M5 21h14L12 12 5 21"/></svg>',
+  ice: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="12" height="12" rx="3"/><path d="M12 17c1.5 1.7 2.5 2.9 2.5 4.1a2.5 2.5 0 0 1-5 0c0-1.2 1-2.4 2.5-4.1z"/></svg>',
+  candle: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c1.8 2 2.6 3.4 2.6 4.6a2.6 2.6 0 1 1-5.2 0C9.4 5.4 10.2 4 12 2z"/><rect x="9" y="9" width="6" height="11" rx="1.5"/><line x1="12" y1="9" x2="12" y2="6.6"/></svg>',
+  bomb: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="14" r="7"/><path d="M12 7 L15 3"/><path d="M15 3c1 0 2 .4 2 1.6"/></svg>'
+};
+
+var TMR_ICON_PLAY = '<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="7 4 20 12 7 20 7 4"/></svg>';
+var TMR_ICON_PAUSE = '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4.5" width="4" height="15" rx="1"/><rect x="14" y="4.5" width="4" height="15" rx="1"/></svg>';
+
+var state = {style: 'hourglass', total: 300, remaining: 300, running: false, endAt: null};
+var soundOn = true;
+var tmrIv = null;
+var tmrAudioCtx = null;
+var tmrLastShown = null;
+
+/* Individual falling sand grains, kept as real state (not derived fresh from
+   Date.now() like the rest of the visuals) because a falling grain has a
+   position that depends on its own history, not just the current instant. */
+var tmrSandGrains = [];
+var tmrLastGrainSpawn = 0;
+var tmrLastGrainTick = null;
+
+function tmrResetSand() { tmrSandGrains = []; tmrLastGrainSpawn = 0; tmrLastGrainTick = null; }
+
+function tmrUpdateSand(progress, running) {
+  var now = Date.now();
+  if (!running || progress <= 0.002 || progress >= 0.998) { tmrLastGrainTick = now; return; }
+  var dt = tmrLastGrainTick ? Math.min(now - tmrLastGrainTick, 300) : 0;
+  tmrLastGrainTick = now;
+  var surfaceY = 174 - 74 * progress;
+  for (var i = tmrSandGrains.length - 1; i >= 0; i--) {
+    tmrSandGrains[i].y += (dt / 1000) * tmrSandGrains[i].speed;
+    if (tmrSandGrains[i].y >= surfaceY) tmrSandGrains.splice(i, 1);
+  }
+  if (now - tmrLastGrainSpawn > 65 && tmrSandGrains.length < 11) {
+    tmrLastGrainSpawn = now;
+    tmrSandGrains.push({
+      x: 80 + (Math.random() * 2 - 1) * 1.7,
+      y: 97,
+      speed: 95 + Math.random() * 25,
+      r: 1.1 + Math.random() * 0.7
+    });
+  }
+}
+
+/* Bomb explosion: a short one-off burst animation on top of the normal
+   render loop. tmrExplodeAt marks when it started; a brief extra interval
+   keeps repainting the stage while the burst expands and fades, since the
+   main tick loop stops the instant the countdown reaches zero. */
+var tmrExplodeAt = null;
+var tmrExplodeIv = null;
+
+function tmrResetExplosion() { tmrExplodeAt = null; clearInterval(tmrExplodeIv); tmrExplodeIv = null; }
+
+function tmrTriggerExplosion() {
+  if (state.style !== 'bomb') return;
+  tmrExplodeAt = Date.now();
+  clearInterval(tmrExplodeIv);
+  tmrExplodeIv = setInterval(function () {
+    tmrRenderStage(1);
+    if (Date.now() - tmrExplodeAt > 900) { clearInterval(tmrExplodeIv); tmrExplodeIv = null; tmrRenderStage(1); }
+  }, 30);
+}
+
+function tmrStarPoints(cx, cy, spikes, outerR, innerR) {
+  var pts = [];
+  for (var i = 0; i < spikes * 2; i++) {
+    var r = i % 2 === 0 ? outerR : innerR;
+    var a = (Math.PI / spikes) * i - Math.PI / 2;
+    pts.push((cx + Math.cos(a) * r).toFixed(1) + ',' + (cy + Math.sin(a) * r).toFixed(1));
+  }
+  return pts.join(' ');
+}
+
+function tmrFmt(s) {
+  s = Math.max(0, Math.round(s));
+  return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(Math.floor(s % 60)).padStart(2, '0');
+}
+
+function tmrParse(str) {
+  str = String(str).trim();
+  if (!str) return null;
+  var t;
+  if (str.indexOf(':') >= 0) {
+    var pp = str.split(':');
+    var m = parseInt(pp[0], 10) || 0, sc = parseInt(pp[1], 10) || 0;
+    if (sc > 59) return null;
+    t = m * 60 + sc;
+  } else {
+    var mn = parseFloat(str);
+    if (!isFinite(mn)) return null;
+    t = Math.round(mn * 60);
+  }
+  if (!isFinite(t) || t <= 0) return null;
+  return Math.min(t, 99 * 60 + 59);
+}
+
+function tmrCurrentRemaining() {
+  return state.running ? Math.max(0, (state.endAt - Date.now()) / 1000) : state.remaining;
+}
+
+/* ── Persistence ───────────────────────────────────────────────────── */
+function tmrLoad() {
+  try {
+    var raw = localStorage.getItem(TMR_KEY);
+    if (raw) {
+      var s = JSON.parse(raw);
+      if (s && typeof s.total === 'number') state = s;
+    }
+  } catch (e) {}
+  try { soundOn = localStorage.getItem(TMR_SOUND_KEY) !== '0'; } catch (e) {}
+  if (state.running && state.endAt && (state.endAt - Date.now()) <= 0) {
+    state.running = false; state.endAt = null; state.remaining = 0;
+  }
+}
+
+function tmrSave() { try { localStorage.setItem(TMR_KEY, JSON.stringify(state)); } catch (e) {} }
+function tmrSaveSound() { try { localStorage.setItem(TMR_SOUND_KEY, soundOn ? '1' : '0'); } catch (e) {} }
+
+/* ── Sound: two short Web Audio tones, no external assets ────────────── */
+function tmrEnsureAudio() {
+  if (!tmrAudioCtx) {
+    try { tmrAudioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {}
+  }
+  if (tmrAudioCtx && tmrAudioCtx.state === 'suspended') tmrAudioCtx.resume();
+}
+
+function tmrDing() {
+  if (!soundOn || !tmrAudioCtx) return;
+  var t = tmrAudioCtx.currentTime;
+  [880, 1320].forEach(function (freq, idx) {
+    var at = t + idx * 0.1;
+    var osc = tmrAudioCtx.createOscillator(), gain = tmrAudioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, at);
+    gain.gain.setValueAtTime(0.0001, at);
+    gain.gain.exponentialRampToValueAtTime(0.12, at + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, at + 0.5);
+    osc.connect(gain); gain.connect(tmrAudioCtx.destination);
+    osc.start(at); osc.stop(at + 0.55);
+  });
+}
+
+function tmrBoom() {
+  if (!soundOn || !tmrAudioCtx) return;
+  var t = tmrAudioCtx.currentTime;
+  var osc = tmrAudioCtx.createOscillator(), gain = tmrAudioCtx.createGain();
+  osc.type = 'square';
+  osc.frequency.setValueAtTime(160, t);
+  osc.frequency.exponentialRampToValueAtTime(38, t + 0.35);
+  gain.gain.setValueAtTime(0.2, t);
+  gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.55);
+  osc.connect(gain); gain.connect(tmrAudioCtx.destination);
+  osc.start(t); osc.stop(t + 0.6);
+  var hiss = tmrAudioCtx.createOscillator(), hissGain = tmrAudioCtx.createGain();
+  hiss.type = 'sawtooth';
+  hiss.frequency.setValueAtTime(900, t);
+  hiss.frequency.exponentialRampToValueAtTime(120, t + 0.2);
+  hissGain.gain.setValueAtTime(0.05, t);
+  hissGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.22);
+  hiss.connect(hissGain); hissGain.connect(tmrAudioCtx.destination);
+  hiss.start(t); hiss.stop(t + 0.25);
+}
+
+/* ── The four visuals: each a pure function of (progress 0-1, running).
+   Redrawn wholesale every tick rather than patched in place, so decorative
+   motion (the falling stream, the drip, the flicker) is computed straight
+   from Date.now() each time instead of a CSS animation, which would
+   restart from frame zero every tick if left running on a replaced node. */
+function tmrRenderHourglass(progress, running) {
+  var topH = 74 * (1 - progress), botH = 74 * progress;
+  var topClipY = 100 - topH, botClipY = 174 - botH;
+  var grains = tmrSandGrains.map(function (g) {
+    return '<circle cx="' + g.x.toFixed(1) + '" cy="' + g.y.toFixed(1) + '" r="' + g.r.toFixed(1) + '" fill="#e8a53c"/>';
+  }).join('');
+  return '' +
+    '<svg viewBox="0 0 160 200" class="tmr-svg" xmlns="http://www.w3.org/2000/svg">' +
+      '<defs>' +
+        '<clipPath id="tmrTopClip"><rect x="0" y="' + topClipY.toFixed(1) + '" width="160" height="' + (topH + 1).toFixed(1) + '"/></clipPath>' +
+        '<clipPath id="tmrBotClip"><rect x="0" y="' + botClipY.toFixed(1) + '" width="160" height="' + (botH + 1).toFixed(1) + '"/></clipPath>' +
+        '<clipPath id="tmrGlassClipTop"><polygon points="30,26 130,26 80,100"/></clipPath>' +
+        '<clipPath id="tmrGlassClipBot"><polygon points="30,174 130,174 80,100"/></clipPath>' +
+        '<linearGradient id="tmrSandGrad" x1="0.1" y1="0" x2="0.8" y2="1">' +
+          '<stop offset="0" stop-color="#ffe3a3"/><stop offset="0.4" stop-color="#f5bd54"/>' +
+          '<stop offset="0.75" stop-color="#dc932c"/><stop offset="1" stop-color="#b06f1e"/>' +
+        '</linearGradient>' +
+        '<linearGradient id="tmrCapGrad" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0" stop-color="var(--ink)" stop-opacity="0.85"/><stop offset="1" stop-color="var(--ink)"/>' +
+        '</linearGradient>' +
+        '<pattern id="tmrGrain" width="7" height="7" patternUnits="userSpaceOnUse">' +
+          '<circle cx="1.2" cy="1.4" r="0.5" fill="#5c3b0e" opacity="0.16"/>' +
+          '<circle cx="4.6" cy="3.1" r="0.4" fill="#5c3b0e" opacity="0.12"/>' +
+          '<circle cx="2.8" cy="5.4" r="0.45" fill="#fff6df" opacity="0.22"/>' +
+          '<circle cx="6.1" cy="6" r="0.35" fill="#5c3b0e" opacity="0.1"/>' +
+        '</pattern>' +
+      '</defs>' +
+      '<ellipse cx="80" cy="193" rx="34" ry="4.5" fill="var(--ink)" opacity="0.09"/>' +
+      '<ellipse cx="80" cy="190" rx="20" ry="2.5" fill="var(--ink)" opacity="0.14"/>' +
+      '<polygon points="30,26 130,26 80,100" fill="url(#tmrSandGrad)" clip-path="url(#tmrTopClip)"/>' +
+      '<polygon points="30,26 130,26 80,100" fill="url(#tmrGrain)" opacity="0.5" clip-path="url(#tmrTopClip)"/>' +
+      '<polygon points="30,174 130,174 80,100" fill="url(#tmrSandGrad)" clip-path="url(#tmrBotClip)"/>' +
+      '<polygon points="30,174 130,174 80,100" fill="url(#tmrGrain)" opacity="0.5" clip-path="url(#tmrBotClip)"/>' +
+      '<line x1="69" y1="97" x2="69" y2="103" stroke="#7a4f14" stroke-width="1.4" opacity="0.35" clip-path="url(#tmrGlassClipBot)"/>' +
+      grains +
+      '<polygon points="40,26 56,26 100,100 84,100" fill="#ffffff" opacity="0.28" clip-path="url(#tmrGlassClipTop)"/>' +
+      '<polygon points="40,174 56,174 100,100 84,100" fill="#ffffff" opacity="0.14" clip-path="url(#tmrGlassClipBot)"/>' +
+      '<path d="M30 26 L130 26 L80 100 Z M30 174 L130 174 L80 100 Z" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>' +
+      '<line x1="24" y1="20" x2="136" y2="20" stroke="url(#tmrCapGrad)" stroke-width="7" stroke-linecap="round"/>' +
+      '<line x1="24" y1="180" x2="136" y2="180" stroke="url(#tmrCapGrad)" stroke-width="7" stroke-linecap="round"/>' +
+      '<line x1="30" y1="17.5" x2="130" y2="17.5" stroke="#ffffff" stroke-width="1" opacity="0.2" stroke-linecap="round"/>' +
+      '<circle cx="24" cy="20" r="4" fill="var(--ink)"/><circle cx="136" cy="20" r="4" fill="var(--ink)"/>' +
+      '<circle cx="24" cy="180" r="4" fill="var(--ink)"/><circle cx="136" cy="180" r="4" fill="var(--ink)"/>' +
+    '</svg>';
+}
+
+function tmrRenderIce(progress, running) {
+  /* A cube, not a slab: width always equals height, so it's square at
+     every point in the melt, not just at the start. */
+  var maxSize = 92, minSize = 16;
+  var h = Math.max(minSize, maxSize * (1 - progress));
+  var w = h;
+  var bottomY = 168, topY = bottomY - h, x = 80 - w / 2;
+  var rx = Math.min(10 + 22 * progress, w / 2, h / 2);
+  var puddleRx = 22 + 46 * progress, puddleRy = 6 + 9 * progress;
+  var puddleOpacity = (0.35 + 0.35 * progress).toFixed(2);
+  var dripsOn = running && progress > 0.02 && progress < 0.98 && h > 14;
+  var phaseA = (Date.now() % 1800) / 1800;
+  var phaseB = ((Date.now() + 900) % 1800) / 1800;
+  /* Air bubbles trapped in the ice: real cue for "ice" rather than "blue
+     plastic", positioned as fractions of the current block so they scale
+     and vanish naturally as it melts down, rather than being repositioned. */
+  var bubbles = [
+    {fx: 0.28, fy: 0.22, r: 2.1}, {fx: 0.62, fy: 0.4, r: 1.5},
+    {fx: 0.46, fy: 0.66, r: 1.2}, {fx: 0.72, fy: 0.76, r: 1.7}
+  ];
+  var bubbleMarkup = h > 35 ? bubbles.map(function (b) {
+    return '<circle cx="' + (x + w * b.fx).toFixed(1) + '" cy="' + (topY + h * b.fy).toFixed(1) +
+      '" r="' + b.r + '" fill="#ffffff" opacity="0.4"/>';
+  }).join('') : '';
+  return '' +
+    '<svg viewBox="0 0 160 200" class="tmr-svg" xmlns="http://www.w3.org/2000/svg">' +
+      '<defs>' +
+        '<linearGradient id="tmrIceGrad" x1="0.05" y1="0" x2="0.9" y2="1">' +
+          '<stop offset="0" stop-color="#f5fcff"/><stop offset="0.35" stop-color="#cdedfc"/>' +
+          '<stop offset="0.7" stop-color="#8fd0f2"/><stop offset="1" stop-color="#5fa9d6"/>' +
+        '</linearGradient>' +
+        '<radialGradient id="tmrPuddleGrad" cx="0.5" cy="0.35" r="0.65">' +
+          '<stop offset="0" stop-color="#e2f6ff"/><stop offset="0.6" stop-color="#a9ddf5"/><stop offset="1" stop-color="#79bfe8"/>' +
+        '</radialGradient>' +
+        '<pattern id="tmrFrost" width="8" height="8" patternUnits="userSpaceOnUse">' +
+          '<circle cx="1.4" cy="1.6" r="0.5" fill="#ffffff" opacity="0.5"/>' +
+          '<circle cx="5.2" cy="3.4" r="0.35" fill="#ffffff" opacity="0.35"/>' +
+          '<circle cx="3.1" cy="6.2" r="0.4" fill="#1a5a86" opacity="0.12"/>' +
+          '<circle cx="6.8" cy="6.6" r="0.3" fill="#ffffff" opacity="0.3"/>' +
+        '</pattern>' +
+      '</defs>' +
+      '<ellipse cx="80" cy="176" rx="' + puddleRx.toFixed(1) + '" ry="' + puddleRy.toFixed(1) + '" fill="url(#tmrPuddleGrad)" opacity="' + puddleOpacity + '"/>' +
+      (puddleRx > 28 ? '<ellipse cx="80" cy="176" rx="' + (puddleRx * 0.65).toFixed(1) + '" ry="' + (puddleRy * 0.65).toFixed(1) + '" fill="none" stroke="#ffffff" stroke-width="0.8" opacity="0.4"/>' : '') +
+      '<ellipse cx="80" cy="' + (bottomY + 1).toFixed(1) + '" rx="' + (w * 0.42).toFixed(1) + '" ry="2.4" fill="#3d7ba8" opacity="0.22"/>' +
+      '<rect x="' + x + '" y="' + topY.toFixed(1) + '" width="' + w + '" height="' + h.toFixed(1) + '" rx="' + rx.toFixed(1) + '" fill="url(#tmrIceGrad)" fill-opacity="0.94" stroke="#5fa9d6" stroke-width="1.6"/>' +
+      '<rect x="' + x + '" y="' + topY.toFixed(1) + '" width="' + w + '" height="' + h.toFixed(1) + '" rx="' + rx.toFixed(1) + '" fill="url(#tmrFrost)" opacity="0.55"/>' +
+      (h > 26 ? '<line x1="' + (x + w * 0.11).toFixed(1) + '" y1="' + (topY + h * 0.3).toFixed(1) + '" x2="' + (x + w * 0.86).toFixed(1) + '" y2="' + (topY + h * 0.5).toFixed(1) + '" stroke="#ffffff" stroke-width="1" opacity="0.35"/>' : '') +
+      (h > 26 ? '<line x1="' + (x + w * 0.83).toFixed(1) + '" y1="' + (topY + h * 0.2).toFixed(1) + '" x2="' + (x + w * 0.2).toFixed(1) + '" y2="' + (topY + h * 0.85).toFixed(1) + '" stroke="#ffffff" stroke-width="0.7" opacity="0.22"/>' : '') +
+      (h > 26 ? '<line x1="' + (x + w * 0.31).toFixed(1) + '" y1="' + (topY + h * 0.08).toFixed(1) + '" x2="' + (x + w * 0.09).toFixed(1) + '" y2="' + (topY + h * 0.6).toFixed(1) + '" stroke="#2f6f9c" stroke-width="0.6" opacity="0.18"/>' : '') +
+      bubbleMarkup +
+      '<rect x="' + (x + w * 0.14).toFixed(1) + '" y="' + (topY + 8).toFixed(1) + '" width="' + (w * 0.13).toFixed(1) + '" height="' + Math.max(0, h - 20).toFixed(1) + '" rx="4" fill="#ffffff" opacity="0.65"/>' +
+      '<rect x="' + (x + w * 0.79).toFixed(1) + '" y="' + (topY + 14).toFixed(1) + '" width="' + (w * 0.06).toFixed(1) + '" height="' + Math.max(0, h - 30).toFixed(1) + '" rx="2" fill="#ffffff" opacity="0.4"/>' +
+      (dripsOn ?
+        '<circle cx="' + (x + w * 0.23).toFixed(1) + '" cy="' + (bottomY + phaseA * 14).toFixed(1) + '" r="3" fill="#8fd0f2" opacity="' + (1 - phaseA).toFixed(2) + '"/>' +
+        '<circle cx="' + (x + w * 0.74).toFixed(1) + '" cy="' + (bottomY + phaseB * 14).toFixed(1) + '" r="2.4" fill="#8fd0f2" opacity="' + (1 - phaseB).toFixed(2) + '"/>'
+      : '') +
+    '</svg>';
+}
+
+function tmrRenderCandle(progress, running) {
+  var maxH = 130, minH = 14;
+  var h = Math.max(minH, maxH * (1 - progress));
+  var bottomY = 178, topY = bottomY - h, w = 30, x = 65;
+  var lit = progress < 0.999;
+  var flick = running ? Math.sin(Date.now() / 140) : 0;
+  var flameScale = (1 + flick * 0.08).toFixed(3);
+  var flameSkew = (flick * 4).toFixed(2);
+  var dripOn = running && lit && h > 24;
+  var dripPhase = (Date.now() % 2600) / 2600;
+  var dripY = topY + 14 + dripPhase * Math.min(h - 10, 40);
+  var glowPulse = (0.5 + 0.5 * Math.abs(Math.sin(Date.now() / 260))).toFixed(2);
+  return '' +
+    '<svg viewBox="0 0 160 200" class="tmr-svg" xmlns="http://www.w3.org/2000/svg">' +
+      '<defs>' +
+        '<linearGradient id="tmrWaxGrad" x1="0" y1="0" x2="1" y2="0">' +
+          '<stop offset="0" stop-color="#fffdf5"/><stop offset="0.35" stop-color="#fbeed9"/>' +
+          '<stop offset="0.75" stop-color="#e8d0a0"/><stop offset="1" stop-color="#c9a874"/>' +
+        '</linearGradient>' +
+        '<radialGradient id="tmrFlameGlow" cx="0.5" cy="0.5" r="0.5">' +
+          '<stop offset="0" stop-color="#ffd35b" stop-opacity="0.55"/><stop offset="1" stop-color="#ffd35b" stop-opacity="0"/>' +
+        '</radialGradient>' +
+        '<radialGradient id="tmrFlameCore" cx="0.5" cy="0.72" r="0.6">' +
+          '<stop offset="0" stop-color="#fffdf0"/><stop offset="0.45" stop-color="#ffd35b"/><stop offset="1" stop-color="#ff8a3d"/>' +
+        '</radialGradient>' +
+        '<pattern id="tmrWaxGrain" width="7" height="7" patternUnits="userSpaceOnUse">' +
+          '<circle cx="1.3" cy="1.5" r="0.4" fill="#c9a874" opacity="0.25"/>' +
+          '<circle cx="4.8" cy="3.2" r="0.3" fill="#ffffff" opacity="0.3"/>' +
+          '<circle cx="2.9" cy="5.6" r="0.35" fill="#c9a874" opacity="0.2"/>' +
+        '</pattern>' +
+      '</defs>' +
+      '<ellipse cx="80" cy="186" rx="30" ry="7" fill="var(--ink)" opacity="0.08"/>' +
+      '<ellipse cx="80" cy="184" rx="18" ry="3" fill="var(--ink)" opacity="0.15"/>' +
+      '<rect x="' + x + '" y="' + topY.toFixed(1) + '" width="' + w + '" height="' + h.toFixed(1) + '" rx="7" fill="url(#tmrWaxGrad)" stroke="#d8bc8a" stroke-width="1.4"/>' +
+      '<rect x="' + x + '" y="' + topY.toFixed(1) + '" width="' + w + '" height="' + h.toFixed(1) + '" rx="7" fill="url(#tmrWaxGrain)" opacity="0.6"/>' +
+      '<rect x="' + (x + 4) + '" y="' + topY.toFixed(1) + '" width="6" height="' + h.toFixed(1) + '" rx="3" fill="#ffffff" opacity="0.5"/>' +
+      '<rect x="' + (x + w - 9) + '" y="' + topY.toFixed(1) + '" width="3" height="' + h.toFixed(1) + '" rx="1.5" fill="#8a6f42" opacity="0.18"/>' +
+      '<ellipse cx="80" cy="' + topY.toFixed(1) + '" rx="9" ry="2.6" fill="#e9d3a4"/>' +
+      (dripOn ? '<path d="M' + (x + w - 4) + ' ' + dripY.toFixed(1) + ' q4.5 3.5 0 9 q-4.5 -3.5 0 -9 Z" fill="#f4e2bd"/>' : '') +
+      '<line x1="80" y1="' + topY.toFixed(1) + '" x2="80" y2="' + (topY - 9).toFixed(1) + '" stroke="#4a3c28" stroke-width="2" stroke-linecap="round"/>' +
+      (lit ?
+        '<circle cx="80" cy="' + (topY - 15).toFixed(1) + '" r="' + (13 + flick * 1.3).toFixed(1) + '" fill="url(#tmrFlameGlow)" opacity="' + glowPulse + '"/>' +
+        '<g transform="translate(80,' + (topY - 9).toFixed(1) + ') scale(' + flameScale + ') skewX(' + flameSkew + ')">' +
+          '<path d="M0 -22 C 9 -12 9 -2 0 4 C -9 -2 -9 -12 0 -22 Z" fill="url(#tmrFlameCore)"/>' +
+          '<path d="M0 -8 C 2.4 -4 2.4 -1 0 2 C -2.4 -1 -2.4 -4 0 -8 Z" fill="#fff6d8" opacity="0.9"/>' +
+        '</g>'
+      :
+        '<path d="M80 ' + (topY - 9).toFixed(1) + ' C 86 ' + (topY - 20).toFixed(1) + ' 76 ' + (topY - 30).toFixed(1) + ' 82 ' + (topY - 42).toFixed(1) + '" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" opacity="0.5"/>'
+      ) +
+    '</svg>';
+}
+
+function tmrRenderBomb(progress, running) {
+  var cx = 80, bodyR = 32, cy = 138;
+  if (progress >= 0.999) {
+    var t = tmrExplodeAt ? Math.min(1, (Date.now() - tmrExplodeAt) / 700) : 1;
+    var burstR = 18 + t * 60;
+    var starPts = tmrStarPoints(cx, cy, 8, burstR, burstR * 0.45);
+    return '' +
+      '<svg viewBox="0 0 160 200" class="tmr-svg" xmlns="http://www.w3.org/2000/svg">' +
+        '<defs>' +
+          '<radialGradient id="tmrBurstGrad" cx="0.5" cy="0.5" r="0.5">' +
+            '<stop offset="0" stop-color="#fff6d8"/><stop offset="0.4" stop-color="#ffcf5b"/>' +
+            '<stop offset="0.75" stop-color="#ff7a3d"/><stop offset="1" stop-color="#d6431f"/>' +
+          '</radialGradient>' +
+        '</defs>' +
+        '<ellipse cx="' + cx + '" cy="' + (cy + bodyR + 4).toFixed(1) + '" rx="30" ry="6" fill="var(--ink)" opacity="0.14"/>' +
+        '<circle cx="' + cx + '" cy="' + cy.toFixed(1) + '" r="' + (burstR * 1.2).toFixed(1) + '" fill="#fff6d8" opacity="' + (1 - t).toFixed(2) + '"/>' +
+        '<polygon points="' + starPts + '" fill="url(#tmrBurstGrad)" opacity="' + (1 - t * 0.95).toFixed(2) + '"/>' +
+        (t > 0.3 ? '<circle cx="' + (cx - 22).toFixed(1) + '" cy="' + (cy - 30 - t * 22).toFixed(1) + '" r="' + (8 + t * 7).toFixed(1) + '" fill="var(--muted)" opacity="' + ((1 - t) * 0.4).toFixed(2) + '"/>' : '') +
+        (t > 0.3 ? '<circle cx="' + (cx + 26).toFixed(1) + '" cy="' + (cy - 24 - t * 28).toFixed(1) + '" r="' + (7 + t * 6).toFixed(1) + '" fill="var(--muted)" opacity="' + ((1 - t) * 0.35).toFixed(2) + '"/>' : '') +
+      '</svg>';
+  }
+  var fuseFull = 34;
+  var fuseLen = Math.max(2, fuseFull * (1 - progress));
+  var flick = running ? Math.sin(Date.now() / 130) : 0;
+  var jitter = (running && progress > 0.85) ? Math.sin(Date.now() / 90) * (progress - 0.85) * 20 : 0;
+  var bx = cx + jitter;
+  var fuseTopX = bx - fuseLen * 0.55, fuseTopY = cy - bodyR - fuseLen * 0.85;
+  return '' +
+    '<svg viewBox="0 0 160 200" class="tmr-svg" xmlns="http://www.w3.org/2000/svg">' +
+      '<defs>' +
+        '<radialGradient id="tmrBombGrad" cx="0.35" cy="0.32" r="0.75">' +
+          '<stop offset="0" stop-color="#5a5f6b"/><stop offset="0.5" stop-color="#2b2f38"/><stop offset="1" stop-color="#0e1116"/>' +
+        '</radialGradient>' +
+        '<radialGradient id="tmrSparkGrad" cx="0.5" cy="0.5" r="0.5">' +
+          '<stop offset="0" stop-color="#fffdf0"/><stop offset="0.5" stop-color="#ffd35b"/><stop offset="1" stop-color="#ff8a3d"/>' +
+        '</radialGradient>' +
+      '</defs>' +
+      '<ellipse cx="80" cy="' + (cy + bodyR + 5).toFixed(1) + '" rx="30" ry="6" fill="var(--ink)" opacity="0.12"/>' +
+      '<path d="M' + bx.toFixed(1) + ' ' + (cy - bodyR).toFixed(1) + ' Q ' + (bx - fuseLen * 0.3).toFixed(1) + ' ' + (cy - bodyR - fuseLen * 0.5).toFixed(1) + ' ' + fuseTopX.toFixed(1) + ' ' + fuseTopY.toFixed(1) + '" fill="none" stroke="#8a6f42" stroke-width="2.4" stroke-linecap="round"/>' +
+      (running && fuseLen > 3 ?
+        '<circle cx="' + fuseTopX.toFixed(1) + '" cy="' + fuseTopY.toFixed(1) + '" r="' + (9 + flick * 1.5).toFixed(1) + '" fill="#ffd35b" opacity="0.3"/>' +
+        '<circle cx="' + fuseTopX.toFixed(1) + '" cy="' + fuseTopY.toFixed(1) + '" r="' + (5 + flick * 1).toFixed(1) + '" fill="url(#tmrSparkGrad)"/>'
+      : '') +
+      '<circle cx="' + bx.toFixed(1) + '" cy="' + cy.toFixed(1) + '" r="' + bodyR + '" fill="url(#tmrBombGrad)" stroke="#05070a" stroke-width="1.5"/>' +
+      '<ellipse cx="' + (bx - bodyR * 0.32).toFixed(1) + '" cy="' + (cy - bodyR * 0.35).toFixed(1) + '" rx="' + (bodyR * 0.28).toFixed(1) + '" ry="' + (bodyR * 0.18).toFixed(1) + '" fill="#ffffff" opacity="0.22" transform="rotate(-30 ' + (bx - bodyR * 0.32).toFixed(1) + ' ' + (cy - bodyR * 0.35).toFixed(1) + ')"/>' +
+      '<circle cx="' + bx.toFixed(1) + '" cy="' + (cy - bodyR).toFixed(1) + '" r="2.5" fill="#4a3c28"/>' +
+    '</svg>';
+}
+
+var TMR_RENDER = {hourglass: tmrRenderHourglass, ice: tmrRenderIce, candle: tmrRenderCandle, bomb: tmrRenderBomb};
+
+/* ── Ticking ───────────────────────────────────────────────────────── */
+function tmrRenderStage(progress) {
+  document.getElementById('tmrStage').innerHTML = TMR_RENDER[state.style](progress, state.running);
+}
+
+function tmrTick() {
+  var r = tmrCurrentRemaining();
+  var progress = state.total > 0 ? 1 - (r / state.total) : 1;
+  if (progress < 0) progress = 0;
+  if (progress > 1) progress = 1;
+  if (state.style === 'hourglass') tmrUpdateSand(progress, state.running);
+  tmrRenderStage(progress);
+
+  var whole = Math.ceil(r);
+  if (whole !== tmrLastShown) {
+    tmrLastShown = whole;
+    document.getElementById('tmrClock').textContent = tmrFmt(r);
+  }
+  var clock = document.getElementById('tmrClock');
+  var warn = r <= 60 && r > 0.05, over = r <= 0.05;
+  clock.classList.toggle('warn', warn);
+  clock.classList.toggle('over', over);
+  document.getElementById('tmrStatus').textContent =
+    over ? "Time's up" : (state.running ? 'Running' : (progress > 0.001 ? 'Paused' : 'Ready'));
+
+  if (state.running && r <= 0.05) { tmrFinish(); return; }
+}
+
+function tmrStartLoop() { clearInterval(tmrIv); tmrIv = setInterval(tmrTick, 120); }
+function tmrStopLoop() { clearInterval(tmrIv); tmrIv = null; }
+
+/* ── Controls ──────────────────────────────────────────────────────── */
+function tmrToggle() {
+  tmrEnsureAudio();
+  if (state.running) {
+    state.remaining = tmrCurrentRemaining();
+    state.running = false; state.endAt = null;
+    tmrStopLoop();
+  } else {
+    if (state.remaining <= 0.05) state.remaining = state.total;
+    state.endAt = Date.now() + state.remaining * 1000;
+    state.running = true;
+    tmrStartLoop();
+  }
+  tmrSave();
+  tmrLastShown = null;
+  tmrTick();
+  tmrPaintButtons();
+}
+
+function tmrReset() {
+  state.running = false; state.endAt = null; state.remaining = state.total;
+  tmrStopLoop();
+  tmrResetSand();
+  tmrResetExplosion();
+  tmrLastShown = null;
+  tmrSave();
+  tmrTick();
+  tmrPaintButtons();
+}
+
+function tmrFinish() {
+  state.running = false; state.endAt = null; state.remaining = 0;
+  tmrStopLoop();
+  tmrResetSand();
+  if (state.style === 'bomb') { tmrBoom(); tmrTriggerExplosion(); } else { tmrDing(); }
+  tmrSave();
+  tmrTick();
+  tmrPaintButtons();
+}
+
+function tmrApplyLength(secs) {
+  state.total = secs; state.remaining = secs;
+  state.running = false; state.endAt = null;
+  tmrStopLoop();
+  tmrResetSand();
+  tmrResetExplosion();
+  tmrLastShown = null;
+  tmrSave();
+  document.getElementById('tmrLenInput').value = tmrFmt(secs);
+  tmrTick();
+  tmrPaintButtons();
+}
+
+function tmrOnLenInput(el) {
+  var secs = tmrParse(el.value);
+  if (secs == null) { el.value = tmrFmt(state.total); return; }
+  tmrApplyLength(secs);
+}
+
+function tmrNudge(deltaMin) {
+  tmrApplyLength(Math.max(15, Math.min(99 * 60 + 59, state.total + deltaMin * 60)));
+}
+
+function tmrSetPreset(sec) { tmrApplyLength(sec); }
+
+function tmrToggleSound() {
+  soundOn = !soundOn;
+  document.getElementById('tmrMuteBtn').classList.toggle('off', !soundOn);
+  tmrSaveSound();
+}
+
+function tmrSetStyle(id) {
+  state.style = id;
+  tmrResetExplosion();
+  tmrSave();
+  tmrBuildStyles();
+  tmrTick();
+}
+
+function tmrPaintButtons() {
+  var btn = document.getElementById('tmrStartBtn');
+  btn.innerHTML = (state.running ? TMR_ICON_PAUSE : TMR_ICON_PLAY) +
+    (state.running ? ' Pause' : (state.remaining < state.total ? ' Resume' : ' Start'));
+  document.getElementById('tmrMuteBtn').classList.toggle('off', !soundOn);
+}
+
+function tmrBuildStyles() {
+  document.getElementById('tmrStyles').innerHTML = TMR_STYLES.map(function (s) {
+    return '<button type="button" class="tmr-style-btn ' + (s.id === state.style ? 'active' : '') +
+      '" onclick="tmrSetStyle(\'' + s.id + '\')">' +
+      '<span class="tmr-style-ico">' + TMR_ICONS[s.id] + '</span>' +
+      '<span><span class="tmr-style-name">' + s.name + '</span><span class="tmr-style-desc">' + s.desc + '</span></span>' +
+      '</button>';
+  }).join('');
+}
+
+function tmrBuildPresets() {
+  document.getElementById('tmrPresets').innerHTML = TMR_PRESETS.map(function (sec) {
+    var label = sec < 60 ? sec + 's' : (sec / 60) + ' min';
+    return '<button type="button" class="tmr-preset" onclick="tmrSetPreset(' + sec + ')">' + label + '</button>';
+  }).join('');
+}
+
+/* ── Present mode ──────────────────────────────────────────────────── */
+function tmrEnterPresent() {
+  document.body.classList.add('tmr-presenting');
+  try { if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(function () {}); } catch (e) {}
+}
+
+function tmrExitPresent() {
+  document.body.classList.remove('tmr-presenting');
+  try { if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(function () {}); } catch (e) {}
+}
+
+document.addEventListener('fullscreenchange', function () {
+  if (!document.fullscreenElement && document.body.classList.contains('tmr-presenting')) tmrExitPresent();
+});
+
+document.addEventListener('keydown', function (e) {
+  if (!document.body.classList.contains('tmr-presenting')) return;
+  if (e.key === 'Escape') { tmrExitPresent(); return; }
+  if (e.key === ' ') { e.preventDefault(); tmrToggle(); }
+}, true);
+
+tmrLoad();
+tmrBuildStyles();
+tmrBuildPresets();
+document.getElementById('tmrLenInput').value = tmrFmt(state.total);
+tmrPaintButtons();
+tmrTick();
+if (state.running) tmrStartLoop();
+</script>
+<!-- jpt:menujs -->
+<script>
+/* Pop-out switcher. The only navigation on the site. */
+(function () {
+  var btn = document.getElementById('brandBtn');
+  var menu = document.getElementById('toolsMenu');
+  if (!btn || !menu) return;
+  function close() { if (menu.hidden) return; menu.hidden = true; btn.setAttribute('aria-expanded', 'false'); }
+  function open()  { menu.hidden = false; btn.setAttribute('aria-expanded', 'true'); }
+  btn.addEventListener('click', function (e) { e.stopPropagation(); menu.hidden ? open() : close(); });
+  document.addEventListener('click', function (e) {
+    if (!menu.hidden && !menu.contains(e.target) && e.target !== btn) close();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !menu.hidden) { close(); btn.focus(); }
+  });
+})();
+</script>
+<!-- /jpt:menujs -->
+<!-- jpt:themejs -->
+<script>
+/* Theme toggle for pages whose tool does not bring its own. Shares the Debate
+   Builder's key so the preference carries across the whole site. */
+(function () {
+  var root = document.documentElement;
+  var btn = document.getElementById('jptThemeBtn');
+  var icon = document.getElementById('jptThemeIcon');
+  if (!btn || !icon) return;
+  var SUN = '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/>'
+          + '<line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>'
+          + '<line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/>'
+          + '<line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>'
+          + '<line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+  var MOON = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+  function now(){ return root.getAttribute('data-theme')
+      || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); }
+  function paint(){ icon.innerHTML = now() === 'dark' ? SUN : MOON; }
+  paint();
+  btn.addEventListener('click', function () {
+    var next = now() === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('jpe_debate_theme', next); } catch (e) {}
+    paint();
+  });
+})();
+</script>
+<!-- /jpt:themejs -->
+<!-- jpt:floattimer -->
+<script>
+(function () {
+  var KEY = 'jpt_ftimer';
+  var st = {total: 300, remaining: 300, running: false, endAt: null, open: false};
+  try {
+    var raw = localStorage.getItem(KEY);
+    if (raw) { var s = JSON.parse(raw); if (s && typeof s.total === 'number') st = s; }
+  } catch(e){}
+
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(st)); } catch(e){} }
+  function fmt(s){ var n=s<0; s=Math.abs(s);
+    return (n?'-':'')+String(Math.floor(s/60)).padStart(2,'0')+':'+String(Math.floor(s%60)).padStart(2,'0'); }
+  function parse(str){ str=String(str).trim().replace(/\s*min(ute)?s?$/i,''); if(!str) return null; var t;
+    if(str.indexOf(':')>=0){ var pp=str.split(':'); var m=parseInt(pp[0],10)||0; var sc=parseInt(pp[1],10)||0;
+      if(sc>59) return null; t=m*60+sc; }
+    else { var mn=parseFloat(str); if(!isFinite(mn)) return null; t=Math.round(mn*60); }
+    if(!isFinite(t)||t<=0) return null; return Math.min(t, 99*60+59); }
+  function currentRemaining(){ return st.running ? Math.round((st.endAt - Date.now())/1000) : st.remaining; }
+
+  var HOURGLASS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
+    + 'stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h14L12 12 5 3M5 21h14L12 12 5 21"/></svg>';
+  var PLAY = '<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="7 4 20 12 7 20 7 4"/></svg>';
+  var PAUSE = '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4.5" width="4" height="15" rx="1"/>'
+    + '<rect x="14" y="4.5" width="4" height="15" rx="1"/></svg>';
+  var RESET = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" '
+    + 'stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>';
+
+  var wrap = document.createElement('div');
+  wrap.className = 'jft-wrap';
+  wrap.innerHTML =
+    '<div class="jft-panel">' +
+      '<div class="jft-panel-head"><span class="jft-panel-title">Timer</span>' +
+        '<button class="jft-panel-close" type="button" title="Hide" aria-label="Hide timer panel">&times;</button></div>' +
+      '<div class="jft-controls">' +
+        '<input class="jft-in" type="text" inputmode="numeric" aria-label="Timer length" ' +
+          'title="Type a length (5, or 5:30) and press Enter to start">' +
+        '<button class="jft-play" type="button" title="Start / pause" aria-label="Start or pause">' + PLAY + '</button>' +
+        '<button class="jft-reset" type="button" title="Reset" aria-label="Reset timer">' + RESET + '</button>' +
+      '</div>' +
+      '<div class="jft-bar"><span></span></div>' +
+    '</div>' +
+    '<button class="jft-btn" type="button" title="Timer" aria-label="Timer">' +
+      '<span class="jft-icon">' + HOURGLASS + '</span><span class="jft-live"></span>' +
+    '</button>';
+  document.body.appendChild(wrap);
+
+  var input = wrap.querySelector('.jft-in'), live = wrap.querySelector('.jft-live');
+  var barFill = wrap.querySelector('.jft-bar span'), playBtn = wrap.querySelector('.jft-play');
+  var btn = wrap.querySelector('.jft-btn');
+  var iv = null;
+
+  function paint(){
+    var r = currentRemaining(), txt = fmt(r);
+    live.textContent = txt;
+    if (document.activeElement !== input) input.value = txt;
+    var warn = r <= 60 && r > 0, over = r <= 0;
+    wrap.classList.toggle('running', st.running);
+    wrap.classList.toggle('warn', warn);
+    wrap.classList.toggle('over', over);
+    barFill.style.width = (over ? 100 : Math.max(0, Math.min(1, r / st.total)) * 100) + '%';
+    playBtn.innerHTML = st.running ? PAUSE : PLAY;
+  }
+  function startTicking(){ clearInterval(iv); iv = setInterval(paint, 1000); }
+  function stopTicking(){ clearInterval(iv); iv = null; }
+  function applyOpen(){ wrap.classList.toggle('open', st.open); }
+  function toggle(){
+    if (st.running) { st.remaining = currentRemaining(); st.running = false; st.endAt = null; stopTicking(); }
+    else { st.endAt = Date.now() + currentRemaining() * 1000; st.running = true; startTicking(); }
+    save(); paint();
+  }
+
+  btn.addEventListener('click', function(){ st.open = !st.open; save(); applyOpen(); });
+  wrap.querySelector('.jft-panel-close').addEventListener('click', function(){ st.open = false; save(); applyOpen(); });
+  input.addEventListener('focus', function(){ if (st.running) toggle(); requestAnimationFrame(function(){ input.select(); }); });
+  input.addEventListener('keydown', function(e){
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      var v = parse(input.value);
+      if (v !== null) { st.total = v; st.remaining = v; st.running = false; st.endAt = null; save(); toggle(); }
+      input.blur();
+    } else if (e.key === 'Escape') { e.preventDefault(); paint(); input.blur(); }
+  });
+  playBtn.addEventListener('click', toggle);
+  wrap.querySelector('.jft-reset').addEventListener('click', function(){
+    st.running = false; st.endAt = null; st.remaining = st.total; stopTicking(); save(); paint();
+  });
+
+  applyOpen();
+  paint();
+  if (st.running) startTicking();
+})();
+</script>
+<!-- /jpt:floattimer -->
+</body>
+</html>

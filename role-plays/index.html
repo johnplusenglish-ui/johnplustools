@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Role Plays · John + Tools</title>
+<meta name="description" content="A hundred pair role plays for English speaking practice, grouped by setting and pitched at B1, B2, C1 and C2.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z'/></svg>">
+<!-- jpt:themeboot -->
+<script>(function(){var t;try{t=localStorage.getItem('jpe_debate_theme')}catch(e){}if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)})();</script>
+<!-- /jpt:themeboot -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f3ec;--card:#fff;--ink:#0f1b2d;--muted:#6b7686;--line:#eceadf;--accent:#2563eb;--soft:#eceffc;--soft-line:#dde3f8;--jpt-bar:68px;--jpt-side-w:302px}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Outfit',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink)}
+button{font-family:inherit;cursor:pointer}
+
+.app{display:grid;grid-template-columns:var(--jpt-side-w) 1fr;min-height:calc(100vh - var(--jpt-bar));transition:grid-template-columns .22s ease}
+.app.side-collapsed{grid-template-columns:0 1fr}
+.app.side-collapsed > aside{border-right:none;overflow:hidden;opacity:0;pointer-events:none}
+.app > aside{background:var(--card);border-right:1px solid var(--line);display:flex;flex-direction:column;overflow-y:auto;position:sticky;top:var(--jpt-bar);height:calc(100vh - var(--jpt-bar))}
+main{overflow:visible;min-width:0}
+.main-inner{padding:20px 24px 40px;max-width:1180px;margin:0 auto}
+
+.side-top{padding:16px 16px 12px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--card);z-index:2}
+.jt-label{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:9px}
+.search-wrap{position:relative}
+.search-input{width:100%;font-family:inherit;font-size:14px;padding:9px 12px 9px 34px;border-radius:999px;border:1px solid var(--soft-line);background:var(--bg);color:var(--ink);outline:none;transition:border-color .15s}
+.search-input:focus{border-color:var(--accent)}
+.search-input::placeholder{color:var(--muted)}
+.search-icon{position:absolute;left:12px;top:50%;width:14px;height:14px;transform:translateY(-50%);pointer-events:none;color:var(--muted)}
+
+.side-list{padding:10px 10px 16px}
+.side-group{margin-bottom:6px}
+.side-group-toggle{display:flex;align-items:center;gap:8px;cursor:pointer;width:100%;padding:7px 10px;border-radius:9px;background:transparent;border:none;transition:background .12s}
+.side-group-toggle:hover{background:var(--soft)}
+.side-group-name{flex:1;font-size:11px;letter-spacing:.13em;text-transform:uppercase;font-weight:700;color:var(--accent);text-align:left}
+.side-group-chevron{font-size:9px;color:var(--muted);transition:transform .18s ease}
+.side-group.open .side-group-chevron{transform:rotate(180deg)}
+.side-group-body{display:none;padding:2px 0 4px}
+.side-group.open .side-group-body{display:block}
+
+.rp-item{display:flex;align-items:center;gap:10px;width:100%;text-align:left;font-family:inherit;padding:8px 11px;border-radius:10px;cursor:pointer;border:1px solid transparent;background:transparent;color:var(--ink);margin-bottom:2px;transition:background .12s,border-color .12s;line-height:1.35}
+.rp-item:hover{background:var(--soft)}
+.rp-item.active{background:var(--soft);border-color:var(--accent);color:var(--accent)}
+.rp-item .rp-title{font-size:13.5px;font-weight:600;letter-spacing:-.01em;flex:1;min-width:0}
+.rp-lvl{font-family:inherit;font-size:9.5px;font-weight:800;letter-spacing:.06em;padding:2px 7px;border-radius:999px;color:#fff;flex-shrink:0}
+.rp-lvl.lvl-B1{background:#6b8cd6}
+.rp-lvl.lvl-B2{background:#3b6ec4}
+.rp-lvl.lvl-C1{background:#2563eb}
+.rp-lvl.lvl-C2{background:#1e3a8a}
+[data-theme="dark"] .rp-lvl.lvl-B1{background:#b8d4f7;color:#0f1b2d}
+[data-theme="dark"] .rp-lvl.lvl-B2{background:#8fb3e8;color:#0f1b2d}
+[data-theme="dark"] .rp-lvl.lvl-C1{background:#5b8def;color:#0f1b2d}
+[data-theme="dark"] .rp-lvl.lvl-C2{background:#7ba4de;color:#0f1b2d}
+
+.empty{padding:32px 20px;text-align:center;color:var(--muted);font-style:italic;font-size:13px}
+
+.rp-placeholder{background:var(--card);border:1px dashed var(--line);border-radius:16px;padding:48px 24px;text-align:center;color:var(--muted);font-size:.95rem;margin-top:20px}
+
+.rp-view{margin-top:20px}
+.rp-head{display:flex;align-items:center;gap:12px;padding:2px 4px 20px;flex-wrap:wrap}
+.rp-h-title{font-size:1.4rem;font-weight:700;line-height:1.2;flex:1;min-width:0}
+.rp-badge{background:var(--soft);color:var(--accent);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:3px 10px;border-radius:999px}
+.rp-badge.rp-cat-badge{background:transparent;border:1px solid var(--soft-line);color:var(--muted)}
+.rp-badge.rp-lvl-badge.lvl-B1{background:#6b8cd6;color:#fff}
+.rp-badge.rp-lvl-badge.lvl-B2{background:#3b6ec4;color:#fff}
+.rp-badge.rp-lvl-badge.lvl-C1{background:#2563eb;color:#fff}
+.rp-badge.rp-lvl-badge.lvl-C2{background:#1e3a8a;color:#fff}
+[data-theme="dark"] .rp-badge.rp-lvl-badge.lvl-B1{background:#b8d4f7;color:#0f1b2d}
+[data-theme="dark"] .rp-badge.rp-lvl-badge.lvl-B2{background:#8fb3e8;color:#0f1b2d}
+[data-theme="dark"] .rp-badge.rp-lvl-badge.lvl-C1{background:#5b8def;color:#0f1b2d}
+[data-theme="dark"] .rp-badge.rp-lvl-badge.lvl-C2{background:#7ba4de;color:#0f1b2d}
+
+.rp-cards{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.rp-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 24px;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+.rp-card .rp-who{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:6px}
+.rp-card .rp-role{font-size:1.15rem;font-weight:700;margin-bottom:12px;color:var(--accent)}
+.rp-card .rp-desc{font-size:1rem;line-height:1.55}
+
+.rp-nav{display:flex;align-items:center;gap:10px;padding:20px 4px 0}
+.rp-nav .rp-counter{margin:0 auto;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.rp-nav-btn{font-family:inherit;font-size:13px;font-weight:600;padding:8px 14px;border-radius:999px;border:1px solid var(--soft-line);background:transparent;color:var(--muted);transition:.12s}
+.rp-nav-btn:hover:not(:disabled){background:var(--soft);color:var(--accent);border-color:var(--accent)}
+.rp-nav-btn:disabled{opacity:.35;cursor:default}
+
+.rp-toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 4px 14px;border-bottom:1px solid var(--line);margin-bottom:6px}
+.rp-status{font-size:11px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-right:auto}
+
+@media (max-width:900px){
+  .rp-cards{grid-template-columns:1fr}
+}
+</style>
+<style>
+/* jpt:chrome */
+/* Site furniture. Identical on every page, so nothing shifts between them. */
+:root{
+  --bg:#f4f3ec; --card:#ffffff; --ink:#0f1b2d; --muted:#6b7686;
+  --line:#eceadf; --accent:#2563eb; --accent-deep:#1d4ed8;
+  --soft:#eceffc; --soft-line:#dde3f8;
+  --shadow-card:0 1px 2px rgba(20,30,60,.04),0 20px 44px -28px rgba(30,50,110,.35);
+}
+[data-theme="dark"]{
+  --bg:#0f1728; --card:#16213a; --ink:#eef2fb; --muted:#93a0bb;
+  --line:#26324c; --accent:#5b8def; --accent-deep:#93b4f6;
+  --soft:#1d2b46; --soft-line:#2b3c5c;
+  --shadow-card:0 1px 2px rgba(0,0,0,.2),0 20px 44px -28px rgba(0,0,0,.7);
+}
+
+/* The brand is the site's name; John wants it prominent, so the bar is sized
+   around it rather than the other way about. --jpt-bar is the single source of
+   truth: the tools pin their sidebars to it. */
+:root{--jpt-bar:68px}
+.stopbar{position:sticky;top:0;z-index:40;background:var(--card);
+  border-bottom:1px solid var(--line);padding:0 24px;height:var(--jpt-bar);flex-shrink:0;
+  display:flex;align-items:center;gap:14px}
+.st-brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;
+  color:var(--ink);line-height:1}
+.st-brand .brand-icon{color:var(--accent);width:29px;height:29px;display:inline-flex;flex-shrink:0}
+.st-brand .brand-icon svg{width:29px;height:29px}
+.st-brand .brand-title{display:inline-flex;flex-direction:column;justify-content:center;gap:2px;line-height:1}
+.brand-title{gap:3px}
+.brand-title .k{font-size:10.5px;letter-spacing:.17em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.brand-title .b{font-size:20px;font-weight:800;letter-spacing:-.02em}
+.grow{flex:1}
+.icon-btn{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;
+  border-radius:999px;background:transparent;border:none;cursor:pointer;color:var(--muted);
+  transition:background .12s,color .12s}
+.icon-btn svg{width:18px;height:18px;display:block}
+.icon-btn:hover{background:var(--soft);color:var(--accent)}
+
+.brand-wrap{position:relative;display:inline-flex}
+button.st-brand{background:none;border:none;cursor:pointer;font-family:inherit;
+  padding:6px 8px;margin-left:-8px;border-radius:11px;transition:background .12s}
+button.st-brand:hover{background:var(--soft)}
+.brand-chev{color:var(--muted);display:inline-flex;margin-left:2px;transition:transform .18s ease}
+.brand-chev svg{width:16px;height:16px}
+button.st-brand[aria-expanded="true"] .brand-chev{transform:rotate(180deg)}
+.popmenu{position:absolute;top:calc(100% + 6px);left:0;z-index:60;min-width:246px;
+  background:var(--card);border:1px solid var(--line);border-radius:14px;padding:7px;
+  box-shadow:0 12px 40px -12px rgba(15,27,45,.28),0 2px 8px rgba(15,27,45,.06);
+  animation:pmIn .14s ease}
+[data-theme="dark"] .popmenu{box-shadow:0 12px 40px -12px rgba(0,0,0,.6)}
+.popmenu[hidden]{display:none}
+@keyframes pmIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.pm-label{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
+  font-weight:700;padding:6px 10px 7px}
+.pm-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;
+  text-decoration:none;color:var(--ink);font-size:13.5px;font-weight:600;transition:background .12s}
+.pm-item:hover,.pm-item:focus-visible{background:var(--soft);color:var(--accent);outline:none}
+.pm-item[aria-current="true"]{background:var(--soft);color:var(--accent)}
+.pm-ico{width:18px;height:18px;flex-shrink:0;color:var(--accent);display:inline-flex}
+.pm-ico svg{width:18px;height:18px}
+.pm-ext{margin-left:auto;color:var(--muted);display:inline-flex}
+.pm-ext svg{width:13px;height:13px}
+.pm-sep{height:1px;background:var(--line);margin:6px 4px}
+
+/* Content geometry. Identical on the home page and every tool page. */
+.shell{min-height:calc(100vh - var(--jpt-bar))}
+.main-inner{padding:20px 24px 40px;max-width:1180px;margin:0 auto}
+.tool-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.th-icon{width:38px;height:38px;border-radius:11px;flex-shrink:0;display:grid;place-items:center;
+  background:var(--soft);border:1px solid var(--soft-line);color:var(--accent)}
+.th-icon svg{width:20px;height:20px;display:block}
+.th-text h1{font-size:19px;font-weight:700;letter-spacing:-.02em;margin:0;line-height:1.2}
+.th-text p{font-size:12.5px;color:var(--muted);margin:2px 0 0;line-height:1.4}
+
+@media (max-width:900px){.th-text p{display:none}}
+/* The brand is a button with padding and a chevron, wider than a plain mark.
+   Left full width it pushes the topbar actions off a phone screen. */
+@media (max-width:700px){
+  .stopbar{padding:0 14px;gap:8px}
+  button.st-brand{padding:6px;margin-left:-6px}
+  .popmenu{min-width:210px}
+  /* Collapse the topbar's labelled button to its icon rather than shrinking the
+     brand. font-size:0 hides the text node, which no selector can reach. */
+  .stopbar .btn{font-size:0;gap:0;padding:9px 11px}
+  .stopbar .btn svg{width:17px;height:17px}
+}
+@media print{.tool-head,.popmenu,.stopbar{display:none!important}}
+@media (prefers-reduced-motion:reduce){.popmenu{animation:none}}
+/* Download-icon dropdown, shared by the tools. */
+.icon-action{width:36px;height:36px;border-radius:999px;border:1px solid var(--soft-line);
+  background:transparent;color:var(--muted);display:inline-flex;align-items:center;
+  justify-content:center;cursor:pointer;transition:background .12s,color .12s,border-color .12s}
+.icon-action:hover,.icon-action[aria-expanded="true"]{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+.icon-action svg{width:16px;height:16px;display:block}
+.exp-wrap{position:relative;display:inline-flex}
+.exp-menu{left:auto;right:0;min-width:190px}
+/* Sidebar collapse handle, shared by every tool that has a sidebar, so the
+   chevron on the divider looks and behaves the same everywhere. */
+.app{--jpt-side-w:302px}
+.app.side-collapsed{--jpt-side-w:0px}
+.jpt-side-handle{position:fixed;top:152px;left:max(15px,var(--jpt-side-w));
+  transform:translateX(-50%);z-index:39;margin:0;width:30px;height:30px;border-radius:999px;
+  background:var(--card);border:1px solid var(--line);box-shadow:0 1px 4px rgba(15,27,45,.10);
+  color:var(--muted);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;
+  transition:left .22s ease,background .12s,color .12s,border-color .12s}
+[data-theme="dark"] .jpt-side-handle{box-shadow:0 1px 4px rgba(0,0,0,.35)}
+.jpt-side-handle:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+.jpt-side-handle:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.jpt-side-handle svg{width:15px;height:15px;transition:transform .22s ease}
+.app.side-collapsed .jpt-side-handle svg{transform:rotate(180deg)}
+@media (max-width:900px){.jpt-side-handle{display:none}}
+@media print{.jpt-side-handle{display:none!important}}
+
+/* Floating timer: a small permanent hourglass, bottom-right, on every tool
+   page. Independent of any tool's own inline timer: this one survives
+   navigation between tools (it's driven off a stored end-timestamp, not a
+   per-page countdown) so a teacher can start it on one tool and check it
+   from another. z-index sits above every present-mode overlay on the site
+   (the highest of those is 302) so it stays usable mid-presentation. */
+.jft-wrap{position:fixed;right:20px;bottom:20px;z-index:999;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.jft-btn{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 14px 0 0;
+  border-radius:999px;border:1px solid var(--soft-line);background:var(--card);color:var(--ink);
+  box-shadow:0 8px 24px -10px rgba(15,27,45,.35);cursor:pointer;transition:border-color .12s;font-family:inherit}
+.jft-btn:hover{border-color:var(--accent)}
+.jft-icon{width:44px;height:44px;border-radius:999px;background:var(--soft);color:var(--accent);
+  display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.jft-icon svg{width:20px;height:20px}
+.jft-live{font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.02em;display:none;padding-right:2px}
+.jft-wrap.running .jft-live{display:inline}
+.jft-wrap.running .jft-icon{animation:jftPulse 1.6s ease-in-out infinite;color:var(--accent)}
+.jft-wrap.warn .jft-live,.jft-wrap.warn .jft-icon{color:#c2740c}
+.jft-wrap.over .jft-live,.jft-wrap.over .jft-icon{color:#c14343}
+@keyframes jftPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.jft-panel{width:220px;background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:14px;box-shadow:0 20px 44px -20px rgba(15,27,45,.4);display:none}
+.jft-wrap.open .jft-panel{display:block}
+.jft-panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.jft-panel-title{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.jft-panel-close{width:22px;height:22px;border-radius:999px;border:none;background:transparent;
+  color:var(--muted);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;line-height:1}
+.jft-panel-close:hover{background:var(--soft);color:var(--accent)}
+.jft-controls{display:flex;align-items:center;justify-content:center;gap:2px;border:1px solid var(--soft-line);
+  border-radius:999px;padding:3px 4px 3px 14px}
+.jft-in{font-family:inherit;font-size:15px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.04em;
+  width:64px;text-align:center;background:transparent;border:none;outline:none;color:var(--ink)}
+.jft-controls button{width:30px;height:30px;border-radius:999px;border:none;background:transparent;color:var(--muted);
+  display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:background .12s,color .12s}
+.jft-controls button svg{width:15px;height:15px}
+.jft-controls button:hover{background:var(--soft);color:var(--accent)}
+.jft-bar{height:4px;border-radius:999px;background:var(--line);overflow:hidden;margin-top:10px}
+.jft-bar span{display:block;height:100%;width:100%;background:var(--accent);border-radius:999px;transition:width .95s linear,background .3s}
+.jft-wrap.warn .jft-bar span{background:#c2740c}
+.jft-wrap.over .jft-bar span{background:#c14343;animation:jftOverPulse 1.1s ease-in-out infinite}
+@keyframes jftOverPulse{0%,100%{opacity:1}50%{opacity:.55}}
+@media (max-width:700px){.jft-wrap{right:14px;bottom:14px}.jft-panel{width:190px}}
+@media print{.jft-wrap{display:none!important}}
+/* /jpt:chrome */
+</style>
+</head>
+<body>
+
+<header class="stopbar">
+<!-- jpt:brand -->
+  <div class="brand-wrap">
+    <button class="st-brand" id="brandBtn" aria-haspopup="true" aria-expanded="false" aria-controls="toolsMenu">
+      <span class="brand-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span>
+      <span class="brand-title"><span class="k">JohnPlusEnglish</span><span class="b">Tools</span></span>
+      <span class="brand-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </button>
+    <div class="popmenu" id="toolsMenu" role="menu" aria-labelledby="brandBtn" hidden>
+      <div class="pm-label">Go to</div>
+      <a class="pm-item" role="menuitem" href="/" data-nav="home">
+        <span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><path d="M3 9.5 12 3l9 6.5V20a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 20z"/><path d="M9.5 21.5v-7h5v7"/></svg></span>Home</a>
+      <a class="pm-item" role="menuitem" href="/debate-builder" data-nav="debate-builder">
+        <span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M14.6 3H4.3A1.8 1.8 0 0 0 2.5 4.8v5.9a1.8 1.8 0 0 0 1.8 1.8h.8v3.1l3.3-3.1h6.2a1.8 1.8 0 0 0 1.8-1.8V4.8A1.8 1.8 0 0 0 14.6 3z"/><path d="M20.2 9.6h-6.1A1.6 1.6 0 0 0 12.5 11.2v3.6a1.6 1.6 0 0 0 1.6 1.6h3.6l3 2.7v-2.7h.5a1.6 1.6 0 0 0 1.3-1.6v-3.6a1.6 1.6 0 0 0-1.6-1.6z" fill="currentColor" stroke="currentColor"/></svg></span>Debate Builder</a>
+      <a class="pm-item" role="menuitem" href="/gap-fill" data-nav="gap-fill">
+        <span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="10" y2="12"/><line x1="14" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="16" y2="17"/></svg></span>Gap-fill</a>
+      <a class="pm-item" role="menuitem" href="/vocab-matching" data-nav="vocab-matching">
+        <span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><circle cx="4.5" cy="6" r="1.7"/><circle cx="4.5" cy="12" r="1.7"/><circle cx="4.5" cy="18" r="1.7"/><circle cx="19.5" cy="6" r="1.7"/><circle cx="19.5" cy="12" r="1.7"/><circle cx="19.5" cy="18" r="1.7"/><line x1="6.5" y1="6" x2="17.5" y2="12"/><line x1="6.5" y1="12" x2="17.5" y2="18"/><line x1="6.5" y1="18" x2="17.5" y2="6"/></svg></span>Vocab Matching</a>
+      <a class="pm-item" role="menuitem" href="/role-plays" data-nav="role-plays" aria-current="true">
+        <span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>Role Plays</a>
+      <a class="pm-item" role="menuitem" href="/speaking-topics" data-nav="speaking-topics">
+        <span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M21 11.5a8.5 8.5 0 0 1-12.2 7.6L3 21l1.9-5.8A8.5 8.5 0 1 1 21 11.5z"/><circle cx="8.2" cy="11.5" r="1.05" fill="currentColor" stroke="none"/><circle cx="12" cy="11.5" r="1.05" fill="currentColor" stroke="none"/><circle cx="15.8" cy="11.5" r="1.05" fill="currentColor" stroke="none"/></svg></span>Speaking Topics</a>
+      <a class="pm-item" role="menuitem" href="/spin-wheel" data-nav="spin-wheel">
+        <span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><circle cx="12" cy="13" r="8.2"/><line x1="12" y1="13" x2="12" y2="5"/><line x1="12" y1="13" x2="18.6" y2="16.9"/><line x1="12" y1="13" x2="5.4" y2="16.9"/><circle cx="12" cy="13" r="1.5" fill="currentColor" stroke="none"/><path d="M12 1.8 L9.8 5.2 L14.2 5.2 Z" fill="currentColor" stroke="none"/></svg></span>Spin the Wheel</a>
+      <a class="pm-item" role="menuitem" href="/timers" data-nav="timers">
+        <span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M5 3h14L12 12 5 3M5 21h14L12 12 5 21"/></svg></span>Timers</a>
+      <div class="pm-sep"></div>
+      <a class="pm-item" role="menuitem" href="https://johnplusdictionary.com" target="_blank" rel="noopener">
+        <span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>JohnPlusDictionary<span class="pm-ext"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span></a>
+    </div>
+  </div>
+  <!-- /jpt:brand -->
+  <div class="grow"></div>
+  <!-- jpt:themebtn -->
+  <button class="icon-btn" id="jptThemeBtn" title="Light / dark" aria-label="Toggle light or dark theme">
+    <svg id="jptThemeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  </button>
+  <!-- /jpt:themebtn -->
+</header>
+
+<div class="app" id="app">
+  <aside>
+    <div class="side-top">
+      <div class="jt-label">Find a scenario</div>
+      <div class="search-wrap">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="search-input" id="rpSearch" placeholder="Search all 100 scenarios..." autocomplete="off">
+      </div>
+    </div>
+    <div class="side-list" id="rpList"></div>
+  </aside>
+  <button class="jpt-side-handle" id="jptSideToggle" onclick="jptToggleSide()"
+          title="Hide the scenario list" aria-label="Hide the scenario list" aria-expanded="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+
+
+  <main>
+    <div class="main-inner">
+      <!-- jpt:toolhead -->
+      <div class="tool-head">
+        <span class="th-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+        <div class="th-text">
+          <h1>Role Plays</h1>
+          <p>Two role cards, one scenario. Hand them out and let students act.</p>
+        </div>
+      </div>
+      <!-- /jpt:toolhead -->
+      
+      <div class="rp-toolbar">
+        <div class="rp-status">Scenario</div>
+      </div>
+      <div class="rp-placeholder" id="rpPlaceholder">Pick a scenario from the list, or search for a role play.</div>
+      <div class="rp-view" id="rpView" style="display:none">
+        <div class="rp-head">
+          <span class="rp-h-title" id="rpTitle"></span>
+          <span class="rp-badge rp-lvl-badge" id="rpLevel"></span>
+          <span class="rp-badge rp-cat-badge" id="rpCat"></span>
+        </div>
+        <div class="rp-cards">
+          <div class="rp-card">
+            <div class="rp-who">Student A</div>
+            <div class="rp-role" id="rpARole"></div>
+            <div class="rp-desc" id="rpADesc"></div>
+          </div>
+          <div class="rp-card">
+            <div class="rp-who">Student B</div>
+            <div class="rp-role" id="rpBRole"></div>
+            <div class="rp-desc" id="rpBDesc"></div>
+          </div>
+        </div>
+        <div class="rp-nav">
+          <button class="rp-nav-btn" id="rpPrev" type="button">&larr; Previous</button>
+          <span class="rp-counter" id="rpCounter"></span>
+          <button class="rp-nav-btn" id="rpNext" type="button">Next &rarr;</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+/* Settings are the categories; each contains four role plays across CEFR
+   levels B1, B2, C1, C2, which show as coloured pills on each item. */
+var RP_SETTINGS = ["Café", "Restaurant", "Supermarket", "Clothes shop", "Bakery", "Post office", "Pharmacy", "Airport", "Train station", "Hotel", "Taxi", "Asking directions", "Tourist information", "Job interview", "Office meeting", "Phone call (work)", "Giving feedback", "Neighbours", "Meeting new people", "Making plans with friends", "Family conversation", "Renting a flat", "Doctor's appointment", "Making a complaint", "Emergency"];
+var RP_LEVELS = ['B1', 'B2', 'C1', 'C2'];
+var ROLEPLAYS = [{"id":1,"cat":"Café","lvl":"B1","title":"Ordering a coffee","a":{"role":"Customer","desc":"You're a bit tired. Order a large coffee with milk and a small pastry. Ask how much it costs."},"b":{"role":"Barista","desc":"Say hello. The large coffee with milk is £3.20 and pastries are £1.80. Ask if it's to eat in or take away."}},{"id":2,"cat":"Café","lvl":"B2","title":"Getting the order wrong","a":{"role":"Customer","desc":"You asked for a decaf cappuccino, but they've given you an espresso. Explain politely and ask them to change it."},"b":{"role":"Barista","desc":"You're busy and you made a mistake. Apologise and offer to fix it. Ask if they'd like a small free pastry as an apology."}},{"id":3,"cat":"Café","lvl":"C1","title":"A quiet spot to work","a":{"role":"Customer","desc":"You need to work on your laptop for two hours and want a quiet corner. Ask if there's Wi-Fi and if buying one coffee is enough."},"b":{"role":"Barista","desc":"The Wi-Fi is free but slow. The corner tables are usually quiet in the morning. Politely explain the minimum spend policy: one drink per hour."}},{"id":4,"cat":"Café","lvl":"C2","title":"The regular's dilemma","a":{"role":"Long-time customer","desc":"The café you've come to every morning for six years has been bought out and completely redesigned. It's not the same. Explain to the new owner what you've lost."},"b":{"role":"New owner","desc":"You've invested everything in reviving this café. Listen to their concerns, but stay diplomatic — you can't turn back time. Try to find a middle ground."}},{"id":5,"cat":"Restaurant","lvl":"B1","title":"Ordering dinner","a":{"role":"Customer","desc":"You want a pizza and a bottle of sparkling water. Ask what's on the pizza and if it can be made without cheese."},"b":{"role":"Waiter","desc":"The pizza has ham, mushrooms and cheese. You can leave off the cheese but the price stays the same. Take the order."}},{"id":6,"cat":"Restaurant","lvl":"B2","title":"Something's wrong with the food","a":{"role":"Customer","desc":"Your pasta is cold and doesn't taste right. Explain the problem politely and ask what can be done."},"b":{"role":"Waiter","desc":"The kitchen has been slow tonight. Apologise, offer to bring a fresh dish, and take the cold one off the bill."}},{"id":7,"cat":"Restaurant","lvl":"C1","title":"Splitting the bill awkwardly","a":{"role":"Diner","desc":"You ate very little and drank water. Your friends ordered wine and dessert. They now suggest splitting the bill equally. Push back politely."},"b":{"role":"Friend","desc":"You want to split it evenly to keep things simple. Try to persuade them, but be sensitive — they might have a real reason for pushing back."}},{"id":8,"cat":"Restaurant","lvl":"C2","title":"Reviewing the head chef","a":{"role":"Restaurant critic","desc":"You've come to review a new tasting menu. The food is beautifully presented but underseasoned. Ask to speak to the chef and give honest, constructive feedback."},"b":{"role":"Head chef","desc":"You've worked eighteen-hour days on this menu. Listen without getting defensive, ask thoughtful questions, and separate the useful feedback from the personal taste."}},{"id":9,"cat":"Supermarket","lvl":"B1","title":"Finding the eggs","a":{"role":"Shopper","desc":"You can't find the eggs. Ask a member of staff which aisle they're in."},"b":{"role":"Staff member","desc":"Eggs are in aisle 7, near the milk. Point them in the right direction and ask if they need help finding anything else."}},{"id":10,"cat":"Supermarket","lvl":"B2","title":"Something rings up wrong","a":{"role":"Shopper","desc":"A bottle of shampoo was marked £5 on the shelf, but it's ringing up at £7. Ask the cashier to check."},"b":{"role":"Cashier","desc":"You'll need to check with a colleague on the floor. Apologise for the wait, explain the process, and offer to hold the queue."}},{"id":11,"cat":"Supermarket","lvl":"C1","title":"Self-checkout trouble","a":{"role":"Shopper","desc":"The self-checkout keeps saying 'unexpected item in bagging area'. You've called for help twice and nobody has come. You're starting to lose patience."},"b":{"role":"Staff member","desc":"You're the only one covering four self-checkouts and someone in aisle 3 has just spilt milk. Handle it — reset the machine, apologise, and keep them calm."}},{"id":12,"cat":"Supermarket","lvl":"C2","title":"The price-comparison shopper","a":{"role":"Shopper","desc":"You've been comparing this shop's own-brand prices with the leading brands for a research article. Ask the manager to explain how they set their pricing — and how they justify recent increases."},"b":{"role":"Manager","desc":"You know journalists want a soundbite. Answer carefully — inflation, supplier costs, energy bills — without saying anything the company will regret seeing in print."}},{"id":13,"cat":"Clothes shop","lvl":"B1","title":"Trying on jeans","a":{"role":"Customer","desc":"You'd like to try on the jeans in the window in size 32. Ask if you can also try the next size up in case they're too small."},"b":{"role":"Shop assistant","desc":"Show them to the fitting room. The 32s are on the shelf; you'll grab the 34s too. Ask if they need anything else."}},{"id":14,"cat":"Clothes shop","lvl":"B2","title":"Returning a jumper","a":{"role":"Customer","desc":"You bought this jumper last week but it shrank in the wash. You have the receipt. Ask for a refund."},"b":{"role":"Shop assistant","desc":"You can only offer store credit unless there's a fault. Follow up: how did they wash it? Was it on the wrong setting?"}},{"id":15,"cat":"Clothes shop","lvl":"C1","title":"Negotiating a store credit","a":{"role":"Customer","desc":"The jacket you were given as a gift doesn't suit you and you don't have a receipt. You'd like store credit at the very least. Be persistent but polite."},"b":{"role":"Manager","desc":"Your policy is strict: no receipt, no exchange. But this customer is being reasonable. Consider making a one-off exception — but explain why it's exceptional."}},{"id":16,"cat":"Clothes shop","lvl":"C2","title":"Sustainability challenge","a":{"role":"Journalist","desc":"You're writing a piece on fast fashion and want to interview the store manager about their supply chain, worker pay, and environmental impact. Push politely for real answers."},"b":{"role":"Store manager","desc":"Head office has given you talking points but you know they're thin. Be honest where you can, deflect where you must, and don't promise what you can't deliver."}},{"id":17,"cat":"Bakery","lvl":"B1","title":"Buying bread","a":{"role":"Customer","desc":"Buy one baguette and four croissants. Ask if the bread was baked today."},"b":{"role":"Baker","desc":"The baguettes came out an hour ago. Croissants are £1.20 each. Ask if they'd like a bag."}},{"id":18,"cat":"Bakery","lvl":"B2","title":"A birthday cake order","a":{"role":"Customer","desc":"You need a birthday cake for Saturday — chocolate, for eight people, with 'Happy Birthday Emma' on top. Ask about price and how far in advance you need to order."},"b":{"role":"Baker","desc":"You'll need 48 hours' notice. The cake is £35. Ask about dietary requirements and offer a small choice of decoration."}},{"id":19,"cat":"Bakery","lvl":"C1","title":"The wedding-cake consultation","a":{"role":"Bride/Groom","desc":"You want a three-tier wedding cake for 120 guests. You have strong ideas but a limited budget. Explain what you want and ask what's realistic."},"b":{"role":"Baker","desc":"You want to be helpful but you also need to make a profit. Guide them towards options that will work within their budget without cheapening the day."}},{"id":20,"cat":"Bakery","lvl":"C2","title":"A supplier walks in","a":{"role":"Boutique flour supplier","desc":"You'd like this bakery to switch to your specialty flour. It costs more but the quality is unmatched. Convince the baker it's worth changing."},"b":{"role":"Head baker","desc":"Your suppliers have been solid for fifteen years. You're sceptical about paying more for a marginal improvement. Ask hard questions before you'd consider a trial."}},{"id":21,"cat":"Post office","lvl":"B1","title":"Sending a letter","a":{"role":"Customer","desc":"Send a letter to Italy. Ask how much a stamp costs and how long it will take."},"b":{"role":"Postal clerk","desc":"A stamp to Italy is £1.85. Standard delivery is 5-7 working days. Offer express delivery too."}},{"id":22,"cat":"Post office","lvl":"B2","title":"A missed parcel","a":{"role":"Customer","desc":"Your parcel was delivered when you weren't home, and now the tracking says it's back at the depot. Ask what you need to do to collect it."},"b":{"role":"Postal clerk","desc":"They'll need photo ID and the tracking number. The depot is open 8-12 on Saturdays. Explain the process clearly."}},{"id":23,"cat":"Post office","lvl":"C1","title":"The package that never arrived","a":{"role":"Customer","desc":"Your parcel was marked as delivered a week ago but you never received it. You've checked with neighbours. You want it investigated properly, not just a form to fill in."},"b":{"role":"Postal clerk","desc":"You've heard this before this week. Take it seriously, open an official enquiry, and manage their expectations honestly about timelines and likelihood of a refund."}},{"id":24,"cat":"Post office","lvl":"C2","title":"Cross-border shipping regulations","a":{"role":"Small business owner","desc":"You're moving your ceramics business online and need to understand customs, VAT and prohibited items for shipping to the EU, US and Asia. Ask detailed questions."},"b":{"role":"Post office business advisor","desc":"You know most of this but not all of it. Be clear where regulations are firm and where they're murky. Recommend specialised freight services for anything you can't confidently advise on."}},{"id":25,"cat":"Pharmacy","lvl":"B1","title":"Something for a headache","a":{"role":"Customer","desc":"You have a headache. Ask the pharmacist to recommend something. Say if you have any allergies."},"b":{"role":"Pharmacist","desc":"Recommend paracetamol or ibuprofen. Ask about allergies and other medications. Explain the dosage clearly."}},{"id":26,"cat":"Pharmacy","lvl":"B2","title":"A cold that won't go away","a":{"role":"Customer","desc":"You've had a cold for over a week. Describe the symptoms — cough, sore throat, tiredness. Ask what to try next."},"b":{"role":"Pharmacist","desc":"It could be viral. Recommend some options, but if it's not improving in another week, suggest they see a doctor. Explain when to worry."}},{"id":27,"cat":"Pharmacy","lvl":"C1","title":"A prescription mix-up","a":{"role":"Customer","desc":"You've come to collect a prescription but the medication you've been given looks different from what your doctor described. You're worried it's wrong."},"b":{"role":"Pharmacist","desc":"Check the label carefully. It's the generic version — same active ingredient, different manufacturer. Explain the substitution rules and reassure them."}},{"id":28,"cat":"Pharmacy","lvl":"C2","title":"A regulatory conversation","a":{"role":"Pharmaceutical rep","desc":"You want the pharmacy to stock a new supplement. It's not regulated as a medicine and the evidence base is thin. Try to persuade the pharmacist without overselling."},"b":{"role":"Pharmacist","desc":"Your professional reputation is on the line. You're happy to stock supplements, but you won't recommend anything you can't stand behind. Push back on any claims that go beyond the evidence."}},{"id":29,"cat":"Airport","lvl":"B1","title":"Checking in for a flight","a":{"role":"Passenger","desc":"Check in for your flight. You have one suitcase and one carry-on. Ask where the gate is and when boarding starts."},"b":{"role":"Check-in agent","desc":"Weigh the case (max 23kg). Gate B14, boarding at 15:40. Give them the boarding pass."}},{"id":30,"cat":"Airport","lvl":"B2","title":"An overweight bag","a":{"role":"Passenger","desc":"Your suitcase is 26kg — 3kg over the limit. Discuss the options: pay the fee, move things to your carry-on, or leave something behind."},"b":{"role":"Check-in agent","desc":"The excess charge is £15/kg. You can be flexible on how they solve it but not on the limit. Suggest practical options."}},{"id":31,"cat":"Airport","lvl":"C1","title":"The delayed connection","a":{"role":"Passenger","desc":"Your flight has been delayed by three hours and you'll miss your connection to Tokyo. You have a meeting the next morning. Ask for practical help."},"b":{"role":"Airline representative","desc":"You can rebook them on a later connection, but the next flight to Tokyo is 24 hours away. Explain compensation rules honestly, and offer hotel and meal vouchers."}},{"id":32,"cat":"Airport","lvl":"C2","title":"A lost passport","a":{"role":"Passenger","desc":"Your passport is missing and your flight is in ninety minutes. You think you left it at security. You're trying to stay calm but your entire trip is at risk."},"b":{"role":"Airport supervisor","desc":"You'll help but you need to manage expectations. Walk them through the process: check lost property, contact the embassy, potentially rebook the flight. Be firm but compassionate."}},{"id":33,"cat":"Train station","lvl":"B1","title":"Buying a train ticket","a":{"role":"Passenger","desc":"You need a return ticket to Manchester for today. Ask what time the next train leaves and how much it costs."},"b":{"role":"Ticket clerk","desc":"The next train is at 14:22, arriving at 16:05. A return is £47. Ask if they want an off-peak return, which is cheaper."}},{"id":34,"cat":"Train station","lvl":"B2","title":"The train has been cancelled","a":{"role":"Passenger","desc":"Your train is cancelled and the next one is in two hours. You'll be late for a job interview. Ask what options you have."},"b":{"role":"Station staff","desc":"There's a bus replacement in twenty minutes but it's slower. You can also refund the ticket. Help them work out which is better for their situation."}},{"id":35,"cat":"Train station","lvl":"C1","title":"Missing the last train home","a":{"role":"Passenger","desc":"You've just missed the last train home. You live 90 minutes away. Ask about alternatives — is there a night bus? Do they have any suggestions?"},"b":{"role":"Station staff","desc":"There's a night coach at 1:15am, or a hotel across the road. You could also share information about taxis. Be helpful without overstepping."}},{"id":36,"cat":"Train station","lvl":"C2","title":"A rail policy dispute","a":{"role":"Season-ticket holder","desc":"You've paid £4,500 for an annual season ticket. The service has been terrible for three months — cancellations, delays, overcrowding. You want a partial refund and a serious response."},"b":{"role":"Station manager","desc":"You can offer a formal apology and a token compensation. Real refunds require head office. Manage their frustration while being honest about the limits of what you can do."}},{"id":37,"cat":"Hotel","lvl":"B1","title":"Checking in","a":{"role":"Guest","desc":"You have a reservation for two nights. Ask about breakfast times and Wi-Fi."},"b":{"role":"Receptionist","desc":"Find the booking. Breakfast is 7-10, Wi-Fi is free. The room is on the third floor. Give them the key card."}},{"id":38,"cat":"Hotel","lvl":"B2","title":"Requesting a room change","a":{"role":"Guest","desc":"Your room is next to the lift and it's noisy. Ask politely if you can move to a quieter room."},"b":{"role":"Receptionist","desc":"There's a room on the sixth floor available. It's slightly smaller but much quieter. Offer to help move their bags."}},{"id":39,"cat":"Hotel","lvl":"C1","title":"A billing disagreement","a":{"role":"Guest","desc":"You're checking out but the bill has an extra £45 for the mini-bar. You didn't touch anything. Ask them to check."},"b":{"role":"Receptionist","desc":"You'll need to send someone to verify. Apologise for the delay, offer them coffee while they wait, and remove the charge if it's a mistake."}},{"id":40,"cat":"Hotel","lvl":"C2","title":"A high-stakes complaint","a":{"role":"Wedding guest","desc":"The wedding you've flown in for was ruined by a plumbing emergency in the hotel. Twenty guests moved to a lesser hotel at 2am. Meet with the manager and articulate the loss."},"b":{"role":"Hotel general manager","desc":"This is a reputation-defining moment. Listen fully before responding. Offer meaningful compensation without setting a legal precedent. Match the seriousness of the situation."}},{"id":41,"cat":"Taxi","lvl":"B1","title":"A short taxi ride","a":{"role":"Passenger","desc":"Ask the driver to take you to King's Cross station. Ask how long it will take."},"b":{"role":"Taxi driver","desc":"It's about 15 minutes with light traffic. The fare will be around £12. Ask if they'd like the radio on or off."}},{"id":42,"cat":"Taxi","lvl":"B2","title":"Chatting with the driver","a":{"role":"Passenger","desc":"You're on your way to a job interview and you're nervous. The driver makes small talk. Respond naturally and share a bit about the job."},"b":{"role":"Taxi driver","desc":"You've picked up thousands of nervous interviewees. Ask what the job is, wish them luck, share a story or piece of encouragement from your own life."}},{"id":43,"cat":"Taxi","lvl":"C1","title":"Disputing the route","a":{"role":"Passenger","desc":"The driver seems to be taking a longer route than necessary. You have Google Maps open. Ask politely why they're going this way."},"b":{"role":"Taxi driver","desc":"There's roadworks on the direct route. You could have mentioned it earlier. Explain calmly, and be prepared to justify or adjust."}},{"id":44,"cat":"Taxi","lvl":"C2","title":"A sensitive conversation","a":{"role":"Passenger","desc":"The driver has been sharing strong political opinions for ten minutes. You disagree completely, but you're stuck with them for another twenty. Navigate this without confrontation but without pretending to agree."},"b":{"role":"Taxi driver","desc":"You get plenty of feedback from passengers over the years. Push your points but stay open. Notice if they're uncomfortable and adjust."}},{"id":45,"cat":"Asking directions","lvl":"B1","title":"Where's the museum?","a":{"role":"Tourist","desc":"Ask where the National Museum is. You're on foot. Ask how long it will take."},"b":{"role":"Local","desc":"It's about ten minutes' walk. Go straight, turn left at the church, and it's on the right."}},{"id":46,"cat":"Asking directions","lvl":"B2","title":"Getting truly lost","a":{"role":"Tourist","desc":"You've been walking for twenty minutes and you're not sure where you are. Show your phone map. Explain where you're trying to get to."},"b":{"role":"Local","desc":"You know the area well. Orient them, offer to walk them part of the way, or suggest a landmark to aim for."}},{"id":47,"cat":"Asking directions","lvl":"C1","title":"A tourist trap warning","a":{"role":"Tourist","desc":"You've been recommended a famous restaurant nearby. Ask the local if it's actually good, or a tourist trap. Be open to a better suggestion."},"b":{"role":"Local","desc":"It's overpriced and mediocre. Recommend somewhere better nearby that locals actually go to. Be tactful — the tourist might have their heart set on it."}},{"id":48,"cat":"Asking directions","lvl":"C2","title":"Insider knowledge","a":{"role":"Travel writer","desc":"You've come to write about the neighbourhood beyond the guidebook clichés. Ask the local about hidden places, tensions with tourism, and how the area has changed."},"b":{"role":"Long-time resident","desc":"You've watched your neighbourhood transform. Share thoughtful, specific memories. Push back if they're romanticising, but don't be cynical."}},{"id":49,"cat":"Tourist information","lvl":"B1","title":"Getting a map","a":{"role":"Tourist","desc":"Ask for a free map of the city. Ask what the main sights are."},"b":{"role":"Tourist officer","desc":"Hand over the map. Point out the three must-see attractions and the walking route between them."}},{"id":50,"cat":"Tourist information","lvl":"B2","title":"Planning a day","a":{"role":"Tourist","desc":"You have one day in the city. Ask what you should do — you like history and food but not massive crowds."},"b":{"role":"Tourist officer","desc":"Suggest a museum, a lesser-known food market, and a walking route. Ask about their pace and adjust."}},{"id":51,"cat":"Tourist information","lvl":"C1","title":"Managing a difficult request","a":{"role":"Tourist","desc":"You want to visit a famous landmark that requires a booking made three months in advance. You didn't book. You've come a long way. Ask if there's any way in."},"b":{"role":"Tourist officer","desc":"There genuinely isn't. Be direct about that, but offer thoughtful alternatives and a small consolation — maybe a nearby viewpoint that captures similar magic."}},{"id":52,"cat":"Tourist information","lvl":"C2","title":"A complaint about the city","a":{"role":"Tourist","desc":"You've been overcharged, harassed by street sellers, and pickpocketed. You're leaving today with a terrible impression. Tell the tourist officer honestly."},"b":{"role":"Tourist officer","desc":"You care about your city's reputation. Acknowledge the failings without being defensive. Take practical steps — report to police, note the vendors — and try to salvage the experience they leave with."}},{"id":53,"cat":"Job interview","lvl":"B1","title":"Basic introduction","a":{"role":"Candidate","desc":"Introduce yourself: name, where you're from, previous experience, why you want the job."},"b":{"role":"Interviewer","desc":"Welcome them. Ask about their previous role and why they left. Take notes."}},{"id":54,"cat":"Job interview","lvl":"B2","title":"Talking about strengths and weaknesses","a":{"role":"Candidate","desc":"Answer the classic question honestly. Give a strength with an example, and a real weakness with what you're doing about it."},"b":{"role":"Interviewer","desc":"Push for specifics. Ask for examples. Notice whether they can talk about themselves without rehearsed answers."}},{"id":55,"cat":"Job interview","lvl":"C1","title":"Negotiating salary","a":{"role":"Candidate","desc":"You've been offered the role. The salary is 15% below what you'd hoped. Negotiate professionally — mention your research, your experience, and what would make it worth accepting."},"b":{"role":"Hiring manager","desc":"You have some flexibility but not a lot. Explore what they need — is it just money, or would flexible working, extra leave, or a signing bonus help?"}},{"id":56,"cat":"Job interview","lvl":"C2","title":"A leadership interview","a":{"role":"Executive candidate","desc":"You're interviewing for a senior director role. Talk about a time you disagreed with a CEO and how you handled it — without making yourself look either weak or aggressive."},"b":{"role":"Board member","desc":"Probe deeply. Watch for polished answers that avoid the real question. Ask what they learned, and what they'd do differently now."}},{"id":57,"cat":"Office meeting","lvl":"B1","title":"A quick team check-in","a":{"role":"Team member","desc":"Tell the team what you did last week and what you're working on this week. Keep it short."},"b":{"role":"Manager","desc":"Listen, ask if anyone needs help, and remind everyone of the Friday deadline."}},{"id":58,"cat":"Office meeting","lvl":"B2","title":"Disagreeing with a colleague","a":{"role":"You","desc":"Your colleague has proposed a solution you don't think will work. Disagree politely, explain why, and suggest an alternative."},"b":{"role":"Colleague","desc":"Don't take it personally. Ask questions, defend the parts of your idea worth defending, and be open to combining approaches."}},{"id":59,"cat":"Office meeting","lvl":"C1","title":"A tense project review","a":{"role":"Project lead","desc":"The project is three weeks behind. Present the situation to the client honestly — what went wrong, what you're doing about it, and what a realistic new deadline looks like."},"b":{"role":"Client representative","desc":"You're frustrated but you also want the project done well. Ask hard questions but keep it constructive."}},{"id":60,"cat":"Office meeting","lvl":"C2","title":"Restructuring conversation","a":{"role":"CEO","desc":"You're announcing a restructure that means one team of four is being cut to two. Handle the meeting with humanity, honesty about the reasons, and clarity about next steps."},"b":{"role":"Team member","desc":"You've heard rumours. Now it's real. Ask the questions your team will want answered — timing, packages, references, what they can say to clients."}},{"id":61,"cat":"Phone call (work)","lvl":"B1","title":"Leaving a message","a":{"role":"Caller","desc":"You're calling to speak to Mrs Green about your invoice. She's not there. Leave a clear message with your name and number."},"b":{"role":"Receptionist","desc":"Mrs Green is out for the day. Take the message accurately, read it back, and promise she'll call by tomorrow morning."}},{"id":62,"cat":"Phone call (work)","lvl":"B2","title":"Chasing a late payment","a":{"role":"Business owner","desc":"The client is 45 days late paying an invoice for £2,800. Call them politely but firmly. Set a deadline."},"b":{"role":"Client's accountant","desc":"You've been slow because of a system change. Apologise, promise payment by Friday, and offer to email confirmation once it's sent."}},{"id":63,"cat":"Phone call (work)","lvl":"C1","title":"A difficult client call","a":{"role":"Account manager","desc":"A client is threatening to leave over a service failure. Call to talk them down. Acknowledge the problem, but also protect the relationship long term."},"b":{"role":"Client","desc":"You've been let down twice this year. You're seriously considering switching providers. Be honest about what would make you stay."}},{"id":64,"cat":"Phone call (work)","lvl":"C2","title":"A regulatory phone call","a":{"role":"Compliance officer","desc":"You need to inform a partner firm that a joint project may have breached a new data protection rule. It's serious but not yet catastrophic. Handle the call with precision and calm."},"b":{"role":"Partner firm director","desc":"This is the last thing you needed today. Ask smart questions, don't commit to anything until you've spoken to your legal team, and keep the professional relationship intact."}},{"id":65,"cat":"Giving feedback","lvl":"B1","title":"Praising good work","a":{"role":"Manager","desc":"Tell your team member you were impressed with their presentation yesterday. Be specific about what worked."},"b":{"role":"Team member","desc":"Thank them, ask what specifically stood out, and take the opportunity to ask what to work on next."}},{"id":66,"cat":"Giving feedback","lvl":"B2","title":"A gentle correction","a":{"role":"Manager","desc":"A team member has been consistently arriving 15 minutes late. Have a conversation with them — check what's going on and set a clear expectation."},"b":{"role":"Team member","desc":"You've been struggling with childcare arrangements. Explain honestly, and negotiate a solution — could you start slightly later officially?"}},{"id":67,"cat":"Giving feedback","lvl":"C1","title":"Performance concerns","a":{"role":"Manager","desc":"A team member's work has slipped over the past three months. This is the second conversation. You need to be clear that things must change, without demoralising them."},"b":{"role":"Team member","desc":"You know you haven't been at your best. There are personal reasons. Listen carefully to the feedback, be honest about what you need, and don't over-promise."}},{"id":68,"cat":"Giving feedback","lvl":"C2","title":"A 360 review","a":{"role":"Senior leader","desc":"You're receiving a 360 review that includes some sharp criticism from your direct reports. Sit with the feedback rather than defending yourself. Ask thoughtful questions."},"b":{"role":"HR partner","desc":"Deliver the feedback fairly. Don't dilute the hard bits. Help them separate the useful from the personal, and identify one or two things to work on."}},{"id":69,"cat":"Neighbours","lvl":"B1","title":"Meeting a new neighbour","a":{"role":"Resident","desc":"Someone new has moved in next door. Say hello, introduce yourself, and mention the bin collection schedule."},"b":{"role":"New neighbour","desc":"Thank them. Ask about local shops, the best café nearby, and any local WhatsApp groups you should join."}},{"id":70,"cat":"Neighbours","lvl":"B2","title":"The music is too loud","a":{"role":"Neighbour","desc":"The music from next door has been loud until midnight three nights in a row. Knock politely and explain the problem."},"b":{"role":"Neighbour","desc":"You've been having a rough week and hadn't realised. Apologise sincerely and offer a solution — earlier finish, or headphones."}},{"id":71,"cat":"Neighbours","lvl":"C1","title":"A shared-wall problem","a":{"role":"Neighbour","desc":"Water is leaking from the flat above and staining your ceiling. This is the second time. You want it fixed properly, not patched."},"b":{"role":"Upstairs neighbour","desc":"The plumber said it was fixed. You're embarrassed and slightly defensive. Offer to bring in a different plumber and split the cost, or claim on insurance together."}},{"id":72,"cat":"Neighbours","lvl":"C2","title":"A neighbourhood planning row","a":{"role":"Long-time resident","desc":"A developer wants to build a five-storey block of flats on the corner of your street. You're organising resistance. Try to bring your reasonable but sceptical neighbour on side."},"b":{"role":"Sceptical neighbour","desc":"You have mixed feelings — you'd love the extra shops the developer promises, but you're worried about parking. Push back thoughtfully and articulate what would win you over."}},{"id":73,"cat":"Meeting new people","lvl":"B1","title":"At a language class","a":{"role":"Student A","desc":"It's the first day of your English class. Introduce yourself to the person next to you: name, country, why you're learning English."},"b":{"role":"Student B","desc":"Welcome them. Introduce yourself too. Ask what they do outside class and if they've been to English-speaking countries."}},{"id":74,"cat":"Meeting new people","lvl":"B2","title":"At a friend's birthday","a":{"role":"You","desc":"You're at a friend's birthday and you don't know most people. Start a conversation with someone standing on their own."},"b":{"role":"Stranger","desc":"You're relieved someone's talking to you. Introduce yourself, find out how they know the birthday person, and try to keep the conversation flowing."}},{"id":75,"cat":"Meeting new people","lvl":"C1","title":"A conference introduction","a":{"role":"Delegate","desc":"You're at a professional conference. Approach someone whose talk you enjoyed and introduce yourself. Ask a thoughtful follow-up question."},"b":{"role":"Speaker","desc":"You're pleased someone engaged with the talk. Answer their question generously, ask about their work, and be genuinely curious."}},{"id":76,"cat":"Meeting new people","lvl":"C2","title":"Networking with an agenda","a":{"role":"Founder","desc":"You've deliberately come to this event to meet a specific investor. She's standing three feet away with a drink. Approach naturally and open a conversation that could — but shouldn't obviously — lead to a pitch."},"b":{"role":"Investor","desc":"You get pitched constantly. Enjoy the person if they're interesting. Be direct if they're wasting your time. Reward candour."}},{"id":77,"cat":"Making plans with friends","lvl":"B1","title":"Coffee at the weekend","a":{"role":"Friend A","desc":"Suggest meeting for coffee on Saturday afternoon. Propose a time and a place."},"b":{"role":"Friend B","desc":"Saturday afternoon works, but you're free after 3pm. Suggest a different café that's easier for both of you."}},{"id":78,"cat":"Making plans with friends","lvl":"B2","title":"A group trip","a":{"role":"Organiser","desc":"You're planning a weekend away for six people. Ask your friend about dates, budget and what kind of trip they'd enjoy."},"b":{"role":"Friend","desc":"You'd love to come but money is tight. Suggest a cheaper alternative and offer to help organise."}},{"id":79,"cat":"Making plans with friends","lvl":"C1","title":"Cancelling at the last minute","a":{"role":"You","desc":"You need to cancel plans with your friend an hour before you were supposed to meet. It's a genuine reason but the third time this month. Explain honestly and rebuild trust."},"b":{"role":"Friend","desc":"You're frustrated. Be direct about how this pattern is making you feel, without ending the friendship. Suggest a firm new plan."}},{"id":80,"cat":"Making plans with friends","lvl":"C2","title":"A friendship at a turning point","a":{"role":"You","desc":"Your closest friend has drifted away over the past year — new partner, new job, less contact. Meet up and have a real conversation about what's changed, without making them feel guilty."},"b":{"role":"Friend","desc":"You've noticed the drift too and you feel bad about it. Be honest about the pressures of your life. Try to work out together whether the friendship needs a new shape or just more effort."}},{"id":81,"cat":"Family conversation","lvl":"B1","title":"Planning dinner","a":{"role":"Family member","desc":"It's Sunday morning. Ask what everyone wants to do for dinner tonight. Suggest pasta."},"b":{"role":"Family member","desc":"Pasta again? Suggest something different, like a curry. Offer to cook."}},{"id":82,"cat":"Family conversation","lvl":"B2","title":"A teenager wants to go out","a":{"role":"Teenager","desc":"You want to go to a concert with friends on Friday. It's an hour's drive. Ask your parent — be prepared to negotiate."},"b":{"role":"Parent","desc":"You're worried but you don't want to be overprotective. Ask reasonable questions about timings, transport home and who's going. Set a curfew."}},{"id":83,"cat":"Family conversation","lvl":"C1","title":"A serious conversation","a":{"role":"Adult child","desc":"You're worried about your parent's drinking. Bring it up gently but clearly. Don't accuse; ask."},"b":{"role":"Parent","desc":"You didn't expect this today. Be honest with yourself — don't dismiss it, don't over-apologise. Try to have a real conversation."}},{"id":84,"cat":"Family conversation","lvl":"C2","title":"An inheritance disagreement","a":{"role":"Sibling A","desc":"Your parent has left the family home to you and a smaller inheritance to your two siblings. You're trying to work out an equitable arrangement without breaking the family. Open the conversation."},"b":{"role":"Sibling B","desc":"You feel hurt but you don't want to seem grasping. Speak honestly about what you feel, listen to their proposal, and separate emotions from practicalities."}},{"id":85,"cat":"Renting a flat","lvl":"B1","title":"Viewing a flat","a":{"role":"Renter","desc":"You're viewing a two-bedroom flat. Ask about the rent, bills, and how long the contract is."},"b":{"role":"Landlord","desc":"Rent is £1,200 a month, bills are extra. The contract is 12 months minimum. Show them the rooms."}},{"id":86,"cat":"Renting a flat","lvl":"B2","title":"Reporting a problem","a":{"role":"Tenant","desc":"The boiler stopped working two days ago. It's cold. Call the landlord and ask for it to be fixed urgently."},"b":{"role":"Landlord","desc":"You'll send someone tomorrow. Ask a couple of questions to check it's serious, and confirm a time window."}},{"id":87,"cat":"Renting a flat","lvl":"C1","title":"A deposit dispute","a":{"role":"Tenant","desc":"You're moving out. The landlord wants to keep £600 of your deposit for 'wear and tear' you don't think is fair. Push back with the check-in photos."},"b":{"role":"Landlord","desc":"You have costs to cover but you also want to be reasonable. Listen to their evidence, and consider compromising rather than escalating."}},{"id":88,"cat":"Renting a flat","lvl":"C2","title":"Negotiating a rent increase","a":{"role":"Tenant","desc":"Your landlord wants to raise your rent by 12%. You've been a good tenant for four years and market rates are up 5%. Negotiate."},"b":{"role":"Landlord","desc":"Costs are up. But you don't want to lose a good tenant. Explore compromises — a smaller increase, a longer contract, some improvements to the flat."}},{"id":89,"cat":"Doctor's appointment","lvl":"B1","title":"Describing symptoms","a":{"role":"Patient","desc":"You have a sore throat and a headache. Describe when it started and how you feel now."},"b":{"role":"Doctor","desc":"Ask when it started, whether they have a temperature, and if they've been eating and sleeping. Suggest rest and fluids."}},{"id":90,"cat":"Doctor's appointment","lvl":"B2","title":"A medication side-effect","a":{"role":"Patient","desc":"The tablets your doctor prescribed last week are making you feel very tired. Describe the effect and ask if you should keep taking them."},"b":{"role":"Doctor","desc":"That's a known side effect. Ask about the timing and severity. Suggest waiting a week, or switching to an alternative."}},{"id":91,"cat":"Doctor's appointment","lvl":"C1","title":"A difficult diagnosis conversation","a":{"role":"Patient","desc":"You've had a test result you don't fully understand. Ask the doctor to explain what it means, what the next steps are, and what your options really are."},"b":{"role":"Doctor","desc":"Explain clearly without jargon. Give honest answers. Allow silence for questions. Don't rush the appointment."}},{"id":92,"cat":"Doctor's appointment","lvl":"C2","title":"Second-opinion consultation","a":{"role":"Patient","desc":"You've been offered a serious operation by another consultant. You want a second opinion. Explain your reservations honestly."},"b":{"role":"Consultant","desc":"Listen carefully. Don't undermine the other consultant unless there's genuine reason. Give balanced advice, and help the patient make an informed decision they can live with."}},{"id":93,"cat":"Making a complaint","lvl":"B1","title":"A faulty product","a":{"role":"Customer","desc":"The hairdryer you bought last week has stopped working. You have the receipt. Ask for a refund."},"b":{"role":"Shop assistant","desc":"Check the receipt and the product. Offer a refund or an exchange. Apologise for the inconvenience."}},{"id":94,"cat":"Making a complaint","lvl":"B2","title":"A hotel gone wrong","a":{"role":"Guest","desc":"Your hotel room was noisy and the shower was cold. You're checking out. Explain calmly and ask for compensation."},"b":{"role":"Manager","desc":"Apologise, ask specific questions to understand the problem, and offer a partial refund or a free future stay."}},{"id":95,"cat":"Making a complaint","lvl":"C1","title":"A service that never happened","a":{"role":"Customer","desc":"You paid £180 for a garden service that didn't turn up twice. You've called three times and been fobbed off. Write a formal complaint and demand action."},"b":{"role":"Customer services manager","desc":"Take it seriously. Refund the money without argument, and explain honestly what went wrong. Try to salvage the customer if possible."}},{"id":96,"cat":"Making a complaint","lvl":"C2","title":"A regulator's investigation","a":{"role":"Complainant","desc":"You've raised a complaint with the industry regulator about a company that has been misleading customers. You're now being interviewed. Be precise, factual, and firm about the evidence."},"b":{"role":"Regulator","desc":"Ask careful questions to establish the facts. Don't lead the witness. Push back on anything speculative. Take detailed notes."}},{"id":97,"cat":"Emergency","lvl":"B1","title":"Calling for help","a":{"role":"Caller","desc":"Your neighbour has fallen and can't get up. Call for help. Give the address and describe what happened."},"b":{"role":"Operator","desc":"Ask for the address, whether the neighbour is conscious and breathing, and if there's anyone with them. Give clear instructions."}},{"id":98,"cat":"Emergency","lvl":"B2","title":"A minor accident","a":{"role":"Driver","desc":"You've had a small car accident — nobody hurt, some damage to both cars. Exchange details with the other driver calmly."},"b":{"role":"Other driver","desc":"Stay calm. Exchange insurance and contact details. Take photos. Agree not to argue about fault at the roadside."}},{"id":99,"cat":"Emergency","lvl":"C1","title":"A workplace incident","a":{"role":"Manager","desc":"A colleague has been injured at work. You need to look after them, report it properly, and reassure the team. Handle it methodically."},"b":{"role":"Colleague","desc":"You're shaken. Explain what happened as clearly as you can. Accept help and follow the manager's lead."}},{"id":100,"cat":"Emergency","lvl":"C2","title":"A crisis interview","a":{"role":"Company spokesperson","desc":"There's been a serious safety incident at your facility. Handle the press conference. Be honest about what you know, humble about what you don't, and clear about what happens next."},"b":{"role":"Journalist","desc":"You're representing the public interest. Push past corporate language. Ask specific, hard questions — timeline, accountability, prior warnings — without theatre."}}];
+var rpCurrentId = null;
+var rpOpenSettings = null;
+try {
+  var __saved = JSON.parse(localStorage.getItem('jpt_rp_open_settings') || 'null');
+  if (Array.isArray(__saved)) rpOpenSettings = __saved;
+} catch(e) {}
+/* Default: only the first setting expanded, so 25 collapsed rows don't drown
+   the sidebar on first load. */
+if (!rpOpenSettings) rpOpenSettings = [RP_SETTINGS[0]];
+
+function rpEsc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function rpBuildSidebar() {
+  var list = document.getElementById('rpList');
+  var q = document.getElementById('rpSearch').value.trim().toLowerCase();
+  var items = ROLEPLAYS;
+  if (q) items = items.filter(function(r) {
+    return (r.title + ' ' + r.cat + ' ' + r.a.role + ' ' + r.b.role + ' ' + r.a.desc + ' ' + r.b.desc)
+      .toLowerCase().indexOf(q) !== -1;
+  });
+  if (!items.length) { list.innerHTML = '<div class="empty">No scenarios match that.</div>'; return; }
+
+  function itemHtml(r) {
+    return '<button class="rp-item ' + (r.id === rpCurrentId ? 'active' : '') + '" type="button" onclick="rpSelect(' + r.id + ')">' +
+      '<span class="rp-title">' + rpEsc(r.title) + '</span>' +
+      '<span class="rp-lvl lvl-' + r.lvl + '">' + r.lvl + '</span>' +
+    '</button>';
+  }
+
+  if (q) {
+    var shown = items.slice(0, 100);
+    list.innerHTML = shown.map(itemHtml).join('') +
+      (items.length > 100 ? '<div class="empty">Showing 100 of ' + items.length + '. Refine your search.</div>' : '');
+    return;
+  }
+
+  var bySetting = {};
+  items.forEach(function(r) { (bySetting[r.cat] = bySetting[r.cat] || []).push(r); });
+  /* Sort each setting's plays by level order (B1→C2), not by original id. */
+  var lvlOrder = {};
+  RP_LEVELS.forEach(function(l, i) { lvlOrder[l] = i; });
+  Object.keys(bySetting).forEach(function(k) {
+    bySetting[k].sort(function(a, b) { return lvlOrder[a.lvl] - lvlOrder[b.lvl]; });
+  });
+  var openSet = {};
+  rpOpenSettings.forEach(function(s) { openSet[s] = true; });
+  list.innerHTML = RP_SETTINGS.filter(function(s) { return bySetting[s] && bySetting[s].length; }).map(function(s) {
+    return '<div class="side-group ' + (openSet[s] ? 'open' : '') + '">' +
+      '<button class="side-group-toggle" type="button" onclick="rpToggleSetting(' + JSON.stringify(s).replace(/"/g, '&quot;').replace(/'/g, '&#39;') + ')">' +
+        '<span class="side-group-name">' + rpEsc(s) + '</span>' +
+        '<span class="side-group-chevron">' + String.fromCharCode(9660) + '</span>' +
+      '</button>' +
+      '<div class="side-group-body">' + bySetting[s].map(itemHtml).join('') + '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function rpToggleSetting(s) {
+  var openSet = {};
+  rpOpenSettings.forEach(function(x) { openSet[x] = true; });
+  if (openSet[s]) delete openSet[s]; else openSet[s] = true;
+  rpOpenSettings = RP_SETTINGS.filter(function(x) { return openSet[x]; });
+  try { localStorage.setItem('jpt_rp_open_settings', JSON.stringify(rpOpenSettings)); } catch(e){}
+  rpBuildSidebar();
+}
+
+function rpSelect(id) {
+  rpCurrentId = id;
+  var r = null;
+  for (var i = 0; i < ROLEPLAYS.length; i++) {
+    if (ROLEPLAYS[i].id === id) { r = ROLEPLAYS[i]; break; }
+  }
+  if (!r) return;
+  document.getElementById('rpPlaceholder').style.display = 'none';
+  document.getElementById('rpView').style.display = 'block';
+  document.getElementById('rpTitle').textContent = r.title;
+  var lvlEl = document.getElementById('rpLevel');
+  lvlEl.textContent = 'Level ' + r.lvl;
+  lvlEl.className = 'rp-badge rp-lvl-badge lvl-' + r.lvl;
+  document.getElementById('rpCat').textContent = r.cat;
+  document.getElementById('rpARole').textContent = r.a.role;
+  document.getElementById('rpADesc').textContent = r.a.desc;
+  document.getElementById('rpBRole').textContent = r.b.role;
+  document.getElementById('rpBDesc').textContent = r.b.desc;
+  var idx = ROLEPLAYS.indexOf(r);
+  document.getElementById('rpCounter').textContent = (idx + 1) + ' / ' + ROLEPLAYS.length;
+  document.getElementById('rpPrev').disabled = idx === 0;
+  document.getElementById('rpNext').disabled = idx === ROLEPLAYS.length - 1;
+  /* If the selection's setting is collapsed, expand it so the active item is
+     visible. */
+  if (rpOpenSettings.indexOf(r.cat) === -1) {
+    rpOpenSettings.push(r.cat);
+    try { localStorage.setItem('jpt_rp_open_settings', JSON.stringify(rpOpenSettings)); } catch(e){}
+  }
+  rpBuildSidebar();
+  try { localStorage.setItem('jpt_rp_current', String(id)); } catch(e){}
+}
+
+function rpGo(delta) {
+  var r = null;
+  for (var i = 0; i < ROLEPLAYS.length; i++) {
+    if (ROLEPLAYS[i].id === rpCurrentId) { r = ROLEPLAYS[i]; break; }
+  }
+  if (!r) return;
+  var idx = ROLEPLAYS.indexOf(r) + delta;
+  if (idx < 0 || idx >= ROLEPLAYS.length) return;
+  rpSelect(ROLEPLAYS[idx].id);
+}
+
+document.getElementById('rpSearch').addEventListener('input', rpBuildSidebar);
+document.getElementById('rpPrev').addEventListener('click', function() { rpGo(-1); });
+document.getElementById('rpNext').addEventListener('click', function() { rpGo(1); });
+
+try {
+  var _saved = localStorage.getItem('jpt_rp_current');
+  if (_saved) {
+    var _id = parseInt(_saved, 10);
+    if (ROLEPLAYS.some(function(r){ return r.id === _id; })) rpSelect(_id);
+  }
+} catch(e) {}
+
+rpBuildSidebar();
+</script>
+<!-- jpt:menujs -->
+<script>
+/* Pop-out switcher. The only navigation on the site. */
+(function () {
+  var btn = document.getElementById('brandBtn');
+  var menu = document.getElementById('toolsMenu');
+  if (!btn || !menu) return;
+  function close() { if (menu.hidden) return; menu.hidden = true; btn.setAttribute('aria-expanded', 'false'); }
+  function open()  { menu.hidden = false; btn.setAttribute('aria-expanded', 'true'); }
+  btn.addEventListener('click', function (e) { e.stopPropagation(); menu.hidden ? open() : close(); });
+  document.addEventListener('click', function (e) {
+    if (!menu.hidden && !menu.contains(e.target) && e.target !== btn) close();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !menu.hidden) { close(); btn.focus(); }
+  });
+})();
+</script>
+<!-- /jpt:menujs -->
+<!-- jpt:themejs -->
+<script>
+/* Theme toggle for pages whose tool does not bring its own. Shares the Debate
+   Builder's key so the preference carries across the whole site. */
+(function () {
+  var root = document.documentElement;
+  var btn = document.getElementById('jptThemeBtn');
+  var icon = document.getElementById('jptThemeIcon');
+  if (!btn || !icon) return;
+  var SUN = '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/>'
+          + '<line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>'
+          + '<line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/>'
+          + '<line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>'
+          + '<line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+  var MOON = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+  function now(){ return root.getAttribute('data-theme')
+      || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); }
+  function paint(){ icon.innerHTML = now() === 'dark' ? SUN : MOON; }
+  paint();
+  btn.addEventListener('click', function () {
+    var next = now() === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('jpe_debate_theme', next); } catch (e) {}
+    paint();
+  });
+})();
+</script>
+<!-- /jpt:themejs -->
+<!-- jpt:sidejs -->
+<script>
+(function () {
+  var app = document.getElementById('app'), btn = document.getElementById('jptSideToggle');
+  if (!app || !btn) return;
+  var KEY = 'jpt_speaking_side_collapsed';
+  function apply(c){ app.classList.toggle('side-collapsed', c);
+    btn.setAttribute('aria-expanded', c ? 'false' : 'true');
+    var lbl = (c ? 'Show' : 'Hide') + ' the topic list';
+    btn.title = lbl; btn.setAttribute('aria-label', lbl); }
+  window.jptToggleSide = function(){ var c = !app.classList.contains('side-collapsed');
+    apply(c); try { localStorage.setItem(KEY, c ? '1' : '0'); } catch(e){} };
+  var saved; try { saved = localStorage.getItem(KEY); } catch(e){}
+  if (saved === '1') apply(true);
+})();
+</script>
+<!-- /jpt:sidejs -->
+<!-- jpt:floattimer -->
+<script>
+(function () {
+  var KEY = 'jpt_ftimer';
+  var st = {total: 300, remaining: 300, running: false, endAt: null, open: false};
+  try {
+    var raw = localStorage.getItem(KEY);
+    if (raw) { var s = JSON.parse(raw); if (s && typeof s.total === 'number') st = s; }
+  } catch(e){}
+
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(st)); } catch(e){} }
+  function fmt(s){ var n=s<0; s=Math.abs(s);
+    return (n?'-':'')+String(Math.floor(s/60)).padStart(2,'0')+':'+String(Math.floor(s%60)).padStart(2,'0'); }
+  function parse(str){ str=String(str).trim().replace(/\s*min(ute)?s?$/i,''); if(!str) return null; var t;
+    if(str.indexOf(':')>=0){ var pp=str.split(':'); var m=parseInt(pp[0],10)||0; var sc=parseInt(pp[1],10)||0;
+      if(sc>59) return null; t=m*60+sc; }
+    else { var mn=parseFloat(str); if(!isFinite(mn)) return null; t=Math.round(mn*60); }
+    if(!isFinite(t)||t<=0) return null; return Math.min(t, 99*60+59); }
+  function currentRemaining(){ return st.running ? Math.round((st.endAt - Date.now())/1000) : st.remaining; }
+
+  var HOURGLASS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
+    + 'stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h14L12 12 5 3M5 21h14L12 12 5 21"/></svg>';
+  var PLAY = '<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="7 4 20 12 7 20 7 4"/></svg>';
+  var PAUSE = '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4.5" width="4" height="15" rx="1"/>'
+    + '<rect x="14" y="4.5" width="4" height="15" rx="1"/></svg>';
+  var RESET = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" '
+    + 'stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>';
+
+  var wrap = document.createElement('div');
+  wrap.className = 'jft-wrap';
+  wrap.innerHTML =
+    '<div class="jft-panel">' +
+      '<div class="jft-panel-head"><span class="jft-panel-title">Timer</span>' +
+        '<button class="jft-panel-close" type="button" title="Hide" aria-label="Hide timer panel">&times;</button></div>' +
+      '<div class="jft-controls">' +
+        '<input class="jft-in" type="text" inputmode="numeric" aria-label="Timer length" ' +
+          'title="Type a length (5, or 5:30) and press Enter to start">' +
+        '<button class="jft-play" type="button" title="Start / pause" aria-label="Start or pause">' + PLAY + '</button>' +
+        '<button class="jft-reset" type="button" title="Reset" aria-label="Reset timer">' + RESET + '</button>' +
+      '</div>' +
+      '<div class="jft-bar"><span></span></div>' +
+    '</div>' +
+    '<button class="jft-btn" type="button" title="Timer" aria-label="Timer">' +
+      '<span class="jft-icon">' + HOURGLASS + '</span><span class="jft-live"></span>' +
+    '</button>';
+  document.body.appendChild(wrap);
+
+  var input = wrap.querySelector('.jft-in'), live = wrap.querySelector('.jft-live');
+  var barFill = wrap.querySelector('.jft-bar span'), playBtn = wrap.querySelector('.jft-play');
+  var btn = wrap.querySelector('.jft-btn');
+  var iv = null;
+
+  function paint(){
+    var r = currentRemaining(), txt = fmt(r);
+    live.textContent = txt;
+    if (document.activeElement !== input) input.value = txt;
+    var warn = r <= 60 && r > 0, over = r <= 0;
+    wrap.classList.toggle('running', st.running);
+    wrap.classList.toggle('warn', warn);
+    wrap.classList.toggle('over', over);
+    barFill.style.width = (over ? 100 : Math.max(0, Math.min(1, r / st.total)) * 100) + '%';
+    playBtn.innerHTML = st.running ? PAUSE : PLAY;
+  }
+  function startTicking(){ clearInterval(iv); iv = setInterval(paint, 1000); }
+  function stopTicking(){ clearInterval(iv); iv = null; }
+  function applyOpen(){ wrap.classList.toggle('open', st.open); }
+  function toggle(){
+    if (st.running) { st.remaining = currentRemaining(); st.running = false; st.endAt = null; stopTicking(); }
+    else { st.endAt = Date.now() + currentRemaining() * 1000; st.running = true; startTicking(); }
+    save(); paint();
+  }
+
+  btn.addEventListener('click', function(){ st.open = !st.open; save(); applyOpen(); });
+  wrap.querySelector('.jft-panel-close').addEventListener('click', function(){ st.open = false; save(); applyOpen(); });
+  input.addEventListener('focus', function(){ if (st.running) toggle(); requestAnimationFrame(function(){ input.select(); }); });
+  input.addEventListener('keydown', function(e){
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      var v = parse(input.value);
+      if (v !== null) { st.total = v; st.remaining = v; st.running = false; st.endAt = null; save(); toggle(); }
+      input.blur();
+    } else if (e.key === 'Escape') { e.preventDefault(); paint(); input.blur(); }
+  });
+  playBtn.addEventListener('click', toggle);
+  wrap.querySelector('.jft-reset').addEventListener('click', function(){
+    st.running = false; st.endAt = null; st.remaining = st.total; stopTicking(); save(); paint();
+  });
+
+  applyOpen();
+  paint();
+  if (st.running) startTicking();
+})();
+</script>
+<!-- /jpt:floattimer -->
+</body>
+</html>
