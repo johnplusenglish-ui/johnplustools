@@ -366,12 +366,11 @@ function tmrRenderHourglass(progress, running) {
 }
 
 function tmrRenderIce(progress, running) {
-  /* A cube, not a slab: full-size block is nearly square (92x92), and width
-     shrinks with height as it melts (slower than height) so it reads as a
-     shrinking cube rather than a flattening rectangle at every stage. */
-  var maxH = 92, minH = 10, maxW = 92, minW = 56;
-  var h = Math.max(minH, maxH * (1 - progress));
-  var w = minW + (maxW - minW) * (1 - progress);
+  /* A cube, not a slab: width always equals height, so it's square at
+     every point in the melt, not just at the start. */
+  var maxSize = 92, minSize = 16;
+  var h = Math.max(minSize, maxSize * (1 - progress));
+  var w = h;
   var bottomY = 168, topY = bottomY - h, x = 80 - w / 2;
   var rx = Math.min(10 + 22 * progress, w / 2, h / 2);
   var puddleRx = 22 + 46 * progress, puddleRy = 6 + 9 * progress;
