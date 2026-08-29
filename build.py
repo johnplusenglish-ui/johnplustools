@@ -349,6 +349,39 @@ THEME_BOOT = ('<!-- jpt:themeboot -->\n<script>(function(){var t;try{t=localStor
               ".matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)})();"
               '</script>\n<!-- /jpt:themeboot -->')
 
+# Site-wide soft password gate. Not real security (it is a static site with the
+# hash sitting in the page source), just a deterrent to keep the site out of casual
+# view while lesson content is being staged here. Hides <html> before first paint,
+# same trick as THEME_BOOT, then a blocking prompt() checked against a SHA-256 hash
+# via the browser's own crypto.subtle (no library). Passing sets a localStorage flag
+# shared by every page on the origin, so one correct entry unlocks the whole site.
+# To change the password: update GATE_HASH below to the new sha256 hex digest, then
+# rerun `python3 build.py`. Current password: johnplus2026
+GATE_HASH = '7c229dcbe1a9abfa9292b1fdd8910b1a16edfbdffcb59c19a218fdbde9c253c9'
+GATE_JS = ('<!-- jpt:gate -->\n<script>(function(){\n'
+           "  var ok=false;try{ok=localStorage.getItem('jpt_gate_ok')==='1'}catch(e){}\n"
+           '  if(ok)return;\n'
+           "  document.documentElement.style.visibility='hidden';\n"
+           f"  var HASH='{GATE_HASH}';\n"
+           "  function hex(buf){return Array.prototype.map.call(new Uint8Array(buf),"
+           "function(b){return ('0'+b.toString(16)).slice(-2)}).join('')}\n"
+           '  function check(pw){\n'
+           "    return crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw))"
+           '.then(function(buf){return hex(buf)===HASH});\n'
+           '  }\n'
+           '  function ask(){\n'
+           "    var pw;try{pw=prompt('Password required')}catch(e){return}\n"
+           '    if(pw===null)return;\n'
+           '    check(pw).then(function(match){\n'
+           "      if(match){try{localStorage.setItem('jpt_gate_ok','1')}catch(e){}"
+           "document.documentElement.style.visibility=''}\n"
+           "      else{alert('Incorrect password.');ask()}\n"
+           '    });\n'
+           '  }\n'
+           "  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',ask)}"
+           'else{ask()}\n'
+           '})();</script>\n<!-- /jpt:gate -->')
+
 
 def tool_head(t):
     return f'''<!-- jpt:toolhead -->
@@ -1013,7 +1046,7 @@ def drop(html, tag):
 def strip_marks(html):
     for tag in ('jpt:brand', 'jpt:toolsnav', 'jpt:sidefoot', 'jpt:toolhead', 'jpt:debateslabel',
                 'jpt:homeview', 'jpt:router', 'jpt:backlink', 'jpt:menujs', 'jpt:themejs',
-                'jpt:themebtn', 'jpt:themeboot', 'jpt:strip',
+                'jpt:themebtn', 'jpt:themeboot', 'jpt:gate', 'jpt:strip',
                 'jpt:present', 'jpt:export', 'jpt:exportjs',
                 'jpt:exportmenu', 'jpt:speakingpng', 'jpt:sidejs', 'jpt:phrasesjs', 'jpt:questionsjs',
                 'jpt:seed', 'jpt:floattimer'):
@@ -1027,7 +1060,7 @@ def head_bits(html, title, desc, extra_css):
     html = re.sub(r'<title>.*?</title>', f'<title>{title}</title>', html, count=1, flags=re.S)
     html = re.sub(r'<meta\s+name="description"[^>]*>\n?', '', html)
     inject = (f'<meta name="description" content="{desc}">\n'
-              f'<meta name="color-scheme" content="light dark">\n{FAVICON}\n{THEME_BOOT}\n')
+              f'<meta name="color-scheme" content="light dark">\n{FAVICON}\n{THEME_BOOT}\n{GATE_JS}\n')
     html = html.replace(f'<title>{title}</title>', f'<title>{title}</title>\n{inject}', 1)
     html = inject_before(html, '</head>', f'<style>{CHROME_CSS}{extra_css}</style>\n', 'the stylesheet')
     return html
@@ -2428,6 +2461,7 @@ def home_page():
 <meta property="og:url" content="https://johnplustools.com">
 {FAVICON}
 {THEME_BOOT}
+{GATE_JS}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap">

@@ -10,6 +10,27 @@
 <!-- jpt:themeboot -->
 <script>(function(){var t;try{t=localStorage.getItem('jpe_debate_theme')}catch(e){}if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)})();</script>
 <!-- /jpt:themeboot -->
+<!-- jpt:gate -->
+<script>(function(){
+  var ok=false;try{ok=localStorage.getItem('jpt_gate_ok')==='1'}catch(e){}
+  if(ok)return;
+  document.documentElement.style.visibility='hidden';
+  var HASH='7c229dcbe1a9abfa9292b1fdd8910b1a16edfbdffcb59c19a218fdbde9c253c9';
+  function hex(buf){return Array.prototype.map.call(new Uint8Array(buf),function(b){return ('0'+b.toString(16)).slice(-2)}).join('')}
+  function check(pw){
+    return crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw)).then(function(buf){return hex(buf)===HASH});
+  }
+  function ask(){
+    var pw;try{pw=prompt('Password required')}catch(e){return}
+    if(pw===null)return;
+    check(pw).then(function(match){
+      if(match){try{localStorage.setItem('jpt_gate_ok','1')}catch(e){}document.documentElement.style.visibility=''}
+      else{alert('Incorrect password.');ask()}
+    });
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',ask)}else{ask()}
+})();</script>
+<!-- /jpt:gate -->
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
