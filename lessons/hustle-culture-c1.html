@@ -521,8 +521,10 @@ body.section-present .deb-instruction{font-size:1.15rem}
 <nav class="topnav">
   <a class="nav-logo" href="#">John<span>+</span>English</a>
   <div class="nav-centre">
-    <span class="nav-level">C1</span>
-    <span class="nav-topic">Hustle Culture</span>
+    <span class="nav-level" id="navLevel" contenteditable="false" spellcheck="false" onblur="saveHeroText()"
+      onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}">C1</span>
+    <span class="nav-topic" id="navTopic" contenteditable="false" spellcheck="false" onblur="saveHeroText()"
+      onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}">Hustle Culture</span>
   </div>
   <div class="nav-right">
     <span class="cloud-status" id="cloudStatus"></span>
@@ -2379,16 +2381,24 @@ function removeWarmupQ(i){
 /* ---------- hero banner text ---------- */
 var HERO_TITLE_KEY = 'jpe_hustle_hero_title';
 var HERO_SUB_KEY = 'jpe_hustle_hero_sub';
+var NAV_LEVEL_KEY = 'jpe_hustle_nav_level';
+var NAV_TOPIC_KEY = 'jpe_hustle_nav_topic';
 try{
   var _ht = localStorage.getItem(HERO_TITLE_KEY);
   var _hs = localStorage.getItem(HERO_SUB_KEY);
+  var _nl = localStorage.getItem(NAV_LEVEL_KEY);
+  var _nt = localStorage.getItem(NAV_TOPIC_KEY);
   if(_ht) document.getElementById('heroTitle').innerHTML = _ht;
   if(_hs) document.getElementById('heroSub').textContent = _hs;
+  if(_nl) document.getElementById('navLevel').textContent = _nl;
+  if(_nt) document.getElementById('navTopic').textContent = _nt;
 }catch(e){}
 function saveHeroText(){
   try{
     localStorage.setItem(HERO_TITLE_KEY, document.getElementById('heroTitle').innerHTML);
     localStorage.setItem(HERO_SUB_KEY, document.getElementById('heroSub').textContent);
+    localStorage.setItem(NAV_LEVEL_KEY, document.getElementById('navLevel').textContent);
+    localStorage.setItem(NAV_TOPIC_KEY, document.getElementById('navTopic').textContent);
   }catch(e){}
 }
 
@@ -2419,6 +2429,8 @@ function toggleHeroEditMode(){
   document.getElementById('heroEditToggle').classList.toggle('on', heroEditMode);
   document.getElementById('heroTitle').setAttribute('contenteditable', heroEditMode ? 'true' : 'false');
   document.getElementById('heroSub').setAttribute('contenteditable', heroEditMode ? 'true' : 'false');
+  document.getElementById('navLevel').setAttribute('contenteditable', heroEditMode ? 'true' : 'false');
+  document.getElementById('navTopic').setAttribute('contenteditable', heroEditMode ? 'true' : 'false');
   document.getElementById('heroImageSlot').classList.toggle('locked', !heroEditMode);
 }
 document.getElementById('heroFileInput').addEventListener('change', function(){
