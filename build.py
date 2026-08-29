@@ -126,6 +126,21 @@ WHEEL = (f'<svg viewBox="0 0 24 24" {I} stroke-width="1.9">'
 HOURGLASS = (f'<svg viewBox="0 0 24 24" {I} stroke-width="1.9">'
              '<path d="M5 3h14L12 12 5 3M5 21h14L12 12 5 21"/></svg>')
 
+# Lesson Plans: a page with a folded corner and ruled lines, distinct from
+# the plain BOOK mark already used for the JohnPlusDictionary link.
+LESSON_ICON = (f'<svg viewBox="0 0 24 24" {I} stroke-width="1.9">'
+               '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>'
+               '<polyline points="14 2 14 8 20 8"/>'
+               '<line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg>')
+
+# Standalone lesson pages under lessons/, outside the TOOLS/BUILDERS pipeline
+# (staged as-is, not spliced into the shared shell). Listed in the brand
+# dropdown only, per John: "show them in the tools dropdown".
+LESSON_LINKS = [
+    {'href': '/lessons/hustle-culture-c1.html', 'name': 'Hustle Culture (lesson)'},
+    {'href': '/lessons/lesson-template.html', 'name': 'Lesson Template'},
+]
+
 FAVICON = ("<link rel=\"icon\" href=\"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' "
            "viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' "
            "stroke-linejoin='round'><path d='M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 "
@@ -316,6 +331,10 @@ def brand(current):
             ' aria-current="true"' if current == t['slug'] else ''}>
         <span class="pm-ico">{t['icon']}</span>{t['name']}</a>''')
     items = '\n      '.join(items)
+    lesson_items = '\n      '.join(
+        f'''<a class="pm-item" role="menuitem" href="{l['href']}">
+        <span class="pm-ico">{LESSON_ICON}</span>{l['name']}</a>'''
+        for l in LESSON_LINKS)
     return f'''<!-- jpt:brand -->
   <div class="brand-wrap">
     <button class="st-brand" id="brandBtn" aria-haspopup="true" aria-expanded="false" aria-controls="toolsMenu">
@@ -326,6 +345,9 @@ def brand(current):
     <div class="popmenu" id="toolsMenu" role="menu" aria-labelledby="brandBtn" hidden>
       <div class="pm-label">Go to</div>
       {items}
+      <div class="pm-sep"></div>
+      <div class="pm-label">Lesson Plans</div>
+      {lesson_items}
       <div class="pm-sep"></div>
       <a class="pm-item" role="menuitem" href="https://johnplusdictionary.com" target="_blank" rel="noopener">
         <span class="pm-ico">{BOOK}</span>JohnPlusDictionary<span class="pm-ext">{EXT}</span></a>
@@ -2599,7 +2621,7 @@ def main():
         # Count pm-items inside the brand dropdown only; the export menu reuses
         # the same class.
         brandmenu = re.search(r'id="toolsMenu".*?</div>\s*</div>', out, re.S)
-        assert brandmenu and brandmenu.group(0).count('class="pm-item"') == len(TOOLS) + 2, \
+        assert brandmenu and brandmenu.group(0).count('class="pm-item"') == len(TOOLS) + len(LESSON_LINKS) + 2, \
             f"{t['slug']}: brand dropdown wrong size"
         # Count the attribute on real menu links, not the CSS selector that
         # also contains the string.
