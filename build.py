@@ -137,8 +137,10 @@ LESSON_ICON = (f'<svg viewBox="0 0 24 24" {I} stroke-width="1.9">'
 # (staged as-is, not spliced into the shared shell). Listed in the brand
 # dropdown only, per John: "show them in the tools dropdown".
 LESSON_LINKS = [
-    {'href': '/lessons/hustle-culture-c1.html', 'name': 'Hustle Culture (lesson)'},
-    {'href': '/lessons/lesson-template.html', 'name': 'Lesson Template'},
+    {'href': '/lessons/hustle-culture-c1.html', 'name': 'Hustle Culture',
+     'tagline': 'C1 lesson on hustle culture and burnout, ready to teach.'},
+    {'href': '/lessons/lesson-template.html', 'name': 'Lesson Template',
+     'tagline': 'The reusable base every new lesson is copied from.'},
 ]
 
 FAVICON = ("<link rel=\"icon\" href=\"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' "
@@ -322,15 +324,11 @@ def url(slug):
 # ── Shared chrome ────────────────────────────────────────────────────────────
 
 def brand(current):
-    """Topbar brand, doubling as the pop-out switcher. `current` is a slug or 'home'."""
-    items = [f'''<a class="pm-item" role="menuitem" href="/" data-nav="home"{
-        ' aria-current="true"' if current == 'home' else ''}>
-        <span class="pm-ico">{HOME_I}</span>Home</a>''']
-    for t in TOOLS:
-        items.append(f'''<a class="pm-item" role="menuitem" href="{url(t['slug'])}" data-nav="{t['slug']}"{
-            ' aria-current="true"' if current == t['slug'] else ''}>
-        <span class="pm-ico">{t['icon']}</span>{t['name']}</a>''')
-    items = '\n      '.join(items)
+    """Topbar brand, doubling as the pop-out switcher. `current` is a slug, 'home', or
+    'all-tools'. Lesson Plans lead the menu (the site is a lesson-plan holder first now);
+    the 7 classroom tools are tucked behind one "All Tools" link rather than listed
+    individually, so any tool page marks that link current, not itself."""
+    is_tool_page = current in BY_SLUG
     lesson_items = '\n      '.join(
         f'''<a class="pm-item" role="menuitem" href="{l['href']}">
         <span class="pm-ico">{LESSON_ICON}</span>{l['name']}</a>'''
@@ -344,10 +342,16 @@ def brand(current):
     </button>
     <div class="popmenu" id="toolsMenu" role="menu" aria-labelledby="brandBtn" hidden>
       <div class="pm-label">Go to</div>
-      {items}
+      <a class="pm-item" role="menuitem" href="/" data-nav="home"{
+        ' aria-current="true"' if current == 'home' else ''}>
+        <span class="pm-ico">{HOME_I}</span>Home</a>
       <div class="pm-sep"></div>
       <div class="pm-label">Lesson Plans</div>
       {lesson_items}
+      <div class="pm-sep"></div>
+      <a class="pm-item" role="menuitem" href="/all-tools" data-nav="all-tools"{
+        ' aria-current="true"' if (current == 'all-tools' or is_tool_page) else ''}>
+        <span class="pm-ico">{GRID}</span>All Tools</a>
       <div class="pm-sep"></div>
       <a class="pm-item" role="menuitem" href="https://johnplusdictionary.com" target="_blank" rel="noopener">
         <span class="pm-ico">{BOOK}</span>JohnPlusDictionary<span class="pm-ext">{EXT}</span></a>
@@ -2452,22 +2456,93 @@ BUILDERS = {'debate-builder': build_debate, 'speaking-topics': build_speaking,
             'timers': build_timers}
 
 
+LESSON_HOME_DESC = ('Lesson plans and classroom tools by John of JohnPlusEnglish. '
+                     'No sign-up, nothing to install.')
+
+# Shared by home_page() (lesson cards) and all_tools_page() (tool cards): same
+# card shape, header block and responsive rules, so the two pages read as one
+# site rather than two different designs bolted together.
+SHARED_PAGE_CSS = '''
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);
+  font-family:"Outfit",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  line-height:1.6;-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent);color:#fff}
+a{color:inherit}
+svg{display:block}
+a.btn{text-decoration:none}
+.btn{font-family:inherit;font-size:13px;font-weight:600;padding:8px 14px;border-radius:999px;
+  border:1px solid transparent;background:var(--accent);color:#fff;cursor:pointer;
+  display:inline-flex;align-items:center;gap:7px;white-space:nowrap;
+  transition:background .15s}
+.btn:hover{background:var(--accent-deep)}
+.btn svg{width:14px;height:14px;flex-shrink:0}
+.btn.big{font-size:14px;padding:11px 20px}
+.btn.big svg{width:15px;height:15px}
+.count{font-size:11px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;
+  font-weight:700;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.tool-head{margin-bottom:10px}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.gcard{display:flex;flex-direction:column;text-decoration:none;color:inherit;
+  background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  box-shadow:var(--shadow-card);transition:border-color .15s,transform .15s}
+.gcard:hover{border-color:var(--accent);transform:translateY(-3px)}
+.gcard:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.gcard-shot{display:block;aspect-ratio:1100/515;background-image:var(--shot);
+  background-size:cover;background-position:top center;background-repeat:no-repeat;
+  border-bottom:1px solid var(--line)}
+[data-theme="dark"] .gcard-shot{background-image:var(--shot-dark)}
+.gcard-body{display:flex;align-items:center;gap:10px;padding:10px 12px}
+.gcard-icon{width:30px;height:30px;border-radius:9px;flex-shrink:0;background:var(--soft);
+  border:1px solid var(--soft-line);color:var(--accent);display:grid;place-items:center}
+.gcard-icon svg{width:16px;height:16px}
+.gcard-text{display:flex;flex-direction:column;min-width:0}
+.gcard-name{font-size:.92rem;font-weight:700;letter-spacing:-.01em;line-height:1.25}
+.gcard-tagline{font-size:.72rem;color:var(--muted);line-height:1.3;margin-top:1px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* Lesson cards: no screenshot (lessons aren't tool widgets with a UI to shoot),
+   an icon block instead, roomier since there are only ever a few of these. */
+.lgallery{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.lcard{display:flex;flex-direction:column;text-decoration:none;color:inherit;
+  background:var(--card);border:1px solid var(--line);border-radius:14px;
+  box-shadow:var(--shadow-card);transition:border-color .15s,transform .15s;padding:20px}
+.lcard:hover{border-color:var(--accent);transform:translateY(-3px)}
+.lcard:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.lcard-icon{width:44px;height:44px;border-radius:12px;background:var(--soft);
+  border:1px solid var(--soft-line);color:var(--accent);display:grid;place-items:center;margin-bottom:14px}
+.lcard-icon svg{width:22px;height:22px}
+.lcard-name{font-size:1.05rem;font-weight:700;letter-spacing:-.01em;margin-bottom:4px}
+.lcard-tagline{font-size:.82rem;color:var(--muted);line-height:1.4}
+/* Small callout linking off to the tucked-away tools page. */
+.tools-callout{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit;
+  background:var(--soft);border:1px solid var(--soft-line);border-radius:14px;padding:14px 18px;
+  margin-top:28px;transition:border-color .15s}
+.tools-callout:hover{border-color:var(--accent)}
+.tools-callout-icon{width:34px;height:34px;border-radius:9px;background:var(--card);
+  border:1px solid var(--line);color:var(--accent);display:grid;place-items:center;flex-shrink:0}
+.tools-callout-icon svg{width:17px;height:17px}
+.tools-callout-title{font-weight:700;font-size:.9rem}
+.tools-callout-sub{font-size:.78rem;color:var(--muted)}
+@media (max-width:900px){
+  .gallery{grid-template-columns:repeat(2,1fr)}
+  .main-inner{padding:16px 14px 34px}
+}
+@media (max-width:560px){
+  .gallery{grid-template-columns:1fr}
+  .lgallery{grid-template-columns:1fr}
+}
+'''
+
+
 def home_page():
-    cards = []
-    for t in TOOLS:
-        cards.append(f'''      <a class="gcard" href="{url(t['slug'])}">
-        <span class="gcard-shot" style="--shot:url('{t['shot']}');--shot-dark:url('{t['shot_dark']}')"
-              role="img" aria-label="{t['shot_alt']}"></span>
-        <span class="gcard-body">
-          <span class="gcard-icon">{t['icon']}</span>
-          <span class="gcard-text">
-            <span class="gcard-name">{t['name']}</span>
-            <span class="gcard-tagline">{t['tagline']}</span>
-          </span>
-        </span>
-      </a>''')
-    cards = '\n\n'.join(cards)
-    count = f"{len(TOOLS)} tool" + ('s' if len(TOOLS) != 1 else '')
+    cards = '\n\n'.join(f'''      <a class="lcard" href="{l['href']}">
+        <span class="lcard-icon">{LESSON_ICON}</span>
+        <span class="lcard-name">{l['name']}</span>
+        <span class="lcard-tagline">{l['tagline']}</span>
+      </a>''' for l in LESSON_LINKS)
+    count = f"{len(LESSON_LINKS)} lesson" + ('s' if len(LESSON_LINKS) != 1 else '')
+    tool_names = ', '.join(t['name'] for t in TOOLS[:3])
+    tools_sub = f"{tool_names} and {len(TOOLS) - 3} more" if len(TOOLS) > 3 else tool_names
 
     return f'''<!DOCTYPE html>
 <html lang="en">
@@ -2475,10 +2550,10 @@ def home_page():
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{HOME_TITLE}</title>
-<meta name="description" content="{HOME_DESC}">
+<meta name="description" content="{LESSON_HOME_DESC}">
 <meta name="color-scheme" content="light dark">
 <meta property="og:title" content="{HOME_TITLE}">
-<meta property="og:description" content="{HOME_DESC}">
+<meta property="og:description" content="{LESSON_HOME_DESC}">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://johnplustools.com">
 {FAVICON}
@@ -2488,61 +2563,8 @@ def home_page():
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap">
 <style>
-*{{margin:0;padding:0;box-sizing:border-box}}
-body{{background:var(--bg);color:var(--ink);
-  font-family:"Outfit",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  line-height:1.6;-webkit-font-smoothing:antialiased}}
-::selection{{background:var(--accent);color:#fff}}
-a{{color:inherit}}
-svg{{display:block}}
 {CHROME_CSS}
-a.btn{{text-decoration:none}}
-.btn{{font-family:inherit;font-size:13px;font-weight:600;padding:8px 14px;border-radius:999px;
-  border:1px solid transparent;background:var(--accent);color:#fff;cursor:pointer;
-  display:inline-flex;align-items:center;gap:7px;white-space:nowrap;
-  transition:background .15s}}
-.btn:hover{{background:var(--accent-deep)}}
-.btn svg{{width:14px;height:14px;flex-shrink:0}}
-.btn.big{{font-size:14px;padding:11px 20px}}
-.btn.big svg{{width:15px;height:15px}}
-.count{{font-size:11px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;
-  font-weight:700;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--line)}}
-/* Tighter hero on the home page only: redeclared after {{CHROME_CSS}} in this
-   same stylesheet, so it wins the cascade without touching the shared rule
-   every tool page's own tool-head badge also uses. */
-.tool-head{{margin-bottom:10px}}
-/* Gallery: every tool as one clickable thumbnail, sized so all six sit in
-   two rows without scrolling on a normal laptop screen. This replaces an
-   earlier version with a full write-up per tool: long description, a
-   feature list, a separate preview link. Dropped rather than relocated;
-   the screenshot and name carry it now, and the full detail is still one
-   click away on each tool's own page. */
-.gallery{{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}}
-.gcard{{display:flex;flex-direction:column;text-decoration:none;color:inherit;
-  background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;
-  box-shadow:var(--shadow-card);transition:border-color .15s,transform .15s}}
-.gcard:hover{{border-color:var(--accent);transform:translateY(-3px)}}
-.gcard:focus-visible{{outline:2px solid var(--accent);outline-offset:2px}}
-/* Background image, not <img>, so only the theme in use is downloaded. */
-.gcard-shot{{display:block;aspect-ratio:1100/515;background-image:var(--shot);
-  background-size:cover;background-position:top center;background-repeat:no-repeat;
-  border-bottom:1px solid var(--line)}}
-[data-theme="dark"] .gcard-shot{{background-image:var(--shot-dark)}}
-.gcard-body{{display:flex;align-items:center;gap:10px;padding:10px 12px}}
-.gcard-icon{{width:30px;height:30px;border-radius:9px;flex-shrink:0;background:var(--soft);
-  border:1px solid var(--soft-line);color:var(--accent);display:grid;place-items:center}}
-.gcard-icon svg{{width:16px;height:16px}}
-.gcard-text{{display:flex;flex-direction:column;min-width:0}}
-.gcard-name{{font-size:.92rem;font-weight:700;letter-spacing:-.01em;line-height:1.25}}
-.gcard-tagline{{font-size:.72rem;color:var(--muted);line-height:1.3;margin-top:1px;
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
-@media (max-width:900px){{
-  .gallery{{grid-template-columns:repeat(2,1fr)}}
-  .main-inner{{padding:16px 14px 34px}}
-}}
-@media (max-width:560px){{
-  .gallery{{grid-template-columns:1fr}}
-}}
+{SHARED_PAGE_CSS}
 </style>
 </head>
 <body>
@@ -2558,9 +2580,91 @@ a.btn{{text-decoration:none}}
     <div class="main-inner">
 
       <div class="tool-head">
+        <span class="th-icon">{LESSON_ICON}</span>
+        <div class="th-text">
+          <h1>Lesson plans</h1>
+          <p>Full interactive lessons, ready to run in class or copy for a new one.</p>
+        </div>
+      </div>
+
+      <div class="count">{count}</div>
+
+      <div class="lgallery">
+{cards}
+      </div>
+
+      <a class="tools-callout" href="/all-tools">
+        <span class="tools-callout-icon">{GRID}</span>
+        <span class="tools-callout-text">
+          <span class="tools-callout-title">Classroom tools</span><br>
+          <span class="tools-callout-sub">{tools_sub}</span>
+        </span>
+      </a>
+
+    </div>
+  </main>
+</div>
+
+{MENU_JS}{THEME_JS}
+</body>
+</html>
+'''
+
+
+def all_tools_page():
+    cards = []
+    for t in TOOLS:
+        cards.append(f'''      <a class="gcard" href="{url(t['slug'])}">
+        <span class="gcard-shot" style="--shot:url('{t['shot']}');--shot-dark:url('{t['shot_dark']}')"
+              role="img" aria-label="{t['shot_alt']}"></span>
+        <span class="gcard-body">
+          <span class="gcard-icon">{t['icon']}</span>
+          <span class="gcard-text">
+            <span class="gcard-name">{t['name']}</span>
+            <span class="gcard-tagline">{t['tagline']}</span>
+          </span>
+        </span>
+      </a>''')
+    cards = '\n\n'.join(cards)
+    count = f"{len(TOOLS)} tool" + ('s' if len(TOOLS) != 1 else '')
+    title = f'All Tools · {SITE}'
+    desc = 'Every classroom tool on JohnPlusTools, in one place.'
+
+    return f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{title}</title>
+<meta name="description" content="{desc}">
+<meta name="color-scheme" content="light dark">
+{FAVICON}
+{THEME_BOOT}
+{GATE_JS}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap">
+<style>
+{CHROME_CSS}
+{SHARED_PAGE_CSS}
+</style>
+</head>
+<body>
+
+<header class="stopbar">
+{brand('all-tools')}
+  <div class="grow"></div>
+  {THEME_BTN}
+</header>
+
+<div class="shell">
+  <main>
+    <div class="main-inner">
+
+      <div class="tool-head">
         <span class="th-icon">{SPANNER}</span>
         <div class="th-text">
-          <h1>Teaching tools</h1>
+          <h1>All tools</h1>
           <p>Small, focused tools for English classrooms. Nothing to install, no account to make.</p>
         </div>
       </div>
@@ -2619,9 +2723,10 @@ def main():
         assert out.count('<!-- jpt:toolhead -->') == 1, f"{t['slug']}: tool head not injected once"
         assert '<span class="b">Tools</span>' in out, f"{t['slug']}: brand should read Tools"
         # Count pm-items inside the brand dropdown only; the export menu reuses
-        # the same class.
+        # the same class. Home + one link per lesson + one "All Tools" link +
+        # the dictionary link — the 7 tools no longer get an entry each.
         brandmenu = re.search(r'id="toolsMenu".*?</div>\s*</div>', out, re.S)
-        assert brandmenu and brandmenu.group(0).count('class="pm-item"') == len(TOOLS) + len(LESSON_LINKS) + 2, \
+        assert brandmenu and brandmenu.group(0).count('class="pm-item"') == len(LESSON_LINKS) + 3, \
             f"{t['slug']}: brand dropdown wrong size"
         # Count the attribute on real menu links, not the CSS selector that
         # also contains the string.
@@ -2635,12 +2740,23 @@ def main():
 
     home = home_page()
     HOME_OUT.write_text(home, encoding='utf-8')
-    assert home.count('class="gcard"') == len(TOOLS), 'home should show every tool'
+    assert home.count('class="lcard"') == len(LESSON_LINKS), 'home should show every lesson'
     assert len(re.findall(r'<a class="pm-item"[^>]*aria-current="true"', home)) == 1, \
         'home not marked exactly once in its own dropdown'
     for dash in ('—', '–'):
         assert dash not in home, 'dash in the home page'
-    print(f'  wrote index.html  ({len(home):,} bytes)  {len(TOOLS)} tools listed')
+    print(f'  wrote index.html  ({len(home):,} bytes)  {len(LESSON_LINKS)} lessons listed')
+
+    all_tools_dir = ROOT / 'all-tools'
+    all_tools_dir.mkdir(exist_ok=True)
+    all_tools = all_tools_page()
+    (all_tools_dir / 'index.html').write_text(all_tools, encoding='utf-8')
+    assert all_tools.count('class="gcard"') == len(TOOLS), 'all-tools should show every tool'
+    assert len(re.findall(r'<a class="pm-item"[^>]*aria-current="true"', all_tools)) == 1, \
+        'all-tools not marked exactly once in its own dropdown'
+    for dash in ('—', '–'):
+        assert dash not in all_tools, 'dash in the all-tools page'
+    print(f'  wrote all-tools/index.html  ({len(all_tools):,} bytes)  {len(TOOLS)} tools listed')
 
 
 if __name__ == '__main__':
