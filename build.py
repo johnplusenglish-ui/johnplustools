@@ -139,6 +139,8 @@ LESSON_ICON = (f'<svg viewBox="0 0 24 24" {I} stroke-width="1.9">'
 LESSON_LINKS = [
     {'href': '/lessons/hustle-culture-c1.html', 'name': 'Hustle Culture',
      'tagline': 'C1 lesson on hustle culture and burnout, ready to teach.'},
+    {'href': '/lessons/longevity-c1.html', 'name': 'Longevity',
+     'tagline': 'C1 lesson on the longevity trend and living longer.'},
     {'href': '/lessons/lesson-template.html', 'name': 'Lesson Template',
      'tagline': 'The reusable base every new lesson is copied from.'},
 ]
