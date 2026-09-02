@@ -3,6 +3,26 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<script>(function(){
+  var ok=false;try{ok=localStorage.getItem('jpt_gate_ok')==='1'}catch(e){}
+  if(ok)return;
+  document.documentElement.style.visibility='hidden';
+  var HASH='7c229dcbe1a9abfa9292b1fdd8910b1a16edfbdffcb59c19a218fdbde9c253c9';
+  function hex(buf){return Array.prototype.map.call(new Uint8Array(buf),function(b){return ('0'+b.toString(16)).slice(-2)}).join('')}
+  function check(pw){
+    return crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw)).then(function(buf){return hex(buf)===HASH});
+  }
+  function ask(){
+    var pw;try{pw=prompt('Password required')}catch(e){return}
+    if(pw===null)return;
+    check(pw).then(function(match){
+      if(match){try{localStorage.setItem('jpt_gate_ok','1')}catch(e){}document.documentElement.style.visibility=''}
+      else{alert('Incorrect password.');ask()}
+    });
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',ask)}else{ask()}
+})();</script>
+
 <title>Work &amp; Careers: C1 Lesson · John+English</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -217,6 +237,26 @@ body.section-present #vocab.present-active .flash-hint{font-size:.9rem;margin-to
 .qs-input{width:100%;border:none;border-bottom:1.5px dotted var(--muted);background:transparent;font-size:.85rem;padding:.25rem 0;outline:none}
 .qs-input:focus{border-color:var(--mint)}
 @media(max-width:700px){.qs-grid{grid-template-columns:1fr}}
+
+/* long turn (C2-style) */
+.lt-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
+.lt-card{background:var(--mint-light);border:1.5px solid rgba(33,118,255,.18);border-radius:var(--radius-lg);padding:1.4rem}
+.lt-badge{font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mint);margin-bottom:.5rem}
+.lt-question{font-size:1.02rem;font-weight:700;line-height:1.45;outline:none;border-radius:5px;transition:background-color .15s;margin-bottom:.7rem}
+.lt-question:hover,.lt-bullet:hover,.lt-followup:hover{background:color-mix(in srgb,var(--mint) 6%,transparent)}
+.lt-question:focus,.lt-bullet:focus,.lt-followup:focus{background:color-mix(in srgb,var(--mint) 9%,transparent)}
+.lt-bullets{margin:0 0 .9rem 1.1rem;padding:0}
+.lt-bullet{font-size:.88rem;color:var(--ink);line-height:1.55;outline:none;border-radius:5px;margin-bottom:.15rem}
+.lt-followup{font-size:.85rem;color:var(--muted);border-top:1.5px dashed rgba(33,118,255,.25);padding-top:.6rem;margin-top:.4rem;outline:none;border-radius:5px}
+.lt-followup b{color:var(--ink)}
+.lt-timer-row{display:flex;align-items:center;gap:.6rem;margin-bottom:1.2rem;flex-wrap:wrap}
+.lt-timer-pill{font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:700;padding:.32rem .8rem;border:1.5px solid var(--border);border-radius:100px;background:var(--card);color:var(--muted);cursor:pointer;transition:all .15s}
+.lt-timer-pill:hover{border-color:var(--mint);color:var(--mint)}
+.lt-timer-pill.on{background:var(--mint);color:#fff;border-color:var(--mint)}
+.lt-timer-disp{font-family:'JetBrains Mono',monospace;font-size:1.1rem;font-weight:700;color:var(--ink);min-width:3.2ch}
+.lt-timer-bar-outer{width:100%;height:5px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:1.2rem}
+.lt-timer-bar{height:100%;background:var(--mint);width:0%;transition:width 1s linear}
+@media(max-width:700px){.lt-grid{grid-template-columns:1fr}}
 
 /* debates */
 .section-header-actions{margin-left:auto;display:flex;gap:.5rem;flex-shrink:0}
@@ -602,6 +642,10 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5M4 20L21 3M8 21H3v-5M20 4L3 21"/></svg>
     <span class="snav-label">Question Swap</span>
   </button>
+  <button class="snav-btn" id="tab-longturn" onclick="onTabClick(event,this,'longturn')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+    <span class="snav-label">Long Turn</span>
+  </button>
   <button class="snav-btn" id="tab-debates" onclick="onTabClick(event,this,'debates')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
     <span class="snav-label">Debates</span>
@@ -794,6 +838,33 @@ body.section-present .deb-instruction{font-size:1.15rem}
     </div>
     <div class="section-card">
       <div class="qs-grid" id="qsGrid"></div>
+    </div>
+  </section>
+
+  <section class="lesson-section" id="longturn">
+    <div class="section-header">
+      <div class="section-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+      <div>
+        <div class="section-title">Long Turn</div>
+        <div class="section-label-mono">C2 Proficiency Speaking, Part 3 style · 15 min</div>
+      </div>
+      <div class="section-header-actions">
+        <button class="deb-edit-toggle" id="ltEditToggle" onclick="toggleLtEditMode()" title="Edit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="section-card">
+      <p style="font-size:.85rem;color:var(--muted);margin-bottom:1.2rem">Give each candidate their own card. They speak alone for two minutes, uninterrupted, using the bullet points as a guide, not a script. Their partner just listens, then answers the short follow-up question underneath.</p>
+      <div class="lt-timer-row">
+        <button class="lt-timer-pill" onclick="ltSelTime(120,this)">2 min</button>
+        <button class="lt-timer-pill" onclick="ltSelTime(150,this)">2.5 min</button>
+        <button class="lt-timer-pill" onclick="ltSelTime(30,this)">30 sec follow-up</button>
+        <button class="lt-timer-pill" id="ltPlay" onclick="ltTog()">&#9658; Start</button>
+        <span class="lt-timer-disp" id="ltDisp">2:00</span>
+      </div>
+      <div class="lt-timer-bar-outer"><div class="lt-timer-bar" id="ltBar"></div></div>
+      <div class="lt-grid" id="ltGrid"></div>
     </div>
   </section>
 
@@ -1427,6 +1498,39 @@ var DEFAULT_DEB_TOPICS = [
       {text:"Employers rarely give more than they have to either", state:'idle'},
       {text:'It can quietly stall your career progress', state:'idle'},
       {text:"It's healthier than burning out", state:'idle'}
+    ]
+  },
+  {
+    title: "What would actually push you to quit a job?",
+    instruction: 'Rank them from most to least likely to make you walk.',
+    items: [
+      {text:'A toxic boss', state:'idle'},
+      {text:'Pay that never goes up', state:'idle'},
+      {text:'No room to grow', state:'idle'},
+      {text:'A toxic team culture', state:'idle'},
+      {text:'Boredom and lack of challenge', state:'idle'}
+    ]
+  },
+  {
+    title: "Is hustle culture finally dying out?",
+    instruction: 'Which two arguments matter most, and why?',
+    items: [
+      {text:'Quiet quitting proves people have had enough', state:'idle'},
+      {text:"Gen Z just talks about it more, nothing's really changed", state:'idle'},
+      {text:'Remote work broke the always-on habit', state:'idle'},
+      {text:'Layoffs are forcing people to hustle harder, not less', state:'idle'},
+      {text:'Burnout awareness has made real cultural change', state:'idle'}
+    ]
+  },
+  {
+    title: "Should employers be allowed to track how productive you are?",
+    instruction: 'Which two arguments matter most, and why?',
+    items: [
+      {text:'Monitoring keystrokes and screen time', state:'idle'},
+      {text:'Tracking hours logged in software', state:'idle'},
+      {text:"Measuring output only, not time spent", state:'idle'},
+      {text:"It's an invasion of privacy either way", state:'idle'},
+      {text:"It's fair if you're being paid to work", state:'idle'}
     ]
   }
 ];
@@ -2404,6 +2508,88 @@ function removeWarmupQ(i){
   renderWarmupQs();
 }
 
+/* ---------- long turn (C2-style) ---------- */
+var LT_KEY = 'jpe_workcareers_longturn';
+var DEFAULT_LT = [
+  {
+    speaker: 'Speaker A',
+    question: "How far do you think technology has changed what we expect from a job?",
+    bullets: [
+      'Remote work and flexibility',
+      'The pressure to always be reachable',
+      'Whether new tools have made work more meaningful, or more exhausting'
+    ],
+    followUp: "Do you think, on balance, technology has made working life better or worse?"
+  },
+  {
+    speaker: 'Speaker B',
+    question: "What do you think really motivates people to work hard?",
+    bullets: [
+      'Money and job security',
+      'Recognition and career progression',
+      'Personal satisfaction and pride in the work itself'
+    ],
+    followUp: "Which of these do you think matters most to your generation?"
+  }
+];
+function loadLt(){
+  try{ var s = JSON.parse(localStorage.getItem(LT_KEY)); if(Array.isArray(s) && s.length) return s; }catch(e){}
+  return DEFAULT_LT.slice();
+}
+var ltItems = loadLt();
+function saveLt(){ try{ localStorage.setItem(LT_KEY, JSON.stringify(ltItems)); }catch(e){} }
+var ltEditMode = false;
+function toggleLtEditMode(){
+  ltEditMode = !ltEditMode;
+  document.getElementById('ltEditToggle').classList.toggle('on', ltEditMode);
+  renderLongTurn();
+}
+function renderLongTurn(){
+  var wrap = document.getElementById('ltGrid');
+  if(!wrap) return;
+  var ed = ltEditMode;
+  wrap.innerHTML = ltItems.map(function(c,i){
+    var bullets = c.bullets.map(function(b,bi){
+      return '<li class="lt-bullet" contenteditable="'+(ed?'true':'false')+'" spellcheck="false" onblur="onLtBulletEdit('+i+','+bi+',this)">'+b+'</li>';
+    }).join('');
+    return '<div class="lt-card">'+
+      '<div class="lt-badge">'+esc(c.speaker)+' &middot; 2 minutes</div>'+
+      '<div class="lt-question" contenteditable="'+(ed?'true':'false')+'" spellcheck="false" onblur="onLtEdit('+i+',\'question\',this)">'+c.question+'</div>'+
+      '<ul class="lt-bullets">'+bullets+'</ul>'+
+      '<div class="lt-followup" contenteditable="'+(ed?'true':'false')+'" spellcheck="false" onblur="onLtEdit('+i+',\'followUp\',this)"><b>Partner\'s follow-up:</b> '+c.followUp+'</div>'+
+    '</div>';
+  }).join('');
+}
+function onLtEdit(i,field,el){ ltItems[i][field] = el.textContent; saveLt(); }
+function onLtBulletEdit(i,bi,el){ ltItems[i].bullets[bi] = el.textContent; saveLt(); }
+var ltTimerDur = 120, ltTimerLeft = 0, ltTimerRun = false, ltTimerInt = null;
+function ltFmt(s){ return Math.floor(s/60)+':'+(s%60<10?'0':'')+(s%60); }
+function ltSelTime(s, btn){
+  ltTimerDur = s; ltTimerLeft = s; ltTimerRun = false;
+  clearInterval(ltTimerInt);
+  document.getElementById('ltPlay').textContent = '\u25B6 Start';
+  document.getElementById('ltDisp').textContent = ltFmt(s);
+  document.getElementById('ltBar').style.width = '0%';
+  Array.prototype.forEach.call(document.querySelectorAll('.lt-timer-pill'), function(b){ b.classList.remove('on'); });
+  if(btn) btn.classList.add('on');
+}
+function ltTog(){
+  if(!ltTimerLeft) ltTimerLeft = ltTimerDur;
+  ltTimerRun = !ltTimerRun;
+  document.getElementById('ltPlay').textContent = ltTimerRun ? '\u23F8 Pause' : '\u25B6 Resume';
+  if(ltTimerRun){
+    ltTimerInt = setInterval(function(){
+      ltTimerLeft--;
+      document.getElementById('ltDisp').textContent = ltFmt(ltTimerLeft);
+      var pct = 100 - (ltTimerLeft/ltTimerDur)*100;
+      document.getElementById('ltBar').style.width = pct+'%';
+      if(ltTimerLeft<=0){ clearInterval(ltTimerInt); ltTimerRun=false; document.getElementById('ltPlay').textContent='\u25B6 Start'; }
+    }, 1000);
+  } else {
+    clearInterval(ltTimerInt);
+  }
+}
+
 /* ---------- hero banner text ---------- */
 var HERO_TITLE_KEY = 'jpe_workcareers_hero_title';
 var HERO_SUB_KEY = 'jpe_workcareers_hero_sub';
@@ -2596,7 +2782,7 @@ function flashAdvance(){
 function flashNext(){ flashStage=0; flashIndex=(flashIndex+1)%WORDS.length; renderFlashcards(); }
 function flashPrev(){ flashStage=0; flashIndex=(flashIndex-1+WORDS.length)%WORDS.length; renderFlashcards(); }
 
-var tabIds = ['warmup','vocab','main','swap','debates','roleplay','listening','uoe','write','resources'];
+var tabIds = ['warmup','vocab','main','swap','longturn','debates','roleplay','listening','uoe','write','resources'];
 function showTab(id){
   tabIds.forEach(function(t){
     document.getElementById(t).classList.toggle('visible', t===id);
@@ -3135,6 +3321,7 @@ function downloadNotesPNG(){
 renderAll();
 renderHeroImage();
 renderWarmupQs();
+renderLongTurn();
 renderWTaskPanels();
 initAnnotCanvas();
 renderPins();
