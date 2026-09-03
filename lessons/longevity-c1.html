@@ -673,7 +673,7 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <div class="section-header">
       <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/></svg></div>
       <div>
-        <div class="section-title">Vocabulary · 8 items, C1</div>
+        <div class="section-title" id="vocabHeading">Vocabulary · 8 items, C1</div>
         <div class="section-label-mono">Longevity Word Bank · 20 min</div>
       </div>
       <div class="section-header-actions">
@@ -1031,6 +1031,15 @@ function renderWordBank(){
       '<button class="wb-rm" onclick="removeWord('+i+')" aria-label="Remove">&times;</button>'+
     '</div>';
   }).join('');
+  updateVocabHeading();
+}
+function updateVocabHeading(){
+  var el = document.getElementById('vocabHeading');
+  if(!el) return;
+  var levelEl = document.getElementById('navLevel');
+  var level = levelEl ? levelEl.textContent.trim() : '';
+  var n = WORDS.length;
+  el.textContent = 'Vocabulary · ' + n + ' item' + (n===1?'':'s') + (level ? ', ' + level : '');
 }
 function onWordEdit(el){
   var i = +el.dataset.i, f = el.dataset.f;
@@ -2448,6 +2457,7 @@ function saveHeroText(){
     localStorage.setItem(NAV_LEVEL_KEY, document.getElementById('navLevel').textContent);
     localStorage.setItem(NAV_TOPIC_KEY, document.getElementById('navTopic').textContent);
   }catch(e){}
+  updateVocabHeading();
 }
 
 /* ---------- hero banner image ---------- */
