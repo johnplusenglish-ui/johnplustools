@@ -23,7 +23,7 @@
   if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',ask)}else{ask()}
 })();</script>
 
-<title>Hustle Culture: C1 Lesson · John+English</title>
+<title>Hustle Culture: C2 Lesson · John+English</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
@@ -134,6 +134,58 @@ button,input,textarea{font-family:inherit}
 .tab-btn.on{background:var(--mint);color:#fff}
 .tab-panel{display:none}
 .tab-panel.show{display:block}
+
+/* flashcards */
+.flash-nav{display:flex;align-items:center;justify-content:center;gap:1rem;margin-bottom:1.2rem}
+.flash-arrow{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--border);background:var(--card);color:var(--ink);font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;line-height:1}
+.flash-arrow:hover{border-color:var(--mint);color:var(--mint)}
+.flash-progress{font-family:'JetBrains Mono',monospace;font-size:.78rem;font-weight:700;color:var(--muted);min-width:52px;text-align:center}
+.flash-card{max-width:340px;margin:0 auto;cursor:pointer;user-select:none}
+.flash-image-wrap{position:relative;width:100%;aspect-ratio:4/5;border-radius:16px;overflow:hidden;border:1.5px solid var(--border);box-shadow:var(--shadow-md);background:var(--cream)}
+.flash-image{width:100%;height:100%;object-fit:cover;display:none;transition:transform .2s}
+.flash-card:hover .flash-image{transform:scale(1.015)}
+.flash-image-empty{display:none;position:absolute;inset:0;align-items:center;justify-content:center;color:var(--muted);font-size:.85rem;text-align:center;padding:1rem}
+.flash-reveal-slot{max-height:0;overflow:hidden;opacity:0;transition:max-height .35s ease,opacity .3s ease,margin-top .35s ease}
+.flash-reveal-slot.show{max-height:140px;opacity:1;margin-top:.9rem}
+.flash-term{background:var(--mint-light);border:1.5px solid rgba(33,118,255,.18);border-radius:12px;padding:.9rem 1.1rem}
+.flash-term-text{font-size:1.1rem;font-weight:800;color:var(--mint-dark);text-align:center}
+.flash-def{background:var(--cream);border:1.5px solid var(--border);border-radius:12px;padding:.9rem 1.1rem}
+.flash-def-text{font-size:.88rem;color:var(--slate-mid);line-height:1.5;text-align:center}
+.flash-hint{text-align:center;font-size:.78rem;color:var(--muted);margin-top:.9rem;font-style:italic}
+body.section-present #vocab.present-active .tab-row{flex-shrink:0}
+body.section-present #vocab.present-active .tab-panel.show{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow-y:auto}
+body.section-present #vocab.present-active .section-card{padding:.9rem 1.3rem}
+body.section-present #vocab.present-active .flash-card{max-width:min(40vh,480px);width:100%}
+body.section-present #vocab.present-active .flash-image-wrap{width:100%;height:auto;box-shadow:0 16px 36px rgba(0,0,0,.16)}
+body.section-present #vocab.present-active .flash-nav{margin-bottom:.7rem}
+body.section-present #vocab.present-active .flash-arrow{width:44px;height:44px;font-size:1.5rem}
+body.section-present #vocab.present-active .flash-progress{font-size:1rem}
+body.section-present #vocab.present-active .flash-reveal-slot.show{margin-top:.6rem}
+body.section-present #vocab.present-active .flash-term{padding:.7rem 1rem}
+body.section-present #vocab.present-active .flash-def{padding:.7rem 1rem}
+body.section-present #vocab.present-active .flash-term-text{font-size:1.5rem}
+body.section-present #vocab.present-active .flash-def-text{font-size:1.05rem}
+body.section-present #vocab.present-active .flash-hint{font-size:.9rem;margin-top:.7rem}
+
+/* long turn (C2-style) */
+.lt-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
+.lt-card{background:var(--mint-light);border:1.5px solid rgba(33,118,255,.18);border-radius:var(--radius-lg);padding:1.4rem}
+.lt-badge{font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mint);margin-bottom:.5rem}
+.lt-question{font-size:1.02rem;font-weight:700;line-height:1.45;outline:none;border-radius:5px;transition:background-color .15s;margin-bottom:.7rem}
+.lt-question:hover,.lt-bullet:hover,.lt-followup:hover{background:color-mix(in srgb,var(--mint) 6%,transparent)}
+.lt-question:focus,.lt-bullet:focus,.lt-followup:focus{background:color-mix(in srgb,var(--mint) 9%,transparent)}
+.lt-bullets{margin:0 0 .9rem 1.1rem;padding:0}
+.lt-bullet{font-size:.88rem;color:var(--ink);line-height:1.55;outline:none;border-radius:5px;margin-bottom:.15rem}
+.lt-followup{font-size:.85rem;color:var(--muted);border-top:1.5px dashed rgba(33,118,255,.25);padding-top:.6rem;margin-top:.4rem;outline:none;border-radius:5px}
+.lt-followup b{color:var(--ink)}
+.lt-timer-row{display:flex;align-items:center;gap:.6rem;margin-bottom:1.2rem;flex-wrap:wrap}
+.lt-timer-pill{font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:700;padding:.32rem .8rem;border:1.5px solid var(--border);border-radius:100px;background:var(--card);color:var(--muted);cursor:pointer;transition:all .15s}
+.lt-timer-pill:hover{border-color:var(--mint);color:var(--mint)}
+.lt-timer-pill.on{background:var(--mint);color:#fff;border-color:var(--mint)}
+.lt-timer-disp{font-family:'JetBrains Mono',monospace;font-size:1.1rem;font-weight:700;color:var(--ink);min-width:3.2ch}
+.lt-timer-bar-outer{width:100%;height:5px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:1.2rem}
+.lt-timer-bar{height:100%;background:var(--mint);width:0%;transition:width 1s linear}
+@media(max-width:700px){.lt-grid{grid-template-columns:1fr}}
 
 /* word bank editor */
 .wb-hint{font-size:.82rem;color:var(--muted);margin-bottom:1rem;line-height:1.55}
@@ -522,7 +574,7 @@ body.section-present .deb-instruction{font-size:1.15rem}
   <a class="nav-logo" href="#">John<span>+</span>English</a>
   <div class="nav-centre">
     <span class="nav-level" id="navLevel" contenteditable="false" spellcheck="false" onblur="saveHeroText()"
-      onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}">C1</span>
+      onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}">C2</span>
     <span class="nav-topic" id="navTopic" contenteditable="false" spellcheck="false" onblur="saveHeroText()"
       onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}">Hustle Culture</span>
   </div>
@@ -582,6 +634,10 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5M4 20L21 3M8 21H3v-5M20 4L3 21"/></svg>
     <span class="snav-label">Question Swap</span>
   </button>
+  <button class="snav-btn" id="tab-longturn" onclick="onTabClick(event,this,'longturn')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+    <span class="snav-label">Long Turn</span>
+  </button>
   <button class="snav-btn" id="tab-debates" onclick="onTabClick(event,this,'debates')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
     <span class="snav-label">Debates</span>
@@ -633,10 +689,13 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <div class="section-header">
       <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/></svg></div>
       <div>
-        <div class="section-title">Vocabulary · 8 items, C1</div>
+        <div class="section-title">Vocabulary &middot; 8 items, C2</div>
         <div class="section-label-mono">Hustle Culture Word Bank · 20 min</div>
       </div>
       <div class="section-header-actions">
+        <button class="section-fullscreen-toggle" onclick="presentVocabFlashcards()" title="Present flashcards full screen">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+        </button>
         <button class="deb-edit-toggle" id="vocabEditToggle" onclick="toggleVocabEditMode()" title="Edit">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
         </button>
@@ -644,7 +703,8 @@ body.section-present .deb-instruction{font-size:1.15rem}
     </div>
 
     <div class="tab-row">
-      <button class="tab-btn on" id="tabMatch" onclick="switchVTab('match')">Match</button>
+      <button class="tab-btn on" id="tabFlash" onclick="switchVTab('flash')">Flashcards</button>
+      <button class="tab-btn" id="tabMatch" onclick="switchVTab('match')">Match</button>
       <button class="tab-btn" id="tabGF" onclick="switchVTab('gf')">Gap Fill</button>
       <button class="tab-btn" id="tabEdit" onclick="switchVTab('edit')" style="display:none">Word Bank</button>
     </div>
@@ -660,7 +720,26 @@ body.section-present .deb-instruction{font-size:1.15rem}
       </div>
     </div>
 
-    <div class="tab-panel show" id="panel-match">
+    <div class="tab-panel show" id="panel-flash">
+      <div class="section-card">
+        <div class="flash-nav">
+          <button class="flash-arrow" id="flashPrev" onclick="flashPrev()" aria-label="Previous card">&lsaquo;</button>
+          <div class="flash-progress" id="flashProgress">1 / 8</div>
+          <button class="flash-arrow" id="flashNext" onclick="flashNext()" aria-label="Next card">&rsaquo;</button>
+        </div>
+        <div class="flash-card" id="flashCard" onclick="flashAdvance()">
+          <div class="flash-image-wrap">
+            <img class="flash-image" id="flashImage" alt="">
+            <div class="flash-image-empty" id="flashImageEmpty">No image for this word yet</div>
+          </div>
+          <div class="flash-reveal-slot flash-term" id="flashTermSlot"><div class="flash-term-text" id="flashTermText"></div></div>
+          <div class="flash-reveal-slot flash-def" id="flashDefSlot"><div class="flash-def-text" id="flashDefText"></div></div>
+          <div class="flash-hint" id="flashHint">Tap to reveal the phrase</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="panel-match">
       <div class="section-card">
         <div class="match-rows" style="margin-bottom:.6rem">
           <div class="match-col-label">Definition</div>
@@ -743,6 +822,33 @@ body.section-present .deb-instruction{font-size:1.15rem}
     </div>
   </section>
 
+  <section class="lesson-section" id="longturn">
+    <div class="section-header">
+      <div class="section-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+      <div>
+        <div class="section-title">Long Turn</div>
+        <div class="section-label-mono">C2 Proficiency Speaking, Part 3 style · 20 min</div>
+      </div>
+      <div class="section-header-actions">
+        <button class="deb-edit-toggle" id="ltEditToggle" onclick="toggleLtEditMode()" title="Edit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="section-card">
+      <p style="font-size:.85rem;color:var(--muted);margin-bottom:1.2rem">Give each candidate their own card. They speak alone for two minutes, uninterrupted, using the bullet points as a guide, not a script. Their partner just listens, then answers the short follow-up question underneath.</p>
+      <div class="lt-timer-row">
+        <button class="lt-timer-pill" onclick="ltSelTime(120,this)">2 min</button>
+        <button class="lt-timer-pill" onclick="ltSelTime(150,this)">2.5 min</button>
+        <button class="lt-timer-pill" onclick="ltSelTime(30,this)">30 sec follow-up</button>
+        <button class="lt-timer-pill" id="ltPlay" onclick="ltTog()">&#9658; Start</button>
+        <span class="lt-timer-disp" id="ltDisp">2:00</span>
+      </div>
+      <div class="lt-timer-bar-outer"><div class="lt-timer-bar" id="ltBar"></div></div>
+      <div class="lt-grid" id="ltGrid"></div>
+    </div>
+  </section>
+
   <section class="lesson-section" id="debates">
     <div class="section-header">
       <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
@@ -800,7 +906,7 @@ body.section-present .deb-instruction{font-size:1.15rem}
       <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div>
       <div>
         <div class="section-title">Listening · Two-Way Chat</div>
-        <div class="section-label-mono">C1 · ~2 min audio · 15 min</div>
+        <div class="section-label-mono">C2 &middot; ~2 min audio · 15 min</div>
       </div>
       <div class="section-header-actions">
         <button class="deb-edit-toggle" id="listenEditToggle" onclick="toggleListenEditMode()" title="Edit">
@@ -917,13 +1023,13 @@ body.section-present .deb-instruction{font-size:1.15rem}
 var STORAGE_KEY = 'jpe_hustle_c1_words';
 var DEFAULT_WORDS = [
   {term:"burn the candle at both ends", def:"to work or stay busy for very long hours, getting little rest, in a way that isn't sustainable", example:"She's been getting up at five and finishing emails at midnight. She's going to burn the candle at both ends."},
-  {term:"burnt out", def:"completely exhausted, physically or mentally, usually after a long period of stress or overwork", example:"Half the team sounded burnt out by the time the project finally shipped."},
-  {term:"a lot on your plate", def:"a large number of tasks or responsibilities to deal with at once", example:"I know you've got a lot on your plate this week, so I won't add anything else."},
-  {term:"all work and no play", def:"used to describe a life or period with far too much work and not enough rest or fun", example:"It's been all work and no play for him since he started the new job."},
-  {term:"a soft life", def:"a lifestyle that deliberately prioritises comfort, ease and low stress over constant striving", example:"After years of overworking, she decided she wanted a soft life instead."},
-  {term:"work-life balance", def:"a healthy division of time and energy between your job and the rest of your life", example:"The company claims to care about work-life balance, but nobody actually leaves on time."},
   {term:"run yourself into the ground", def:"to exhaust yourself completely by pushing too hard for too long", example:"If you keep skipping sleep like this, you're going to run yourself into the ground."},
-  {term:"grinding", def:"working relentlessly hard, often used approvingly within hustle culture itself", example:"He posts about grinding every single day, as if rest were something to apologise for."}
+  {term:"at the end of your tether", def:"at the very limit of your patience or endurance, unable to cope with any more pressure", example:"After the third deadline in a week, you'll be at the end of your tether if you don't slow down."},
+  {term:"all work and no play", def:"used to describe a life or period with far too much work and not enough rest or fun", example:"It's been all work and no play for him since he took the promotion."},
+  {term:"spread yourself thin", def:"to take on so many tasks or commitments that you can't give any of them your full attention", example:"If you take on all three projects at once, you'll spread yourself thin."},
+  {term:"bite off more than you can chew", def:"to take on more responsibility or work than you can realistically manage", example:"If you agree to organise the whole event alone, you might bite off more than you can chew."},
+  {term:"wind down", def:"to relax and gradually let go of stress, especially after work or a busy period", example:"He likes to wind down with a walk before bed."},
+  {term:"the soft life", def:"a lifestyle that deliberately avoids stress and hard grind, prioritising comfort, ease and low pressure", example:"After years of overworking, she decided she wanted the soft life instead."}
 ];
 var WORDS = loadWords();
 var rowOfDef = {};      /* wordIndex -> which visual row its definition currently sits on */
@@ -2211,11 +2317,11 @@ var UOE_KEY = 'jpe_hustle_uoe_items';
    answer is 2-5 words and must include the key word unchanged */
 var DEFAULT_UOE = [
   {key:'CANDLE', s1:"She works incredibly long hours and it isn't sustainable.", s2:"She's been working such long hours, she's basically ___.", answer:'burning the candle at both ends'},
-  {key:'PLATE', s1:'He has far too many tasks to deal with this month.', s2:'He has ___ this month.', answer:'a lot on his plate'},
-  {key:'GROUND', s1:'She pushed herself so hard that she ended up completely unable to work.', s2:'She pushed herself so hard that she ___.', answer:'ran herself into the ground'},
-  {key:'BALANCE', s1:'He never separates his job from the rest of his life.', s2:'He has zero ___.', answer:'work-life balance'},
-  {key:'BURNT', s1:'She felt completely exhausted after months of overworking.', s2:'She felt completely ___ after months of overworking.', answer:'burnt out'},
-  {key:'SOFT', s1:'After years of overworking, he decided to prioritise comfort and ease instead.', s2:'After years of overworking, he decided he wanted ___ instead.', answer:'a soft life'}
+  {key:'GROUND', s1:'He pushed himself so hard that he ended up completely unable to work.', s2:'He pushed himself so hard that he ___.', answer:'ran himself into the ground'},
+  {key:'TETHER', s1:'By Friday, she had absolutely no patience left.', s2:'By Friday, she was ___.', answer:'at the end of her tether'},
+  {key:'THIN', s1:"He took on too many commitments and couldn't do any of them well.", s2:'He took on so much that he started to ___.', answer:'spread himself thin'},
+  {key:'CHEW', s1:'She agreed to organise the whole conference alone, which was too much.', s2:'She really ___ by agreeing to organise the whole conference alone.', answer:'bit off more than she could chew'},
+  {key:'WIND', s1:'He needs to relax properly after a stressful week at work.', s2:'He needs to ___ properly after a stressful week at work.', answer:'wind down'}
 ];
 function loadUoe(){
   try{ var raw = localStorage.getItem(UOE_KEY); if(raw){ var p = JSON.parse(raw); if(Array.isArray(p) && p.length && p[0].s2!==undefined) return p; } }catch(e){}
@@ -2378,6 +2484,159 @@ function removeWarmupQ(i){
   renderWarmupQs();
 }
 
+/* ---------- flashcards ---------- */
+var FLASHCARD_IMAGES = {
+  'burn the candle at both ends': null,
+  'run yourself into the ground': null,
+  'at the end of your tether': null,
+  'all work and no play': null,
+  'spread yourself thin': null,
+  'bite off more than you can chew': null,
+  'wind down': null,
+  'the soft life': null
+};
+var flashIndex = 0;
+var flashStage = 0;
+function renderFlashcards(){
+  if(!WORDS.length) return;
+  if(flashIndex >= WORDS.length) flashIndex = 0;
+  var w = WORDS[flashIndex];
+  var img = FLASHCARD_IMAGES[w.term.toLowerCase()];
+  var imgEl = document.getElementById('flashImage');
+  var emptyEl = document.getElementById('flashImageEmpty');
+  if(!imgEl || !emptyEl) return;
+  if(img){
+    imgEl.src = img;
+    imgEl.alt = flashStage>=1 ? w.term : 'Guess the idiom';
+    imgEl.style.display = 'block';
+    emptyEl.style.display = 'none';
+  }else{
+    imgEl.removeAttribute('src');
+    imgEl.style.display = 'none';
+    emptyEl.style.display = 'flex';
+  }
+  document.getElementById('flashTermText').textContent = w.term.charAt(0).toUpperCase()+w.term.slice(1);
+  document.getElementById('flashDefText').textContent = w.def;
+  document.getElementById('flashTermSlot').classList.toggle('show', flashStage>=1);
+  document.getElementById('flashDefSlot').classList.toggle('show', flashStage>=2);
+  document.getElementById('flashProgress').textContent = (flashIndex+1)+' / '+WORDS.length;
+  var hint = document.getElementById('flashHint');
+  hint.textContent = flashStage===0 ? 'Tap to reveal the phrase' : flashStage===1 ? 'Tap to reveal the meaning' : 'Tap for the next card';
+}
+function flashAdvance(){
+  flashStage++;
+  if(flashStage>2){ flashStage=0; flashIndex=(flashIndex+1)%WORDS.length; }
+  renderFlashcards();
+}
+function flashNext(){ flashStage=0; flashIndex=(flashIndex+1)%WORDS.length; renderFlashcards(); }
+function flashPrev(){ flashStage=0; flashIndex=(flashIndex-1+WORDS.length)%WORDS.length; renderFlashcards(); }
+function presentVocabFlashcards(){
+  switchVTab('flash');
+  presentSection('vocab');
+}
+
+/* ---------- long turn (C2-style) ---------- */
+var LT_KEY = 'jpe_hustle_longturn';
+var DEFAULT_LT = [
+  {
+    speaker: 'Speaker A',
+    question: "To what extent do you think society glorifies busyness?",
+    bullets: [
+      'Social media and the &ldquo;grind&rdquo; aesthetic',
+      'Talking about tiredness as if it were a badge of honour',
+      'Whether success is measured by how busy someone looks'
+    ],
+    followUp: "Do you think this has got better or worse over the last five years?"
+  },
+  {
+    speaker: 'Speaker B',
+    question: "How far should companies be responsible for protecting employees from overwork?",
+    bullets: [
+      'Legal limits on working hours',
+      'A culture of always being reachable',
+      "The role managers play in setting the tone"
+    ],
+    followUp: "Where would you personally draw the line?"
+  },
+  {
+    speaker: 'Speaker A',
+    question: "Is it possible to be both ambitious and relaxed about work at the same time?",
+    bullets: [
+      'People who seem to manage both',
+      'Whether ambition always requires sacrifice',
+      'How much personality plays a role'
+    ],
+    followUp: "Which matters more for career success: ambition or balance?"
+  },
+  {
+    speaker: 'Speaker B',
+    question: "What do you think the workplace will look like in twenty years' time?",
+    bullets: [
+      'Technology and automation',
+      'Attitudes toward hours and flexibility',
+      'Whether burnout will still be as common as it is now'
+    ],
+    followUp: "Does that future sound better or worse than today?"
+  }
+];
+function loadLt(){
+  try{ var s = JSON.parse(localStorage.getItem(LT_KEY)); if(Array.isArray(s) && s.length) return s; }catch(e){}
+  return DEFAULT_LT.slice();
+}
+var ltItems = loadLt();
+function saveLt(){ try{ localStorage.setItem(LT_KEY, JSON.stringify(ltItems)); }catch(e){} }
+var ltEditMode = false;
+function toggleLtEditMode(){
+  ltEditMode = !ltEditMode;
+  document.getElementById('ltEditToggle').classList.toggle('on', ltEditMode);
+  renderLongTurn();
+}
+function renderLongTurn(){
+  var wrap = document.getElementById('ltGrid');
+  if(!wrap) return;
+  var ed = ltEditMode;
+  wrap.innerHTML = ltItems.map(function(c,i){
+    var bullets = c.bullets.map(function(b,bi){
+      return '<li class="lt-bullet" contenteditable="'+(ed?'true':'false')+'" spellcheck="false" onblur="onLtBulletEdit('+i+','+bi+',this)">'+b+'</li>';
+    }).join('');
+    return '<div class="lt-card">'+
+      '<div class="lt-badge">'+esc(c.speaker)+' &middot; 2 minutes</div>'+
+      '<div class="lt-question" contenteditable="'+(ed?'true':'false')+'" spellcheck="false" onblur="onLtEdit('+i+',\'question\',this)">'+c.question+'</div>'+
+      '<ul class="lt-bullets">'+bullets+'</ul>'+
+      '<div class="lt-followup" contenteditable="'+(ed?'true':'false')+'" spellcheck="false" onblur="onLtEdit('+i+',\'followUp\',this)"><b>Partner\'s follow-up:</b> '+c.followUp+'</div>'+
+    '</div>';
+  }).join('');
+}
+function onLtEdit(i,field,el){ ltItems[i][field] = el.textContent; saveLt(); }
+function onLtBulletEdit(i,bi,el){ ltItems[i].bullets[bi] = el.textContent; saveLt(); }
+var ltTimerDur = 120, ltTimerLeft = 0, ltTimerRun = false, ltTimerInt = null;
+function ltFmt(s){ return Math.floor(s/60)+':'+(s%60<10?'0':'')+(s%60); }
+function ltSelTime(s, btn){
+  ltTimerDur = s; ltTimerLeft = s; ltTimerRun = false;
+  clearInterval(ltTimerInt);
+  document.getElementById('ltPlay').textContent = '\u25B6 Start';
+  document.getElementById('ltDisp').textContent = ltFmt(s);
+  document.getElementById('ltBar').style.width = '0%';
+  Array.prototype.forEach.call(document.querySelectorAll('.lt-timer-pill'), function(b){ b.classList.remove('on'); });
+  if(btn) btn.classList.add('on');
+}
+function ltTog(){
+  if(!ltTimerLeft) ltTimerLeft = ltTimerDur;
+  ltTimerRun = !ltTimerRun;
+  document.getElementById('ltPlay').textContent = ltTimerRun ? '\u23F8 Pause' : '\u25B6 Resume';
+  if(ltTimerRun){
+    ltTimerInt = setInterval(function(){
+      ltTimerLeft--;
+      document.getElementById('ltDisp').textContent = ltFmt(ltTimerLeft);
+      var pct = 100 - (ltTimerLeft/ltTimerDur)*100;
+      document.getElementById('ltBar').style.width = pct+'%';
+      if(ltTimerLeft<=0){ clearInterval(ltTimerInt); ltTimerRun=false; document.getElementById('ltPlay').textContent='\u25B6 Start'; }
+    }, 1000);
+  } else {
+    clearInterval(ltTimerInt);
+  }
+}
+
 /* ---------- hero banner text ---------- */
 var HERO_TITLE_KEY = 'jpe_hustle_hero_title';
 var HERO_SUB_KEY = 'jpe_hustle_hero_sub';
@@ -2502,15 +2761,16 @@ function readHeroFile(file){
 }
 
 /* ---------- wiring ---------- */
-function renderDerived(){ initMatching(); renderGapFill(); renderSwap(); }
+function renderDerived(){ initMatching(); renderGapFill(); renderSwap(); renderFlashcards(); }
 function renderAll(){ renderWordBank(); renderDerived(); renderPeopleEdit(); renderGallery(); renderDebates(); renderRP(); renderListen(); renderResources(); renderUoeEdit(); renderUoE(); }
 
-var vTabBtnIds = {edit:'tabEdit', match:'tabMatch', gf:'tabGF'};
+var vTabBtnIds = {edit:'tabEdit', flash:'tabFlash', match:'tabMatch', gf:'tabGF'};
 function switchVTab(id){
   Object.keys(vTabBtnIds).forEach(function(t){
     document.getElementById('panel-'+t).classList.toggle('show', t===id);
     document.getElementById(vTabBtnIds[t]).classList.toggle('on', t===id);
   });
+  if(id==='flash') renderFlashcards();
   if(id==='match') initMatching();
   if(id==='gf') renderGapFill();
 }
@@ -2520,10 +2780,10 @@ function toggleVocabEditMode(){
   vocabEditMode = !vocabEditMode;
   document.getElementById('vocabEditToggle').classList.toggle('on', vocabEditMode);
   document.getElementById('tabEdit').style.display = vocabEditMode ? '' : 'none';
-  if(!vocabEditMode && document.getElementById('tabEdit').classList.contains('on')) switchVTab('match');
+  if(!vocabEditMode && document.getElementById('tabEdit').classList.contains('on')) switchVTab('flash');
 }
 
-var tabIds = ['warmup','vocab','main','swap','debates','roleplay','listening','uoe','write','resources'];
+var tabIds = ['warmup','vocab','main','swap','longturn','debates','roleplay','listening','uoe','write','resources'];
 function showTab(id){
   tabIds.forEach(function(t){
     document.getElementById(t).classList.toggle('visible', t===id);
@@ -3058,6 +3318,7 @@ function downloadNotesPNG(){
 renderAll();
 renderHeroImage();
 renderWarmupQs();
+renderLongTurn();
 renderWTaskPanels();
 initAnnotCanvas();
 renderPins();
