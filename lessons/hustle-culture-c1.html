@@ -152,6 +152,10 @@ button,input,textarea{font-family:inherit}
 .flash-image-remove:hover{background:var(--red)}
 .flash-reveal-slot{max-height:0;overflow:hidden;opacity:0;transition:max-height .35s ease,opacity .3s ease,margin-top .35s ease}
 .flash-reveal-slot.show{max-height:140px;opacity:1;margin-top:.9rem}
+.flash-card.editing .flash-reveal-slot{max-height:none;opacity:1;margin-top:.9rem;overflow:visible}
+.flash-card.editing{cursor:default}
+.flash-card.editing .flash-term-text,.flash-card.editing .flash-def-text{cursor:text}
+.flash-card.editing .flash-term-text:focus,.flash-card.editing .flash-def-text:focus{outline:1.5px dashed var(--mint);border-radius:6px}
 .flash-term{background:var(--mint-light);border:1.5px solid rgba(33,118,255,.18);border-radius:12px;padding:.9rem 1.1rem}
 .flash-term-text{font-size:1.1rem;font-weight:800;color:var(--mint-dark);text-align:center}
 .flash-def{background:var(--cream);border:1.5px solid var(--border);border-radius:12px;padding:.9rem 1.1rem}
@@ -741,8 +745,8 @@ body.section-present .deb-instruction{font-size:1.15rem}
             <div class="flash-image-empty" id="flashImageEmpty">No image for this word yet</div>
             <button class="flash-image-remove" id="flashImageRemove" onclick="event.stopPropagation();removeFlashImage()" title="Remove image">&times;</button>
           </div>
-          <div class="flash-reveal-slot flash-term" id="flashTermSlot"><div class="flash-term-text" id="flashTermText"></div></div>
-          <div class="flash-reveal-slot flash-def" id="flashDefSlot"><div class="flash-def-text" id="flashDefText"></div></div>
+          <div class="flash-reveal-slot flash-term" id="flashTermSlot"><div class="flash-term-text" id="flashTermText" spellcheck="false" onclick="if(vocabEditMode)event.stopPropagation()" onblur="onFlashTermBlur(this)"></div></div>
+          <div class="flash-reveal-slot flash-def" id="flashDefSlot"><div class="flash-def-text" id="flashDefText" spellcheck="false" onclick="if(vocabEditMode)event.stopPropagation()" onblur="onFlashDefBlur(this)"></div></div>
           <div class="flash-hint" id="flashHint">Tap to reveal the phrase</div>
         </div>
       </div>
@@ -2540,15 +2544,35 @@ function renderFlashcards(){
   }
   if(wrapEl) wrapEl.classList.toggle('editing', vocabEditMode);
   if(removeBtn) removeBtn.style.display = (img && vocabEditMode) ? 'flex' : 'none';
-  document.getElementById('flashTermText').textContent = w.term.charAt(0).toUpperCase()+w.term.slice(1);
-  document.getElementById('flashDefText').textContent = w.def;
-  document.getElementById('flashTermSlot').classList.toggle('show', flashStage>=1);
-  document.getElementById('flashDefSlot').classList.toggle('show', flashStage>=2);
+  var termEl = document.getElementById('flashTermText');
+  var defEl = document.getElementById('flashDefText');
+  if(document.activeElement !== termEl) termEl.textContent = w.term.charAt(0).toUpperCase()+w.term.slice(1);
+  if(document.activeElement !== defEl) defEl.textContent = w.def;
+  document.getElementById('flashTermSlot').classList.toggle('show', vocabEditMode || flashStage>=1);
+  document.getElementById('flashDefSlot').classList.toggle('show', vocabEditMode || flashStage>=2);
+  document.getElementById('flashCard').classList.toggle('editing', vocabEditMode);
+  termEl.setAttribute('contenteditable', vocabEditMode ? 'true' : 'false');
+  defEl.setAttribute('contenteditable', vocabEditMode ? 'true' : 'false');
   document.getElementById('flashProgress').textContent = (flashIndex+1)+' / '+WORDS.length;
   var hint = document.getElementById('flashHint');
-  hint.textContent = flashStage===0 ? 'Tap to reveal the phrase' : flashStage===1 ? 'Tap to reveal the meaning' : 'Tap for the next card';
+  hint.textContent = vocabEditMode ? 'Editing: click the phrase or meaning to change it' : (flashStage===0 ? 'Tap to reveal the phrase' : flashStage===1 ? 'Tap to reveal the meaning' : 'Tap for the next card');
+}
+function onFlashTermBlur(el){
+  var w = WORDS[flashIndex];
+  if(!w) return;
+  w.term = el.textContent.trim();
+  saveWords();
+  renderDerived();
+}
+function onFlashDefBlur(el){
+  var w = WORDS[flashIndex];
+  if(!w) return;
+  w.def = el.textContent.trim();
+  saveWords();
+  renderDerived();
 }
 function flashAdvance(){
+  if(vocabEditMode) return;
   flashStage++;
   if(flashStage>2){ flashStage=0; flashIndex=(flashIndex+1)%WORDS.length; }
   renderFlashcards();
@@ -3065,6 +3089,23 @@ var SUPABASE_ANON_KEY = 'sb_publishable_VTOzRUebaH_xQAs4wngfug_jCVCeCFB';
 var supabaseClient = (typeof window.supabase !== 'undefined')
   ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
   : null;
+
+/* auto-sync: on first visit to this lesson in a browser tab/session, silently pull the cloud
+   version (if any) so the page never shows stale local data or the file's baked-in defaults.
+   Cloud is the single source of truth; any local edits not yet pushed via Cloud Save are
+   overwritten here. Gated on sessionStorage so it only happens once per tab, not on every reload. */
+(function autoSyncFromCloud(){
+  if(!supabaseClient) return;
+  var flagKey = 'jpe_cloudsynced_' + LESSON_ID;
+  if(sessionStorage.getItem(flagKey)) return;
+  supabaseClient.from('lessons').select('data, updated_at').eq('id', LESSON_ID).maybeSingle().then(function(res){
+    try{ sessionStorage.setItem(flagKey, '1'); }catch(e){}
+    if(!res.error && res.data){
+      applyLocalStorageData(res.data.data);
+      location.reload();
+    }
+  });
+})();
 function setCloudStatus(text){
   var el = document.getElementById('cloudStatus');
   if(el) el.textContent = text;
