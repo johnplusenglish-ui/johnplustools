@@ -683,8 +683,8 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <div class="section-header">
       <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></div>
       <div>
-        <div class="section-title">Warm-Up</div>
-        <div class="section-label-mono">Discussion Starter · 5 min</div>
+        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-warmup" onblur="onStaticTextBlur(this)">Warm-Up</div>
+        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-warmup" onblur="onStaticTextBlur(this)">Discussion Starter · 5 min</div>
       </div>
       <div class="section-header-actions">
         <button class="deb-edit-toggle" id="warmupEditToggle" onclick="toggleWarmupEditMode()" title="Edit">
@@ -703,7 +703,7 @@ body.section-present .deb-instruction{font-size:1.15rem}
       <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/></svg></div>
       <div>
         <div class="section-title" id="vocabHeading">Vocabulary · 9 items, C1</div>
-        <div class="section-label-mono">Work &amp; Careers Word Bank · 20 min</div>
+        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-vocab" onblur="onStaticTextBlur(this)">Work &amp; Careers Word Bank · 20 min</div>
       </div>
       <div class="section-header-actions">
         <button class="section-fullscreen-toggle" onclick="presentVocabFlashcards()" title="Present flashcards full screen">
@@ -724,9 +724,9 @@ body.section-present .deb-instruction{font-size:1.15rem}
 
     <div class="tab-panel" id="panel-edit">
       <div class="section-card">
-        <p class="wb-hint">Edit any word, definition or example below: the Match and Gap Fill tabs regenerate automatically from whatever is here.</p>
+        <p class="wb-hint" contenteditable="true" spellcheck="false" data-sk="hint-wordbank" onblur="onStaticTextBlur(this)">Edit any word, definition or example below: the Match and Gap Fill tabs regenerate automatically from whatever is here.</p>
         <div class="wb-head">
-          <span class="wb-th">Term</span><span class="wb-th">Definition</span><span class="wb-th">Example</span><span></span>
+          <span class="wb-th" contenteditable="true" spellcheck="false" data-sk="wbth-word-term" onblur="onStaticTextBlur(this)">Term</span><span class="wb-th" contenteditable="true" spellcheck="false" data-sk="wbth-word-def" onblur="onStaticTextBlur(this)">Definition</span><span class="wb-th" contenteditable="true" spellcheck="false" data-sk="wbth-word-example" onblur="onStaticTextBlur(this)">Example</span><span></span>
         </div>
         <div id="wbRows"></div>
         <button class="read-btn wb-add" onclick="addWord()">+ Add word</button>
@@ -759,9 +759,9 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <div class="tab-panel" id="panel-match">
       <div class="section-card">
         <div class="match-rows" style="margin-bottom:.6rem">
-          <div class="match-col-label">Definition</div>
+          <div class="match-col-label" contenteditable="true" spellcheck="false" data-sk="match-col-def" onblur="onStaticTextBlur(this)">Definition</div>
           <div></div>
-          <div class="match-col-label">Term</div>
+          <div class="match-col-label" contenteditable="true" spellcheck="false" data-sk="match-col-term" onblur="onStaticTextBlur(this)">Term</div>
         </div>
         <div class="match-rows" id="matchRows"></div>
       </div>
@@ -782,8 +782,8 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <div class="section-header">
       <div class="section-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
       <div>
-        <div class="section-title">Main Task · Where Do You Draw the Line?</div>
-        <div class="section-label-mono">Speaking · Share a Photo &amp; Discuss · 15 min</div>
+        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-main" onblur="onStaticTextBlur(this)">Main Task · Where Do You Draw the Line?</div>
+        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-main" onblur="onStaticTextBlur(this)">Speaking · Share a Photo &amp; Discuss · 15 min</div>
       </div>
       <div class="section-header-actions">
         <button class="section-fullscreen-toggle" onclick="presentSection('main')" title="Present full screen">
@@ -813,8 +813,8 @@ body.section-present .deb-instruction{font-size:1.15rem}
         ondrop="handleDrop(event)">+</button>
     </div>
     <div class="section-card uoe-editor-card" id="peopleEditorCard" style="display:none">
-      <div class="deb-sidebar-label" style="margin-bottom:.3rem;margin-top:1.4rem">People in this group</div>
-      <p class="wb-hint" style="margin-bottom:.9rem">This roster feeds both the photo gallery and Question Swap. Tap the badge to mark someone as Teacher, which excludes them from Question Swap pairwork. Edit this whenever you reuse the lesson with a different group.</p>
+      <div class="deb-sidebar-label" style="margin-bottom:.3rem;margin-top:1.4rem" contenteditable="true" spellcheck="false" data-sk="label-roster" onblur="onStaticTextBlur(this)">People in this group</div>
+      <p class="wb-hint" style="margin-bottom:.9rem" contenteditable="true" spellcheck="false" data-sk="hint-roster" onblur="onStaticTextBlur(this)">This roster feeds both the photo gallery and Question Swap. Tap the badge to mark someone as Teacher, which excludes them from Question Swap pairwork. Edit this whenever you reuse the lesson with a different group.</p>
       <div id="peopleEditRows"></div>
       <button class="read-btn wb-add" onclick="addPerson()">+ Add person</button>
     </div>
@@ -841,8 +841,8 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <div class="section-header">
       <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M16 3h5v5M4 20L21 3M8 21H3v-5M20 4L3 21"/></svg></div>
       <div>
-        <div class="section-title">Question Swap</div>
-        <div class="section-label-mono">Pairwork Speaking · 15 min</div>
+        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-swap" onblur="onStaticTextBlur(this)">Question Swap</div>
+        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-swap" onblur="onStaticTextBlur(this)">Pairwork Speaking · 15 min</div>
       </div>
     </div>
     <div class="section-card">
@@ -854,8 +854,8 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <div class="section-header">
       <div class="section-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
       <div>
-        <div class="section-title">Long Turn</div>
-        <div class="section-label-mono">C2 Proficiency Speaking, Part 3 style · 15 min</div>
+        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-longturn" onblur="onStaticTextBlur(this)">Long Turn</div>
+        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-longturn" onblur="onStaticTextBlur(this)">C2 Proficiency Speaking, Part 3 style · 15 min</div>
       </div>
       <div class="section-header-actions">
         <button class="deb-edit-toggle" id="ltEditToggle" onclick="toggleLtEditMode()" title="Edit">
@@ -864,7 +864,7 @@ body.section-present .deb-instruction{font-size:1.15rem}
       </div>
     </div>
     <div class="section-card">
-      <p style="font-size:.85rem;color:var(--muted);margin-bottom:1.2rem">Give each candidate their own card. They speak alone for two minutes, uninterrupted, using the bullet points as a guide, not a script. Their partner just listens, then answers the short follow-up question underneath.</p>
+      <p style="font-size:.85rem;color:var(--muted);margin-bottom:1.2rem" contenteditable="true" spellcheck="false" data-sk="hint-longturn" onblur="onStaticTextBlur(this)">Give each candidate their own card. They speak alone for two minutes, uninterrupted, using the bullet points as a guide, not a script. Their partner just listens, then answers the short follow-up question underneath.</p>
       <div class="lt-timer-row">
         <button class="lt-timer-pill" onclick="ltSelTime(120,this)">2 min</button>
         <button class="lt-timer-pill" onclick="ltSelTime(150,this)">2.5 min</button>
@@ -881,8 +881,8 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <div class="section-header">
       <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
       <div>
-        <div class="section-title">Debates</div>
-        <div class="section-label-mono">Discussion &amp; Persuasion · 15 min</div>
+        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-debates" onblur="onStaticTextBlur(this)">Debates</div>
+        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-debates" onblur="onStaticTextBlur(this)">Discussion &amp; Persuasion · 15 min</div>
       </div>
       <div class="section-header-actions">
         <button class="section-fullscreen-toggle" onclick="presentSection('debates')" title="Present full screen">
@@ -896,7 +896,7 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <div class="deb-shell-outer">
       <div class="deb-shell">
         <div class="deb-sidebar">
-          <div class="deb-sidebar-label">Useful Phrases</div>
+          <div class="deb-sidebar-label" contenteditable="true" spellcheck="false" data-sk="label-useful-phrases" onblur="onStaticTextBlur(this)">Useful Phrases</div>
           <div id="debPhraseList"></div>
           <button class="deb-add-phrase" id="debAddPhraseBtn" onclick="addDebPhrase()" style="display:none">+ Add phrase</button>
         </div>
@@ -912,8 +912,8 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <div class="section-header">
       <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
       <div>
-        <div class="section-title">Role Play</div>
-        <div class="section-label-mono">Improvised Speaking · 15 min</div>
+        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-roleplay" onblur="onStaticTextBlur(this)">Role Play</div>
+        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-roleplay" onblur="onStaticTextBlur(this)">Improvised Speaking · 15 min</div>
       </div>
       <div class="section-header-actions">
         <button class="deb-edit-toggle" id="rpEditToggle" onclick="toggleRpEditMode()" title="Edit">
@@ -934,8 +934,8 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <div class="section-header">
       <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div>
       <div>
-        <div class="section-title">Listening · Two-Way Chat</div>
-        <div class="section-label-mono">C1 · ~2 min audio · 15 min</div>
+        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-listening" onblur="onStaticTextBlur(this)">Listening · Two-Way Chat</div>
+        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-listening" onblur="onStaticTextBlur(this)">C1 · ~2 min audio · 15 min</div>
       </div>
       <div class="section-header-actions">
         <button class="deb-edit-toggle" id="listenEditToggle" onclick="toggleListenEditMode()" title="Edit">
@@ -955,8 +955,8 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <div class="section-header">
       <div class="section-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
       <div>
-        <div class="section-title">Use of English · Key Word Transformation</div>
-        <div class="section-label-mono">Breather / Homework · 10 min</div>
+        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-uoe" onblur="onStaticTextBlur(this)">Use of English · Key Word Transformation</div>
+        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-uoe" onblur="onStaticTextBlur(this)">Breather / Homework · 10 min</div>
       </div>
       <div class="section-header-actions">
         <button class="deb-edit-toggle" id="uoeEditToggle" onclick="toggleUoeEditor()" title="Edit">
@@ -974,7 +974,7 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <div class="section-card uoe-editor-card" id="uoeEditorCard" style="display:none">
       <div id="uoeEditorBody" class="uoe-editor-body show">
         <div class="wb-head" style="grid-template-columns:.8fr 1.5fr 1.5fr 1fr 34px">
-          <span class="wb-th">Key word</span><span class="wb-th">Sentence 1</span><span class="wb-th">Sentence 2 (use ___ for gap)</span><span class="wb-th">Answer</span><span></span>
+          <span class="wb-th" contenteditable="true" spellcheck="false" data-sk="wbth-uoe-key" onblur="onStaticTextBlur(this)">Key word</span><span class="wb-th" contenteditable="true" spellcheck="false" data-sk="wbth-uoe-s1" onblur="onStaticTextBlur(this)">Sentence 1</span><span class="wb-th" contenteditable="true" spellcheck="false" data-sk="wbth-uoe-s2" onblur="onStaticTextBlur(this)">Sentence 2 (use ___ for gap)</span><span class="wb-th" contenteditable="true" spellcheck="false" data-sk="wbth-uoe-answer" onblur="onStaticTextBlur(this)">Answer</span><span></span>
         </div>
         <div id="uoeEditRows"></div>
         <button class="read-btn wb-add" onclick="addUoeItem()">+ Add item</button>
@@ -986,8 +986,8 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <div class="section-header">
       <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div>
       <div>
-        <div class="section-title">Writing / Homework</div>
-        <div class="section-label-mono">Short &amp; Frequent · 60 to 90 words</div>
+        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-write" onblur="onStaticTextBlur(this)">Writing / Homework</div>
+        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-write" onblur="onStaticTextBlur(this)">Short &amp; Frequent · 60 to 90 words</div>
       </div>
     </div>
     <div class="section-card">
@@ -1004,8 +1004,8 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <div class="section-header">
       <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
       <div>
-        <div class="section-title">Resources</div>
-        <div class="section-label-mono">Extra Listening &amp; Reading · Optional</div>
+        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-resources" onblur="onStaticTextBlur(this)">Resources</div>
+        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-resources" onblur="onStaticTextBlur(this)">Extra Listening &amp; Reading · Optional</div>
       </div>
       <div class="section-header-actions">
         <button class="deb-edit-toggle" id="resourcesEditToggle" onclick="toggleResourcesEditMode()" title="Edit">
@@ -1076,6 +1076,27 @@ function loadWords(){
 function saveWords(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(WORDS)); }catch(e){} }
 function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
 function escRe(s){ return String(s).replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
+
+/* ---------- generic editable static text (headings, labels, hints, column headers) ---------- */
+var STATIC_TEXT_KEY = 'jpe_workcareers_static_text';
+function loadStaticText(){
+  try{ var s = JSON.parse(localStorage.getItem(STATIC_TEXT_KEY)); if(s && typeof s==='object') return s; }catch(e){}
+  return {};
+}
+var STATIC_TEXT = loadStaticText();
+function saveStaticTextMap(){ try{ localStorage.setItem(STATIC_TEXT_KEY, JSON.stringify(STATIC_TEXT)); }catch(e){} }
+function onStaticTextBlur(el){
+  var k = el.getAttribute('data-sk');
+  if(!k) return;
+  STATIC_TEXT[k] = el.textContent;
+  saveStaticTextMap();
+}
+function applyStaticText(root){
+  (root||document).querySelectorAll('[data-sk]').forEach(function(el){
+    var k = el.getAttribute('data-sk');
+    if(STATIC_TEXT.hasOwnProperty(k)) el.textContent = STATIC_TEXT[k];
+  });
+}
 function shuffle(arr){
   var a = arr.slice();
   for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; }
@@ -1824,10 +1845,11 @@ function renderRpBody(){
           'onkeydown="if(event.key===\'Enter\'){event.preventDefault();this.blur();}">'+esc(s.roleB.desc)+'</div>'+
       '</div>'+
     '</div>'+
-    '<div class="rp-useful-label">Useful language</div>'+
+    '<div class="rp-useful-label" data-sk="label-useful-language" contenteditable="true" spellcheck="false" onblur="onStaticTextBlur(this)">Useful language</div>'+
     '<div class="rp-chips">'+chips+addChipBtn+'</div>'+
     removeBtn+
   '</div>';
+  applyStaticText(wrap);
 }
 function onRpTitleEdit(el){ RP[currentRP].title = el.textContent.trim(); saveRP(); }
 function onRpScenarioEdit(el){ RP[currentRP].scenario = el.textContent.trim(); saveRP(); }
@@ -2037,10 +2059,11 @@ function renderListenBody(){
     '</div>'+
     '<div class="listen-transcript'+(revealed?' show':'')+(ed?' listen-editing':'')+'">'+lines+addLineBtn+'</div>'+
     '<div class="listen-questions">'+
-      '<div class="rp-useful-label">Comprehension questions</div>'+
+      '<div class="rp-useful-label" data-sk="label-comprehension-qs" contenteditable="true" spellcheck="false" onblur="onStaticTextBlur(this)">Comprehension questions</div>'+
       questions+addQBtn+
     '</div>'+
   '</div>';
+  applyStaticText(wrap);
 }
 function toggleListenReveal(){
   listenRevealed[currentListen] = !listenRevealed[currentListen];
@@ -2450,7 +2473,7 @@ function renderWTaskPanels(){
   wrap.innerHTML = Object.keys(WTASKS).map(function(id){
     var t = WTASKS[id];
     return '<div class="tab-panel'+(id===currentWTask?' show':'')+'" id="wtaskPanel-'+id+'">'+
-      '<p style="color:var(--muted);font-size:.9rem;line-height:1.6;margin-bottom:1rem">'+t.prompt+'</p>'+
+      '<p style="color:var(--muted);font-size:.9rem;line-height:1.6;margin-bottom:1rem" data-sk="wtask-prompt-'+id+'" contenteditable="true" spellcheck="false" onblur="onStaticTextBlur(this)">'+t.prompt+'</p>'+
       '<textarea id="writeArea-'+id+'" rows="6" style="width:100%;border:1.5px solid var(--border);border-radius:10px;padding:.9rem 1rem;font-family:\'Outfit\',sans-serif;font-size:.92rem;color:var(--ink);background:var(--cream);resize:vertical" placeholder="Start writing…" oninput="updateWCount(\''+id+'\')">'+esc(writeDrafts[id]||'')+'</textarea>'+
       '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:.6rem">'+
         '<span id="wCount-'+id+'" style="font-family:\'JetBrains Mono\',monospace;font-size:.78rem;color:var(--muted)">0 words</span>'+
@@ -3411,6 +3434,7 @@ restoreParkedTabs();
 restoreTabOrder();
 restoreMinimizedTabs();
 initTabDrag();
+applyStaticText();
 </script>
 </body>
 </html>
