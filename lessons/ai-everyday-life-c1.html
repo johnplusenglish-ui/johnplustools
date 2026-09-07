@@ -1084,14 +1084,14 @@ body.section-present .deb-instruction{font-size:1.15rem}
 <script>
 var STORAGE_KEY = 'jpe_aieveryday_c1_words';
 var DEFAULT_WORDS = [
-  {term:"cutting-edge", def:"extremely modern and advanced, using the very latest technology or ideas", example:"The hospital installed cutting-edge AI software to help doctors spot early signs of disease."},
   {term:"a double-edged sword", def:"something that has both a significant advantage and a significant disadvantage at the same time", example:"For a lot of workers, AI is a double-edged sword: it saves time, but it also makes their job feel replaceable."},
-  {term:"teething problems", def:"minor difficulties that happen in the early stages of something new, before it works smoothly", example:"The new AI scheduling tool had a lot of teething problems in its first few weeks."},
-  {term:"jump on the bandwagon", def:"to start doing or supporting something only because it has suddenly become popular", example:"Every company seems to be jumping on the AI bandwagon, whether it actually helps them or not."},
-  {term:"a game-changer", def:"something that completely changes a situation, usually for the better, in a way nothing before it did", example:"For translators, AI has genuinely been a game-changer, for better or worse."},
-  {term:"the tip of the iceberg", def:"a small, visible part of a much larger problem or situation that is mostly hidden", example:"The water used by one data centre is just the tip of the iceberg; the real cost is the electricity behind it."},
   {term:"open a Pandora's box", def:"to take an action that seems small but ends up creating a huge number of new, often unforeseen problems", example:"Some experts worry that letting AI make hiring decisions could open a Pandora's box of legal and ethical issues."},
-  {term:"keep pace with", def:"to manage to move, develop or progress at the same speed as something else", example:"Electricity grids are struggling to keep pace with the demand from new data centres."}
+  {term:"a slippery slope", def:"a course of action that seems small or harmless at first but is likely to lead to a much more serious, often negative, situation", example:"Letting AI grade every assignment feels like a slippery slope toward taking teachers out of the process entirely."},
+  {term:"the tip of the iceberg", def:"a small, visible part of a much larger problem or situation that is mostly hidden", example:"The water used by one data centre is just the tip of the iceberg; the real cost is the electricity behind it."},
+  {term:"push the envelope", def:"to go beyond the usual limits, trying something new, extreme or ambitious", example:"The lab keeps pushing the envelope on what an AI model can do with just a few seconds of audio."},
+  {term:"the genie's out of the bottle", def:"used to say that something has been made possible or made known, and it cannot be undone or reversed", example:"Once technology like this exists publicly, the genie's out of the bottle; there's no putting it back."},
+  {term:"the writing's on the wall", def:"there are clear signs that something bad or unwelcome is about to happen", example:"When the company announced its AI trial, the writing was on the wall for a lot of junior roles."},
+  {term:"roll out", def:"to introduce a new product, service or system to the public, gradually or in stages", example:"The company plans to roll out the new AI assistant to every department by next spring."}
 ];
 var WORDS = loadWords();
 var rowOfDef = {};      /* wordIndex -> which visual row its definition currently sits on */
@@ -2035,28 +2035,32 @@ var DEFAULT_LISTEN = [
   {
     title: 'The New Rollout',
     subtitle: 'Maya and Ben compare notes on the AI tool their company just introduced',
-    targetPhrases: ['cutting-edge','teething problems','a game-changer','jump on the bandwagon','the tip of the iceberg','a double-edged sword','open a pandora\'s box','keep pace with'],
+    targetPhrases: ['a double-edged sword','a slippery slope','open a pandora\'s box','the tip of the iceberg','roll out','the genie\'s out of the bottle','push the envelope','the writing\'s on the wall'],
     audio: null,
     questions: [
-      "Why does Ben say the new AI tool has had teething problems?",
-      "What does Ben mean when he calls it a double-edged sword?",
-      "What are Maya and Ben both unsure the company can actually do?"
+      "Why does Ben call the new AI tool a double-edged sword?",
+      "What does Maya mean when she says the reports tool is just the tip of the iceberg?",
+      "What does Ben decide is the best way to protect his own job?"
     ],
     lines: [
       ln('a','Maya',"Have you tried the new AI thing they rolled out at work?"),
-      ln('b','Ben',"The one that's supposed to write our reports for us? Yeah, I gave it a go."),
-      ln('a','Maya',"And? I heard it's meant to be properly cutting-edge stuff."),
-      ln('b','Ben',"It is, technically. But it's had so many teething problems this week, half the team's reports came out completely wrong."),
-      ln('a','Maya',"Really? I thought it was going to be a total game-changer for us."),
-      ln('b','Ben',"Maybe eventually. Right now it feels like everyone just jumped on the bandwagon without testing it properly first."),
-      ln('a','Maya',"To be fair, that's probably just the tip of the iceberg. I heard the version they want next year does way more."),
-      ln('b','Ben',"That's what worries me a bit, honestly. It feels like a double-edged sword, we save time, but we're also handing over decisions we used to make ourselves."),
-      ln('a','Maya',"Fair point. Do you think it could actually open a Pandora's box, legally or ethically, I mean?"),
-      ln('b','Ben',"Possibly. I just don't think our IT department can keep pace with how fast this stuff is moving."),
-      ln('a','Maya',"No, honestly, neither can I."),
-      ln('b','Ben',"[laughs] Same. Anyway, are you coming to the training session tomorrow?"),
-      ln('a','Maya',"Yeah, I'll be there. Might actually help."),
-      ln('b','Ben',"Let's hope so.")
+      ln('b','Ben',"[sighs] The one that's supposed to write our reports for us? Yeah... yeah, I gave it a go."),
+      ln('a','Maya',"And? Worth the hype?"),
+      ln('b','Ben',"Honestly, it's a bit of a double-edged sword. It saves me time, but I'm not sure I trust half of what it writes."),
+      ln('a','Maya',"Fair. Did you hear they want to use it for performance reviews next?"),
+      ln('b','Ben',"Wait, seriously? [pause] That feels like a slippery slope to me. Today it's writing reports, tomorrow it's deciding who gets promoted."),
+      ln('a','Maya',"Right, and if it starts making decisions about people's careers, that could open a Pandora's box legally as well."),
+      ln('b','Ben',"Probably could. Nobody seems to have thought that far ahead, to be honest."),
+      ln('a','Maya',"The reports thing is honestly just the tip of the iceberg. There's a whole roadmap of things they want to roll out next year."),
+      ln('b','Ben',"[exhales] Once they start rolling all of that out, there's no going back. The genie's out of the bottle at that point."),
+      ln('a','Maya',"Exactly. Once people get used to it, you can't just take it away again."),
+      ln('b','Ben',"Some people on my team think management's really pushing the envelope with how much they want to automate."),
+      ln('a','Maya',"Honestly... the writing's on the wall for a few of the more repetitive roles, I think."),
+      ln('b','Ben',"Yeah. I don't think they'll say that out loud, but you can see it coming."),
+      ln('a','Maya',"Are you worried about your own job?"),
+      ln('b','Ben',"[pause] A bit, yeah. But I figure the best move is to learn to use it properly before it learns to do without me."),
+      ln('a','Maya',"[laughs] Smart. Are you coming to the training session tomorrow?"),
+      ln('b','Ben',"Yeah, I'll be there.")
     ]
   }
 ];
@@ -2471,12 +2475,12 @@ var UOE_KEY = 'jpe_aieveryday_uoe_items';
 /* real KWT format: sentence1 (unchanged) + key word + sentence2 with a ___ gap;
    answer is 2-5 words and must include the key word unchanged */
 var DEFAULT_UOE = [
-  {key:'EDGE', s1:'The hospital installed extremely advanced new scanning technology.', s2:'The hospital installed ___ new scanning technology.', answer:'cutting-edge'},
   {key:'SWORD', s1:"AI saves people time, but it also makes some jobs feel replaceable.", s2:"For a lot of workers, AI is ___: it saves time, but it makes their job feel replaceable.", answer:'a double-edged sword'},
-  {key:'TEETHING', s1:'The new booking system had a lot of minor problems in its first few weeks.', s2:'The new booking system had a lot of ___ in its first few weeks.', answer:'teething problems'},
-  {key:'BANDWAGON', s1:'Every company seems to be starting to use AI just because it has suddenly become popular.', s2:'Every company seems to be ___, whether it actually helps them or not.', answer:'jumping on the AI bandwagon'},
-  {key:'CHANGER', s1:'For translators, AI has completely changed the situation, for better or worse.', s2:'For translators, AI has genuinely been ___, for better or worse.', answer:'a game-changer'},
-  {key:'PACE', s1:"Electricity grids are struggling to progress at the same speed as the demand from data centres.", s2:'Electricity grids are struggling to ___ the demand from data centres.', answer:'keep pace with'}
+  {key:'SLOPE', s1:'Letting AI grade every assignment seems small now, but could lead somewhere far more serious.', s2:'Letting AI grade every assignment feels like ___ toward taking teachers out of the process.', answer:'a slippery slope'},
+  {key:'ICEBERG', s1:'The water used by one data centre is only a small, visible part of a much bigger problem.', s2:'The water used by one data centre is just ___; the real cost is the electricity behind it.', answer:'the tip of the iceberg'},
+  {key:'ENVELOPE', s1:'The lab keeps trying things that go beyond the usual limits of what an AI model can do.', s2:'The lab keeps ___ on what an AI model can do with just a few seconds of audio.', answer:'pushing the envelope'},
+  {key:'WRITING', s1:'When the company announced its AI trial, it was clear something bad was coming for junior roles.', s2:'When the company announced its AI trial, ___ for a lot of junior roles.', answer:'the writing was on the wall'},
+  {key:'ROLL', s1:'The company plans to introduce the new AI assistant gradually to every department.', s2:'The company plans to ___ the new AI assistant to every department by next spring.', answer:'roll out'}
 ];
 function loadUoe(){
   try{ var raw = localStorage.getItem(UOE_KEY); if(raw){ var p = JSON.parse(raw); if(Array.isArray(p) && p.length && p[0].s2!==undefined) return p; } }catch(e){}
@@ -2641,14 +2645,14 @@ function removeWarmupQ(i){
 
 /* ---------- flashcards ---------- */
 var FLASHCARD_IMAGES = {
-  'cutting-edge': null,
   'a double-edged sword': null,
-  'teething problems': null,
-  'jump on the bandwagon': null,
-  'a game-changer': null,
-  'the tip of the iceberg': null,
   'open a pandora\'s box': null,
-  'keep pace with': null
+  'a slippery slope': null,
+  'the tip of the iceberg': null,
+  'push the envelope': null,
+  'the genie\'s out of the bottle': null,
+  'the writing\'s on the wall': null,
+  'roll out': null
 };
 var FLASH_IMG_KEY = 'jpe_aieveryday_flashcard_images';
 function loadFlashImages(){
