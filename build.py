@@ -143,6 +143,8 @@ LESSON_LINKS = [
      'tagline': 'C1 lesson on the longevity trend and living longer.'},
     {'href': '/lessons/work-careers-c1.html', 'name': 'Work & Careers',
      'tagline': 'C1 lesson on quiet quitting, hustle and work idioms.'},
+    {'href': '/lessons/ai-everyday-life-c1.html', 'name': 'AI in Everyday Life',
+     'tagline': 'C1 lesson on AI adoption, data centres and their hidden cost.'},
     {'href': '/lessons/lesson-template.html', 'name': 'Lesson Template',
      'tagline': 'The reusable base every new lesson is copied from.'},
 ]
