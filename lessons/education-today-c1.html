@@ -2027,21 +2027,33 @@ var DEFAULT_LISTEN = [
       'What do the two teachers finally decide they can actually change themselves?'
     ],
     lines: [
-      ln('a','Marta',"Have you seen the new PISA results? Reading and maths at their lowest ever recorded. Honestly, it should be a wake-up call for all of us."),
-      ln('b','Tom',"[sighs] I saw the headlines. \"Unprecedented drop.\" Grim reading, no pun intended."),
-      ln('a','Marta',"And if you read between the lines, it isn't really about the scores. It's about kids who've stopped reading at all."),
-      ln('b','Tom',"It's the phones, surely. Nobody hits the books the way we did. Half my class can't sit with anything for ten minutes."),
-      ln('a','Marta',"Partly. But we can't just paper over the cracks and blame the phones. We've spent a decade drilling exams ourselves."),
-      ln('b','Tom',"[exhales] Fair. And it's always the quiet ones who slip through the cracks. Lost in September, and nobody notices till June."),
-      ln('a','Marta',"Exactly. What really gets me is that whether a child does well still comes down to their postcode. It's hardly a level playing field."),
-      ln('b','Tom',"No. So are we on the same page about what we actually do?"),
-      ln('a','Marta',"I think so. Look at the countries at the top of the class, Singapore, Estonia. They didn't chase gadgets. They kept standards high and reading alive."),
-      ln('b','Tom',"They raise the bar for everyone, you mean, not just the top set."),
-      ln('a','Marta',"Right. It sounds simple. Whether it works is another matter, though. The proof is in the pudding."),
-      ln('b','Tom',"[laughs] So what, we just teach better and hope?"),
-      ln('a','Marta',"We start small. Our own classes. More reading, less cramming. If they genuinely understand it, they'll pass with flying colours anyway."),
-      ln('b','Tom',"Less papering over, more actual teaching. Shall we start Monday?"),
-      ln('a','Marta',"[smiles] Start Monday.")
+      ln('a','Marta',"[sighing, sitting down] Sorry, sorry, I'm late, the printer's died again and I still haven't finished the Year 11 mocks."),
+      ln('b','Tom',"Don't worry, I've barely started mine either. Coffee's fresh, if that helps."),
+      ln('a','Marta',"It might. Did you see the news this morning, by the way? The new PISA results are out."),
+      ln('b','Tom',"Oh, I saw the headline and closed the tab. Wasn't ready for that at half seven."),
+      ln('a','Marta',"Reading and maths, lowest ever recorded. It should be a wake-up call, honestly, and yet I'd bet nothing changes."),
+      ln('b','Tom',"[laughs, not really laughing] Nothing ever does. Anyway, how was your weekend? Did you get to your sister's in the end?"),
+      ln('a','Marta',"I did, actually, it was lovely, her kids are getting so big. But don't distract me, I want to talk about this."),
+      ln('b','Tom',"[laughing] Alright, alright. Go on then."),
+      ln('a','Marta',"So if you read between the lines, it isn't really about the scores at all. It's that nobody reads for pleasure any more."),
+      ln('b','Tom',"It's the phones. Has to be. Nobody hits the books the way we did, not even close."),
+      ln('a','Marta',"Partly, sure. But we can't just paper over the cracks and blame the phones for everything, can we? We've spent a decade drilling exams ourselves."),
+      ln('b','Tom',"[pause] Fair point, actually. That reminds me, did you hear about Jamie in Year 10?"),
+      ln('a','Marta',"Oh, what's happened now?"),
+      ln('b','Tom',"Nothing dramatic. He's exactly the sort who slips through the cracks. Quiet, never causes trouble, and I only really noticed in December he was miles behind."),
+      ln('a','Marta',"That's exactly it, though, isn't it? And half the time it comes down to where a kid happens to grow up. Hardly a level playing field."),
+      ln('b','Tom',"No, it really isn't. Anyway. Are we actually on the same page about what to do here, or are we just moaning?"),
+      ln('a','Marta',"[laughs] Bit of both. But look, some countries barely dropped at all. Estonia, Singapore, that sort of place."),
+      ln('b','Tom',"What, they just raise the bar and everyone magically keeps up?"),
+      ln('a','Marta',"Something like that. Consistent teaching, proper reading habits, nothing flashy."),
+      ln('b','Tom',"Sounds too simple to actually work."),
+      ln('a','Marta',"Maybe. The proof is in the pudding, though, and their numbers don't lie."),
+      ln('b','Tom',"[sighs] Right, well. I should probably get back to this marking before the bell."),
+      ln('a','Marta',"Same. But seriously, what if we just changed our own classes? Less cramming, more actual reading."),
+      ln('b','Tom',"Radical."),
+      ln('a','Marta',"[laughs] I know. If they genuinely understand it, they'll pass with flying colours anyway."),
+      ln('b','Tom',"Alright. Shall we actually try it? Starting Monday?"),
+      ln('a','Marta',"[smiles] Starting Monday.")
     ]
   }
 ];
@@ -2636,10 +2648,10 @@ function updateWCount(id){
 /* ---------- warm-up questions ---------- */
 var WARMUP_KEY = 'jpe_edutoday_warmup_qs';
 var DEFAULT_WARMUP = [
-  {text:"What's the most memorable teacher or lesson you've ever had, and what made it stick?", prompt:'Give each other at least 90 seconds before you swap.'},
-  {text:'Do international rankings like PISA actually tell us anything useful about a country?', prompt:'Ask a follow-up question before moving on.'},
-  {text:'Have phones and screens made students better or worse at learning, on balance?', prompt:'Try to disagree with something your partner says, politely.'},
-  {text:'If you could change one thing about education in your country, what would it be?', prompt:'Give at least two concrete details.'}
+  {text:"Who was the one teacher who genuinely changed something in you? What did they actually do?", prompt:'Give each other at least 90 seconds before you swap.'},
+  {text:"Did you ever cram all night for an exam and somehow pass anyway? What did that teach you?", prompt:'Ask a follow-up question before moving on.'},
+  {text:"Were you the kid who got told off for daydreaming, or the one taking notes at the front?", prompt:'Try to disagree with something your partner says, politely.'},
+  {text:"If your old school report card had one honest sentence written by you, not the teacher, what would it say?", prompt:'Give at least two concrete details.'}
 ];
 function loadWarmupQs(){
   try{ var s = JSON.parse(localStorage.getItem(WARMUP_KEY)); if(Array.isArray(s) && s.length) return s; }catch(e){}
