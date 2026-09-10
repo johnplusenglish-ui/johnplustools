@@ -686,8 +686,8 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <div class="section-header">
       <div class="section-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
       <div>
-        <div class="section-title">Main Task · Photo Gallery</div>
-        <div class="section-label-mono">Speaking · 15 min</div>
+        <div class="section-title">Main Task · The Report</div>
+        <div class="section-label-mono">Reading &amp; Discussion · 12 min</div>
       </div>
       <div class="section-header-actions">
         <button class="section-fullscreen-toggle" onclick="presentSection('main')" title="Present full screen">
@@ -698,7 +698,25 @@ body.section-present .deb-instruction{font-size:1.15rem}
         </button>
       </div>
     </div>
-    <div class="section-card gallery-card">
+    <div class="section-card">
+      <div style="font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--mint);margin-bottom:.5rem">The Report · PISA 2025</div>
+      <h3 style="font-size:1.5rem;line-height:1.15;margin:0 0 .4rem">The Class of 2025: What the New PISA Report Found</h3>
+      <p style="color:var(--muted);font-size:.95rem;margin:0 0 1.1rem">Every three years the OECD tests around 750,000 fifteen-year-olds across dozens of countries on the same scale. This year's results, released this month, are the most worrying it has ever recorded, and, for many teachers, a real <strong>wake-up call</strong>.</p>
+      <div class="reading-text">
+        <p><strong>The headline is bleak.</strong> Across wealthy countries, reading and maths have both fallen to the <strong>lowest averages ever recorded</strong> (maths 463, reading 461). Reading alone is down about <strong>28 points since 2015</strong>, which the OECD calls roughly a year and a half of lost learning.</p>
+        <p><strong>It is not simply the pandemic.</strong> Reading and science had been sliding for a decade before COVID. Today <strong>one in five</strong> teenagers is a low performer in all three subjects at once, up from one in six in 2022. Too many quietly <strong>slip through the cracks</strong> before anyone notices.</p>
+        <p><strong>Screens are part of the story.</strong> About a third of students say they are distracted by devices in class, and those glued to screens for five to seven hours a day score around <strong>49 points lower in maths</strong> than those who keep it under an hour. Reading for pleasure has collapsed.</p>
+        <p><strong>Where you live still matters far too much.</strong> A child's results are strongly tied to family wealth and postcode; genuinely fair systems, offering something close to <strong>a level playing field</strong>, remain the exception rather than the rule.</p>
+        <p><strong>But it is not all doom.</strong> Singapore and the Chinese provinces are still <strong>top of the class</strong>, Estonia leads Europe by pairing strong results with real fairness, and England's science climbed to its highest since 2012. What the leaders share is unglamorous: they protect their teachers, sort children into tracks late, and keep a reading culture alive.</p>
+      </div>
+      <div style="margin-top:1.1rem;padding:.9rem 1.1rem;background:rgba(13,148,136,.08);border-radius:12px">
+        <div style="font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--mint);margin-bottom:.4rem">Talk about it</div>
+        <p style="margin:.15rem 0;font-size:.95rem">1. Which finding surprised you the most, and why?</p>
+        <p style="margin:.15rem 0;font-size:.95rem">2. Do you blame phones, teaching, or something else for the decline?</p>
+        <p style="margin:.15rem 0;font-size:.95rem">3. Is education in your country more like the leaders here, or the strugglers?</p>
+      </div>
+    </div>
+    <div class="section-card gallery-card" style="display:none">
       <div class="spray-board" id="sprayBoard"></div>
       <button class="spray-add-corner" id="sprayAddCorner" onclick="triggerUpload()" title="Add a photo" style="display:none"
         ondragover="event.preventDefault();this.classList.add('drag-over')"
@@ -707,7 +725,7 @@ body.section-present .deb-instruction{font-size:1.15rem}
     </div>
     <div class="section-card uoe-editor-card" id="peopleEditorCard" style="display:none">
       <div class="deb-sidebar-label" style="margin-bottom:.3rem;margin-top:1.4rem">People in this group</div>
-      <p class="wb-hint" style="margin-bottom:.9rem">This roster feeds both the photo gallery and Question Swap. Tap the badge to mark someone as Teacher, which excludes them from Question Swap pairwork. Edit this whenever you reuse the lesson with a different group.</p>
+      <p class="wb-hint" style="margin-bottom:.9rem">This roster feeds the Question Swap pairwork. Tap the badge to mark someone as Teacher, which excludes them from the pairing. Edit this whenever you reuse the lesson with a different group.</p>
       <div id="peopleEditRows"></div>
       <button class="read-btn wb-add" onclick="addPerson()">+ Add person</button>
     </div>
