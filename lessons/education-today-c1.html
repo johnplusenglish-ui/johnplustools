@@ -1124,7 +1124,7 @@ function renderPeopleEdit(){
     return '<div class="wb-row" style="grid-template-columns:24px 1fr auto 34px;align-items:center">'+
       '<span class="people-dot" style="background:'+PEOPLE_PALETTE[i % PEOPLE_PALETTE.length]+'"></span>'+
       '<input value="'+esc(p.name)+'" data-i="'+i+'" oninput="onPersonEdit(this)" placeholder="name">'+
-      '<button class="read-btn'+(p.isTeacher?' primary':'')+'" style="padding:.3rem .6rem;font-size:.7rem" onclick="toggleTeacher('+i+')" title="Exclude this person from Question Swap pairwork">'+(p.isTeacher?'Teacher':'Student')+'</button>'+
+      '<button class="read-btn'+(p.isTeacher?' primary':'')+'" style="padding:.3rem .6rem;font-size:.7rem" onclick="toggleTeacher('+i+')" title="Mark this person as a teacher or a student">'+(p.isTeacher?'Teacher':'Student')+'</button>'+
       '<button class="wb-rm" onclick="removePerson('+i+')" aria-label="Remove">&times;</button>'+
     '</div>';
   }).join('');
