@@ -1,0 +1,1808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>(function(){
+  var ok=false;try{ok=localStorage.getItem('jpt_gate_ok')==='1'}catch(e){}
+  if(ok)return;
+  document.documentElement.style.visibility='hidden';
+  var HASH='7c229dcbe1a9abfa9292b1fdd8910b1a16edfbdffcb59c19a218fdbde9c253c9';
+  function hex(buf){return Array.prototype.map.call(new Uint8Array(buf),function(b){return ('0'+b.toString(16)).slice(-2)}).join('')}
+  function check(pw){
+    return crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw)).then(function(buf){return hex(buf)===HASH});
+  }
+  function ask(){
+    var pw;try{pw=prompt('Password required')}catch(e){return}
+    if(pw===null)return;
+    check(pw).then(function(match){
+      if(match){try{localStorage.setItem('jpt_gate_ok','1')}catch(e){}document.documentElement.style.visibility=''}
+      else{alert('Incorrect password.');ask()}
+    });
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',ask)}else{ask()}
+})();</script>
+<title>Education Today | JohnPlusEnglish</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cobalt: #2176FF;
+    --red: #EF233C;
+    --yellow: #FFDD4A;
+    --orange: #FF9100;
+    --sky: #49B6FF;
+    --navy: #1A1A2E;
+    --purple: #8B5CF6;
+    --pink: #EC4899;
+    --cyan: #06B6D4;
+    --coral: #FB7185;
+    --bg: #F7F7F5;
+    --card: #FFFFFF;
+    --border: #E5E7EB;
+    --muted: #6B7280;
+    --soft: #F0F4FF;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--bg);
+    color: var(--navy);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 40px 24px 80px; }
+  header { margin-bottom: 32px; }
+  .eyebrow {
+    font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
+    color: var(--cobalt); text-transform: uppercase; margin-bottom: 8px;
+  }
+  h1 { font-size: 42px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.1; }
+  .sub { color: var(--muted); margin-top: 8px; font-size: 16px; }
+
+  /* Tabs */
+  .tabs {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-bottom: 24px; padding: 6px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px;
+  }
+  .tab {
+    flex: 1; min-width: 120px;
+    padding: 10px 14px; border: none; background: transparent;
+    font-family: inherit; font-size: 14px; font-weight: 600;
+    color: var(--muted); border-radius: 10px; cursor: pointer;
+    transition: all 0.15s ease;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .tab svg { width: 16px; height: 16px; stroke-width: 2; }
+  .tab:hover { color: var(--navy); }
+  .tab.active { background: var(--cobalt); color: white; }
+
+  /* Icon boxes for section headings and inline uses */
+  .section-head {
+    display: flex; align-items: center; gap: 14px; margin-bottom: 8px;
+  }
+  .section-head h2 { margin: 0; }
+  .icon-box {
+    width: 44px; height: 44px; border-radius: 12px;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--soft); color: var(--cobalt);
+    flex-shrink: 0;
+  }
+  .icon-box svg { width: 22px; height: 22px; stroke-width: 2; }
+  .icon-inline {
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .icon-inline svg { width: 18px; height: 18px; stroke-width: 2; }
+
+  /* Panels */
+  .panel { display: none; }
+  .panel.active { display: block; animation: fade 0.25s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 20px; padding: 32px;
+  }
+  .card + .card { margin-top: 20px; }
+
+  h2 {
+    font-size: 22px; font-weight: 800; margin-bottom: 8px;
+    letter-spacing: -0.3px;
+  }
+  h3 { font-size: 16px; font-weight: 700; margin-bottom: 12px; }
+  .lead { color: var(--muted); font-size: 15px; margin-bottom: 24px; }
+  p { font-size: 16px; }
+
+  /* Questionnaire */
+  .q-list { display: grid; gap: 14px; }
+  .q-item {
+    display: flex; gap: 16px; padding: 18px;
+    background: var(--soft); border-radius: 14px;
+  }
+  .q-num {
+    flex-shrink: 0;
+    width: 32px; height: 32px; border-radius: 8px;
+    background: var(--cobalt); color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 14px;
+  }
+  .q-body { flex: 1; padding-top: 4px; }
+  .q-text { font-size: 17px; font-weight: 600; margin-bottom: 12px; line-height: 1.4; }
+  .q-phrases {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: 5px;
+  }
+  .q-phrases li {
+    font-size: 14.5px; color: var(--muted);
+    font-style: italic; line-height: 1.45;
+    padding-left: 16px; position: relative;
+  }
+  .q-phrases li::before {
+    content: ""; position: absolute; left: 4px; top: 9px;
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--cobalt); opacity: 0.45;
+  }
+
+  /* Reading */
+  .reading-versions {
+    display: flex; gap: 8px; margin-bottom: 20px;
+    padding: 5px; background: var(--soft);
+    border-radius: 12px; width: fit-content;
+  }
+  .reading-version-btn {
+    padding: 8px 20px; background: transparent;
+    border: none; color: var(--muted);
+    border-radius: 8px; cursor: pointer;
+    font-family: inherit; font-size: 13px; font-weight: 800;
+    letter-spacing: 0.5px;
+    transition: all 0.15s ease;
+  }
+  .reading-version-btn:hover { color: var(--navy); }
+  .reading-version-btn.active {
+    background: var(--cobalt); color: white;
+  }
+  .reading-content { display: none; }
+  .reading-content.active { display: block; }
+  .reading-text { font-size: 17px; line-height: 2; color: var(--navy); }
+  .reading-text strong { font-weight: 700; color: var(--navy); }
+  .gap-num {
+    display: inline-block;
+    font-size: 11px; font-weight: 800;
+    color: var(--cobalt);
+    vertical-align: super;
+    margin-right: 3px;
+    line-height: 1;
+  }
+  .reading-text input {
+    display: inline-block;
+    width: 90px; padding: 4px 10px; margin: 0 2px;
+    font-family: inherit; font-size: 15px; font-weight: 600;
+    text-align: center;
+    border: none; border-bottom: 2px solid var(--cobalt);
+    background: var(--soft); border-radius: 6px 6px 0 0;
+    color: var(--cobalt);
+    outline: none;
+  }
+  .reading-text input:focus { background: #E3EEFF; }
+  .reading-text input.correct { background: #DCFCE7; border-bottom-color: #16A34A; color: #166534; }
+  .reading-text input.wrong { background: #FEE2E2; border-bottom-color: var(--red); color: var(--red); }
+  .check-btn {
+    margin-top: 24px; padding: 12px 24px;
+    background: var(--cobalt); color: white; border: none;
+    font-family: inherit; font-size: 14px; font-weight: 700;
+    border-radius: 10px; cursor: pointer; letter-spacing: 0.3px;
+  }
+  .check-btn:hover { background: #1a5fd9; }
+  .reveal-btn {
+    margin-left: 8px; padding: 12px 20px;
+    background: transparent; color: var(--cobalt);
+    border: 2px solid var(--cobalt);
+    font-family: inherit; font-size: 14px; font-weight: 700;
+    border-radius: 10px; cursor: pointer;
+  }
+
+  /* Vocab matching */
+  .match-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
+    margin-top: 8px;
+  }
+  .match-col { display: flex; flex-direction: column; gap: 10px; }
+  .match-col h3 {
+    font-size: 12px; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--muted);
+    font-weight: 700; margin-bottom: 4px;
+  }
+  .match-item {
+    padding: 14px 18px; border: 2px solid var(--border);
+    border-radius: 12px; cursor: pointer;
+    font-size: 15px; font-weight: 500;
+    background: white; transition: all 0.15s ease;
+    user-select: none;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .match-label {
+    display: inline-flex;
+    align-items: center; justify-content: center;
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    background: var(--soft);
+    color: var(--cobalt);
+    font-weight: 800; font-size: 12px;
+    flex-shrink: 0;
+    transition: background 0.15s, color 0.15s;
+  }
+  .match-item.matched .match-label {
+    background: rgba(255,255,255,0.22);
+    color: white;
+  }
+  .match-item.matched.dark-text .match-label {
+    background: rgba(0,0,0,0.15);
+    color: var(--navy);
+  }
+  .es {
+    font-style: italic; font-weight: 500;
+    opacity: 0.65;
+  }
+  .es::before { content: " · "; opacity: 0.55; }
+  .match-item:hover { border-color: var(--navy); }
+  .match-item.selected {
+    border-color: var(--cobalt); background: var(--soft);
+  }
+  .match-item.matched {
+    color: white; border-color: transparent;
+    cursor: default; pointer-events: none;
+  }
+  .match-item.matched.dark-text { color: var(--navy); }
+  .match-status {
+    text-align: center; margin-top: 20px;
+    font-size: 14px; color: var(--muted);
+  }
+  @media (max-width: 640px) {
+    .match-grid { grid-template-columns: 1fr; gap: 16px; }
+  }
+
+  /* Long turns */
+  .lt-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 16px;
+  }
+  .lt-count { font-size: 14px; color: var(--muted); font-weight: 500; }
+  .lt-buttons { display: flex; gap: 8px; }
+  .lt-btn {
+    padding: 8px 16px; background: white;
+    border: 2px solid var(--cobalt); color: var(--cobalt);
+    border-radius: 10px; cursor: pointer;
+    font-family: inherit; font-size: 13px; font-weight: 700;
+  }
+  .lt-btn:hover { background: var(--soft); }
+  .lt-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  .lt-card {
+    border: 2px solid var(--cobalt);
+    border-radius: 20px; padding: 32px;
+    display: none;
+  }
+  .lt-card.active { display: block; }
+  .lt-head {
+    display: flex; justify-content: space-between;
+    align-items: center; margin-bottom: 20px;
+  }
+  .lt-badge {
+    background: var(--cobalt); color: white;
+    padding: 8px 18px; border-radius: 10px;
+    font-size: 13px; font-weight: 700; letter-spacing: 1px;
+  }
+  .lt-timer {
+    font-size: 15px; font-weight: 700; color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .lt-timer.running { color: var(--cobalt); }
+  .lt-timer.done { color: var(--red); }
+  .lt-question {
+    font-size: 22px; font-weight: 800; line-height: 1.3;
+    margin-bottom: 20px; letter-spacing: -0.3px;
+  }
+  .lt-prompts { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+  .lt-prompt {
+    display: inline-block; padding: 10px 18px;
+    background: var(--soft); border-radius: 999px;
+    font-size: 14px; font-weight: 500; width: fit-content;
+  }
+  .lt-divider { border: 0; border-top: 1px dashed var(--border); margin: 20px 0; }
+  .lt-followup-title {
+    font-size: 14px; font-weight: 700; margin-bottom: 10px;
+  }
+  .lt-followup { list-style: none; padding: 0; }
+  .lt-followup li {
+    padding-left: 20px; position: relative;
+    margin-bottom: 8px; font-size: 14px; color: var(--navy);
+  }
+  .lt-followup li::before {
+    content: ""; position: absolute; left: 4px; top: 9px;
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--cobalt);
+  }
+  .timer-btn {
+    padding: 10px 20px; background: var(--cobalt); color: white;
+    border: none; border-radius: 10px; cursor: pointer;
+    font-family: inherit; font-size: 13px; font-weight: 700;
+  }
+  .timer-btn.reset { background: transparent; color: var(--cobalt); border: 2px solid var(--cobalt); }
+
+  /* Debates - sidebar + circle layout */
+  .debate-layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+  .phrase-panel {
+    background: #F5F1EA;
+    border-radius: 20px;
+    padding: 28px 24px;
+    position: sticky;
+    top: 20px;
+  }
+  .phrase-panel h3 {
+    font-size: 12px; font-weight: 800; letter-spacing: 1.5px;
+    color: var(--cobalt); text-transform: uppercase; margin-bottom: 18px;
+  }
+  .phrase-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; }
+  .phrase-list li {
+    font-size: 15px; font-weight: 600; line-height: 1.35;
+    padding: 6px 10px; margin: 0 -10px;
+    border-radius: 8px; cursor: pointer;
+    transition: background 0.15s ease, opacity 0.2s ease, text-decoration-color 0.2s ease;
+  }
+  .phrase-list li:hover { background: rgba(33, 118, 255, 0.1); }
+  .phrase-list li.used {
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+    opacity: 0.35;
+  }
+  .phrase-list li.blue { color: var(--cobalt); font-style: italic; }
+  .phrase-list li.dark { color: var(--navy); }
+
+  .debate-stack { display: flex; flex-direction: column; gap: 20px; }
+  .debate-nav {
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .debate-count { font-size: 14px; color: var(--muted); font-weight: 500; }
+  .debate-nav-buttons { display: flex; gap: 8px; }
+  .debate-nav-btn {
+    padding: 8px 16px; background: white;
+    border: 2px solid var(--cobalt); color: var(--cobalt);
+    border-radius: 10px; cursor: pointer;
+    font-family: inherit; font-size: 13px; font-weight: 700;
+  }
+  .debate-nav-btn:hover { background: var(--soft); }
+  .debate-nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .debate-stack .debate { display: none; }
+  .debate-stack .debate.active { display: block; }
+  .debate {
+    background: white;
+    border: 2px solid var(--cobalt);
+    border-radius: 24px;
+    padding: 36px 40px;
+    position: relative;
+  }
+  .debate.blurred { cursor: pointer; }
+  .debate > *:not(.debate-head) { transition: filter 0.3s ease; }
+  .debate.blurred > *:not(.debate-head) {
+    filter: blur(7px);
+    pointer-events: none;
+    user-select: none;
+  }
+  .debate.blurred::after {
+    content: "Click to reveal";
+    position: absolute;
+    top: 58%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--cobalt); color: white;
+    padding: 10px 22px; border-radius: 999px;
+    font-weight: 700; font-size: 13px;
+    letter-spacing: 0.5px;
+    z-index: 10;
+    pointer-events: none;
+    box-shadow: 0 4px 14px rgba(33, 118, 255, 0.3);
+  }
+  .debate-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin: -4px -10px 20px;
+    padding: 6px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+  .debate-head:hover { background: rgba(33, 118, 255, 0.06); }
+  .debate:not(.blurred) .debate-level::after {
+    content: " · click to hide";
+    font-size: 10.5px;
+    font-weight: 500;
+    color: var(--muted);
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .debate-topic {
+    font-size: 22px; font-weight: 800; letter-spacing: -0.3px;
+    text-transform: uppercase;
+    display: inline-flex; align-items: center; gap: 12px;
+  }
+  .debate-topic svg { width: 22px; height: 22px; stroke-width: 2; color: var(--cobalt); }
+  .debate-level {
+    font-size: 15px; font-weight: 700; color: var(--cobalt);
+  }
+  .debate-q {
+    font-size: 17px; font-weight: 700; text-align: center;
+    margin-bottom: 32px; line-height: 1.35;
+  }
+  .debate-circles {
+    display: flex; flex-direction: column; gap: 20px;
+    align-items: center; margin-bottom: 28px;
+  }
+  .circle-row {
+    display: flex; gap: 24px; justify-content: center; flex-wrap: wrap;
+  }
+  .circle {
+    width: 140px; height: 140px; border-radius: 50%;
+    border: 2px solid var(--cobalt); background: white;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; padding: 12px;
+    font-size: 14px; font-weight: 600; line-height: 1.25;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .circle:hover { background: var(--soft); transform: translateY(-2px); }
+  .circle.picked { background: var(--cobalt); color: white; }
+  .circle.faded {
+    opacity: 0.3;
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+    border-color: var(--muted);
+    color: var(--muted);
+    background: white;
+    transform: none;
+  }
+  .circle.faded:hover { background: white; transform: none; }
+  .debate-prompt {
+    text-align: center; font-style: italic;
+    font-weight: 700; font-size: 15px; color: var(--navy);
+    padding-top: 20px; border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 860px) {
+    .debate-layout { grid-template-columns: 1fr; }
+    .phrase-panel { position: static; }
+    .debate { padding: 24px; }
+    .circle { width: 120px; height: 120px; font-size: 13px; }
+    .circle-row { gap: 14px; }
+  }
+
+  /* Writing */
+  .writing-brief {
+    font-size: 17px; line-height: 1.6; margin-bottom: 20px;
+  }
+  .writing-points {
+    background: var(--soft); border-radius: 14px;
+    padding: 20px 24px; margin-bottom: 20px;
+  }
+  .writing-points h3 { font-size: 13px; letter-spacing: 1px; text-transform: uppercase; color: var(--cobalt); }
+  .writing-points ul { list-style: none; padding: 0; margin-top: 8px; }
+  .writing-points li {
+    padding: 6px 0 6px 22px; position: relative;
+    font-size: 15px;
+  }
+  .writing-points li::before {
+    content: "→"; position: absolute; left: 0;
+    color: var(--cobalt); font-weight: 700;
+  }
+  .writing-box {
+    width: 100%; min-height: 260px;
+    padding: 20px; border: 2px solid var(--border);
+    border-radius: 14px; font-family: inherit; font-size: 15px;
+    color: var(--navy); resize: vertical; line-height: 1.6;
+    outline: none;
+  }
+  .writing-box:focus { border-color: var(--cobalt); }
+  .writing-meta {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 12px; font-size: 13px; color: var(--muted);
+  }
+
+  /* Vocab sentence gap-fill */
+  .vgf-intro { color: var(--muted); font-size: 15px; margin-bottom: 20px; }
+  .vgf-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px; }
+  .vgf-item {
+    display: flex; gap: 14px; align-items: flex-start;
+    padding: 16px 18px;
+    background: var(--soft); border-radius: 14px;
+  }
+  .vgf-num {
+    flex-shrink: 0;
+    width: 28px; height: 28px; border-radius: 8px;
+    background: var(--cobalt); color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 13px;
+    margin-top: 2px;
+  }
+  .vgf-text {
+    flex: 1; font-size: 15.5px; line-height: 1.8;
+  }
+  .vgf-input {
+    display: inline-block;
+    min-width: 210px; padding: 4px 12px; margin: 0 3px;
+    font-family: inherit; font-size: 14.5px; font-weight: 600;
+    text-align: left;
+    border: none; border-bottom: 2px solid var(--cobalt);
+    background: white; border-radius: 6px 6px 0 0;
+    color: var(--cobalt);
+    outline: none;
+  }
+  .vgf-input:focus { background: #E3EEFF; }
+  .vgf-input.correct { background: #DCFCE7; border-bottom-color: #16A34A; color: #166534; }
+  .vgf-input.wrong { background: #FEE2E2; border-bottom-color: var(--red); color: var(--red); }
+
+  /* Summary tables (reading + vocab) */
+  .summary {
+    margin-top: 28px; padding-top: 24px;
+    border-top: 1px dashed var(--border);
+    display: none; animation: fade 0.3s ease;
+  }
+  .summary.show { display: block; }
+  .summary-title {
+    font-size: 12px; font-weight: 800; letter-spacing: 1.5px;
+    color: var(--cobalt); text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .summary-table {
+    display: grid; gap: 6px;
+  }
+  .summary-row {
+    display: grid; grid-template-columns: 28px 200px 1fr;
+    gap: 14px; align-items: baseline;
+    padding: 10px 14px; border-radius: 10px;
+    background: var(--soft);
+    font-size: 14px;
+  }
+  .summary-row .n { font-weight: 800; color: var(--cobalt); font-size: 13px; }
+  .summary-row .item strong { font-weight: 700; }
+  .summary-row .item em { font-style: italic; color: var(--cobalt); font-weight: 700; font-style: normal; }
+  .summary-row .gloss { color: var(--navy); }
+  .summary-row.vocab { grid-template-columns: 160px 1fr; }
+  .summary-row.vocab .item { font-weight: 700; }
+  @media (max-width: 640px) {
+    .summary-row { grid-template-columns: 24px 1fr; }
+    .summary-row .gloss { grid-column: 1 / -1; padding-top: 4px; color: var(--muted); }
+    .summary-row.vocab { grid-template-columns: 1fr; }
+  }
+  .rank-intro { color: var(--muted); font-size: 15px; margin-bottom: 20px; }
+  .rank-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    margin-bottom: 20px;
+  }
+  .rank-tile {
+    display: flex; align-items: center; gap: 14px;
+    padding: 16px 18px;
+    background: white; border: 2px solid var(--border);
+    border-radius: 14px; cursor: pointer;
+    transition: all 0.15s ease;
+    font-size: 15px; font-weight: 600;
+    user-select: none;
+  }
+  .rank-tile:hover { border-color: var(--cobalt); }
+  .rank-tile.ranked {
+    border-color: var(--cobalt); background: var(--soft);
+  }
+  .rank-badge {
+    width: 32px; height: 32px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--border); color: white;
+    font-weight: 800; font-size: 14px;
+    flex-shrink: 0;
+    transition: background 0.15s;
+  }
+  .rank-tile.ranked .rank-badge {
+    background: var(--cobalt);
+  }
+  .rank-actions { display: flex; gap: 10px; align-items: center; }
+  .rank-reset {
+    padding: 10px 18px; background: transparent;
+    border: 2px solid var(--cobalt); color: var(--cobalt);
+    font-family: inherit; font-size: 13px; font-weight: 700;
+    border-radius: 10px; cursor: pointer;
+  }
+  .rank-status { font-size: 13px; color: var(--muted); }
+  .rank-prompt {
+    margin-top: 20px; padding: 16px 20px;
+    background: var(--soft); border-radius: 12px;
+    font-style: italic; font-size: 14px;
+  }
+
+  /* Role Play */
+  .rp-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 16px;
+  }
+  .rp-count { font-size: 14px; color: var(--muted); font-weight: 500; }
+  .rp-buttons { display: flex; gap: 8px; }
+  .rp-btn {
+    padding: 8px 16px; background: white;
+    border: 2px solid var(--cobalt); color: var(--cobalt);
+    border-radius: 10px; cursor: pointer;
+    font-family: inherit; font-size: 13px; font-weight: 700;
+  }
+  .rp-btn:hover { background: var(--soft); }
+  .rp-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .rp-card {
+    border: 2px solid var(--cobalt);
+    border-radius: 20px; padding: 32px;
+    display: none;
+  }
+  .rp-card.active { display: block; }
+  .rp-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 8px;
+  }
+  .rp-title {
+    font-size: 22px; font-weight: 800; letter-spacing: -0.3px;
+  }
+  .rp-setting {
+    font-size: 13px; color: var(--muted); font-style: italic;
+    text-align: right;
+  }
+  .rp-roles {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    margin: 20px 0;
+  }
+  .rp-role {
+    padding: 20px; background: var(--soft);
+    border-radius: 14px;
+  }
+  .rp-role-tag {
+    font-size: 11px; font-weight: 800; letter-spacing: 1.5px;
+    color: var(--cobalt); text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .rp-role-title {
+    font-size: 16px; font-weight: 700; margin-bottom: 10px;
+  }
+  .rp-role p { font-size: 14px; line-height: 1.55; color: var(--navy); }
+  .rp-prompt {
+    text-align: center; font-style: italic;
+    color: var(--muted); font-size: 14px;
+    padding-top: 16px; border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 640px) {
+    .wrap { padding: 24px 16px 60px; }
+    h1 { font-size: 32px; }
+    .card { padding: 22px; }
+    .lt-card { padding: 22px; }
+    .lt-question { font-size: 18px; }
+    .rank-grid { grid-template-columns: 1fr; }
+    .rp-roles { grid-template-columns: 1fr; }
+    .rp-card { padding: 22px; }
+    .rp-title { font-size: 18px; }
+    .rp-head { flex-direction: column; align-items: flex-start; gap: 4px; }
+    .rp-setting { text-align: left; }
+  }
+
+  /* Footer */
+  .site-footer {
+    margin-top: 60px; padding-top: 32px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+  .site-footer .brand {
+    font-size: 18px; font-weight: 900; letter-spacing: 2px;
+    color: var(--cobalt);
+  }
+  .site-footer .brand span { color: var(--navy); }
+  .site-footer .tagline {
+    font-size: 12px; color: var(--muted);
+    letter-spacing: 1px; text-transform: uppercase;
+    margin-top: 6px; font-weight: 600;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">C1 Lesson</div>
+    <h1>Education Today</h1>
+    <p class="sub">What global school rankings reveal about how, and how well, the world is learning.</p>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button class="tab active" data-tab="q">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      Warm-up
+    </button>
+    <button class="tab" data-tab="read">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      Reading
+    </button>
+    <button class="tab" data-tab="vocab">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/><path d="M19 15l.8 1.9L21.7 18l-1.9.8L19 20.7l-.8-1.9L16.3 18l1.9-.8z"/></svg>
+      Vocabulary
+    </button>
+    <button class="tab" data-tab="lt">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10a7 7 0 0 1-14 0"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+      Long Turn
+    </button>
+    <button class="tab" data-tab="rp">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6"/><path d="M23 11h-6"/></svg>
+      Role Play
+    </button>
+    <button class="tab" data-tab="debate">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Debate
+    </button>
+    <button class="tab" data-tab="write">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
+      Writing
+    </button>
+  </nav>
+
+  <!-- Warm-up -->
+  <section class="panel active" id="q">
+    <div class="card">
+      <div class="section-head">
+        <span class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+        <h2>Questionnaire</h2>
+      </div>
+      <div class="q-list" style="margin-top: 20px;">
+        <div class="q-item">
+          <div class="q-num">1</div>
+          <div class="q-body">
+            <div class="q-text">How would you describe the schooling you had growing up?</div>
+            <ul class="q-phrases">
+              <li>"Looking back on it now, ..."</li>
+              <li>"It was fairly strict, if anything."</li>
+              <li>"It did the job, I suppose, but ..."</li>
+            </ul>
+          </div>
+        </div>
+        <div class="q-item">
+          <div class="q-num">2</div>
+          <div class="q-body">
+            <div class="q-text">Do international league tables like PISA actually tell us anything useful?</div>
+            <ul class="q-phrases">
+              <li>"To be honest, I'm a bit sceptical about ..."</li>
+              <li>"There's something to it, but ..."</li>
+              <li>"I'd take the whole thing with a pinch of salt."</li>
+            </ul>
+          </div>
+        </div>
+        <div class="q-item">
+          <div class="q-num">3</div>
+          <div class="q-body">
+            <div class="q-text">Have phones and screens made students better or worse at learning?</div>
+            <ul class="q-phrases">
+              <li>"On the whole, I'd say ..."</li>
+              <li>"It cuts both ways, really."</li>
+              <li>"I'm in two minds about it, to be fair."</li>
+            </ul>
+          </div>
+        </div>
+        <div class="q-item">
+          <div class="q-num">4</div>
+          <div class="q-body">
+            <div class="q-text">Is it a school's job to produce good exam results, or well-rounded people?</div>
+            <ul class="q-phrases">
+              <li>"For me, it comes down to ..."</li>
+              <li>"Ideally both, but if I had to choose ..."</li>
+              <li>"I'd argue that ..."</li>
+            </ul>
+          </div>
+        </div>
+        <div class="q-item">
+          <div class="q-num">5</div>
+          <div class="q-body">
+            <div class="q-text">What is the one thing you would change about education in your country?</div>
+            <ul class="q-phrases">
+              <li>"If it were up to me, ..."</li>
+              <li>"The first thing I'd do is ..."</li>
+              <li>"What frustrates me most is ..."</li>
+            </ul>
+          </div>
+        </div>
+        <div class="q-item">
+          <div class="q-num">6</div>
+          <div class="q-body">
+            <div class="q-text">Can a great teacher make more difference than a great system?</div>
+            <ul class="q-phrases">
+              <li>"There's no question in my mind that ..."</li>
+              <li>"Up to a point, yes, though ..."</li>
+              <li>"I'm not so sure about that, actually."</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-head">
+        <span class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="21" y1="10" x2="7" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="21" y1="18" x2="7" y2="18"/></svg></span>
+        <h2>Ranking</h2>
+      </div>
+      <p class="rank-intro">Rank these six things by how much they really decide how well a child learns. Tap in order: your first tap is 1, your second is 2, and so on. Tap a ranked tile to remove it.</p>
+      <div class="rank-grid" id="rankGrid">
+        <div class="rank-tile" data-id="teacher"><span class="rank-badge">·</span>The quality of the teacher</div>
+        <div class="rank-tile" data-id="home"><span class="rank-badge">·</span>Support and books at home</div>
+        <div class="rank-tile" data-id="motivation"><span class="rank-badge">·</span>The child's own motivation</div>
+        <div class="rank-tile" data-id="class-size"><span class="rank-badge">·</span>Small class sizes</div>
+        <div class="rank-tile" data-id="tech"><span class="rank-badge">·</span>Technology in the classroom</div>
+        <div class="rank-tile" data-id="funding"><span class="rank-badge">·</span>How well the country funds schools</div>
+      </div>
+      <div class="rank-actions">
+        <button class="rank-reset" id="rankReset">Reset</button>
+        <span class="rank-status" id="rankStatus">0 / 6 ranked</span>
+      </div>
+      <div class="rank-prompt">Compare your ranking with a partner. Where do you disagree most, and why? Try to change their mind on one item.</div>
+    </div>
+  </section>
+
+  <!-- Reading -->
+  <section class="panel" id="read">
+    <div class="card">
+      <div class="section-head">
+        <span class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>
+        <h2>Reading</h2>
+      </div>
+      <div class="reading-versions">
+        <button class="reading-version-btn active" data-level="c1">C1</button>
+        <button class="reading-version-btn" data-level="c2">C2</button>
+      </div>
+
+      <div class="reading-content active" id="reading-c1">
+      <p class="lead">Fill each gap with one small word: a preposition or a phrasal-verb particle. Some are trickier than they look.</p>
+      <div class="reading-text" id="reading">
+        Every three years, the OECD <strong>carries</strong> <span class="gap-num">1</span><input data-a="out"> a global test called PISA, and this year's results have left ministers everywhere struggling to <strong>keep</strong> <span class="gap-num">2</span><input data-a="up"> with the bad news. Across wealthy countries, reading and maths scores have <strong>fallen</strong> <span class="gap-num">3</span><input data-a="to"> their lowest levels ever recorded, and many experts refuse to <strong>put</strong> it all <span class="gap-num">4</span><input data-a="down"> to the pandemic.
+        <br><br>
+        Instead, they <strong>point</strong> <span class="gap-num">5</span><input data-a="to"> a slower change: teenagers who no longer read for pleasure and who cannot <strong>switch</strong> <span class="gap-num">6</span><input data-a="off"> their phones in class. Teachers, already stretched, are somehow expected to <strong>make</strong> <span class="gap-num">7</span><input data-a="up"> for lost time with fewer resources than before.
+        <br><br>
+        Not everyone is <strong>taken</strong> <span class="gap-num">8</span><input data-a="in"> by the gloom. A handful of school systems held their nerve and barely slipped at all, and their success hints that the decline is a choice we could still reverse.
+      </div>
+      <button class="check-btn" id="checkReading">Check answers</button>
+      <button class="reveal-btn" id="revealReading">Reveal all</button>
+
+      <div class="summary" id="readingSummary">
+        <div class="summary-title">Language summary</div>
+        <div class="summary-table">
+          <div class="summary-row"><span class="n">1</span><span class="item"><strong>carry</strong> something <em>out</em></span><span class="gloss">perform or conduct (a test, a study, a plan)</span></div>
+          <div class="summary-row"><span class="n">2</span><span class="item"><strong>keep</strong> <em>up</em> with</span><span class="gloss">stay level with the speed or pace of something</span></div>
+          <div class="summary-row"><span class="n">3</span><span class="item"><strong>fall</strong> <em>to</em></span><span class="gloss">drop down to a particular level or figure</span></div>
+          <div class="summary-row"><span class="n">4</span><span class="item"><strong>put</strong> something <em>down</em> to</span><span class="gloss">explain something as being caused by; attribute to</span></div>
+          <div class="summary-row"><span class="n">5</span><span class="item"><strong>point</strong> <em>to</em></span><span class="gloss">indicate or cite as evidence or a cause</span></div>
+          <div class="summary-row"><span class="n">6</span><span class="item"><strong>switch</strong> <em>off</em></span><span class="gloss">turn off; also, stop paying attention</span></div>
+          <div class="summary-row"><span class="n">7</span><span class="item"><strong>make</strong> <em>up</em> for</span><span class="gloss">compensate for something lost or missing</span></div>
+          <div class="summary-row"><span class="n">8</span><span class="item"><strong>taken</strong> <em>in</em> by</span><span class="gloss">deceived or fooled by something misleading</span></div>
+        </div>
+      </div>
+      </div>
+
+      <div class="reading-content" id="reading-c2">
+      <p class="lead">Same task, tougher passage. Eight gaps this time.</p>
+      <div class="reading-text" id="readingC2">
+        The latest international assessment has laid bare a truth that many governments had long <strong>glossed</strong> <span class="gap-num">1</span><input data-a="over">: a whole cohort is quietly <strong>falling</strong> <span class="gap-num">2</span><input data-a="behind">. Ministers, loath to <strong>own</strong> <span class="gap-num">3</span><input data-a="up"> to years of drift and complacency, were quick to lay the blame at the door of the pandemic.
+        <br><br>
+        Yet the malaise had <strong>set</strong> <span class="gap-num">4</span><input data-a="in"> well before the first school bolted its doors. Ambitious reforms meant to <strong>drive</strong> standards <span class="gap-num">5</span><input data-a="up"> were repeatedly <strong>watered</strong> <span class="gap-num">6</span><input data-a="down"> the moment they proved unpopular, and each promising initiative was quietly shelved.
+        <br><br>
+        Teachers, meanwhile, have been left to <strong>fend</strong> <span class="gap-num">7</span><input data-a="for"> themselves, and any honest reckoning has been endlessly <strong>put</strong> <span class="gap-num">8</span><input data-a="off">. The bill, one suspects, will eventually fall due, and the interest on it is already mounting.
+      </div>
+      <button class="check-btn" id="checkReadingC2">Check answers</button>
+      <button class="reveal-btn" id="revealReadingC2">Reveal all</button>
+
+      <div class="summary" id="readingSummaryC2">
+        <div class="summary-title">Language summary</div>
+        <div class="summary-table">
+          <div class="summary-row"><span class="n">1</span><span class="item"><strong>gloss</strong> <em>over</em></span><span class="gloss">deliberately ignore or downplay something awkward</span></div>
+          <div class="summary-row"><span class="n">2</span><span class="item"><strong>fall</strong> <em>behind</em></span><span class="gloss">fail to keep pace with others; slip back</span></div>
+          <div class="summary-row"><span class="n">3</span><span class="item"><strong>own</strong> <em>up</em> to</span><span class="gloss">admit responsibility for a fault or failure</span></div>
+          <div class="summary-row"><span class="n">4</span><span class="item"><strong>set</strong> <em>in</em></span><span class="gloss">(of something unpleasant) begin and take hold</span></div>
+          <div class="summary-row"><span class="n">5</span><span class="item"><strong>drive</strong> something <em>up</em></span><span class="gloss">cause to rise (standards, prices, demand)</span></div>
+          <div class="summary-row"><span class="n">6</span><span class="item"><strong>water</strong> something <em>down</em></span><span class="gloss">weaken or dilute (a policy, rule, warning)</span></div>
+          <div class="summary-row"><span class="n">7</span><span class="item"><strong>fend</strong> <em>for</em> oneself</span><span class="gloss">look after oneself without help or support</span></div>
+          <div class="summary-row"><span class="n">8</span><span class="item"><strong>put</strong> something <em>off</em></span><span class="gloss">postpone or delay something, often repeatedly</span></div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vocab -->
+  <section class="panel" id="vocab">
+    <div class="card">
+      <div class="section-head">
+        <span class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/><path d="M19 15l.8 1.9L21.7 18l-1.9.8L19 20.7l-.8-1.9L16.3 18l1.9-.8z"/></svg></span>
+        <h2>Vocabulary match</h2>
+      </div>
+      <p class="lead">Tap a word, then tap its meaning. Correct pairs lock in with a colour.</p>
+      <div class="match-grid">
+        <div class="match-col">
+          <h3>Meaning</h3>
+          <div class="match-item" data-def="5"><span class="match-label">1</span>the best example there is, against which others are measured</div>
+          <div class="match-item" data-def="1"><span class="match-label">2</span>a situation of fair and genuinely equal opportunity</div>
+          <div class="match-item" data-def="4"><span class="match-label">3</span>to be missed or neglected by a system meant to help you</div>
+          <div class="match-item" data-def="8"><span class="match-label">4</span>memorising by repetition, without any real understanding</div>
+          <div class="match-item" data-def="3"><span class="match-label">5</span>when the service you get depends unfairly on where you live</div>
+          <div class="match-item" data-def="7"><span class="match-label">6</span>to set a higher standard than the one before</div>
+          <div class="match-item" data-def="2"><span class="match-label">7</span>focusing narrowly on exam content instead of real learning</div>
+          <div class="match-item" data-def="6"><span class="match-label">8</span>a situation that demands rapid and difficult learning</div>
+        </div>
+        <div class="match-col">
+          <h3>Word / Phrase</h3>
+          <div class="match-item" data-word="1"><span class="match-label">A</span>a level playing field</div>
+          <div class="match-item" data-word="2"><span class="match-label">B</span>teaching to the test</div>
+          <div class="match-item" data-word="3"><span class="match-label">C</span>a postcode lottery</div>
+          <div class="match-item" data-word="4"><span class="match-label">D</span>fall through the cracks</div>
+          <div class="match-item" data-word="5"><span class="match-label">E</span>the gold standard</div>
+          <div class="match-item" data-word="6"><span class="match-label">F</span>a steep learning curve</div>
+          <div class="match-item" data-word="7"><span class="match-label">G</span>raise the bar</div>
+          <div class="match-item" data-word="8"><span class="match-label">H</span>rote learning</div>
+        </div>
+      </div>
+      <p class="match-status" id="matchStatus">0 / 8 matched</p>
+
+      <div class="summary" id="vocabSummary">
+        <div class="summary-title">Vocabulary summary</div>
+        <div class="summary-table">
+          <div class="summary-row vocab"><span class="item">a level playing field</span><span class="gloss">a situation of fair and genuinely equal opportunity</span></div>
+          <div class="summary-row vocab"><span class="item">teaching to the test</span><span class="gloss">focusing narrowly on exam content instead of real learning</span></div>
+          <div class="summary-row vocab"><span class="item">a postcode lottery</span><span class="gloss">when the service you get depends unfairly on where you live</span></div>
+          <div class="summary-row vocab"><span class="item">fall through the cracks</span><span class="gloss">to be missed or neglected by a system meant to help you</span></div>
+          <div class="summary-row vocab"><span class="item">the gold standard</span><span class="gloss">the best example there is, against which others are measured</span></div>
+          <div class="summary-row vocab"><span class="item">a steep learning curve</span><span class="gloss">a situation that demands rapid and difficult learning</span></div>
+          <div class="summary-row vocab"><span class="item">raise the bar</span><span class="gloss">to set a higher standard than the one before</span></div>
+          <div class="summary-row vocab"><span class="item">rote learning</span><span class="gloss">memorising by repetition, without any real understanding</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-head">
+        <span class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="12" y2="18"/></svg></span>
+        <h2>Complete each sentence</h2>
+      </div>
+      <p class="vgf-intro">Fill each gap with an idiom from above. Watch the grammar carefully. Some idioms will need a slightly different form.</p>
+      <div class="vgf-list">
+        <div class="vgf-item">
+          <div class="vgf-num">1</div>
+          <div class="vgf-text">When richer families can afford private tutors, the system is hardly <input class="vgf-input" data-a="a level playing field">.</div>
+        </div>
+        <div class="vgf-item">
+          <div class="vgf-num">2</div>
+          <div class="vgf-text">When schools are judged only on results, they end up <input class="vgf-input" data-a="teaching to the test"> rather than teaching children to think.</div>
+        </div>
+        <div class="vgf-item">
+          <div class="vgf-num">3</div>
+          <div class="vgf-text">Whether your child gets into a good state school is too often just <input class="vgf-input" data-a="a postcode lottery">.</div>
+        </div>
+        <div class="vgf-item">
+          <div class="vgf-num">4</div>
+          <div class="vgf-text">Quiet pupils who are quietly struggling can easily <input class="vgf-input" data-a="fall through the cracks">.</div>
+        </div>
+        <div class="vgf-item">
+          <div class="vgf-num">5</div>
+          <div class="vgf-text">For years, Finland's schools were seen as <input class="vgf-input" data-a="the gold standard"> that everyone else tried to copy.</div>
+        </div>
+        <div class="vgf-item">
+          <div class="vgf-num">6</div>
+          <div class="vgf-text">Teaching every lesson online during lockdown was <input class="vgf-input" data-a="a steep learning curve"> for most teachers.</div>
+        </div>
+        <div class="vgf-item">
+          <div class="vgf-num">7</div>
+          <div class="vgf-text">Each brilliant new cohort <input class="vgf-input" data-a="raises the bar"> for the students who come after them.</div>
+        </div>
+        <div class="vgf-item">
+          <div class="vgf-num">8</div>
+          <div class="vgf-text">Critics say that endless <input class="vgf-input" data-a="rote learning"> produces students who can pass exams but cannot apply anything.</div>
+        </div>
+      </div>
+      <button class="check-btn" id="checkVgf">Check</button>
+      <button class="reveal-btn" id="revealVgf">Reveal all</button>
+    </div>
+  </section>
+
+  <!-- Long turn -->
+  <section class="panel" id="lt">
+    <div class="lt-nav">
+      <span class="lt-count" id="ltCount">Card 1 / 5</span>
+      <div class="lt-buttons">
+        <button class="lt-btn" id="ltPrev">← Prev</button>
+        <button class="lt-btn" id="ltNext">Next →</button>
+      </div>
+    </div>
+
+    <div class="lt-card active" data-lt="0">
+      <div class="lt-head">
+        <span class="lt-badge">Student 1</span>
+        <span class="lt-timer" data-timer="0">3:00</span>
+      </div>
+      <div class="lt-question">Describe the school you went to, and how it shaped the person you are now.</div>
+      <div class="lt-prompts">
+        <span class="lt-prompt">the teachers</span>
+        <span class="lt-prompt">the atmosphere</span>
+        <span class="lt-prompt">what you were expected to be</span>
+      </div>
+      <hr class="lt-divider">
+      <div class="lt-followup-title">Follow-up questions</div>
+      <ul class="lt-followup">
+        <li>Is there anything you wish your school had taught you that it didn't?</li>
+        <li>Would you send a child of your own to a school like it? Why, or why not?</li>
+      </ul>
+      <div style="margin-top: 20px;">
+        <button class="timer-btn" onclick="startTimer(0)">Start 3:00</button>
+        <button class="timer-btn reset" onclick="resetTimer(0)">Reset</button>
+      </div>
+    </div>
+
+    <div class="lt-card" data-lt="1">
+      <div class="lt-head">
+        <span class="lt-badge">Student 2</span>
+        <span class="lt-timer" data-timer="1">3:00</span>
+      </div>
+      <div class="lt-question">Do exams and league tables do more good than harm?</div>
+      <div class="lt-prompts">
+        <span class="lt-prompt">for students</span>
+        <span class="lt-prompt">for teachers</span>
+        <span class="lt-prompt">for the country</span>
+      </div>
+      <hr class="lt-divider">
+      <div class="lt-followup-title">Follow-up questions</div>
+      <ul class="lt-followup">
+        <li>If we scrapped all testing tomorrow, what would we lose?</li>
+        <li>Can you really measure a good education with a single number?</li>
+      </ul>
+      <div style="margin-top: 20px;">
+        <button class="timer-btn" onclick="startTimer(1)">Start 3:00</button>
+        <button class="timer-btn reset" onclick="resetTimer(1)">Reset</button>
+      </div>
+    </div>
+
+    <div class="lt-card" data-lt="2">
+      <div class="lt-head">
+        <span class="lt-badge">Student 3</span>
+        <span class="lt-timer" data-timer="2">3:00</span>
+      </div>
+      <div class="lt-question">How will a typical classroom be different twenty years from now?</div>
+      <div class="lt-prompts">
+        <span class="lt-prompt">technology</span>
+        <span class="lt-prompt">the teacher's role</span>
+        <span class="lt-prompt">what we choose to test</span>
+      </div>
+      <hr class="lt-divider">
+      <div class="lt-followup-title">Follow-up questions</div>
+      <ul class="lt-followup">
+        <li>Which parts of school do you hope never change?</li>
+        <li>Could a child one day learn everything at home from a screen? Should they?</li>
+      </ul>
+      <div style="margin-top: 20px;">
+        <button class="timer-btn" onclick="startTimer(2)">Start 3:00</button>
+        <button class="timer-btn reset" onclick="resetTimer(2)">Reset</button>
+      </div>
+    </div>
+
+    <div class="lt-card" data-lt="3">
+      <div class="lt-head">
+        <span class="lt-badge">Student 4</span>
+        <span class="lt-timer" data-timer="3">3:00</span>
+      </div>
+      <div class="lt-question">A few countries top almost every ranking. What do you think they get right?</div>
+      <div class="lt-prompts">
+        <span class="lt-prompt">their teachers</span>
+        <span class="lt-prompt">their culture</span>
+        <span class="lt-prompt">how they fund schools</span>
+      </div>
+      <hr class="lt-divider">
+      <div class="lt-followup-title">Follow-up questions</div>
+      <ul class="lt-followup">
+        <li>Is there a hidden cost to being at the top of the table?</li>
+        <li>Could your country copy them, or would it never work here?</li>
+      </ul>
+      <div style="margin-top: 20px;">
+        <button class="timer-btn" onclick="startTimer(3)">Start 3:00</button>
+        <button class="timer-btn reset" onclick="resetTimer(3)">Reset</button>
+      </div>
+    </div>
+
+    <div class="lt-card" data-lt="4">
+      <div class="lt-head">
+        <span class="lt-badge">Student 5</span>
+        <span class="lt-timer" data-timer="4">3:00</span>
+      </div>
+      <div class="lt-question">If you had to remove one subject from the curriculum, what would it be?</div>
+      <div class="lt-prompts">
+        <span class="lt-prompt">what we would lose</span>
+        <span class="lt-prompt">what we would gain</span>
+        <span class="lt-prompt">who should decide</span>
+      </div>
+      <hr class="lt-divider">
+      <div class="lt-followup-title">Follow-up questions</div>
+      <ul class="lt-followup">
+        <li>Is there a subject schools ignore that they really ought to teach?</li>
+        <li>Should students get to choose everything they study, or almost nothing?</li>
+      </ul>
+      <div style="margin-top: 20px;">
+        <button class="timer-btn" onclick="startTimer(4)">Start 3:00</button>
+        <button class="timer-btn reset" onclick="resetTimer(4)">Reset</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Role Play -->
+  <section class="panel" id="rp">
+    <div class="rp-nav">
+      <span class="rp-count" id="rpCount">Card 1 / 10</span>
+      <div class="rp-buttons">
+        <button class="rp-btn" id="rpPrev">← Prev</button>
+        <button class="rp-btn" id="rpNext">Next →</button>
+      </div>
+    </div>
+
+    <div class="rp-card active" data-rp="0">
+      <div class="rp-head">
+        <span class="rp-title">The Parents' Evening</span>
+        <span class="rp-setting">A classroom, after hours</span>
+      </div>
+      <div class="rp-roles">
+        <div class="rp-role">
+          <div class="rp-role-tag">Role A</div>
+          <div class="rp-role-title">The teacher</div>
+          <p>A bright student's grades have dropped sharply. You suspect it is phones and late nights, but you need the parent on your side, not defensive.</p>
+        </div>
+        <div class="rp-role">
+          <div class="rp-role-tag">Role B</div>
+          <div class="rp-role-title">The parent</div>
+          <p>You think your child is doing fine and that the school piles on too much pressure. Hear the teacher out, but stand up for your child.</p>
+        </div>
+      </div>
+      <div class="rp-prompt">The teacher invites the parent to sit down.</div>
+    </div>
+
+    <div class="rp-card" data-rp="1">
+      <div class="rp-head">
+        <span class="rp-title">The Phone Ban</span>
+        <span class="rp-setting">Head teacher's office</span>
+      </div>
+      <div class="rp-roles">
+        <div class="rp-role">
+          <div class="rp-role-tag">Role A</div>
+          <div class="rp-role-title">The head teacher</div>
+          <p>You are bringing in a total phone ban from Monday. You believe it will transform focus. Explain it firmly, but you would like the students onside.</p>
+        </div>
+        <div class="rp-role">
+          <div class="rp-role-tag">Role B</div>
+          <div class="rp-role-title">The student representative</div>
+          <p>You think a blanket ban is unfair and unworkable, and that phones have real uses. Argue for a compromise without being dismissed as a troublemaker.</p>
+        </div>
+      </div>
+      <div class="rp-prompt">The head teacher slides the new policy across the desk.</div>
+    </div>
+
+    <div class="rp-card" data-rp="2">
+      <div class="rp-head">
+        <span class="rp-title">The Star Pupil</span>
+        <span class="rp-setting">A quick word after class</span>
+      </div>
+      <div class="rp-roles">
+        <div class="rp-role">
+          <div class="rp-role-tag">Role A</div>
+          <div class="rp-role-title">The pushy parent</div>
+          <p>You want your child moved up into the top set immediately. You are sure they are being held back. Press your case, but you do need this teacher's goodwill.</p>
+        </div>
+        <div class="rp-role">
+          <div class="rp-role-tag">Role B</div>
+          <div class="rp-role-title">The teacher</div>
+          <p>The child is good, but not quite ready, and the top set is already stretched. Be honest about that without crushing the parent's pride in their child.</p>
+        </div>
+      </div>
+      <div class="rp-prompt">The parent is waiting by the door as the class files out.</div>
+    </div>
+
+    <div class="rp-card" data-rp="3">
+      <div class="rp-head">
+        <span class="rp-title">The Budget</span>
+        <span class="rp-setting">A governors' meeting</span>
+      </div>
+      <div class="rp-roles">
+        <div class="rp-role">
+          <div class="rp-role-tag">Role A</div>
+          <div class="rp-role-title">The head teacher</div>
+          <p>The budget is cut and something has to go: either the art and music programme, or a teaching assistant who supports struggling children. Argue for your choice.</p>
+        </div>
+        <div class="rp-role">
+          <div class="rp-role-tag">Role B</div>
+          <div class="rp-role-title">The school governor</div>
+          <p>You want to protect exam results above all, because that is what the school is judged on. Push back on anything that risks the league-table position.</p>
+        </div>
+      </div>
+      <div class="rp-prompt">The head lays out the two options on the table.</div>
+    </div>
+
+    <div class="rp-card" data-rp="4">
+      <div class="rp-head">
+        <span class="rp-title">The League Table</span>
+        <span class="rp-setting">The school gates, camera rolling</span>
+      </div>
+      <div class="rp-roles">
+        <div class="rp-role">
+          <div class="rp-role-tag">Role A</div>
+          <div class="rp-role-title">The journalist</div>
+          <p>The school has just dropped sharply in the national rankings. You want a clear, quotable explanation. Be persistent, but you are not there to ambush anyone.</p>
+        </div>
+        <div class="rp-role">
+          <div class="rp-role-tag">Role B</div>
+          <div class="rp-role-title">The head teacher</div>
+          <p>You believe the table is misleading and hides real progress with disadvantaged pupils. Defend your school without sounding as if you are making excuses.</p>
+        </div>
+      </div>
+      <div class="rp-prompt">The journalist holds out the microphone.</div>
+    </div>
+
+    <div class="rp-card" data-rp="5">
+      <div class="rp-head">
+        <span class="rp-title">The Private Tutor</span>
+        <span class="rp-setting">A comfortable living room</span>
+      </div>
+      <div class="rp-roles">
+        <div class="rp-role">
+          <div class="rp-role-tag">Role A</div>
+          <div class="rp-role-title">The wealthy parent</div>
+          <p>You want to hire this tutor for intensive one-to-one sessions to get your child into the very best school. Money is no object. Close the deal today.</p>
+        </div>
+        <div class="rp-role">
+          <div class="rp-role-tag">Role B</div>
+          <div class="rp-role-title">The tutor</div>
+          <p>You need the work, but you are uneasy that private tutoring tilts the whole system against poorer children. Decide whether, and how, to take the job.</p>
+        </div>
+      </div>
+      <div class="rp-prompt">The parent names a generous hourly rate.</div>
+    </div>
+
+    <div class="rp-card" data-rp="6">
+      <div class="rp-head">
+        <span class="rp-title">The Career Choice</span>
+        <span class="rp-setting">Around the kitchen table</span>
+      </div>
+      <div class="rp-roles">
+        <div class="rp-role">
+          <div class="rp-role-tag">Role A</div>
+          <div class="rp-role-title">The teenager</div>
+          <p>You want to skip university and train as an electrician. You are certain it is the right move for you. Convince your parent it is a serious plan, not a cop-out.</p>
+        </div>
+        <div class="rp-role">
+          <div class="rp-role-tag">Role B</div>
+          <div class="rp-role-title">The parent</div>
+          <p>You always assumed your child would go to university, and you worry they will regret this. Voice your fears without simply forbidding it.</p>
+        </div>
+      </div>
+      <div class="rp-prompt">The teenager brings it up over dinner.</div>
+    </div>
+
+    <div class="rp-card" data-rp="7">
+      <div class="rp-head">
+        <span class="rp-title">The New Method</span>
+        <span class="rp-setting">The staff room</span>
+      </div>
+      <div class="rp-roles">
+        <div class="rp-role">
+          <div class="rp-role-tag">Role A</div>
+          <div class="rp-role-title">The new teacher</div>
+          <p>You want to ditch the textbook and teach through projects and discussion. You are excited and sure it works. Win over a respected colleague you will need on your side.</p>
+        </div>
+        <div class="rp-role">
+          <div class="rp-role-tag">Role B</div>
+          <div class="rp-role-title">The veteran teacher</div>
+          <p>You have seen fads come and go, and you worry the students will not be ready for the exam. Challenge the idea, but stay open if the argument is good.</p>
+        </div>
+      </div>
+      <div class="rp-prompt">The new teacher pitches the idea over coffee.</div>
+    </div>
+
+    <div class="rp-card" data-rp="8">
+      <div class="rp-head">
+        <span class="rp-title">The Homework</span>
+        <span class="rp-setting">A quiet corner of the library</span>
+      </div>
+      <div class="rp-roles">
+        <div class="rp-role">
+          <div class="rp-role-tag">Role A</div>
+          <div class="rp-role-title">The student</div>
+          <p>You handed in an essay that an AI tool wrote most of. You knew it was risky, but you were drowning in deadlines. Now you have been called in.</p>
+        </div>
+        <div class="rp-role">
+          <div class="rp-role-tag">Role B</div>
+          <div class="rp-role-title">The teacher</div>
+          <p>You are almost certain, but you have no proof. You want the student to be honest, not so you can punish them, but so you can actually help.</p>
+        </div>
+      </div>
+      <div class="rp-prompt">The teacher slides the essay across the table.</div>
+    </div>
+
+    <div class="rp-card" data-rp="9">
+      <div class="rp-head">
+        <span class="rp-title">The Inspection</span>
+        <span class="rp-setting">The back of the classroom</span>
+      </div>
+      <div class="rp-roles">
+        <div class="rp-role">
+          <div class="rp-role-tag">Role A</div>
+          <div class="rp-role-title">The inspector</div>
+          <p>You have watched one lesson and formed concerns about the pace and challenge. You must feed this back honestly, knowing your report carries real weight.</p>
+        </div>
+        <div class="rp-role">
+          <div class="rp-role-tag">Role B</div>
+          <div class="rp-role-title">The teacher</div>
+          <p>That lesson was not your best, and this class has particular needs the inspector did not see. Explain the context without sounding defensive or making excuses.</p>
+        </div>
+      </div>
+      <div class="rp-prompt">The inspector closes their notebook and turns to you.</div>
+    </div>
+  </section>
+
+  <!-- Debates -->
+  <section class="panel" id="debate">
+    <div class="debate-layout">
+
+      <aside class="phrase-panel">
+        <h3 class="icon-inline">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Useful Phrases (C1)
+        </h3>
+        <ul class="phrase-list">
+          <li class="blue">Shall I get the ball rolling? – Go ahead.</li>
+          <li class="dark">What stands out for me is …</li>
+          <li class="blue">What's your take on it?</li>
+          <li class="dark">That's such a tough question.</li>
+          <li class="blue">I'm completely on the same page.</li>
+          <li class="dark">I agree to an extent.</li>
+          <li class="blue">Generally speaking, yes, but …</li>
+          <li class="dark">That's fair enough, …</li>
+          <li class="blue">I'd have to disagree on that one.</li>
+          <li class="dark">Both of these go hand in hand.</li>
+          <li class="blue">Would you go along with that?</li>
+          <li class="dark">I think we can rule out …</li>
+          <li class="blue">Let's narrow it down.</li>
+          <li class="dark">Fair enough, let's go with that.</li>
+        </ul>
+      </aside>
+
+      <div class="debate-stack">
+
+        <div class="debate-nav">
+          <span class="debate-count" id="debCount">Debate 1 / 3</span>
+          <div class="debate-nav-buttons">
+            <button class="debate-nav-btn" id="debPrev">← Prev</button>
+            <button class="debate-nav-btn" id="debNext">Next →</button>
+          </div>
+        </div>
+
+        <div class="debate" data-deb="0">
+          <div class="debate-head">
+            <span class="debate-topic icon-inline">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              What Makes a School
+            </span>
+            <span class="debate-level">C1</span>
+          </div>
+          <div class="debate-q">What matters most for how well children actually learn?</div>
+          <div class="debate-circles">
+            <div class="circle-row">
+              <div class="circle">great teachers</div>
+              <div class="circle">motivated students</div>
+              <div class="circle">small classes</div>
+            </div>
+            <div class="circle-row">
+              <div class="circle">proper funding</div>
+              <div class="circle">support at home</div>
+            </div>
+          </div>
+          <div class="debate-prompt">Which one is the most overrated?</div>
+        </div>
+
+        <div class="debate" data-deb="1">
+          <div class="debate-head">
+            <span class="debate-topic icon-inline">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg>
+              The Purpose
+            </span>
+            <span class="debate-level">C1</span>
+          </div>
+          <div class="debate-q">What should schools mainly be for?</div>
+          <div class="debate-circles">
+            <div class="circle-row">
+              <div class="circle">exam results</div>
+              <div class="circle">good citizens</div>
+              <div class="circle">getting a job</div>
+            </div>
+            <div class="circle-row">
+              <div class="circle">love of learning</div>
+              <div class="circle">social mobility</div>
+            </div>
+          </div>
+          <div class="debate-prompt">Which of these has your country quietly forgotten?</div>
+        </div>
+
+        <div class="debate" data-deb="2">
+          <div class="debate-head">
+            <span class="debate-topic icon-inline">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              Who Decides
+            </span>
+            <span class="debate-level">C1</span>
+          </div>
+          <div class="debate-q">Who should shape what children are actually taught?</div>
+          <div class="debate-circles">
+            <div class="circle-row">
+              <div class="circle">the government</div>
+              <div class="circle">teachers</div>
+              <div class="circle">parents</div>
+            </div>
+            <div class="circle-row">
+              <div class="circle">employers</div>
+              <div class="circle">the students</div>
+            </div>
+          </div>
+          <div class="debate-prompt">Whom do you trust the least with that power?</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Writing -->
+  <section class="panel" id="write">
+    <div class="card">
+      <div class="section-head">
+        <span class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></span>
+        <h2>Reflective journal</h2>
+      </div>
+      <p class="writing-brief">Write honestly about your own experience of education, and what you think it is really for. No one else has to read this.</p>
+      <div class="writing-points">
+        <h3>Think about</h3>
+        <ul>
+          <li>The one teacher or subject that has stayed with you the most</li>
+          <li>One thing your schooling did well for you, and one thing it failed to do</li>
+          <li>Whether you were "good at school," and what that phrase even means</li>
+          <li>A moment when you felt reduced to a grade or a test result</li>
+          <li>What you would most want to be different for a child of your own</li>
+          <li>Looking back, whether education made you more yourself, or less</li>
+        </ul>
+      </div>
+      <textarea class="writing-box" id="writingBox" placeholder="Around 200 words. Try to work in four items from today's vocabulary."></textarea>
+      <div class="writing-meta">
+        <span>Target: around 200 words</span>
+        <span id="wordCount">0 words</span>
+      </div>
+    </div>
+  </section>
+  <footer class="site-footer">
+    <div class="brand">JOHN<span>PLUS</span>ENGLISH</div>
+    <div class="tagline">C1 Lesson · Education Today</div>
+  </footer>
+
+</div>
+
+<script>
+  // Tabs
+  const tabs = document.querySelectorAll('.tab');
+  const panels = document.querySelectorAll('.panel');
+  tabs.forEach(t => t.addEventListener('click', () => {
+    tabs.forEach(x => x.classList.remove('active'));
+    panels.forEach(p => p.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById(t.dataset.tab).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }));
+
+  // Reading
+  const readingSummary = document.getElementById('readingSummary');
+  document.getElementById('checkReading').addEventListener('click', () => {
+    let allCorrect = true;
+    const inputs = document.querySelectorAll('#reading input');
+    inputs.forEach(i => {
+      const val = i.value.trim().toLowerCase();
+      const ans = i.dataset.a.toLowerCase();
+      i.classList.remove('correct', 'wrong');
+      if (val !== ans) allCorrect = false;
+      if (!val) return;
+      i.classList.add(val === ans ? 'correct' : 'wrong');
+    });
+    if (allCorrect) readingSummary.classList.add('show');
+  });
+  document.getElementById('revealReading').addEventListener('click', () => {
+    document.querySelectorAll('#reading input').forEach(i => {
+      i.value = i.dataset.a;
+      i.classList.remove('wrong');
+      i.classList.add('correct');
+    });
+    readingSummary.classList.add('show');
+  });
+
+  // Reading C2
+  const readingSummaryC2 = document.getElementById('readingSummaryC2');
+  document.getElementById('checkReadingC2').addEventListener('click', () => {
+    let allCorrect = true;
+    const inputs = document.querySelectorAll('#readingC2 input');
+    inputs.forEach(i => {
+      const val = i.value.trim().toLowerCase();
+      const ans = i.dataset.a.toLowerCase();
+      i.classList.remove('correct', 'wrong');
+      if (val !== ans) allCorrect = false;
+      if (!val) return;
+      i.classList.add(val === ans ? 'correct' : 'wrong');
+    });
+    if (allCorrect) readingSummaryC2.classList.add('show');
+  });
+  document.getElementById('revealReadingC2').addEventListener('click', () => {
+    document.querySelectorAll('#readingC2 input').forEach(i => {
+      i.value = i.dataset.a;
+      i.classList.remove('wrong');
+      i.classList.add('correct');
+    });
+    readingSummaryC2.classList.add('show');
+  });
+
+  // Reading level toggle
+  document.querySelectorAll('.reading-version-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const level = btn.dataset.level;
+      document.querySelectorAll('.reading-version-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.reading-content').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('reading-' + level).classList.add('active');
+    });
+  });
+
+  // Vocab sentence gap-fill
+  const vgfInputs = document.querySelectorAll('.vgf-input');
+  document.getElementById('checkVgf').addEventListener('click', () => {
+    vgfInputs.forEach(i => {
+      const val = i.value.trim().toLowerCase();
+      const ans = i.dataset.a.toLowerCase();
+      i.classList.remove('correct', 'wrong');
+      if (!val) return;
+      i.classList.add(val === ans ? 'correct' : 'wrong');
+    });
+  });
+  document.getElementById('revealVgf').addEventListener('click', () => {
+    vgfInputs.forEach(i => {
+      i.value = i.dataset.a;
+      i.classList.remove('wrong');
+      i.classList.add('correct');
+    });
+  });
+
+  // Vocab matching
+  const palette = {
+    1: { bg: '#2176FF', dark: false }, // cobalt blue
+    2: { bg: '#EF233C', dark: false }, // red
+    3: { bg: '#FF9100', dark: false }, // orange
+    4: { bg: '#1DD3B0', dark: true },  // mint green
+    5: { bg: '#FFDD4A', dark: true },  // yellow
+    6: { bg: '#1A1A2E', dark: false }, // navy
+    7: { bg: '#8B5CF6', dark: false }, // purple
+    8: { bg: '#EC4899', dark: false }  // pink
+  };
+  let selectedWord = null;
+  let selectedDef = null;
+  let matches = 0;
+
+  function clearSelection() {
+    document.querySelectorAll('.match-item.selected').forEach(x => x.classList.remove('selected'));
+    selectedWord = null;
+    selectedDef = null;
+  }
+
+  function tryMatch() {
+    if (!selectedWord || !selectedDef) return;
+    const w = selectedWord.dataset.word;
+    const d = selectedDef.dataset.def;
+    if (w === d) {
+      const p = palette[w];
+      [selectedWord, selectedDef].forEach(el => {
+        el.classList.remove('selected');
+        el.classList.add('matched');
+        if (p.dark) el.classList.add('dark-text');
+        el.style.background = p.bg;
+      });
+      matches++;
+      document.getElementById('matchStatus').textContent = `${matches} / 8 matched`;
+      if (matches === 8) {
+        document.getElementById('matchStatus').textContent = 'All matched. Nice work.';
+        document.getElementById('vocabSummary').classList.add('show');
+      }
+      selectedWord = null;
+      selectedDef = null;
+    } else {
+      const wrong = [selectedWord, selectedDef];
+      wrong.forEach(el => {
+        el.style.transition = 'transform 0.2s';
+        el.style.transform = 'translateX(6px)';
+        setTimeout(() => { el.style.transform = 'translateX(-6px)'; }, 100);
+        setTimeout(() => { el.style.transform = ''; }, 200);
+      });
+      setTimeout(clearSelection, 300);
+    }
+  }
+
+  document.querySelectorAll('.match-item').forEach(item => {
+    item.addEventListener('click', () => {
+      if (item.classList.contains('matched')) return;
+      if (item.dataset.word) {
+        if (selectedWord) selectedWord.classList.remove('selected');
+        selectedWord = item;
+      } else {
+        if (selectedDef) selectedDef.classList.remove('selected');
+        selectedDef = item;
+      }
+      item.classList.add('selected');
+      tryMatch();
+    });
+  });
+
+  // Long turn
+  let currentLt = 0;
+  const ltCards = document.querySelectorAll('.lt-card');
+  function showLt(i) {
+    currentLt = Math.max(0, Math.min(ltCards.length - 1, i));
+    ltCards.forEach(c => c.classList.remove('active'));
+    ltCards[currentLt].classList.add('active');
+    document.getElementById('ltCount').textContent = `Card ${currentLt + 1} / ${ltCards.length}`;
+    document.getElementById('ltPrev').disabled = currentLt === 0;
+    document.getElementById('ltNext').disabled = currentLt === ltCards.length - 1;
+  }
+  document.getElementById('ltPrev').addEventListener('click', () => showLt(currentLt - 1));
+  document.getElementById('ltNext').addEventListener('click', () => showLt(currentLt + 1));
+  showLt(0);
+
+  // Timers
+  const timers = new Array(ltCards.length).fill(null);
+  const timeLeft = new Array(ltCards.length).fill(180);
+  function fmt(s) {
+    const m = Math.floor(s / 60);
+    const sec = s % 60;
+    return `${m}:${String(sec).padStart(2, '0')}`;
+  }
+  function startTimer(idx) {
+    if (timers[idx]) return;
+    const el = document.querySelector(`[data-timer="${idx}"]`);
+    el.classList.add('running');
+    el.classList.remove('done');
+    timers[idx] = setInterval(() => {
+      timeLeft[idx]--;
+      el.textContent = fmt(timeLeft[idx]);
+      if (timeLeft[idx] <= 0) {
+        clearInterval(timers[idx]);
+        timers[idx] = null;
+        el.classList.remove('running');
+        el.classList.add('done');
+        el.textContent = 'Time';
+      }
+    }, 1000);
+  }
+  function resetTimer(idx) {
+    if (timers[idx]) { clearInterval(timers[idx]); timers[idx] = null; }
+    timeLeft[idx] = 180;
+    const el = document.querySelector(`[data-timer="${idx}"]`);
+    el.textContent = '3:00';
+    el.classList.remove('running', 'done');
+  }
+  window.startTimer = startTimer;
+  window.resetTimer = resetTimer;
+
+  // Debate tabs (Prev/Next)
+  let currentDeb = 0;
+  const debCards = document.querySelectorAll('.debate');
+  function showDeb(i) {
+    currentDeb = Math.max(0, Math.min(debCards.length - 1, i));
+    debCards.forEach(c => c.classList.remove('active'));
+    debCards[currentDeb].classList.add('active');
+    document.getElementById('debCount').textContent = `Debate ${currentDeb + 1} / ${debCards.length}`;
+    document.getElementById('debPrev').disabled = currentDeb === 0;
+    document.getElementById('debNext').disabled = currentDeb === debCards.length - 1;
+  }
+  document.getElementById('debPrev').addEventListener('click', () => showDeb(currentDeb - 1));
+  document.getElementById('debNext').addEventListener('click', () => showDeb(currentDeb + 1));
+  showDeb(0);
+
+  // Debate circles - single click picks, double click fades out (eliminated)
+  document.querySelectorAll('.debate').forEach(d => {
+    // Start blurred
+    d.classList.add('blurred');
+
+    // Click on head: toggle blur (allows re-blur)
+    const head = d.querySelector('.debate-head');
+    head.addEventListener('click', (e) => {
+      d.classList.toggle('blurred');
+      e.stopPropagation();
+    });
+
+    // Click on any other part: if blurred, unblur
+    d.addEventListener('click', () => {
+      if (d.classList.contains('blurred')) d.classList.remove('blurred');
+    });
+
+    d.querySelectorAll('.circle').forEach(c => {
+      c.addEventListener('click', () => {
+        if (c.classList.contains('faded')) return;
+        d.querySelectorAll('.circle').forEach(o => o.classList.remove('picked'));
+        c.classList.add('picked');
+      });
+      c.addEventListener('dblclick', () => {
+        c.classList.remove('picked');
+        c.classList.toggle('faded');
+      });
+    });
+  });
+
+  // Useful phrases (debate sidebar) - click to cross out, click again to restore
+  document.querySelectorAll('.phrase-list li').forEach(li => {
+    li.addEventListener('click', () => li.classList.toggle('used'));
+  });
+
+  // Ranking task
+  const rankOrder = [];
+  const rankTiles = document.querySelectorAll('.rank-tile');
+  const rankStatus = document.getElementById('rankStatus');
+  function renderRank() {
+    rankTiles.forEach(tile => {
+      const idx = rankOrder.indexOf(tile.dataset.id);
+      const badge = tile.querySelector('.rank-badge');
+      if (idx === -1) {
+        tile.classList.remove('ranked');
+        badge.textContent = '·';
+      } else {
+        tile.classList.add('ranked');
+        badge.textContent = idx + 1;
+      }
+    });
+    rankStatus.textContent = `${rankOrder.length} / 6 ranked`;
+  }
+  rankTiles.forEach(tile => {
+    tile.addEventListener('click', () => {
+      const id = tile.dataset.id;
+      const idx = rankOrder.indexOf(id);
+      if (idx === -1) {
+        if (rankOrder.length < 6) rankOrder.push(id);
+      } else {
+        rankOrder.splice(idx, 1);
+      }
+      renderRank();
+    });
+  });
+  document.getElementById('rankReset').addEventListener('click', () => {
+    rankOrder.length = 0;
+    renderRank();
+  });
+
+  // Role Play
+  let currentRp = 0;
+  const rpCards = document.querySelectorAll('.rp-card');
+  function showRp(i) {
+    currentRp = Math.max(0, Math.min(rpCards.length - 1, i));
+    rpCards.forEach(c => c.classList.remove('active'));
+    rpCards[currentRp].classList.add('active');
+    document.getElementById('rpCount').textContent = `Card ${currentRp + 1} / ${rpCards.length}`;
+    document.getElementById('rpPrev').disabled = currentRp === 0;
+    document.getElementById('rpNext').disabled = currentRp === rpCards.length - 1;
+  }
+  document.getElementById('rpPrev').addEventListener('click', () => showRp(currentRp - 1));
+  document.getElementById('rpNext').addEventListener('click', () => showRp(currentRp + 1));
+  showRp(0);
+
+  // Word count
+  const box = document.getElementById('writingBox');
+  const wc = document.getElementById('wordCount');
+  box.addEventListener('input', () => {
+    const n = box.value.trim().split(/\s+/).filter(Boolean).length;
+    wc.textContent = `${n} word${n === 1 ? '' : 's'}`;
+  });
+</script>
+</body>
+</html>
