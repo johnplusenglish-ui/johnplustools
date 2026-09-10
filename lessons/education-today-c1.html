@@ -2648,10 +2648,10 @@ function updateWCount(id){
 /* ---------- warm-up questions ---------- */
 var WARMUP_KEY = 'jpe_edutoday_warmup_qs';
 var DEFAULT_WARMUP = [
-  {text:"Who was the one teacher who genuinely changed something in you? What did they actually do?", prompt:'Give each other at least 90 seconds before you swap.'},
-  {text:"Did you ever cram all night for an exam and somehow pass anyway? What did that teach you?", prompt:'Ask a follow-up question before moving on.'},
-  {text:"Were you the kid who got told off for daydreaming, or the one taking notes at the front?", prompt:'Try to disagree with something your partner says, politely.'},
-  {text:"If your old school report card had one honest sentence written by you, not the teacher, what would it say?", prompt:'Give at least two concrete details.'}
+  {text:"Do you honestly think education has got better or worse since you were at school?", prompt:'Give each other at least 90 seconds before you swap.'},
+  {text:"Be honest, when was the last time you read a whole book, not an article or a scroll of posts?", prompt:'Ask a follow-up question before moving on.'},
+  {text:"Who do you blame more for falling reading and maths scores: phones, schools, or parents?", prompt:'Try to disagree with something your partner says, politely.'},
+  {text:"Are exam results actually a fair way to judge how intelligent someone is?", prompt:'Give at least two concrete details.'}
 ];
 function loadWarmupQs(){
   try{ var s = JSON.parse(localStorage.getItem(WARMUP_KEY)); if(Array.isArray(s) && s.length) return s; }catch(e){}
