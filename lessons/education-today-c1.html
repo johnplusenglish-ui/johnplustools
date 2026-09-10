@@ -916,14 +916,17 @@ body.section-present .deb-instruction{font-size:1.15rem}
 <script>
 var STORAGE_KEY = 'jpe_edutoday_c1_geraldine_laura_words';
 var DEFAULT_WORDS = [
-  {term:"a level playing field", def:"a situation of fair and genuinely equal opportunity", example:"When some families can afford private tutors, it is hardly a level playing field."},
-  {term:"teaching to the test", def:"focusing narrowly on exam content instead of real learning", example:"Judging schools only on results pushes teachers into teaching to the test."},
-  {term:"a postcode lottery", def:"when the quality of a service depends unfairly on where you live", example:"Whether your child gets a good school is too often a postcode lottery."},
-  {term:"fall through the cracks", def:"to be missed or neglected by a system meant to help you", example:"Quiet pupils who are struggling can easily fall through the cracks."},
-  {term:"the gold standard", def:"the best example there is, against which others are measured", example:"For years, Finland's schools were seen as the gold standard."},
-  {term:"a steep learning curve", def:"a situation that demands rapid and difficult learning", example:"Teaching online during lockdown was a steep learning curve for most staff."},
+  {term:"pass with flying colours", def:"to pass an exam or test very successfully, with a high mark", example:"She revised for weeks and passed the exam with flying colours."},
   {term:"raise the bar", def:"to set a higher standard than the one before", example:"Each brilliant cohort raises the bar for the students who follow."},
-  {term:"rote learning", def:"memorising by repetition, without any real understanding", example:"Endless rote learning produces students who pass exams but cannot apply anything."}
+  {term:"a level playing field", def:"a situation of fair and genuinely equal opportunity", example:"When some families can afford private tutors, it is hardly a level playing field."},
+  {term:"slip through the cracks", def:"to be missed or neglected by a system that should have helped you", example:"Quiet pupils who are struggling can easily slip through the cracks."},
+  {term:"hit the books", def:"to start studying hard", example:"With exams a month away, it's time to hit the books."},
+  {term:"read between the lines", def:"to understand a hidden or implied meaning, not just the literal words", example:"Read between the lines and the report is worried about far more than scores."},
+  {term:"on the same page", def:"in agreement; sharing the same understanding", example:"Before the meeting, let's make sure parents and teachers are on the same page."},
+  {term:"a wake-up call", def:"an event that makes people realise there is a serious problem to act on", example:"The falling results were a wake-up call for the whole country."},
+  {term:"paper over the cracks", def:"to hide a problem temporarily instead of really fixing it", example:"Cutting class sizes for one term just papers over the cracks."},
+  {term:"the proof is in the pudding", def:"the real value of something can only be judged by its results", example:"The new method sounds promising, but the proof is in the pudding."},
+  {term:"top of the class", def:"the best-performing student or performer in a group", example:"Singapore is still top of the class in almost every subject."}
 ];
 var WORDS = loadWords();
 var rowOfDef = {};      /* wordIndex -> which visual row its definition currently sits on */
@@ -1745,30 +1748,29 @@ var DEFAULT_LISTEN = [
   {
     title: 'The Results Are In',
     subtitle: 'Two concerned teachers react to the new PISA report in the staff room',
-    targetPhrases: ['teaching to the test','fall through the cracks','raise the bar','rote learning'],
+    targetPhrases: ['a wake-up call','read between the lines','hit the books','paper over the cracks','slip through the cracks','a level playing field','on the same page','top of the class','raise the bar','the proof is in the pudding','pass with flying colours'],
     audio: null,
     questions: [
-      'What has worried Marta most about the new PISA results?',
+      'Why does Marta think the new PISA results should be a wake-up call?',
       'What does Tom blame for the decline, and why does Marta only partly agree?',
       'What do the two teachers finally decide they can actually change themselves?'
     ],
     lines: [
-      ln('a','Marta',"Have you seen the new PISA results? Reading and maths at their lowest ever recorded. I've been thinking about it all weekend."),
+      ln('a','Marta',"Have you seen the new PISA results? Reading and maths at their lowest ever recorded. Honestly, it should be a wake-up call for all of us."),
       ln('b','Tom',"[sighs] I saw the headlines. \"Unprecedented drop.\" Grim reading, no pun intended."),
-      ln('a','Marta',"What gets me is that it isn't just the pandemic. The slide started years before that. Something deeper is going on."),
-      ln('b','Tom',"It's the phones, surely. Nobody reads for pleasure any more. Half my class can't sit with a book for ten minutes."),
-      ln('a','Marta',"Partly. But I don't think we can pin it all on phones. We've spent a decade teaching to the test ourselves, if we're honest."),
-      ln('b','Tom',"[exhales] Fair. Drill the paper, hit the target, move on. It isn't exactly a love of learning, is it?"),
-      ln('a','Marta',"And it's always the quiet ones who slip. The kid who's lost in September and just quietly falls through the cracks by June."),
-      ln('b','Tom',"That's the bit that keeps me up at night. We notice the loud ones and the top ones. The middle just... disappears."),
-      ln('a','Marta',"The report isn't all doom, mind you. A few countries barely dropped at all. So it can be done."),
-      ln('b','Tom',"So what did they do that we didn't?"),
-      ln('a','Marta',"Protected their teachers, mostly. Didn't chase every new gadget. Kept reading alive. Nothing magic, just consistent."),
-      ln('b','Tom',"[laughs] Radical idea, doing the boring things well."),
-      ln('a','Marta',"Honestly though, we can't fix the whole system from this staff room. What can we actually change?"),
-      ln('b','Tom',"Our own classrooms. Read more, memorise less. Raise the bar a little, but actually explain the why."),
-      ln('a','Marta',"Less rote learning, more real thinking. Shall we start Monday?"),
-      ln('b','Tom',"[smiles] Start Monday.")
+      ln('a','Marta',"And if you read between the lines, it isn't really about the scores. It's about kids who've stopped reading at all."),
+      ln('b','Tom',"It's the phones, surely. Nobody hits the books the way we did. Half my class can't sit with anything for ten minutes."),
+      ln('a','Marta',"Partly. But we can't just paper over the cracks and blame the phones. We've spent a decade drilling exams ourselves."),
+      ln('b','Tom',"[exhales] Fair. And it's always the quiet ones who slip through the cracks. Lost in September, and nobody notices till June."),
+      ln('a','Marta',"Exactly. What really gets me is that whether a child does well still comes down to their postcode. It's hardly a level playing field."),
+      ln('b','Tom',"No. So are we on the same page about what we actually do?"),
+      ln('a','Marta',"I think so. Look at the countries at the top of the class, Singapore, Estonia. They didn't chase gadgets. They kept standards high and reading alive."),
+      ln('b','Tom',"They raise the bar for everyone, you mean, not just the top set."),
+      ln('a','Marta',"Right. It sounds simple. Whether it works is another matter, though. The proof is in the pudding."),
+      ln('b','Tom',"[laughs] So what, we just teach better and hope?"),
+      ln('a','Marta',"We start small. Our own classes. More reading, less cramming. If they genuinely understand it, they'll pass with flying colours anyway."),
+      ln('b','Tom',"Less papering over, more actual teaching. Shall we start Monday?"),
+      ln('a','Marta',"[smiles] Start Monday.")
     ]
   }
 ];
@@ -2182,12 +2184,12 @@ var UOE_KEY = 'jpe_edutoday_uoe_items';
 /* real KWT format: sentence1 (unchanged) + key word + sentence2 with a ___ gap;
    answer is 2-5 words and must include the key word unchanged */
 var DEFAULT_UOE = [
-  {key:'FIELD', s1:'Private tutoring means richer children start with an unfair advantage.', s2:'Because of private tutoring, the system is not ___ for everyone.', answer:'a level playing field'},
-  {key:'CRACKS', s1:'Quiet pupils who are struggling are often missed by the system.', s2:'Quiet pupils who are struggling can easily ___.', answer:'fall through the cracks'},
-  {key:'STANDARD', s1:'For years, everyone tried to copy Finland\'s schools.', s2:'For years, Finland\'s schools were seen as ___.', answer:'the gold standard'},
-  {key:'CURVE', s1:'Teaching every lesson online during lockdown was difficult and had to be learned fast.', s2:'Teaching online during lockdown was ___ for most teachers.', answer:'a steep learning curve'},
-  {key:'BAR', s1:'Each brilliant new group sets a higher standard for the students who follow.', s2:'Each brilliant new group ___ for the students who follow.', answer:'raises the bar'},
-  {key:'ROTE', s1:'Memorising facts by repetition, without understanding them, rarely lasts.', s2:'___ rarely lasts, because there is no real understanding.', answer:'rote learning'}
+  {key:'COLOURS', s1:'She did brilliantly in the exam and got one of the top marks.', s2:'She passed the exam ___.', answer:'with flying colours'},
+  {key:'BAR', s1:'Each strong new group sets a higher standard for the next one.', s2:'Each strong new group ___ for the next one.', answer:'raises the bar'},
+  {key:'CRACKS', s1:'Struggling pupils are too often missed by the system.', s2:'Struggling pupils too often ___.', answer:'slip through the cracks'},
+  {key:'LINES', s1:'You have to look for the meaning the report does not state directly.', s2:'You have to ___ to see what the report really means.', answer:'read between the lines'},
+  {key:'PAGE', s1:'The teachers and the parents all agree on the same approach.', s2:'The teachers and the parents are all ___.', answer:'on the same page'},
+  {key:'BOOKS', s1:'With exams close, it is time to start studying hard.', s2:'With exams close, it is time to ___.', answer:'hit the books'}
 ];
 function loadUoe(){
   try{ var raw = localStorage.getItem(UOE_KEY); if(raw){ var p = JSON.parse(raw); if(Array.isArray(p) && p.length && p[0].s2!==undefined) return p; } }catch(e){}
