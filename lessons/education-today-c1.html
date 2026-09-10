@@ -98,6 +98,21 @@ button,input,textarea{font-family:inherit}
 .snav-btn.active{outline:none;background:var(--cream);border-color:var(--mint);border-bottom:none!important;
   color:var(--mint);padding-top:calc(.5rem + 3px);box-shadow:0 -3px 10px rgba(33,118,255,.08);z-index:2}
 .snav-btn.minimized{padding-left:.65rem;padding-right:.65rem;gap:0}
+.snav-close{position:absolute;top:-6px;right:-6px;width:18px;height:18px;border-radius:50%;background:var(--card);
+  border:1.5px solid var(--border);color:var(--muted);font-size:.7rem;line-height:1;display:flex;align-items:center;
+  justify-content:center;opacity:0;transition:opacity .15s,background .15s,color .15s;cursor:pointer;z-index:3}
+.snav-btn:hover .snav-close{opacity:1}
+.snav-close:hover{background:var(--red);color:#fff;border-color:var(--red)}
+.snav-restore-wrap{position:relative;max-width:980px;margin:0 auto;padding:.4rem 2rem 0}
+.snav-restore-pill{font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:700;padding:.35rem .7rem;
+  border:1.5px dashed var(--border);border-radius:100px;background:var(--card);color:var(--muted);cursor:pointer;white-space:nowrap}
+.snav-restore-pill:hover{border-color:var(--mint);color:var(--mint)}
+.snav-restore-menu{position:absolute;top:100%;left:2rem;margin-top:.3rem;background:var(--card);border:1.5px solid var(--border);
+  border-radius:10px;box-shadow:var(--shadow-md);padding:.4rem;display:none;z-index:50;min-width:170px}
+.snav-restore-menu.show{display:block}
+.snav-restore-item{display:block;width:100%;text-align:left;padding:.4rem .6rem;border-radius:6px;background:none;
+  border:none;font-size:.8rem;color:var(--ink);cursor:pointer}
+.snav-restore-item:hover{background:var(--mint-light);color:var(--mint-dark)}
 .snav-btn.minimized .snav-label{display:none}
 .snav-label{transition:opacity .1s}
 .snav-spacer{flex:1 0 40px;min-width:40px;align-self:stretch}
@@ -140,6 +155,69 @@ button,input,textarea{font-family:inherit}
 .tab-btn.on{background:var(--mint);color:#fff}
 .tab-panel{display:none}
 .tab-panel.show{display:block}
+
+/* flashcards */
+.flash-nav{display:flex;align-items:center;justify-content:center;gap:1rem;margin-bottom:1.2rem}
+.flash-arrow{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--border);background:var(--card);color:var(--ink);font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;line-height:1}
+.flash-arrow:hover{border-color:var(--mint);color:var(--mint)}
+.flash-progress{font-family:'JetBrains Mono',monospace;font-size:.78rem;font-weight:700;color:var(--muted);min-width:52px;text-align:center}
+.flash-card{max-width:340px;margin:0 auto;cursor:pointer;user-select:none}
+.flash-image-wrap{position:relative;width:100%;aspect-ratio:4/5;border-radius:16px;overflow:hidden;border:1.5px solid var(--border);box-shadow:var(--shadow-md);background:var(--cream)}
+.flash-image{width:100%;height:100%;object-fit:cover;display:none;transition:transform .2s}
+.flash-card:hover .flash-image{transform:scale(1.015)}
+.flash-image-empty{display:none;position:absolute;inset:0;align-items:center;justify-content:center;color:var(--muted);font-size:.85rem;text-align:center;padding:1rem}
+.flash-image-wrap.editing{cursor:pointer}
+.flash-image-wrap.editing:hover{border-color:var(--mint)}
+.flash-image-wrap.drag-over{border-color:var(--mint);background:var(--mint-light)}
+.flash-image-remove{position:absolute;top:.6rem;right:.6rem;width:28px;height:28px;border-radius:50%;border:none;background:rgba(0,0,0,.55);color:#fff;font-size:1rem;cursor:pointer;display:none;align-items:center;justify-content:center;z-index:2}
+.flash-image-remove:hover{background:var(--red)}
+.flash-reveal-slot{max-height:0;overflow:hidden;opacity:0;transition:max-height .35s ease,opacity .3s ease,margin-top .35s ease}
+.flash-reveal-slot.show{max-height:140px;opacity:1;margin-top:.9rem}
+.flash-card.editing .flash-reveal-slot{max-height:none;opacity:1;margin-top:.9rem;overflow:visible}
+.flash-card.editing{cursor:default}
+.flash-card.editing .flash-term-text,.flash-card.editing .flash-def-text{cursor:text}
+.flash-card.editing .flash-term-text:focus,.flash-card.editing .flash-def-text:focus{outline:1.5px dashed var(--mint);border-radius:6px}
+.flash-term{background:var(--mint-light);border:1.5px solid rgba(33,118,255,.18);border-radius:12px;padding:.9rem 1.1rem}
+.flash-term-text{font-size:1.1rem;font-weight:800;color:var(--mint-dark);text-align:center}
+.flash-def{background:var(--cream);border:1.5px solid var(--border);border-radius:12px;padding:.9rem 1.1rem}
+.flash-def-text{font-size:.88rem;color:var(--slate-mid);line-height:1.5;text-align:center}
+.flash-hint{text-align:center;font-size:.78rem;color:var(--muted);margin-top:.9rem;font-style:italic}
+.flash-export-row{display:flex;justify-content:center;gap:.6rem;margin-top:1.4rem;flex-wrap:wrap}
+body.section-present #vocab.present-active .tab-row{flex-shrink:0}
+body.section-present #vocab.present-active .tab-panel.show{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow-y:auto}
+body.section-present #vocab.present-active .section-card{padding:.9rem 1.3rem}
+body.section-present #vocab.present-active .flash-card{max-width:min(40vh,480px);width:100%}
+body.section-present #vocab.present-active .flash-image-wrap{width:100%;height:auto;box-shadow:0 16px 36px rgba(0,0,0,.16)}
+body.section-present #vocab.present-active .flash-nav{margin-bottom:.7rem}
+body.section-present #vocab.present-active .flash-arrow{width:44px;height:44px;font-size:1.5rem}
+body.section-present #vocab.present-active .flash-progress{font-size:1rem}
+body.section-present #vocab.present-active .flash-reveal-slot.show{margin-top:.6rem}
+body.section-present #vocab.present-active .flash-term{padding:.7rem 1rem}
+body.section-present #vocab.present-active .flash-def{padding:.7rem 1rem}
+body.section-present #vocab.present-active .flash-term-text{font-size:1.5rem}
+body.section-present #vocab.present-active .flash-def-text{font-size:1.05rem}
+body.section-present #vocab.present-active .flash-hint{font-size:.9rem;margin-top:.7rem}
+
+/* long turn (C2-style) */
+.lt-nav{display:flex;align-items:center;justify-content:center;gap:1rem;margin-bottom:1.2rem}
+.lt-progress{font-family:'JetBrains Mono',monospace;font-size:.78rem;font-weight:700;color:var(--muted);min-width:52px;text-align:center}
+.lt-grid{max-width:520px;margin:0 auto}
+.lt-card{background:var(--mint-light);border:1.5px solid rgba(33,118,255,.18);border-radius:var(--radius-lg);padding:1.4rem}
+.lt-badge{font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mint);margin-bottom:.5rem}
+.lt-question{font-size:1.02rem;font-weight:700;line-height:1.45;outline:none;border-radius:5px;transition:background-color .15s;margin-bottom:.7rem}
+.lt-question:hover,.lt-bullet:hover,.lt-followup:hover{background:color-mix(in srgb,var(--mint) 6%,transparent)}
+.lt-question:focus,.lt-bullet:focus,.lt-followup:focus{background:color-mix(in srgb,var(--mint) 9%,transparent)}
+.lt-bullets{margin:0 0 .9rem 1.1rem;padding:0}
+.lt-bullet{font-size:.88rem;color:var(--ink);line-height:1.55;outline:none;border-radius:5px;margin-bottom:.15rem}
+.lt-followup{font-size:.85rem;color:var(--muted);border-top:1.5px dashed rgba(33,118,255,.25);padding-top:.6rem;margin-top:.4rem;outline:none;border-radius:5px}
+.lt-followup b{color:var(--ink)}
+.lt-timer-row{display:flex;align-items:center;gap:.6rem;margin-bottom:1.2rem;flex-wrap:wrap}
+.lt-timer-pill{font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:700;padding:.32rem .8rem;border:1.5px solid var(--border);border-radius:100px;background:var(--card);color:var(--muted);cursor:pointer;transition:all .15s}
+.lt-timer-pill:hover{border-color:var(--mint);color:var(--mint)}
+.lt-timer-pill.on{background:var(--mint);color:#fff;border-color:var(--mint)}
+.lt-timer-disp{font-family:'JetBrains Mono',monospace;font-size:1.1rem;font-weight:700;color:var(--ink);min-width:3.2ch}
+.lt-timer-bar-outer{width:100%;height:5px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:1.2rem}
+.lt-timer-bar{height:100%;background:var(--mint);width:0%;transition:width 1s linear}
 
 /* word bank editor */
 .wb-hint{font-size:.82rem;color:var(--muted);margin-bottom:1rem;line-height:1.55}
@@ -467,6 +545,12 @@ body.section-present .deb-instruction{font-size:1.15rem}
 .spray-remove:hover{background:var(--red)}
 .spray-thumb-cap{margin-top:.4rem;color:var(--ink);font-weight:700;font-size:.68rem;line-height:1.3;text-align:center;
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.article-card{margin-bottom:1.4rem}
+.article-kicker{font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--mint);margin-bottom:.6rem}
+.article-title{font-size:1.15rem;font-weight:800;letter-spacing:-.01em;margin-bottom:.25rem}
+.article-byline{font-size:.78rem;color:var(--muted);margin-bottom:1.1rem;padding-bottom:1.1rem;border-bottom:1.5px solid var(--border)}
+.article-body p{font-size:.9rem;line-height:1.7;color:var(--slate-mid);margin-bottom:.9rem}
+.article-body p:last-child{margin-bottom:0}
 .gallery-card{position:relative;padding-bottom:3.6rem}
 .spray-add-corner{position:absolute;right:1.4rem;bottom:1.2rem;width:44px;height:44px;border-radius:50%;
   background:var(--mint);color:#fff;border:none;font-size:1.4rem;line-height:1;cursor:pointer;
@@ -575,39 +659,58 @@ body.section-present .deb-instruction{font-size:1.15rem}
   <button class="snav-btn active" id="tab-warmup" onclick="onTabClick(event,this,'warmup')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
     <span class="snav-label">Warm-Up</span>
+    <span class="snav-close" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();hideTab('warmup')" title="Remove this tab">&times;</span>
   </button>
   <button class="snav-btn" id="tab-vocab" onclick="onTabClick(event,this,'vocab')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/></svg>
     <span class="snav-label">Vocabulary</span>
+    <span class="snav-close" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();hideTab('vocab')" title="Remove this tab">&times;</span>
   </button>
   <button class="snav-btn" id="tab-main" onclick="onTabClick(event,this,'main')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-    <span class="snav-label">Main Task</span>
+    <span class="snav-label">Article</span>
+    <span class="snav-close" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();hideTab('main')" title="Remove this tab">&times;</span>
+  </button>
+  <button class="snav-btn" id="tab-longturn" onclick="onTabClick(event,this,'longturn')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+    <span class="snav-label">Long Turn</span>
+    <span class="snav-close" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();hideTab('longturn')" title="Remove this tab">&times;</span>
   </button>
   <button class="snav-btn" id="tab-debates" onclick="onTabClick(event,this,'debates')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
     <span class="snav-label">Debates</span>
+    <span class="snav-close" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();hideTab('debates')" title="Remove this tab">&times;</span>
   </button>
   <button class="snav-btn" id="tab-roleplay" onclick="onTabClick(event,this,'roleplay')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
     <span class="snav-label">Role Play</span>
+    <span class="snav-close" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();hideTab('roleplay')" title="Remove this tab">&times;</span>
   </button>
   <button class="snav-btn" id="tab-listening" onclick="onTabClick(event,this,'listening')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
     <span class="snav-label">Listening</span>
+    <span class="snav-close" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();hideTab('listening')" title="Remove this tab">&times;</span>
   </button>
   <button class="snav-btn" id="tab-uoe" onclick="onTabClick(event,this,'uoe')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
     <span class="snav-label">Use of English</span>
+    <span class="snav-close" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();hideTab('uoe')" title="Remove this tab">&times;</span>
   </button>
   <button class="snav-btn" id="tab-write" onclick="onTabClick(event,this,'write')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
     <span class="snav-label">Writing</span>
+    <span class="snav-close" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();hideTab('write')" title="Remove this tab">&times;</span>
   </button>
   <button class="snav-btn" id="tab-resources" onclick="onTabClick(event,this,'resources')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
     <span class="snav-label">Resources</span>
+    <span class="snav-close" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();hideTab('resources')" title="Remove this tab">&times;</span>
   </button>
+</div>
+
+<div class="snav-restore-wrap">
+  <button class="snav-restore-pill" id="snavRestorePill" style="display:none" onclick="toggleRestoreMenu()">Hidden (0)</button>
+  <div class="snav-restore-menu" id="snavRestoreMenu"></div>
 </div>
 
 <main class="lesson-main">
@@ -616,8 +719,8 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <div class="section-header">
       <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></div>
       <div>
-        <div class="section-title">Warm-Up</div>
-        <div class="section-label-mono">Discussion Starter · 5 min</div>
+        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-warmup" onblur="onStaticTextBlur(this)">Warm-Up</div>
+        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-warmup" onblur="onStaticTextBlur(this)">Discussion Starter · 5 min</div>
       </div>
       <div class="section-header-actions">
         <button class="deb-edit-toggle" id="warmupEditToggle" onclick="toggleWarmupEditMode()" title="Edit">
@@ -635,10 +738,13 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <div class="section-header">
       <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/></svg></div>
       <div>
-        <div class="section-title">Vocabulary · 8 items, C1</div>
-        <div class="section-label-mono">Education &amp; Learning Word Bank · 20 min</div>
+        <div class="section-title" id="vocabHeading">Vocabulary &middot; 8 items, C2</div>
+        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-vocab" onblur="onStaticTextBlur(this)">AI &amp; Technology Word Bank · 20 min</div>
       </div>
       <div class="section-header-actions">
+        <button class="section-fullscreen-toggle" onclick="presentVocabFlashcards()" title="Present flashcards full screen">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+        </button>
         <button class="deb-edit-toggle" id="vocabEditToggle" onclick="toggleVocabEditMode()" title="Edit">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
         </button>
@@ -646,28 +752,56 @@ body.section-present .deb-instruction{font-size:1.15rem}
     </div>
 
     <div class="tab-row">
-      <button class="tab-btn on" id="tabMatch" onclick="switchVTab('match')">Match</button>
+      <button class="tab-btn on" id="tabFlash" onclick="switchVTab('flash')">Flashcards</button>
+      <button class="tab-btn" id="tabMatch" onclick="switchVTab('match')">Match</button>
       <button class="tab-btn" id="tabGF" onclick="switchVTab('gf')">Gap Fill</button>
       <button class="tab-btn" id="tabEdit" onclick="switchVTab('edit')" style="display:none">Word Bank</button>
     </div>
 
     <div class="tab-panel" id="panel-edit">
       <div class="section-card">
-        <p class="wb-hint">Edit any word, definition or example below: the Match and Gap Fill tabs regenerate automatically from whatever is here. Sourced from <a href="https://johnplusenglish.com/word-banks.html" target="_blank" rel="noopener" style="color:var(--mint)">johnplusenglish.com's word banks</a>.</p>
+        <p class="wb-hint" contenteditable="true" spellcheck="false" data-sk="hint-wordbank" onblur="onStaticTextBlur(this)">Edit any word, definition or example below: the Match and Gap Fill tabs regenerate automatically from whatever is here.</p>
         <div class="wb-head">
-          <span class="wb-th">Term</span><span class="wb-th">Definition</span><span class="wb-th">Example</span><span></span>
+          <span class="wb-th" contenteditable="true" spellcheck="false" data-sk="wbth-word-term" onblur="onStaticTextBlur(this)">Term</span><span class="wb-th" contenteditable="true" spellcheck="false" data-sk="wbth-word-def" onblur="onStaticTextBlur(this)">Definition</span><span class="wb-th" contenteditable="true" spellcheck="false" data-sk="wbth-word-example" onblur="onStaticTextBlur(this)">Example</span><span></span>
         </div>
         <div id="wbRows"></div>
         <button class="read-btn wb-add" onclick="addWord()">+ Add word</button>
       </div>
     </div>
 
-    <div class="tab-panel show" id="panel-match">
+    <div class="tab-panel show" id="panel-flash">
+      <div class="section-card">
+        <div class="flash-nav">
+          <button class="flash-arrow" id="flashPrev" onclick="flashPrev()" aria-label="Previous card">&lsaquo;</button>
+          <div class="flash-progress" id="flashProgress">1 / 8</div>
+          <button class="flash-arrow" id="flashNext" onclick="flashNext()" aria-label="Next card">&rsaquo;</button>
+        </div>
+        <div class="flash-card" id="flashCard" onclick="flashAdvance()">
+          <div class="flash-image-wrap" id="flashImageWrap" onclick="onFlashImageWrapClick(event)"
+            ondragover="event.preventDefault();if(vocabEditMode)this.classList.add('drag-over')"
+            ondragleave="this.classList.remove('drag-over')"
+            ondrop="handleFlashImageDrop(event)">
+            <img class="flash-image" id="flashImage" alt="">
+            <div class="flash-image-empty" id="flashImageEmpty">No image for this word yet</div>
+            <button class="flash-image-remove" id="flashImageRemove" onclick="event.stopPropagation();removeFlashImage()" title="Remove image">&times;</button>
+          </div>
+          <div class="flash-reveal-slot flash-term" id="flashTermSlot"><div class="flash-term-text" id="flashTermText" spellcheck="false" onclick="if(vocabEditMode)event.stopPropagation()" onblur="onFlashTermBlur(this)"></div></div>
+          <div class="flash-reveal-slot flash-def" id="flashDefSlot"><div class="flash-def-text" id="flashDefText" spellcheck="false" onclick="if(vocabEditMode)event.stopPropagation()" onblur="onFlashDefBlur(this)"></div></div>
+          <div class="flash-hint" id="flashHint">Tap to reveal the phrase</div>
+        </div>
+        <div class="flash-export-row">
+          <button class="read-btn" onclick="exportFlashcardPNG(flashIndex)" title="Download this card as a mobile-friendly PNG">Export this card</button>
+          <button class="read-btn" onclick="exportAllFlashcardsPNG()" title="Download every card as separate PNGs">Export all cards</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="panel-match">
       <div class="section-card">
         <div class="match-rows" style="margin-bottom:.6rem">
-          <div class="match-col-label">Definition</div>
+          <div class="match-col-label" contenteditable="true" spellcheck="false" data-sk="match-col-def" onblur="onStaticTextBlur(this)">Definition</div>
           <div></div>
-          <div class="match-col-label">Term</div>
+          <div class="match-col-label" contenteditable="true" spellcheck="false" data-sk="match-col-term" onblur="onStaticTextBlur(this)">Term</div>
         </div>
         <div class="match-rows" id="matchRows"></div>
       </div>
@@ -688,8 +822,8 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <div class="section-header">
       <div class="section-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
       <div>
-        <div class="section-title">Main Task · The Report</div>
-        <div class="section-label-mono">Reading &amp; Discussion · 12 min</div>
+        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-main" onblur="onStaticTextBlur(this)">Article · The Class of 2025</div>
+        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-main" onblur="onStaticTextBlur(this)">Read the Report · Share a Photo · 15 min</div>
       </div>
       <div class="section-header-actions">
         <button class="section-fullscreen-toggle" onclick="presentSection('main')" title="Present full screen">
@@ -700,25 +834,20 @@ body.section-present .deb-instruction{font-size:1.15rem}
         </button>
       </div>
     </div>
-    <div class="section-card">
-      <div style="font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--mint);margin-bottom:.5rem">The Report · PISA 2025</div>
-      <h3 style="font-size:1.5rem;line-height:1.15;margin:0 0 .4rem">The Class of 2025: What the New PISA Report Found</h3>
-      <p style="color:var(--muted);font-size:.95rem;margin:0 0 1.1rem">Every three years the OECD tests around 750,000 fifteen-year-olds across dozens of countries on the same scale. This year's results, released this month, are the most worrying it has ever recorded, and, for many teachers, a real <strong>wake-up call</strong>.</p>
-      <div class="reading-text">
-        <p><strong>The headline is bleak.</strong> Across wealthy countries, reading and maths have both fallen to the <strong>lowest averages ever recorded</strong> (maths 463, reading 461). Reading alone is down about <strong>28 points since 2015</strong>, which the OECD calls roughly a year and a half of lost learning.</p>
-        <p><strong>It is not simply the pandemic.</strong> Reading and science had been sliding for a decade before COVID. Today <strong>one in five</strong> teenagers is a low performer in all three subjects at once, up from one in six in 2022. Too many quietly <strong>slip through the cracks</strong> before anyone notices.</p>
-        <p><strong>Screens are part of the story.</strong> About a third of students say they are distracted by devices in class, and those glued to screens for five to seven hours a day score around <strong>49 points lower in maths</strong> than those who keep it under an hour. Reading for pleasure has collapsed.</p>
-        <p><strong>Where you live still matters far too much.</strong> A child's results are strongly tied to family wealth and postcode; genuinely fair systems, offering something close to <strong>a level playing field</strong>, remain the exception rather than the rule.</p>
-        <p><strong>But it is not all doom.</strong> Singapore and the Chinese provinces are still <strong>top of the class</strong>, Estonia leads Europe by pairing strong results with real fairness, and England's science climbed to its highest since 2012. What the leaders share is unglamorous: they protect their teachers, sort children into tracks late, and keep a reading culture alive.</p>
-      </div>
-      <div style="margin-top:1.1rem;padding:.9rem 1.1rem;background:rgba(13,148,136,.08);border-radius:12px">
-        <div style="font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--mint);margin-bottom:.4rem">Talk about it</div>
-        <p style="margin:.15rem 0;font-size:.95rem">1. Which finding surprised you the most, and why?</p>
-        <p style="margin:.15rem 0;font-size:.95rem">2. Do you blame phones, teaching, or something else for the decline?</p>
-        <p style="margin:.15rem 0;font-size:.95rem">3. Is education in your country more like the leaders here, or the strugglers?</p>
+    <div class="section-card article-card">
+      <div class="article-kicker">Mini Article · 3 min read</div>
+      <div class="article-title">The Class of 2025: What the New PISA Report Found</div>
+      <div class="article-byline">Based on the OECD's PISA 2025 results, released this month</div>
+      <div id="articleAudioContainer"></div>
+      <div class="article-body">
+        <p>Every three years, the OECD tests around 750,000 fifteen-year-olds across dozens of countries on the same scale. This year's results, released this month, are the most worrying it has ever recorded, and, for many teachers, a real <strong>wake-up call</strong>.</p>
+        <p>The headline is bleak. Across the wealthy world, reading and maths have both fallen to their <strong>lowest averages ever recorded</strong> (maths 463, reading 461). Reading alone is down about <strong>28 points since 2015</strong>, which the OECD calls roughly a year and a half of lost learning.</p>
+        <p>It is not simply the pandemic. Reading and science had been sliding for a decade before COVID. Today <strong>one in five</strong> teenagers is a low performer in all three subjects at once, up from one in six in 2022. Too many quietly <strong>slip through the cracks</strong> before anyone notices.</p>
+        <p>Screens are part of the story. About a third of students say they are distracted by devices in class, and those glued to screens for five to seven hours a day score around <strong>49 points lower in maths</strong> than those who keep it under an hour. And where you live still matters far too much: a child's results are strongly tied to family wealth and postcode, so genuinely fair systems, offering anything like <strong>a level playing field</strong>, remain the exception.</p>
+        <p>But it is not all doom. Singapore and the Chinese provinces are still <strong>top of the class</strong>, Estonia leads Europe by pairing strong results with real fairness, and England's science climbed to its highest since 2012. What the leaders share is unglamorous: they protect their teachers, sort children into tracks late, and keep a reading culture alive.</p>
       </div>
     </div>
-    <div class="section-card gallery-card" style="display:none">
+    <div class="section-card gallery-card">
       <div class="spray-board" id="sprayBoard"></div>
       <button class="spray-add-corner" id="sprayAddCorner" onclick="triggerUpload()" title="Add a photo" style="display:none"
         ondragover="event.preventDefault();this.classList.add('drag-over')"
@@ -726,8 +855,8 @@ body.section-present .deb-instruction{font-size:1.15rem}
         ondrop="handleDrop(event)">+</button>
     </div>
     <div class="section-card uoe-editor-card" id="peopleEditorCard" style="display:none">
-      <div class="deb-sidebar-label" style="margin-bottom:.3rem;margin-top:1.4rem">People in this group</div>
-      <p class="wb-hint" style="margin-bottom:.9rem">A register of who is in this group, for your own reference. Tap a badge to mark someone as a Teacher. Edit this whenever you reuse the lesson with a different group.</p>
+      <div class="deb-sidebar-label" style="margin-bottom:.3rem;margin-top:1.4rem" contenteditable="true" spellcheck="false" data-sk="label-roster" onblur="onStaticTextBlur(this)">People in this group</div>
+      <p class="wb-hint" style="margin-bottom:.9rem" contenteditable="true" spellcheck="false" data-sk="hint-roster" onblur="onStaticTextBlur(this)">This roster feeds the photo gallery. Tap the badge to mark someone as a teacher or student. Edit this whenever you reuse the lesson with a different group.</p>
       <div id="peopleEditRows"></div>
       <button class="read-btn wb-add" onclick="addPerson()">+ Add person</button>
     </div>
@@ -751,12 +880,44 @@ body.section-present .deb-instruction{font-size:1.15rem}
   </div>
 
 
+  <section class="lesson-section" id="longturn">
+    <div class="section-header">
+      <div class="section-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+      <div>
+        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-longturn" onblur="onStaticTextBlur(this)">Long Turn</div>
+        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-longturn" onblur="onStaticTextBlur(this)">C2 Proficiency Speaking, Part 3 style · 20 min</div>
+      </div>
+      <div class="section-header-actions">
+        <button class="deb-edit-toggle" id="ltEditToggle" onclick="toggleLtEditMode()" title="Edit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="section-card">
+      <p style="font-size:.85rem;color:var(--muted);margin-bottom:1.2rem" contenteditable="true" spellcheck="false" data-sk="hint-longturn" onblur="onStaticTextBlur(this)">Give each candidate their own card. They speak alone for two minutes, uninterrupted, using the bullet points as a guide, not a script. Their partner just listens, then answers the short follow-up question underneath.</p>
+      <div class="lt-timer-row">
+        <button class="lt-timer-pill" onclick="ltSelTime(120,this)">2 min</button>
+        <button class="lt-timer-pill" onclick="ltSelTime(150,this)">2.5 min</button>
+        <button class="lt-timer-pill" onclick="ltSelTime(30,this)">30 sec follow-up</button>
+        <button class="lt-timer-pill" id="ltPlay" onclick="ltTog()">&#9658; Start</button>
+        <span class="lt-timer-disp" id="ltDisp">2:00</span>
+      </div>
+      <div class="lt-timer-bar-outer"><div class="lt-timer-bar" id="ltBar"></div></div>
+      <div class="lt-nav">
+        <button class="flash-arrow" onclick="ltPrevCard()">&#8592;</button>
+        <div class="lt-progress" id="ltProgress">1 / 4</div>
+        <button class="flash-arrow" onclick="ltNextCard()">&#8594;</button>
+      </div>
+      <div class="lt-grid" id="ltGrid"></div>
+    </div>
+  </section>
+
   <section class="lesson-section" id="debates">
     <div class="section-header">
       <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
       <div>
-        <div class="section-title">Debates</div>
-        <div class="section-label-mono">Discussion &amp; Persuasion · 15 min</div>
+        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-debates" onblur="onStaticTextBlur(this)">Debates</div>
+        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-debates" onblur="onStaticTextBlur(this)">Discussion &amp; Persuasion · 15 min</div>
       </div>
       <div class="section-header-actions">
         <button class="section-fullscreen-toggle" onclick="presentSection('debates')" title="Present full screen">
@@ -770,7 +931,7 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <div class="deb-shell-outer">
       <div class="deb-shell">
         <div class="deb-sidebar">
-          <div class="deb-sidebar-label">Useful Phrases</div>
+          <div class="deb-sidebar-label" contenteditable="true" spellcheck="false" data-sk="label-useful-phrases" onblur="onStaticTextBlur(this)">Useful Phrases</div>
           <div id="debPhraseList"></div>
           <button class="deb-add-phrase" id="debAddPhraseBtn" onclick="addDebPhrase()" style="display:none">+ Add phrase</button>
         </div>
@@ -786,8 +947,8 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <div class="section-header">
       <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
       <div>
-        <div class="section-title">Role Play</div>
-        <div class="section-label-mono">Improvised Speaking · 15 min</div>
+        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-roleplay" onblur="onStaticTextBlur(this)">Role Play</div>
+        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-roleplay" onblur="onStaticTextBlur(this)">Improvised Speaking · 15 min</div>
       </div>
       <div class="section-header-actions">
         <button class="deb-edit-toggle" id="rpEditToggle" onclick="toggleRpEditMode()" title="Edit">
@@ -801,14 +962,16 @@ body.section-present .deb-instruction{font-size:1.15rem}
     </div>
   </section>
   <input type="file" id="rpImageInput" accept="image/*" style="display:none">
+  <input type="file" id="flashImageInput" accept="image/*" style="display:none">
   <input type="file" id="listenAudioInput" accept="audio/*" style="display:none">
+  <input type="file" id="articleAudioInput" accept="audio/*" style="display:none">
 
   <section class="lesson-section" id="listening">
     <div class="section-header">
       <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div>
       <div>
-        <div class="section-title">Listening · Two-Way Chat</div>
-        <div class="section-label-mono">C1 · ~2 min audio · 15 min</div>
+        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-listening" onblur="onStaticTextBlur(this)">Listening · Two-Way Chat</div>
+        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-listening" onblur="onStaticTextBlur(this)">C1 &middot; ~2 min dialogue · 15 min</div>
       </div>
       <div class="section-header-actions">
         <button class="deb-edit-toggle" id="listenEditToggle" onclick="toggleListenEditMode()" title="Edit">
@@ -828,8 +991,8 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <div class="section-header">
       <div class="section-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
       <div>
-        <div class="section-title">Use of English · Key Word Transformation</div>
-        <div class="section-label-mono">Breather / Homework · 10 min</div>
+        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-uoe" onblur="onStaticTextBlur(this)">Use of English · Key Word Transformation</div>
+        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-uoe" onblur="onStaticTextBlur(this)">Breather / Homework · 10 min</div>
       </div>
       <div class="section-header-actions">
         <button class="deb-edit-toggle" id="uoeEditToggle" onclick="toggleUoeEditor()" title="Edit">
@@ -847,7 +1010,7 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <div class="section-card uoe-editor-card" id="uoeEditorCard" style="display:none">
       <div id="uoeEditorBody" class="uoe-editor-body show">
         <div class="wb-head" style="grid-template-columns:.8fr 1.5fr 1.5fr 1fr 34px">
-          <span class="wb-th">Key word</span><span class="wb-th">Sentence 1</span><span class="wb-th">Sentence 2 (use ___ for gap)</span><span class="wb-th">Answer</span><span></span>
+          <span class="wb-th" contenteditable="true" spellcheck="false" data-sk="wbth-uoe-key" onblur="onStaticTextBlur(this)">Key word</span><span class="wb-th" contenteditable="true" spellcheck="false" data-sk="wbth-uoe-s1" onblur="onStaticTextBlur(this)">Sentence 1</span><span class="wb-th" contenteditable="true" spellcheck="false" data-sk="wbth-uoe-s2" onblur="onStaticTextBlur(this)">Sentence 2 (use ___ for gap)</span><span class="wb-th" contenteditable="true" spellcheck="false" data-sk="wbth-uoe-answer" onblur="onStaticTextBlur(this)">Answer</span><span></span>
         </div>
         <div id="uoeEditRows"></div>
         <button class="read-btn wb-add" onclick="addUoeItem()">+ Add item</button>
@@ -859,8 +1022,8 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <div class="section-header">
       <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div>
       <div>
-        <div class="section-title">Writing / Homework</div>
-        <div class="section-label-mono">Short &amp; Frequent · 60 to 90 words</div>
+        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-write" onblur="onStaticTextBlur(this)">Writing / Homework</div>
+        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-write" onblur="onStaticTextBlur(this)">Short &amp; Frequent · 60 to 90 words</div>
       </div>
     </div>
     <div class="section-card">
@@ -877,8 +1040,8 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <div class="section-header">
       <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
       <div>
-        <div class="section-title">Resources</div>
-        <div class="section-label-mono">Extra Listening &amp; Reading · Optional</div>
+        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-resources" onblur="onStaticTextBlur(this)">Resources</div>
+        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-resources" onblur="onStaticTextBlur(this)">Extra Listening &amp; Reading · Optional</div>
       </div>
       <div class="section-header-actions">
         <button class="deb-edit-toggle" id="resourcesEditToggle" onclick="toggleResourcesEditMode()" title="Edit">
@@ -922,7 +1085,7 @@ body.section-present .deb-instruction{font-size:1.15rem}
 </div>
 
 <script>
-var STORAGE_KEY = 'jpe_edutoday_c1_geraldine_laura_words';
+var STORAGE_KEY = 'jpe_edutoday_c1_words';
 var DEFAULT_WORDS = [
   {term:"pass with flying colours", def:"to pass an exam or test very successfully, with a high mark", example:"She revised for weeks and passed the exam with flying colours."},
   {term:"raise the bar", def:"to set a higher standard than the one before", example:"Each brilliant cohort raises the bar for the students who follow."},
@@ -950,7 +1113,97 @@ function loadWords(){
 }
 function saveWords(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(WORDS)); }catch(e){} }
 function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
+
+/* ---------- section nav: remove/restore a tab entirely ---------- */
+var HIDDEN_TABS_KEY = 'jpe_edutoday_hidden_tabs';
+function loadHiddenTabs(){
+  try{ var raw = JSON.parse(localStorage.getItem(HIDDEN_TABS_KEY)); if(Array.isArray(raw)) return raw; }catch(e){}
+  return [];
+}
+function saveHiddenTabs(list){ try{ localStorage.setItem(HIDDEN_TABS_KEY, JSON.stringify(list)); }catch(e){} }
+function hideTab(id){
+  var nav = document.querySelector('.section-nav');
+  var visibleCount = Array.prototype.filter.call(nav.querySelectorAll('.snav-btn'), function(b){ return b.style.display !== 'none'; }).length;
+  if(visibleCount <= 1){ alert('You need to keep at least one tab visible.'); return; }
+  var btn = document.getElementById('tab-'+id);
+  if(!btn) return;
+  var labelEl = btn.querySelector('.snav-label');
+  var name = labelEl ? labelEl.textContent : id;
+  if(!confirm('Remove the "'+name+'" tab? You can bring it back anytime from the Hidden menu next to the tabs.')) return;
+  var list = loadHiddenTabs();
+  if(list.indexOf(id)===-1){ list.push(id); saveHiddenTabs(list); }
+  var wasActive = btn.classList.contains('active');
+  btn.style.display = 'none';
+  if(wasActive){
+    var nextBtn = Array.prototype.filter.call(nav.querySelectorAll('.snav-btn'), function(b){ return b.style.display !== 'none' && b !== btn; })[0];
+    if(nextBtn) nextBtn.click();
+  }
+  renderHiddenTabsMenu();
+}
+function restoreTab(id){
+  var btn = document.getElementById('tab-'+id);
+  if(!btn) return;
+  btn.style.display = '';
+  saveHiddenTabs(loadHiddenTabs().filter(function(x){ return x!==id; }));
+  renderHiddenTabsMenu();
+}
+function renderHiddenTabsMenu(){
+  var list = loadHiddenTabs();
+  var pill = document.getElementById('snavRestorePill');
+  var menu = document.getElementById('snavRestoreMenu');
+  if(!pill || !menu) return;
+  if(!list.length){ pill.style.display = 'none'; menu.classList.remove('show'); return; }
+  pill.style.display = '';
+  pill.textContent = 'Hidden (' + list.length + ')';
+  menu.innerHTML = list.map(function(id){
+    var btn = document.getElementById('tab-'+id);
+    var labelEl = btn ? btn.querySelector('.snav-label') : null;
+    var name = labelEl ? labelEl.textContent : id;
+    return '<button class="snav-restore-item" onclick="restoreTab(\''+id+'\');toggleRestoreMenu(false)">+ '+esc(name)+'</button>';
+  }).join('');
+}
+function toggleRestoreMenu(force){
+  var menu = document.getElementById('snavRestoreMenu');
+  if(!menu) return;
+  var show = typeof force === 'boolean' ? force : !menu.classList.contains('show');
+  menu.classList.toggle('show', show);
+}
+function applyHiddenTabs(){
+  loadHiddenTabs().forEach(function(id){
+    var btn = document.getElementById('tab-'+id);
+    if(btn) btn.style.display = 'none';
+  });
+  renderHiddenTabsMenu();
+}
+document.addEventListener('click', function(e){
+  var menu = document.getElementById('snavRestoreMenu');
+  var pill = document.getElementById('snavRestorePill');
+  if(!menu || !menu.classList.contains('show')) return;
+  if(e.target===pill || (pill && pill.contains(e.target)) || menu.contains(e.target)) return;
+  menu.classList.remove('show');
+});
 function escRe(s){ return String(s).replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
+
+/* ---------- generic editable static text (headings, labels, hints, column headers) ---------- */
+var STATIC_TEXT_KEY = 'jpe_edutoday_static_text';
+function loadStaticText(){
+  try{ var s = JSON.parse(localStorage.getItem(STATIC_TEXT_KEY)); if(s && typeof s==='object') return s; }catch(e){}
+  return {};
+}
+var STATIC_TEXT = loadStaticText();
+function saveStaticTextMap(){ try{ localStorage.setItem(STATIC_TEXT_KEY, JSON.stringify(STATIC_TEXT)); }catch(e){} }
+function onStaticTextBlur(el){
+  var k = el.getAttribute('data-sk');
+  if(!k) return;
+  STATIC_TEXT[k] = el.textContent;
+  saveStaticTextMap();
+}
+function applyStaticText(root){
+  (root||document).querySelectorAll('[data-sk]').forEach(function(el){
+    var k = el.getAttribute('data-sk');
+    if(STATIC_TEXT.hasOwnProperty(k)) el.textContent = STATIC_TEXT[k];
+  });
+}
 function shuffle(arr){
   var a = arr.slice();
   for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; }
@@ -968,6 +1221,15 @@ function renderWordBank(){
       '<button class="wb-rm" onclick="removeWord('+i+')" aria-label="Remove">&times;</button>'+
     '</div>';
   }).join('');
+  updateVocabHeading();
+}
+function updateVocabHeading(){
+  var el = document.getElementById('vocabHeading');
+  if(!el) return;
+  var levelEl = document.getElementById('navLevel');
+  var level = levelEl ? levelEl.textContent.trim() : '';
+  var n = WORDS.length;
+  el.textContent = 'Vocabulary · ' + n + ' item' + (n===1?'':'s') + (level ? ', ' + level : '');
 }
 function onWordEdit(el){
   var i = +el.dataset.i, f = el.dataset.f;
@@ -1124,7 +1386,7 @@ function renderPeopleEdit(){
     return '<div class="wb-row" style="grid-template-columns:24px 1fr auto 34px;align-items:center">'+
       '<span class="people-dot" style="background:'+PEOPLE_PALETTE[i % PEOPLE_PALETTE.length]+'"></span>'+
       '<input value="'+esc(p.name)+'" data-i="'+i+'" oninput="onPersonEdit(this)" placeholder="name">'+
-      '<button class="read-btn'+(p.isTeacher?' primary':'')+'" style="padding:.3rem .6rem;font-size:.7rem" onclick="toggleTeacher('+i+')" title="Mark this person as a teacher or a student">'+(p.isTeacher?'Teacher':'Student')+'</button>'+
+      '<button class="read-btn'+(p.isTeacher?' primary':'')+'" style="padding:.3rem .6rem;font-size:.7rem" onclick="toggleTeacher('+i+')" title="Exclude this person from Question Swap pairwork">'+(p.isTeacher?'Teacher':'Student')+'</button>'+
       '<button class="wb-rm" onclick="removePerson('+i+')" aria-label="Remove">&times;</button>'+
     '</div>';
   }).join('');
@@ -1183,6 +1445,7 @@ function toggleMainEditMode(){
   document.getElementById('sprayAddCorner').style.display = mainEditMode ? '' : 'none';
   document.getElementById('peopleEditorCard').style.display = mainEditMode ? '' : 'none';
   renderGallery();
+  renderArticleAudio();
 }
 function renderGallery(){
   var board = document.getElementById('sprayBoard');
@@ -1534,7 +1797,7 @@ var RP_TONES = {
 var DEFAULT_RP = [
   {
     tone:'formal',
-    title:'The Parents’ Evening',
+    title:'The Parents\' Evening',
     scenario:"A bright student's grades have dropped sharply this term. The teacher has asked the parent in for a quiet word after school.",
     roleA:{name:'Teacher', desc:'You suspect phones and late nights, but you need the parent on your side, not defensive. Be honest and specific about what you have seen.'},
     roleB:{name:'Parent', desc:'You think your child is doing fine and that the school piles on too much pressure. Hear the teacher out, but stand up for your child.'},
@@ -1657,10 +1920,11 @@ function renderRpBody(){
           'onkeydown="if(event.key===\'Enter\'){event.preventDefault();this.blur();}">'+esc(s.roleB.desc)+'</div>'+
       '</div>'+
     '</div>'+
-    '<div class="rp-useful-label">Useful language</div>'+
+    '<div class="rp-useful-label" data-sk="label-useful-language" contenteditable="true" spellcheck="false" onblur="onStaticTextBlur(this)">Useful language</div>'+
     '<div class="rp-chips">'+chips+addChipBtn+'</div>'+
     removeBtn+
   '</div>';
+  applyStaticText(wrap);
 }
 function onRpTitleEdit(el){ RP[currentRP].title = el.textContent.trim(); saveRP(); }
 function onRpScenarioEdit(el){ RP[currentRP].scenario = el.textContent.trim(); saveRP(); }
@@ -1814,8 +2078,6 @@ function renderListenBody(){
   var ed = listenEditMode;
   var revealed = !!listenRevealed[currentListen];
 
-  var chips = d.targetPhrases.map(function(p){ return '<span class="listen-phrase-chip">'+esc(p)+'</span>'; }).join('');
-
   var audioBlock;
   if(d.audio){
     audioBlock = '<div class="listen-audio-slot filled">'+
@@ -1859,7 +2121,6 @@ function renderListenBody(){
 
   wrap.innerHTML = '<div class="rp-card'+(ed?' rp-editing':'')+'">'+
     titleHtml+
-    '<div class="listen-phrases">'+chips+'</div>'+
     audioBlock+
     '<div class="listen-actions">'+
       '<button class="listen-reveal-btn'+(revealed?' showing':'')+'" onclick="toggleListenReveal()">'+
@@ -1869,10 +2130,11 @@ function renderListenBody(){
     '</div>'+
     '<div class="listen-transcript'+(revealed?' show':'')+(ed?' listen-editing':'')+'">'+lines+addLineBtn+'</div>'+
     '<div class="listen-questions">'+
-      '<div class="rp-useful-label">Comprehension questions</div>'+
+      '<div class="rp-useful-label" data-sk="label-comprehension-qs" contenteditable="true" spellcheck="false" onblur="onStaticTextBlur(this)">Comprehension questions</div>'+
       questions+addQBtn+
     '</div>'+
   '</div>';
+  applyStaticText(wrap);
 }
 function toggleListenReveal(){
   listenRevealed[currentListen] = !listenRevealed[currentListen];
@@ -1960,6 +2222,66 @@ function removeListenAudio(){
   saveListen();
   renderListenBody();
 }
+
+/* ---------- article narration audio ---------- */
+var ARTICLE_AUDIO_KEY = 'jpe_edutoday_article_audio';
+function loadArticleAudio(){
+  try{ return localStorage.getItem(ARTICLE_AUDIO_KEY) || null; }catch(e){ return null; }
+}
+var articleAudio = loadArticleAudio();
+function saveArticleAudio(){
+  try{
+    if(articleAudio) localStorage.setItem(ARTICLE_AUDIO_KEY, articleAudio);
+    else localStorage.removeItem(ARTICLE_AUDIO_KEY);
+  }catch(e){}
+}
+function renderArticleAudio(){
+  var wrap = document.getElementById('articleAudioContainer');
+  if(!wrap) return;
+  var ed = mainEditMode;
+  if(articleAudio){
+    wrap.innerHTML = '<div class="listen-audio-slot filled">'+
+      '<div class="listen-audio-row"><audio controls src="'+articleAudio+'"></audio>'+
+        (ed ? '<button class="read-btn" onclick="removeArticleAudio()">Remove</button>' : '')+
+      '</div>'+
+    '</div>';
+  }else{
+    wrap.innerHTML = ed
+      ? '<div class="listen-audio-slot" onclick="triggerArticleAudioUpload()" '+
+          'ondragover="event.preventDefault();this.classList.add(\'drag-over\')" '+
+          'ondragleave="this.classList.remove(\'drag-over\')" ondrop="handleArticleAudioDrop(event)">'+
+          '<span class="hero-image-plus">+</span><span class="listen-audio-hint">Drag an MP3 here, or click to browse</span>'+
+        '</div>'
+      : '<div class="listen-audio-slot"><span class="listen-audio-hint">No audio uploaded yet. Tap Edit to add narration.</span></div>';
+  }
+}
+function triggerArticleAudioUpload(){ document.getElementById('articleAudioInput').click(); }
+document.getElementById('articleAudioInput').addEventListener('change', function(){
+  var f = this.files && this.files[0];
+  if(f) readArticleAudioFile(f);
+  this.value = '';
+});
+function handleArticleAudioDrop(e){
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  var f = e.dataTransfer.files && e.dataTransfer.files[0];
+  if(f && f.type.indexOf('audio/')===0) readArticleAudioFile(f);
+}
+function readArticleAudioFile(file){
+  var reader = new FileReader();
+  reader.onload = function(e){
+    articleAudio = e.target.result;
+    saveArticleAudio();
+    renderArticleAudio();
+  };
+  reader.readAsDataURL(file);
+}
+function removeArticleAudio(){
+  articleAudio = null;
+  saveArticleAudio();
+  renderArticleAudio();
+}
+
 function listenLineTokens(l){
   var div = document.createElement('div');
   div.innerHTML = l.highlightHtml || esc(l.text);
@@ -2262,12 +2584,12 @@ var WTASKS = {
   },
   article: {
     label: 'Article',
-    prompt: 'Write a short article for a school newsletter about the findings of the recent PISA report (the global fall in reading and maths, phones and screen time, the gap between rich and poor) and what they mean for schools today. Use at least <strong>four</strong> of today\'s words or phrases, and give it a title.',
+    prompt: "Write a short article for a school newsletter about the findings of the recent PISA report and what they mean for schools today. Use at least <strong>four</strong> of today's words or phrases, and give it a title.",
     min: 120, max: 160
   },
   essay: {
     label: 'Essay',
-    prompt: 'Write a short essay discussing whether exams and league tables do more harm than good. Use at least <strong>four</strong> of today\'s words or phrases.',
+    prompt: "Write a short essay discussing whether exams and league tables do more harm than good. Use at least <strong>four</strong> of today's words or phrases.",
     min: 150, max: 200
   }
 };
@@ -2282,7 +2604,7 @@ function renderWTaskPanels(){
   wrap.innerHTML = Object.keys(WTASKS).map(function(id){
     var t = WTASKS[id];
     return '<div class="tab-panel'+(id===currentWTask?' show':'')+'" id="wtaskPanel-'+id+'">'+
-      '<p style="color:var(--muted);font-size:.9rem;line-height:1.6;margin-bottom:1rem">'+t.prompt+'</p>'+
+      '<p style="color:var(--muted);font-size:.9rem;line-height:1.6;margin-bottom:1rem" data-sk="wtask-prompt-'+id+'" contenteditable="true" spellcheck="false" onblur="onStaticTextBlur(this)">'+t.prompt+'</p>'+
       '<textarea id="writeArea-'+id+'" rows="6" style="width:100%;border:1.5px solid var(--border);border-radius:10px;padding:.9rem 1rem;font-family:\'Outfit\',sans-serif;font-size:.92rem;color:var(--ink);background:var(--cream);resize:vertical" placeholder="Start writing…" oninput="updateWCount(\''+id+'\')">'+esc(writeDrafts[id]||'')+'</textarea>'+
       '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:.6rem">'+
         '<span id="wCount-'+id+'" style="font-family:\'JetBrains Mono\',monospace;font-size:.78rem;color:var(--muted)">0 words</span>'+
@@ -2360,6 +2682,333 @@ function removeWarmupQ(i){
   renderWarmupQs();
 }
 
+/* ---------- flashcards ---------- */
+var FLASHCARD_IMAGES = {
+  'pass with flying colours': null,
+  'raise the bar': null,
+  'a level playing field': null,
+  'slip through the cracks': null,
+  'hit the books': null,
+  'read between the lines': null,
+  'on the same page': null,
+  'a wake-up call': null,
+  'paper over the cracks': null,
+  'the proof is in the pudding': null,
+  'top of the class': null
+};
+var FLASH_IMG_KEY = 'jpe_edutoday_flashcard_images';
+function loadFlashImages(){
+  try{ var s = JSON.parse(localStorage.getItem(FLASH_IMG_KEY)); if(s && typeof s === 'object') return s; }catch(e){}
+  return {};
+}
+var FLASH_IMG_OVERRIDES = loadFlashImages();
+function saveFlashImages(){ try{ localStorage.setItem(FLASH_IMG_KEY, JSON.stringify(FLASH_IMG_OVERRIDES)); }catch(e){} }
+
+var flashIndex = 0;
+var flashStage = 0;
+function renderFlashcards(){
+  if(!WORDS.length) return;
+  if(flashIndex >= WORDS.length) flashIndex = 0;
+  var w = WORDS[flashIndex];
+  var term = w.term.toLowerCase();
+  var img = FLASH_IMG_OVERRIDES.hasOwnProperty(term) ? FLASH_IMG_OVERRIDES[term] : FLASHCARD_IMAGES[term];
+  var imgEl = document.getElementById('flashImage');
+  var emptyEl = document.getElementById('flashImageEmpty');
+  var wrapEl = document.getElementById('flashImageWrap');
+  var removeBtn = document.getElementById('flashImageRemove');
+  if(!imgEl || !emptyEl) return;
+  if(img){
+    imgEl.src = img;
+    imgEl.alt = flashStage>=1 ? w.term : 'Guess the idiom';
+    imgEl.style.display = 'block';
+    emptyEl.style.display = 'none';
+  }else{
+    imgEl.removeAttribute('src');
+    imgEl.style.display = 'none';
+    emptyEl.style.display = 'flex';
+    emptyEl.textContent = vocabEditMode ? 'Click or drag to add an image' : 'No image for this word yet';
+  }
+  if(wrapEl) wrapEl.classList.toggle('editing', vocabEditMode);
+  if(removeBtn) removeBtn.style.display = (img && vocabEditMode) ? 'flex' : 'none';
+  var termEl = document.getElementById('flashTermText');
+  var defEl = document.getElementById('flashDefText');
+  if(document.activeElement !== termEl) termEl.textContent = w.term.charAt(0).toUpperCase()+w.term.slice(1);
+  if(document.activeElement !== defEl) defEl.textContent = w.def;
+  document.getElementById('flashTermSlot').classList.toggle('show', vocabEditMode || flashStage>=1);
+  document.getElementById('flashDefSlot').classList.toggle('show', vocabEditMode || flashStage>=2);
+  document.getElementById('flashCard').classList.toggle('editing', vocabEditMode);
+  termEl.setAttribute('contenteditable', vocabEditMode ? 'true' : 'false');
+  defEl.setAttribute('contenteditable', vocabEditMode ? 'true' : 'false');
+  document.getElementById('flashProgress').textContent = (flashIndex+1)+' / '+WORDS.length;
+  var hint = document.getElementById('flashHint');
+  hint.textContent = vocabEditMode ? 'Editing: click the phrase or meaning to change it' : (flashStage===0 ? 'Tap to reveal the phrase' : flashStage===1 ? 'Tap to reveal the meaning' : 'Tap for the next card');
+}
+function onFlashTermBlur(el){
+  var w = WORDS[flashIndex];
+  if(!w) return;
+  w.term = el.textContent.trim();
+  saveWords();
+  renderDerived();
+}
+function onFlashDefBlur(el){
+  var w = WORDS[flashIndex];
+  if(!w) return;
+  w.def = el.textContent.trim();
+  saveWords();
+  renderDerived();
+}
+function flashAdvance(){
+  if(vocabEditMode) return;
+  flashStage++;
+  if(flashStage>2){ flashStage=0; flashIndex=(flashIndex+1)%WORDS.length; }
+  renderFlashcards();
+}
+function flashNext(){ flashStage=0; flashIndex=(flashIndex+1)%WORDS.length; renderFlashcards(); }
+function flashPrev(){ flashStage=0; flashIndex=(flashIndex-1+WORDS.length)%WORDS.length; renderFlashcards(); }
+
+/* ---------- flashcard PNG export: mobile-friendly, image + phrase + definition ---------- */
+function flashcardImageFor(term){
+  var key = term.toLowerCase();
+  return FLASH_IMG_OVERRIDES.hasOwnProperty(key) ? FLASH_IMG_OVERRIDES[key] : FLASHCARD_IMAGES[key];
+}
+function drawFlashcardCanvas(w, cb){
+  var W = 1080, H = 1920;
+  var canvas = document.createElement('canvas');
+  canvas.width = W; canvas.height = H;
+  var ctx = canvas.getContext('2d');
+  var imgSrc = flashcardImageFor(w.term);
+
+  function drawTextAndFinish(photoH){
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(0, photoH, W, H-photoH);
+    var pad = 64;
+    var y = photoH + 96;
+    document.fonts.ready.then(function(){
+      ctx.fillStyle = '#1A1A2E';
+      ctx.font = '800 56px Outfit, sans-serif';
+      var termText = w.term.charAt(0).toUpperCase()+w.term.slice(1);
+      wrapNotesCanvasText(ctx, termText, W-pad*2).forEach(function(line){
+        ctx.fillText(line, pad, y); y += 66;
+      });
+      y += 28;
+      ctx.fillStyle = '#4A5568';
+      ctx.font = '400 34px Outfit, sans-serif';
+      wrapNotesCanvasText(ctx, w.def, W-pad*2).forEach(function(line){
+        ctx.fillText(line, pad, y); y += 46;
+      });
+      cb(canvas);
+    });
+  }
+
+  if(imgSrc){
+    var img = new Image();
+    img.onload = function(){
+      var photoH = Math.round(H*0.58);
+      var scale = Math.max(W/img.width, photoH/img.height);
+      var dw = img.width*scale, dh = img.height*scale;
+      var dx = (W-dw)/2, dy = (photoH-dh)/2;
+      ctx.fillStyle = '#F7F7F5'; ctx.fillRect(0,0,W,H);
+      ctx.save();
+      ctx.beginPath(); ctx.rect(0,0,W,photoH); ctx.clip();
+      ctx.drawImage(img, dx, dy, dw, dh);
+      ctx.restore();
+      drawTextAndFinish(photoH);
+    };
+    img.onerror = function(){
+      var photoH = Math.round(H*0.35);
+      ctx.fillStyle = '#E8EEFF'; ctx.fillRect(0,0,W,photoH);
+      drawTextAndFinish(photoH);
+    };
+    img.src = imgSrc;
+  }else{
+    var photoH = Math.round(H*0.35);
+    ctx.fillStyle = '#E8EEFF'; ctx.fillRect(0,0,W,photoH);
+    ctx.fillStyle = '#6B7280';
+    ctx.font = '500 30px Outfit, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('No image for this word yet', W/2, photoH/2);
+    ctx.textAlign = 'left';
+    drawTextAndFinish(photoH);
+  }
+}
+function exportFlashcardPNG(index){
+  var w = WORDS[index];
+  if(!w) return;
+  drawFlashcardCanvas(w, function(canvas){
+    var link = document.createElement('a');
+    var safeName = w.term.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+    link.download = 'flashcard-'+safeName+'.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  });
+}
+function exportAllFlashcardsPNG(){
+  if(!WORDS.length) return;
+  var i = 0;
+  function next(){
+    if(i >= WORDS.length) return;
+    exportFlashcardPNG(i);
+    i++;
+    setTimeout(next, 450);
+  }
+  next();
+}
+function onFlashImageWrapClick(e){
+  if(!vocabEditMode) return;
+  e.stopPropagation();
+  if(e.target.closest('.flash-image-remove')) return;
+  document.getElementById('flashImageInput').click();
+}
+document.getElementById('flashImageInput').addEventListener('change', function(){
+  var f = this.files && this.files[0];
+  if(f) readFlashImageFile(f);
+  this.value = '';
+});
+function handleFlashImageDrop(e){
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  if(!vocabEditMode) return;
+  var f = e.dataTransfer.files && e.dataTransfer.files[0];
+  if(f && f.type.indexOf('image/')===0) readFlashImageFile(f);
+}
+function readFlashImageFile(file){
+  var reader = new FileReader();
+  reader.onload = function(e){
+    var img = new Image();
+    img.onload = function(){
+      var maxW = 900;
+      var scale = Math.min(1, maxW/img.width);
+      var w = Math.round(img.width*scale), h = Math.round(img.height*scale);
+      var canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      var term = WORDS[flashIndex].term.toLowerCase();
+      FLASH_IMG_OVERRIDES[term] = canvas.toDataURL('image/jpeg', .85);
+      saveFlashImages();
+      renderFlashcards();
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+function removeFlashImage(){
+  var term = WORDS[flashIndex].term.toLowerCase();
+  FLASH_IMG_OVERRIDES[term] = null;
+  saveFlashImages();
+  renderFlashcards();
+}
+function presentVocabFlashcards(){
+  switchVTab('flash');
+  presentSection('vocab');
+}
+
+/* ---------- long turn (C2-style) ---------- */
+var LT_KEY = 'jpe_edutoday_longturn';
+var DEFAULT_LT = [
+  {
+    speaker: 'Speaker A',
+    question: "The new PISA report says reading and maths are at record lows. What do you think is really behind it?",
+    bullets: [
+      'Phones, social media and the collapse of reading for pleasure',
+      'A decade of teaching narrowly to the test',
+      'Whether the pandemic is a cause or just an accelerator'
+    ],
+    followUp: "If you had to fix one of those things first, which would it be?"
+  },
+  {
+    speaker: 'Speaker B',
+    question: "Do international league tables like PISA do more good than harm?",
+    bullets: [
+      'Useful pressure on governments to improve',
+      'The risk of chasing rankings instead of real learning',
+      'Whether you can measure a good education with one number'
+    ],
+    followUp: "Would your country be better or worse off without them?"
+  },
+  {
+    speaker: 'Speaker A',
+    question: "Some countries stay top of the class year after year. What do you think they get right?",
+    bullets: [
+      'How they treat and train their teachers',
+      'The culture around study and effort at home',
+      'Whether it comes at a cost to student wellbeing'
+    ],
+    followUp: "Could your country copy them, or would it never work?"
+  },
+  {
+    speaker: 'Speaker B',
+    question: "Whose job is it to make schooling a level playing field?",
+    bullets: [
+      'Governments and how they fund schools',
+      'Schools and how they support weaker students',
+      'Families, and what happens at home'
+    ],
+    followUp: "Is a truly level playing field even possible, in your view?"
+  }
+];
+function loadLt(){
+  try{ var s = JSON.parse(localStorage.getItem(LT_KEY)); if(Array.isArray(s) && s.length) return s; }catch(e){}
+  return DEFAULT_LT.slice();
+}
+var ltItems = loadLt();
+function saveLt(){ try{ localStorage.setItem(LT_KEY, JSON.stringify(ltItems)); }catch(e){} }
+var ltEditMode = false;
+var ltIndex = 0;
+function toggleLtEditMode(){
+  ltEditMode = !ltEditMode;
+  document.getElementById('ltEditToggle').classList.toggle('on', ltEditMode);
+  renderLongTurn();
+}
+function ltPrevCard(){ ltIndex = (ltIndex-1+ltItems.length)%ltItems.length; renderLongTurn(); }
+function ltNextCard(){ ltIndex = (ltIndex+1)%ltItems.length; renderLongTurn(); }
+function renderLongTurn(){
+  var wrap = document.getElementById('ltGrid');
+  if(!wrap) return;
+  if(ltIndex >= ltItems.length) ltIndex = 0;
+  var ed = ltEditMode;
+  var i = ltIndex;
+  var c = ltItems[i];
+  document.getElementById('ltProgress').textContent = (i+1)+' / '+ltItems.length;
+  var bullets = c.bullets.map(function(b,bi){
+    return '<li class="lt-bullet" contenteditable="'+(ed?'true':'false')+'" spellcheck="false" onblur="onLtBulletEdit('+i+','+bi+',this)">'+b+'</li>';
+  }).join('');
+  wrap.innerHTML = '<div class="lt-card">'+
+      '<div class="lt-badge">'+esc(c.speaker)+' &middot; 2 minutes</div>'+
+      '<div class="lt-question" contenteditable="'+(ed?'true':'false')+'" spellcheck="false" onblur="onLtEdit('+i+',\'question\',this)">'+c.question+'</div>'+
+      '<ul class="lt-bullets">'+bullets+'</ul>'+
+      '<div class="lt-followup" contenteditable="'+(ed?'true':'false')+'" spellcheck="false" onblur="onLtEdit('+i+',\'followUp\',this)"><b>Partner\'s follow-up:</b> '+c.followUp+'</div>'+
+    '</div>';
+}
+function onLtEdit(i,field,el){ ltItems[i][field] = el.textContent; saveLt(); }
+function onLtBulletEdit(i,bi,el){ ltItems[i].bullets[bi] = el.textContent; saveLt(); }
+var ltTimerDur = 120, ltTimerLeft = 0, ltTimerRun = false, ltTimerInt = null;
+function ltFmt(s){ return Math.floor(s/60)+':'+(s%60<10?'0':'')+(s%60); }
+function ltSelTime(s, btn){
+  ltTimerDur = s; ltTimerLeft = s; ltTimerRun = false;
+  clearInterval(ltTimerInt);
+  document.getElementById('ltPlay').textContent = '\u25B6 Start';
+  document.getElementById('ltDisp').textContent = ltFmt(s);
+  document.getElementById('ltBar').style.width = '0%';
+  Array.prototype.forEach.call(document.querySelectorAll('.lt-timer-pill'), function(b){ b.classList.remove('on'); });
+  if(btn) btn.classList.add('on');
+}
+function ltTog(){
+  if(!ltTimerLeft) ltTimerLeft = ltTimerDur;
+  ltTimerRun = !ltTimerRun;
+  document.getElementById('ltPlay').textContent = ltTimerRun ? '\u23F8 Pause' : '\u25B6 Resume';
+  if(ltTimerRun){
+    ltTimerInt = setInterval(function(){
+      ltTimerLeft--;
+      document.getElementById('ltDisp').textContent = ltFmt(ltTimerLeft);
+      var pct = 100 - (ltTimerLeft/ltTimerDur)*100;
+      document.getElementById('ltBar').style.width = pct+'%';
+      if(ltTimerLeft<=0){ clearInterval(ltTimerInt); ltTimerRun=false; document.getElementById('ltPlay').textContent='\u25B6 Start'; }
+    }, 1000);
+  } else {
+    clearInterval(ltTimerInt);
+  }
+}
+
 /* ---------- hero banner text ---------- */
 var HERO_TITLE_KEY = 'jpe_edutoday_hero_title';
 var HERO_SUB_KEY = 'jpe_edutoday_hero_sub';
@@ -2382,6 +3031,7 @@ function saveHeroText(){
     localStorage.setItem(NAV_LEVEL_KEY, document.getElementById('navLevel').textContent);
     localStorage.setItem(NAV_TOPIC_KEY, document.getElementById('navTopic').textContent);
   }catch(e){}
+  updateVocabHeading();
 }
 
 /* ---------- hero banner image ---------- */
@@ -2484,15 +3134,16 @@ function readHeroFile(file){
 }
 
 /* ---------- wiring ---------- */
-function renderDerived(){ initMatching(); renderGapFill(); renderSwap(); }
+function renderDerived(){ initMatching(); renderGapFill(); renderSwap(); renderFlashcards(); }
 function renderAll(){ renderWordBank(); renderDerived(); renderPeopleEdit(); renderGallery(); renderDebates(); renderRP(); renderListen(); renderResources(); renderUoeEdit(); renderUoE(); }
 
-var vTabBtnIds = {edit:'tabEdit', match:'tabMatch', gf:'tabGF'};
+var vTabBtnIds = {edit:'tabEdit', flash:'tabFlash', match:'tabMatch', gf:'tabGF'};
 function switchVTab(id){
   Object.keys(vTabBtnIds).forEach(function(t){
     document.getElementById('panel-'+t).classList.toggle('show', t===id);
     document.getElementById(vTabBtnIds[t]).classList.toggle('on', t===id);
   });
+  if(id==='flash') renderFlashcards();
   if(id==='match') initMatching();
   if(id==='gf') renderGapFill();
 }
@@ -2502,10 +3153,11 @@ function toggleVocabEditMode(){
   vocabEditMode = !vocabEditMode;
   document.getElementById('vocabEditToggle').classList.toggle('on', vocabEditMode);
   document.getElementById('tabEdit').style.display = vocabEditMode ? '' : 'none';
-  if(!vocabEditMode && document.getElementById('tabEdit').classList.contains('on')) switchVTab('match');
+  if(!vocabEditMode && document.getElementById('tabEdit').classList.contains('on')) switchVTab('flash');
+  renderFlashcards();
 }
 
-var tabIds = ['warmup','vocab','main','debates','roleplay','listening','uoe','write','resources'];
+var tabIds = ['warmup','vocab','main','longturn','debates','roleplay','listening','uoe','write','resources'];
 function showTab(id){
   tabIds.forEach(function(t){
     document.getElementById(t).classList.toggle('visible', t===id);
@@ -2716,6 +3368,23 @@ var SUPABASE_ANON_KEY = 'sb_publishable_VTOzRUebaH_xQAs4wngfug_jCVCeCFB';
 var supabaseClient = (typeof window.supabase !== 'undefined')
   ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
   : null;
+
+/* auto-sync: on first visit to this lesson in a browser tab/session, silently pull the cloud
+   version (if any) so the page never shows stale local data or the file's baked-in defaults.
+   Cloud is the single source of truth; any local edits not yet pushed via Cloud Save are
+   overwritten here. Gated on sessionStorage so it only happens once per tab, not on every reload. */
+(function autoSyncFromCloud(){
+  if(!supabaseClient) return;
+  var flagKey = 'jpe_cloudsynced_' + LESSON_ID;
+  if(sessionStorage.getItem(flagKey)) return;
+  supabaseClient.from('lessons').select('data, updated_at').eq('id', LESSON_ID).maybeSingle().then(function(res){
+    try{ sessionStorage.setItem(flagKey, '1'); }catch(e){}
+    if(!res.error && res.data){
+      applyLocalStorageData(res.data.data);
+      location.reload();
+    }
+  });
+})();
 function setCloudStatus(text){
   var el = document.getElementById('cloudStatus');
   if(el) el.textContent = text;
@@ -3037,51 +3706,10 @@ function downloadNotesPNG(){
   });
 }
 
-/* ---------- deletable tabs ---------- */
-var DELETED_TABS_KEY = 'jpe_edutoday_deleted_tabs';
-function loadDeletedTabs(){ try{ var r = JSON.parse(localStorage.getItem(DELETED_TABS_KEY)); if(Array.isArray(r)) return r; }catch(e){} return []; }
-function saveDeletedTabs(list){ try{ localStorage.setItem(DELETED_TABS_KEY, JSON.stringify(list)); }catch(e){} }
-function firstVisibleTabId(){
-  var b = document.querySelector('.section-nav .snav-btn:not(.tab-deleted)');
-  return b ? b.id.replace('tab-','') : null;
-}
-function deleteTab(id){
-  var btn = document.getElementById('tab-'+id);
-  if(!btn) return;
-  var labelEl = btn.querySelector('.snav-label');
-  var label = labelEl ? labelEl.textContent.trim() : id;
-  var ok = true;
-  try{ ok = confirm('Delete the "'+label+'" tab? You can bring it back with Restore, or by loading a backup.'); }catch(e){}
-  if(!ok) return;
-  var wasActive = btn.classList.contains('active');
-  btn.classList.add('tab-deleted');
-  var list = loadDeletedTabs();
-  if(list.indexOf(id) === -1){ list.push(id); saveDeletedTabs(list); }
-  if(wasActive){ var nx = firstVisibleTabId(); if(nx) showTab(nx); }
-}
-function applyDeletedTabs(){
-  loadDeletedTabs().forEach(function(id){
-    var b = document.getElementById('tab-'+id);
-    if(b) b.classList.add('tab-deleted');
-  });
-}
-function injectTabDeleteButtons(){
-  document.querySelectorAll('.section-nav .snav-btn').forEach(function(btn){
-    if(btn.querySelector('.snav-del')) return;
-    var id = btn.id.replace('tab-','');
-    var x = document.createElement('span');
-    x.className = 'snav-del';
-    x.textContent = '×';
-    x.title = 'Delete this tab';
-    x.addEventListener('pointerdown', function(e){ e.stopPropagation(); });
-    x.addEventListener('click', function(e){ e.stopPropagation(); e.preventDefault(); deleteTab(id); });
-    btn.appendChild(x);
-  });
-}
-
 renderAll();
 renderHeroImage();
 renderWarmupQs();
+renderLongTurn();
 renderWTaskPanels();
 initAnnotCanvas();
 renderPins();
@@ -3089,8 +3717,38 @@ restoreParkedTabs();
 restoreTabOrder();
 restoreMinimizedTabs();
 initTabDrag();
+
+/* ---------- deletable tabs ---------- */
+var DELETED_TABS_KEY = 'jpe_edutoday_deleted_tabs';
+function loadDeletedTabs(){ try{ var r = JSON.parse(localStorage.getItem(DELETED_TABS_KEY)); if(Array.isArray(r)) return r; }catch(e){} return []; }
+function saveDeletedTabs(list){ try{ localStorage.setItem(DELETED_TABS_KEY, JSON.stringify(list)); }catch(e){} }
+function firstVisibleTabId(){ var b = document.querySelector('.section-nav .snav-btn:not(.tab-deleted)'); return b ? b.id.replace('tab-','') : null; }
+function deleteTab(id){
+  var btn = document.getElementById('tab-'+id); if(!btn) return;
+  var lab = btn.querySelector('.snav-label'); var label = lab ? lab.textContent.trim() : id;
+  var ok = true; try{ ok = confirm('Delete the "'+label+'" tab? You can bring it back with Restore, or by loading a backup.'); }catch(e){}
+  if(!ok) return;
+  var wasActive = btn.classList.contains('active');
+  btn.classList.add('tab-deleted');
+  var list = loadDeletedTabs(); if(list.indexOf(id) === -1){ list.push(id); saveDeletedTabs(list); }
+  if(wasActive){ var nx = firstVisibleTabId(); if(nx) showTab(nx); }
+}
+function applyDeletedTabs(){ loadDeletedTabs().forEach(function(id){ var b = document.getElementById('tab-'+id); if(b) b.classList.add('tab-deleted'); }); }
+function injectTabDeleteButtons(){
+  document.querySelectorAll('.section-nav .snav-btn').forEach(function(btn){
+    if(btn.querySelector('.snav-del')) return;
+    var id = btn.id.replace('tab-','');
+    var x = document.createElement('span'); x.className = 'snav-del'; x.textContent = '\u00d7'; x.title = 'Delete this tab';
+    x.addEventListener('pointerdown', function(e){ e.stopPropagation(); });
+    x.addEventListener('click', function(e){ e.stopPropagation(); e.preventDefault(); deleteTab(id); });
+    btn.appendChild(x);
+  });
+}
 applyDeletedTabs();
 injectTabDeleteButtons();
+applyStaticText();
+applyHiddenTabs();
+renderArticleAudio();
 </script>
 </body>
 </html>
