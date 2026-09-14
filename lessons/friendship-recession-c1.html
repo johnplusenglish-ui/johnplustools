@@ -1097,16 +1097,16 @@ body.section-present .deb-instruction{font-size:1.15rem}
 <script>
 var STORAGE_KEY = 'jpe_friendshiprec_c1_words';
 var DEFAULT_WORDS = [
-  {term:"drift apart", def:"to gradually stop being close to someone over time, without any single cause", example:"They were best friends at school, but they've drifted apart since university."},
-  {term:"a fair-weather friend", def:"someone who is only there for you when things are going well", example:"He turned out to be a fair-weather friend; the moment I needed help, he vanished."},
-  {term:"thick as thieves", def:"extremely close, sharing everything with each other", example:"The two of them have been thick as thieves since primary school."},
-  {term:"keep in touch", def:"to stay in regular contact with someone", example:"We promised to keep in touch after she moved abroad, but it never really happened."},
-  {term:"burn your bridges", def:"to destroy a relationship or opportunity so completely that there is no going back", example:"Don't burn your bridges with your old colleagues; you might need them one day."},
-  {term:"put yourself out there", def:"to make an effort to meet people or take a social risk", example:"Making friends as an adult means putting yourself out there, even when it feels awkward."},
-  {term:"a home away from home", def:"a place where you feel as comfortable as you do at home", example:"That coffee shop became a home away from home for the whole group."},
-  {term:"read the room", def:"to correctly sense the mood or feeling of a group of people", example:"He didn't read the room and kept joking while everyone else had gone quiet."},
-  {term:"break the ice", def:"to say or do something that relieves tension, especially with people you've just met", example:"She told a joke to break the ice at the first meetup."},
-  {term:"a shoulder to cry on", def:"someone who comforts and listens to you when you're upset", example:"Whatever happens, you'll always have a shoulder to cry on."}
+  {term:"get on like a house on fire", def:"to become friends very quickly and enjoy each other's company immediately", example:"They only met an hour ago, but they're already getting on like a house on fire."},
+  {term:"through thick and thin", def:"staying loyal to someone in both good times and bad", example:"She's stuck by me through thick and thin since we were teenagers."},
+  {term:"on the same wavelength", def:"thinking in a similar way to someone, so you understand each other easily", example:"We've been on the same wavelength since the day we met."},
+  {term:"a shoulder to cry on", def:"someone who comforts and listens to you when you're upset", example:"Whatever happens, you'll always have a shoulder to cry on."},
+  {term:"bury the hatchet", def:"to make peace with someone after an argument or disagreement", example:"It's been years, don't you think it's time to bury the hatchet?"},
+  {term:"grow apart", def:"to gradually become less close to someone over time", example:"We were inseparable at school, but we've grown apart since then."},
+  {term:"lean on someone", def:"to rely on someone for support, especially emotional support", example:"It's okay to lean on your friends when things get difficult."},
+  {term:"a ride or die", def:"(informal) a completely loyal friend who will support you no matter what", example:"She's my ride or die; she'd drop everything if I needed her."},
+  {term:"an energy vampire", def:"(informal) someone whose company leaves you feeling drained and exhausted", example:"I always feel exhausted after seeing him; he's a total energy vampire."},
+  {term:"joined at the hip", def:"always together; inseparable", example:"Those two have been joined at the hip since primary school."}
 ];
 var WORDS = loadWords();
 var rowOfDef = {};      /* wordIndex -> which visual row its definition currently sits on */
@@ -2029,35 +2029,36 @@ var DEFAULT_LISTEN = [
   {
     title: 'We Should Do This More Often',
     subtitle: 'Two old friends catching up for the first time in months',
-    targetPhrases: ['drift apart','a fair-weather friend','thick as thieves','keep in touch','burn your bridges','put yourself out there','a home away from home','read the room','break the ice','a shoulder to cry on'],
+    targetPhrases: ['get on like a house on fire','through thick and thin','on the same wavelength','a shoulder to cry on','bury the hatchet','grow apart','lean on someone','a ride or die','an energy vampire','joined at the hip'],
     audio: null,
     questions: [
-      "Why does Sam say half his old university group are now just 'birthday messages'?",
-      'What did Sam do differently on his first friendship-app meetup, and what went wrong?',
-      'What do Priya and Sam agree to do at the end of the conversation?'
+      'Why do Priya and Sam think they got on so well from the very first lecture?',
+      'Why does Sam think Priya and Jamie should bury the hatchet?',
+      "How does Priya describe Chloe's new flatmate, and why?"
     ],
     lines: [
       ln('a','Priya',"[sitting down, laughing] Sorry I'm late, the bus took forever. You look well!"),
       ln('b','Sam',"You too! It's been, what, four months?"),
       ln('a','Priya',"Don't remind me. We really should do this more often."),
       ln('b','Sam',"[laughs] We say that every single time."),
-      ln('a','Priya',"True. Honestly though, I read something depressing this morning about how adults just don't have friends any more."),
-      ln('b','Sam',"Oh, the friendship recession thing? Something like one in six people now have no close friends at all."),
-      ln('a','Priya',"Exactly. And it's not that people fall out, is it? You just drift apart without really noticing."),
-      ln('b','Sam',"That's exactly what happened with half my old uni group. We were thick as thieves for years, and now it's just birthday messages."),
-      ln('a','Priya',"Same. I tried to keep in touch with a couple of them, but it's hard when nobody replies properly."),
-      ln('b','Sam',"[sighs] It's not even that people are fair-weather friends. Everyone's just busy, or tired, or online instead."),
-      ln('a','Priya',"Did you ever try one of those friendship apps, by the way?"),
-      ln('b','Sam',"[laughs] I did, actually. Don't judge me."),
-      ln('a','Priya',"I'm not judging! How was it?"),
-      ln('b','Sam',"Weirdly awkward. Both of you just trying to break the ice over coffee. I definitely didn't read the room on the first date, turned up with an actual list of questions."),
-      ln('a','Priya',"[laughs] Oh no."),
-      ln('b','Sam',"I know. But I met someone good, eventually. Her flat's basically become a home away from home for me now."),
-      ln('a','Priya',"See, that's lovely though. Maybe putting yourself out there properly is the trick."),
-      ln('b','Sam',"Maybe. It shouldn't be this hard, though."),
-      ln('a','Priya',"No, it shouldn't. Anyway, whatever happens, you've always got a shoulder to cry on with me."),
-      ln('b','Sam',"[smiles] Same here. Right, we're never burning this bridge. Same time next month?"),
-      ln('a','Priya',"Same time next month. Properly, this time.")
+      ln('a','Priya',"True. Do you remember when we first met? We got on like a house on fire, right from that first lecture."),
+      ln('b','Sam',"We did, didn't we. Feels like a lifetime ago now."),
+      ln('a','Priya',"It's mad how some people just click. We've been on the same wavelength ever since."),
+      ln('b','Sam',"Definitely. Not like Jamie, actually, do you remember Jamie from our course?"),
+      ln('a','Priya',"Oh God, yes. We fell out over something so stupid."),
+      ln('b','Sam',"You two should really bury the hatchet at some point. It's been, what, six years?"),
+      ln('a','Priya',"Maybe. We've just grown apart, though, it's not really anger any more."),
+      ln('b','Sam',"Fair enough. Anyway, how are you doing, actually? You seemed stressed on the phone last week."),
+      ln('a','Priya',"[sighs] Work's been a lot. I've had to really lean on my sister lately, to be honest."),
+      ln('b','Sam',"That's what family's for, I suppose. You know you can lean on me too."),
+      ln('a','Priya',"I know. You've been there through thick and thin, and you're always a shoulder to cry on when I need one."),
+      ln('b','Sam',"[laughs] Anytime. Speaking of friends, have you met Chloe's new flatmate?"),
+      ln('a','Priya',"I have, actually. Total energy vampire. I left completely drained after ten minutes."),
+      ln('b','Sam',"[laughs] Oh no. Chloe hasn't noticed?"),
+      ln('a','Priya',"I don't think so. But listen, whatever happens, you're my ride or die, you know that?"),
+      ln('b','Sam',"Same here. Honestly, we've basically been joined at the hip since university, some things don't change."),
+      ln('a','Priya',"[smiles] They really don't. Same time next month?"),
+      ln('b','Sam',"Same time next month.")
     ]
   }
 ];
@@ -2529,12 +2530,12 @@ var UOE_KEY = 'jpe_friendshiprec_uoe_items';
 /* real KWT format: sentence1 (unchanged) + key word + sentence2 with a ___ gap;
    answer is 2-5 words and must include the key word unchanged */
 var DEFAULT_UOE = [
-  {key:'DRIFT', s1:'They were close at school but slowly stopped being close over the years.', s2:'They were close at school but ___ over the years.', answer:'drifted apart'},
-  {key:'THIEVES', s1:'The two sisters share absolutely everything and are extremely close.', s2:'The two sisters are ___ and share everything.', answer:'thick as thieves'},
-  {key:'TOUCH', s1:'We promised to stay in regular contact after she moved abroad.', s2:'We promised to ___ after she moved abroad.', answer:'keep in touch'},
-  {key:'BRIDGES', s1:'He never destroys a relationship completely, even after a bad argument.', s2:'He never ___, even after a bad argument.', answer:'burns his bridges'},
-  {key:'ROOM', s1:'She sensed the group had gone serious and stopped joking around.', s2:'She managed to ___ and stopped joking around.', answer:'read the room'},
-  {key:'ICE', s1:'He told a joke to relieve the tension when they first met.', s2:'He told a joke to ___ when they first met.', answer:'break the ice'}
+  {key:'FIRE', s1:'They only met an hour ago but are already becoming close friends fast.', s2:'They only met an hour ago but are already ___.', answer:'getting on like a house on fire'},
+  {key:'THICK', s1:"She's remained loyal to me in both good times and bad since we were teenagers.", s2:"She's stuck by me ___ since we were teenagers.", answer:'through thick and thin'},
+  {key:'WAVELENGTH', s1:'We think in a similar way and understand each other easily.', s2:"We've always been ___.", answer:'on the same wavelength'},
+  {key:'HATCHET', s1:'It is time for them to make peace after their old argument.', s2:'It is time for them to ___.', answer:'bury the hatchet'},
+  {key:'APART', s1:'We were inseparable at school but became less close over time.', s2:'We were inseparable at school but ___ over time.', answer:'grew apart'},
+  {key:'HIP', s1:'Those two are always together and completely inseparable.', s2:'Those two have been ___ since school.', answer:'joined at the hip'}
 ];
 function loadUoe(){
   try{ var raw = localStorage.getItem(UOE_KEY); if(raw){ var p = JSON.parse(raw); if(Array.isArray(p) && p.length && p[0].s2!==undefined) return p; } }catch(e){}
@@ -2699,16 +2700,16 @@ function removeWarmupQ(i){
 
 /* ---------- flashcards ---------- */
 var FLASHCARD_IMAGES = {
-  'drift apart': null,
-  'a fair-weather friend': null,
-  'thick as thieves': null,
-  'keep in touch': null,
-  'burn your bridges': null,
-  'put yourself out there': null,
-  'a home away from home': null,
-  'read the room': null,
-  'break the ice': null,
-  'a shoulder to cry on': null
+  'get on like a house on fire': null,
+  'through thick and thin': null,
+  'on the same wavelength': null,
+  'a shoulder to cry on': null,
+  'bury the hatchet': null,
+  'grow apart': null,
+  'lean on someone': null,
+  'a ride or die': null,
+  'an energy vampire': null,
+  'joined at the hip': null
 };
 var FLASH_IMG_KEY = 'jpe_friendshiprec_flashcard_images';
 function loadFlashImages(){
