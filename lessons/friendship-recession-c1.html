@@ -275,6 +275,22 @@ body.section-present #vocab.present-active .flash-hint{font-size:.9rem;margin-to
 .qs-input{width:100%;border:none;border-bottom:1.5px dotted var(--muted);background:transparent;font-size:.85rem;padding:.25rem 0;outline:none}
 .qs-input:focus{border-color:var(--mint)}
 @media(max-width:700px){.qs-grid{grid-template-columns:1fr}}
+.adj-bank{display:flex;flex-wrap:wrap;gap:.6rem;margin:1rem 0 1.5rem;padding:1.1rem;background:var(--cream);border:1.5px solid var(--border);border-radius:var(--radius-lg);min-height:56px}
+.adj-chip{padding:.5rem 1rem;background:var(--card);border:2px solid var(--border);border-radius:999px;font-weight:700;font-size:.85rem;cursor:grab;user-select:none;touch-action:none;transition:box-shadow .15s,border-color .15s,background .15s,color .15s}
+.adj-chip:hover{border-color:var(--mint)}
+.adj-chip.dragging{position:fixed;z-index:80;pointer-events:none;box-shadow:0 10px 24px rgba(0,0,0,.2);opacity:.96;cursor:grabbing}
+.adj-chip.wrong{border-color:var(--red);background:var(--red-light);color:var(--red)}
+.adj-chip.correct{border-color:var(--teal-dark);background:var(--teal-light);color:var(--teal-dark);cursor:default}
+.adj-columns{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:1.1rem}
+.adj-col{border:2px dashed var(--border);border-radius:var(--radius-lg);padding:1rem;min-height:170px;transition:border-color .15s,background .15s}
+.adj-col-title{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:800;margin-bottom:.7rem}
+.adj-col[data-col="positive"] .adj-col-title{color:var(--teal-dark)}
+.adj-col[data-col="negative"] .adj-col-title{color:var(--red)}
+.adj-col.drop-hover{border-style:solid}
+.adj-col[data-col="positive"].drop-hover{border-color:var(--teal-dark);background:var(--teal-light)}
+.adj-col[data-col="negative"].drop-hover{border-color:var(--red);background:var(--red-light)}
+.adj-col-body{display:flex;flex-wrap:wrap;gap:.5rem;min-height:40px}
+@media(max-width:700px){.adj-columns{grid-template-columns:1fr}}
 
 /* debates */
 .section-header-actions{margin-left:auto;display:flex;gap:.5rem;flex-shrink:0}
@@ -665,10 +681,10 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <span class="snav-label">Article</span>
     <span class="snav-close" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();hideTab('main')" title="Remove this tab">&times;</span>
   </button>
-  <button class="snav-btn" id="tab-swap" onclick="onTabClick(event,this,'swap')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5M4 20L21 3M8 21H3v-5M20 4L3 21"/></svg>
-    <span class="snav-label">Question Swap</span>
-    <span class="snav-close" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();hideTab('swap')" title="Remove this tab">&times;</span>
+  <button class="snav-btn" id="tab-ranking" onclick="onTabClick(event,this,'ranking')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+    <span class="snav-label">Ranking</span>
+    <span class="snav-close" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();hideTab('ranking')" title="Remove this tab">&times;</span>
   </button>
   <button class="snav-btn" id="tab-longturn" onclick="onTabClick(event,this,'longturn')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
@@ -854,7 +870,7 @@ body.section-present .deb-instruction{font-size:1.15rem}
     </div>
     <div class="section-card uoe-editor-card" id="peopleEditorCard" style="display:none">
       <div class="deb-sidebar-label" style="margin-bottom:.3rem;margin-top:1.4rem" contenteditable="true" spellcheck="false" data-sk="label-roster" onblur="onStaticTextBlur(this)">People in this group</div>
-      <p class="wb-hint" style="margin-bottom:.9rem" contenteditable="true" spellcheck="false" data-sk="hint-roster" onblur="onStaticTextBlur(this)">This roster feeds both the photo gallery and Question Swap. Tap the badge to mark someone as Teacher, which excludes them from Question Swap pairwork. Edit this whenever you reuse the lesson with a different group.</p>
+      <p class="wb-hint" style="margin-bottom:.9rem" contenteditable="true" spellcheck="false" data-sk="hint-roster" onblur="onStaticTextBlur(this)">This roster feeds the photo gallery. Tap the badge to mark someone as a teacher or a student. Edit this whenever you reuse the lesson with a different group.</p>
       <div id="peopleEditRows"></div>
       <button class="read-btn wb-add" onclick="addPerson()">+ Add person</button>
     </div>
@@ -877,16 +893,25 @@ body.section-present .deb-instruction{font-size:1.15rem}
     </div>
   </div>
 
-  <section class="lesson-section" id="swap">
+  <section class="lesson-section" id="ranking">
     <div class="section-header">
-      <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M16 3h5v5M4 20L21 3M8 21H3v-5M20 4L3 21"/></svg></div>
+      <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
       <div>
-        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-swap" onblur="onStaticTextBlur(this)">Question Swap</div>
-        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-swap" onblur="onStaticTextBlur(this)">Pairwork Speaking · 15 min</div>
+        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-ranking" onblur="onStaticTextBlur(this)">Ranking</div>
+        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-ranking" onblur="onStaticTextBlur(this)">Sort the Adjectives · 10 min</div>
       </div>
     </div>
     <div class="section-card">
-      <div class="qs-grid" id="qsGrid"></div>
+      <p class="wb-hint" contenteditable="true" spellcheck="false" data-sk="hint-ranking" onblur="onStaticTextBlur(this)">Drag each adjective into the correct column: Positive or Negative. A wrong drop bounces back, so just try again.</p>
+      <div class="adj-bank" id="adjBank"></div>
+      <div class="adj-columns">
+        <div class="adj-col" data-col="positive" id="adjColPositive"><div class="adj-col-title">Positive</div><div class="adj-col-body" id="adjBodyPositive"></div></div>
+        <div class="adj-col" data-col="negative" id="adjColNegative"><div class="adj-col-title">Negative</div><div class="adj-col-body" id="adjBodyNegative"></div></div>
+      </div>
+      <div class="rank-actions" style="display:flex;align-items:center;gap:12px">
+        <button class="read-btn" id="adjResetBtn" onclick="resetAdjSort()">Reset</button>
+        <span class="rank-status" id="adjStatus" style="font-size:.85rem;color:var(--muted)">0 / 20 sorted</span>
+      </div>
     </div>
   </section>
 
@@ -1352,23 +1377,115 @@ function revealGF(){
 function resetGF(){ renderGapFill(); }
 
 /* ---------- question swap ---------- */
-function renderSwap(){
-  var wrap = document.getElementById('qsGrid');
-  if(!wrap) return;
-  var students = PEOPLE.filter(function(p){ return !p.isTeacher; }).map(function(p){ return p.name; });
-  if(!students.length) students = PEOPLE.map(function(p){ return p.name; });
-  var n = Math.max(1, students.length);
-  var per = Math.ceil(WORDS.length / n);
-  wrap.innerHTML = students.map(function(name,i){
-    var chunk = WORDS.slice(i*per, (i+1)*per);
-    return '<div class="qs-card">'+renderSwapCard(name, chunk, 's'+i)+'</div>';
-  }).join('');
+/* ---------- ranking: drag adjectives into Positive / Negative ---------- */
+var ADJ_KEY = 'jpe_friendshiprec_adj_sort';
+var DEFAULT_ADJ = [
+  {term:'loyal', cat:'positive'},
+  {term:'supportive', cat:'positive'},
+  {term:'empathetic', cat:'positive'},
+  {term:'dependable', cat:'positive'},
+  {term:'considerate', cat:'positive'},
+  {term:'easy-going', cat:'positive'},
+  {term:'generous', cat:'positive'},
+  {term:'trustworthy', cat:'positive'},
+  {term:'encouraging', cat:'positive'},
+  {term:'down-to-earth', cat:'positive'},
+  {term:'flaky', cat:'negative'},
+  {term:'judgmental', cat:'negative'},
+  {term:'possessive', cat:'negative'},
+  {term:'self-absorbed', cat:'negative'},
+  {term:'manipulative', cat:'negative'},
+  {term:'insincere', cat:'negative'},
+  {term:'unreliable', cat:'negative'},
+  {term:'dismissive', cat:'negative'},
+  {term:'controlling', cat:'negative'},
+  {term:'two-faced', cat:'negative'}
+];
+function loadAdjPlaced(){
+  try{ var raw = JSON.parse(localStorage.getItem(ADJ_KEY)); if(raw && typeof raw==='object') return raw; }catch(e){}
+  return {};
 }
-function renderSwapCard(name, words, prefix){
-  return '<div class="qs-name">'+esc(name)+'’s words</div>' + words.map(function(w,i){
-    return '<div class="qs-word"><div class="qs-term">'+esc(w.term||'(empty)')+'</div>'+
-      '<input class="qs-input" id="qs'+prefix+i+'" placeholder="Write a question using this word…"></div>';
+var adjPlaced = loadAdjPlaced(); /* term -> 'positive'|'negative', only ever set on a correct drop */
+function saveAdjPlaced(){ try{ localStorage.setItem(ADJ_KEY, JSON.stringify(adjPlaced)); }catch(e){} }
+function shuffleAdj(arr){
+  var a = arr.slice();
+  for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; }
+  return a;
+}
+function adjByTerm(term){ for(var i=0;i<DEFAULT_ADJ.length;i++) if(DEFAULT_ADJ[i].term===term) return DEFAULT_ADJ[i]; return null; }
+function renderAdjSort(){
+  var bank = document.getElementById('adjBank');
+  if(!bank) return;
+  var posBody = document.getElementById('adjBodyPositive');
+  var negBody = document.getElementById('adjBodyNegative');
+  var remaining = DEFAULT_ADJ.filter(function(a){ return !adjPlaced[a.term]; });
+  bank.innerHTML = shuffleAdj(remaining).map(function(a){
+    return '<span class="adj-chip" data-term="'+esc(a.term)+'" data-cat="'+a.cat+'">'+esc(a.term)+'</span>';
   }).join('');
+  posBody.innerHTML = DEFAULT_ADJ.filter(function(a){ return adjPlaced[a.term]==='positive'; })
+    .map(function(a){ return '<span class="adj-chip correct" data-term="'+esc(a.term)+'" data-cat="positive">'+esc(a.term)+'</span>'; }).join('');
+  negBody.innerHTML = DEFAULT_ADJ.filter(function(a){ return adjPlaced[a.term]==='negative'; })
+    .map(function(a){ return '<span class="adj-chip correct" data-term="'+esc(a.term)+'" data-cat="negative">'+esc(a.term)+'</span>'; }).join('');
+  var status = document.getElementById('adjStatus');
+  if(status) status.textContent = Object.keys(adjPlaced).length + ' / ' + DEFAULT_ADJ.length + ' sorted';
+  initAdjDrag();
+}
+function resetAdjSort(){ adjPlaced = {}; saveAdjPlaced(); renderAdjSort(); }
+function initAdjDrag(){
+  var chips = document.querySelectorAll('#adjBank .adj-chip');
+  var cols = document.querySelectorAll('.adj-col');
+  Array.prototype.forEach.call(chips, function(chip){
+    var dragging = false, moved = false, startX = 0, startY = 0, offX = 0, offY = 0;
+    var THRESH = 4;
+    chip.addEventListener('pointerdown', function(e){
+      if(e.button !== undefined && e.button !== 0) return;
+      startX = e.clientX; startY = e.clientY; moved = false; dragging = false;
+      var r = chip.getBoundingClientRect();
+      offX = e.clientX - r.left; offY = e.clientY - r.top;
+      try{ chip.setPointerCapture(e.pointerId); }catch(err){}
+    });
+    chip.addEventListener('pointermove', function(e){
+      var dx = e.clientX - startX, dy = e.clientY - startY;
+      if(!dragging){
+        if(Math.abs(dx) < THRESH && Math.abs(dy) < THRESH) return;
+        dragging = true; moved = true;
+        chip.classList.add('dragging');
+        var r0 = chip.getBoundingClientRect();
+        chip.style.width = r0.width + 'px';
+      }
+      e.preventDefault();
+      chip.style.left = (e.clientX - offX) + 'px';
+      chip.style.top = (e.clientY - offY) + 'px';
+      Array.prototype.forEach.call(cols, function(c){
+        var cr = c.getBoundingClientRect();
+        var over = e.clientX >= cr.left && e.clientX <= cr.right && e.clientY >= cr.top && e.clientY <= cr.bottom;
+        c.classList.toggle('drop-hover', over);
+      });
+    });
+    function endDrag(e){
+      Array.prototype.forEach.call(cols, function(c){ c.classList.remove('drop-hover'); });
+      if(!dragging){ return; }
+      chip.classList.remove('dragging');
+      chip.style.position = ''; chip.style.left = ''; chip.style.top = ''; chip.style.width = '';
+      var target = null;
+      Array.prototype.forEach.call(cols, function(c){
+        var cr = c.getBoundingClientRect();
+        if(e.clientX >= cr.left && e.clientX <= cr.right && e.clientY >= cr.top && e.clientY <= cr.bottom) target = c;
+      });
+      var cat = chip.dataset.cat, term = chip.dataset.term;
+      if(target && target.dataset.col === cat){
+        adjPlaced[term] = cat;
+        saveAdjPlaced();
+        renderAdjSort();
+      }else if(target){
+        chip.classList.add('wrong');
+        var startLeft = chip.getBoundingClientRect().left;
+        setTimeout(function(){ chip.classList.remove('wrong'); }, 450);
+      }
+    }
+    chip.addEventListener('pointerup', endDrag);
+    chip.addEventListener('pointercancel', endDrag);
+  });
 }
 
 /* ---------- people in this group: single roster, reused by the photo gallery and question swap ---------- */
@@ -1395,20 +1512,20 @@ function renderPeopleEdit(){
     return '<div class="wb-row" style="grid-template-columns:24px 1fr auto 34px;align-items:center">'+
       '<span class="people-dot" style="background:'+PEOPLE_PALETTE[i % PEOPLE_PALETTE.length]+'"></span>'+
       '<input value="'+esc(p.name)+'" data-i="'+i+'" oninput="onPersonEdit(this)" placeholder="name">'+
-      '<button class="read-btn'+(p.isTeacher?' primary':'')+'" style="padding:.3rem .6rem;font-size:.7rem" onclick="toggleTeacher('+i+')" title="Exclude this person from Question Swap pairwork">'+(p.isTeacher?'Teacher':'Student')+'</button>'+
+      '<button class="read-btn'+(p.isTeacher?' primary':'')+'" style="padding:.3rem .6rem;font-size:.7rem" onclick="toggleTeacher('+i+')" title="Mark this person as a teacher or a student">'+(p.isTeacher?'Teacher':'Student')+'</button>'+
       '<button class="wb-rm" onclick="removePerson('+i+')" aria-label="Remove">&times;</button>'+
     '</div>';
   }).join('');
 }
-function onPersonEdit(el){ PEOPLE[+el.dataset.i].name = el.value; savePeople(); renderGallery(); renderSwap(); }
-function toggleTeacher(i){ PEOPLE[i].isTeacher = !PEOPLE[i].isTeacher; savePeople(); renderPeopleEdit(); renderSwap(); }
+function onPersonEdit(el){ PEOPLE[+el.dataset.i].name = el.value; savePeople(); renderGallery(); }
+function toggleTeacher(i){ PEOPLE[i].isTeacher = !PEOPLE[i].isTeacher; savePeople(); renderPeopleEdit(); }
 function addPerson(){
   PEOPLE.push({id:'p'+Date.now(), name:'New student', isTeacher:false});
-  savePeople(); renderPeopleEdit(); renderGallery(); renderSwap();
+  savePeople(); renderPeopleEdit(); renderGallery();
 }
 function removePerson(i){
   PEOPLE.splice(i,1);
-  savePeople(); renderPeopleEdit(); renderGallery(); renderSwap();
+  savePeople(); renderPeopleEdit(); renderGallery();
 }
 
 /* ---------- photo gallery: one shared pool, tap the dot to assign/cycle who it belongs to ---------- */
@@ -3149,7 +3266,7 @@ function readHeroFile(file){
 }
 
 /* ---------- wiring ---------- */
-function renderDerived(){ initMatching(); renderGapFill(); renderSwap(); renderFlashcards(); }
+function renderDerived(){ initMatching(); renderGapFill(); renderAdjSort(); renderFlashcards(); }
 function renderAll(){ renderWordBank(); renderDerived(); renderPeopleEdit(); renderGallery(); renderDebates(); renderRP(); renderListen(); renderResources(); renderUoeEdit(); renderUoE(); }
 
 var vTabBtnIds = {edit:'tabEdit', flash:'tabFlash', match:'tabMatch', gf:'tabGF'};
@@ -3172,7 +3289,7 @@ function toggleVocabEditMode(){
   renderFlashcards();
 }
 
-var tabIds = ['warmup','vocab','main','swap','longturn','debates','roleplay','listening','uoe','write','resources'];
+var tabIds = ['warmup','vocab','main','ranking','longturn','debates','roleplay','listening','uoe','write','resources'];
 function showTab(id){
   tabIds.forEach(function(t){
     document.getElementById(t).classList.toggle('visible', t===id);
