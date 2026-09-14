@@ -1380,26 +1380,26 @@ function resetGF(){ renderGapFill(); }
 /* ---------- ranking: drag adjectives into Positive / Negative ---------- */
 var ADJ_KEY = 'jpe_friendshiprec_adj_sort';
 var DEFAULT_ADJ = [
-  {term:'loyal', cat:'positive'},
-  {term:'supportive', cat:'positive'},
-  {term:'empathetic', cat:'positive'},
-  {term:'dependable', cat:'positive'},
-  {term:'considerate', cat:'positive'},
-  {term:'easy-going', cat:'positive'},
-  {term:'generous', cat:'positive'},
-  {term:'trustworthy', cat:'positive'},
-  {term:'encouraging', cat:'positive'},
   {term:'down-to-earth', cat:'positive'},
+  {term:'grounded', cat:'positive'},
+  {term:'unpretentious', cat:'positive'},
+  {term:'steadfast', cat:'positive'},
+  {term:'forthright', cat:'positive'},
+  {term:'validating', cat:'positive'},
+  {term:'self-effacing', cat:'positive'},
+  {term:'magnanimous', cat:'positive'},
+  {term:'based', cat:'positive'},
+  {term:'unbothered', cat:'positive'},
   {term:'flaky', cat:'negative'},
-  {term:'judgmental', cat:'negative'},
-  {term:'possessive', cat:'negative'},
-  {term:'self-absorbed', cat:'negative'},
-  {term:'manipulative', cat:'negative'},
-  {term:'insincere', cat:'negative'},
-  {term:'unreliable', cat:'negative'},
-  {term:'dismissive', cat:'negative'},
-  {term:'controlling', cat:'negative'},
-  {term:'two-faced', cat:'negative'}
+  {term:'toxic', cat:'negative'},
+  {term:'performative', cat:'negative'},
+  {term:'self-righteous', cat:'negative'},
+  {term:'condescending', cat:'negative'},
+  {term:'vindictive', cat:'negative'},
+  {term:'codependent', cat:'negative'},
+  {term:'high-maintenance', cat:'negative'},
+  {term:'draining', cat:'negative'},
+  {term:'petty', cat:'negative'}
 ];
 function loadAdjPlaced(){
   try{ var raw = JSON.parse(localStorage.getItem(ADJ_KEY)); if(raw && typeof raw==='object') return raw; }catch(e){}
