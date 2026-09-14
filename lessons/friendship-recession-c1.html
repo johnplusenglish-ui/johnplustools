@@ -681,10 +681,10 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <span class="snav-label">Article</span>
     <span class="snav-close" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();hideTab('main')" title="Remove this tab">&times;</span>
   </button>
-  <button class="snav-btn" id="tab-ranking" onclick="onTabClick(event,this,'ranking')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
+  <button class="snav-btn" id="tab-sorting" onclick="onTabClick(event,this,'sorting')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-    <span class="snav-label">Ranking</span>
-    <span class="snav-close" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();hideTab('ranking')" title="Remove this tab">&times;</span>
+    <span class="snav-label">Sorting</span>
+    <span class="snav-close" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();hideTab('sorting')" title="Remove this tab">&times;</span>
   </button>
   <button class="snav-btn" id="tab-longturn" onclick="onTabClick(event,this,'longturn')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
@@ -893,16 +893,16 @@ body.section-present .deb-instruction{font-size:1.15rem}
     </div>
   </div>
 
-  <section class="lesson-section" id="ranking">
+  <section class="lesson-section" id="sorting">
     <div class="section-header">
       <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
       <div>
-        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-ranking" onblur="onStaticTextBlur(this)">Ranking</div>
-        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-ranking" onblur="onStaticTextBlur(this)">Sort the Adjectives · 10 min</div>
+        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-sorting" onblur="onStaticTextBlur(this)">Sorting</div>
+        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-sorting" onblur="onStaticTextBlur(this)">Sort the Adjectives · 10 min</div>
       </div>
     </div>
     <div class="section-card">
-      <p class="wb-hint" contenteditable="true" spellcheck="false" data-sk="hint-ranking" onblur="onStaticTextBlur(this)">Drag each adjective into the correct column: Positive or Negative. A wrong drop bounces back, so just try again.</p>
+      <p class="wb-hint" contenteditable="true" spellcheck="false" data-sk="hint-sorting" onblur="onStaticTextBlur(this)">Drag each adjective into the correct column: Positive or Negative. A wrong drop bounces back, so just try again.</p>
       <div class="adj-bank" id="adjBank"></div>
       <div class="adj-columns">
         <div class="adj-col" data-col="positive" id="adjColPositive"><div class="adj-col-title">Positive</div><div class="adj-col-body" id="adjBodyPositive"></div></div>
@@ -1431,60 +1431,76 @@ function renderAdjSort(){
   initAdjDrag();
 }
 function resetAdjSort(){ adjPlaced = {}; saveAdjPlaced(); renderAdjSort(); }
+var adjDragState = null;
+var adjDragGlobalBound = false;
+function bindAdjDragGlobals(){
+  if(adjDragGlobalBound) return;
+  adjDragGlobalBound = true;
+  document.addEventListener('pointermove', function(e){
+    if(!adjDragState) return;
+    var st = adjDragState;
+    var dx = e.clientX - st.startX, dy = e.clientY - st.startY;
+    if(!st.moved){
+      if(Math.abs(dx) < 4 && Math.abs(dy) < 4) return;
+      st.moved = true;
+      st.chip.classList.add('dragging');
+      var r0 = st.chip.getBoundingClientRect();
+      st.chip.style.width = r0.width + 'px';
+    }
+    e.preventDefault();
+    st.chip.style.left = (e.clientX - st.offX) + 'px';
+    st.chip.style.top = (e.clientY - st.offY) + 'px';
+    Array.prototype.forEach.call(document.querySelectorAll('.adj-col'), function(c){
+      var cr = c.getBoundingClientRect();
+      var over = e.clientX >= cr.left && e.clientX <= cr.right && e.clientY >= cr.top && e.clientY <= cr.bottom;
+      c.classList.toggle('drop-hover', over);
+    });
+  });
+  function finishAdjDrag(e){
+    Array.prototype.forEach.call(document.querySelectorAll('.adj-col'), function(c){ c.classList.remove('drop-hover'); });
+    var st = adjDragState;
+    adjDragState = null;
+    if(!st) return;
+    if(!st.moved) return; /* plain click/tap, not a drag */
+    if(!document.contains(st.chip)) return; /* bank re-rendered mid-drag from elsewhere; nothing to clean up */
+    st.chip.classList.remove('dragging');
+    st.chip.style.position = ''; st.chip.style.left = ''; st.chip.style.top = ''; st.chip.style.width = '';
+    var target = null;
+    var ex = (e && typeof e.clientX === 'number') ? e.clientX : st.lastX;
+    var ey = (e && typeof e.clientY === 'number') ? e.clientY : st.lastY;
+    Array.prototype.forEach.call(document.querySelectorAll('.adj-col'), function(c){
+      var cr = c.getBoundingClientRect();
+      if(ex >= cr.left && ex <= cr.right && ey >= cr.top && ey <= cr.bottom) target = c;
+    });
+    if(target && target.dataset.col === st.cat){
+      adjPlaced[st.term] = st.cat;
+      saveAdjPlaced();
+      renderAdjSort();
+    }else if(target){
+      st.chip.classList.add('wrong');
+      setTimeout(function(){ st.chip.classList.remove('wrong'); }, 450);
+    }
+  }
+  document.addEventListener('pointerup', finishAdjDrag);
+  document.addEventListener('pointercancel', finishAdjDrag);
+  /* safety net: if focus leaves the window mid-drag (alt-tab, real device home button, etc.), never leave a chip stuck floating */
+  window.addEventListener('blur', function(){ finishAdjDrag(null); });
+}
 function initAdjDrag(){
+  bindAdjDragGlobals();
   var chips = document.querySelectorAll('#adjBank .adj-chip');
-  var cols = document.querySelectorAll('.adj-col');
   Array.prototype.forEach.call(chips, function(chip){
-    var dragging = false, moved = false, startX = 0, startY = 0, offX = 0, offY = 0;
-    var THRESH = 4;
     chip.addEventListener('pointerdown', function(e){
       if(e.button !== undefined && e.button !== 0) return;
-      startX = e.clientX; startY = e.clientY; moved = false; dragging = false;
       var r = chip.getBoundingClientRect();
-      offX = e.clientX - r.left; offY = e.clientY - r.top;
-      try{ chip.setPointerCapture(e.pointerId); }catch(err){}
+      adjDragState = {
+        chip: chip, term: chip.dataset.term, cat: chip.dataset.cat,
+        startX: e.clientX, startY: e.clientY,
+        offX: e.clientX - r.left, offY: e.clientY - r.top,
+        lastX: e.clientX, lastY: e.clientY,
+        moved: false
+      };
     });
-    chip.addEventListener('pointermove', function(e){
-      var dx = e.clientX - startX, dy = e.clientY - startY;
-      if(!dragging){
-        if(Math.abs(dx) < THRESH && Math.abs(dy) < THRESH) return;
-        dragging = true; moved = true;
-        chip.classList.add('dragging');
-        var r0 = chip.getBoundingClientRect();
-        chip.style.width = r0.width + 'px';
-      }
-      e.preventDefault();
-      chip.style.left = (e.clientX - offX) + 'px';
-      chip.style.top = (e.clientY - offY) + 'px';
-      Array.prototype.forEach.call(cols, function(c){
-        var cr = c.getBoundingClientRect();
-        var over = e.clientX >= cr.left && e.clientX <= cr.right && e.clientY >= cr.top && e.clientY <= cr.bottom;
-        c.classList.toggle('drop-hover', over);
-      });
-    });
-    function endDrag(e){
-      Array.prototype.forEach.call(cols, function(c){ c.classList.remove('drop-hover'); });
-      if(!dragging){ return; }
-      chip.classList.remove('dragging');
-      chip.style.position = ''; chip.style.left = ''; chip.style.top = ''; chip.style.width = '';
-      var target = null;
-      Array.prototype.forEach.call(cols, function(c){
-        var cr = c.getBoundingClientRect();
-        if(e.clientX >= cr.left && e.clientX <= cr.right && e.clientY >= cr.top && e.clientY <= cr.bottom) target = c;
-      });
-      var cat = chip.dataset.cat, term = chip.dataset.term;
-      if(target && target.dataset.col === cat){
-        adjPlaced[term] = cat;
-        saveAdjPlaced();
-        renderAdjSort();
-      }else if(target){
-        chip.classList.add('wrong');
-        var startLeft = chip.getBoundingClientRect().left;
-        setTimeout(function(){ chip.classList.remove('wrong'); }, 450);
-      }
-    }
-    chip.addEventListener('pointerup', endDrag);
-    chip.addEventListener('pointercancel', endDrag);
   });
 }
 
@@ -3300,7 +3316,7 @@ function toggleVocabEditMode(){
   renderFlashcards();
 }
 
-var tabIds = ['warmup','vocab','main','ranking','longturn','debates','roleplay','listening','uoe','write','resources'];
+var tabIds = ['warmup','vocab','main','sorting','longturn','debates','roleplay','listening','uoe','write','resources'];
 function showTab(id){
   tabIds.forEach(function(t){
     document.getElementById(t).classList.toggle('visible', t===id);
