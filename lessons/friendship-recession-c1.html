@@ -1126,12 +1126,12 @@ var DEFAULT_WORDS = [
   {term:"through thick and thin", def:"staying loyal to someone in both good times and bad", example:"She's stuck by me through thick and thin since we were teenagers."},
   {term:"on the same wavelength", def:"thinking in a similar way to someone, so you understand each other easily", example:"We've been on the same wavelength since the day we met."},
   {term:"a shoulder to cry on", def:"someone who comforts and listens to you when you're upset", example:"Whatever happens, you'll always have a shoulder to cry on."},
-  {term:"bury the hatchet", def:"to make peace with someone after an argument or disagreement", example:"It's been years, don't you think it's time to bury the hatchet?"},
+  {term:"make up", def:"to become friends again with someone after an argument", example:"It's been years, don't you think it's time to make up?"},
   {term:"grow apart", def:"to gradually become less close to someone over time", example:"We were inseparable at school, but we've grown apart since then."},
-  {term:"lean on someone", def:"to rely on someone for support, especially emotional support", example:"It's okay to lean on your friends when things get difficult."},
+  {term:"fall out with", def:"to have an argument or disagreement with someone, often damaging the friendship", example:"She fell out with her best friend over something silly and they barely spoke for weeks."},
   {term:"a ride or die", def:"(informal) a completely loyal friend who will support you no matter what", example:"She's my ride or die; she'd drop everything if I needed her."},
   {term:"an energy vampire", def:"(informal) someone whose company leaves you feeling drained and exhausted", example:"I always feel exhausted after seeing him; he's a total energy vampire."},
-  {term:"joined at the hip", def:"always together; inseparable", example:"Those two have been joined at the hip since primary school."}
+  {term:"like two peas in a pod", def:"extremely similar to someone, or always together, alike in personality or habits", example:"Ever since school, those two have been like two peas in a pod."}
 ];
 var WORDS = loadWords();
 var rowOfDef = {};      /* wordIndex -> which visual row its definition currently sits on */
@@ -2162,11 +2162,11 @@ var DEFAULT_LISTEN = [
   {
     title: 'We Should Do This More Often',
     subtitle: 'Two old friends catching up for the first time in months',
-    targetPhrases: ['get on like a house on fire','through thick and thin','on the same wavelength','a shoulder to cry on','bury the hatchet','grow apart','lean on someone','a ride or die','an energy vampire','joined at the hip'],
+    targetPhrases: ['get on like a house on fire','through thick and thin','on the same wavelength','a shoulder to cry on','make up','grow apart','fall out with','a ride or die','an energy vampire','like two peas in a pod'],
     audio: null,
     questions: [
       'Why do Priya and Sam think they got on so well from the very first lecture?',
-      'Why does Sam think Priya and Jamie should bury the hatchet?',
+      'Why does Sam think Priya and Jamie should make up?',
       "How does Priya describe Chloe's new flatmate, and why?"
     ],
     lines: [
@@ -2174,35 +2174,25 @@ var DEFAULT_LISTEN = [
       ln('b','Sam',"You too! It's been, what, four months?"),
       ln('a','Priya',"Don't remind me. We really should do this more often."),
       ln('b','Sam',"[laughs] We say that every single time."),
-      ln('a','Priya',"Has the waiter even come round yet?"),
-      ln('b','Sam',"Not yet. I think they're short-staffed, it's been dead slow."),
-      ln('a','Priya',"Typical. I'm starving, by the way."),
-      ln('b','Sam',"Same. Oh, get the banana bread here, it's actually incredible."),
-      ln('a','Priya',"Noted. Anyway, true, honestly, do you remember when we first met? We got on like a house on fire, right from that first lecture."),
+      ln('a','Priya',"True. Do you remember when we first met? We got on like a house on fire, right from that first lecture."),
       ln('b','Sam',"We did, didn't we. Feels like a lifetime ago now."),
-      ln('a','Priya',"[to the waiter] Sorry, could we get two flat whites, and the banana bread? Thank you!"),
-      ln('b','Sam',"[laughs] Smooth. Anyway, yeah, it's mad how some people just click. We've been on the same wavelength ever since."),
-      ln('a','Priya',"Definitely. Not like Jamie, actually, do you remember Jamie from our course?"),
-      ln('b','Sam',"Oh God, yes. Whatever happened there?"),
-      ln('a','Priya',"We fell out over something so stupid, honestly I can't even fully remember what started it."),
-      ln('b','Sam',"You two should really bury the hatchet at some point. It's been, what, six years?"),
+      ln('a','Priya',"It's mad how some people just click. We've been on the same wavelength ever since."),
+      ln('b','Sam',"Definitely. Not like Jamie, actually, do you remember Jamie from our course?"),
+      ln('a','Priya',"Oh God, yes. We fell out with each other over something so stupid, I can't even remember what started it."),
+      ln('b','Sam',"You two should really make up at some point. It's been, what, six years?"),
       ln('a','Priya',"Maybe. We've just grown apart, though, it's not really anger any more, it's more just nothing, really."),
-      ln('b','Sam',"Fair enough. Oh, hang on, is that our coffee?"),
-      ln('a','Priya',"[looking round] No, that's the next table. Typical."),
-      ln('b','Sam',"Anyway, how are you doing, actually? You seemed stressed on the phone last week."),
-      ln('a','Priya',"[sighs] Work's been a lot. I've had to really lean on my sister lately, to be honest."),
-      ln('b','Sam',"That's what family's for, I suppose. You know you can lean on me too."),
+      ln('b','Sam',"Fair enough. Anyway, how are you doing, actually? You seemed stressed on the phone last week."),
+      ln('a','Priya',"[sighs] Work's been a lot, if I'm honest."),
+      ln('b','Sam',"You know I'm always here if you need to talk."),
       ln('a','Priya',"I know. You've been there through thick and thin, and you're always a shoulder to cry on when I need one."),
-      ln('b','Sam',"[laughs] Anytime. Oh, finally, here's the coffee."),
-      ln('a','Priya',"Thank god. Right, where was I."),
-      ln('b','Sam',"Speaking of friends, actually, have you met Chloe's new flatmate?"),
+      ln('b','Sam',"[laughs] Anytime. Speaking of friends, have you met Chloe's new flatmate?"),
       ln('a','Priya',"I have, actually. Total energy vampire. I left completely drained after ten minutes."),
       ln('b','Sam',"[laughs] Oh no. Chloe hasn't noticed?"),
-      ln('a','Priya',"I don't think so. Anyway, this banana bread is genuinely unreal."),
-      ln('b','Sam',"Told you. But listen, whatever happens, you're my ride or die, you know that?"),
-      ln('a','Priya',"Same here. Honestly, we've basically been joined at the hip since university, some things don't change."),
+      ln('a','Priya',"I don't think so. Honestly, those two are like two peas in a pod, so I'm not surprised she can't see it."),
+      ln('b','Sam',"[laughs] Fair point. But listen, whatever happens, you're my ride or die, you know that?"),
+      ln('a','Priya',"Same here. Some things don't change."),
       ln('b','Sam',"[smiles] Same time next month?"),
-      ln('a','Priya',"Same time next month. Properly, this time.")
+      ln('a','Priya',"Same time next month.")
     ]
   }
 ];
@@ -2677,9 +2667,9 @@ var DEFAULT_UOE = [
   {key:'FIRE', s1:'They only met an hour ago but are already becoming close friends fast.', s2:'They only met an hour ago but are already ___.', answer:'getting on like a house on fire'},
   {key:'THICK', s1:"She's remained loyal to me in both good times and bad since we were teenagers.", s2:"She's stuck by me ___ since we were teenagers.", answer:'through thick and thin'},
   {key:'WAVELENGTH', s1:'We think in a similar way and understand each other easily.', s2:"We've always been ___.", answer:'on the same wavelength'},
-  {key:'HATCHET', s1:'It is time for them to make peace after their old argument.', s2:'It is time for them to ___.', answer:'bury the hatchet'},
+  {key:'UP', s1:'They had a huge argument last month but have finally become friends again.', s2:'They had a huge argument last month but have finally ___.', answer:'made up'},
   {key:'APART', s1:'We were inseparable at school but became less close over time.', s2:'We were inseparable at school but ___ over time.', answer:'grew apart'},
-  {key:'HIP', s1:'Those two are always together and completely inseparable.', s2:'Those two have been ___ since school.', answer:'joined at the hip'}
+  {key:'PEAS', s1:'Those two are incredibly similar and always together.', s2:'Those two have been ___ since school.', answer:'like two peas in a pod'}
 ];
 function loadUoe(){
   try{ var raw = localStorage.getItem(UOE_KEY); if(raw){ var p = JSON.parse(raw); if(Array.isArray(p) && p.length && p[0].s2!==undefined) return p; } }catch(e){}
@@ -2848,12 +2838,12 @@ var FLASHCARD_IMAGES = {
   'through thick and thin': null,
   'on the same wavelength': null,
   'a shoulder to cry on': null,
-  'bury the hatchet': null,
+  'make up': null,
   'grow apart': null,
-  'lean on someone': null,
+  'fall out with': null,
   'a ride or die': null,
   'an energy vampire': null,
-  'joined at the hip': null
+  'like two peas in a pod': null
 };
 var FLASH_IMG_KEY = 'jpe_friendshiprec_flashcard_images';
 function loadFlashImages(){
