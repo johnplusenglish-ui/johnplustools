@@ -151,6 +151,8 @@ LESSON_LINKS = [
      'tagline': 'C1 lesson on AI adoption, data centres and their hidden cost.'},
     {'href': '/lessons/lesson-template.html', 'name': 'Lesson Template',
      'tagline': 'The reusable base every new lesson is copied from.'},
+    {'href': '/lessons/travel-adventure-c1.html', 'name': 'Travel & Adventure',
+     'tagline': 'C1 lesson on travel, hidden gems and trips that go wrong.'},
 ]
 
 FAVICON = ("<link rel=\"icon\" href=\"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' "
