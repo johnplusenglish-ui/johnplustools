@@ -617,10 +617,6 @@ body.section-present #vocab.present-active .flash-hint{font-size:.9rem;margin-to
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
     <span class="snav-label">Main Task</span>
   </button>
-  <button class="snav-btn" id="tab-swap" onclick="onTabClick(event,this,'swap')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5M4 20L21 3M8 21H3v-5M20 4L3 21"/></svg>
-    <span class="snav-label">Question Swap</span>
-  </button>
   <button class="snav-btn" id="tab-debates" onclick="onTabClick(event,this,'debates')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
     <span class="snav-label">Debates</span>
@@ -633,18 +629,11 @@ body.section-present #vocab.present-active .flash-hint{font-size:.9rem;margin-to
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
     <span class="snav-label">Listening</span>
   </button>
-  <button class="snav-btn" id="tab-uoe" onclick="onTabClick(event,this,'uoe')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-    <span class="snav-label">Use of English</span>
-  </button>
   <button class="snav-btn" id="tab-write" onclick="onTabClick(event,this,'write')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
     <span class="snav-label">Writing</span>
   </button>
-  <button class="snav-btn" id="tab-resources" onclick="onTabClick(event,this,'resources')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-    <span class="snav-label">Resources</span>
-  </button>
+
 </div>
 
 <main class="lesson-main">
@@ -778,7 +767,7 @@ body.section-present #vocab.present-active .flash-hint{font-size:.9rem;margin-to
     </div>
     <div class="section-card uoe-editor-card" id="peopleEditorCard" style="display:none">
       <div class="deb-sidebar-label" style="margin-bottom:.3rem;margin-top:1.4rem">People in this group</div>
-      <p class="wb-hint" style="margin-bottom:.9rem">This roster feeds both the photo gallery and Question Swap. Tap the badge to mark someone as Teacher, which excludes them from Question Swap pairwork. Edit this whenever you reuse the lesson with a different group.</p>
+      <p class="wb-hint" style="margin-bottom:.9rem">This roster feeds the photo gallery. Edit this whenever you reuse the lesson with a different group.</p>
       <div id="peopleEditRows"></div>
       <button class="read-btn wb-add" onclick="addPerson()">+ Add person</button>
     </div>
@@ -801,19 +790,6 @@ body.section-present #vocab.present-active .flash-hint{font-size:.9rem;margin-to
       </div>
     </div>
   </div>
-
-  <section class="lesson-section" id="swap">
-    <div class="section-header">
-      <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M16 3h5v5M4 20L21 3M8 21H3v-5M20 4L3 21"/></svg></div>
-      <div>
-        <div class="section-title">Question Swap</div>
-        <div class="section-label-mono">Pairwork Speaking · 15 min</div>
-      </div>
-    </div>
-    <div class="section-card">
-      <div class="qs-grid" id="qsGrid"></div>
-    </div>
-  </section>
 
   <section class="lesson-section" id="debates">
     <div class="section-header">
@@ -888,73 +864,25 @@ body.section-present #vocab.present-active .flash-hint{font-size:.9rem;margin-to
     </div>
   </section>
 
-  <section class="lesson-section" id="uoe">
-    <div class="section-header">
-      <div class="section-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
-      <div>
-        <div class="section-title">Use of English · Key Word Transformation</div>
-        <div class="section-label-mono">Breather / Homework · 10 min</div>
-      </div>
-      <div class="section-header-actions">
-        <button class="deb-edit-toggle" id="uoeEditToggle" onclick="toggleUoeEditor()" title="Edit">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
-        </button>
-      </div>
-    </div>
-    <div class="section-card">
-      <div id="uoeContainer"></div>
-      <div class="gf-actions">
-        <button class="read-btn" onclick="resetUoE()">Reset</button>
-        <button class="read-btn primary" onclick="revealUoE()">Reveal answers</button>
-      </div>
-    </div>
-    <div class="section-card uoe-editor-card" id="uoeEditorCard" style="display:none">
-      <div id="uoeEditorBody" class="uoe-editor-body show">
-        <div class="wb-head" style="grid-template-columns:.8fr 1.5fr 1.5fr 1fr 34px">
-          <span class="wb-th">Key word</span><span class="wb-th">Sentence 1</span><span class="wb-th">Sentence 2 (use ___ for gap)</span><span class="wb-th">Answer</span><span></span>
-        </div>
-        <div id="uoeEditRows"></div>
-        <button class="read-btn wb-add" onclick="addUoeItem()">+ Add item</button>
-      </div>
-    </div>
-  </section>
-
   <section class="lesson-section" id="write">
     <div class="section-header">
       <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div>
       <div>
         <div class="section-title">Writing / Homework</div>
-        <div class="section-label-mono">Short &amp; Frequent · 60 to 90 words</div>
+        <div class="section-label-mono">Cambridge Exam Practice · 220 to 280 words</div>
       </div>
     </div>
     <div class="section-card">
       <div class="tab-row">
-        <button class="tab-btn on" id="wtaskBtn-informal" onclick="switchWTask('informal')">Informal</button>
-        <button class="tab-btn" id="wtaskBtn-article" onclick="switchWTask('article')">Article</button>
-        <button class="tab-btn" id="wtaskBtn-essay" onclick="switchWTask('essay')">Essay</button>
+        <button class="tab-btn on" id="wtaskBtn-essay" onclick="switchWTask('essay')">Essay · C1</button>
+        <button class="tab-btn" id="wtaskBtn-review" onclick="switchWTask('review')">Review · C1</button>
+        <button class="tab-btn" id="wtaskBtn-report" onclick="switchWTask('report')">Report · C1</button>
+        <button class="tab-btn" id="wtaskBtn-essayc2" onclick="switchWTask('essayc2')">Essay · C2</button>
       </div>
       <div id="wtaskPanels"></div>
     </div>
   </section>
 
-  <section class="lesson-section" id="resources">
-    <div class="section-header">
-      <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
-      <div>
-        <div class="section-title">Resources</div>
-        <div class="section-label-mono">Extra Listening &amp; Reading · Optional</div>
-      </div>
-      <div class="section-header-actions">
-        <button class="deb-edit-toggle" id="resourcesEditToggle" onclick="toggleResourcesEditMode()" title="Edit">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
-        </button>
-      </div>
-    </div>
-    <div class="section-card">
-      <div id="resourcesList" class="resources-list"></div>
-      <button class="deb-add-phrase" id="resourcesAddBtn" onclick="addResource()" style="display:none">+ Add resource</button>
-    </div>
-  </section>
 
 </main>
 
@@ -1356,34 +1284,14 @@ function revealGF(){
 }
 function resetGF(){ renderGapFill(); }
 
-/* ---------- question swap ---------- */
-function renderSwap(){
-  var wrap = document.getElementById('qsGrid');
-  if(!wrap) return;
-  var students = PEOPLE.filter(function(p){ return !p.isTeacher; }).map(function(p){ return p.name; });
-  if(!students.length) students = PEOPLE.map(function(p){ return p.name; });
-  var n = Math.max(1, students.length);
-  var per = Math.ceil(WORDS.length / n);
-  wrap.innerHTML = students.map(function(name,i){
-    var chunk = WORDS.slice(i*per, (i+1)*per);
-    return '<div class="qs-card">'+renderSwapCard(name, chunk, 's'+i)+'</div>';
-  }).join('');
-}
-function renderSwapCard(name, words, prefix){
-  return '<div class="qs-name">'+esc(name)+'’s words</div>' + words.map(function(w,i){
-    return '<div class="qs-word"><div class="qs-term">'+esc(w.term||'(empty)')+'</div>'+
-      '<input class="qs-input" id="qs'+prefix+i+'" placeholder="Write a question using this word…"></div>';
-  }).join('');
-}
-
-/* ---------- people in this group: single roster, reused by the photo gallery and question swap ---------- */
+/* ---------- people in this group: single roster feeding the photo gallery ---------- */
 var PEOPLE_KEY = 'jpe_traveladv_gallery_people';
 var PEOPLE_PALETTE = ['#2176FF','#0D9488','#EF233C','#F59E0B','#8B5CF6','#EC4899','#1657C9','#0F766E'];
 var DEFAULT_PEOPLE = [
-  {id:'p1', name:'Student 1', isTeacher:false},
-  {id:'p2', name:'Student 2', isTeacher:false},
-  {id:'p3', name:'Student 3', isTeacher:false},
-  {id:'p4', name:'Student 4', isTeacher:false}
+  {id:'p1', name:'Student 1'},
+  {id:'p2', name:'Student 2'},
+  {id:'p3', name:'Student 3'},
+  {id:'p4', name:'Student 4'}
 ];
 function loadPeople(){
   try{ var raw = JSON.parse(localStorage.getItem(PEOPLE_KEY)); if(Array.isArray(raw) && raw.length) return raw; }catch(e){}
@@ -1398,23 +1306,21 @@ function renderPeopleEdit(){
   var wrap = document.getElementById('peopleEditRows');
   if(!wrap) return;
   wrap.innerHTML = PEOPLE.map(function(p,i){
-    return '<div class="wb-row" style="grid-template-columns:24px 1fr auto 34px;align-items:center">'+
+    return '<div class="wb-row" style="grid-template-columns:24px 1fr 34px;align-items:center">'+
       '<span class="people-dot" style="background:'+PEOPLE_PALETTE[i % PEOPLE_PALETTE.length]+'"></span>'+
       '<input value="'+esc(p.name)+'" data-i="'+i+'" oninput="onPersonEdit(this)" placeholder="name">'+
-      '<button class="read-btn'+(p.isTeacher?' primary':'')+'" style="padding:.3rem .6rem;font-size:.7rem" onclick="toggleTeacher('+i+')" title="Exclude this person from Question Swap pairwork">'+(p.isTeacher?'Teacher':'Student')+'</button>'+
       '<button class="wb-rm" onclick="removePerson('+i+')" aria-label="Remove">&times;</button>'+
     '</div>';
   }).join('');
 }
-function onPersonEdit(el){ PEOPLE[+el.dataset.i].name = el.value; savePeople(); renderGallery(); renderSwap(); }
-function toggleTeacher(i){ PEOPLE[i].isTeacher = !PEOPLE[i].isTeacher; savePeople(); renderPeopleEdit(); renderSwap(); }
+function onPersonEdit(el){ PEOPLE[+el.dataset.i].name = el.value; savePeople(); renderGallery(); }
 function addPerson(){
-  PEOPLE.push({id:'p'+Date.now(), name:'New student', isTeacher:false});
-  savePeople(); renderPeopleEdit(); renderGallery(); renderSwap();
+  PEOPLE.push({id:'p'+Date.now(), name:'New student'});
+  savePeople(); renderPeopleEdit(); renderGallery();
 }
 function removePerson(i){
   PEOPLE.splice(i,1);
-  savePeople(); renderPeopleEdit(); renderGallery(); renderSwap();
+  savePeople(); renderPeopleEdit(); renderGallery();
 }
 
 /* ---------- photo gallery: one shared pool, tap the dot to assign/cycle who it belongs to ---------- */
@@ -2359,206 +2265,31 @@ function exportListenTranscriptPNG(){
 }
 function renderListen(){ renderListenTabs(); renderListenBody(); updateListenAudioStickyOffset(); }
 
-/* ---------- Resources: podcast/YouTube/article links, auto-embedded where possible ---------- */
-var RESOURCES_KEY = 'jpe_traveladv_resources';
-var DEFAULT_RESOURCES = [];
-function loadResources(){
-  try{ var raw = JSON.parse(localStorage.getItem(RESOURCES_KEY)); if(Array.isArray(raw)) return raw; }catch(e){}
-  return DEFAULT_RESOURCES.slice();
-}
-var RESOURCES = loadResources();
-var resourcesEditMode = false;
-var resourcesAddFormOpen = false;
-function saveResources(){ try{ localStorage.setItem(RESOURCES_KEY, JSON.stringify(RESOURCES)); }catch(e){} }
-function toggleResourcesEditMode(){
-  resourcesEditMode = !resourcesEditMode;
-  document.getElementById('resourcesEditToggle').classList.toggle('on', resourcesEditMode);
-  document.getElementById('resourcesAddBtn').style.display = resourcesEditMode ? '' : 'none';
-  if(!resourcesEditMode) resourcesAddFormOpen = false;
-  renderResources();
-}
-function extractYouTubeId(url){
-  var m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([A-Za-z0-9_-]{6,})/);
-  return m ? m[1] : null;
-}
-function extractSpotify(url){
-  var m = url.match(/open\.spotify\.com\/(episode|show|track|playlist|album)\/([A-Za-z0-9]+)/);
-  return m ? {kind:m[1], id:m[2]} : null;
-}
-function detectResourceType(url){
-  if(/youtube\.com|youtu\.be/.test(url)) return 'youtube';
-  if(/open\.spotify\.com/.test(url)) return 'spotify';
-  if(/podcasts\.apple\.com/.test(url)) return 'podcast';
-  return 'article';
-}
-function resourceTypeLabel(type){
-  return {youtube:'YouTube', spotify:'Spotify', podcast:'Podcast', article:'Link'}[type] || 'Link';
-}
-function renderResourceEmbed(r){
-  if(r.type==='youtube'){
-    var yid = extractYouTubeId(r.url);
-    if(yid) return '<div class="resource-embed"><iframe src="https://www.youtube.com/embed/'+yid+'" allowfullscreen loading="lazy"></iframe></div>';
-  }
-  if(r.type==='spotify'){
-    var sp = extractSpotify(r.url);
-    if(sp) return '<div class="resource-embed spotify"><iframe src="https://open.spotify.com/embed/'+sp.kind+'/'+sp.id+'" allow="encrypted-media" loading="lazy"></iframe></div>';
-  }
-  if(r.type==='podcast' && /podcasts\.apple\.com/.test(r.url)){
-    var embedUrl = r.url.replace('podcasts.apple.com','embed.podcasts.apple.com');
-    return '<div class="resource-embed spotify"><iframe src="'+esc(embedUrl)+'" allow="autoplay *; encrypted-media *;" loading="lazy"></iframe></div>';
-  }
-  return '<a class="resource-link" href="'+esc(r.url)+'" target="_blank" rel="noopener">Open link ↗</a>';
-}
-function renderResources(){
-  var wrap = document.getElementById('resourcesList');
-  if(!wrap) return;
-  var ed = resourcesEditMode;
-  var cardsHtml = RESOURCES.map(function(r,i){
-    var rm = ed ? '<button class="resource-rm" onclick="removeResource('+i+')" title="Remove">&times;</button>' : '';
-    return '<div class="resource-card'+(ed?' resource-editing':'')+'">'+
-      '<div class="resource-head">'+
-        '<span class="resource-type-badge '+r.type+'">'+resourceTypeLabel(r.type)+'</span>'+
-        '<span class="resource-title" contenteditable="'+(ed?'true':'false')+'" spellcheck="false" '+
-          'onblur="onResourceTitleEdit('+i+',this)" onkeydown="if(event.key===\'Enter\'){event.preventDefault();this.blur();}">'+esc(r.title)+'</span>'+
-        rm+
-      '</div>'+
-      '<span class="resource-url">'+esc(r.url)+'</span>'+
-      renderResourceEmbed(r)+
-    '</div>';
-  }).join('');
-  var emptyHtml = (!RESOURCES.length && !resourcesAddFormOpen) ? '<div class="resources-empty">No resources added yet.'+(ed?' Tap "+ Add resource" below to add a podcast episode, YouTube video, or article link.':'')+'</div>' : '';
-  var formHtml = (ed && resourcesAddFormOpen) ? (
-    '<div class="resource-add-form">'+
-      '<input type="url" id="resourceUrlInput" placeholder="Paste a YouTube, Spotify, Apple Podcasts, or article link…">'+
-      '<input type="text" id="resourceTitleInput" placeholder="Title (optional, auto-filled if left blank)">'+
-      '<div class="resource-add-actions">'+
-        '<button class="read-btn primary" onclick="submitResourceForm()">Add</button>'+
-        '<button class="read-btn" onclick="cancelResourceForm()">Cancel</button>'+
-      '</div>'+
-    '</div>'
-  ) : '';
-  wrap.innerHTML = cardsHtml + emptyHtml + formHtml;
-}
-function addResource(){
-  resourcesAddFormOpen = true;
-  renderResources();
-  var el = document.getElementById('resourceUrlInput');
-  if(el) el.focus();
-}
-function cancelResourceForm(){
-  resourcesAddFormOpen = false;
-  renderResources();
-}
-function submitResourceForm(){
-  var urlEl = document.getElementById('resourceUrlInput');
-  var titleEl = document.getElementById('resourceTitleInput');
-  var url = urlEl ? urlEl.value.trim() : '';
-  if(!url){ urlEl.focus(); return; }
-  if(!/^https?:\/\//i.test(url)) url = 'https://'+url;
-  var type = detectResourceType(url);
-  var title = titleEl && titleEl.value.trim() ? titleEl.value.trim() : (resourceTypeLabel(type)+' resource');
-  RESOURCES.push({title:title, url:url, type:type});
-  saveResources();
-  resourcesAddFormOpen = false;
-  renderResources();
-}
-function removeResource(i){
-  RESOURCES.splice(i,1);
-  saveResources();
-  renderResources();
-}
-function onResourceTitleEdit(i, el){
-  RESOURCES[i].title = el.textContent.trim();
-  saveResources();
-}
 
-/* ---------- Use of English: key word transformation (editable) ---------- */
-var UOE_KEY = 'jpe_traveladv_uoe_items';
-/* real KWT format: sentence1 (unchanged) + key word + sentence2 with a ___ gap;
-   answer is 2-5 words and must include the key word unchanged */
-var DEFAULT_UOE = [
-  {key:'PATH', s1:'They avoided all the busy tourist routes and explored quieter parts of the island.', s2:'They explored quieter parts of the island, staying completely ___ the busy routes.', answer:'off the beaten path'},
-  {key:'GEM', s1:'Hardly anyone knows about this brilliant little restaurant.', s2:'This little restaurant is a real ___ that hardly anyone knows about.', answer:'hidden gem'},
-  {key:'FEET', s1:'He has always wanted to travel and never stays in one place for long.', s2:'He has always had ___ and never stays in one place for long.', answer:'itchy feet'},
-  {key:'COOLCATION', s1:'This year they chose a holiday somewhere cool instead of somewhere hot.', s2:'This year they went on a ___ instead of a beach holiday.', answer:'coolcation'},
-  {key:'PACKAGE', s1:'Everything, flights, hotel and meals, was booked together as one deal.', s2:'Everything was booked together as one ___, including flights, hotel and meals.', answer:'package holiday'},
-  {key:'SHOESTRING', s1:'They travelled around the country spending almost no money at all.', s2:'They travelled around the country ___, spending almost no money at all.', answer:'on a shoestring'},
-  {key:'PACK', s1:'She quit her job completely to go travelling for a year.', s2:'She decided to ___ and go travelling for a year.', answer:'pack it all in'},
-  {key:'SOAK', s1:'They spent the whole holiday relaxing in the warm weather on the beach.', s2:'They spent the whole holiday doing nothing but ___ on the beach.', answer:'soak up the sun'}
-];
-function loadUoe(){
-  try{ var raw = localStorage.getItem(UOE_KEY); if(raw){ var p = JSON.parse(raw); if(Array.isArray(p) && p.length && p[0].s2!==undefined) return p; } }catch(e){}
-  return JSON.parse(JSON.stringify(DEFAULT_UOE));
-}
-var UOE_ITEMS = loadUoe();
-function saveUoe(){ try{ localStorage.setItem(UOE_KEY, JSON.stringify(UOE_ITEMS)); }catch(e){} }
-var uoeEditMode = false;
-function toggleUoeEditor(){
-  uoeEditMode = !uoeEditMode;
-  document.getElementById('uoeEditToggle').classList.toggle('on', uoeEditMode);
-  document.getElementById('uoeEditorCard').style.display = uoeEditMode ? '' : 'none';
-}
-function renderUoeEdit(){
-  var wrap = document.getElementById('uoeEditRows');
-  if(!wrap) return;
-  wrap.innerHTML = UOE_ITEMS.map(function(u,i){
-    return '<div class="wb-row" style="grid-template-columns:.8fr 1.5fr 1.5fr 1fr 34px">'+
-      '<input value="'+esc(u.key)+'" data-i="'+i+'" data-f="key" oninput="onUoeEdit(this)" placeholder="key word">'+
-      '<input value="'+esc(u.s1)+'" data-i="'+i+'" data-f="s1" oninput="onUoeEdit(this)" placeholder="sentence 1 (unchanged)">'+
-      '<input value="'+esc(u.s2)+'" data-i="'+i+'" data-f="s2" oninput="onUoeEdit(this)" placeholder="sentence 2, use ___ for the gap">'+
-      '<input value="'+esc(u.answer)+'" data-i="'+i+'" data-f="answer" oninput="onUoeEdit(this)" placeholder="answer (2-5 words)">'+
-      '<button class="wb-rm" onclick="removeUoeItem('+i+')" aria-label="Remove">&times;</button>'+
-    '</div>';
-  }).join('');
-}
-function onUoeEdit(el){
-  var i = +el.dataset.i, f = el.dataset.f;
-  UOE_ITEMS[i][f] = el.value;
-  saveUoe();
-  renderUoE();
-}
-function removeUoeItem(i){ UOE_ITEMS.splice(i,1); saveUoe(); renderUoeEdit(); renderUoE(); }
-function addUoeItem(){ UOE_ITEMS.push({key:'',s1:'',s2:'___',answer:''}); saveUoe(); renderUoeEdit(); renderUoE(); }
-function renderUoE(){
-  var wrap = document.getElementById('uoeContainer');
-  if(!wrap) return;
-  wrap.innerHTML = UOE_ITEMS.map(function(u,i){
-    var parts = u.s2.split('___');
-    var inner = esc(parts[0]||'')+'<span class="prep-blank"><input type="text" class="prep-inp" style="width:200px" data-ans="'+esc(u.answer.toLowerCase())+'" id="uoe'+i+'" placeholder="....."></span>'+esc(parts[1]||'');
-    return '<div class="uoe-item">'+
-      '<p class="reading-text" style="margin-bottom:.3rem">'+(i+1)+'. '+esc(u.s1)+'</p>'+
-      '<span class="uoe-key-chip">'+esc(u.key)+'</span>'+
-      '<p class="reading-text" style="margin-bottom:0;margin-top:.35rem">'+inner+'</p>'+
-    '</div>';
-  }).join('');
-}
-function revealUoE(){
-  UOE_ITEMS.forEach(function(u,i){
-    var inp = document.getElementById('uoe'+i);
-    if(inp){ inp.value = u.answer; inp.style.borderColor = 'var(--mint)'; }
-  });
-}
-function resetUoE(){ renderUoE(); }
-
-/* ---------- writing tasks: informal / article / essay ---------- */
+/* ---------- writing tasks ---------- */
 var WTASKS = {
-  informal: {
-    label: 'Informal message',
-    prompt: "Write a short message to a friend about a trip you've just been on, or one you're planning. Use at least <strong>three</strong> of today's words or phrases.",
-    min: 60, max: 90
-  },
-  article: {
-    label: 'Article',
-    prompt: 'Write a short article for a travel blog about a memorable place you\'ve visited. Use at least <strong>four</strong> of today\'s words or phrases, and give it a title.',
-    min: 120, max: 160
-  },
   essay: {
-    label: 'Essay',
-    prompt: 'Write a short essay discussing whether tourism does more harm than good to the places it visits. Use at least <strong>four</strong> of today\'s words or phrases.',
-    min: 150, max: 200
+    label: 'Essay · C1',
+    prompt: "In your English class you have been discussing modern travel. Your teacher has asked you to write an essay giving your opinion on the following statement:<br><br>&ldquo;Package holidays take away the adventure of travelling independently.&rdquo;<br><br>Write about the following points:<br>1. cost and convenience<br>2. spontaneity and discovery<br>3. <strong>your own idea</strong><br><br>You should explain your opinion, giving reasons, and reach a clear conclusion. Use some of today's words or phrases where natural.",
+    min: 220, max: 260
+  },
+  review: {
+    label: 'Review · C1',
+    prompt: "You see this announcement on an English-language travel website:<br><br><em>Reviews wanted! Have you had an unforgettable trip somewhere off the beaten path? Tell us what made it special, what you'd warn other travellers about, and whether you'd recommend it. The best reviews will be published on the site.</em><br><br>Write your review.",
+    min: 220, max: 260
+  },
+  report: {
+    label: 'Report · C1',
+    prompt: "You are on the student committee at your college. The principal has asked you to write a report evaluating two options for next year's end-of-year trip: a package holiday to a popular resort, or an independent, budget trip somewhere less touristy. Your report should briefly outline both options, evaluate their advantages and disadvantages, and recommend one, giving reasons. Use clear headings.",
+    min: 220, max: 260
+  },
+  essayc2: {
+    label: 'Essay · C2',
+    prompt: "Your class has watched a discussion in which one speaker argued that the growing popularity of &ldquo;coolcations&rdquo; shows that tourists are finally travelling more responsibly, while another argued it is simply the latest travel trend and will fade like any other. Write an essay for your tutor summarising the key points from the discussion, evaluating both viewpoints, and giving your own opinion.",
+    min: 240, max: 280
   }
 };
-var currentWTask = 'informal';
+var currentWTask = 'essay';
 var WRITE_KEY = 'jpe_traveladv_write_drafts';
 var writeDrafts = {};
 try{ var _wd = JSON.parse(localStorage.getItem(WRITE_KEY)); if(_wd) writeDrafts = _wd; }catch(e){}
@@ -2570,7 +2301,7 @@ function renderWTaskPanels(){
     var t = WTASKS[id];
     return '<div class="tab-panel'+(id===currentWTask?' show':'')+'" id="wtaskPanel-'+id+'">'+
       '<p style="color:var(--muted);font-size:.9rem;line-height:1.6;margin-bottom:1rem">'+t.prompt+'</p>'+
-      '<textarea id="writeArea-'+id+'" rows="6" style="width:100%;border:1.5px solid var(--border);border-radius:10px;padding:.9rem 1rem;font-family:\'Outfit\',sans-serif;font-size:.92rem;color:var(--ink);background:var(--cream);resize:vertical" placeholder="Start writing…" oninput="updateWCount(\''+id+'\')">'+esc(writeDrafts[id]||'')+'</textarea>'+
+      '<textarea id="writeArea-'+id+'" rows="14" style="width:100%;border:1.5px solid var(--border);border-radius:10px;padding:.9rem 1rem;font-family:\'Outfit\',sans-serif;font-size:.92rem;color:var(--ink);background:var(--cream);resize:vertical" placeholder="Start writing…" oninput="updateWCount(\''+id+'\')">'+esc(writeDrafts[id]||'')+'</textarea>'+
       '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:.6rem">'+
         '<span id="wCount-'+id+'" style="font-family:\'JetBrains Mono\',monospace;font-size:.78rem;color:var(--muted)">0 words</span>'+
         '<span style="font-size:.78rem;color:var(--muted)">target '+t.min+' to '+t.max+'</span>'+
@@ -2771,8 +2502,8 @@ function readHeroFile(file){
 }
 
 /* ---------- wiring ---------- */
-function renderDerived(){ initMatching(); renderGapFill(); renderFlashcards(); renderSwap(); }
-function renderAll(){ renderWordBank(); renderDerived(); renderPeopleEdit(); renderGallery(); renderDebates(); renderRP(); renderListen(); renderResources(); renderUoeEdit(); renderUoE(); }
+function renderDerived(){ initMatching(); renderGapFill(); renderFlashcards(); }
+function renderAll(){ renderWordBank(); renderDerived(); renderPeopleEdit(); renderGallery(); renderDebates(); renderRP(); renderListen(); }
 
 var vTabBtnIds = {edit:'tabEdit', flash:'tabFlash', match:'tabMatch', gf:'tabGF'};
 function switchVTab(id){
@@ -2794,7 +2525,7 @@ function toggleVocabEditMode(){
   renderFlashcards();
 }
 
-var tabIds = ['warmup','vocab','main','swap','debates','roleplay','listening','uoe','write','resources'];
+var tabIds = ['warmup','vocab','main','debates','roleplay','listening','write'];
 function showTab(id){
   tabIds.forEach(function(t){
     document.getElementById(t).classList.toggle('visible', t===id);
