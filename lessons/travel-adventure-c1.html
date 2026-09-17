@@ -842,6 +842,7 @@ body.section-present #vocab.present-active .flash-hint{font-size:.9rem;margin-to
   </section>
   <input type="file" id="rpImageInput" accept="image/*" style="display:none">
   <input type="file" id="listenAudioInput" accept="audio/*" style="display:none">
+  <input type="file" id="listenImageInput" accept="image/*" style="display:none">
 
   <section class="lesson-section" id="listening">
     <div class="section-header">
@@ -1947,29 +1948,44 @@ var DEFAULT_LISTEN = [
   {
     title: 'Two Very Different Trips',
     subtitle: "Two friends can't agree on what kind of holiday they actually want",
-    targetPhrases: ['off the beaten path','a hidden gem','itchy feet','a coolcation','a package holiday','on a shoestring','pack it all in','soak up the sun'],
+    image: null,
     audio: null,
     questions: [
       "Why doesn't Jess want another package holiday this time?",
       "What does travelling 'on a shoestring' involve, according to Jess?",
-      'What does James say he really needed, by the end of the conversation?'
+      "Why does James want to 'pack it all in' this month?",
+      'When do they decide to go, and why choose that time of year?'
     ],
     lines: [
-      ln('a','Jess',"Okay, I'll be honest, I've had itchy feet for weeks now. I just need to go somewhere."),
-      ln('b','James',"[laughs] Same, actually. What are you thinking? Another package holiday, flights and hotel all sorted for us?"),
-      ln('a','Jess',"No, not this time. I want to go properly off the beaten path, somewhere nobody we know has been."),
+      ln('a','Jess',"Hey, sorry I'm a bit late, the bus was a nightmare today."),
+      ln('b','James',"[laughs] No worries, I only just sat down myself. How's your week been?"),
+      ln('a','Jess',"Honestly? Long. But okay, I have news. I've had itchy feet for weeks now, I just need to go somewhere."),
+      ln('b','James',"[laughs] Same, actually. Funny you say that, I was literally looking at flights on my lunch break yesterday."),
+      ln('a','Jess',"Were you? What were you thinking?"),
+      ln('b','James',"Nothing specific yet. Maybe another package holiday, flights and hotel all sorted for us, somewhere easy."),
+      ln('a','Jess',"Hmm. No, not this time. I want to go properly off the beaten path, somewhere nobody we know has even heard of."),
       ln('b','James',"Interesting. Any ideas, or is this just a feeling so far?"),
-      ln('a','Jess',"My cousin found this tiny fishing village in Albania. Total hidden gem apparently, barely any tourists at all."),
-      ln('b','James',"[sighs] Sounds nice, but doesn't somewhere like that end up expensive just to get to?"),
-      ln('a','Jess',"Not if we do it properly. We could travel on a shoestring, buses instead of taxis, guesthouses instead of hotels."),
-      ln('b','James',"Honestly, part of me just wants to pack it all in for a month and disappear completely. Work's been brutal."),
-      ln('a','Jess',"[chuckles] So come with me. First few days we just soak up the sun on the coast, then head inland and explore properly."),
-      ln('b','James',"What about the heat, though? Everyone I know is doing a coolcation this year, somewhere cooler, less crowded."),
-      ln('a','Jess',"We can find somewhere with both, mountains and coast. That's the whole point of going off the beaten path, you get to choose."),
-      ln('b','James',"[laughs] Alright, alright, you're winning me over. Send me everything tonight."),
-      ln('a','Jess',"Perfect. No package holiday nonsense this time, just us figuring it out as we go."),
-      ln('b','James',"Deal. Honestly, I think I just needed someone to actually book something instead of talking about it."),
-      ln('a','Jess',"Same. Right, let's actually do this.")
+      ln('a','Jess',"[laughs] A bit of both. But my cousin actually found this tiny fishing village in Albania last year. Total hidden gem apparently, barely any tourists at all."),
+      ln('b','James',"Wait, is this the cousin who went interrailing for three months?"),
+      ln('a','Jess',"That's the one. She's basically been everywhere at this point."),
+      ln('b','James',"[sighs] Sounds nice, but doesn't somewhere like that end up expensive just to get to? Flights to weird little places are never actually cheap."),
+      ln('a','Jess',"Not if we do it properly. We could travel on a shoestring once we're there, buses instead of taxis, guesthouses instead of hotels. It's the getting there that's the only real cost."),
+      ln('b','James',"Fair enough. Anyway, sorry, ignore me, work's just been putting me in a mood all week."),
+      ln('a','Jess',"Oh no, what happened now?"),
+      ln('b','James',"Nothing new really, just the usual. Honestly, part of me just wants to pack it all in for a month and disappear completely."),
+      ln('a','Jess',"[chuckles] So come with me, then. Problem solved."),
+      ln('b','James',"[laughs] It's tempting, not going to lie."),
+      ln('a','Jess',"I'm serious though. First few days we just soak up the sun on the coast, do absolutely nothing, then head inland and explore properly once we've actually relaxed."),
+      ln('b','James',"That does sound good. What about the heat, though? Everyone I know is doing a coolcation this year, somewhere cooler, less crowded, less sweaty."),
+      ln('a','Jess',"We can find somewhere with both, mountains and coast, twenty minutes apart if we pick the right spot. That's the whole point of going off the beaten path, you're not stuck with one option."),
+      ln('b','James',"[laughs] Alright, alright, you're winning me over. When were you thinking, actually?"),
+      ln('a','Jess',"September, maybe? After the summer crowds have gone, prices drop a bit too."),
+      ln('b','James',"September works for me. Send me everything tonight, flights, the village, all of it."),
+      ln('a','Jess',"Will do. And honestly, no package holiday nonsense this time, no fixed itinerary, just us figuring it out as we go."),
+      ln('b','James',"Deal. Honestly, I think I just needed someone to actually book something instead of just talking about it for months."),
+      ln('a','Jess',"[laughs] Same. We always do this, don't we? Talk about it for ages and then never go."),
+      ln('b','James',"Not this time though."),
+      ln('a','Jess',"Not this time. Right, let's actually do this.")
     ]
   }
 ];
@@ -2005,7 +2021,17 @@ function renderListenBody(){
   var ed = listenEditMode;
   var revealed = !!listenRevealed[currentListen];
 
-  var chips = d.targetPhrases.map(function(p){ return '<span class="listen-phrase-chip">'+esc(p)+'</span>'; }).join('');
+  var pos = d.imagePos || {x:50, y:50};
+  var imgInner = d.image
+    ? '<div class="rp-image-slot filled" style="background-image:url(\''+d.image.replace(/'/g,"%27")+'\');background-position:'+pos.x+'% '+pos.y+'%">'+
+        (ed ? '<button class="rp-image-remove" onclick="event.stopPropagation();removeListenImage()" title="Remove image">&times;</button>'+
+              '<span class="rp-image-reposition-hint">Drag to reposition</span>' : '')+
+      '</div>'
+    : '<div class="rp-image-slot" onclick="triggerListenImageUpload()" '+
+        'ondragover="event.preventDefault();this.classList.add(\'drag-over\')" '+
+        'ondragleave="this.classList.remove(\'drag-over\')" ondrop="handleListenImageDrop(event)">'+
+        '<span class="rp-image-plus">+</span><span class="rp-image-hint">Drag a wide scene photo here, or click to browse</span>'+
+      '</div>';
 
   var audioBlock;
   if(d.audio){
@@ -2050,7 +2076,7 @@ function renderListenBody(){
 
   wrap.innerHTML = '<div class="rp-card'+(ed?' rp-editing':'')+'">'+
     titleHtml+
-    '<div class="listen-phrases">'+chips+'</div>'+
+    imgInner+
     audioBlock+
     '<div class="listen-actions">'+
       '<button class="listen-reveal-btn'+(revealed?' showing':'')+'" onclick="toggleListenReveal()">'+
@@ -2264,6 +2290,86 @@ function exportListenTranscriptPNG(){
   link.click();
 }
 function renderListen(){ renderListenTabs(); renderListenBody(); updateListenAudioStickyOffset(); }
+
+function triggerListenImageUpload(){ if(listenEditMode) document.getElementById('listenImageInput').click(); }
+document.getElementById('listenImageInput').addEventListener('change', function(){
+  var f = this.files && this.files[0];
+  if(f) readListenImageFile(f);
+  this.value = '';
+});
+function handleListenImageDrop(e){
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  if(!listenEditMode) return;
+  var f = e.dataTransfer.files && e.dataTransfer.files[0];
+  if(f && f.type.indexOf('image/')===0) readListenImageFile(f);
+}
+function readListenImageFile(file){
+  var reader = new FileReader();
+  reader.onload = function(e){
+    var img = new Image();
+    img.onload = function(){
+      var maxW = 1200;
+      var scale = Math.min(1, maxW/img.width);
+      var w = Math.round(img.width*scale), h = Math.round(img.height*scale);
+      var canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      LISTEN[currentListen].image = canvas.toDataURL('image/jpeg', .85);
+      LISTEN[currentListen].imagePos = {x:50, y:50};
+      saveListen();
+      renderListenBody();
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+function removeListenImage(){
+  LISTEN[currentListen].image = null;
+  delete LISTEN[currentListen].imagePos;
+  saveListen();
+  renderListenBody();
+}
+/* click to replace vs drag to reposition the listening hero image, disambiguated by movement */
+(function(){
+  var body = document.getElementById('listenBody');
+  var dragging = false, moved = false, startX, startY, startPosX, startPosY, rect, slot = null;
+  body.addEventListener('pointerdown', function(e){
+    if(!listenEditMode) return;
+    slot = e.target.closest('.rp-image-slot.filled');
+    if(!slot) return;
+    if(e.target.closest('.rp-image-remove')){ slot = null; return; }
+    var d = LISTEN[currentListen];
+    if(!d || !d.image){ slot = null; return; }
+    if(!d.imagePos) d.imagePos = {x:50, y:50};
+    dragging = true; moved = false;
+    startX = e.clientX; startY = e.clientY;
+    startPosX = d.imagePos.x; startPosY = d.imagePos.y;
+    rect = slot.getBoundingClientRect();
+    slot.classList.add('dragging');
+    try{ slot.setPointerCapture(e.pointerId); }catch(err){}
+  });
+  body.addEventListener('pointermove', function(e){
+    if(!dragging || !slot) return;
+    var dx = e.clientX - startX, dy = e.clientY - startY;
+    if(Math.abs(dx)>3 || Math.abs(dy)>3) moved = true;
+    if(!moved) return;
+    var d = LISTEN[currentListen];
+    var newX = startPosX - (dx / rect.width) * 100;
+    var newY = startPosY - (dy / rect.height) * 100;
+    d.imagePos.x = Math.max(0, Math.min(100, newX));
+    d.imagePos.y = Math.max(0, Math.min(100, newY));
+    slot.style.backgroundPosition = d.imagePos.x+'% '+d.imagePos.y+'%';
+  });
+  body.addEventListener('pointerup', function(e){
+    if(!slot){ dragging = false; moved = false; return; }
+    if(dragging && moved){ saveListen(); }
+    else if(dragging && !moved){ triggerListenImageUpload(); }
+    dragging = false; moved = false;
+    slot.classList.remove('dragging');
+    slot = null;
+  });
+})();
 
 
 /* ---------- writing tasks ---------- */
