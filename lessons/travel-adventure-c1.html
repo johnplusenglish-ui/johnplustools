@@ -1840,6 +1840,14 @@ var DEFAULT_RP = [
     roleA:{name:'Guest', desc:"You're exhausted and mildly irritated, trying not to lose your temper in public."},
     roleB:{name:'Front Desk Clerk', desc:"You didn't cause the problem and can't fully fix it, but you're trying to stay calm under pressure."},
     chips:["I'm really sorry about this, but…","This isn't really what I was expecting after…","Let me see what I can do.","I understand your frustration, but…","Would it help if I…"]
+  },
+  {
+    tone:'awkward',
+    title:"That's Not What the Brochure Showed",
+    scenario:"A couple booked a package holiday that promised a beachfront hotel, daily excursions and full board. On arrival, the hotel is a twenty-minute walk from the beach, only two excursions have been arranged, and dinner isn't included most nights. They go to the resort's holiday rep to complain.",
+    roleA:{name:'Guest', desc:"You're frustrated because you paid for a package holiday and feel like you got a fraction of what was promised. You want a partial refund or the missing extras added."},
+    roleB:{name:'Holiday Rep', desc:"You didn't design the package and can't authorise refunds on the spot, but you can arrange some of the missing extras. Stay calm and helpful."},
+    chips:["This isn't what we paid for.","The brochure clearly said…","I understand your frustration, but…","What I can do is…","We'd like some form of compensation.","Let me see what's still possible."]
   }
 ];
 function loadRP(){
