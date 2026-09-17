@@ -504,7 +504,8 @@ const IC={
   arrow:'<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>',
   ext:'<svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>',
   search:'<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>',
-  assign:'<svg viewBox="0 0 24 24"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg>'
+  assign:'<svg viewBox="0 0 24 24"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg>',
+  assignment:'<svg viewBox="0 0 24 24"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg>'
 };
 
 let curMod=localStorage.getItem('dcu_mod')||'PSY1080';
@@ -523,7 +524,7 @@ function renderSwitch(){
   applyAccent(curMod);
   const w=$('#modSwitch'); w.innerHTML='';
   Object.keys(DATA).forEach(k=>{
-    const b=el('button',k===curMod?'on':'',`${k}<small>${COURSE[k].code}</small>`);
+    const b=el('button',k===curMod?'on':'',`${k}`);
     b.style.setProperty('--mod-accent', ACCENTS[k].a);
     b.style.setProperty('--mod-accent-light', ACCENTS[k].al);
     b.onclick=()=>{curMod=k;localStorage.setItem('dcu_mod',k);sel={course:'0.ov',book:null,bch:0,textbook:null,cards:'all',quiz:'all',glossary:'all',assign:0};glQuery='';quizState=null;renderSwitch();renderTabs();route();};
@@ -535,8 +536,8 @@ function renderSwitch(){
 }
 function renderTabs(){
   const t=$('#tabs'); t.innerHTML='';
-  [['course','Course',COURSE[curMod].sections.length],['assignment','Assignment',null],['textbook','Textbook',curMod==='PSY1080'?TEXTBOOK.length:null],['cards','Flashcards',null],['quiz','Quiz',null],['glossary','Glossary',null]].forEach(([id,label,n])=>{
-    const b=el('button','tab'+(id===curTab?' active':''),IC[id]+`<span>${label}</span>`+(n!=null?`<span class="badge">${n}</span>`:''));
+  [['course','Course'],['assignment','Assignment'],['textbook','Textbook'],['cards','Flashcards'],['quiz','Quiz'],['glossary','Glossary']].forEach(([id,label])=>{
+    const b=el('button','tab'+(id===curTab?' active':''),IC[id]+`<span>${label}</span>`);
     b.style.setProperty('--tab-accent',ACCENTS[curMod].a);
     b.onclick=()=>{curTab=id;renderTabs();route();};
     t.appendChild(b);
