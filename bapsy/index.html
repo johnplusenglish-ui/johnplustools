@@ -85,7 +85,9 @@ a{color:var(--accent);text-decoration:none}
 
 .wb-pane{background:var(--card);border:1.5px solid var(--border);border-radius:14px;box-shadow:var(--shadow-sm);overflow:hidden;min-width:0}
 .wb-pane-head{padding:.9rem 1.2rem .75rem;border-bottom:1.5px solid var(--border)}
+.wb-pane-head.slim{padding:.65rem 1.2rem}
 .wb-pane-head .eyebrow{font-size:.64rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:.15rem}
+.wb-pane-head.slim .eyebrow{margin-bottom:0}
 .wb-pane-head h2{margin:0;font-size:1.15rem;font-weight:800;letter-spacing:-.01em}
 .wb-pane-head p{margin:.3rem 0 0;font-size:.83rem;color:var(--muted);line-height:1.5}
 .wb-pane-body{padding:1rem 1.2rem 1.3rem}
@@ -616,10 +618,9 @@ function selChapter(i,nav){ sel.bch=i; fillChapter(nav); }
 function fillChapter(nav){
   const {si,ri}=sel.book; const C=COURSE[curMod]; const s=C.sections[si]; const bk=MODBOOKS[(s.readings||[])[ri]]; const n=bk.notes[sel.bch];
   if(nav) nav.querySelectorAll('.guide-nav-item').forEach(b=>b.classList.toggle('active', b.dataset.k!==undefined && +b.dataset.k===sel.bch));
-  const banner=`<div class="book-banner"><div class="bk-ico">${BOOKICON}</div><div><div class="bk-t">${bk.title}</div><div class="bk-s">${s.part.replace(/:.*/,'')} reading &middot; DCU Loop</div><span class="bk-tag">Reading</span></div></div>`;
   const head=`<div class="chap-h"><div class="chap-n">${sel.bch+1}</div><div><div class="chap-k">Chapter ${sel.bch+1} of ${bk.notes.length}</div><h3>${chapTitle(n.h)}</h3></div></div>`;
   let kp=''; if(n.keypoints&&n.keypoints.length){ kp=`<div class="kp"><span class="lbl">Key points</span><ul>${n.keypoints.map(k=>`<li>${k}</li>`).join('')}</ul></div>`; }
-  $('#bookPane').innerHTML=`<div class="wb-pane-head"><div class="eyebrow">${bk.title}</div><h2>${sel.bch+1}. ${chapTitle(n.h)}</h2></div><div class="wb-pane-body">${banner}<div class="lec"><div class="chap" style="border:0;padding:0;margin:0">${head}${n.html}${kp}</div></div></div>`;
+  $('#bookPane').innerHTML=`<div class="wb-pane-head slim"><div class="eyebrow">${bk.title}</div></div><div class="wb-pane-body"><div class="lec"><div class="chap" style="border:0;padding:0;margin:0">${head}${n.html}${kp}</div></div></div>`;
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
@@ -638,9 +639,8 @@ function renderTextbook(){
 function fillTextbook(nav){
   const c=TEXTBOOK.find(x=>x.n===sel.textbook)||TEXTBOOK[0];
   if(nav) nav.querySelectorAll('.guide-nav-item').forEach(b=>b.classList.toggle('active',+b.dataset.k===c.n));
-  const banner=`<div class="book-banner"><img src="${COVER}" alt="cover"><div><div class="bk-t">Introduction to Psychology</div><div class="bk-s">1st Canadian Edition &middot; Stangor &amp; Walinga (BCcampus). The full recommended text.</div><span class="bk-tag">Textbook</span></div></div>`;
-  const head=`<div class="chap"><div class="chap-h"><div class="chap-n">${c.n}</div><div><div class="chap-k">Chapter ${c.n}</div><h3>${c.title}</h3></div></div></div>`;
-  $('#tbPane').innerHTML=`<div class="wb-pane-head"><div class="eyebrow">Recommended textbook</div><h2>${c.n}. ${c.title}</h2><p>Full chapter text, with the book's Learning Objectives and Key Takeaways.</p></div><div class="wb-pane-body">${banner}<div class="lec">${head}${c.html}</div></div>`;
+  const head=`<div class="chap"><div class="chap-h"><div class="chap-n">${c.n}</div><div><div class="chap-k">Chapter ${c.n} of ${TEXTBOOK.length}</div><h3>${c.title}</h3></div></div></div>`;
+  $('#tbPane').innerHTML=`<div class="wb-pane-head slim"><div class="eyebrow">Introduction to Psychology &middot; Stangor &amp; Walinga, 1st Canadian Edition</div></div><div class="wb-pane-body"><div class="lec">${head}${c.html}</div></div>`;
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
