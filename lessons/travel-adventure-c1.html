@@ -469,6 +469,45 @@ body.section-present .deb-instruction{font-size:1.15rem}
 .spray-add-corner.drag-over{background:var(--mint-dark);transform:scale(1.15)}
 .people-dot{width:14px;height:14px;border-radius:50%;align-self:center;justify-self:center}
 
+/* flashcards */
+.flash-nav{display:flex;align-items:center;justify-content:center;gap:1rem;margin-bottom:1.2rem}
+.flash-arrow{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--border);background:var(--card);color:var(--ink);font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;line-height:1}
+.flash-arrow:hover{border-color:var(--mint);color:var(--mint)}
+.flash-progress{font-family:'JetBrains Mono',monospace;font-size:.78rem;font-weight:700;color:var(--muted);min-width:52px;text-align:center}
+.flash-card{max-width:340px;margin:0 auto;cursor:pointer;user-select:none}
+.flash-image-wrap{position:relative;width:100%;aspect-ratio:4/5;border-radius:16px;overflow:hidden;border:1.5px solid var(--border);box-shadow:var(--shadow-md);background:var(--cream)}
+.flash-image{width:100%;height:100%;object-fit:cover;display:none;transition:transform .2s}
+.flash-card:hover .flash-image{transform:scale(1.015)}
+.flash-image-empty{display:none;position:absolute;inset:0;align-items:center;justify-content:center;color:var(--muted);font-size:.85rem;text-align:center;padding:1rem}
+.flash-image-wrap.editing{cursor:pointer}
+.flash-image-wrap.editing:hover{border-color:var(--mint)}
+.flash-image-wrap.drag-over{border-color:var(--mint);background:var(--mint-light)}
+.flash-image-remove{position:absolute;top:.6rem;right:.6rem;width:28px;height:28px;border-radius:50%;border:none;background:rgba(0,0,0,.55);color:#fff;font-size:1rem;cursor:pointer;display:none;align-items:center;justify-content:center;z-index:2}
+.flash-image-remove:hover{background:var(--red)}
+.flash-reveal-slot{max-height:0;overflow:hidden;opacity:0;transition:max-height .35s ease,opacity .3s ease,margin-top .35s ease}
+.flash-reveal-slot.show{max-height:140px;opacity:1;margin-top:.9rem}
+.flash-card.editing .flash-reveal-slot{max-height:none;opacity:1;margin-top:.9rem;overflow:visible}
+.flash-card.editing{cursor:default}
+.flash-card.editing .flash-term-text,.flash-card.editing .flash-def-text{cursor:text}
+.flash-card.editing .flash-term-text:focus,.flash-card.editing .flash-def-text:focus{outline:1.5px dashed var(--mint);border-radius:6px}
+.flash-term{background:var(--mint-light);border:1.5px solid rgba(33,118,255,.18);border-radius:12px;padding:.9rem 1.1rem}
+.flash-term-text{font-size:1.1rem;font-weight:800;color:var(--mint-dark);text-align:center}
+.flash-def{background:var(--cream);border:1.5px solid var(--border);border-radius:12px;padding:.9rem 1.1rem}
+.flash-def-text{font-size:.88rem;color:var(--slate-mid);line-height:1.5;text-align:center}
+.flash-hint{text-align:center;font-size:.78rem;color:var(--muted);margin-top:.9rem;font-style:italic}
+.flash-export-row{display:flex;justify-content:center;gap:.6rem;margin-top:1.4rem;flex-wrap:wrap}
+body.section-present #vocab.present-active .flash-card{max-width:min(40vh,480px);width:100%}
+body.section-present #vocab.present-active .flash-image-wrap{width:100%;height:auto;box-shadow:0 16px 36px rgba(0,0,0,.16)}
+body.section-present #vocab.present-active .flash-nav{margin-bottom:.7rem}
+body.section-present #vocab.present-active .flash-arrow{width:44px;height:44px;font-size:1.5rem}
+body.section-present #vocab.present-active .flash-progress{font-size:1rem}
+body.section-present #vocab.present-active .flash-reveal-slot.show{margin-top:.6rem}
+body.section-present #vocab.present-active .flash-term{padding:.7rem 1rem}
+body.section-present #vocab.present-active .flash-def{padding:.7rem 1rem}
+body.section-present #vocab.present-active .flash-term-text{font-size:1.5rem}
+body.section-present #vocab.present-active .flash-def-text{font-size:1.05rem}
+body.section-present #vocab.present-active .flash-hint{font-size:.9rem;margin-top:.7rem}
+
 /* lightbox */
 .lb-overlay{position:fixed;inset:0;background:rgba(10,15,25,.72);z-index:500;display:none;align-items:center;justify-content:center;padding:2rem}
 .lb-overlay.show{display:flex}
@@ -637,6 +676,9 @@ body.section-present .deb-instruction{font-size:1.15rem}
         <div class="section-label-mono">Travel &amp; Adventure Word Bank · 20 min</div>
       </div>
       <div class="section-header-actions">
+        <button class="section-fullscreen-toggle" onclick="presentVocabFlashcards()" title="Present flashcards full screen">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+        </button>
         <button class="deb-edit-toggle" id="vocabEditToggle" onclick="toggleVocabEditMode()" title="Edit">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
         </button>
@@ -644,14 +686,15 @@ body.section-present .deb-instruction{font-size:1.15rem}
     </div>
 
     <div class="tab-row">
-      <button class="tab-btn on" id="tabMatch" onclick="switchVTab('match')">Match</button>
+      <button class="tab-btn on" id="tabFlash" onclick="switchVTab('flash')">Flashcards</button>
+      <button class="tab-btn" id="tabMatch" onclick="switchVTab('match')">Match</button>
       <button class="tab-btn" id="tabGF" onclick="switchVTab('gf')">Gap Fill</button>
       <button class="tab-btn" id="tabEdit" onclick="switchVTab('edit')" style="display:none">Word Bank</button>
     </div>
 
     <div class="tab-panel" id="panel-edit">
       <div class="section-card">
-        <p class="wb-hint">Edit any word, definition or example below: the Match and Gap Fill tabs regenerate automatically from whatever is here. Sourced from <a href="https://johnplusenglish.com/word-banks.html?bank=travel-transport" target="_blank" rel="noopener" style="color:var(--mint)">johnplusenglish.com's Travel &amp; Transport bank</a>.</p>
+        <p class="wb-hint">Edit any word, definition or example below: the Flashcards, Match and Gap Fill tabs regenerate automatically from whatever is here.</p>
         <div class="wb-head">
           <span class="wb-th">Term</span><span class="wb-th">Definition</span><span class="wb-th">Example</span><span></span>
         </div>
@@ -660,7 +703,34 @@ body.section-present .deb-instruction{font-size:1.15rem}
       </div>
     </div>
 
-    <div class="tab-panel show" id="panel-match">
+    <div class="tab-panel show" id="panel-flash">
+      <div class="section-card">
+        <div class="flash-nav">
+          <button class="flash-arrow" id="flashPrev" onclick="flashPrev()" aria-label="Previous card">&lsaquo;</button>
+          <div class="flash-progress" id="flashProgress">1 / 8</div>
+          <button class="flash-arrow" id="flashNext" onclick="flashNext()" aria-label="Next card">&rsaquo;</button>
+        </div>
+        <div class="flash-card" id="flashCard" onclick="flashAdvance()">
+          <div class="flash-image-wrap" id="flashImageWrap" onclick="onFlashImageWrapClick(event)"
+            ondragover="event.preventDefault();if(vocabEditMode)this.classList.add('drag-over')"
+            ondragleave="this.classList.remove('drag-over')"
+            ondrop="handleFlashImageDrop(event)">
+            <img class="flash-image" id="flashImage" alt="">
+            <div class="flash-image-empty" id="flashImageEmpty">No image for this word yet</div>
+            <button class="flash-image-remove" id="flashImageRemove" onclick="event.stopPropagation();removeFlashImage()" title="Remove image">&times;</button>
+          </div>
+          <div class="flash-reveal-slot flash-term" id="flashTermSlot"><div class="flash-term-text" id="flashTermText" spellcheck="false" onclick="if(vocabEditMode)event.stopPropagation()" onblur="onFlashTermBlur(this)"></div></div>
+          <div class="flash-reveal-slot flash-def" id="flashDefSlot"><div class="flash-def-text" id="flashDefText" spellcheck="false" onclick="if(vocabEditMode)event.stopPropagation()" onblur="onFlashDefBlur(this)"></div></div>
+          <div class="flash-hint" id="flashHint">Tap to reveal the phrase</div>
+        </div>
+        <div class="flash-export-row">
+          <button class="read-btn" onclick="exportFlashcardPNG(flashIndex)" title="Download this card as a mobile-friendly PNG">Export this card</button>
+          <button class="read-btn" onclick="exportAllFlashcardsPNG()" title="Download every card as separate PNGs">Export all cards</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="panel-match">
       <div class="section-card">
         <div class="match-rows" style="margin-bottom:.6rem">
           <div class="match-col-label">Definition</div>
@@ -714,6 +784,7 @@ body.section-present .deb-instruction{font-size:1.15rem}
     </div>
   </section>
   <input type="file" id="galleryFileInput" accept="image/*" style="display:none">
+  <input type="file" id="flashImageInput" accept="image/*" style="display:none">
 
   <div class="lb-overlay" id="lbOverlay">
     <div class="lb-box">
@@ -917,14 +988,14 @@ body.section-present .deb-instruction{font-size:1.15rem}
 <script>
 var STORAGE_KEY = 'jpe_traveladv_c1_words';
 var DEFAULT_WORDS = [
-  {term:"off the beaten track", def:"away from popular tourist routes; in a remote or unusual place", example:"They preferred destinations off the beaten track, away from the crowds."},
-  {term:"a hidden gem", def:"a place or thing that is not well known but is of great quality or beauty", example:"The restaurant was a hidden gem, tucked away in a back street."},
-  {term:"a coolcation", def:"a holiday taken in a cooler-climate destination", example:"More people are choosing a coolcation over a beach holiday this year."},
-  {term:"carbon footprint", def:"the total amount of greenhouse gases generated by a person's activities", example:"Flying is one of the biggest contributors to an individual's carbon footprint."},
-  {term:"itchy feet", def:"a strong desire to travel or move to a new place", example:"She's had itchy feet since she was a teenager. She can't stay still for long."},
-  {term:"set off", def:"to begin a journey", example:"They set off at dawn to beat the traffic."},
-  {term:"a tourist trap", def:"a place that attracts many tourists and charges high prices for low quality", example:"The waterfront turned out to be a tourist trap, overpriced and disappointing."},
-  {term:"unspoilt", def:"not damaged or made less beautiful or good by human activity or change", example:"The northern coast is still remarkably unspoilt, with no high-rise hotels in sight."}
+  {term:"off the beaten path", def:"away from popular tourist routes; in a remote or unusual place", example:"They loved wandering off the beaten path, discovering villages no guidebook mentioned."},
+  {term:"a hidden gem", def:"a place or thing that is not well known but is of great quality or beauty", example:"The little seafood shack turned out to be a hidden gem, tucked behind the harbour."},
+  {term:"itchy feet", def:"a strong desire to travel or move to a new place", example:"After months at home, she had serious itchy feet and started looking at flights again."},
+  {term:"a coolcation", def:"a holiday taken in a cooler-climate destination, often to escape the summer heat", example:"With summers getting hotter, more people are booking a coolcation to Scandinavia instead of Spain."},
+  {term:"a package holiday", def:"a pre-arranged trip where flights, hotel and often meals are sold together as one deal", example:"They booked a package holiday to Crete because it included flights, the hotel and all meals for one price."},
+  {term:"on a shoestring", def:"with very little money; on a very tight budget", example:"We travelled around Vietnam on a shoestring, spending less than twenty euros a day."},
+  {term:"pack it all in", def:"to give up your job or usual life, often to travel or do something completely different", example:"He decided to pack it all in and spend a year cycling across South America."},
+  {term:"soak up the sun", def:"to relax and enjoy warm, sunny weather, typically while on holiday", example:"They spent the whole week planning to soak up the sun and do nothing else at all."}
 ];
 var WORDS = loadWords();
 var rowOfDef = {};      /* wordIndex -> which visual row its definition currently sits on */
@@ -939,6 +1010,221 @@ function loadWords(){
   return JSON.parse(JSON.stringify(DEFAULT_WORDS));
 }
 function saveWords(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(WORDS)); }catch(e){} }
+
+var FLASHCARD_IMAGES = {
+  'off the beaten path': null,
+  'a hidden gem': null,
+  'itchy feet': null,
+  'a coolcation': null,
+  'a package holiday': null,
+  'on a shoestring': null,
+  'pack it all in': null,
+  'soak up the sun': null
+};
+var FLASH_IMG_KEY = 'jpe_traveladv_flashcard_images';
+function loadFlashImages(){
+  try{ var s = JSON.parse(localStorage.getItem(FLASH_IMG_KEY)); if(s && typeof s === 'object') return s; }catch(e){}
+  return {};
+}
+var FLASH_IMG_OVERRIDES = loadFlashImages();
+function saveFlashImages(){ try{ localStorage.setItem(FLASH_IMG_KEY, JSON.stringify(FLASH_IMG_OVERRIDES)); }catch(e){} }
+
+var flashIndex = 0;
+var flashStage = 0;
+
+function renderFlashcards(){
+  if(!WORDS.length) return;
+  if(flashIndex >= WORDS.length) flashIndex = 0;
+  var w = WORDS[flashIndex];
+  var term = w.term.toLowerCase();
+  var img = FLASH_IMG_OVERRIDES.hasOwnProperty(term) ? FLASH_IMG_OVERRIDES[term] : FLASHCARD_IMAGES[term];
+  var imgEl = document.getElementById('flashImage');
+  var emptyEl = document.getElementById('flashImageEmpty');
+  var wrapEl = document.getElementById('flashImageWrap');
+  var removeBtn = document.getElementById('flashImageRemove');
+  if(!imgEl || !emptyEl) return;
+  if(img){
+    imgEl.src = img;
+    imgEl.alt = flashStage>=1 ? w.term : 'Guess the idiom';
+    imgEl.style.display = 'block';
+    emptyEl.style.display = 'none';
+  }else{
+    imgEl.removeAttribute('src');
+    imgEl.style.display = 'none';
+    emptyEl.style.display = 'flex';
+    emptyEl.textContent = vocabEditMode ? 'Click or drag to add an image' : 'No image for this word yet';
+  }
+  if(wrapEl) wrapEl.classList.toggle('editing', vocabEditMode);
+  if(removeBtn) removeBtn.style.display = (img && vocabEditMode) ? 'flex' : 'none';
+  var termEl = document.getElementById('flashTermText');
+  var defEl = document.getElementById('flashDefText');
+  if(document.activeElement !== termEl) termEl.textContent = w.term.charAt(0).toUpperCase()+w.term.slice(1);
+  if(document.activeElement !== defEl) defEl.textContent = w.def;
+  document.getElementById('flashTermSlot').classList.toggle('show', vocabEditMode || flashStage>=1);
+  document.getElementById('flashDefSlot').classList.toggle('show', vocabEditMode || flashStage>=2);
+  document.getElementById('flashCard').classList.toggle('editing', vocabEditMode);
+  termEl.setAttribute('contenteditable', vocabEditMode ? 'true' : 'false');
+  defEl.setAttribute('contenteditable', vocabEditMode ? 'true' : 'false');
+  document.getElementById('flashProgress').textContent = (flashIndex+1)+' / '+WORDS.length;
+  var hint = document.getElementById('flashHint');
+  hint.textContent = vocabEditMode ? 'Editing: click the phrase or meaning to change it' : (flashStage===0 ? 'Tap to reveal the phrase' : flashStage===1 ? 'Tap to reveal the meaning' : 'Tap for the next card');
+}
+function onFlashTermBlur(el){
+  var w = WORDS[flashIndex];
+  if(!w) return;
+  w.term = el.textContent.trim();
+  saveWords();
+  renderDerived();
+}
+function onFlashDefBlur(el){
+  var w = WORDS[flashIndex];
+  if(!w) return;
+  w.def = el.textContent.trim();
+  saveWords();
+  renderDerived();
+}
+function flashAdvance(){
+  if(vocabEditMode) return;
+  flashStage++;
+  if(flashStage>2){ flashStage=0; flashIndex=(flashIndex+1)%WORDS.length; }
+  renderFlashcards();
+}
+function flashNext(){ flashStage=0; flashIndex=(flashIndex+1)%WORDS.length; renderFlashcards(); }
+function flashPrev(){ flashStage=0; flashIndex=(flashIndex-1+WORDS.length)%WORDS.length; renderFlashcards(); }
+
+/* ---------- flashcard PNG export: mobile-friendly, image + phrase + definition ---------- */
+function flashcardImageFor(term){
+  var key = term.toLowerCase();
+  return FLASH_IMG_OVERRIDES.hasOwnProperty(key) ? FLASH_IMG_OVERRIDES[key] : FLASHCARD_IMAGES[key];
+}
+function drawFlashcardCanvas(w, cb){
+  var W = 1080, H = 1920;
+  var canvas = document.createElement('canvas');
+  canvas.width = W; canvas.height = H;
+  var ctx = canvas.getContext('2d');
+  var imgSrc = flashcardImageFor(w.term);
+  function drawTextAndFinish(photoH){
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(0, photoH, W, H-photoH);
+    var pad = 64;
+    var y = photoH + 96;
+    document.fonts.ready.then(function(){
+      ctx.fillStyle = '#1A1A2E';
+      ctx.font = '800 56px Outfit, sans-serif';
+      var termText = w.term.charAt(0).toUpperCase()+w.term.slice(1);
+      wrapNotesCanvasText(ctx, termText, W-pad*2).forEach(function(line){
+        ctx.fillText(line, pad, y); y += 66;
+      });
+      y += 28;
+      ctx.fillStyle = '#4A5568';
+      ctx.font = '400 34px Outfit, sans-serif';
+      wrapNotesCanvasText(ctx, w.def, W-pad*2).forEach(function(line){
+        ctx.fillText(line, pad, y); y += 46;
+      });
+      cb(canvas);
+    });
+  }
+  if(imgSrc){
+    var img = new Image();
+    img.onload = function(){
+      var photoH = Math.round(H*0.58);
+      var scale = Math.max(W/img.width, photoH/img.height);
+      var dw = img.width*scale, dh = img.height*scale;
+      var dx = (W-dw)/2, dy = (photoH-dh)/2;
+      ctx.fillStyle = '#F7F7F5'; ctx.fillRect(0,0,W,H);
+      ctx.save();
+      ctx.beginPath(); ctx.rect(0,0,W,photoH); ctx.clip();
+      ctx.drawImage(img, dx, dy, dw, dh);
+      ctx.restore();
+      drawTextAndFinish(photoH);
+    };
+    img.onerror = function(){
+      var photoH = Math.round(H*0.35);
+      ctx.fillStyle = '#E8EEFF'; ctx.fillRect(0,0,W,photoH);
+      drawTextAndFinish(photoH);
+    };
+    img.src = imgSrc;
+  }else{
+    var photoH = Math.round(H*0.35);
+    ctx.fillStyle = '#E8EEFF'; ctx.fillRect(0,0,W,photoH);
+    ctx.fillStyle = '#6B7280';
+    ctx.font = '500 30px Outfit, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('No image for this word yet', W/2, photoH/2);
+    ctx.textAlign = 'left';
+    drawTextAndFinish(photoH);
+  }
+}
+function exportFlashcardPNG(index){
+  var w = WORDS[index];
+  if(!w) return;
+  drawFlashcardCanvas(w, function(canvas){
+    var link = document.createElement('a');
+    var safeName = w.term.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+    link.download = 'flashcard-'+safeName+'.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  });
+}
+function exportAllFlashcardsPNG(){
+  if(!WORDS.length) return;
+  var i = 0;
+  function next(){
+    if(i >= WORDS.length) return;
+    exportFlashcardPNG(i);
+    i++;
+    setTimeout(next, 450);
+  }
+  next();
+}
+function onFlashImageWrapClick(e){
+  if(!vocabEditMode) return;
+  e.stopPropagation();
+  if(e.target.closest('.flash-image-remove')) return;
+  document.getElementById('flashImageInput').click();
+}
+document.getElementById('flashImageInput').addEventListener('change', function(){
+  var f = this.files && this.files[0];
+  if(f) readFlashImageFile(f);
+  this.value = '';
+});
+function handleFlashImageDrop(e){
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  if(!vocabEditMode) return;
+  var f = e.dataTransfer.files && e.dataTransfer.files[0];
+  if(f && f.type.indexOf('image/')===0) readFlashImageFile(f);
+}
+function readFlashImageFile(file){
+  var reader = new FileReader();
+  reader.onload = function(e){
+    var img = new Image();
+    img.onload = function(){
+      var maxW = 900;
+      var scale = Math.min(1, maxW/img.width);
+      var w = Math.round(img.width*scale), h = Math.round(img.height*scale);
+      var canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      var term = WORDS[flashIndex].term.toLowerCase();
+      FLASH_IMG_OVERRIDES[term] = canvas.toDataURL('image/jpeg', .85);
+      saveFlashImages();
+      renderFlashcards();
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+function removeFlashImage(){
+  var term = WORDS[flashIndex].term.toLowerCase();
+  FLASH_IMG_OVERRIDES[term] = null;
+  saveFlashImages();
+  renderFlashcards();
+}
+function presentVocabFlashcards(){
+  switchVTab('flash');
+  presentSection('vocab');
+}
 function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
 function escRe(s){ return String(s).replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
 function shuffle(arr){
@@ -1745,87 +2031,31 @@ var LISTEN_KEY = 'jpe_traveladv_listening';
 function ln(speaker, name, text){ return {speaker:speaker, name:name, text:text}; }
 var DEFAULT_LISTEN = [
   {
-    title: 'Where Should We Actually Go?',
-    subtitle: 'Two friends picking a last-minute trip',
-    targetPhrases: ['off the beaten track','a hidden gem','a tourist trap','itchy feet','set off'],
+    title: 'Two Very Different Trips',
+    subtitle: "Two friends can't agree on what kind of holiday they actually want",
+    targetPhrases: ['off the beaten path','a hidden gem','itchy feet','a coolcation','a package holiday','on a shoestring','pack it all in','soak up the sun'],
     audio: null,
     questions: [
-      'What does Jess suggest instead of the usual popular destinations?',
-      'What is James worried about with a less obvious location?',
-      'What does James want to avoid this time, based on their last trip?'
+      "Why doesn't Jess want another package holiday this time?",
+      "What does travelling 'on a shoestring' involve, according to Jess?",
+      'What does James say he really needed, by the end of the conversation?'
     ],
     lines: [
-      ln('a','Jess',"Okay, so I looked at flights last night and honestly, everywhere reasonable is either booked out or triple the price."),
-      ln('b','James',"[sighs] Yeah, I figured. Everyone's had the same idea for half-term."),
-      ln('a','Jess',"What if we just went somewhere less obvious? Like, actually off the beaten track for once."),
-      ln('b','James',"I'm listening. Where were you thinking?"),
-      ln('a','Jess',"There's this town in northern Portugal. Barely any tourists, apparently it's a real hidden gem. My cousin went last year and couldn't stop talking about it."),
-      ln('b','James',"[laughs] Hmm. I do like the sound of that, but I also don't want to end up somewhere with nothing to do."),
-      ln('a','Jess',"It's not that remote. There's a proper old town, decent food, a river you can swim in. It's just not on everyone's radar yet."),
-      ln('b','James',"Hmm, fair enough. What about flights though? Is it even worth the hassle if we have to change three times?"),
-      ln('a','Jess',"One stop, actually. It's dead cheap too, cheaper than most of the \"obvious\" places."),
-      ln('b','James',"[chuckles] Okay, you're selling it. Honestly, after last year I've had itchy feet for months. I just want to go somewhere."),
-      ln('a','Jess',"Same. Let's just book it before it sells out and someone else discovers it."),
-      ln('b','James',"Deal. What time should we set off, do you think? If we get an early flight we'd have a full day when we land."),
-      ln('a','Jess',"Good point. Let's check the first one out. And can we actually avoid the tourist trap restaurants this time? Last trip we paid nine euros for a coffee."),
-      ln('b','James',"[laughs] I promise. We'll ask locals, not just walk into whatever's near the main square."),
-      ln('a','Jess',"Perfect. Right, dates.")
-    ]
-  },
-  {
-    title: "This Room Isn't What We Booked",
-    subtitle: 'Two colleagues arrive to find their hotel is not what was promised',
-    targetPhrases: ['not what we signed up for','kick up a fuss','get to the bottom of it','hold my tongue','make a scene'],
-    audio: null,
-    questions: [
-      'What is Priya\'s main complaint about the room?',
-      'Why does Tom hesitate to complain?',
-      'What do Priya and Tom agree to ask for if no better room is available?'
-    ],
-    lines: [
-      ln('a','Priya',"Okay, this is not what the website showed. There's no sea view, and it's basically a broom cupboard."),
-      ln('b','Tom',"[sighs] Yeah, I noticed. And didn't they promise a king bed? This is definitely two singles pushed together."),
-      ln('a','Priya',"This is honestly not what we signed up for. We paid extra for the upgrade."),
-      ln('b','Tom',"Hmm, should we go back down and say something, or just let it go? I hate confrontation."),
-      ln('a','Priya',"No way, we've got to kick up a fuss about this. Otherwise nothing changes and we're just out of pocket for nothing."),
-      ln('b','Tom',"[chuckles] Fair enough. You're better at this than me anyway. I always end up holding my tongue."),
-      ln('a','Priya',"Let's just go down calmly and get to the bottom of it. Maybe it's a booking mix-up."),
-      ln('b','Tom',"True. I don't want to make a scene in front of other guests though."),
-      ln('a','Priya',"We won't. We'll just explain clearly what we paid for and ask what they can do."),
-      ln('b','Tom',"[exhales] Okay. What if they say the hotel's fully booked and there's nothing else?"),
-      ln('a','Priya',"Then we ask for a partial refund for the difference. That's fair, and reasonable."),
-      ln('b','Tom',"Good plan. Honestly I just want to unpack and stop standing in this tiny room arguing."),
-      ln('a','Priya',"Same. Right, phone's in my bag, let's head down before I lose my nerve."),
-      ln('b','Tom',"[laughs] Go on then. I'll back you up, promise."),
-      ln('a','Priya',"Perfect. Let's go.")
-    ]
-  },
-  {
-    title: 'The Holiday From Hell',
-    subtitle: 'Two old friends look back on a trip that went completely wrong',
-    targetPhrases: ['everything that could go wrong, did','at the end of my tether','make the best of a bad situation','we can laugh about it now','it was a nightmare'],
-    audio: null,
-    questions: [
-      "What went wrong with Sam and Nadia's flight?",
-      'What did they discover about the apartment when they arrived?',
-      'According to Nadia, what was the final straw?'
-    ],
-    lines: [
-      ln('a','Sam',"Do you remember that trip to Greece? Honestly, it was a nightmare from start to finish."),
-      ln('b','Nadia',"[laughs] Oh no, don't remind me. Everything that could go wrong, did."),
-      ln('a','Sam',"It started with the flight being cancelled, then the replacement one was delayed six hours."),
-      ln('b','Nadia',"And then we landed at two in the morning and the taxi never showed up."),
-      ln('a','Sam',"[sighs] Right, and we had to walk with our suitcases because nothing was open."),
-      ln('b','Nadia',"Hmm, and then the apartment wasn't even the one we booked. Completely different building."),
-      ln('a','Sam',"By day three I was at the end of my tether. I just wanted one thing to go right."),
-      ln('b','Nadia',"[chuckles] Then the food poisoning happened. That was the final straw for me."),
-      ln('a','Sam',"We tried to make the best of a bad situation though, didn't we? We still found that little beach."),
-      ln('b','Nadia',"True. That one afternoon was actually lovely, before everything fell apart again."),
-      ln('a','Sam',"[laughs] And the car breaking down on the way to the airport. Classic."),
-      ln('b','Nadia',"We can laugh about it now, but at the time I could have cried."),
-      ln('a','Sam',"Honestly, would you ever go back? Or is it cursed forever in your memory?"),
-      ln('b','Nadia',"[exhales] Maybe one day. Not this year though. I need a break from that break."),
-      ln('a','Sam',"Fair enough. Let's just book somewhere boring next time.")
+      ln('a','Jess',"Okay, I'll be honest, I've had itchy feet for weeks now. I just need to go somewhere."),
+      ln('b','James',"[laughs] Same, actually. What are you thinking? Another package holiday, flights and hotel all sorted for us?"),
+      ln('a','Jess',"No, not this time. I want to go properly off the beaten path, somewhere nobody we know has been."),
+      ln('b','James',"Interesting. Any ideas, or is this just a feeling so far?"),
+      ln('a','Jess',"My cousin found this tiny fishing village in Albania. Total hidden gem apparently, barely any tourists at all."),
+      ln('b','James',"[sighs] Sounds nice, but doesn't somewhere like that end up expensive just to get to?"),
+      ln('a','Jess',"Not if we do it properly. We could travel on a shoestring, buses instead of taxis, guesthouses instead of hotels."),
+      ln('b','James',"Honestly, part of me just wants to pack it all in for a month and disappear completely. Work's been brutal."),
+      ln('a','Jess',"[chuckles] So come with me. First few days we just soak up the sun on the coast, then head inland and explore properly."),
+      ln('b','James',"What about the heat, though? Everyone I know is doing a coolcation this year, somewhere cooler, less crowded."),
+      ln('a','Jess',"We can find somewhere with both, mountains and coast. That's the whole point of going off the beaten path, you get to choose."),
+      ln('b','James',"[laughs] Alright, alright, you're winning me over. Send me everything tonight."),
+      ln('a','Jess',"Perfect. No package holiday nonsense this time, just us figuring it out as we go."),
+      ln('b','James',"Deal. Honestly, I think I just needed someone to actually book something instead of talking about it."),
+      ln('a','Jess',"Same. Right, let's actually do this.")
     ]
   }
 ];
@@ -2239,12 +2469,14 @@ var UOE_KEY = 'jpe_traveladv_uoe_items';
 /* real KWT format: sentence1 (unchanged) + key word + sentence2 with a ___ gap;
    answer is 2-5 words and must include the key word unchanged */
 var DEFAULT_UOE = [
-  {key:'TRACK', s1:'They avoided all the busy tourist routes and explored quieter parts of the island.', s2:'They explored quieter parts of the island, staying completely ___ the busy routes.', answer:'off the beaten track'},
+  {key:'PATH', s1:'They avoided all the busy tourist routes and explored quieter parts of the island.', s2:'They explored quieter parts of the island, staying completely ___ the busy routes.', answer:'off the beaten path'},
   {key:'GEM', s1:'Hardly anyone knows about this brilliant little restaurant.', s2:'This little restaurant is a real ___ that hardly anyone knows about.', answer:'hidden gem'},
   {key:'FEET', s1:'He has always wanted to travel and never stays in one place for long.', s2:'He has always had ___ and never stays in one place for long.', answer:'itchy feet'},
-  {key:'TRAP', s1:'That café by the station only exists to overcharge visitors.', s2:'That café by the station is a ___.', answer:'tourist trap'},
-  {key:'FOOTPRINT', s1:"Flying contributes more to an individual's environmental impact than almost anything else.", s2:"Flying is one of the biggest contributors to an individual's ___.", answer:'carbon footprint'},
-  {key:'UNSPOILT', s1:'Decades of nearby tourism have never touched this beach.', s2:'This beach remains ___, despite decades of tourism nearby.', answer:'completely unspoilt'}
+  {key:'COOLCATION', s1:'This year they chose a holiday somewhere cool instead of somewhere hot.', s2:'This year they went on a ___ instead of a beach holiday.', answer:'coolcation'},
+  {key:'PACKAGE', s1:'Everything, flights, hotel and meals, was booked together as one deal.', s2:'Everything was booked together as one ___, including flights, hotel and meals.', answer:'package holiday'},
+  {key:'SHOESTRING', s1:'They travelled around the country spending almost no money at all.', s2:'They travelled around the country ___, spending almost no money at all.', answer:'on a shoestring'},
+  {key:'PACK', s1:'She quit her job completely to go travelling for a year.', s2:'She decided to ___ and go travelling for a year.', answer:'pack it all in'},
+  {key:'SOAK', s1:'They spent the whole holiday relaxing in the warm weather on the beach.', s2:'They spent the whole holiday doing nothing but ___ on the beach.', answer:'soak up the sun'}
 ];
 function loadUoe(){
   try{ var raw = localStorage.getItem(UOE_KEY); if(raw){ var p = JSON.parse(raw); if(Array.isArray(p) && p.length && p[0].s2!==undefined) return p; } }catch(e){}
@@ -2434,10 +2666,9 @@ function saveHeroText(){
 /* ---------- hero banner image ---------- */
 var HERO_KEY = 'jpe_traveladv_hero_image';
 var HERO_POS_KEY = 'jpe_traveladv_hero_image_pos';
-var DEFAULT_HERO_IMAGE = 'data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%201600%20500%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22sky%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23E8EEFF%22/%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23F7F7F5%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%221600%22%20height%3D%22500%22%20fill%3D%22url%28%23sky%29%22/%3E%3Ccircle%20cx%3D%221310%22%20cy%3D%22130%22%20r%3D%2266%22%20fill%3D%22%232176FF%22%20opacity%3D%220.85%22/%3E%3Cpath%20d%3D%22M110%20400%20Q%20470%20140%20980%20220%20T%201470%20150%22%20fill%3D%22none%22%20stroke%3D%22%231657C9%22%20stroke-width%3D%223%22%20stroke-dasharray%3D%229%2011%22%20opacity%3D%220.5%22/%3E%3Cg%20transform%3D%22translate%281445%2C142%29%20rotate%28-18%29%22%3E%3Cpath%20d%3D%22M0%200%20L30%2011%20L0%2022%20L7%2011%20Z%22%20fill%3D%22%231A1A2E%22/%3E%3C/g%3E%3Cpath%20d%3D%22M0%20430%20L190%20300%20L350%20400%20L520%20270%20L700%20400%20L910%20310%20L1110%20410%20L1320%20320%20L1600%20420%20L1600%20500%20L0%20500%20Z%22%20fill%3D%22%23CCFBF1%22%20opacity%3D%220.55%22/%3E%3Cpath%20d%3D%22M0%20470%20L170%20360%20L330%20440%20L560%20310%20L790%20440%20L1010%20340%20L1260%20450%20L1600%20380%20L1600%20500%20L0%20500%20Z%22%20fill%3D%22%2349B6FF%22%20opacity%3D%220.30%22/%3E%3Cpath%20d%3D%22M0%20500%20L0%20460%20Q%20300%20400%20600%20460%20T%201200%20450%20T%201600%20470%20L1600%20500%20Z%22%20fill%3D%22%230D9488%22%20opacity%3D%220.22%22/%3E%3Cpath%20d%3D%22M300%20500%20C%20380%20430%2C%20300%20380%2C%20420%20330%20S%20620%20260%2C%20560%20190%20S%20750%2090%2C%20700%2040%22%20fill%3D%22none%22%20stroke%3D%22%23FFFFFF%22%20stroke-width%3D%2215%22%20stroke-linecap%3D%22round%22%20opacity%3D%220.9%22/%3E%3Cpath%20d%3D%22M300%20500%20C%20380%20430%2C%20300%20380%2C%20420%20330%20S%20620%20260%2C%20560%20190%20S%20750%2090%2C%20700%2040%22%20fill%3D%22none%22%20stroke%3D%22%231A1A2E%22%20stroke-width%3D%2215%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%222%2024%22%20opacity%3D%220.45%22/%3E%3C/svg%3E';
-var heroImage = DEFAULT_HERO_IMAGE;
+var heroImage = null;
 var heroPos = {x:50, y:50};
-try{ var _hi = localStorage.getItem(HERO_KEY); if(_hi) heroImage = _hi; }catch(e){}
+try{ heroImage = localStorage.getItem(HERO_KEY); }catch(e){}
 try{ var _hp = JSON.parse(localStorage.getItem(HERO_POS_KEY)); if(_hp) heroPos = _hp; }catch(e){}
 function renderHeroImage(){
   var slot = document.getElementById('heroImageSlot');
@@ -2532,15 +2763,16 @@ function readHeroFile(file){
 }
 
 /* ---------- wiring ---------- */
-function renderDerived(){ initMatching(); renderGapFill(); renderSwap(); }
+function renderDerived(){ initMatching(); renderGapFill(); renderFlashcards(); renderSwap(); }
 function renderAll(){ renderWordBank(); renderDerived(); renderPeopleEdit(); renderGallery(); renderDebates(); renderRP(); renderListen(); renderResources(); renderUoeEdit(); renderUoE(); }
 
-var vTabBtnIds = {edit:'tabEdit', match:'tabMatch', gf:'tabGF'};
+var vTabBtnIds = {edit:'tabEdit', flash:'tabFlash', match:'tabMatch', gf:'tabGF'};
 function switchVTab(id){
   Object.keys(vTabBtnIds).forEach(function(t){
     document.getElementById('panel-'+t).classList.toggle('show', t===id);
     document.getElementById(vTabBtnIds[t]).classList.toggle('on', t===id);
   });
+  if(id==='flash') renderFlashcards();
   if(id==='match') initMatching();
   if(id==='gf') renderGapFill();
 }
@@ -2550,7 +2782,8 @@ function toggleVocabEditMode(){
   vocabEditMode = !vocabEditMode;
   document.getElementById('vocabEditToggle').classList.toggle('on', vocabEditMode);
   document.getElementById('tabEdit').style.display = vocabEditMode ? '' : 'none';
-  if(!vocabEditMode && document.getElementById('tabEdit').classList.contains('on')) switchVTab('match');
+  if(!vocabEditMode && document.getElementById('tabEdit').classList.contains('on')) switchVTab('flash');
+  renderFlashcards();
 }
 
 var tabIds = ['warmup','vocab','main','swap','debates','roleplay','listening','uoe','write','resources'];
