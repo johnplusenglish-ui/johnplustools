@@ -44,18 +44,20 @@ a{color:var(--accent);text-decoration:none}
 .pn-mods button{flex:1;min-width:0;border:0;background:transparent;color:var(--muted);font-weight:700;font-size:.8rem;letter-spacing:.01em;padding:.5rem .3rem;border-radius:8px;display:flex;align-items:center;justify-content:center;transition:background .18s ease,color .18s ease,box-shadow .18s ease}
 .pn-mods button:not(.on):hover{color:var(--ink)}
 .pn-mods button.on{background:var(--card);color:var(--mod-accent);box-shadow:0 1px 2px rgba(45,48,71,.14),0 1px 1px rgba(45,48,71,.06)}
-.pn-eyebrow{font-family:var(--sans);font-size:.58rem;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);padding:0 .35rem .55rem;opacity:.75}
-.pn-menu{display:flex;flex-direction:column;gap:1px}
-.nav-sec-head{font-family:var(--sans);font-size:.72rem;font-weight:800;letter-spacing:.085em;text-transform:uppercase;color:var(--muted);padding:.62rem .7rem;cursor:pointer;background:transparent;border:0;border-radius:9px;display:flex;align-items:center;justify-content:space-between;gap:.5rem;width:100%;text-align:left;transition:background .12s ease,color .12s ease}
-.nav-sec-head:hover{background:color-mix(in srgb,var(--ink) 5%,var(--card));color:var(--ink)}
-.nav-sec.open>.nav-sec-head{color:var(--accent)}
-.nav-sec-head .sec-chev{width:13px;height:13px;flex-shrink:0;color:currentColor;opacity:.65;transition:transform .18s ease}
-.nav-sec-head .sec-chev svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:2.6}
-.nav-sec.open>.nav-sec-head .sec-chev{transform:rotate(180deg);opacity:1}
-.nav-sec-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .16s ease}
-.nav-sec-body>div{overflow:hidden}
-.nav-sec.open .nav-sec-body{grid-template-rows:1fr}
-.nav-sub{display:flex;flex-direction:column;gap:1px;padding:.2rem 0 .5rem}
+.pn-eyebrow{font-family:var(--sans);font-size:.58rem;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);padding:0 .5rem .5rem}
+/* primary section list */
+.sect-nav{display:flex;flex-direction:column;gap:2px}
+.sect{display:flex;align-items:center;gap:.7rem;width:100%;padding:.6rem .75rem;border:0;background:none;border-radius:10px;cursor:pointer;font-family:var(--sans);font-size:.9rem;font-weight:600;color:var(--ink);text-align:left;transition:background .12s ease,color .12s ease,box-shadow .12s ease}
+.sect:hover{background:color-mix(in srgb,var(--ink) 5%,var(--card))}
+.sect.active{background:var(--accent);color:#fff;font-weight:700;box-shadow:0 4px 12px -3px var(--accent-shadow)}
+.sect-ic{width:18px;height:18px;flex-shrink:0;display:flex;color:var(--muted)}
+.sect:hover .sect-ic{color:var(--ink)}
+.sect.active .sect-ic{color:#fff}
+.sect-ic svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.85}
+.sect .sect-label{flex:1;min-width:0}
+.pn-rule{height:1px;background:var(--border);margin:1rem .3rem .85rem}
+.contents{display:flex;flex-direction:column;gap:1px}
+.book-label{font-family:var(--sans);font-size:.66rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding:.65rem .75rem .3rem 1.55rem}
 
 .app-main{flex:1;min-width:0}
 .wrap{max-width:960px;margin:0 auto;padding:2rem 2.5rem 4rem}
@@ -116,7 +118,7 @@ a{color:var(--accent);text-decoration:none}
 .part-rows{display:flex;flex-direction:column;gap:1px;padding:.25rem 0 .55rem;margin:.15rem 0 .4rem .6rem;border-left:1.5px solid transparent}
 .part-group.open>.part-body .part-rows{border-left-color:var(--accent-light)}
 .part-rows>.guide-nav-item{padding-left:.75rem}
-.part-rows .level-toggle{padding-left:.75rem}
+.part-rows>.guide-nav-item.chap-row{padding-left:1.55rem}
 
 .wb-pane{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-md);overflow:hidden;min-width:0}
 .wb-pane-head{padding:1rem 1.25rem .8rem;border-bottom:1.5px solid var(--border)}
@@ -281,8 +283,10 @@ a{color:var(--accent);text-decoration:none}
 <div class="app-row">
   <aside class="primary-nav">
     <div class="pn-mods" id="modSwitch"></div>
-    <div class="pn-eyebrow">Study materials</div>
-    <nav class="pn-menu" id="navSections"></nav>
+    <nav class="sect-nav" id="sectionNav"></nav>
+    <div class="pn-rule"></div>
+    <div class="pn-eyebrow" id="contentsLabel">Contents</div>
+    <nav class="contents" id="contents"></nav>
   </aside>
   <main class="app-main">
 <div class="wrap">
@@ -570,64 +574,36 @@ function renderSwitch(){
 }
 function chapTitle(h){ return h.replace(/^\s*\d+(\.\d+)*\.?\s*/,'').trim(); }
 
-/* ---------- UNIFIED SIDEBAR: one menu, expandable sub-menus ---------- */
+/* ---------- SIDEBAR: flat section list + contents of the active section ---------- */
+const SECT_LABELS={course:'Course contents',assignment:'Assignment steps',textbook:'Textbook chapters',cards:'Flashcard sets',quiz:'Quiz topics',glossary:'Glossary'};
 function renderNavSections(){
-  const wrap=$('#navSections'); wrap.innerHTML='';
+  const nav=$('#sectionNav'); nav.innerHTML='';
   [['course','Course'],['assignment','Assignment'],['textbook','Textbook'],['cards','Flashcards'],['quiz','Quiz'],['glossary','Glossary']].forEach(([id,label])=>{
-    const sec=el('div','nav-sec'+(id===openSection?' open':''));
-    const head=el('button','nav-sec-head',`<span class="lbl">${label}</span><span class="sec-chev">${IC.chevD}</span>`);
-    head.style.setProperty('--tab-accent',ACCENTS[curMod].a);
-    head.onclick=()=>{
-      openSection = (id===openSection) ? null : id;
-      renderNavSections();
-    };
-    sec.appendChild(head);
-    const body=el('div','nav-sec-body'); const sub=el('div','nav-sub');
-    body.appendChild(sub); sec.appendChild(body);
-    wrap.appendChild(sec);
-    if(id===openSection) fillSubNav(id,sub);
+    const b=el('button','sect'+(id===curTab?' active':''),`<span class="sect-ic">${IC[id]}</span><span class="sect-label">${label}</span>`);
+    b.onclick=()=>{ curTab=id; renderNavSections(); renderMainPane(); };
+    nav.appendChild(b);
   });
-}
-function fillSubNav(id,sub){
-  if(id==='course') subNavCourse(sub);
-  else if(id==='assignment') subNavAssignment(sub);
-  else if(id==='textbook') subNavTextbook(sub);
-  else subNavFilter(sub,id);
+  const lbl=$('#contentsLabel'); if(lbl) lbl.textContent=SECT_LABELS[curTab]||'Contents';
+  const co=$('#contents'); co.innerHTML='';
+  if(curTab==='course') contentsCourse(co);
+  else if(curTab==='textbook') subNavTextbook(co);
+  else if(curTab==='assignment') subNavAssignment(co);
+  else subNavFilter(co,curTab);
 }
 function renderMainPane(){
   ({course:paneCourse,assignment:paneAssignment,textbook:paneTextbook,cards:paneCards,quiz:paneQuiz,glossary:paneGlossary}[curTab])();
 }
 
-/* ---------- COURSE (spine) ---------- */
+/* ---------- COURSE contents (flat: parts collapse, books are labels) ---------- */
 function splitPart(p){ const i=p.indexOf(': '); return i<0 ? [p,''] : [p.slice(0,i), p.slice(i+2)]; }
-function bookFolder(si,ri){
-  const s=COURSE[curMod].sections[si]; const bk=MODBOOKS[(s.readings||[])[ri]]; if(!bk) return null;
-  const bOpen=!!(sel.openBook && sel.openBook.si===si && sel.openBook.ri===ri);
-  const grp=el('div','level-group'+(bOpen?' open':''));
-  const head=el('button','level-toggle',`<span class="fold">${IC.chevR}</span><span class="label">${bk.title}</span>`);
-  head.onclick=()=>{ sel.openBook=bOpen?null:{si,ri}; sel.openPart=si; renderNavSections(); };
-  grp.appendChild(head);
-  const body=el('div','level-body'); const rows=el('div','level-rows');
-  bk.notes.forEach((n,i)=>{
-    const active=!!(sel.book && sel.book.si===si && sel.book.ri===ri && sel.bch===i);
-    const cb=el('button','guide-nav-item'+(active?' active':''),`<span class="chap-mini">${i+1}</span><span class="label">${chapTitle(n.h)}</span>`);
-    cb.onclick=()=>{curTab='course';sel.book={si,ri};sel.bch=i;sel.openBook={si,ri};sel.openPart=si;renderNavSections();renderMainPane();};
-    rows.appendChild(cb);
-  });
-  body.appendChild(rows); grp.appendChild(body);
-  return grp;
-}
 function leaf(active,label,dueTag,click){
   const b=el('button','guide-nav-item'+(active?' active':''),`<span class="guide-nav-dot"></span><span class="label">${label}</span>${dueTag?`<span class="trail"><span class="nav-k due">${dueTag}</span></span>`:''}`);
   b.onclick=click; return b;
 }
-function subNavCourse(sub){
-  sub.innerHTML='';
+function contentsCourse(co){
   const C=COURSE[curMod];
   if(!/^\d+\.(ov|as)$/.test(sel.course||'')) sel.course='0.ov';
-  // Module overview = single top item (section 0)
-  sub.appendChild(leaf(sel.course==='0.ov','Module overview',null,()=>{curTab='course';sel.course='0.ov';sel.book=null;renderNavSections();renderMainPane();}));
-  // Every other section = a collapsible Part folder
+  co.appendChild(leaf(sel.course==='0.ov','Module overview',null,()=>{sel.course='0.ov';sel.book=null;renderNavSections();renderMainPane();}));
   C.sections.forEach((s,si)=>{
     if(si===0) return;
     const partOpen=(sel.openPart===si);
@@ -638,14 +614,23 @@ function subNavCourse(sub){
     head.onclick=()=>{ sel.openPart=partOpen?null:si; renderNavSections(); };
     grp.appendChild(head);
     const body=el('div','part-body'); const rows=el('div','part-rows');
-    if(s.ov) rows.appendChild(leaf(sel.course===si+'.ov','Overview',null,()=>{curTab='course';sel.course=si+'.ov';sel.book=null;sel.openPart=si;renderNavSections();renderMainPane();}));
-    (s.readings||[]).forEach((rk,ri)=>{ const f=bookFolder(si,ri); if(f) rows.appendChild(f); });
-    if(s.assign) rows.appendChild(leaf(sel.course===si+'.as','Assignment',s.assign.due?'Due':'',()=>{curTab='course';sel.course=si+'.as';sel.book=null;sel.openPart=si;renderNavSections();renderMainPane();}));
+    if(s.ov) rows.appendChild(leaf(sel.course===si+'.ov','Overview',null,()=>{sel.course=si+'.ov';sel.book=null;sel.openPart=si;renderNavSections();renderMainPane();}));
+    (s.readings||[]).forEach((rk,ri)=>{
+      const bk=MODBOOKS[rk]; if(!bk) return;
+      rows.appendChild(el('div','book-label',bk.title));
+      bk.notes.forEach((n,i)=>{
+        const active=!!(sel.book && sel.book.si===si && sel.book.ri===ri && sel.bch===i);
+        const cb=el('button','guide-nav-item chap-row'+(active?' active':''),`<span class="chap-mini">${i+1}</span><span class="label">${chapTitle(n.h)}</span>`);
+        cb.onclick=()=>{sel.book={si,ri};sel.bch=i;sel.openPart=si;renderNavSections();renderMainPane();};
+        rows.appendChild(cb);
+      });
+    });
+    if(s.assign) rows.appendChild(leaf(sel.course===si+'.as','Assignment',s.assign.due?'Due':'',()=>{sel.course=si+'.as';sel.book=null;sel.openPart=si;renderNavSections();renderMainPane();}));
     body.appendChild(rows); grp.appendChild(body);
-    sub.appendChild(grp);
+    co.appendChild(grp);
   });
 }
-function openBook(si,ri){ curTab='course'; sel.book={si:+si,ri:+ri}; sel.bch=0; sel.openBook={si:+si,ri:+ri}; sel.openPart=+si; renderNavSections(); renderMainPane(); }
+function openBook(si,ri){ curTab='course'; sel.book={si:+si,ri:+ri}; sel.bch=0; sel.openPart=+si; renderNavSections(); renderMainPane(); }
 function goPart(key){ curTab='course'; sel.course=key; sel.openPart=+key.split('.')[0]; renderNavSections(); renderMainPane(); }
 function paneCourse(){
   if(sel.book) return paneBookChapter();
