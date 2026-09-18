@@ -31,7 +31,8 @@ button{font-family:inherit;cursor:pointer}
 a{color:var(--accent);text-decoration:none}
 
 .app-row{display:flex;align-items:flex-start;max-width:1220px;margin:0 auto;padding:1.5rem 2rem 4rem;gap:1.5rem}
-.primary-nav{width:250px;flex-shrink:0;background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-md);position:sticky;top:1.5rem;max-height:calc(100vh - 3rem);overflow-y:auto;padding:1.1rem .9rem}
+.primary-nav{width:280px;flex-shrink:0;background:var(--card);border:0;border-right:1.5px solid var(--border);box-shadow:2px 0 12px rgba(45,48,71,.05);position:sticky;top:1.5rem;max-height:calc(100vh - 3rem);overflow-y:auto;overflow-x:hidden;padding:1.1rem 1rem;scrollbar-width:none}
+.primary-nav::-webkit-scrollbar{display:none}
 .pn-logo{display:flex;align-items:center;gap:.7rem;padding:0 .15rem .9rem}
 .topic-icon{width:40px;height:40px;border-radius:var(--radius-sm);background:var(--accent-light);color:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .topic-icon svg{width:21px;height:21px;stroke-width:1.8;fill:none;stroke:currentColor}
@@ -46,35 +47,41 @@ a{color:var(--accent);text-decoration:none}
 .pn-mods button.on small{color:var(--mod-accent)}
 .pn-divider{height:1.5px;background:var(--border);margin:0 -.9rem .8rem}
 .pn-menu{display:flex;flex-direction:column;gap:2px}
-.nav-sec-head{font-family:var(--sans);font-size:.76rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--ink);padding:.8rem .85rem;cursor:pointer;background:transparent;border:1.5px solid transparent;border-radius:10px;display:flex;align-items:center;justify-content:space-between;gap:.5rem;width:100%;text-align:left;transition:border-color .15s}
+.nav-sec-head{font-family:var(--sans);font-size:.74rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--ink);padding:.65rem .8rem;cursor:pointer;background:transparent;border:1px solid transparent;border-radius:8px;display:flex;align-items:center;justify-content:space-between;gap:.5rem;width:100%;text-align:left;transition:background .08s linear,border-color .08s ease-out}
+.nav-sec-head:hover{background:color-mix(in srgb,var(--ink) 6%,var(--card))}
 .nav-sec.open>.nav-sec-head{border-color:var(--accent)}
-.nav-sec-head .sec-chev{width:11px;height:11px;stroke-width:3;fill:none;stroke:var(--muted);flex-shrink:0;transition:transform .2s}
+.nav-sec-head .sec-chev{font-size:.7rem;color:var(--muted);flex-shrink:0;transition:transform .06s ease-out}
 .nav-sec.open>.nav-sec-head .sec-chev{transform:rotate(180deg)}
-.nav-sec-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .22s ease}
+.nav-sec-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .12s ease-out}
 .nav-sec-body>div{overflow:hidden}
 .nav-sec.open .nav-sec-body{grid-template-rows:1fr}
-.nav-sub{display:flex;flex-direction:column;gap:1px;padding:.3rem .1rem .5rem}
+.nav-sub{display:flex;flex-direction:column;gap:1px;padding:.3rem .1rem .3rem}
 
 .app-main{flex:1;min-width:0}
 .wrap{max-width:960px;padding:0 0 4rem}
 .content-area{display:none}
 .content-area.active{display:block}
 
-.guide-nav-group-label{font-family:var(--sans);font-size:.6rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:.65rem .85rem .25rem}
+.guide-nav-group-label{font-family:var(--sans);font-size:.6rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:.65rem .9rem .25rem}
 .guide-nav-group-label:first-child{padding-top:.15rem}
-.guide-nav-item{display:flex;align-items:center;gap:.65rem;padding:.58rem .85rem;border-radius:8px;cursor:pointer;font-family:var(--sans);color:var(--ink);border:0;background:none;transition:color .15s;text-align:left;width:100%;font-size:.85rem;font-weight:700;line-height:1.3}
-.guide-nav-item:hover{color:var(--accent)}
-.guide-nav-item.active{color:var(--accent)}
+.guide-nav-item{display:flex;align-items:center;gap:.7rem;padding:.68rem .9rem;border-radius:8px;cursor:pointer;font-family:var(--sans);color:var(--ink);border:0;background:none;transition:background .04s linear,color .04s linear;text-align:left;width:100%;font-size:.85rem;font-weight:700;line-height:1.6}
+.guide-nav-item:hover{background:color-mix(in srgb,var(--ink) 6%,var(--card))}
+.guide-nav-item.active{background:var(--accent);color:#fff}
 .guide-nav-item .label{flex:1;min-width:0}
-.guide-nav-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0}
+.guide-nav-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0}
+.guide-nav-item.active .guide-nav-dot{background:#fff}
 .guide-nav-item .chap-mini{min-width:20px;height:18px;padding:0 4px;border-radius:5px;background:var(--accent-light);color:var(--accent);font-size:.62rem;font-weight:800;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.guide-nav-item.active .chap-mini{background:rgba(255,255,255,.25);color:#fff}
 .guide-nav-item.back{color:var(--accent);margin-bottom:.2rem}
+.guide-nav-item.back:hover{background:color-mix(in srgb,var(--ink) 6%,var(--card))}
 .guide-nav-item.back .back-ic{display:flex}
 .guide-nav-item.back .back-ic svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.4}
-.guide-nav-item .trail{margin-left:auto;display:flex;align-items:center;gap:.35rem;flex-shrink:0}
-.guide-nav-item .trail svg{width:13px;height:13px;stroke-width:2.4;fill:none;stroke:var(--muted);flex-shrink:0}
+.guide-nav-item .trail{margin-left:auto;display:flex;align-items:center;gap:.35rem;flex-shrink:0;font-size:.85rem;color:var(--muted);transition:transform .15s}
+.guide-nav-item:hover .trail{transform:translateX(3px)}
+.guide-nav-item.active .trail{color:#fff}
 .guide-nav-item .nav-k{font-size:.58rem;font-weight:800;text-transform:uppercase;letter-spacing:.03em;color:var(--muted)}
 .guide-nav-item .nav-k.due{color:var(--coral-d);background:var(--coral-tint);padding:.02rem .35rem;border-radius:20px}
+.guide-nav-item.active .nav-k.due{color:#fff;background:rgba(255,255,255,.25)}
 
 .wb-pane{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-md);overflow:hidden;min-width:0}
 .wb-pane-head{padding:1rem 1.25rem .8rem;border-bottom:1.5px solid var(--border)}
@@ -532,7 +539,7 @@ function renderNavSections(){
   const wrap=$('#navSections'); wrap.innerHTML='';
   [['course','Course'],['assignment','Assignment'],['textbook','Textbook'],['cards','Flashcards'],['quiz','Quiz'],['glossary','Glossary']].forEach(([id,label])=>{
     const sec=el('div','nav-sec'+(id===openSection?' open':''));
-    const head=el('button','nav-sec-head',`<span class="lbl">${label}</span><span class="sec-chev">${IC.chevD}</span>`);
+    const head=el('button','nav-sec-head',`<span class="lbl">${label}</span><span class="sec-chev">&#9662;</span>`);
     head.style.setProperty('--tab-accent',ACCENTS[curMod].a);
     head.onclick=()=>{
       if(id===openSection){ openSection=null; renderNavSections(); return; }
@@ -566,7 +573,7 @@ function subNavCourse(sub){
     sub.appendChild(back);
     sub.appendChild(el('div','guide-nav-group-label',bk.title));
     bk.notes.forEach((n,i)=>{
-      const b=el('button','guide-nav-item'+(i===sel.bch?' active':''),`<span class="chap-mini">${i+1}</span><span class="label">${chapTitle(n.h)}</span><span class="trail">${IC.chevR}</span>`);
+      const b=el('button','guide-nav-item'+(i===sel.bch?' active':''),`<span class="chap-mini">${i+1}</span><span class="label">${chapTitle(n.h)}</span><span class="trail">&rsaquo;</span>`);
       b.onclick=()=>{sel.bch=i;renderNavSections();renderMainPane();};
       sub.appendChild(b);
     });
@@ -577,7 +584,7 @@ function subNavCourse(sub){
   C.sections.forEach((s,si)=>{
     sub.appendChild(el('div','guide-nav-group-label',s.part.replace(/:.*/,'')));
     const add=(active,label,tag,click)=>{
-      const b=el('button','guide-nav-item'+(active?' active':''),`<span class="guide-nav-dot"></span><span class="label">${label}</span><span class="trail">${tag?`<span class="nav-k ${tag==='Due'?'due':''}">${tag}</span>`:''}${IC.chevR}</span>`);
+      const b=el('button','guide-nav-item'+(active?' active':''),`<span class="guide-nav-dot"></span><span class="label">${label}</span><span class="trail">${tag?`<span class="nav-k ${tag==='Due'?'due':''}">${tag}</span>`:''}&rsaquo;</span>`);
       b.onclick=click; sub.appendChild(b);
     };
     if(s.ov) add(sel.course===si+'.ov','Overview',null,()=>{sel.course=si+'.ov';renderNavSections();renderMainPane();});
@@ -623,7 +630,7 @@ function subNavTextbook(sub){
   if(!hasTextbook()) return;
   if(!(sel.textbook>=1&&sel.textbook<=TEXTBOOK.length)) sel.textbook=1;
   TEXTBOOK.forEach(c=>{
-    const b=el('button','guide-nav-item'+(c.n===sel.textbook?' active':''),`<span class="chap-mini">${c.n}</span><span class="label">${c.title}</span><span class="trail">${IC.chevR}</span>`);
+    const b=el('button','guide-nav-item'+(c.n===sel.textbook?' active':''),`<span class="chap-mini">${c.n}</span><span class="label">${c.title}</span><span class="trail">&rsaquo;</span>`);
     b.onclick=()=>{sel.textbook=c.n;renderNavSections();renderMainPane();};
     sub.appendChild(b);
   });
@@ -645,7 +652,7 @@ function subNavAssignment(sub){
   if(!A) return;
   if(!(sel.assign>=0 && sel.assign<A.steps.length+1)) sel.assign=0;
   const mk=(idx,label)=>{
-    const b=el('button','guide-nav-item'+(idx===sel.assign?' active':''),'<span class="guide-nav-dot"></span><span class="label">'+label+'</span><span class="trail">'+IC.chevR+'</span>');
+    const b=el('button','guide-nav-item'+(idx===sel.assign?' active':''),'<span class="guide-nav-dot"></span><span class="label">'+label+'</span><span class="trail">&rsaquo;</span>');
     b.onclick=()=>{sel.assign=idx;renderNavSections();renderMainPane();};
     sub.appendChild(b);
   };
@@ -689,7 +696,7 @@ function subNavFilter(sub,tabId){
   const dataKey = tabId==='cards' ? 'flashcards' : tabId;
   const cur = sel[tabId];
   const mk=(id,label)=>{
-    const b=el('button','guide-nav-item'+(id===cur?' active':''),'<span class="guide-nav-dot"></span><span class="label">'+label+'</span><span class="trail">'+IC.chevR+'</span>');
+    const b=el('button','guide-nav-item'+(id===cur?' active':''),'<span class="guide-nav-dot"></span><span class="label">'+label+'</span><span class="trail">&rsaquo;</span>');
     b.onclick=()=>{ sel[tabId]=id; if(tabId==='quiz') quizState=null; renderNavSections(); renderMainPane(); };
     sub.appendChild(b);
   };
