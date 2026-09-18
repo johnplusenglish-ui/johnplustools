@@ -578,7 +578,7 @@ function chapTitle(h){ return h.replace(/^\s*\d+(\.\d+)*\.?\s*/,'').trim(); }
 const SECT_LABELS={course:'Course contents',assignment:'Assignment steps',textbook:'Textbook chapters',cards:'Flashcard sets',quiz:'Quiz topics',glossary:'Glossary'};
 function renderNavSections(){
   const nav=$('#sectionNav'); nav.innerHTML='';
-  [['course','Course'],['assignment','Assignment'],['textbook','Textbook'],['cards','Flashcards'],['quiz','Quiz'],['glossary','Glossary']].forEach(([id,label])=>{
+  [['course','Course'],['assignment','Assignment'],['textbook','Textbook'],['glossary','Glossary']].forEach(([id,label])=>{
     const b=el('button','sect'+(id===curTab?' active':''),`<span class="sect-ic">${IC[id]}</span><span class="sect-label">${label}</span>`);
     b.onclick=()=>{ curTab=id; renderNavSections(); renderMainPane(); };
     nav.appendChild(b);
