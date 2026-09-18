@@ -19,7 +19,11 @@
   --sans:'Outfit',system-ui,sans-serif;
 }
 *{box-sizing:border-box}
-html{overflow-y:scroll}
+html{overflow-y:scroll;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+::-webkit-scrollbar{width:7px;height:7px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:20px}
+::-webkit-scrollbar-thumb:hover{background:var(--muted)}
 html,body{margin:0;padding:0}
 body{font-family:var(--sans);color:var(--ink);background:var(--cream);line-height:1.55;-webkit-font-smoothing:antialiased;background-image:radial-gradient(var(--border) .5px,transparent .5px);background-size:15px 15px}
 h1,h2,h3,h4{margin:0;line-height:1.2}
@@ -598,14 +602,14 @@ function paneCourse(){
     let lks=''; if(s.links){ lks='<div class="section-label">On Loop</div>'; let lastG=null; s.links.forEach(l=>{ if(l.group&&l.group!==lastG){lks+=`<div class="resource-group-label">${l.group}</div>`;lastG=l.group;} const href=l.href?(LOOP+l.href):`${LOOP}/mod/${l.type}/view.php?id=${l.id}`; const desc=l.href?'Download from Loop':'Open on Loop'; lks+=`<a class="resource-card" href="${href}" target="_blank" rel="noopener"><div class="resource-card-icon">${IC.ext}</div><div class="resource-card-body"><div class="resource-card-title">${l.t}</div><div class="resource-card-desc">${desc}</div></div><div class="resource-card-arrow">${IC.arrow}</div></a>`; }); }
     html=`<div class="wb-pane-head"><div class="eyebrow">${curMod} &middot; ${COURSE[curMod].name}</div><h2>${s.part}</h2></div><div class="wb-pane-body"><div class="lec">${s.ov}</div>${reads?'<div class="section-label">Reading for this part - pick a book to read its chapters</div>'+reads:''}${asg}${lks}<a class="loop-link" href="${LOOP}/course/section.php?id=${s.secId}" target="_blank" rel="noopener">${IC.ext} Open this Part on Loop</a></div>`;
   }
-  pane.innerHTML=html; window.scrollTo({top:0,behavior:'smooth'});
+  pane.innerHTML=html; window.scrollTo(0,0);
 }
 function paneBookChapter(){
   const {si,ri}=sel.book; const C=COURSE[curMod]; const s=C.sections[si]; const bk=MODBOOKS[(s.readings||[])[ri]]; const n=bk.notes[sel.bch];
   const head=`<div class="chap-h"><div class="chap-n">${sel.bch+1}</div><div><div class="chap-k">Chapter ${sel.bch+1} of ${bk.notes.length}</div><h3>${chapTitle(n.h)}</h3></div></div>`;
   let kp=''; if(n.keypoints&&n.keypoints.length){ kp=`<div class="kp"><span class="lbl">Key points</span><ul>${n.keypoints.map(k=>`<li>${k}</li>`).join('')}</ul></div>`; }
   $('#mainPane').innerHTML=`<div class="wb-pane-head slim"><div class="eyebrow">${bk.title}</div></div><div class="wb-pane-body"><div class="lec"><div class="chap" style="border:0;padding:0;margin:0">${head}${n.html}${kp}</div></div></div>`;
-  window.scrollTo({top:0,behavior:'smooth'});
+  window.scrollTo(0,0);
 }
 
 /* ---------- TEXTBOOK ---------- */
@@ -627,7 +631,7 @@ function paneTextbook(){
   const c=TEXTBOOK.find(x=>x.n===sel.textbook)||TEXTBOOK[0];
   const head=`<div class="chap"><div class="chap-h"><div class="chap-n">${c.n}</div><div><div class="chap-k">Chapter ${c.n} of ${TEXTBOOK.length}</div><h3>${c.title}</h3></div></div></div>`;
   pane.innerHTML=`<div class="wb-pane-head slim"><div class="eyebrow">Introduction to Psychology &middot; Stangor &amp; Walinga, 1st Canadian Edition</div></div><div class="wb-pane-body"><div class="lec">${head}${c.html}</div></div>`;
-  window.scrollTo({top:0,behavior:'smooth'});
+  window.scrollTo(0,0);
 }
 
 /* ---------- ASSIGNMENT WALKTHROUGH ---------- */
@@ -670,7 +674,7 @@ function paneAssignment(){
     html = `<div class="wb-pane-head"><div class="eyebrow">${A.title}</div><h2>Rubric &amp; marking scheme</h2></div><div class="wb-pane-body">${body}</div>`;
   }
   pane.innerHTML=html;
-  window.scrollTo({top:0,behavior:'smooth'});
+  window.scrollTo(0,0);
 }
 
 /* ---------- FLASHCARDS / QUIZ / GLOSSARY (from summaries) ---------- */
