@@ -99,6 +99,25 @@ a{color:var(--accent);text-decoration:none}
 .level-group.open>.level-body .level-rows{border-left-color:var(--border)}
 .level-rows .guide-nav-item{padding-left:.7rem}
 
+.part-group{margin-top:1px}
+.part-toggle{width:100%;display:flex;align-items:flex-start;gap:.55rem;border:0;background:transparent;border-radius:9px;cursor:pointer;padding:.6rem .7rem;text-align:left;transition:background .12s ease}
+.part-toggle:hover{background:color-mix(in srgb,var(--ink) 5%,var(--card))}
+.part-toggle .fold{width:13px;height:13px;flex-shrink:0;margin-top:.3em;color:var(--muted);transition:transform .16s ease}
+.part-group.open>.part-toggle .fold{transform:rotate(90deg);color:var(--accent)}
+.part-toggle .fold svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:2.6}
+.part-toggle .p-txt{display:flex;flex-direction:column;gap:.12rem;min-width:0}
+.part-toggle .p-kick{font-family:var(--sans);font-size:.58rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);transition:color .12s ease}
+.part-group.open>.part-toggle .p-kick{color:var(--accent)}
+.part-toggle .p-name{font-family:var(--sans);font-size:.82rem;font-weight:700;color:var(--ink);line-height:1.3;transition:color .12s ease}
+.part-group.open>.part-toggle .p-name{color:var(--accent)}
+.part-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .16s ease}
+.part-body>div{overflow:hidden}
+.part-group.open>.part-body{grid-template-rows:1fr}
+.part-rows{display:flex;flex-direction:column;gap:1px;padding:.25rem 0 .55rem;margin:.15rem 0 .4rem .6rem;border-left:1.5px solid transparent}
+.part-group.open>.part-body .part-rows{border-left-color:var(--accent-light)}
+.part-rows>.guide-nav-item{padding-left:.75rem}
+.part-rows .level-toggle{padding-left:.75rem}
+
 .wb-pane{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-md);overflow:hidden;min-width:0}
 .wb-pane-head{padding:1rem 1.25rem .8rem;border-bottom:1.5px solid var(--border)}
 .wb-pane-head.slim{padding:.7rem 1.25rem}
@@ -526,7 +545,7 @@ const IC={
 let curMod=localStorage.getItem('dcu_mod')||'PSY1080';
 let curTab='course';
 let openSection='course';
-let sel={course:'0.ov', book:null, bch:0, openBook:null, textbook:null, cards:'all', quiz:'all', glossary:'all', assign:0};
+let sel={course:'0.ov', book:null, bch:0, openBook:null, openPart:null, textbook:null, cards:'all', quiz:'all', glossary:'all', assign:0};
 let glQuery=''; let quizState=null;
 
 const $=s=>document.querySelector(s);
@@ -543,7 +562,7 @@ function renderSwitch(){
     const b=el('button',k===curMod?'on':'',`${k}`);
     b.style.setProperty('--mod-accent', ACCENTS[k].a);
     b.style.setProperty('--mod-accent-light', ACCENTS[k].al);
-    b.onclick=()=>{curMod=k;localStorage.setItem('dcu_mod',k);sel={course:'0.ov',book:null,bch:0,openBook:null,textbook:null,cards:'all',quiz:'all',glossary:'all',assign:0};glQuery='';quizState=null;renderSwitch();renderNavSections();renderMainPane();};
+    b.onclick=()=>{curMod=k;localStorage.setItem('dcu_mod',k);sel={course:'0.ov',book:null,bch:0,openBook:null,openPart:null,textbook:null,cards:'all',quiz:'all',glossary:'all',assign:0};glQuery='';quizState=null;renderSwitch();renderNavSections();renderMainPane();};
     w.appendChild(b);
   });
   $('#heroSub').textContent=COURSE[curMod].name;
@@ -579,39 +598,54 @@ function renderMainPane(){
 }
 
 /* ---------- COURSE (spine) ---------- */
+function splitPart(p){ const i=p.indexOf(': '); return i<0 ? [p,''] : [p.slice(0,i), p.slice(i+2)]; }
+function bookFolder(si,ri){
+  const s=COURSE[curMod].sections[si]; const bk=MODBOOKS[(s.readings||[])[ri]]; if(!bk) return null;
+  const bOpen=!!(sel.openBook && sel.openBook.si===si && sel.openBook.ri===ri);
+  const grp=el('div','level-group'+(bOpen?' open':''));
+  const head=el('button','level-toggle',`<span class="fold">${IC.chevR}</span><span class="label">${bk.title}</span>`);
+  head.onclick=()=>{ sel.openBook=bOpen?null:{si,ri}; sel.openPart=si; renderNavSections(); };
+  grp.appendChild(head);
+  const body=el('div','level-body'); const rows=el('div','level-rows');
+  bk.notes.forEach((n,i)=>{
+    const active=!!(sel.book && sel.book.si===si && sel.book.ri===ri && sel.bch===i);
+    const cb=el('button','guide-nav-item'+(active?' active':''),`<span class="chap-mini">${i+1}</span><span class="label">${chapTitle(n.h)}</span>`);
+    cb.onclick=()=>{curTab='course';sel.book={si,ri};sel.bch=i;sel.openBook={si,ri};sel.openPart=si;renderNavSections();renderMainPane();};
+    rows.appendChild(cb);
+  });
+  body.appendChild(rows); grp.appendChild(body);
+  return grp;
+}
+function leaf(active,label,dueTag,click){
+  const b=el('button','guide-nav-item'+(active?' active':''),`<span class="guide-nav-dot"></span><span class="label">${label}</span>${dueTag?`<span class="trail"><span class="nav-k due">${dueTag}</span></span>`:''}`);
+  b.onclick=click; return b;
+}
 function subNavCourse(sub){
   sub.innerHTML='';
   const C=COURSE[curMod];
-  if(!/^\d+\.(ov|as)$/.test(sel.course||'')) sel.course=(C.sections[0].ov?'0.ov':'0.as');
+  if(!/^\d+\.(ov|as)$/.test(sel.course||'')) sel.course='0.ov';
+  // Module overview = single top item (section 0)
+  sub.appendChild(leaf(sel.course==='0.ov','Module overview',null,()=>{curTab='course';sel.course='0.ov';sel.book=null;renderNavSections();renderMainPane();}));
+  // Every other section = a collapsible Part folder
   C.sections.forEach((s,si)=>{
-    sub.appendChild(el('div','guide-nav-group-label',s.part.replace(/:.*/,'')));
-    const add=(active,label,tag,click)=>{
-      const b=el('button','guide-nav-item'+(active?' active':''),`<span class="guide-nav-dot"></span><span class="label">${label}</span>${tag?`<span class="trail"><span class="nav-k ${tag==='Due'?'due':''}">${tag}</span></span>`:''}`);
-      b.onclick=click; sub.appendChild(b);
-    };
-    if(s.ov) add(sel.course===si+'.ov','Overview',null,()=>{curTab='course';sel.course=si+'.ov';renderNavSections();renderMainPane();});
-    (s.readings||[]).forEach((rk,ri)=>{
-      const bk=MODBOOKS[rk]; if(!bk) return;
-      const isOpen = !!(sel.openBook && sel.openBook.si===si && sel.openBook.ri===ri);
-      const grp=el('div','level-group'+(isOpen?' open':''));
-      const head=el('button','level-toggle',`<span class="fold">${IC.chevR}</span><span class="label">${bk.title}</span>`);
-      head.onclick=()=>{ sel.openBook = isOpen ? null : {si,ri}; renderNavSections(); };
-      grp.appendChild(head);
-      const body=el('div','level-body'); const rows=el('div','level-rows');
-      bk.notes.forEach((n,i)=>{
-        const active = !!(sel.book && sel.book.si===si && sel.book.ri===ri && sel.bch===i);
-        const b=el('button','guide-nav-item'+(active?' active':''),`<span class="chap-mini">${i+1}</span><span class="label">${chapTitle(n.h)}</span>`);
-        b.onclick=()=>{curTab='course';sel.book={si,ri};sel.bch=i;sel.openBook={si,ri};renderNavSections();renderMainPane();};
-        rows.appendChild(b);
-      });
-      body.appendChild(rows); grp.appendChild(body);
-      sub.appendChild(grp);
-    });
-    if(s.assign) add(sel.course===si+'.as','Assignment',s.assign.due?'Due':'',()=>{curTab='course';sel.course=si+'.as';renderNavSections();renderMainPane();});
+    if(si===0) return;
+    const partOpen=(sel.openPart===si);
+    const [kick,name]=splitPart(s.part);
+    const grp=el('div','part-group'+(partOpen?' open':''));
+    const txt = name ? `<span class="p-kick">${kick}</span><span class="p-name">${name}</span>` : `<span class="p-name">${kick}</span>`;
+    const head=el('button','part-toggle',`<span class="fold">${IC.chevR}</span><span class="p-txt">${txt}</span>`);
+    head.onclick=()=>{ sel.openPart=partOpen?null:si; renderNavSections(); };
+    grp.appendChild(head);
+    const body=el('div','part-body'); const rows=el('div','part-rows');
+    if(s.ov) rows.appendChild(leaf(sel.course===si+'.ov','Overview',null,()=>{curTab='course';sel.course=si+'.ov';sel.book=null;sel.openPart=si;renderNavSections();renderMainPane();}));
+    (s.readings||[]).forEach((rk,ri)=>{ const f=bookFolder(si,ri); if(f) rows.appendChild(f); });
+    if(s.assign) rows.appendChild(leaf(sel.course===si+'.as','Assignment',s.assign.due?'Due':'',()=>{curTab='course';sel.course=si+'.as';sel.book=null;sel.openPart=si;renderNavSections();renderMainPane();}));
+    body.appendChild(rows); grp.appendChild(body);
+    sub.appendChild(grp);
   });
 }
-function openBook(si,ri){ curTab='course'; sel.book={si:+si,ri:+ri}; sel.bch=0; sel.openBook={si:+si,ri:+ri}; renderNavSections(); renderMainPane(); }
-function goPart(key){ curTab='course'; sel.course=key; renderNavSections(); renderMainPane(); }
+function openBook(si,ri){ curTab='course'; sel.book={si:+si,ri:+ri}; sel.bch=0; sel.openBook={si:+si,ri:+ri}; sel.openPart=+si; renderNavSections(); renderMainPane(); }
+function goPart(key){ curTab='course'; sel.course=key; sel.openPart=+key.split('.')[0]; renderNavSections(); renderMainPane(); }
 function paneCourse(){
   if(sel.book) return paneBookChapter();
   const C=COURSE[curMod];
