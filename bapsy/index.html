@@ -63,40 +63,41 @@ a{color:var(--accent);text-decoration:none}
 .content-area{display:none}
 .content-area.active{display:block}
 
-.guide-nav-group-label{font-family:var(--sans);font-size:.6rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:.65rem .9rem .25rem}
-.guide-nav-group-label:first-child{padding-top:.15rem}
-.guide-nav-item{display:flex;align-items:center;gap:.7rem;padding:.68rem .9rem;border-radius:8px;cursor:pointer;font-family:var(--sans);color:var(--ink);border:0;background:none;transition:background .04s linear,color .04s linear;text-align:left;width:100%;font-size:.85rem;font-weight:700;line-height:1.6}
+.guide-nav-group-label{font-family:var(--sans);font-size:.6rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:.9rem .9rem .3rem}
+.guide-nav-group-label:first-child{padding-top:.25rem}
+.guide-nav-item{display:flex;align-items:flex-start;gap:.65rem;padding:.55rem .8rem;border-radius:8px;cursor:pointer;font-family:var(--sans);color:var(--ink);border:0;background:none;transition:background .08s linear,color .08s linear;text-align:left;width:100%;font-size:.85rem;font-weight:600;line-height:1.35}
 .guide-nav-item:hover{background:color-mix(in srgb,var(--ink) 6%,var(--card))}
-.guide-nav-item.active{background:var(--accent);color:#fff}
+.guide-nav-item.active{background:var(--accent);color:#fff;font-weight:700}
 .guide-nav-item .label{flex:1;min-width:0}
-.guide-nav-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0}
+.guide-nav-dot{width:5px;height:5px;border-radius:50%;background:var(--border);flex-shrink:0;margin-top:.5em}
+.guide-nav-item:hover .guide-nav-dot{background:var(--accent)}
 .guide-nav-item.active .guide-nav-dot{background:#fff}
-.guide-nav-item .chap-mini{min-width:20px;height:18px;padding:0 4px;border-radius:5px;background:var(--accent-light);color:var(--accent);font-size:.62rem;font-weight:800;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.guide-nav-item .chap-mini{min-width:19px;height:19px;padding:0 4px;border-radius:5px;background:var(--accent-light);color:var(--accent);font-size:.62rem;font-weight:800;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
 .guide-nav-item.active .chap-mini{background:rgba(255,255,255,.25);color:#fff}
-.guide-nav-item.back{color:var(--accent);margin-bottom:.2rem}
+.guide-nav-item.back{color:var(--accent);font-weight:700;margin-bottom:.35rem;align-items:center}
 .guide-nav-item.back:hover{background:color-mix(in srgb,var(--ink) 6%,var(--card))}
 .guide-nav-item.back .back-ic{display:flex}
 .guide-nav-item.back .back-ic svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.4}
-.guide-nav-item .trail{margin-left:auto;display:flex;align-items:center;gap:.35rem;flex-shrink:0;font-size:.85rem;color:var(--muted);transition:transform .15s}
-.guide-nav-item:hover .trail{transform:translateX(3px)}
-.guide-nav-item.active .trail{color:#fff}
+.guide-nav-item .trail{margin-left:auto;display:flex;align-items:center;flex-shrink:0;padding-left:.4rem}
+.guide-nav-item .nav-k{font-size:.56rem;font-weight:800;text-transform:uppercase;letter-spacing:.03em;color:var(--muted)}
+.guide-nav-item .nav-k.due{color:var(--coral-d);background:var(--coral-tint);padding:.05rem .4rem;border-radius:20px;margin-top:.15rem}
+.guide-nav-item.active .nav-k.due{color:#fff;background:rgba(255,255,255,.25)}
 
-.level-group{background:transparent;position:relative}
-.level-toggle{width:100%;display:flex;align-items:center;gap:.65rem;border:0;background:transparent;border-radius:8px;cursor:pointer;font-family:var(--sans);font-size:.85rem;font-weight:700;color:var(--ink);padding:.68rem .9rem;line-height:1.25;text-align:left;transition:background .04s linear,color .04s linear}
+.level-group{background:transparent}
+.level-toggle{width:100%;display:flex;align-items:flex-start;gap:.65rem;border:0;background:transparent;border-radius:8px;cursor:pointer;font-family:var(--sans);font-size:.85rem;font-weight:700;color:var(--ink);padding:.55rem .8rem;line-height:1.35;text-align:left;transition:background .08s linear,color .08s linear}
 .level-toggle:hover{background:color-mix(in srgb,var(--ink) 6%,var(--card))}
-.level-group.open>.level-toggle{background:var(--accent);color:#fff}
-.level-toggle .dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0}
-.level-group.open>.level-toggle .dot{background:#fff}
+.level-group.open>.level-toggle{background:var(--accent-light);color:var(--accent)}
+.level-toggle .fold{width:15px;height:15px;flex-shrink:0;margin-top:.1em;color:var(--muted)}
+.level-group.open>.level-toggle .fold{color:var(--accent)}
+.level-toggle .fold svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:2.4;transition:transform .14s ease}
+.level-group.open>.level-toggle .fold svg{transform:rotate(90deg)}
 .level-toggle .label{flex:1;min-width:0}
-.level-toggle .level-chev{margin-left:auto;font-size:.72rem;flex-shrink:0;color:inherit;transform:rotate(-90deg);transition:transform .06s ease-out}
-.level-group.open>.level-toggle .level-chev{transform:rotate(180deg)}
-.level-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .12s ease-out}
+.level-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .14s ease-out}
 .level-body>div{overflow:hidden}
 .level-group.open .level-body{grid-template-rows:1fr}
-.level-rows{display:flex;flex-direction:column;gap:1px;padding:.2rem 0 .35rem .5rem;margin-left:.4rem;border-left:1.5px solid var(--border)}
-.guide-nav-item .nav-k{font-size:.58rem;font-weight:800;text-transform:uppercase;letter-spacing:.03em;color:var(--muted)}
-.guide-nav-item .nav-k.due{color:var(--coral-d);background:var(--coral-tint);padding:.02rem .35rem;border-radius:20px}
-.guide-nav-item.active .nav-k.due{color:#fff;background:rgba(255,255,255,.25)}
+.level-rows{display:flex;flex-direction:column;gap:1px;padding:.15rem 0 .4rem;margin:.1rem 0 .3rem 1.1rem;border-left:2px solid transparent}
+.level-group.open>.level-body .level-rows{border-left-color:var(--accent-light)}
+.level-rows .guide-nav-item{padding-left:.7rem}
 
 .wb-pane{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-md);overflow:hidden;min-width:0}
 .wb-pane-head{padding:1rem 1.25rem .8rem;border-bottom:1.5px solid var(--border)}
@@ -585,7 +586,7 @@ function subNavCourse(sub){
   C.sections.forEach((s,si)=>{
     sub.appendChild(el('div','guide-nav-group-label',s.part.replace(/:.*/,'')));
     const add=(active,label,tag,click)=>{
-      const b=el('button','guide-nav-item'+(active?' active':''),`<span class="guide-nav-dot"></span><span class="label">${label}</span><span class="trail">${tag?`<span class="nav-k ${tag==='Due'?'due':''}">${tag}</span>`:''}&rsaquo;</span>`);
+      const b=el('button','guide-nav-item'+(active?' active':''),`<span class="guide-nav-dot"></span><span class="label">${label}</span>${tag?`<span class="trail"><span class="nav-k ${tag==='Due'?'due':''}">${tag}</span></span>`:''}`);
       b.onclick=click; sub.appendChild(b);
     };
     if(s.ov) add(sel.course===si+'.ov','Overview',null,()=>{curTab='course';sel.course=si+'.ov';renderNavSections();renderMainPane();});
@@ -593,13 +594,13 @@ function subNavCourse(sub){
       const bk=MODBOOKS[rk]; if(!bk) return;
       const isOpen = !!(sel.openBook && sel.openBook.si===si && sel.openBook.ri===ri);
       const grp=el('div','level-group'+(isOpen?' open':''));
-      const head=el('button','level-toggle',`<span class="dot"></span><span class="label">${bk.title}</span><span class="level-chev">&rsaquo;</span>`);
+      const head=el('button','level-toggle',`<span class="fold">${IC.chevR}</span><span class="label">${bk.title}</span>`);
       head.onclick=()=>{ sel.openBook = isOpen ? null : {si,ri}; renderNavSections(); };
       grp.appendChild(head);
       const body=el('div','level-body'); const rows=el('div','level-rows');
       bk.notes.forEach((n,i)=>{
         const active = !!(sel.book && sel.book.si===si && sel.book.ri===ri && sel.bch===i);
-        const b=el('button','guide-nav-item'+(active?' active':''),`<span class="chap-mini">${i+1}</span><span class="label">${chapTitle(n.h)}</span><span class="trail">&rsaquo;</span>`);
+        const b=el('button','guide-nav-item'+(active?' active':''),`<span class="chap-mini">${i+1}</span><span class="label">${chapTitle(n.h)}</span>`);
         b.onclick=()=>{curTab='course';sel.book={si,ri};sel.bch=i;sel.openBook={si,ri};renderNavSections();renderMainPane();};
         rows.appendChild(b);
       });
@@ -647,7 +648,7 @@ function subNavTextbook(sub){
   if(!hasTextbook()) return;
   if(!(sel.textbook>=1&&sel.textbook<=TEXTBOOK.length)) sel.textbook=1;
   TEXTBOOK.forEach(c=>{
-    const b=el('button','guide-nav-item'+(c.n===sel.textbook?' active':''),`<span class="chap-mini">${c.n}</span><span class="label">${c.title}</span><span class="trail">&rsaquo;</span>`);
+    const b=el('button','guide-nav-item'+(c.n===sel.textbook?' active':''),`<span class="chap-mini">${c.n}</span><span class="label">${c.title}</span>`);
     b.onclick=()=>{curTab='textbook';sel.textbook=c.n;renderNavSections();renderMainPane();};
     sub.appendChild(b);
   });
@@ -669,7 +670,7 @@ function subNavAssignment(sub){
   if(!A) return;
   if(!(sel.assign>=0 && sel.assign<A.steps.length+1)) sel.assign=0;
   const mk=(idx,label)=>{
-    const b=el('button','guide-nav-item'+(idx===sel.assign?' active':''),'<span class="guide-nav-dot"></span><span class="label">'+label+'</span><span class="trail">&rsaquo;</span>');
+    const b=el('button','guide-nav-item'+(idx===sel.assign?' active':''),'<span class="guide-nav-dot"></span><span class="label">'+label+'</span>');
     b.onclick=()=>{curTab='assignment';sel.assign=idx;renderNavSections();renderMainPane();};
     sub.appendChild(b);
   };
@@ -713,7 +714,7 @@ function subNavFilter(sub,tabId){
   const dataKey = tabId==='cards' ? 'flashcards' : tabId;
   const cur = sel[tabId];
   const mk=(id,label)=>{
-    const b=el('button','guide-nav-item'+(id===cur?' active':''),'<span class="guide-nav-dot"></span><span class="label">'+label+'</span><span class="trail">&rsaquo;</span>');
+    const b=el('button','guide-nav-item'+(id===cur?' active':''),'<span class="guide-nav-dot"></span><span class="label">'+label+'</span>');
     b.onclick=()=>{ curTab=tabId; sel[tabId]=id; if(tabId==='quiz') quizState=null; renderNavSections(); renderMainPane(); };
     sub.appendChild(b);
   };
