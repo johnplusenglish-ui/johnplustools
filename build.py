@@ -153,6 +153,8 @@ LESSON_LINKS = [
      'tagline': 'The reusable base every new lesson is copied from.'},
     {'href': '/lessons/travel-adventure-c1.html', 'name': 'Travel & Adventure',
      'tagline': 'C1 lesson on travel, hidden gems and trips that go wrong.'},
+    {'href': '/lessons/health-fitness-biohacking-c1.html', 'name': 'Health & Fitness',
+     'tagline': 'C1 lesson on fitness, biohacking and getting in shape.'},
 ]
 
 FAVICON = ("<link rel=\"icon\" href=\"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' "
