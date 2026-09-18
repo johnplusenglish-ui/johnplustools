@@ -79,6 +79,20 @@ a{color:var(--accent);text-decoration:none}
 .guide-nav-item .trail{margin-left:auto;display:flex;align-items:center;gap:.35rem;flex-shrink:0;font-size:.85rem;color:var(--muted);transition:transform .15s}
 .guide-nav-item:hover .trail{transform:translateX(3px)}
 .guide-nav-item.active .trail{color:#fff}
+
+.level-group{background:transparent;position:relative}
+.level-toggle{width:100%;display:flex;align-items:center;gap:.65rem;border:0;background:transparent;border-radius:8px;cursor:pointer;font-family:var(--sans);font-size:.85rem;font-weight:700;color:var(--ink);padding:.68rem .9rem;line-height:1.25;text-align:left;transition:background .04s linear,color .04s linear}
+.level-toggle:hover{background:color-mix(in srgb,var(--ink) 6%,var(--card))}
+.level-group.open>.level-toggle{background:var(--accent);color:#fff}
+.level-toggle .dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0}
+.level-group.open>.level-toggle .dot{background:#fff}
+.level-toggle .label{flex:1;min-width:0}
+.level-toggle .level-chev{margin-left:auto;font-size:.72rem;flex-shrink:0;color:inherit;transform:rotate(-90deg);transition:transform .06s ease-out}
+.level-group.open>.level-toggle .level-chev{transform:rotate(180deg)}
+.level-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .12s ease-out}
+.level-body>div{overflow:hidden}
+.level-group.open .level-body{grid-template-rows:1fr}
+.level-rows{display:flex;flex-direction:column;gap:1px;padding:.2rem 0 .35rem .5rem;margin-left:.4rem;border-left:1.5px solid var(--border)}
 .guide-nav-item .nav-k{font-size:.58rem;font-weight:800;text-transform:uppercase;letter-spacing:.03em;color:var(--muted)}
 .guide-nav-item .nav-k.due{color:var(--coral-d);background:var(--coral-tint);padding:.02rem .35rem;border-radius:20px}
 .guide-nav-item.active .nav-k.due{color:#fff;background:rgba(255,255,255,.25)}
@@ -508,7 +522,7 @@ const IC={
 let curMod=localStorage.getItem('dcu_mod')||'PSY1080';
 let curTab='course';
 let openSection='course';
-let sel={course:'0.ov', book:null, bch:0, textbook:null, cards:'all', quiz:'all', glossary:'all', assign:0};
+let sel={course:'0.ov', book:null, bch:0, openBook:null, textbook:null, cards:'all', quiz:'all', glossary:'all', assign:0};
 let glQuery=''; let quizState=null;
 
 const $=s=>document.querySelector(s);
@@ -525,7 +539,7 @@ function renderSwitch(){
     const b=el('button',k===curMod?'on':'',`${k}`);
     b.style.setProperty('--mod-accent', ACCENTS[k].a);
     b.style.setProperty('--mod-accent-light', ACCENTS[k].al);
-    b.onclick=()=>{curMod=k;localStorage.setItem('dcu_mod',k);sel={course:'0.ov',book:null,bch:0,textbook:null,cards:'all',quiz:'all',glossary:'all',assign:0};glQuery='';quizState=null;renderSwitch();renderNavSections();renderMainPane();};
+    b.onclick=()=>{curMod=k;localStorage.setItem('dcu_mod',k);sel={course:'0.ov',book:null,bch:0,openBook:null,textbook:null,cards:'all',quiz:'all',glossary:'all',assign:0};glQuery='';quizState=null;renderSwitch();renderNavSections();renderMainPane();};
     w.appendChild(b);
   });
   $('#heroSub').textContent=COURSE[curMod].name;
@@ -563,20 +577,6 @@ function renderMainPane(){
 /* ---------- COURSE (spine) ---------- */
 function subNavCourse(sub){
   sub.innerHTML='';
-  if(sel.book){
-    const {si,ri}=sel.book; const C=COURSE[curMod]; const s=C.sections[si]; const bk=s?MODBOOKS[(s.readings||[])[ri]]:null;
-    if(!bk){ sel.book=null; return subNavCourse(sub); }
-    const back=el('button','guide-nav-item back',`<span class="back-ic">${IC.chev}</span><span class="label">Back to ${s.part.replace(/:.*/,'')}</span>`);
-    back.onclick=()=>{curTab='course';sel.book=null;renderNavSections();renderMainPane();};
-    sub.appendChild(back);
-    sub.appendChild(el('div','guide-nav-group-label',bk.title));
-    bk.notes.forEach((n,i)=>{
-      const b=el('button','guide-nav-item'+(i===sel.bch?' active':''),`<span class="chap-mini">${i+1}</span><span class="label">${chapTitle(n.h)}</span><span class="trail">&rsaquo;</span>`);
-      b.onclick=()=>{curTab='course';sel.bch=i;renderNavSections();renderMainPane();};
-      sub.appendChild(b);
-    });
-    return;
-  }
   const C=COURSE[curMod];
   if(!/^\d+\.(ov|as)$/.test(sel.course||'')) sel.course=(C.sections[0].ov?'0.ov':'0.as');
   C.sections.forEach((s,si)=>{
@@ -586,11 +586,27 @@ function subNavCourse(sub){
       b.onclick=click; sub.appendChild(b);
     };
     if(s.ov) add(sel.course===si+'.ov','Overview',null,()=>{curTab='course';sel.course=si+'.ov';renderNavSections();renderMainPane();});
-    (s.readings||[]).forEach((rk,ri)=>{ const bk=MODBOOKS[rk]; add(false,bk?bk.title:rk,null,()=>{curTab='course';sel.book={si,ri};sel.bch=0;renderNavSections();renderMainPane();}); });
+    (s.readings||[]).forEach((rk,ri)=>{
+      const bk=MODBOOKS[rk]; if(!bk) return;
+      const isOpen = !!(sel.openBook && sel.openBook.si===si && sel.openBook.ri===ri);
+      const grp=el('div','level-group'+(isOpen?' open':''));
+      const head=el('button','level-toggle',`<span class="dot"></span><span class="label">${bk.title}</span><span class="level-chev">&rsaquo;</span>`);
+      head.onclick=()=>{ sel.openBook = isOpen ? null : {si,ri}; renderNavSections(); };
+      grp.appendChild(head);
+      const body=el('div','level-body'); const rows=el('div','level-rows');
+      bk.notes.forEach((n,i)=>{
+        const active = !!(sel.book && sel.book.si===si && sel.book.ri===ri && sel.bch===i);
+        const b=el('button','guide-nav-item'+(active?' active':''),`<span class="chap-mini">${i+1}</span><span class="label">${chapTitle(n.h)}</span><span class="trail">&rsaquo;</span>`);
+        b.onclick=()=>{curTab='course';sel.book={si,ri};sel.bch=i;sel.openBook={si,ri};renderNavSections();renderMainPane();};
+        rows.appendChild(b);
+      });
+      body.appendChild(rows); grp.appendChild(body);
+      sub.appendChild(grp);
+    });
     if(s.assign) add(sel.course===si+'.as','Assignment',s.assign.due?'Due':'',()=>{curTab='course';sel.course=si+'.as';renderNavSections();renderMainPane();});
   });
 }
-function openBook(si,ri){ curTab='course'; sel.book={si:+si,ri:+ri}; sel.bch=0; renderNavSections(); renderMainPane(); }
+function openBook(si,ri){ curTab='course'; sel.book={si:+si,ri:+ri}; sel.bch=0; sel.openBook={si:+si,ri:+ri}; renderNavSections(); renderMainPane(); }
 function goPart(key){ curTab='course'; sel.course=key; renderNavSections(); renderMainPane(); }
 function paneCourse(){
   if(sel.book) return paneBookChapter();
