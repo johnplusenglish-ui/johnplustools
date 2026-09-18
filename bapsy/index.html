@@ -502,6 +502,7 @@ const IC={
 
 let curMod=localStorage.getItem('dcu_mod')||'PSY1080';
 let curTab='course';
+let openSection='course';
 let sel={course:'0.ov', book:null, bch:0, textbook:null, cards:'all', quiz:'all', glossary:'all', assign:0};
 let glQuery=''; let quizState=null;
 
@@ -530,15 +531,18 @@ function chapTitle(h){ return h.replace(/^\s*\d+(\.\d+)*\.?\s*/,'').trim(); }
 function renderNavSections(){
   const wrap=$('#navSections'); wrap.innerHTML='';
   [['course','Course'],['assignment','Assignment'],['textbook','Textbook'],['cards','Flashcards'],['quiz','Quiz'],['glossary','Glossary']].forEach(([id,label])=>{
-    const sec=el('div','nav-sec'+(id===curTab?' open':''));
+    const sec=el('div','nav-sec'+(id===openSection?' open':''));
     const head=el('button','nav-sec-head',`<span class="lbl">${label}</span><span class="sec-chev">${IC.chevD}</span>`);
     head.style.setProperty('--tab-accent',ACCENTS[curMod].a);
-    head.onclick=()=>{curTab=id;renderNavSections();renderMainPane();};
+    head.onclick=()=>{
+      if(id===openSection){ openSection=null; renderNavSections(); return; }
+      curTab=id; openSection=id; renderNavSections(); renderMainPane();
+    };
     sec.appendChild(head);
     const body=el('div','nav-sec-body'); const sub=el('div','nav-sub');
     body.appendChild(sub); sec.appendChild(body);
     wrap.appendChild(sec);
-    if(id===curTab) fillSubNav(id,sub);
+    if(id===openSection) fillSubNav(id,sub);
   });
 }
 function fillSubNav(id,sub){
