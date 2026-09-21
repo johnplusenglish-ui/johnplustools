@@ -856,7 +856,7 @@ body.section-present .deb-instruction{font-size:1.15rem}
       <div id="articleAudioContainer"></div>
       <div class="article-body">
         <p>In 1840, if you travelled by train from London to Bristol, you crossed a strange border: the clocks changed. Bristol's local time ran a little over <strong>ten minutes</strong> behind London's, and every town in between kept its own hour. When the Great Western Railway decided that all its stations and trains would run on London time, some Bristol clocks were given two minute hands, one for the city and one for the railway. It took until <strong>1880</strong> for a law to make Greenwich Mean Time the official time across Great Britain. The idea of time as a single, exact thing that can be saved, wasted or run out of is surprisingly recent.</p>
-        <p>Once time could be measured that precisely, people started to feel it slipping away. In 1955, the British historian C. Northcote Parkinson published a joke in The Economist that has never really gone out of fashion: <strong>"work expands so as to fill the time available for its completion."</strong> Give someone a week to write a report and it takes a week, even if it needed only an afternoon. Anyone who has dilly-dallied over an email until the deadline arrived knows how uncomfortably true it feels.</p>
+        <p>Once time could be measured that precisely, people started to feel it slipping away. In 1955, the British historian C. Northcote Parkinson published a joke in The Economist that has never really gone out of fashion: <strong>"work expands so as to fill the time available for its completion."</strong> Give someone a week to write a report and it takes a week, even if it needed only an afternoon. Anyone who has daydreamed their way towards a deadline knows how uncomfortably true it feels.</p>
         <p>So what happens if you take time away? In 2022, <strong>61 British companies</strong>, with around 2,900 employees, moved to a four-day week on full pay. When the trial ended, <strong>56 of the 61 firms</strong> chose to continue, and 18 made the change permanent. Revenue stayed broadly stable, and about <strong>71%</strong> of staff reported lower levels of burnout. The work still got done, which raises an awkward question about how much of the fifth day was ever really needed.</p>
         <p>That is why time management is a bigger subject than diaries and to-do lists. Most advice treats the problem as personal: be more disciplined, switch off notifications, get up earlier. But the railways, Parkinson and the four-day week all point the same way. Time is not just something we manage, it is something we are given, and by someone else. The real question may be less "how do I use my time?" than "who gets to decide what it is for?"</p>
       </div>
@@ -1128,7 +1128,7 @@ var DEFAULT_WORDS = [
   {term:"carve out time", def:"to deliberately make time in a busy schedule for something that matters to you", example:"You have to carve out time for your family, or the whole week just disappears."},
   {term:"fit something in", def:"to find a gap in a busy schedule in which to do something", example:"I'll try to fit something in on Friday, but I can't promise anything."},
   {term:"stay on top of things", def:"to keep control of your work or responsibilities so that nothing gets missed or forgotten", example:"It's hard to stay on top of things when you get two hundred emails a day."},
-  {term:"dilly-dally", def:"(informal) to waste time by being slow or unable to make up your mind", example:"Don't dilly-dally; the train leaves in ten minutes."},
+  {term:"daydream", def:"to spend time thinking pleasantly about other things instead of concentrating on what you should be doing", example:"He tends to daydream in meetings instead of taking notes."},
   {term:"pressed for time", def:"having very little time available in which to do something", example:"I'd love to chat, but I'm a bit pressed for time."},
   {term:"lose track of time", def:"to forget how much time has passed because you are so absorbed in something", example:"I always lose track of time when I'm reading."},
   {term:"better late than never", def:"used to say that it is better to do something after the expected time than not to do it at all", example:"You finally called me back? Well, better late than never."},
@@ -1967,7 +1967,7 @@ var DEFAULT_RP = [
     title:'Double-Booked, Again',
     scenario:"One friend promised to help the other move flat on Saturday. They have just realised they also said yes to a wedding that same day, and now have to say so.",
     roleA:{name:'Friend A', desc:"You've packed forty boxes and organised the van. You're stressed and trying not to sound angry, but you were really counting on this."},
-    roleB:{name:'Friend B', desc:"You double-booked yourself and feel terrible. Apologise, don't dilly-dally around the truth, and offer a practical alternative."},
+    roleB:{name:'Friend B', desc:"You double-booked yourself and feel terrible. Apologise, don't beat around the bush, and offer a practical alternative."},
     chips:["I have to tell you something.","I'm so sorry, I've double-booked myself.","You promised, and I planned around you.","I know, and there's no good excuse.","Could I help on Sunday instead?","Better late than never, I suppose."]
   }
 ];
@@ -2163,7 +2163,7 @@ var DEFAULT_LISTEN = [
   {
     title: 'You Said Seven',
     subtitle: 'Hannah has been waiting at the restaurant since seven, and Luca has finally turned up',
-    targetPhrases: ['swamped','snowed under','carve out time','fit something in','stay on top of things','dilly-dally','pressed for time','lose track of time','better late than never','at the crack of dawn'],
+    targetPhrases: ['swamped','snowed under','carve out time','fit something in','stay on top of things','daydream','pressed for time','lose track of time','better late than never','at the crack of dawn'],
     audio: null,
     questions: [
       'Why does Hannah feel Luca is not really trying, even though they are both busy?',
@@ -2177,7 +2177,7 @@ var DEFAULT_LISTEN = [
       ln('b','Luca',"Okay, that's fair. It's just that I'm snowed under at the moment. The whole team is."),
       ln('a','Hannah',"We're all busy, Luca. I'm busy too. But I still carve out time for us. You don't even seem to try."),
       ln('b','Luca',"That's not true. I try to fit something in every week, I just... it keeps slipping."),
-      ln('a','Hannah',"Slipping? You dilly-dally in the morning, you check one last email, and then you're surprised when we're late."),
+      ln('a','Hannah',"Slipping? You daydream over your coffee, you check one last email, and then you're surprised when we're late."),
       ln('b','Luca',"[sighs] Okay. Maybe I do. I just can't seem to stay on top of things anymore."),
       ln('a','Hannah',"You would if you actually wrote them down. You never look at your calendar."),
       ln('b','Luca',"Hmm... fair. I feel like I'm always pressed for time, and the person who loses out is you."),
@@ -2844,7 +2844,7 @@ var FLASHCARD_IMAGES = {
   'carve out time': null,
   'fit something in': null,
   'stay on top of things': null,
-  'dilly-dally': null,
+  'daydream': null,
   'pressed for time': null,
   'lose track of time': null,
   'better late than never': null,
