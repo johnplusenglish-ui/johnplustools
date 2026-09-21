@@ -157,6 +157,8 @@ LESSON_LINKS = [
      'tagline': 'C1 lesson on fitness, biohacking and getting in shape.'},
     {'href': '/lessons/books-reading-c1.html', 'name': 'Books & Reading',
      'tagline': 'C1 lesson on reading habits, page-turners and the decline of reading.'},
+    {'href': '/lessons/time-management-c1.html', 'name': 'Time Management',
+     'tagline': 'C1 lesson on busy lives, deadlines and who really owns your time.'},
 ]
 
 FAVICON = ("<link rel=\"icon\" href=\"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' "
