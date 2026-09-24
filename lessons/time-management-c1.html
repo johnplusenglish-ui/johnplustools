@@ -753,7 +753,7 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <div class="section-header">
       <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/></svg></div>
       <div>
-        <div class="section-title" id="vocabHeading">Vocabulary &middot; 10 items, C1</div>
+        <div class="section-title" id="vocabHeading">Vocabulary &middot; 12 items, C1</div>
         <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-vocab" onblur="onStaticTextBlur(this)">Time Management Word Bank · 20 min</div>
       </div>
       <div class="section-header-actions">
@@ -788,7 +788,7 @@ body.section-present .deb-instruction{font-size:1.15rem}
       <div class="section-card">
         <div class="flash-nav">
           <button class="flash-arrow" id="flashPrev" onclick="flashPrev()" aria-label="Previous card">&lsaquo;</button>
-          <div class="flash-progress" id="flashProgress">1 / 10</div>
+          <div class="flash-progress" id="flashProgress">1 / 12</div>
           <button class="flash-arrow" id="flashNext" onclick="flashNext()" aria-label="Next card">&rsaquo;</button>
         </div>
         <div class="flash-card" id="flashCard" onclick="flashAdvance()">
@@ -1126,13 +1126,15 @@ var DEFAULT_WORDS = [
   {term:"swamped", def:"(informal) overwhelmed by having too much work or too many things to deal with", example:"I can't meet this week, I'm completely swamped with deadlines."},
   {term:"snowed under", def:"(informal) having so much work that you can hardly cope with it", example:"She's been snowed under since the new manager arrived."},
   {term:"carve out time", def:"to deliberately make time in a busy schedule for something that matters to you", example:"You have to carve out time for your family, or the whole week just disappears."},
-  {term:"fit something in", def:"to find a gap in a busy schedule in which to do something", example:"I'll try to fit something in on Friday, but I can't promise anything."},
+  {term:"get round to", def:"to finally find the time to do something that you have been meaning to do or putting off", example:"I keep meaning to call her, but I never seem to get round to it."},
   {term:"stay on top of things", def:"to keep control of your work or responsibilities so that nothing gets missed or forgotten", example:"It's hard to stay on top of things when you get two hundred emails a day."},
-  {term:"daydream", def:"to spend time thinking pleasantly about other things instead of concentrating on what you should be doing", example:"He tends to daydream in meetings instead of taking notes."},
+  {term:"dilly-dally", def:"(informal) to waste time by being slow or unable to make up your mind", example:"Don't dilly-dally; the train leaves in ten minutes."},
   {term:"pressed for time", def:"having very little time available in which to do something", example:"I'd love to chat, but I'm a bit pressed for time."},
   {term:"lose track of time", def:"to forget how much time has passed because you are so absorbed in something", example:"I always lose track of time when I'm reading."},
   {term:"better late than never", def:"used to say that it is better to do something after the expected time than not to do it at all", example:"You finally called me back? Well, better late than never."},
-  {term:"at the crack of dawn", def:"very early in the morning, just as the sun is coming up", example:"We had to get up at the crack of dawn to catch the flight."}
+  {term:"at the crack of dawn", def:"very early in the morning, just as the sun is coming up", example:"We had to get up at the crack of dawn to catch the flight."},
+  {term:"fleeting", def:"lasting for only a very short time", example:"It was only a fleeting moment of peace before the phone rang again."},
+  {term:"timekeeping", def:"the habit or skill of arriving on time and managing your time well", example:"Her timekeeping is excellent; she has never once been late."}
 ];
 var WORDS = loadWords();
 var rowOfDef = {};      /* wordIndex -> which visual row its definition currently sits on */
@@ -2163,7 +2165,7 @@ var DEFAULT_LISTEN = [
   {
     title: 'You Said Seven',
     subtitle: 'A Scottish woman and her London boyfriend argue over a very late dinner',
-    targetPhrases: ['swamped','snowed under','carve out time','fit something in','stay on top of things','daydream','pressed for time','lose track of time','better late than never','at the crack of dawn'],
+    targetPhrases: ['swamped','snowed under','carve out time','get round to','stay on top of things','dilly-dally','pressed for time','lose track of time','better late than never','at the crack of dawn','fleeting','timekeeping'],
     audio: null,
     questions: [
       'Why does Hannah feel Luca is not really trying, even though they are both busy?',
@@ -2173,11 +2175,11 @@ var DEFAULT_LISTEN = [
     lines: [
       ln('a','Hannah',"[sighs] It's quarter to nine, Luca. The table was booked for seven. Seven!"),
       ln('b','Luca',"I know, I know. I'm so sorry. I got swamped at work and I completely lost track of time."),
-      ln('a','Hannah',"Aye, you said that last week. And the week before. I'm scunnered with it."),
-      ln('b','Luca',"Alright, that's fair. It's just I'm snowed under at the moment. The whole team is. It's completely hectic in there."),
+      ln('a','Hannah',"Aye, you said that last week. And the week before. Your timekeeping has been terrible for months."),
+      ln('b','Luca',"Alright, that's fair. It's just I'm snowed under at the moment. The whole team is. I only meant to answer one email, a fleeting five minutes, and then it was half past six."),
       ln('a','Hannah',"We're all busy, Luca. I'm busy too. But I still carve out time for us. You don't even seem to try."),
-      ln('b','Luca',"That's not true. I do try to fit something in every week, I just... it keeps slipping."),
-      ln('a','Hannah',"Slipping? You daydream over your coffee, you check one last email, and then you're shocked when we're late."),
+      ln('b','Luca',"That's not true. I do try. I just never seem to get round to the things that matter, and it keeps slipping."),
+      ln('a','Hannah',"Slipping? You dilly-dally over your coffee, you check one last email, and then you're shocked when we're late."),
       ln('b','Luca',"[sighs] Yeah, maybe I do. I just can't seem to stay on top of things any more. My head's all over the place."),
       ln('a','Hannah',"You would if you wrote them down. You never look at your calendar. It's a wee bit ridiculous."),
       ln('b','Luca',"Hmm... fair enough. I'm always pressed for time, and you're the one who loses out."),
@@ -2846,13 +2848,15 @@ var FLASHCARD_IMAGES = {
   'swamped': null,
   'snowed under': null,
   'carve out time': null,
-  'fit something in': null,
+  'get round to': null,
   'stay on top of things': null,
-  'daydream': null,
+  'dilly-dally': null,
   'pressed for time': null,
   'lose track of time': null,
   'better late than never': null,
-  'at the crack of dawn': null
+  'at the crack of dawn': null,
+  'fleeting': null,
+  'timekeeping': null
 };
 var FLASH_IMG_KEY = 'jpe_timemgmt_flashcard_images';
 function loadFlashImages(){
