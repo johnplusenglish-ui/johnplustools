@@ -2052,7 +2052,13 @@ var DEFAULT_LISTEN = [
   }
 ];
 function loadListen(){
-  try{ var raw = JSON.parse(localStorage.getItem(LISTEN_KEY)); if(Array.isArray(raw) && raw.length) return raw; }catch(e){}
+  try{
+    var raw = JSON.parse(localStorage.getItem(LISTEN_KEY));
+    if(Array.isArray(raw) && raw.length){
+      var first = raw[0] && raw[0].lines && raw[0].lines[0];
+      if(!(first && first.name === 'Marta')) return raw;
+    }
+  }catch(e){}
   return JSON.parse(JSON.stringify(DEFAULT_LISTEN));
 }
 var LISTEN = loadListen();
