@@ -2166,39 +2166,39 @@ var DEFAULT_LISTEN = [
     targetPhrases: ['curl up with a good book','devour a book','a page-turner','a slow burn','in a reading slump','on a reading streak','a book hoarder','it stayed with me','unputdownable','a bookworm'],
     audio: null,
     questions: [
-      'Why does Rory say he is in a reading slump?',
-      'Why does Niamh still recommend a slow burn to Rory?',
-      'What practical advice does Niamh give Rory for getting back into reading?'
+      'Why does Jack say he is in a reading slump?',
+      'Why does Isla still recommend a slow burn to Jack?',
+      'What practical advice does Isla give Jack for getting back into reading?'
     ],
     lines: [
-      ln('a','Niamh',"Have you read anything good lately? I'm on a reading streak, six books since June."),
-      ln('b','Rory',"[laughs] Six? I've read about two pages of one. I'm in a reading slump, honestly."),
-      ln('a','Niamh',"Oh no. What happened?"),
-      ln('b','Rory',"[sighs] I don't know. I sit down, I pick up my phone instead, and then it's midnight."),
-      ln('a','Niamh',"Ha, that's the trap. You used to be such a bookworm at uni, though."),
-      ln('b','Rory',"I know. I keep imagining a rainy Sunday where I curl up with a good book, and then I just watch something instead."),
-      ln('a','Niamh',"You just need the right one. I found a thriller last week and it's a page-turner. I devoured it in a weekend."),
-      ln('b','Rory',"Hmm... the problem is I always pick a slow burn, and I give up before anything actually happens."),
-      ln('a','Niamh',"Fair. But slow burns can be brilliant. There's a quiet one I read years ago about two sisters, and nothing happens for a hundred pages."),
-      ln('b','Rory',"And?"),
-      ln('a','Niamh',"And then it completely floors you. It stayed with me for weeks."),
-      ln('b','Rory',"[pause] Okay, that's actually tempting."),
-      ln('a','Niamh',"Honestly, though, the best ones are unputdownable. My last one, I missed my stop on the train."),
-      ln('b','Rory',"[chuckles] Of course you did. How many unread books have you got on your shelf right now?"),
-      ln('a','Niamh',"[pause] ... Don't. I'm a book hoarder, I know. About sixty."),
-      ln('b','Rory',"Sixty! You'll never get through those."),
-      ln('a','Niamh',"That's not the point. A shelf of unread books is just a promise to your future self."),
-      ln('b','Rory',"[laughs] You should put that on a mug."),
-      ln('a','Niamh',"Start small, then. Ten pages before bed, phone in another room."),
-      ln('b','Rory',"Ten pages. I can probably manage that."),
-      ln('a','Niamh',"Great. I'll bring you the thriller tomorrow."),
-      ln('b','Rory',"Deal. But if I'm still in a slump next week, I'm blaming you."),
-      ln('a','Niamh',"[laughs] Fine. It's a risk worth taking.")
+      ln('a','Isla',"Have you read anything good lately? I'm on a reading streak, six books since June."),
+      ln('b','Jack',"[laughs] Six? I've read about two pages of one. I'm in a reading slump, honestly."),
+      ln('a','Isla',"Och, no. What happened?"),
+      ln('b','Jack',"[sighs] No idea, mate. I sit down, I pick up my phone instead, and then it's midnight."),
+      ln('a','Isla',"Ha, that's the trap. You used to be such a bookworm at uni, though."),
+      ln('b','Jack',"I know. I keep imagining a rainy Sunday where I curl up with a good book, and then I just watch something instead."),
+      ln('a','Isla',"You just need the right one. I found a thriller last week and it's a page-turner. I devoured it in a weekend."),
+      ln('b','Jack',"Hmm... the problem is I always pick a slow burn, and I give up before anything actually happens."),
+      ln('a','Isla',"Fair. But slow burns can be brilliant. There's a wee quiet one I read years ago about two sisters, and nothing happens for a hundred pages."),
+      ln('b','Jack',"And?"),
+      ln('a','Isla',"And then it completely floors you. It stayed with me for weeks."),
+      ln('b','Jack',"[pause] Okay, that's actually tempting."),
+      ln('a','Isla',"Honestly, though, the best ones are unputdownable. My last one, I missed my stop on the train."),
+      ln('b','Jack',"[chuckles] Of course you did. How many unread books have you got on your shelf right now?"),
+      ln('a','Isla',"[pause] ... Don't. I'm a book hoarder, I know. About sixty."),
+      ln('b','Jack',"Sixty! No way. You'll never get through those."),
+      ln('a','Isla',"Aye, well, that's not the point. A shelf of unread books is just a promise to your future self."),
+      ln('b','Jack',"[laughs] You should put that on a mug."),
+      ln('a','Isla',"Start small, then. Ten pages before bed, phone in another room."),
+      ln('b','Jack',"Ten pages. Yeah, I reckon I can manage that."),
+      ln('a','Isla',"Great. I'll bring you the thriller tomorrow."),
+      ln('b','Jack',"Deal. But if I'm still in a slump next week, I'm blaming you."),
+      ln('a','Isla',"[laughs] Fine. It's a risk worth taking.")
     ]
   }
 ];
 function loadListen(){
-  try{ var raw = JSON.parse(localStorage.getItem(LISTEN_KEY)); if(Array.isArray(raw) && raw.length) return raw; }catch(e){}
+  try{ var raw = JSON.parse(localStorage.getItem(LISTEN_KEY)); if(Array.isArray(raw) && raw.length && !(raw[0].lines && raw[0].lines[0] && raw[0].lines[0].name === 'Niamh')) return raw; }catch(e){}
   return JSON.parse(JSON.stringify(DEFAULT_LISTEN));
 }
 var LISTEN = loadListen();
