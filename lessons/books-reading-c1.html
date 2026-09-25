@@ -2174,31 +2174,32 @@ var DEFAULT_LISTEN = [
       ln('a','Isla',"Have you read anything good lately? I'm on a reading streak, six books since June."),
       ln('b','Jack',"[laughs] Six? I've read about two pages of one. I'm in a reading slump, honestly."),
       ln('a','Isla',"Och, no. What happened?"),
-      ln('b','Jack',"[sighs] No idea, mate. I sit down, I pick up my phone instead, and then it's midnight."),
+      ln('b','Jack',"[sighs] No idea, mate. I sit down, I pick up my phone instead, and then it's midnight and I'm reading about ways the world could end."),
       ln('a','Isla',"Ha, that's the trap. You used to be such a bookworm at uni, though."),
       ln('b','Jack',"I know. I keep imagining a rainy Sunday where I curl up with a good book, and then I just watch something instead."),
       ln('a','Isla',"You just need the right one. I found a thriller last week and it's a page-turner. I devoured it in a weekend."),
       ln('b','Jack',"Hmm... the problem is I always pick a slow burn, and I give up before anything actually happens."),
       ln('a','Isla',"Fair. But slow burns can be brilliant. There's a wee quiet one I read years ago about two sisters, and nothing happens for a hundred pages."),
       ln('b','Jack',"And?"),
-      ln('a','Isla',"And then it completely floors you. It stayed with me for weeks."),
-      ln('b','Jack',"[pause] Okay, that's actually tempting."),
+      ln('a','Isla',"And then one of them very calmly poisons the other. It completely floors you. It stayed with me for weeks."),
+      ln('b','Jack',"[pause] Okay, that's actually tempting. Slightly worried about how much you enjoyed it, but tempting."),
       ln('a','Isla',"Honestly, though, the best ones are unputdownable. My last one, I missed my stop on the train."),
       ln('b','Jack',"[chuckles] Of course you did. How many unread books have you got on your shelf right now?"),
-      ln('a','Isla',"[pause] ... Don't. I'm a book hoarder, I know. About sixty."),
+      ln('a','Isla',"[pause] ... Don't. I'm a book hoarder, I know. About sixty. When I die, they'll need a skip, not a coffin."),
       ln('b','Jack',"Sixty! No way. You'll never get through those."),
       ln('a','Isla',"Aye, well, that's not the point. A shelf of unread books is just a promise to your future self."),
-      ln('b','Jack',"[laughs] You should put that on a mug."),
+      ln('b','Jack',"[laughs] Bold of you to assume we've got a future. Have you seen the news? Still, you should put that on a mug."),
       ln('a','Isla',"Start small, then. Ten pages before bed, phone in another room."),
       ln('b','Jack',"Ten pages. Yeah, I reckon I can manage that."),
       ln('a','Isla',"Great. I'll bring you the thriller tomorrow."),
       ln('b','Jack',"Deal. But if I'm still in a slump next week, I'm blaming you."),
-      ln('a','Isla',"[laughs] Fine. It's a risk worth taking.")
+      ln('a','Isla',"[laughs] Fine. Worst case, I'll read something at your funeral."),
+      ln('b','Jack',"[chuckles] Make it a page-turner, then. Nobody wants a slow burn at a funeral.")
     ]
   }
 ];
 function loadListen(){
-  try{ var raw = JSON.parse(localStorage.getItem(LISTEN_KEY)); if(Array.isArray(raw) && raw.length && !(raw[0].lines && raw[0].lines[0] && raw[0].lines[0].name === 'Niamh')) return raw; }catch(e){}
+  try{ var raw = JSON.parse(localStorage.getItem(LISTEN_KEY)); if(Array.isArray(raw) && raw.length && !(raw[0].lines && raw[0].lines[0] && (raw[0].lines[0].name === 'Niamh' || JSON.stringify(raw).indexOf('And then it completely floors you') > -1))) return raw; }catch(e){}
   return JSON.parse(JSON.stringify(DEFAULT_LISTEN));
 }
 var LISTEN = loadListen();
