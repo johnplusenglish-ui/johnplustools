@@ -161,6 +161,8 @@ LESSON_LINKS = [
      'tagline': 'C1 lesson on reading habits, page-turners and the decline of reading.'},
     {'href': '/lessons/time-management-c1.html', 'name': 'Time Management',
      'tagline': 'C1 lesson on busy lives, deadlines and who really owns your time.'},
+    {'href': '/lessons/the-future-c1.html', 'name': 'The Future',
+     'tagline': 'C1 lesson on predictions, forecasts and how wrong we can be about tomorrow.'},
 ]
 
 FAVICON = ("<link rel=\"icon\" href=\"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' "
