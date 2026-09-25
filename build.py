@@ -137,6 +137,8 @@ LESSON_ICON = (f'<svg viewBox="0 0 24 24" {I} stroke-width="1.9">'
 # (staged as-is, not spliced into the shared shell). Listed in the brand
 # dropdown only, per John: "show them in the tools dropdown".
 LESSON_LINKS = [
+    {'href': '/lessons/manuel-ai-at-work.html', 'name': 'Manuel: AI at Work',
+     'tagline': 'Lesson 10 for Manuel: AI in marketing, junior jobs and daily life.'},
     {'href': '/lessons/friendship-recession-c1.html', 'name': 'The Friendship Recession',
      'tagline': 'C1 lesson on adult loneliness, fading friendships and why it happens.'},
     {'href': '/lessons/education-today-c1.html', 'name': 'Education Today',
