@@ -1103,12 +1103,10 @@ var DEFAULT_WORDS = [
   {term:"open a Pandora's box", def:"to take an action that seems small but ends up creating a huge number of new, often unforeseen problems", example:"Some experts worry that letting AI make hiring decisions could open a Pandora's box of legal and ethical issues."},
   {term:"a slippery slope", def:"a course of action that seems small or harmless at first but is likely to lead to a much more serious, often negative, situation", example:"Letting AI grade every assignment feels like a slippery slope toward taking teachers out of the process entirely."},
   {term:"the tip of the iceberg", def:"a small, visible part of a much larger problem or situation that is mostly hidden", example:"The water used by one data centre is just the tip of the iceberg; the real cost is the electricity behind it."},
-  {term:"push the envelope", def:"to go beyond the usual limits, trying something new, extreme or ambitious", example:"The lab keeps pushing the envelope on what an AI model can do with just a few seconds of audio."},
+  {term:"hooked on", def:"so keen on something, or so dependent on it, that you find it very hard to stop using or doing it", example:"A lot of teenagers are hooked on AI chatbots and chat to them for hours every day."},
   {term:"the genie's out of the bottle", def:"used to say that something has been made possible or made known, and it cannot be undone or reversed", example:"Once technology like this exists publicly, the genie's out of the bottle; there's no putting it back."},
   {term:"the writing's on the wall", def:"there are clear signs that something bad or unwelcome is about to happen", example:"When the company announced its AI trial, the writing was on the wall for a lot of junior roles."},
-  {term:"roll out", def:"to introduce a new product, service or system to the public, gradually or in stages", example:"The company plans to roll out the new AI assistant to every department by next spring."},
-  {term:"raise the bar", def:"to set a new, higher standard that others then have to meet or beat", example:"The new AI tool has raised the bar for what customers now expect from customer service."},
-  {term:"uncharted territory", def:"a situation, area or activity that is completely new and unfamiliar, with no established rules or experience to guide you", example:"Regulating decisions made by AI is uncharted territory for most governments right now."}
+  {term:"roll out", def:"to introduce a new product, service or system to the public, gradually or in stages", example:"The company plans to roll out the new AI assistant to every department by next spring."}
 ];
 var WORDS = loadWords();
 var rowOfDef = {};      /* wordIndex -> which visual row its definition currently sits on */
@@ -1118,7 +1116,15 @@ var selTerm = null, selDef = null;
 function loadWords(){
   try{
     var raw = localStorage.getItem(STORAGE_KEY);
-    if(raw){ var p = JSON.parse(raw); if(Array.isArray(p) && p.length) return p; }
+    if(raw){
+      var p = JSON.parse(raw);
+      if(Array.isArray(p) && p.length){
+        /* 2026-09-25: push the envelope -> hooked on; raise the bar + uncharted territory dropped */
+        p = p.filter(function(w){ var t = (w.term||'').toLowerCase(); return t!=='raise the bar' && t!=='uncharted territory'; })
+             .map(function(w){ return (w.term||'').toLowerCase()==='push the envelope' ? JSON.parse(JSON.stringify(DEFAULT_WORDS[4])) : w; });
+        return p;
+      }
+    }
   }catch(e){}
   return JSON.parse(JSON.stringify(DEFAULT_WORDS));
 }
@@ -2053,7 +2059,7 @@ var DEFAULT_LISTEN = [
   {
     title: 'The New Rollout',
     subtitle: 'Maya (Irish) and Ben (Scottish) compare notes on the AI tool their company just introduced',
-    targetPhrases: ['a double-edged sword','a slippery slope','open a pandora\'s box','the tip of the iceberg','roll out','the genie\'s out of the bottle','push the envelope','the writing\'s on the wall','raise the bar','uncharted territory'],
+    targetPhrases: ['a double-edged sword','a slippery slope','open a pandora\'s box','the tip of the iceberg','roll out','the genie\'s out of the bottle','hooked on','the writing\'s on the wall'],
     audio: null,
     questions: [
       "Why does Ben call the new AI tool a double-edged sword?",
@@ -2076,8 +2082,8 @@ var DEFAULT_LISTEN = [
       ln('a','Maya',"They never do. And the reports tool is only the tip of the iceberg. There's a whole list of things they want to roll out next year."),
       ln('b','Ben',"[exhales] Once they roll all that out, there's no going back. The genie's out of the bottle at that point."),
       ln('a','Maya',"True. Once people get used to it, you can't just take it away from them again. They'd be furious."),
-      ln('b','Ben',"[chuckles] They would. Some people on my team think management is really pushing the envelope with how much they want to automate."),
-      ln('a','Maya',"Well... I think the writing's on the wall for some of the more repetitive jobs."),
+      ln('b','Ben',"[chuckles] They would. Half my team are already hooked on it. They use it for everything, even emails to each other."),
+      ln('a','Maya',"Well... if it can do all that, I think the writing's on the wall for some of the more repetitive jobs."),
       ln('b','Ben',"Probably. They won't say that out loud, but you can see it coming."),
       ln('a','Maya',"[pause] Are you worried about your own job?"),
       ln('b','Ben',"[pause] A little, yes. But I think the best move is to learn to use it properly before it learns to do without me."),
@@ -2086,8 +2092,8 @@ var DEFAULT_LISTEN = [
       ln('a','Maya',"You should, it's the nicest thing I've said all week. Are you coming to the training session tomorrow?"),
       ln('b','Ben',"Yes, I'll be there. Is there free food?"),
       ln('a','Maya',"Sandwiches, apparently. Probably the soggy ones left over from last month."),
-      ln('b','Ben',"[groans] Great. [pause] Honestly though, if it's even half as good as they say, it could really raise the bar for how we work."),
-      ln('a','Maya',"Maybe. But with a lot of this, we're in uncharted territory... nobody really knows how it'll turn out yet."),
+      ln('b','Ben',"[groans] Great. [pause] Honestly though, I'm curious to see what it can really do."),
+      ln('a','Maya',"Me too. Nobody really knows how it'll turn out yet."),
       ln('b','Ben',"[exhales] That's true. I guess we'll find out together tomorrow."),
       ln('a','Maya',"We will. I'm sure it'll be fine. [pause] Probably.")
     ]
@@ -2098,7 +2104,7 @@ function loadListen(){
     var raw = JSON.parse(localStorage.getItem(LISTEN_KEY));
     if(Array.isArray(raw) && raw.length){
       var first = raw[0] && raw[0].lines && raw[0].lines[0];
-      if(!(first && /AI yoke/.test(first.text || ''))) return raw;
+      if(!(first && /AI yoke/.test(first.text || '')) && !/envelope|uncharted/.test(JSON.stringify(raw[0].lines || []))) return raw;
     }
   }catch(e){}
   return JSON.parse(JSON.stringify(DEFAULT_LISTEN));
@@ -2570,12 +2576,12 @@ var DEFAULT_UOE = [
   {key:'SWORD', s1:"AI saves people time, but it also makes some jobs feel replaceable.", s2:"For a lot of workers, AI is ___: it saves time, but it makes their job feel replaceable.", answer:'a double-edged sword'},
   {key:'SLOPE', s1:'Letting AI grade every assignment seems small now, but could lead somewhere far more serious.', s2:'Letting AI grade every assignment feels like ___ toward taking teachers out of the process.', answer:'a slippery slope'},
   {key:'ICEBERG', s1:'The water used by one data centre is only a small, visible part of a much bigger problem.', s2:'The water used by one data centre is just ___; the real cost is the electricity behind it.', answer:'the tip of the iceberg'},
-  {key:'ENVELOPE', s1:'The lab keeps trying things that go beyond the usual limits of what an AI model can do.', s2:'The lab keeps ___ on what an AI model can do with just a few seconds of audio.', answer:'pushing the envelope'},
+  {key:'HOOKED', s1:'Many students have become so dependent on AI tools that they cannot stop using them.', s2:'Many students ___ AI tools and cannot stop using them.', answer:'are hooked on'},
   {key:'WRITING', s1:'When the company announced its AI trial, it was clear something bad was coming for junior roles.', s2:'When the company announced its AI trial, ___ for a lot of junior roles.', answer:'the writing was on the wall'},
   {key:'ROLL', s1:'The company plans to introduce the new AI assistant gradually to every department.', s2:'The company plans to ___ the new AI assistant to every department by next spring.', answer:'roll out'}
 ];
 function loadUoe(){
-  try{ var raw = localStorage.getItem(UOE_KEY); if(raw){ var p = JSON.parse(raw); if(Array.isArray(p) && p.length && p[0].s2!==undefined) return p; } }catch(e){}
+  try{ var raw = localStorage.getItem(UOE_KEY); if(raw){ var p = JSON.parse(raw); if(Array.isArray(p) && p.length && p[0].s2!==undefined) return p.map(function(u){ return u.key==='ENVELOPE' ? {key:'HOOKED', s1:'Many students have become so dependent on AI tools that they cannot stop using them.', s2:'Many students ___ AI tools and cannot stop using them.', answer:'are hooked on'} : u; }); } }catch(e){}
   return JSON.parse(JSON.stringify(DEFAULT_UOE));
 }
 var UOE_ITEMS = loadUoe();
@@ -2741,12 +2747,10 @@ var FLASHCARD_IMAGES = {
   'open a pandora\'s box': null,
   'a slippery slope': null,
   'the tip of the iceberg': null,
-  'push the envelope': null,
+  'hooked on': null,
   'the genie\'s out of the bottle': null,
   'the writing\'s on the wall': null,
-  'roll out': null,
-  'raise the bar': null,
-  'uncharted territory': null
+  'roll out': null
 };
 var FLASH_IMG_KEY = 'jpe_aieveryday_flashcard_images';
 function loadFlashImages(){
