@@ -210,6 +210,31 @@ body.section-present #vocab.present-active .flash-hint{font-size:.9rem;margin-to
 .lt-bullet{font-size:.95rem;color:var(--ink);line-height:1.5;outline:none;border-radius:5px;margin-bottom:.3rem;min-height:1.5em}
 .lt-card.lt-editing .lt-bullet:empty::before{content:'Click to type a phrase...';color:var(--muted)}
 .lt-add-phrase{margin:.3rem 0 .6rem 1.2rem;background:none;border:1.5px dashed rgba(33,118,255,.4);color:var(--mint-dark);font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:700;padding:.3rem .8rem;border-radius:8px;cursor:pointer}
+
+/* grammar tab: open cloze */
+.gram-note{background:var(--mint-light);border:1.5px solid rgba(33,118,255,.18);border-radius:var(--radius-lg);padding:1rem 1.2rem;font-size:.9rem;line-height:1.6;margin-bottom:1.2rem}
+.gram-note b{color:var(--mint-dark)}
+.gram-title{font-size:1.25rem;font-weight:800;letter-spacing:-.01em;margin:0 0 .25rem}
+.gram-sub{font-size:.8rem;color:var(--muted);margin-bottom:1.1rem}
+.gram-text{font-size:1.08rem;line-height:2.5;margin-bottom:1.2rem}
+.gram-gapw{display:inline-block;white-space:nowrap}
+.gram-gn{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:800;color:var(--mint);margin:0 .15rem 0 .1rem;vertical-align:baseline}
+.gram-gap{font-family:'Outfit',sans-serif;font-size:1.05rem;font-weight:500;width:5.2rem;text-align:center;border:none;border-bottom:2px dotted var(--mint);background:transparent;color:var(--ink);outline:none;padding:0 .2rem;vertical-align:baseline}
+.gram-gap:focus{border-bottom-style:solid;background:color-mix(in srgb,var(--mint) 7%,transparent)}
+.gram-gap.ok{border-bottom:2px solid var(--teal-dark);color:var(--teal-dark);font-weight:700}
+.gram-gap.bad{border-bottom:2px solid var(--red);color:var(--red);text-decoration:line-through}
+.gram-actions{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem}
+.gram-score{font-family:'JetBrains Mono',monospace;font-size:.95rem;font-weight:700;margin-left:.4rem}
+.gram-result{border-radius:var(--radius-lg);padding:.9rem 1.1rem;margin-bottom:1rem;font-weight:700;background:var(--mint-light);border:1.5px solid rgba(33,118,255,.25)}
+.gram-key{border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:.4rem 1.1rem .6rem;background:var(--card)}
+.gram-key h4{font-size:.78rem;font-family:'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:.7rem 0 .5rem}
+.gram-krow{display:flex;gap:.7rem;align-items:baseline;padding:.45rem 0;border-top:1px solid var(--border);font-size:.9rem;line-height:1.5}
+.gram-krow:first-of-type{border-top:none}
+.gram-kn{font-family:'JetBrains Mono',monospace;font-weight:800;font-size:.75rem;min-width:1.6rem;color:var(--muted)}
+.gram-ka{font-weight:800;min-width:3.4rem}
+.gram-krow.ok .gram-ka{color:var(--teal-dark)}
+.gram-krow.bad .gram-ka{color:var(--red)}
+.gram-krow .tip{display:block;color:var(--mint-dark);font-weight:600;margin-top:.15rem}
 .lt-add-phrase:hover{background:color-mix(in srgb,var(--mint) 8%,transparent)}
 .lt-card.lt-editing [contenteditable="true"]{outline:1.5px dashed rgba(33,118,255,.5);outline-offset:2px;cursor:text}
 .lt-edit-hint{font-size:.75rem;color:var(--mint-dark);font-weight:600;margin:0 0 .8rem}
@@ -718,6 +743,11 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <span class="snav-label">Listening</span>
     <span class="snav-close" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();hideTab('listening')" title="Remove this tab">&times;</span>
   </button>
+  <button class="snav-btn" id="tab-grammar" onclick="onTabClick(event,this,'grammar')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2"/><path d="M9 20h6"/><path d="M12 4v16"/></svg>
+    <span class="snav-label">Grammar</span>
+    <span class="snav-close" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();hideTab('grammar')" title="Remove this tab">&times;</span>
+  </button>
   <button class="snav-btn" id="tab-write" onclick="onTabClick(event,this,'write')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
     <span class="snav-label">Writing</span>
@@ -996,6 +1026,25 @@ body.section-present .deb-instruction{font-size:1.15rem}
         <div class="deb-topic-tabs" id="listenTabs"></div>
         <div id="listenBody"></div>
       </div>
+    </div>
+  </section>
+
+  <section class="lesson-section" id="grammar">
+    <div class="section-header">
+      <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2"/><path d="M9 20h6"/><path d="M12 4v16"/></svg></div>
+      <div>
+        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-grammar" onblur="onStaticTextBlur(this)">Grammar Check</div>
+        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-grammar" onblur="onStaticTextBlur(this)">B2 to C1 · open cloze · so / such and articles · about 15 min</div>
+      </div>
+    </div>
+    <div class="section-card">
+      <div class="gram-note"><b>Open cloze, like the Cambridge exam.</b> Write <b>one word</b> in each gap. Three short texts, about 5 minutes each: one on <b>so / such</b>, one on <b>a / an / the</b>, and one mixing both. Most Slavic languages (Russian, Ukrainian, Polish, Czech, Serbian and others) have no articles, so watch for the places where you would normally leave a word out. Bulgarian and Macedonian are the exceptions.</div>
+      <div class="tab-row">
+        <button class="tab-btn on" id="gramBtn-1" onclick="gramPart(1)">Text 1 &middot; So / Such</button>
+        <button class="tab-btn" id="gramBtn-2" onclick="gramPart(2)">Text 2 &middot; Articles</button>
+        <button class="tab-btn" id="gramBtn-3" onclick="gramPart(3)">Text 3 &middot; Mixed</button>
+      </div>
+      <div id="gramBody"></div>
     </div>
   </section>
 
@@ -2347,6 +2396,134 @@ function exportListenTranscriptPNG(){
 }
 function renderListen(){ renderListenTabs(); renderListenBody(); updateListenAudioStickyOffset(); }
 
+/* ---------- grammar check: Cambridge-style open cloze, so / such and articles, for Slavic speakers ---------- */
+var GRAM_KEY = 'jpe_happy_grammar_v2';
+var GRAM = {
+  1: {
+    title: 'A Ten-Minute Experiment',
+    sub: 'So / such, so much / so many',
+    text: 'Last spring I realised I had been so busy that I had stopped noticing anything around me. My days were {1} full of emails and meetings that I often forgot to eat lunch. A friend suggested a simple experiment: ten minutes outside every morning, with no phone. At first it felt {2} strange that I almost gave up after three days. But by the end of the week there was {3} a difference that I carried on. I had not expected {4} a small change to matter so much. The park near my flat was {5} beautiful in the early light that I wondered why I had never visited. I met so {6} friendly dog walkers there that I now know half the street by name. {7} is the evidence for the effect of nature on mood that some doctors now prescribe it. It was {8} a relief to switch off that I almost cried. I do not claim it solved everything, because I still have so {9} work to do that some days I skip my walk. But I am {10} a calm person now that my colleagues have noticed.',
+    gaps: {
+      1: {a:['so'], n:'<b>so</b> + adjective + that: "so full that".'},
+      2: {a:['so'], n:'<b>so</b> + adjective + that: "so strange that".'},
+      3: {a:['such'], n:'<b>such a</b> + singular noun + that: "such a difference that".', tip:'Slavic tip: do not forget the <b>a</b> that follows "such".'},
+      4: {a:['such'], n:'<b>such a</b> + adjective + noun: "such a small change".'},
+      5: {a:['so'], n:'<b>so</b> + adjective + that: "so beautiful that".'},
+      6: {a:['many'], n:'<b>so many</b> + plural countable noun (dog walkers).'},
+      7: {a:['such'], n:'<b>Such is the</b> + noun + <b>that</b> is a formal C1 structure.'},
+      8: {a:['such'], n:'<b>such a</b> + noun + that: "such a relief that".'},
+      9: {a:['much'], n:'<b>so much</b> + uncountable noun (work).', tip:'Slavic tip: work is uncountable. Not "so many works".'},
+      10: {a:['such'], n:'<b>such a</b> + adjective + singular noun + that: "such a calm person that".'}
+    }
+  },
+  2: {
+    title: 'The Baker from Poznan',
+    sub: 'A / an / the',
+    text: 'Marta works as {1} baker in a small town in Poland. Her bakery stands opposite {2} only church in town, and she starts work at four, long before {3} sun comes up. One day {4} customer asked her to bake a wedding cake. Marta had never made one, so she spent {5} hour reading about it online before she tried. On the wedding day, {6} cake was a huge success, and the bride said it was {7} best she had ever tasted. Now Marta sells her cakes for twenty euros {8} kilo. Her daughter studies at {9} university in Prague, and in the evenings Marta plays {10} guitar in a small band. "What {11} life!" she says, laughing.',
+    gaps: {
+      1: {a:['a'], n:'Jobs take <b>a / an</b>: "works as a baker".', tip:'Slavic tip: "works as baker" is the classic mistake.'},
+      2: {a:['the'], n:'<b>the</b> before "only": there is just one church.'},
+      3: {a:['the'], n:'The sun is unique, so <b>the</b>.'},
+      4: {a:['a'], n:'First mention of a customer: <b>a</b>.', tip:'Slavic tip: new person or thing in the story means <b>a</b>. Do not drop it.'},
+      5: {a:['an'], n:'<b>an</b> hour: the h is silent, so it starts with a vowel sound.'},
+      6: {a:['the'], n:'Second mention (a wedding cake earlier), so <b>the cake</b>.', tip:'Slavic tip: first mention a, second mention the.'},
+      7: {a:['the'], n:'Superlatives take <b>the</b>: "the best".'},
+      8: {a:['a'], n:'<b>a</b> can mean "per": twenty euros a kilo.'},
+      9: {a:['a'], n:'<b>a</b> university: it starts with a consonant sound, "yoo".'},
+      10: {a:['the'], n:'With musical instruments after <b>play</b> we use <b>the</b>.'},
+      11: {a:['a'], n:'<b>What a</b> + singular noun in exclamations.'}
+    }
+  },
+  3: {
+    title: 'Switching Off',
+    sub: 'So / such and articles mixed',
+    text: 'Last year I deleted all my social media apps. My friends thought it was {1} a drastic step, but I had been spending {2} much time online that I barely saw anyone in person. At first I felt {3} lost that I kept picking up my phone out of habit. {4} week later, I realised I was sleeping better. I had forgotten what {5} relief it is to wait for a bus without looking at a screen. I joined {6} choir, and I met so {7} welcoming people that I now go every week. It is {8} best decision I have made in years. Of course, I still use {9} internet for work, and I am not claiming it is for everyone. But the evidence is {10} strong that many doctors now take it seriously. For me, it was {11} an easy change that I wish I had done it years ago. Now I spend {12} hour every evening reading.',
+    gaps: {
+      1: {a:['such','quite'], n:'<b>such a</b> + adjective + singular noun: "such a drastic step".'},
+      2: {a:['so'], n:'<b>so much</b> + uncountable noun + that: "so much time that".'},
+      3: {a:['so'], n:'<b>so</b> + adjective + that: "so lost that".'},
+      4: {a:['a'], n:'"A week later" with <b>a</b>.', tip:'Slavic tip: time phrases like "a week later" need the <b>a</b>.'},
+      5: {a:['a'], n:'<b>What a</b> + singular noun: "what a relief".'},
+      6: {a:['a'], n:'New information, first mention of a choir: <b>a</b>.'},
+      7: {a:['many'], n:'<b>so many</b> + plural countable noun (people).'},
+      8: {a:['the'], n:'<b>the</b> + superlative: "the best decision".'},
+      9: {a:['the'], n:'The internet always takes <b>the</b>.', tip:'Slavic tip: "the internet" and "the sun" are things we treat as unique.'},
+      10: {a:['so'], n:'<b>so</b> + adjective + that: "so strong that".'},
+      11: {a:['such'], n:'<b>such an</b> + adjective + noun: "such an easy change that".'},
+      12: {a:['an'], n:'<b>an</b> hour: the h is silent.'}
+    }
+  }
+};
+var gramNow = 1;
+var gramState = {};
+try{ var _g = JSON.parse(localStorage.getItem(GRAM_KEY)); if(_g && typeof _g === 'object') gramState = _g; }catch(e){}
+function saveGram(){ try{ localStorage.setItem(GRAM_KEY, JSON.stringify(gramState)); }catch(e){} }
+function gramSt(p){ if(!gramState[p]) gramState[p] = {v:{}, checked:false}; return gramState[p]; }
+function gramNorm(s){ return String(s||'').trim().toLowerCase().replace(/\s+/g,' '); }
+function gramPart(p){
+  gramNow = p;
+  [1,2,3].forEach(function(k){ var b = document.getElementById('gramBtn-'+k); if(b) b.classList.toggle('on', k===p); });
+  renderGrammar();
+}
+function gramInput(p, n, el){
+  var st = gramSt(p); st.v[n] = el.value; st.checked = false; saveGram();
+  Array.prototype.forEach.call(document.querySelectorAll('.gram-gap'), function(x){ x.classList.remove('ok','bad'); });
+  var res = document.getElementById('gramRes'); if(res) res.innerHTML = '';
+  var key = document.getElementById('gramKey'); if(key) key.innerHTML = '';
+  var sc = document.getElementById('gramScore'); if(sc) sc.textContent = '';
+}
+function gramKeyDown(e, p, n){
+  if(e.key === 'Enter'){
+    e.preventDefault();
+    var next = document.getElementById('gg-'+p+'-'+(n+1));
+    if(next) next.focus(); else gramCheck(p);
+  }
+}
+function gramCheck(p){
+  var d = GRAM[p], st = gramSt(p), correct = 0, total = 0;
+  Object.keys(d.gaps).forEach(function(n){
+    total++;
+    var g = d.gaps[n], val = gramNorm(st.v[n]);
+    var ok = g.a.indexOf(val) > -1;
+    if(ok) correct++;
+    var el = document.getElementById('gg-'+p+'-'+n);
+    if(el){ el.classList.remove('ok','bad'); if(val) el.classList.add(ok?'ok':'bad'); else el.classList.add('bad'); }
+  });
+  st.checked = true; saveGram();
+  var pct = Math.round(correct/total*100);
+  document.getElementById('gramScore').textContent = correct + ' / ' + total;
+  document.getElementById('gramRes').innerHTML = '<div class="gram-result">'+correct+' / '+total+' ('+pct+'%). '+(pct>=85?'Excellent, this is secure.':(pct>=65?'Good, but check the ones you missed below.':'Worth reading the notes below and trying again.'))+'</div>';
+  gramShowKey(p, true);
+}
+function gramShowKey(p, marked){
+  var d = GRAM[p], st = gramSt(p);
+  var rows = Object.keys(d.gaps).map(function(n){
+    var g = d.gaps[n], val = gramNorm(st.v[n]), ok = g.a.indexOf(val) > -1;
+    return '<div class="gram-krow'+(marked?(ok?' ok':' bad'):'')+'"><span class="gram-kn">'+n+'</span><span class="gram-ka">'+esc(g.a[0])+'</span><span>'+g.n+(g.tip?'<span class="tip">'+g.tip+'</span>':'')+'</span></div>';
+  }).join('');
+  document.getElementById('gramKey').innerHTML = '<div class="gram-key"><h4>Answers and notes</h4>'+rows+'</div>';
+}
+function gramReveal(p){ gramShowKey(p, false); }
+function gramReset(p){
+  gramState[p] = {v:{}, checked:false}; saveGram(); renderGrammar();
+}
+function renderGrammar(){
+  var wrap = document.getElementById('gramBody');
+  if(!wrap) return;
+  var p = gramNow, d = GRAM[p], st = gramSt(p);
+  var html = d.text.replace(/\{(\d+)\}/g, function(m, n){
+    n = +n;
+    var val = st.v[n] || '';
+    return '<span class="gram-gapw"><b class="gram-gn">'+n+'</b><input class="gram-gap" id="gg-'+p+'-'+n+'" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="....." value="'+esc(val)+'" oninput="gramInput('+p+','+n+',this)" onkeydown="gramKeyDown(event,'+p+','+n+')"></span>';
+  });
+  wrap.innerHTML =
+    '<div class="gram-title">'+esc(d.title)+'</div><div class="gram-sub">'+esc(d.sub)+' &middot; one word in each gap</div>'+
+    '<div class="gram-text">'+html+'</div>'+
+    '<div class="gram-actions"><button class="read-btn primary" onclick="gramCheck('+p+')">Check answers</button><button class="read-btn" onclick="gramReveal('+p+')">Show answers</button><button class="read-btn" onclick="gramReset('+p+')">Reset</button><span class="gram-score" id="gramScore"></span></div>'+
+    '<div id="gramRes"></div><div id="gramKey"></div>';
+  if(st.checked) gramCheck(p);
+}
+
 /* ---------- writing tasks: informal / article / essay ---------- */
 var WTASKS = {
   essay: {
@@ -2927,7 +3104,7 @@ function readHeroFile(file){
 
 /* ---------- wiring ---------- */
 function renderDerived(){ initMatching(); renderGapFill(); renderFlashcards(); }
-function renderAll(){ renderWordBank(); renderDerived(); renderPeopleEdit(); renderGallery(); renderDebates(); renderRP(); renderListen(); }
+function renderAll(){ renderWordBank(); renderDerived(); renderPeopleEdit(); renderGallery(); renderDebates(); renderRP(); renderListen(); renderGrammar(); }
 
 var vTabBtnIds = {edit:'tabEdit', flash:'tabFlash', match:'tabMatch', gf:'tabGF'};
 function switchVTab(id){
@@ -2949,7 +3126,7 @@ function toggleVocabEditMode(){
   renderFlashcards();
 }
 
-var tabIds = ['warmup','vocab','main','longturn','debates','roleplay','listening','write'];
+var tabIds = ['warmup','vocab','main','longturn','debates','roleplay','listening','grammar','write'];
 function showTab(id){
   tabIds.forEach(function(t){
     document.getElementById(t).classList.toggle('visible', t===id);
