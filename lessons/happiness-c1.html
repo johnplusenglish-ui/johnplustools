@@ -207,7 +207,10 @@ body.section-present #vocab.present-active .flash-hint{font-size:.9rem;margin-to
 .lt-phrase-label{font-family:'JetBrains Mono',monospace;font-size:.64rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--mint-dark);margin:1.1rem 0 .4rem}
 .lt-phrase-label:first-child{margin-top:0}
 .lt-phrase-list{margin:0 0 .2rem 1.2rem;padding:0}
-.lt-bullet{font-size:.95rem;color:var(--ink);line-height:1.5;outline:none;border-radius:5px;margin-bottom:.3rem}
+.lt-bullet{font-size:.95rem;color:var(--ink);line-height:1.5;outline:none;border-radius:5px;margin-bottom:.3rem;min-height:1.5em}
+.lt-card.lt-editing .lt-bullet:empty::before{content:'Click to type a phrase...';color:var(--muted)}
+.lt-add-phrase{margin:.3rem 0 .6rem 1.2rem;background:none;border:1.5px dashed rgba(33,118,255,.4);color:var(--mint-dark);font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:700;padding:.3rem .8rem;border-radius:8px;cursor:pointer}
+.lt-add-phrase:hover{background:color-mix(in srgb,var(--mint) 8%,transparent)}
 .lt-card.lt-editing [contenteditable="true"]{outline:1.5px dashed rgba(33,118,255,.5);outline-offset:2px;cursor:text}
 .lt-edit-hint{font-size:.75rem;color:var(--mint-dark);font-weight:600;margin:0 0 .8rem}
 .lt-notes{margin-top:1rem;border-top:1.5px dashed rgba(33,118,255,.25);padding-top:.8rem}
@@ -906,7 +909,7 @@ body.section-present .deb-instruction{font-size:1.15rem}
       </div>
     </div>
     <div class="section-card">
-      <p style="font-size:.85rem;color:var(--muted);margin-bottom:1.2rem" contenteditable="true" spellcheck="false" data-sk="hint-longturn" onblur="onStaticTextBlur(this)">Give each candidate their own card. They speak alone for two and a half minutes, uninterrupted, keeping it relaxed and personal, using the key phrases to sound natural. Use the Notes dropdown to jot down points as you listen.</p>
+      <p style="font-size:.85rem;color:var(--muted);margin-bottom:1.2rem" contenteditable="true" spellcheck="false" data-sk="hint-longturn" onblur="onStaticTextBlur(this)">Give each candidate their own card. They speak alone for two and a half minutes, uninterrupted, keeping it relaxed and personal, using any key phrases you add to sound natural. Use the Notes dropdown to jot down points as you listen.</p>
       <div class="lt-timer-row">
         <button class="lt-timer-pill" id="ltPlay" onclick="ltTog()">&#9658; Start</button>
         <span class="lt-timer-disp" id="ltDisp">2:30</span>
@@ -2709,16 +2712,8 @@ var DEFAULT_LT = [
     question: "Should we expect to be happy all the time, or is that an unrealistic goal?"
   }
 ];
-var LT_PHRASES_KEY = 'jpe_happy_longturn_phrases_v4';
-var DEFAULT_LT_PHRASES = [
-  'The first thing that comes to mind is ...',
-  'To be honest with you',
-  'Part of me thinks that ...',
-  'On the one hand, ... but on the other',
-  'I guess it all comes down to ...',
-  'At the end of the day',
-  'So, to wrap up, ...'
-];
+var LT_PHRASES_KEY = 'jpe_happy_longturn_phrases_v5';
+var DEFAULT_LT_PHRASES = ['','','','',''];
 function loadLtPhrases(){
   try{ var p = JSON.parse(localStorage.getItem(LT_PHRASES_KEY)); if(Array.isArray(p) && p.length && typeof p[0] === 'string') return p; }catch(e){}
   return DEFAULT_LT_PHRASES.slice();
@@ -2766,13 +2761,17 @@ function renderLongTurn(){
   var i = ltIndex;
   var c = ltItems[i];
   document.getElementById('ltProgress').textContent = (i+1)+' / '+ltItems.length;
-  var bullets = '<ul class="lt-bullets lt-phrase-list">'+ltPhrases.map(function(b,bi){
-    return '<li class="lt-bullet" contenteditable="'+(ed?'true':'false')+'" spellcheck="false" onblur="onLtPhraseEdit('+bi+',this)">'+esc(b)+'</li>';
-  }).join('')+'</ul>';
+  var hasPhrases = ltPhrases.some(function(p){ return p && p.trim(); });
+  var bullets = (ed || hasPhrases)
+    ? '<ul class="lt-bullets lt-phrase-list">'+ltPhrases.map(function(b,bi){
+        if(!ed && !(b && b.trim())) return '';
+        return '<li class="lt-bullet" contenteditable="'+(ed?'true':'false')+'" spellcheck="false" onblur="onLtPhraseEdit('+bi+',this)">'+esc(b)+'</li>';
+      }).join('')+'</ul>'+(ed?'<button class="lt-add-phrase" onclick="addLtPhrase()">+ Add another phrase</button>':'')
+    : '';
   var notes = (ltNotes[i] && ltNotes[i].length) ? ltNotes[i] : '\u2022 ';
   wrap.innerHTML = '<div class="lt-card'+(ed?' lt-editing':'')+'">'+
       '<div class="lt-badge">'+esc(c.speaker)+' &middot; 2.5 minutes</div>'+
-      (ed?'<div class="lt-edit-hint">Editing: click the question or any phrase to change it.</div>':'')+
+      (ed?'<div class="lt-edit-hint">Editing: click the question or a phrase line to type. Leave a line blank to hide it.</div>':'')+
       '<div class="lt-question" contenteditable="'+(ed?'true':'false')+'" spellcheck="false" onblur="onLtEdit('+i+',\'question\',this)">'+c.question+'</div>'+
       '<div class="lt-phrases">'+bullets+'</div>'+
       '<details class="lt-notes"'+(ltNotesOpen?' open':'')+' ontoggle="ltNotesOpen=this.open"><summary>Notes</summary>'+
@@ -2782,6 +2781,7 @@ function renderLongTurn(){
 }
 function onLtEdit(i,field,el){ ltItems[i][field] = el.textContent; saveLt(); }
 function onLtPhraseEdit(bi,el){ ltPhrases[bi] = el.textContent.trim(); saveLtPhrases(); }
+function addLtPhrase(){ ltPhrases.push(''); saveLtPhrases(); renderLongTurn(); var l=document.querySelectorAll('.lt-bullet'); if(l.length) l[l.length-1].focus(); }
 var ltTimerDur = 150, ltTimerLeft = 0, ltTimerRun = false, ltTimerInt = null;
 function ltFmt(s){ return Math.floor(s/60)+':'+(s%60<10?'0':'')+(s%60); }
 function ltTog(){
