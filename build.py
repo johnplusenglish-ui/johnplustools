@@ -163,6 +163,8 @@ LESSON_LINKS = [
      'tagline': 'C1 lesson on busy lives, deadlines and who really owns your time.'},
     {'href': '/lessons/the-future-c1.html', 'name': 'The Future',
      'tagline': 'C1 lesson on predictions, forecasts and how wrong we can be about tomorrow.'},
+    {'href': '/lessons/home-where-we-live-c1.html', 'name': 'Home & Where We Live',
+     'tagline': 'C1 lesson on home, the housing crisis and how the places we live are changing.'},
 ]
 
 FAVICON = ("<link rel=\"icon\" href=\"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' "
