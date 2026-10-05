@@ -681,11 +681,6 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <span class="snav-label">Article</span>
     <span class="snav-close" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();hideTab('main')" title="Remove this tab">&times;</span>
   </button>
-  <button class="snav-btn" id="tab-sorting" onclick="onTabClick(event,this,'sorting')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-    <span class="snav-label">Sorting</span>
-    <span class="snav-close" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();hideTab('sorting')" title="Remove this tab">&times;</span>
-  </button>
   <button class="snav-btn" id="tab-longturn" onclick="onTabClick(event,this,'longturn')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
     <span class="snav-label">Long Turn</span>
@@ -706,20 +701,10 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <span class="snav-label">Listening</span>
     <span class="snav-close" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();hideTab('listening')" title="Remove this tab">&times;</span>
   </button>
-  <button class="snav-btn" id="tab-uoe" onclick="onTabClick(event,this,'uoe')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-    <span class="snav-label">Use of English</span>
-    <span class="snav-close" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();hideTab('uoe')" title="Remove this tab">&times;</span>
-  </button>
   <button class="snav-btn" id="tab-write" onclick="onTabClick(event,this,'write')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
     <span class="snav-label">Writing</span>
     <span class="snav-close" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();hideTab('write')" title="Remove this tab">&times;</span>
-  </button>
-  <button class="snav-btn" id="tab-resources" onclick="onTabClick(event,this,'resources')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-    <span class="snav-label">Resources</span>
-    <span class="snav-close" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();hideTab('resources')" title="Remove this tab">&times;</span>
   </button>
 </div>
 
@@ -893,28 +878,6 @@ body.section-present .deb-instruction{font-size:1.15rem}
     </div>
   </div>
 
-  <section class="lesson-section" id="sorting">
-    <div class="section-header">
-      <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
-      <div>
-        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-sorting" onblur="onStaticTextBlur(this)">Sorting</div>
-        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-sorting" onblur="onStaticTextBlur(this)">Sort the Adjectives · 10 min</div>
-      </div>
-    </div>
-    <div class="section-card">
-      <p class="wb-hint" contenteditable="true" spellcheck="false" data-sk="hint-sorting" onblur="onStaticTextBlur(this)">Drag each adjective into the correct column: Positive or Negative. A wrong drop bounces back, so just try again.</p>
-      <div class="adj-bank" id="adjBank"></div>
-      <div class="adj-columns">
-        <div class="adj-col" data-col="positive" id="adjColPositive"><div class="adj-col-title">Positive</div><div class="adj-col-body" id="adjBodyPositive"></div></div>
-        <div class="adj-col" data-col="negative" id="adjColNegative"><div class="adj-col-title">Negative</div><div class="adj-col-body" id="adjBodyNegative"></div></div>
-      </div>
-      <div class="rank-actions" style="display:flex;align-items:center;gap:12px">
-        <button class="read-btn" id="adjResetBtn" onclick="resetAdjSort()">Reset</button>
-        <span class="rank-status" id="adjStatus" style="font-size:.85rem;color:var(--muted)">0 / 20 sorted</span>
-      </div>
-    </div>
-  </section>
-
   <section class="lesson-section" id="longturn">
     <div class="section-header">
       <div class="section-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
@@ -1022,37 +985,6 @@ body.section-present .deb-instruction{font-size:1.15rem}
     </div>
   </section>
 
-  <section class="lesson-section" id="uoe">
-    <div class="section-header">
-      <div class="section-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
-      <div>
-        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-uoe" onblur="onStaticTextBlur(this)">Use of English · Key Word Transformation</div>
-        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-uoe" onblur="onStaticTextBlur(this)">Breather / Homework · 10 min</div>
-      </div>
-      <div class="section-header-actions">
-        <button class="deb-edit-toggle" id="uoeEditToggle" onclick="toggleUoeEditor()" title="Edit">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
-        </button>
-      </div>
-    </div>
-    <div class="section-card">
-      <div id="uoeContainer"></div>
-      <div class="gf-actions">
-        <button class="read-btn" onclick="resetUoE()">Reset</button>
-        <button class="read-btn primary" onclick="revealUoE()">Reveal answers</button>
-      </div>
-    </div>
-    <div class="section-card uoe-editor-card" id="uoeEditorCard" style="display:none">
-      <div id="uoeEditorBody" class="uoe-editor-body show">
-        <div class="wb-head" style="grid-template-columns:.8fr 1.5fr 1.5fr 1fr 34px">
-          <span class="wb-th" contenteditable="true" spellcheck="false" data-sk="wbth-uoe-key" onblur="onStaticTextBlur(this)">Key word</span><span class="wb-th" contenteditable="true" spellcheck="false" data-sk="wbth-uoe-s1" onblur="onStaticTextBlur(this)">Sentence 1</span><span class="wb-th" contenteditable="true" spellcheck="false" data-sk="wbth-uoe-s2" onblur="onStaticTextBlur(this)">Sentence 2 (use ___ for gap)</span><span class="wb-th" contenteditable="true" spellcheck="false" data-sk="wbth-uoe-answer" onblur="onStaticTextBlur(this)">Answer</span><span></span>
-        </div>
-        <div id="uoeEditRows"></div>
-        <button class="read-btn wb-add" onclick="addUoeItem()">+ Add item</button>
-      </div>
-    </div>
-  </section>
-
   <section class="lesson-section" id="write">
     <div class="section-header">
       <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div>
@@ -1069,25 +1001,6 @@ body.section-present .deb-instruction{font-size:1.15rem}
         <button class="tab-btn" id="wtaskBtn-essayc2" onclick="switchWTask('essayc2')">Essay · C2</button>
       </div>
       <div id="wtaskPanels"></div>
-    </div>
-  </section>
-
-  <section class="lesson-section" id="resources">
-    <div class="section-header">
-      <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
-      <div>
-        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-resources" onblur="onStaticTextBlur(this)">Resources</div>
-        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-resources" onblur="onStaticTextBlur(this)">Extra Listening &amp; Reading · Optional</div>
-      </div>
-      <div class="section-header-actions">
-        <button class="deb-edit-toggle" id="resourcesEditToggle" onclick="toggleResourcesEditMode()" title="Edit">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
-        </button>
-      </div>
-    </div>
-    <div class="section-card">
-      <div id="resourcesList" class="resources-list"></div>
-      <button class="deb-add-phrase" id="resourcesAddBtn" onclick="addResource()" style="display:none">+ Add resource</button>
     </div>
   </section>
 
@@ -1374,134 +1287,6 @@ function revealGF(){
   });
 }
 function resetGF(){ renderGapFill(); }
-
-/* ---------- question swap ---------- */
-/* ---------- ranking: drag adjectives into Positive / Negative ---------- */
-var ADJ_KEY = 'jpe_happy_adj_sort';
-var DEFAULT_ADJ = [
-  {term:'delighted', cat:'positive'},
-  {term:'elated', cat:'positive'},
-  {term:'jubilant', cat:'positive'},
-  {term:'content', cat:'positive'},
-  {term:'cheerful', cat:'positive'},
-  {term:'radiant', cat:'positive'},
-  {term:'blissful', cat:'positive'},
-  {term:'upbeat', cat:'positive'},
-  {term:'thrilled', cat:'positive'},
-  {term:'buoyant', cat:'positive'},
-  {term:'miserable', cat:'negative'},
-  {term:'gloomy', cat:'negative'},
-  {term:'downcast', cat:'negative'},
-  {term:'despondent', cat:'negative'},
-  {term:'glum', cat:'negative'},
-  {term:'morose', cat:'negative'},
-  {term:'wretched', cat:'negative'},
-  {term:'forlorn', cat:'negative'},
-  {term:'sullen', cat:'negative'},
-  {term:'dejected', cat:'negative'}
-];
-function loadAdjPlaced(){
-  try{ var raw = JSON.parse(localStorage.getItem(ADJ_KEY)); if(raw && typeof raw==='object') return raw; }catch(e){}
-  return {};
-}
-var adjPlaced = loadAdjPlaced(); /* term -> 'positive'|'negative', only ever set on a correct drop */
-function saveAdjPlaced(){ try{ localStorage.setItem(ADJ_KEY, JSON.stringify(adjPlaced)); }catch(e){} }
-function shuffleAdj(arr){
-  var a = arr.slice();
-  for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; }
-  return a;
-}
-function adjByTerm(term){ for(var i=0;i<DEFAULT_ADJ.length;i++) if(DEFAULT_ADJ[i].term===term) return DEFAULT_ADJ[i]; return null; }
-function renderAdjSort(){
-  var bank = document.getElementById('adjBank');
-  if(!bank) return;
-  var posBody = document.getElementById('adjBodyPositive');
-  var negBody = document.getElementById('adjBodyNegative');
-  var remaining = DEFAULT_ADJ.filter(function(a){ return !adjPlaced[a.term]; });
-  bank.innerHTML = shuffleAdj(remaining).map(function(a){
-    return '<span class="adj-chip" data-term="'+esc(a.term)+'" data-cat="'+a.cat+'">'+esc(a.term)+'</span>';
-  }).join('');
-  posBody.innerHTML = DEFAULT_ADJ.filter(function(a){ return adjPlaced[a.term]==='positive'; })
-    .map(function(a){ return '<span class="adj-chip correct" data-term="'+esc(a.term)+'" data-cat="positive">'+esc(a.term)+'</span>'; }).join('');
-  negBody.innerHTML = DEFAULT_ADJ.filter(function(a){ return adjPlaced[a.term]==='negative'; })
-    .map(function(a){ return '<span class="adj-chip correct" data-term="'+esc(a.term)+'" data-cat="negative">'+esc(a.term)+'</span>'; }).join('');
-  var status = document.getElementById('adjStatus');
-  if(status) status.textContent = Object.keys(adjPlaced).length + ' / ' + DEFAULT_ADJ.length + ' sorted';
-  initAdjDrag();
-}
-function resetAdjSort(){ adjPlaced = {}; saveAdjPlaced(); renderAdjSort(); }
-var adjDragState = null;
-var adjDragGlobalBound = false;
-function bindAdjDragGlobals(){
-  if(adjDragGlobalBound) return;
-  adjDragGlobalBound = true;
-  document.addEventListener('pointermove', function(e){
-    if(!adjDragState) return;
-    var st = adjDragState;
-    var dx = e.clientX - st.startX, dy = e.clientY - st.startY;
-    if(!st.moved){
-      if(Math.abs(dx) < 4 && Math.abs(dy) < 4) return;
-      st.moved = true;
-      st.chip.classList.add('dragging');
-      var r0 = st.chip.getBoundingClientRect();
-      st.chip.style.width = r0.width + 'px';
-    }
-    e.preventDefault();
-    st.chip.style.left = (e.clientX - st.offX) + 'px';
-    st.chip.style.top = (e.clientY - st.offY) + 'px';
-    Array.prototype.forEach.call(document.querySelectorAll('.adj-col'), function(c){
-      var cr = c.getBoundingClientRect();
-      var over = e.clientX >= cr.left && e.clientX <= cr.right && e.clientY >= cr.top && e.clientY <= cr.bottom;
-      c.classList.toggle('drop-hover', over);
-    });
-  });
-  function finishAdjDrag(e){
-    Array.prototype.forEach.call(document.querySelectorAll('.adj-col'), function(c){ c.classList.remove('drop-hover'); });
-    var st = adjDragState;
-    adjDragState = null;
-    if(!st) return;
-    if(!st.moved) return; /* plain click/tap, not a drag */
-    if(!document.contains(st.chip)) return; /* bank re-rendered mid-drag from elsewhere; nothing to clean up */
-    st.chip.classList.remove('dragging');
-    st.chip.style.position = ''; st.chip.style.left = ''; st.chip.style.top = ''; st.chip.style.width = '';
-    var target = null;
-    var ex = (e && typeof e.clientX === 'number') ? e.clientX : st.lastX;
-    var ey = (e && typeof e.clientY === 'number') ? e.clientY : st.lastY;
-    Array.prototype.forEach.call(document.querySelectorAll('.adj-col'), function(c){
-      var cr = c.getBoundingClientRect();
-      if(ex >= cr.left && ex <= cr.right && ey >= cr.top && ey <= cr.bottom) target = c;
-    });
-    if(target && target.dataset.col === st.cat){
-      adjPlaced[st.term] = st.cat;
-      saveAdjPlaced();
-      renderAdjSort();
-    }else if(target){
-      st.chip.classList.add('wrong');
-      setTimeout(function(){ st.chip.classList.remove('wrong'); }, 450);
-    }
-  }
-  document.addEventListener('pointerup', finishAdjDrag);
-  document.addEventListener('pointercancel', finishAdjDrag);
-  /* safety net: if focus leaves the window mid-drag (alt-tab, real device home button, etc.), never leave a chip stuck floating */
-  window.addEventListener('blur', function(){ finishAdjDrag(null); });
-}
-function initAdjDrag(){
-  bindAdjDragGlobals();
-  var chips = document.querySelectorAll('#adjBank .adj-chip');
-  Array.prototype.forEach.call(chips, function(chip){
-    chip.addEventListener('pointerdown', function(e){
-      if(e.button !== undefined && e.button !== 0) return;
-      var r = chip.getBoundingClientRect();
-      adjDragState = {
-        chip: chip, term: chip.dataset.term, cat: chip.dataset.cat,
-        startX: e.clientX, startY: e.clientY,
-        offX: e.clientX - r.left, offY: e.clientY - r.top,
-        lastX: e.clientX, lastY: e.clientY,
-        moved: false
-      };
-    });
-  });
-}
 
 /* ---------- people in this group: single roster, reused by the photo gallery and question swap ---------- */
 var PEOPLE_KEY = 'jpe_happy_gallery_people';
@@ -2548,185 +2333,6 @@ function exportListenTranscriptPNG(){
 }
 function renderListen(){ renderListenTabs(); renderListenBody(); updateListenAudioStickyOffset(); }
 
-/* ---------- Resources: podcast/YouTube/article links, auto-embedded where possible ---------- */
-var RESOURCES_KEY = 'jpe_happy_resources';
-var DEFAULT_RESOURCES = [];
-function loadResources(){
-  try{ var raw = JSON.parse(localStorage.getItem(RESOURCES_KEY)); if(Array.isArray(raw)) return raw; }catch(e){}
-  return DEFAULT_RESOURCES.slice();
-}
-var RESOURCES = loadResources();
-var resourcesEditMode = false;
-var resourcesAddFormOpen = false;
-function saveResources(){ try{ localStorage.setItem(RESOURCES_KEY, JSON.stringify(RESOURCES)); }catch(e){} }
-function toggleResourcesEditMode(){
-  resourcesEditMode = !resourcesEditMode;
-  document.getElementById('resourcesEditToggle').classList.toggle('on', resourcesEditMode);
-  document.getElementById('resourcesAddBtn').style.display = resourcesEditMode ? '' : 'none';
-  if(!resourcesEditMode) resourcesAddFormOpen = false;
-  renderResources();
-}
-function extractYouTubeId(url){
-  var m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([A-Za-z0-9_-]{6,})/);
-  return m ? m[1] : null;
-}
-function extractSpotify(url){
-  var m = url.match(/open\.spotify\.com\/(episode|show|track|playlist|album)\/([A-Za-z0-9]+)/);
-  return m ? {kind:m[1], id:m[2]} : null;
-}
-function detectResourceType(url){
-  if(/youtube\.com|youtu\.be/.test(url)) return 'youtube';
-  if(/open\.spotify\.com/.test(url)) return 'spotify';
-  if(/podcasts\.apple\.com/.test(url)) return 'podcast';
-  return 'article';
-}
-function resourceTypeLabel(type){
-  return {youtube:'YouTube', spotify:'Spotify', podcast:'Podcast', article:'Link'}[type] || 'Link';
-}
-function renderResourceEmbed(r){
-  if(r.type==='youtube'){
-    var yid = extractYouTubeId(r.url);
-    if(yid) return '<div class="resource-embed"><iframe src="https://www.youtube.com/embed/'+yid+'" allowfullscreen loading="lazy"></iframe></div>';
-  }
-  if(r.type==='spotify'){
-    var sp = extractSpotify(r.url);
-    if(sp) return '<div class="resource-embed spotify"><iframe src="https://open.spotify.com/embed/'+sp.kind+'/'+sp.id+'" allow="encrypted-media" loading="lazy"></iframe></div>';
-  }
-  if(r.type==='podcast' && /podcasts\.apple\.com/.test(r.url)){
-    var embedUrl = r.url.replace('podcasts.apple.com','embed.podcasts.apple.com');
-    return '<div class="resource-embed spotify"><iframe src="'+esc(embedUrl)+'" allow="autoplay *; encrypted-media *;" loading="lazy"></iframe></div>';
-  }
-  return '<a class="resource-link" href="'+esc(r.url)+'" target="_blank" rel="noopener">Open link ↗</a>';
-}
-function renderResources(){
-  var wrap = document.getElementById('resourcesList');
-  if(!wrap) return;
-  var ed = resourcesEditMode;
-  var cardsHtml = RESOURCES.map(function(r,i){
-    var rm = ed ? '<button class="resource-rm" onclick="removeResource('+i+')" title="Remove">&times;</button>' : '';
-    return '<div class="resource-card'+(ed?' resource-editing':'')+'">'+
-      '<div class="resource-head">'+
-        '<span class="resource-type-badge '+r.type+'">'+resourceTypeLabel(r.type)+'</span>'+
-        '<span class="resource-title" contenteditable="'+(ed?'true':'false')+'" spellcheck="false" '+
-          'onblur="onResourceTitleEdit('+i+',this)" onkeydown="if(event.key===\'Enter\'){event.preventDefault();this.blur();}">'+esc(r.title)+'</span>'+
-        rm+
-      '</div>'+
-      '<span class="resource-url">'+esc(r.url)+'</span>'+
-      renderResourceEmbed(r)+
-    '</div>';
-  }).join('');
-  var emptyHtml = (!RESOURCES.length && !resourcesAddFormOpen) ? '<div class="resources-empty">No resources added yet.'+(ed?' Tap "+ Add resource" below to add a podcast episode, YouTube video, or article link.':'')+'</div>' : '';
-  var formHtml = (ed && resourcesAddFormOpen) ? (
-    '<div class="resource-add-form">'+
-      '<input type="url" id="resourceUrlInput" placeholder="Paste a YouTube, Spotify, Apple Podcasts, or article link…">'+
-      '<input type="text" id="resourceTitleInput" placeholder="Title (optional, auto-filled if left blank)">'+
-      '<div class="resource-add-actions">'+
-        '<button class="read-btn primary" onclick="submitResourceForm()">Add</button>'+
-        '<button class="read-btn" onclick="cancelResourceForm()">Cancel</button>'+
-      '</div>'+
-    '</div>'
-  ) : '';
-  wrap.innerHTML = cardsHtml + emptyHtml + formHtml;
-}
-function addResource(){
-  resourcesAddFormOpen = true;
-  renderResources();
-  var el = document.getElementById('resourceUrlInput');
-  if(el) el.focus();
-}
-function cancelResourceForm(){
-  resourcesAddFormOpen = false;
-  renderResources();
-}
-function submitResourceForm(){
-  var urlEl = document.getElementById('resourceUrlInput');
-  var titleEl = document.getElementById('resourceTitleInput');
-  var url = urlEl ? urlEl.value.trim() : '';
-  if(!url){ urlEl.focus(); return; }
-  if(!/^https?:\/\//i.test(url)) url = 'https://'+url;
-  var type = detectResourceType(url);
-  var title = titleEl && titleEl.value.trim() ? titleEl.value.trim() : (resourceTypeLabel(type)+' resource');
-  RESOURCES.push({title:title, url:url, type:type});
-  saveResources();
-  resourcesAddFormOpen = false;
-  renderResources();
-}
-function removeResource(i){
-  RESOURCES.splice(i,1);
-  saveResources();
-  renderResources();
-}
-function onResourceTitleEdit(i, el){
-  RESOURCES[i].title = el.textContent.trim();
-  saveResources();
-}
-
-/* ---------- Use of English: key word transformation (editable) ---------- */
-var UOE_KEY = 'jpe_happy_uoe_items';
-/* real KWT format: sentence1 (unchanged) + key word + sentence2 with a ___ gap;
-   answer is 2-5 words and must include the key word unchanged */
-var DEFAULT_UOE = [
-  {key:'CLOUD', s1:'She has been extremely happy ever since she got the news.', s2:"She's been ___ ever since she got the news.", answer:'on cloud nine'},
-  {key:'MOON', s1:'They were absolutely delighted when they heard they had won.', s2:'They were ___ when they heard they had won.', answer:'over the moon'},
-  {key:'AIR', s1:'After the interview went so well, I felt light and happy all day.', s2:'After the interview went so well, I spent the whole day ___.', answer:'walking on air'},
-  {key:'ELEMENT', s1:'She enjoys being in front of a crowd and is naturally good at it.', s2:'In front of a crowd, she is ___.', answer:'in her element'},
-  {key:'LEASE', s1:'Moving to the coast made my father feel full of energy again.', s2:'Moving to the coast gave my father ___.', answer:'a new lease of life'},
-  {key:'CHUFFED', s1:'I was extremely pleased and proud when my team won the cup.', s2:'I was ___ when my team won the cup.', answer:'chuffed to bits'}
-];
-function loadUoe(){
-  try{ var raw = localStorage.getItem(UOE_KEY); if(raw){ var p = JSON.parse(raw); if(Array.isArray(p) && p.length && p[0].s2!==undefined) return p; } }catch(e){}
-  return JSON.parse(JSON.stringify(DEFAULT_UOE));
-}
-var UOE_ITEMS = loadUoe();
-function saveUoe(){ try{ localStorage.setItem(UOE_KEY, JSON.stringify(UOE_ITEMS)); }catch(e){} }
-var uoeEditMode = false;
-function toggleUoeEditor(){
-  uoeEditMode = !uoeEditMode;
-  document.getElementById('uoeEditToggle').classList.toggle('on', uoeEditMode);
-  document.getElementById('uoeEditorCard').style.display = uoeEditMode ? '' : 'none';
-}
-function renderUoeEdit(){
-  var wrap = document.getElementById('uoeEditRows');
-  if(!wrap) return;
-  wrap.innerHTML = UOE_ITEMS.map(function(u,i){
-    return '<div class="wb-row" style="grid-template-columns:.8fr 1.5fr 1.5fr 1fr 34px">'+
-      '<input value="'+esc(u.key)+'" data-i="'+i+'" data-f="key" oninput="onUoeEdit(this)" placeholder="key word">'+
-      '<input value="'+esc(u.s1)+'" data-i="'+i+'" data-f="s1" oninput="onUoeEdit(this)" placeholder="sentence 1 (unchanged)">'+
-      '<input value="'+esc(u.s2)+'" data-i="'+i+'" data-f="s2" oninput="onUoeEdit(this)" placeholder="sentence 2, use ___ for the gap">'+
-      '<input value="'+esc(u.answer)+'" data-i="'+i+'" data-f="answer" oninput="onUoeEdit(this)" placeholder="answer (2-5 words)">'+
-      '<button class="wb-rm" onclick="removeUoeItem('+i+')" aria-label="Remove">&times;</button>'+
-    '</div>';
-  }).join('');
-}
-function onUoeEdit(el){
-  var i = +el.dataset.i, f = el.dataset.f;
-  UOE_ITEMS[i][f] = el.value;
-  saveUoe();
-  renderUoE();
-}
-function removeUoeItem(i){ UOE_ITEMS.splice(i,1); saveUoe(); renderUoeEdit(); renderUoE(); }
-function addUoeItem(){ UOE_ITEMS.push({key:'',s1:'',s2:'___',answer:''}); saveUoe(); renderUoeEdit(); renderUoE(); }
-function renderUoE(){
-  var wrap = document.getElementById('uoeContainer');
-  if(!wrap) return;
-  wrap.innerHTML = UOE_ITEMS.map(function(u,i){
-    var parts = u.s2.split('___');
-    var inner = esc(parts[0]||'')+'<span class="prep-blank"><input type="text" class="prep-inp" style="width:200px" data-ans="'+esc(u.answer.toLowerCase())+'" id="uoe'+i+'" placeholder="....."></span>'+esc(parts[1]||'');
-    return '<div class="uoe-item">'+
-      '<p class="reading-text" style="margin-bottom:.3rem">'+(i+1)+'. '+esc(u.s1)+'</p>'+
-      '<span class="uoe-key-chip">'+esc(u.key)+'</span>'+
-      '<p class="reading-text" style="margin-bottom:0;margin-top:.35rem">'+inner+'</p>'+
-    '</div>';
-  }).join('');
-}
-function revealUoE(){
-  UOE_ITEMS.forEach(function(u,i){
-    var inp = document.getElementById('uoe'+i);
-    if(inp){ inp.value = u.answer; inp.style.borderColor = 'var(--mint)'; }
-  });
-}
-function resetUoE(){ renderUoE(); }
-
 /* ---------- writing tasks: informal / article / essay ---------- */
 var WTASKS = {
   essay: {
@@ -3288,8 +2894,8 @@ function readHeroFile(file){
 }
 
 /* ---------- wiring ---------- */
-function renderDerived(){ initMatching(); renderGapFill(); renderAdjSort(); renderFlashcards(); }
-function renderAll(){ renderWordBank(); renderDerived(); renderPeopleEdit(); renderGallery(); renderDebates(); renderRP(); renderListen(); renderResources(); renderUoeEdit(); renderUoE(); }
+function renderDerived(){ initMatching(); renderGapFill(); renderFlashcards(); }
+function renderAll(){ renderWordBank(); renderDerived(); renderPeopleEdit(); renderGallery(); renderDebates(); renderRP(); renderListen(); }
 
 var vTabBtnIds = {edit:'tabEdit', flash:'tabFlash', match:'tabMatch', gf:'tabGF'};
 function switchVTab(id){
@@ -3311,7 +2917,7 @@ function toggleVocabEditMode(){
   renderFlashcards();
 }
 
-var tabIds = ['warmup','vocab','main','sorting','longturn','debates','roleplay','listening','uoe','write','resources'];
+var tabIds = ['warmup','vocab','main','longturn','debates','roleplay','listening','write'];
 function showTab(id){
   tabIds.forEach(function(t){
     document.getElementById(t).classList.toggle('visible', t===id);
