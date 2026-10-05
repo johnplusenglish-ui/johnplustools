@@ -195,15 +195,29 @@ body.section-present #vocab.present-active .flash-hint{font-size:.9rem;margin-to
 /* long turn (C2-style) */
 .lt-nav{display:flex;align-items:center;justify-content:center;gap:1rem;margin-bottom:1.2rem}
 .lt-progress{font-family:'JetBrains Mono',monospace;font-size:.78rem;font-weight:700;color:var(--muted);min-width:52px;text-align:center}
-.lt-grid{max-width:520px;margin:0 auto}
+.lt-grid{max-width:660px;margin:0 auto}
 .lt-card{background:var(--mint-light);border:1.5px solid rgba(33,118,255,.18);border-radius:var(--radius-lg);padding:1.4rem}
 .lt-badge{font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mint);margin-bottom:.5rem}
-.lt-question{font-size:1.02rem;font-weight:700;line-height:1.45;outline:none;border-radius:5px;transition:background-color .15s;margin-bottom:.7rem}
+.lt-question{font-size:2rem;font-weight:800;letter-spacing:-.02em;line-height:1.22;outline:none;border-radius:6px;transition:background-color .15s;margin:.2rem 0 1.3rem}
+@media(max-width:700px){.lt-question{font-size:1.5rem}}
 .lt-question:hover,.lt-bullet:hover,.lt-followup:hover{background:color-mix(in srgb,var(--mint) 6%,transparent)}
 .lt-question:focus,.lt-bullet:focus,.lt-followup:focus{background:color-mix(in srgb,var(--mint) 9%,transparent)}
 .lt-bullets{margin:0 0 .9rem 1.1rem;padding:0}
-.lt-bullet{font-size:.88rem;color:var(--ink);line-height:1.55;outline:none;border-radius:5px;margin-bottom:.15rem}
-.lt-followup{font-size:.85rem;color:var(--muted);border-top:1.5px dashed rgba(33,118,255,.25);padding-top:.6rem;margin-top:.4rem;outline:none;border-radius:5px}
+.lt-phrases{margin:.4rem 0 1rem}
+.lt-phrase-label{font-family:'JetBrains Mono',monospace;font-size:.64rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--mint-dark);margin:1.1rem 0 .4rem}
+.lt-phrase-label:first-child{margin-top:0}
+.lt-phrase-list{margin:0 0 .2rem 1.2rem;padding:0}
+.lt-bullet{font-size:.95rem;color:var(--ink);line-height:1.5;outline:none;border-radius:5px;margin-bottom:.3rem}
+.lt-card.lt-editing [contenteditable="true"]{outline:1.5px dashed rgba(33,118,255,.5);outline-offset:2px;cursor:text}
+.lt-edit-hint{font-size:.75rem;color:var(--mint-dark);font-weight:600;margin:0 0 .8rem}
+.lt-notes{margin-top:1rem;border-top:1.5px dashed rgba(33,118,255,.25);padding-top:.8rem}
+.lt-notes summary{cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mint-dark);list-style:none;display:flex;align-items:center;gap:.4rem;user-select:none}
+.lt-notes summary::-webkit-details-marker{display:none}
+.lt-notes summary::before{content:'\25B8';font-size:.8rem}
+.lt-notes[open] summary::before{content:'\25BE'}
+.lt-notes textarea{display:block;width:100%;min-height:150px;margin-top:.6rem;padding:.8rem .9rem;border:1.5px solid var(--border);border-radius:10px;background:var(--card);color:var(--ink);font-family:'Outfit',sans-serif;font-size:.95rem;line-height:1.7;resize:vertical;outline:none}
+.lt-notes textarea:focus{border-color:var(--mint)}
+.lt-followup{display:none}
 .lt-followup b{color:var(--ink)}
 .lt-timer-row{display:flex;align-items:center;gap:.6rem;margin-bottom:1.2rem;flex-wrap:wrap}
 .lt-timer-pill{font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:700;padding:.32rem .8rem;border:1.5px solid var(--border);border-radius:100px;background:var(--card);color:var(--muted);cursor:pointer;transition:all .15s}
@@ -892,13 +906,10 @@ body.section-present .deb-instruction{font-size:1.15rem}
       </div>
     </div>
     <div class="section-card">
-      <p style="font-size:.85rem;color:var(--muted);margin-bottom:1.2rem" contenteditable="true" spellcheck="false" data-sk="hint-longturn" onblur="onStaticTextBlur(this)">Give each candidate their own card. They speak alone for two minutes, uninterrupted, using the bullet points as a guide, not a script. Their partner just listens, then answers the short follow-up question underneath.</p>
+      <p style="font-size:.85rem;color:var(--muted);margin-bottom:1.2rem" contenteditable="true" spellcheck="false" data-sk="hint-longturn" onblur="onStaticTextBlur(this)">Give each candidate their own card. They speak alone for two and a half minutes, uninterrupted, keeping it relaxed and personal, using the key phrases to sound natural. Use the Notes dropdown to jot down points as you listen.</p>
       <div class="lt-timer-row">
-        <button class="lt-timer-pill" onclick="ltSelTime(120,this)">2 min</button>
-        <button class="lt-timer-pill" onclick="ltSelTime(150,this)">2.5 min</button>
-        <button class="lt-timer-pill" onclick="ltSelTime(30,this)">30 sec follow-up</button>
         <button class="lt-timer-pill" id="ltPlay" onclick="ltTog()">&#9658; Start</button>
-        <span class="lt-timer-disp" id="ltDisp">2:00</span>
+        <span class="lt-timer-disp" id="ltDisp">2:30</span>
       </div>
       <div class="lt-timer-bar-outer"><div class="lt-timer-bar" id="ltBar"></div></div>
       <div class="lt-nav">
@@ -2667,48 +2678,59 @@ var LT_KEY = 'jpe_happy_longturn';
 var DEFAULT_LT = [
   {
     speaker: 'Speaker A',
-    question: "Do you think people today are happier than their grandparents were?",
-    bullets: [
-      'Technology and comfort',
-      'Stress, pace of life and pressure',
-      'Whether we expect too much of life'
-    ],
-    followUp: "Would you swap places with someone from fifty years ago?"
+    question: "What is the simplest little thing that makes you happy?"
   },
   {
     speaker: 'Speaker B',
-    question: "Can money buy happiness, or only remove unhappiness?",
-    bullets: [
-      'Security and freedom of choice',
-      'The point where more money stops helping',
-      'Comparing yourself with other people'
-    ],
-    followUp: "How much money would be enough for you?"
+    question: "What makes an ordinary day a good day for you?"
   },
   {
     speaker: 'Speaker A',
-    question: "Is it possible to choose to be happy, or is it mostly down to luck and personality?",
-    bullets: [
-      'Habits like gratitude and exercise',
-      'Genes, upbringing and circumstances',
-      'Whether positive thinking can ever go too far'
-    ],
-    followUp: "What do you do when you want to cheer yourself up?"
+    question: "Who is the happiest person you know, and what are they like?"
   },
   {
     speaker: 'Speaker B',
-    question: "Should governments measure the happiness of their people, not just the economy?",
-    bullets: [
-      'What a country is really for',
-      'The difficulty of measuring feelings',
-      'Examples like Finland and Bhutan'
-    ],
-    followUp: "What one policy would make your country happier?"
+    question: "If you could spend one perfect, happy day anywhere, what would it look like?"
+  },
+  {
+    speaker: 'Speaker A',
+    question: "Are people happier today than they were fifty years ago, despite having so much more?"
+  },
+  {
+    speaker: 'Speaker B',
+    question: "Does social media make us happier, or does it just make us compare ourselves with everyone else?"
+  },
+  {
+    speaker: 'Speaker A',
+    question: "Were people happier in the past, or do we just remember it that way?"
+  },
+  {
+    speaker: 'Speaker B',
+    question: "Should we expect to be happy all the time, or is that an unrealistic goal?"
   }
 ];
+var LT_PHRASES_KEY = 'jpe_happy_longturn_phrases_v4';
+var DEFAULT_LT_PHRASES = [
+  'The first thing that comes to mind is ...',
+  'To be honest with you',
+  'Part of me thinks that ...',
+  'On the one hand, ... but on the other',
+  'I guess it all comes down to ...',
+  'At the end of the day',
+  'So, to wrap up, ...'
+];
+function loadLtPhrases(){
+  try{ var p = JSON.parse(localStorage.getItem(LT_PHRASES_KEY)); if(Array.isArray(p) && p.length && typeof p[0] === 'string') return p; }catch(e){}
+  return DEFAULT_LT_PHRASES.slice();
+}
+var ltPhrases = loadLtPhrases();
+function saveLtPhrases(){ try{ localStorage.setItem(LT_PHRASES_KEY, JSON.stringify(ltPhrases)); }catch(e){} }
 function loadLt(){
-  try{ var s = JSON.parse(localStorage.getItem(LT_KEY)); if(Array.isArray(s) && s.length) return s; }catch(e){}
-  return DEFAULT_LT.slice();
+  try{
+    var s = JSON.parse(localStorage.getItem(LT_KEY));
+    if(Array.isArray(s) && s.length && !(s[0] && s[0].bullets) && !(s.length < DEFAULT_LT.length && s[0] && s[0].question === DEFAULT_LT[0].question)) return s;
+  }catch(e){}
+  return JSON.parse(JSON.stringify(DEFAULT_LT));
 }
 var ltItems = loadLt();
 function saveLt(){ try{ localStorage.setItem(LT_KEY, JSON.stringify(ltItems)); }catch(e){} }
@@ -2721,6 +2743,21 @@ function toggleLtEditMode(){
 }
 function ltPrevCard(){ ltIndex = (ltIndex-1+ltItems.length)%ltItems.length; renderLongTurn(); }
 function ltNextCard(){ ltIndex = (ltIndex+1)%ltItems.length; renderLongTurn(); }
+var LT_NOTES_KEY = 'jpe_happy_longturn_notes';
+var ltNotesOpen = false;
+function loadLtNotes(){ try{ var n = JSON.parse(localStorage.getItem(LT_NOTES_KEY)); if(n && typeof n === 'object') return n; }catch(e){} return {}; }
+var ltNotes = loadLtNotes();
+function saveLtNotes(){ try{ localStorage.setItem(LT_NOTES_KEY, JSON.stringify(ltNotes)); }catch(e){} }
+function ltNotesInput(i, ta){ ltNotes[i] = ta.value; saveLtNotes(); }
+function ltNotesKey(e, i, ta){
+  if(e.key === 'Enter'){
+    e.preventDefault();
+    var s = ta.selectionStart;
+    ta.value = ta.value.slice(0,s) + '\n\u2022 ' + ta.value.slice(ta.selectionEnd);
+    ta.selectionStart = ta.selectionEnd = s + 3;
+    ltNotesInput(i, ta);
+  }
+}
 function renderLongTurn(){
   var wrap = document.getElementById('ltGrid');
   if(!wrap) return;
@@ -2729,29 +2766,24 @@ function renderLongTurn(){
   var i = ltIndex;
   var c = ltItems[i];
   document.getElementById('ltProgress').textContent = (i+1)+' / '+ltItems.length;
-  var bullets = c.bullets.map(function(b,bi){
-    return '<li class="lt-bullet" contenteditable="'+(ed?'true':'false')+'" spellcheck="false" onblur="onLtBulletEdit('+i+','+bi+',this)">'+b+'</li>';
-  }).join('');
-  wrap.innerHTML = '<div class="lt-card">'+
-      '<div class="lt-badge">'+esc(c.speaker)+' &middot; 2 minutes</div>'+
+  var bullets = '<ul class="lt-bullets lt-phrase-list">'+ltPhrases.map(function(b,bi){
+    return '<li class="lt-bullet" contenteditable="'+(ed?'true':'false')+'" spellcheck="false" onblur="onLtPhraseEdit('+bi+',this)">'+esc(b)+'</li>';
+  }).join('')+'</ul>';
+  var notes = (ltNotes[i] && ltNotes[i].length) ? ltNotes[i] : '\u2022 ';
+  wrap.innerHTML = '<div class="lt-card'+(ed?' lt-editing':'')+'">'+
+      '<div class="lt-badge">'+esc(c.speaker)+' &middot; 2.5 minutes</div>'+
+      (ed?'<div class="lt-edit-hint">Editing: click the question or any phrase to change it.</div>':'')+
       '<div class="lt-question" contenteditable="'+(ed?'true':'false')+'" spellcheck="false" onblur="onLtEdit('+i+',\'question\',this)">'+c.question+'</div>'+
-      '<ul class="lt-bullets">'+bullets+'</ul>'+
-      '<div class="lt-followup" contenteditable="'+(ed?'true':'false')+'" spellcheck="false" onblur="onLtEdit('+i+',\'followUp\',this)"><b>Partner\'s follow-up:</b> '+c.followUp+'</div>'+
+      '<div class="lt-phrases">'+bullets+'</div>'+
+      '<details class="lt-notes"'+(ltNotesOpen?' open':'')+' ontoggle="ltNotesOpen=this.open"><summary>Notes</summary>'+
+        '<textarea id="ltNotesBox" spellcheck="false" oninput="ltNotesInput('+i+',this)" onkeydown="ltNotesKey(event,'+i+',this)" placeholder="Jot points here...">'+esc(notes)+'</textarea>'+
+      '</details>'+
     '</div>';
 }
 function onLtEdit(i,field,el){ ltItems[i][field] = el.textContent; saveLt(); }
-function onLtBulletEdit(i,bi,el){ ltItems[i].bullets[bi] = el.textContent; saveLt(); }
-var ltTimerDur = 120, ltTimerLeft = 0, ltTimerRun = false, ltTimerInt = null;
+function onLtPhraseEdit(bi,el){ ltPhrases[bi] = el.textContent.trim(); saveLtPhrases(); }
+var ltTimerDur = 150, ltTimerLeft = 0, ltTimerRun = false, ltTimerInt = null;
 function ltFmt(s){ return Math.floor(s/60)+':'+(s%60<10?'0':'')+(s%60); }
-function ltSelTime(s, btn){
-  ltTimerDur = s; ltTimerLeft = s; ltTimerRun = false;
-  clearInterval(ltTimerInt);
-  document.getElementById('ltPlay').textContent = '\u25B6 Start';
-  document.getElementById('ltDisp').textContent = ltFmt(s);
-  document.getElementById('ltBar').style.width = '0%';
-  Array.prototype.forEach.call(document.querySelectorAll('.lt-timer-pill'), function(b){ b.classList.remove('on'); });
-  if(btn) btn.classList.add('on');
-}
 function ltTog(){
   if(!ltTimerLeft) ltTimerLeft = ltTimerDur;
   ltTimerRun = !ltTimerRun;
