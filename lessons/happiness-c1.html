@@ -2010,46 +2010,46 @@ function ln(speaker, name, text){ return {speaker:speaker, name:name, text:text}
 var DEFAULT_LISTEN = [
   {
     title: 'Good News Travels Fast',
-    subtitle: 'An English woman and a Scottish man bump into each other on the high street and swap their good news',
+    subtitle: 'A Londoner and a man from the Irish countryside bump into each other on the high street and swap their good news',
     targetPhrases: ['on cloud nine','over the moon','walking on air','in your element','a new lease of life','chuffed to bits','a ray of sunshine','a bundle of joy'],
     audio: null,
     questions: [
       'Why is Imogen over the moon, and how has she been feeling since Sunday?',
-      'What does Fraser do in his new job, and why does Imogen say he is in his element?',
-      'What gave Fraser\'s dad a new lease of life?'
+      'What does Declan do in his new job, and why does Imogen say he is in his element?',
+      'What gave Declan\'s dad a new lease of life?'
     ],
     lines: [
-      ln('a','Imogen',"Fraser! Oh, it's so good to see you. You'll never guess. My sister had her baby on Sunday. A little girl."),
-      ln('b','Fraser',"Och, that's brilliant news! Congratulations. How is everyone?"),
+      ln('a','Imogen',"Declan! Oh, it's so good to see you. You'll never guess. My sister had her baby on Sunday. A little girl."),
+      ln('b','Declan',"Ah, that's brilliant news! Congratulations. How is everyone?"),
       ln('a','Imogen',"Honestly, I'm over the moon. I've been walking on air since Sunday. I keep staring at the photos on my phone."),
-      ln('b','Fraser',"[laughs] Aye, I can tell. You're positively glowing. What did they call her?"),
+      ln('b','Declan',"[laughs] Ah, sure, I can tell. You're positively glowing. What did they call her?"),
       ln('a','Imogen',"Poppy. She's a bundle of joy, even though she hasn't stopped crying."),
-      ln('b','Fraser',"That's a wee baby for you. My niece is three now and she's a ray of sunshine. She lights up the whole house."),
+      ln('b','Declan',"That's babies for you. My niece is three now and she's a ray of sunshine. She lights up the whole house."),
       ln('a','Imogen',"Aw, lovely. And how are you? How's the new job?"),
-      ln('b','Fraser',"Do you know, I'm chuffed to bits with it. It's mostly outdoors. I'm out in the hills all day with the rangers."),
+      ln('b','Declan',"Do you know, I'm chuffed to bits with it. It's mostly outdoors. I'm out in the hills all day with the rangers."),
       ln('a','Imogen',"That sounds perfect for you. You're really in your element out there."),
-      ln('b','Fraser',"Aye, I think I am. Honestly, I should've done it years ago."),
+      ln('b','Declan',"Ah, I think I am. Honestly, I should've done it years ago."),
       ln('a','Imogen',"And how's your dad? Last time you said he was a bit lost after retiring."),
-      ln('b','Fraser',"He's a different man now. He joined a sailing club and it's given him a new lease of life. He's up at six every Saturday."),
+      ln('b','Declan',"He's a different man now. He joined a sailing club and it's given him a new lease of life. He's up at six every Saturday."),
       ln('a','Imogen',"Six on a Saturday? Goodness."),
-      ln('b','Fraser',"Aye, he says the sea air keeps him young. And my mum's thrilled to have the house to herself."),
+      ln('b','Declan',"Ah, he says the sea air keeps him young. And my mum's thrilled to have the house to herself."),
       ln('a','Imogen',"[laughs] That's wonderful. Everybody seems so happy this year."),
-      ln('b','Fraser',"Funnily enough, I read that happiness comes down to people. The people you love, mostly. Not money."),
+      ln('b','Declan',"Funnily enough, I read that happiness comes down to people. The people you love, mostly. Not money."),
       ln('a','Imogen',"That's true. When I first held Poppy, I felt like I was on cloud nine."),
-      ln('b','Fraser',"[chuckles] Cloud nine and walking on air in the same conversation. You've got it bad."),
+      ln('b','Declan',"[chuckles] Cloud nine and walking on air in the same conversation. You've got it bad."),
       ln('a','Imogen',"I know, I know. Anyway, enough about me. Is there anything else I should know?"),
-      ln('b','Fraser',"Well... the rangers have talked me into running the half marathon in the spring."),
+      ln('b','Declan',"Well... the rangers have talked me into running the half marathon in the spring."),
       ln('a','Imogen',"You? Running? I'll believe it when I see it."),
-      ln('b','Fraser',"Aye, I know. Don't laugh."),
+      ln('b','Declan',"Ah, I know. Don't laugh."),
       ln('a','Imogen',"[laughs] I'll try. Come round next weekend and meet Poppy."),
-      ln('b','Fraser',"I'd love that. I'll bring a wee present."),
-      ln('a','Imogen',"[laughs] Just no bagpipes. She's only a week old."),
-      ln('b','Fraser',"No promises.")
+      ln('b','Declan',"I'd love that. I'll bring a small present, so."),
+      ln('a','Imogen',"[laughs] Just no tin whistle. She's only a week old."),
+      ln('b','Declan',"No promises.")
     ]
   }
 ];
 function loadListen(){
-  try{ var raw = JSON.parse(localStorage.getItem(LISTEN_KEY)); if(Array.isArray(raw) && raw.length) return raw; }catch(e){}
+  try{ var raw = JSON.parse(localStorage.getItem(LISTEN_KEY)); if(Array.isArray(raw) && raw.length && !JSON.stringify(raw).includes('Fraser')) return raw; }catch(e){}
   return JSON.parse(JSON.stringify(DEFAULT_LISTEN));
 }
 var LISTEN = loadListen();
