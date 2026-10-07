@@ -787,7 +787,7 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <div class="section-header">
       <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/></svg></div>
       <div>
-        <div class="section-title" id="vocabHeading">Vocabulary &middot; 8 items, C1</div>
+        <div class="section-title" id="vocabHeading">Vocabulary &middot; 7 items, C1</div>
         <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-vocab" onblur="onStaticTextBlur(this)">Happiness Word Bank · 20 min</div>
       </div>
       <div class="section-header-actions">
@@ -822,7 +822,7 @@ body.section-present .deb-instruction{font-size:1.15rem}
       <div class="section-card">
         <div class="flash-nav">
           <button class="flash-arrow" id="flashPrev" onclick="flashPrev()" aria-label="Previous card">&lsaquo;</button>
-          <div class="flash-progress" id="flashProgress">1 / 8</div>
+          <div class="flash-progress" id="flashProgress">1 / 7</div>
           <button class="flash-arrow" id="flashNext" onclick="flashNext()" aria-label="Next card">&rsaquo;</button>
         </div>
         <div class="flash-card" id="flashCard" onclick="flashAdvance()">
@@ -1106,7 +1106,6 @@ var DEFAULT_WORDS = [
   {term:"walking on air", def:"feeling so happy and light that you hardly notice the ground beneath you", example:"After the interview went so well, I spent the whole day walking on air."},
   {term:"in your element", def:"in a situation that you enjoy and are naturally good at", example:"Whenever you're teaching a class, you're in your element."},
   {term:"a new lease of life", def:"a feeling of energy and enthusiasm that makes life seem fresh and exciting again", example:"Moving to the coast gave my father a new lease of life."},
-  {term:"chuffed to bits", def:"(British, informal) extremely pleased and proud", example:"I was chuffed to bits when my team won the cup."},
   {term:"a ray of sunshine", def:"a person who brings happiness and cheerfulness to the people around them", example:"The new receptionist is a ray of sunshine; everyone loves her."},
   {term:"a bundle of joy", def:"a baby or small child, especially a newborn, who brings happiness to a family", example:"Congratulations, you must be thrilled with a bundle of joy like that!"}
 ];
@@ -1792,7 +1791,7 @@ var DEFAULT_RP = [
     scenario:"One friend has just received wonderful news and cannot stop smiling. They bump into a friend who had no idea and wants every detail.",
     roleA:{name:'Friend A', desc:"You've just got the job, the flat, or the engagement ring. You are over the moon and keep going off topic because you are so happy."},
     roleB:{name:'Friend B', desc:"You are genuinely thrilled for them. Ask lots of questions and react warmly, using expressions like 'that's amazing' and 'I'm so happy for you'."},
-    chips:["You'll never guess what's happened!","I'm over the moon, honestly.","Tell me everything!","That's amazing, I'm so happy for you.","I've been walking on air all week.","I'm chuffed to bits."]
+    chips:["You'll never guess what's happened!","I'm over the moon, honestly.","Tell me everything!","That's amazing, I'm so happy for you.","I've been walking on air all week.","I couldn't be happier."]
   },
   {
     tone:'funny',
@@ -2010,46 +2009,46 @@ function ln(speaker, name, text){ return {speaker:speaker, name:name, text:text}
 var DEFAULT_LISTEN = [
   {
     title: 'Good News Travels Fast',
-    subtitle: 'A Londoner and a man from the Irish countryside bump into each other on the high street and swap their good news',
-    targetPhrases: ['on cloud nine','over the moon','walking on air','in your element','a new lease of life','chuffed to bits','a ray of sunshine','a bundle of joy'],
+    subtitle: 'Two friends catch up on a video call: a finance director in Athens and an English teacher in Ireland',
+    targetPhrases: ['on cloud nine','over the moon','walking on air','in your element','a new lease of life','a ray of sunshine','a bundle of joy'],
     audio: null,
     questions: [
       'Why is Imogen over the moon, and how has she been feeling since Sunday?',
-      'What does Declan do in his new job, and why does Imogen say he is in his element?',
+      'What does Declan teach, and why does Imogen say he is in his element?',
       'What gave Declan\'s dad a new lease of life?'
     ],
     lines: [
-      ln('a','Imogen',"Declan! Oh, it's so good to see you. You'll never guess. My sister had her baby on Sunday. A little girl."),
-      ln('b','Declan',"Ah, that's brilliant news! Congratulations. How is everyone?"),
-      ln('a','Imogen',"Honestly, I'm over the moon. I've been walking on air since Sunday. I keep staring at the photos on my phone."),
-      ln('b','Declan',"[laughs] Ah, sure, I can tell. You're positively glowing. What did they call her?"),
+      ln('a','Imogen',"Declan! There you are. Can you hear me? I finally have a free afternoon."),
+      ln('b','Declan',"I can hear you fine. It's so good to see you. How is Athens?"),
+      ln('a','Imogen',"Still warm, even in October. I'm on the balcony. But I have news. My sister had her baby on Sunday, and I was at the hospital all day."),
+      ln('b','Declan',"That's brilliant news! Congratulations. How is everyone?"),
+      ln('a','Imogen',"Honestly, I'm over the moon. I've been walking on air since Sunday. I keep looking at the photos on my phone."),
+      ln('b','Declan',"[laughs] I can tell. You're glowing, even through a screen. What did they call her?"),
       ln('a','Imogen',"Poppy. She's a bundle of joy, even though she hasn't stopped crying."),
-      ln('b','Declan',"That's babies for you. My niece is three now and she's a ray of sunshine. She lights up the whole house."),
-      ln('a','Imogen',"Aw, lovely. And how are you? How's the new job?"),
-      ln('b','Declan',"Do you know, I'm chuffed to bits with it. It's mostly outdoors. I'm out in the hills all day with the rangers."),
-      ln('a','Imogen',"That sounds perfect for you. You're really in your element out there."),
-      ln('b','Declan',"Ah, I think I am. Honestly, I should've done it years ago."),
+      ln('b','Declan',"That's babies for you. There's a girl in my class who smiles all day. She's a ray of sunshine. She lights up the whole room."),
+      ln('a','Imogen',"That's lovely. And how's school? Do you still enjoy teaching English?"),
+      ln('b','Declan',"I do. We're reading a play this term, and the students really like it."),
+      ln('a','Imogen',"You always wanted that. You're really in your element in a classroom."),
+      ln('b','Declan',"I think I am. I should have started years ago."),
       ln('a','Imogen',"And how's your dad? Last time you said he was a bit lost after retiring."),
-      ln('b','Declan',"He's a different man now. He joined a sailing club and it's given him a new lease of life. He's up at six every Saturday."),
-      ln('a','Imogen',"Six on a Saturday? Goodness."),
-      ln('b','Declan',"Ah, he says the sea air keeps him young. And my mum's thrilled to have the house to herself."),
-      ln('a','Imogen',"[laughs] That's wonderful. Everybody seems so happy this year."),
-      ln('b','Declan',"Funnily enough, I read that happiness comes down to people. The people you love, mostly. Not money."),
-      ln('a','Imogen',"That's true. When I first held Poppy, I felt like I was on cloud nine."),
+      ln('b','Declan',"He's a different man now. He joined a sailing club, and it's given him a new lease of life. He's up at six every Saturday."),
+      ln('a','Imogen',"[laughs] That's wonderful. Everybody seems so happy this year. Even my team at work, and that's rare in finance."),
+      ln('b','Declan',"I read that happiness comes down to people. The people you love, mostly. Not money."),
+      ln('a','Imogen',"That's funny, coming from a teacher to a finance director. But it's true. When I first held Poppy, I felt like I was on cloud nine."),
       ln('b','Declan',"[chuckles] Cloud nine and walking on air in the same conversation. You've got it bad."),
-      ln('a','Imogen',"I know, I know. Anyway, enough about me. Is there anything else I should know?"),
-      ln('b','Declan',"Well... the rangers have talked me into running the half marathon in the spring."),
+      ln('a','Imogen',"I know. Anyway, enough about me. Is there anything else I should know?"),
+      ln('b','Declan',"Well... the school wants me to run a charity fun run in the spring."),
       ln('a','Imogen',"You? Running? I'll believe it when I see it."),
-      ln('b','Declan',"Ah, I know. Don't laugh."),
-      ln('a','Imogen',"[laughs] I'll try. Come round next weekend and meet Poppy."),
-      ln('b','Declan',"I'd love that. I'll bring a small present, so."),
-      ln('a','Imogen',"[laughs] Just no tin whistle. She's only a week old."),
+      ln('b','Declan',"I know. Don't laugh."),
+      ln('a','Imogen',"[laughs] I'll try. Come and visit when you can, and meet Poppy."),
+      ln('b','Declan',"I'd love to. I'll bring a small present."),
+      ln('a','Imogen',"[laughs] Just don't bring anything noisy. She's only a week old."),
       ln('b','Declan',"No promises.")
     ]
   }
 ];
 function loadListen(){
-  try{ var raw = JSON.parse(localStorage.getItem(LISTEN_KEY)); if(Array.isArray(raw) && raw.length && !JSON.stringify(raw).includes('Fraser')) return raw; }catch(e){}
+  try{ var raw = JSON.parse(localStorage.getItem(LISTEN_KEY)); if(Array.isArray(raw) && raw.length && !JSON.stringify(raw).includes('Fraser') && !JSON.stringify(raw).includes('tin whistle') && !JSON.stringify(raw).includes('chuffed to bits') && !JSON.stringify(raw).includes('rangers')) return raw; }catch(e){}
   return JSON.parse(JSON.stringify(DEFAULT_LISTEN));
 }
 var LISTEN = loadListen();
@@ -2646,7 +2645,6 @@ var FLASHCARD_IMAGES = {
   'walking on air': null,
   'in your element': null,
   'a new lease of life': null,
-  'chuffed to bits': null,
   'a ray of sunshine': null,
   'a bundle of joy': null
 };
