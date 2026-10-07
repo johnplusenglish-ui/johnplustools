@@ -202,6 +202,19 @@ body.section-present #vocab.present-active .flash-hint{font-size:.9rem;margin-to
 .lt-question:hover,.lt-bullet:hover,.lt-followup:hover{background:color-mix(in srgb,var(--mint) 6%,transparent)}
 .lt-question:focus,.lt-bullet:focus,.lt-followup:focus{background:color-mix(in srgb,var(--mint) 9%,transparent)}
 .lt-bullets{margin:0 0 .9rem 1.1rem;padding:0}
+.lt-bank{background:var(--card);border:1.5px solid rgba(33,118,255,.2);border-radius:14px;padding:1rem 1.15rem 1.05rem;margin:1.2rem 0 1rem}
+.lt-bank-h{display:flex;align-items:center;gap:.5rem;font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mint-dark);margin-bottom:.7rem}
+.lt-bank-h svg{width:15px;height:15px;stroke:var(--mint);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.lt-bank-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.35rem}
+.lt-bank-item{display:flex;align-items:center;gap:.7rem;padding:.55rem .8rem;border-radius:10px;background:color-mix(in srgb,var(--mint) 6%,var(--card));font-size:1.02rem;font-weight:600;line-height:1.4;color:var(--ink)}
+.lt-bank-dot{flex:none;width:7px;height:7px;border-radius:50%;background:var(--mint)}
+.lt-bank-txt{flex:1;min-width:0;outline:none;border-radius:5px}
+.lt-bank-rm{flex:none;width:22px;height:22px;border-radius:50%;border:none;background:var(--border);color:var(--ink);cursor:pointer;font-size:15px;line-height:1;display:flex;align-items:center;justify-content:center}
+.lt-bank-rm:hover{background:var(--red);color:#fff}
+.lt-bank-add{margin-top:.6rem;background:none;border:1.5px dashed rgba(33,118,255,.4);color:var(--mint-dark);font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:700;padding:.4rem .9rem;border-radius:9px;cursor:pointer}
+.lt-bank-add:hover{background:color-mix(in srgb,var(--mint) 8%,transparent)}
+.lt-card.lt-editing [contenteditable="true"]{outline:1.5px dashed rgba(33,118,255,.5);outline-offset:2px;cursor:text}
+.lt-edit-hint{font-size:.75rem;color:var(--mint-dark);font-weight:600;margin:0 0 .8rem}
 .lt-bullet{font-size:.88rem;color:var(--ink);line-height:1.55;outline:none;border-radius:5px;margin-bottom:.15rem}
 .lt-followup{font-size:.85rem;color:var(--muted);border-top:1.5px dashed rgba(33,118,255,.25);padding-top:.6rem;margin-top:.4rem;outline:none;border-radius:5px}
 .lt-followup b{color:var(--ink)}
@@ -929,7 +942,7 @@ body.section-present .deb-instruction{font-size:1.15rem}
       </div>
     </div>
     <div class="section-card">
-      <p style="font-size:.85rem;color:var(--muted);margin-bottom:1.2rem" contenteditable="true" spellcheck="false" data-sk="hint-longturn" onblur="onStaticTextBlur(this)">Give each candidate their own card. They speak alone for two minutes, uninterrupted, using the bullet points as a guide, not a script. Their partner just listens, then answers the short follow-up question underneath.</p>
+      <p style="font-size:.85rem;color:var(--muted);margin-bottom:1.2rem" contenteditable="true" spellcheck="false" data-sk="hint-longturn" onblur="onStaticTextBlur(this)">Give each candidate their own card. They speak alone for two minutes, uninterrupted, keeping it relaxed and personal and using the language bank to sound natural. Their partner just listens, then answers the short follow-up question underneath.</p>
       <div class="lt-timer-row">
         <button class="lt-timer-pill" onclick="ltSelTime(120,this)">2 min</button>
         <button class="lt-timer-pill" onclick="ltSelTime(150,this)">2.5 min</button>
@@ -2162,7 +2175,7 @@ function ln(speaker, name, text){ return {speaker:speaker, name:name, text:text}
 var DEFAULT_LISTEN = [
   {
     title: 'Have You Read Anything Good?',
-    subtitle: 'Two friends compare notes over a Sunday coffee: one is on a streak, the other is stuck in a slump',
+    subtitle: 'Two friends compare notes over a Sunday coffee: a Scot on a reading streak and a Liverpudlian stuck in a slump',
     targetPhrases: ['curl up with a good book','devour a book','a page-turner','a slow burn','in a reading slump','on a reading streak','a book hoarder','it stayed with me','unputdownable','a bookworm'],
     audio: null,
     questions: [
@@ -2171,35 +2184,34 @@ var DEFAULT_LISTEN = [
       'What practical advice does Isla give Jack for getting back into reading?'
     ],
     lines: [
-      ln('a','Isla',"Have you read anything good lately? I'm on a reading streak, six books since June."),
+      ln('a','Isla',"Jack! Have you read anything good lately? I'm on a reading streak at the moment. Six books since June."),
       ln('b','Jack',"[laughs] Six? I've read about two pages of one. I'm in a reading slump, honestly."),
-      ln('a','Isla',"Och, no. What happened?"),
-      ln('b','Jack',"[sighs] No idea, mate. I sit down, I pick up my phone instead, and then it's midnight and I'm reading about ways the world could end."),
-      ln('a','Isla',"Ha, that's the trap. You used to be such a bookworm at uni, though."),
-      ln('b','Jack',"I know. I keep imagining a rainy Sunday where I curl up with a good book, and then I just watch something instead."),
-      ln('a','Isla',"You just need the right one. I found a thriller last week and it's a page-turner. I devoured it in a weekend."),
-      ln('b','Jack',"Hmm... the problem is I always pick a slow burn, and I give up before anything actually happens."),
-      ln('a','Isla',"Fair. But slow burns can be brilliant. There's a wee quiet one I read years ago about two sisters, and nothing happens for a hundred pages."),
+      ln('a','Isla',"Oh no. What happened?"),
+      ln('b','Jack',"[sighs] I don't know. I sit down, I pick up my phone instead, and then it's midnight."),
+      ln('a','Isla',"That's the trap. You used to be such a bookworm at uni."),
+      ln('b','Jack',"I know. I keep picturing a rainy Sunday where I curl up with a good book. Then I put the television on instead."),
+      ln('a','Isla',"You just need the right book. I found a thriller last week, and it's a page-turner. I devoured it in a weekend."),
+      ln('b','Jack',"Hmm... thrillers are not really my cup of tea. I always pick a slow burn, and I give up before anything actually happens."),
+      ln('a','Isla',"Fair enough. But slow burns can be brilliant. I read a quiet one years ago about two sisters, and nothing happens for a hundred pages."),
       ln('b','Jack',"And?"),
-      ln('a','Isla',"And then one of them very calmly poisons the other. It completely floors you. It stayed with me for weeks."),
-      ln('b','Jack',"[pause] Okay, that's actually tempting. Slightly worried about how much you enjoyed it, but tempting."),
-      ln('a','Isla',"Honestly, though, the best ones are unputdownable. My last one, I missed my stop on the train."),
-      ln('b','Jack',"[chuckles] Of course you did. How many unread books have you got on your shelf right now?"),
-      ln('a','Isla',"[pause] ... Don't. I'm a book hoarder, I know. About sixty. When I die, they'll need a skip, not a coffin."),
-      ln('b','Jack',"Sixty! No way. You'll never get through those."),
-      ln('a','Isla',"Aye, well, that's not the point. A shelf of unread books is just a promise to your future self."),
-      ln('b','Jack',"[laughs] Bold of you to assume we've got a future. Have you seen the news? Still, you should put that on a mug."),
-      ln('a','Isla',"Start small, then. Ten pages before bed, phone in another room."),
-      ln('b','Jack',"Ten pages. Yeah, I reckon I can manage that."),
-      ln('a','Isla',"Great. I'll bring you the thriller tomorrow."),
+      ln('a','Isla',"And then everything changes. I read it from cover to cover in two days, and it stayed with me for weeks."),
+      ln('b','Jack',"[pause] Okay, that's actually tempting. What's it called?"),
+      ln('a','Isla',"I'll send you the title. Honestly, though, the best books are unputdownable. I lose track of time completely. Last week I missed my stop on the train."),
+      ln('b','Jack',"[chuckles] Of course you did. How many unread books do you have on your shelf right now?"),
+      ln('a','Isla',"[pause] ... Don't. I'm a book hoarder, I know. About sixty."),
+      ln('b','Jack',"Sixty! You'll never get through those."),
+      ln('a','Isla',"That's not the point. A shelf of unread books is a promise to your future self."),
+      ln('b','Jack',"[laughs] They say you should never judge a book by its cover, but I'm definitely judging your shelf."),
+      ln('a','Isla',"Start small, then. Ten pages before bed, with your phone in another room."),
+      ln('b','Jack',"Ten pages. I can probably manage that. Once I get stuck into a story, I'm fine."),
+      ln('a','Isla',"Exactly. I'll lend you the quiet one about the sisters. I think it's right up your street."),
       ln('b','Jack',"Deal. But if I'm still in a slump next week, I'm blaming you."),
-      ln('a','Isla',"[laughs] Fine. Worst case, I'll read something at your funeral."),
-      ln('b','Jack',"[chuckles] Make it a page-turner, then. Nobody wants a slow burn at a funeral.")
+      ln('a','Isla',"[laughs] Fine. That's a risk worth taking.")
     ]
   }
 ];
 function loadListen(){
-  try{ var raw = JSON.parse(localStorage.getItem(LISTEN_KEY)); if(Array.isArray(raw) && raw.length && !(raw[0].lines && raw[0].lines[0] && (raw[0].lines[0].name === 'Niamh' || JSON.stringify(raw).indexOf('And then it completely floors you') > -1))) return raw; }catch(e){}
+  try{ var raw = JSON.parse(localStorage.getItem(LISTEN_KEY)); if(Array.isArray(raw) && raw.length && !(raw[0].lines && raw[0].lines[0] && (raw[0].lines[0].name === 'Niamh' || JSON.stringify(raw).indexOf('And then it completely floors you') > -1 || JSON.stringify(raw).indexOf('poisons the other') > -1))) return raw; }catch(e){}
   return JSON.parse(JSON.stringify(DEFAULT_LISTEN));
 }
 var LISTEN = loadListen();
@@ -3106,6 +3118,25 @@ function loadLt(){
   try{ var s = JSON.parse(localStorage.getItem(LT_KEY)); if(Array.isArray(s) && s.length) return s; }catch(e){}
   return DEFAULT_LT.slice();
 }
+var LT_PHRASES_KEY = 'jpe_booksreading_longturn_phrases';
+var DEFAULT_LT_PHRASES = [
+  'The first thing that comes to mind is ...',
+  'To be honest with you',
+  'Part of me thinks that ...',
+  'On the one hand, ... but on the other',
+  'I guess it all comes down to ...',
+  'At the end of the day',
+  'So, to wrap up, ...'
+];
+function loadLtPhrases(){
+  try{ var p = JSON.parse(localStorage.getItem(LT_PHRASES_KEY)); if(Array.isArray(p) && p.length && typeof p[0] === 'string') return p; }catch(e){}
+  return DEFAULT_LT_PHRASES.slice();
+}
+var ltPhrases = loadLtPhrases();
+function saveLtPhrases(){ try{ localStorage.setItem(LT_PHRASES_KEY, JSON.stringify(ltPhrases)); }catch(e){} }
+function onLtPhraseEdit(bi, el){ ltPhrases[bi] = el.textContent.trim(); saveLtPhrases(); }
+function removeLtPhrase(bi){ ltPhrases.splice(bi,1); saveLtPhrases(); renderLongTurn(); }
+function addLtPhrase(){ ltPhrases.push('New phrase ...'); saveLtPhrases(); renderLongTurn(); var t=document.querySelectorAll('.lt-bank-txt'); if(t.length){ var e=t[t.length-1]; e.focus(); var r=document.createRange(); r.selectNodeContents(e); var s=window.getSelection(); s.removeAllRanges(); s.addRange(r); } }
 var ltItems = loadLt();
 function saveLt(){ try{ localStorage.setItem(LT_KEY, JSON.stringify(ltItems)); }catch(e){} }
 var ltEditMode = false;
@@ -3125,18 +3156,22 @@ function renderLongTurn(){
   var i = ltIndex;
   var c = ltItems[i];
   document.getElementById('ltProgress').textContent = (i+1)+' / '+ltItems.length;
-  var bullets = c.bullets.map(function(b,bi){
-    return '<li class="lt-bullet" contenteditable="'+(ed?'true':'false')+'" spellcheck="false" onblur="onLtBulletEdit('+i+','+bi+',this)">'+b+'</li>';
-  }).join('');
-  wrap.innerHTML = '<div class="lt-card">'+
+  var bank = '<div class="lt-bank"><div class="lt-bank-h"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Language bank</div>'+
+    '<ul class="lt-bank-list">'+ltPhrases.map(function(p,bi){
+      return '<li class="lt-bank-item"><span class="lt-bank-dot"></span>'+
+        '<span class="lt-bank-txt" contenteditable="'+(ed?'true':'false')+'" spellcheck="false" onblur="onLtPhraseEdit('+bi+',this)" onkeydown="if(event.key===\'Enter\'){event.preventDefault();this.blur();}">'+esc(p)+'</span>'+
+        (ed?'<button class="lt-bank-rm" onclick="removeLtPhrase('+bi+')" title="Remove">&times;</button>':'')+
+      '</li>';
+    }).join('')+'</ul>'+(ed?'<button class="lt-bank-add" onclick="addLtPhrase()">+ Add a phrase</button>':'')+'</div>';
+  wrap.innerHTML = '<div class="lt-card'+(ed?' lt-editing':'')+'">'+
       '<div class="lt-badge">'+esc(c.speaker)+' &middot; 2 minutes</div>'+
+      (ed?'<div class="lt-edit-hint">Editing: click the question or any phrase to change it.</div>':'')+
       '<div class="lt-question" contenteditable="'+(ed?'true':'false')+'" spellcheck="false" onblur="onLtEdit('+i+',\'question\',this)">'+c.question+'</div>'+
-      '<ul class="lt-bullets">'+bullets+'</ul>'+
+      bank+
       '<div class="lt-followup" contenteditable="'+(ed?'true':'false')+'" spellcheck="false" onblur="onLtEdit('+i+',\'followUp\',this)"><b>Partner\'s follow-up:</b> '+c.followUp+'</div>'+
     '</div>';
 }
 function onLtEdit(i,field,el){ ltItems[i][field] = el.textContent; saveLt(); }
-function onLtBulletEdit(i,bi,el){ ltItems[i].bullets[bi] = el.textContent; saveLt(); }
 var ltTimerDur = 120, ltTimerLeft = 0, ltTimerRun = false, ltTimerInt = null;
 function ltFmt(s){ return Math.floor(s/60)+':'+(s%60<10?'0':'')+(s%60); }
 function ltSelTime(s, btn){
