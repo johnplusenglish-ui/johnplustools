@@ -299,20 +299,47 @@ button{cursor:pointer}
   // With your own Anthropic key (stored only in this browser, never synced or backed up)
   // Claude picks the type. Without one, a few simple rules cover verbs, phrasal verbs,
   // adverbs and adjectives and everything else lands under Phrases.
-  var AKEY = KEY + '_apikey';
+  var AKEY = KEY + '_apikey', autoFail = '';
   function getKey(){ try { return localStorage.getItem(AKEY) || ''; } catch(e){ return ''; } }
   function paintAuto(){
     var on = !!getKey(); $('vbAuto').className = 'vb-cloud' + (on ? ' ok' : '');
     $('vbAutoTxt').textContent = on ? 'Auto-sort on' : 'Auto-sort';
   }
   var PARTS = 'up|down|out|off|on|in|over|away|back|through|around|into|after|along|apart|by|for|with|across|ahead|aside|forward|together';
+  var ADJ = ('gripping hooked engrossed absorbed riveted captivating compelling fascinating thrilling boring dull tedious engaging ' +
+    'enthralling spellbinding unputdownable page-turning moving touching heartwarming heartbreaking powerful profound thought-provoking ' +
+    'witty clever funny hilarious amusing gloomy bleak grim dark light gritty harrowing haunting chilling eerie suspenseful tense ' +
+    'happy sad angry anxious nervous calm relaxed tired exhausted stressed bored excited thrilled delighted annoyed frustrated furious ' +
+    'big small large huge tiny tall short long wide narrow thick thin heavy light fast slow quick rapid quiet loud noisy silent ' +
+    'good bad great terrible awful wonderful brilliant excellent fantastic amazing incredible fabulous superb mediocre ordinary ' +
+    'old new young modern ancient fresh stale rich poor cheap expensive busy lazy keen eager reluctant willing ready ' +
+    'kind cruel rude polite generous mean selfish humble proud arrogant shy bold brave cowardly honest sincere ' +
+    'smart clever stupid wise foolish sharp blunt rough smooth soft hard tough gentle fragile sturdy ' +
+    'hot cold warm cool wet dry clean dirty messy tidy empty full crowded deserted lively dull vibrant ' +
+    'strange odd weird bizarre peculiar normal typical rare common unique vague vivid subtle obvious ' +
+    'famous notorious popular obscure essential vital crucial minor major trivial significant ' +
+    'easy difficult simple complex clear cloudy bright dim gorgeous stunning ugly pretty lovely beautiful ' +
+    'cheerful miserable grateful ashamed jealous envious lonely content serene tranquil restless ' +
+    'overwhelmed underwhelmed disappointed impressed astonished shocked stunned baffled puzzled confused').split(' ');
+  var ADJSET = {}; ADJ.forEach(function(w){ ADJSET[w] = 1; });
   function guessType(text){
     var t = text.trim().toLowerCase();
     if (new RegExp('^to \\w+(\\s(' + PARTS + '))+(\\s\\w+){0,2}$').test(t) && t.split(/\s+/).length <= 4) return 'Phrasal verb';
     if (/^to [a-z-]+$/.test(t)) return 'Verb';
-    if (/^[a-z-]+ly$/.test(t)) return 'Adverb';
-    if (/^[a-z-]{4,}(ous|ful|ive|able|ible|less|ic|ish|ent|ant)$/.test(t)) return 'Adjective';
-    return 'Phrase';
+    if (/^(a|an|the) [a-z-]+( [a-z-]+)?$/.test(t)) return 'Noun';
+    if (!/^[a-z'-]+$/.test(t)) return 'Phrase';   // more than one word: leave it to Claude
+    if (ADJSET[t]) return 'Adjective';
+    if (/^[a-z-]+ly$/.test(t) && t.length > 4) return 'Adverb';
+    if (/^[a-z-]{3,}(ous|ful|ive|able|ible|less|ic|ish|ent|ant|ary|ory|al|ing|ed|y)$/.test(t)) return 'Adjective';
+    if (/^[a-z-]{3,}(tion|sion|ment|ness|ity|ance|ence|er|or|ism|ship|hood|age|ist)s?$/.test(t)) return 'Noun';
+    return 'Noun';
+  }
+  // "gripping, hooked, engrossed" typed or pasted as one line becomes separate entries
+  // (only when every part is one or two words, so a real phrase with a comma stays whole).
+  function splitList(line){
+    var parts = line.split(/\s*[,;]\s*/).map(function(x){ return x.trim(); }).filter(Boolean);
+    if (parts.length < 2) return [line.trim()];
+    return parts.every(function(x){ return x.split(/\s+/).length <= 2; }) ? parts : [line.trim()];
   }
   function askClaude(topic, text){
     return fetch('https://api.anthropic.com/v1/messages', {method: 'POST',
@@ -321,7 +348,7 @@ button{cursor:pointer}
       body: JSON.stringify({model: 'claude-haiku-5-5', max_tokens: 12,
         messages: [{role: 'user', content: 'Classify this English vocabulary item for a language learner. Topic: "' + topic +
           '". Item: "' + text + '". Answer with exactly one of: ' + TYPES.join(', ') +
-          '. Idiom = figurative fixed expression. Collocation = words that naturally go together. Phrase = other useful chunk, sentence frame or short expression. Reply with the label only.'}]})})
+          '. Rules: a single word must be filed by its main part of speech (Adjective, Noun, Verb or Adverb), never Phrase. Participles used as adjectives (gripping, hooked, engrossed) are Adjective. Idiom = figurative fixed expression. Collocation = two or more words that naturally go together. Phrasal verb = verb + particle. Phrase = ONLY a sentence frame or expression that fits none of the others. Reply with the label only.'}]})})
       .then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(function(d){
         var out = (d.content && d.content[0] && d.content[0].text || '').trim().toLowerCase();
@@ -339,8 +366,13 @@ button{cursor:pointer}
   }
   function autoSort(topic, text){
     if (!getKey()){ retype(topic, text, guessType(text)); return Promise.resolve(); }
-    return askClaude(topic, text).then(function(ty){ retype(topic, text, ty); })
-      .catch(function(){ retype(topic, text, guessType(text)); });
+    return askClaude(topic, text).then(function(ty){ if (autoFail){ autoFail = ''; paintAuto(); } retype(topic, text, ty); })
+      .catch(function(err){
+        autoFail = String(err && err.message || err);
+        $('vbAuto').className = 'vb-cloud err';
+        $('vbAutoTxt').textContent = 'Claude failed (' + autoFail + '), using basic rules';
+        retype(topic, text, guessType(text));
+      });
   }
   $('vbAuto').addEventListener('click', function(){
     var cur = getKey(), k;
@@ -350,7 +382,7 @@ button{cursor:pointer}
     k = k.trim();
     try { if (k) localStorage.setItem(AKEY, k); else localStorage.removeItem(AKEY); } catch(e){}
     paintAuto();
-    if (k && k !== cur){
+    if (k){
       var todo = [];
       bank.forEach(function(g){ g.phrases.forEach(function(p){ if (typeOf(p) === 'Phrase') todo.push([g.topic, p.text]); }); });
       if (todo.length && confirm('Sort your ' + todo.length + ' existing phrases filed under Phrases too?')){
@@ -370,9 +402,9 @@ button{cursor:pointer}
 
   form.addEventListener('submit', function(e){
     e.preventDefault();
-    var chosen = $('vbType').value, ptxt = phraseEl.value.trim(), ptopic = topicEl.value.trim() || 'General';
-    if (add(topicEl.value, phraseEl.value, chosen === 'Auto' ? 'Phrase' : chosen)){
-      if (chosen === 'Auto') autoSort(ptopic, ptxt);
+    var chosen = $('vbType').value, ptopic = topicEl.value.trim() || 'General', parts = splitList(phraseEl.value), any = false;
+    parts.forEach(function(x){ if (add(topicEl.value, x, chosen === 'Auto' ? 'Phrase' : chosen)){ any = true; if (chosen === 'Auto') autoSort(ptopic, x); } });
+    if (any){
       phraseEl.value = '';
       $('vbSearch').value = '';
       render();
@@ -463,7 +495,7 @@ button{cursor:pointer}
       line = line.replace(/^\s*(?:[-*\u2022\u2013]|\d+[.)])\s+/, '').trim();
       if (!line) return;
       if (/^[^:]{1,60}:$/.test(line)){ topic = line.slice(0, -1).trim(); return; }
-      items.push([topic, line]);
+      splitList(line).forEach(function(x){ items.push([topic, x]); });
     });
     items.forEach(function(it){ if (add(it[0], it[1], chosen === 'Auto' ? 'Phrase' : chosen)) added++; });
     if (!added) return;
