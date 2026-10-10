@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vocab Bank</title>
+<meta name="description" content="A simple vocab bank: type a phrase, pick a topic, and it is filed as a bullet under that topic.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f3ec;--card:#fff;--ink:#0f1b2d;--muted:#6b7686;--line:#eceadf;--accent:#2563eb;--soft:#eceffc;--soft-line:#dde3f8;--jpt-bar:68px}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Outfit',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink)}
+button,input{font-family:inherit}
+button{cursor:pointer}
+
+.main-inner{padding:20px 24px 48px;max-width:960px;margin:0 auto}
+
+/* Entry row */
+.vb-entry{display:flex;gap:10px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);
+  border-radius:16px;padding:14px;box-shadow:0 1px 2px rgba(20,30,60,.04),0 20px 44px -34px rgba(30,50,110,.35)}
+.vb-entry input{font-size:15px;color:var(--ink);background:var(--bg);border:1px solid var(--line);
+  border-radius:999px;padding:11px 18px;outline:none;min-width:0;transition:border-color .12s}
+.vb-entry input:focus{border-color:var(--accent);background:var(--card)}
+#vbTopic{flex:0 1 220px}
+#vbPhrase{flex:1 1 260px}
+.vb-add{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:700;padding:11px 22px;
+  border-radius:999px;border:none;background:var(--accent);color:#fff;transition:background .12s}
+.vb-add:hover{background:var(--accent-deep,#1d4ed8)}
+.vb-add svg{width:15px;height:15px}
+.vb-hint{font-size:12px;color:var(--muted);margin:8px 4px 0}
+
+/* Toolbar */
+.vb-bar{display:flex;align-items:center;gap:10px;margin:22px 0 12px;flex-wrap:wrap}
+.vb-count{font-size:11px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;font-weight:700;flex:1}
+.vb-search{font-size:13px;border:1px solid var(--soft-line);background:var(--card);color:var(--ink);
+  border-radius:999px;padding:8px 16px;outline:none;width:200px;max-width:100%}
+.vb-search:focus{border-color:var(--accent)}
+.vb-ghost{font-size:12.5px;font-weight:600;padding:8px 14px;border-radius:999px;border:1px solid var(--soft-line);
+  background:transparent;color:var(--muted);transition:.12s}
+.vb-ghost:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+
+/* Topic cards */
+.vb-grid{columns:2 300px;column-gap:14px}
+.vb-group{break-inside:avoid;background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:14px 16px 12px;margin-bottom:14px;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+.vb-ghead{display:flex;align-items:center;gap:8px;margin-bottom:6px;min-width:0}
+.vb-gname{font-size:15px;font-weight:800;letter-spacing:-.01em;flex:1;min-width:0;overflow-wrap:anywhere}
+.vb-gnum{font-size:11px;font-weight:700;color:var(--accent);background:var(--soft);border-radius:999px;padding:2px 9px}
+.vb-list{list-style:disc;margin:0;padding-left:20px}
+.vb-list li{font-size:14.5px;line-height:1.45;padding:3px 0;overflow-wrap:anywhere}
+.vb-list li::marker{color:var(--accent)}
+.vb-item{display:flex;align-items:flex-start;gap:6px}
+.vb-text{flex:1;min-width:0;border-radius:6px;outline:none}
+.vb-text:focus{background:var(--soft);box-shadow:0 0 0 3px var(--soft)}
+.vb-x{opacity:0;width:22px;height:22px;flex-shrink:0;border-radius:999px;border:none;background:transparent;
+  color:var(--muted);font-size:16px;line-height:1;transition:.12s}
+.vb-list li:hover .vb-x,.vb-x:focus-visible{opacity:1}
+.vb-x:hover{background:#fbe9e9;color:#c14343}
+@media (hover:none){.vb-x{opacity:.6}}
+.vb-gdel{opacity:0;width:26px;height:26px;border-radius:999px;border:none;background:transparent;color:var(--muted);transition:.12s;font-size:15px}
+.vb-group:hover .vb-gdel,.vb-gdel:focus-visible{opacity:1}
+@media (hover:none){.vb-gdel{opacity:.6}}
+.vb-gdel:hover{background:#fbe9e9;color:#c14343}
+.vb-empty{text-align:center;color:var(--muted);font-size:14px;padding:40px 10px;
+  background:var(--card);border:1px dashed var(--soft-line);border-radius:16px}
+@media (max-width:560px){.main-inner{padding:16px 14px 34px}.vb-grid{columns:1}.vb-search{width:100%}}
+</style>
+</head>
+<body>
+
+<div class="app" id="app">
+  <main>
+    <div class="main-inner">
+
+      <form class="vb-entry" id="vbForm" autocomplete="off">
+        <input id="vbTopic" list="vbTopics" placeholder="Topic (e.g. Travel)" aria-label="Topic" maxlength="60">
+        <datalist id="vbTopics"></datalist>
+        <input id="vbPhrase" placeholder="Type a word or phrase, press Enter" aria-label="Vocab phrase" maxlength="200">
+        <button class="vb-add" type="submit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add
+        </button>
+      </form>
+      <div class="vb-hint">The topic stays filled in, so you can keep adding phrases to the same group. Click any phrase to edit it.</div>
+
+      <div class="vb-bar">
+        <div class="vb-count" id="vbCount"></div>
+        <input class="vb-search" id="vbSearch" placeholder="Search phrases" aria-label="Search phrases">
+        <button class="vb-ghost" id="vbExport" type="button">Back up</button>
+        <button class="vb-ghost" id="vbImport" type="button">Restore</button>
+        <input type="file" id="vbFile" accept="application/json,.json" hidden>
+      </div>
+
+      <div class="vb-grid" id="vbGrid"></div>
+
+    </div>
+  </main>
+</div>
+
+<script>
+(function(){
+  var KEY = 'jpt_vocab_bank_v1';
+  var bank = [];   // [{id, topic, phrases:[{id, text}]}]
+
+  var $ = function(id){ return document.getElementById(id); };
+  var form = $('vbForm'), topicEl = $('vbTopic'), phraseEl = $('vbPhrase'), grid = $('vbGrid');
+
+  function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+  function esc(s){ return String(s).replace(/[&<>"']/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  function load(){
+    try { var d = JSON.parse(localStorage.getItem(KEY) || '[]'); if (Array.isArray(d)) bank = d; } catch(e){ bank = []; }
+  }
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(bank)); } catch(e){} }
+  function findTopic(name){
+    var k = name.trim().toLowerCase();
+    for (var i = 0; i < bank.length; i++) if (bank[i].topic.toLowerCase() === k) return bank[i];
+    return null;
+  }
+
+  function add(topic, text){
+    topic = topic.trim(); text = text.trim();
+    if (!text) return false;
+    if (!topic) topic = 'General';
+    var g = findTopic(topic);
+    if (!g){ g = {id: uid(), topic: topic, phrases: []}; bank.push(g); }
+    if (!g.phrases.some(function(p){ return p.text.toLowerCase() === text.toLowerCase(); }))
+      g.phrases.push({id: uid(), text: text});
+    save();
+    return true;
+  }
+
+  function render(){
+    var q = $('vbSearch').value.trim().toLowerCase();
+    var total = 0, html = '';
+    bank.forEach(function(g){
+      total += g.phrases.length;
+      var shown = g.phrases.filter(function(p){ return !q || p.text.toLowerCase().indexOf(q) > -1 || g.topic.toLowerCase().indexOf(q) > -1; });
+      if (q && !shown.length) return;
+      html += '<section class="vb-group" data-g="' + g.id + '"><div class="vb-ghead">' +
+        '<span class="vb-gname">' + esc(g.topic) + '</span><span class="vb-gnum">' + g.phrases.length + '</span>' +
+        '<button class="vb-gdel" type="button" data-delg="' + g.id + '" title="Delete topic" aria-label="Delete topic">&#10005;</button></div>' +
+        '<ul class="vb-list">' + shown.map(function(p){
+          return '<li><span class="vb-item"><span class="vb-text" contenteditable="plaintext-only" spellcheck="false" data-p="' + p.id + '" data-g="' + g.id + '">' +
+            esc(p.text) + '</span><button class="vb-x" type="button" data-delp="' + p.id + '" data-g="' + g.id + '" title="Remove" aria-label="Remove phrase">&times;</button></span></li>';
+        }).join('') + '</ul></section>';
+    });
+    grid.innerHTML = html || '<div class="vb-empty">' + (bank.length ? 'No phrases match your search.' :
+      'Nothing here yet. Type a topic and a phrase above, then press Enter.') + '</div>';
+    $('vbCount').textContent = total + (total === 1 ? ' phrase' : ' phrases') + ' in ' + bank.length + (bank.length === 1 ? ' topic' : ' topics');
+    $('vbTopics').innerHTML = bank.map(function(g){ return '<option value="' + esc(g.topic) + '">'; }).join('');
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if (add(topicEl.value, phraseEl.value)){
+      phraseEl.value = '';
+      $('vbSearch').value = '';
+      render();
+    }
+    phraseEl.focus();
+  });
+
+  grid.addEventListener('click', function(e){
+    var dp = e.target.closest('[data-delp]'), dg = e.target.closest('[data-delg]');
+    if (dp){
+      var g = bank.filter(function(x){ return x.id === dp.dataset.g; })[0];
+      if (g){ g.phrases = g.phrases.filter(function(p){ return p.id !== dp.dataset.delp; });
+        if (!g.phrases.length) bank = bank.filter(function(x){ return x !== g; }); }
+      save(); render();
+    } else if (dg){
+      var gg = bank.filter(function(x){ return x.id === dg.dataset.delg; })[0];
+      if (gg && (gg.phrases.length < 2 || confirm('Delete "' + gg.topic + '" and its ' + gg.phrases.length + ' phrases?'))){
+        bank = bank.filter(function(x){ return x !== gg; }); save(); render(); }
+    }
+  });
+
+  // Inline editing: commit on blur or Enter; an emptied phrase is removed.
+  grid.addEventListener('keydown', function(e){
+    if (e.target.classList.contains('vb-text') && e.key === 'Enter'){ e.preventDefault(); e.target.blur(); }
+  });
+  grid.addEventListener('focusout', function(e){
+    var el = e.target; if (!el.classList || !el.classList.contains('vb-text')) return;
+    var g = bank.filter(function(x){ return x.id === el.dataset.g; })[0]; if (!g) return;
+    var p = g.phrases.filter(function(x){ return x.id === el.dataset.p; })[0]; if (!p) return;
+    var t = el.textContent.trim();
+    if (t === p.text) return;
+    if (!t) g.phrases = g.phrases.filter(function(x){ return x !== p; }); else p.text = t;
+    if (!g.phrases.length) bank = bank.filter(function(x){ return x !== g; });
+    save(); render();
+  });
+
+  $('vbSearch').addEventListener('input', render);
+
+  $('vbExport').addEventListener('click', function(){
+    var blob = new Blob([JSON.stringify({format: 'jpt-vocab-bank', version: 1, bank: bank}, null, 2)], {type: 'application/json'});
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = 'vocab-bank-' + new Date().toISOString().slice(0, 10) + '.json';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
+  });
+  $('vbImport').addEventListener('click', function(){ $('vbFile').click(); });
+  $('vbFile').addEventListener('change', function(){
+    var f = this.files[0]; if (!f) return;
+    var r = new FileReader();
+    r.onload = function(){
+      try {
+        var d = JSON.parse(r.result);
+        if (!d || d.format !== 'jpt-vocab-bank' || !Array.isArray(d.bank)) throw 0;
+        d.bank.forEach(function(g){ (g.phrases || []).forEach(function(p){ add(String(g.topic || 'General'), String(p.text || '')); }); });
+        render();
+      } catch(e){ alert('That file is not a Vocab Bank backup.'); }
+    };
+    r.readAsText(f); this.value = '';
+  });
+
+  load(); render();
+  window.vbAdd = function(t, p){ add(t, p); render(); };   // used by make_preview seeding
+})();
+</script>
+</body>
+</html>

@@ -3,13 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>John + Tools · free teaching tools for English classrooms</title>
-<meta name="description" content="Lesson plans and classroom tools by John of JohnPlusEnglish. No sign-up, nothing to install.">
+<title>Vocab Bank · John + Tools</title>
+<meta name="description" content="A simple vocab bank: enter words and phrases by topic and see them logged as bullets, grouped under each topic.">
 <meta name="color-scheme" content="light dark">
-<meta property="og:title" content="John + Tools · free teaching tools for English classrooms">
-<meta property="og:description" content="Lesson plans and classroom tools by John of JohnPlusEnglish. No sign-up, nothing to install.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://johnplustools.com">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z'/></svg>">
 <!-- jpt:themeboot -->
 <script>(function(){var t;try{t=localStorage.getItem('jpe_debate_theme')}catch(e){}if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)})();</script>
@@ -35,11 +31,70 @@
   if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',ask)}else{ask()}
 })();</script>
 <!-- /jpt:gate -->
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
+:root{--bg:#f4f3ec;--card:#fff;--ink:#0f1b2d;--muted:#6b7686;--line:#eceadf;--accent:#2563eb;--soft:#eceffc;--soft-line:#dde3f8;--jpt-bar:68px}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Outfit',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink)}
+button,input{font-family:inherit}
+button{cursor:pointer}
 
+.main-inner{padding:20px 24px 48px;max-width:960px;margin:0 auto}
+
+/* Entry row */
+.vb-entry{display:flex;gap:10px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);
+  border-radius:16px;padding:14px;box-shadow:0 1px 2px rgba(20,30,60,.04),0 20px 44px -34px rgba(30,50,110,.35)}
+.vb-entry input{font-size:15px;color:var(--ink);background:var(--bg);border:1px solid var(--line);
+  border-radius:999px;padding:11px 18px;outline:none;min-width:0;transition:border-color .12s}
+.vb-entry input:focus{border-color:var(--accent);background:var(--card)}
+#vbTopic{flex:0 1 220px}
+#vbPhrase{flex:1 1 260px}
+.vb-add{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:700;padding:11px 22px;
+  border-radius:999px;border:none;background:var(--accent);color:#fff;transition:background .12s}
+.vb-add:hover{background:var(--accent-deep,#1d4ed8)}
+.vb-add svg{width:15px;height:15px}
+.vb-hint{font-size:12px;color:var(--muted);margin:8px 4px 0}
+
+/* Toolbar */
+.vb-bar{display:flex;align-items:center;gap:10px;margin:22px 0 12px;flex-wrap:wrap}
+.vb-count{font-size:11px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;font-weight:700;flex:1}
+.vb-search{font-size:13px;border:1px solid var(--soft-line);background:var(--card);color:var(--ink);
+  border-radius:999px;padding:8px 16px;outline:none;width:200px;max-width:100%}
+.vb-search:focus{border-color:var(--accent)}
+.vb-ghost{font-size:12.5px;font-weight:600;padding:8px 14px;border-radius:999px;border:1px solid var(--soft-line);
+  background:transparent;color:var(--muted);transition:.12s}
+.vb-ghost:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+
+/* Topic cards */
+.vb-grid{columns:2 300px;column-gap:14px}
+.vb-group{break-inside:avoid;background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:14px 16px 12px;margin-bottom:14px;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+.vb-ghead{display:flex;align-items:center;gap:8px;margin-bottom:6px;min-width:0}
+.vb-gname{font-size:15px;font-weight:800;letter-spacing:-.01em;flex:1;min-width:0;overflow-wrap:anywhere}
+.vb-gnum{font-size:11px;font-weight:700;color:var(--accent);background:var(--soft);border-radius:999px;padding:2px 9px}
+.vb-list{list-style:disc;margin:0;padding-left:20px}
+.vb-list li{font-size:14.5px;line-height:1.45;padding:3px 0;overflow-wrap:anywhere}
+.vb-list li::marker{color:var(--accent)}
+.vb-item{display:flex;align-items:flex-start;gap:6px}
+.vb-text{flex:1;min-width:0;border-radius:6px;outline:none}
+.vb-text:focus{background:var(--soft);box-shadow:0 0 0 3px var(--soft)}
+.vb-x{opacity:0;width:22px;height:22px;flex-shrink:0;border-radius:999px;border:none;background:transparent;
+  color:var(--muted);font-size:16px;line-height:1;transition:.12s}
+.vb-list li:hover .vb-x,.vb-x:focus-visible{opacity:1}
+.vb-x:hover{background:#fbe9e9;color:#c14343}
+@media (hover:none){.vb-x{opacity:.6}}
+.vb-gdel{opacity:0;width:26px;height:26px;border-radius:999px;border:none;background:transparent;color:var(--muted);transition:.12s;font-size:15px}
+.vb-group:hover .vb-gdel,.vb-gdel:focus-visible{opacity:1}
+@media (hover:none){.vb-gdel{opacity:.6}}
+.vb-gdel:hover{background:#fbe9e9;color:#c14343}
+.vb-empty{text-align:center;color:var(--muted);font-size:14px;padding:40px 10px;
+  background:var(--card);border:1px dashed var(--soft-line);border-radius:16px}
+@media (max-width:560px){.main-inner{padding:16px 14px 34px}.vb-grid{columns:1}.vb-search{width:100%}}
+</style>
+<style>
 /* jpt:chrome */
 /* Site furniture. Identical on every page, so nothing shifts between them. */
 :root{
@@ -210,77 +265,6 @@ button.st-brand[aria-expanded="true"] .brand-chev{transform:rotate(180deg)}
 @media (max-width:700px){.jft-wrap{right:14px;bottom:14px}.jft-panel{width:190px}}
 @media print{.jft-wrap{display:none!important}}
 /* /jpt:chrome */
-
-
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);
-  font-family:"Outfit",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  line-height:1.6;-webkit-font-smoothing:antialiased}
-::selection{background:var(--accent);color:#fff}
-a{color:inherit}
-svg{display:block}
-a.btn{text-decoration:none}
-.btn{font-family:inherit;font-size:13px;font-weight:600;padding:8px 14px;border-radius:999px;
-  border:1px solid transparent;background:var(--accent);color:#fff;cursor:pointer;
-  display:inline-flex;align-items:center;gap:7px;white-space:nowrap;
-  transition:background .15s}
-.btn:hover{background:var(--accent-deep)}
-.btn svg{width:14px;height:14px;flex-shrink:0}
-.btn.big{font-size:14px;padding:11px 20px}
-.btn.big svg{width:15px;height:15px}
-.count{font-size:11px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;
-  font-weight:700;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--line)}
-.tool-head{margin-bottom:10px}
-.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.gcard{display:flex;flex-direction:column;text-decoration:none;color:inherit;
-  background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;
-  box-shadow:var(--shadow-card);transition:border-color .15s,transform .15s}
-.gcard:hover{border-color:var(--accent);transform:translateY(-3px)}
-.gcard:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.gcard-shot{display:block;aspect-ratio:1100/515;background-image:var(--shot);
-  background-size:cover;background-position:top center;background-repeat:no-repeat;
-  border-bottom:1px solid var(--line)}
-[data-theme="dark"] .gcard-shot{background-image:var(--shot-dark)}
-.gcard-body{display:flex;align-items:center;gap:10px;padding:10px 12px}
-.gcard-icon{width:30px;height:30px;border-radius:9px;flex-shrink:0;background:var(--soft);
-  border:1px solid var(--soft-line);color:var(--accent);display:grid;place-items:center}
-.gcard-icon svg{width:16px;height:16px}
-.gcard-text{display:flex;flex-direction:column;min-width:0}
-.gcard-name{font-size:.92rem;font-weight:700;letter-spacing:-.01em;line-height:1.25}
-.gcard-tagline{font-size:.72rem;color:var(--muted);line-height:1.3;margin-top:1px;
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-/* Lesson cards: no screenshot (lessons aren't tool widgets with a UI to shoot),
-   an icon block instead, roomier since there are only ever a few of these. */
-.lgallery{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-.lcard{display:flex;flex-direction:column;text-decoration:none;color:inherit;
-  background:var(--card);border:1px solid var(--line);border-radius:14px;
-  box-shadow:var(--shadow-card);transition:border-color .15s,transform .15s;padding:20px}
-.lcard:hover{border-color:var(--accent);transform:translateY(-3px)}
-.lcard:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.lcard-icon{width:44px;height:44px;border-radius:12px;background:var(--soft);
-  border:1px solid var(--soft-line);color:var(--accent);display:grid;place-items:center;margin-bottom:14px}
-.lcard-icon svg{width:22px;height:22px}
-.lcard-name{font-size:1.05rem;font-weight:700;letter-spacing:-.01em;margin-bottom:4px}
-.lcard-tagline{font-size:.82rem;color:var(--muted);line-height:1.4}
-/* Small callout linking off to the tucked-away tools page. */
-.tools-callout{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit;
-  background:var(--soft);border:1px solid var(--soft-line);border-radius:14px;padding:14px 18px;
-  margin-top:28px;transition:border-color .15s}
-.tools-callout:hover{border-color:var(--accent)}
-.tools-callout-icon{width:34px;height:34px;border-radius:9px;background:var(--card);
-  border:1px solid var(--line);color:var(--accent);display:grid;place-items:center;flex-shrink:0}
-.tools-callout-icon svg{width:17px;height:17px}
-.tools-callout-title{font-weight:700;font-size:.9rem}
-.tools-callout-sub{font-size:.78rem;color:var(--muted)}
-@media (max-width:900px){
-  .gallery{grid-template-columns:repeat(2,1fr)}
-  .main-inner{padding:16px 14px 34px}
-}
-@media (max-width:560px){
-  .gallery{grid-template-columns:1fr}
-  .lgallery{grid-template-columns:1fr}
-}
-
 </style>
 </head>
 <body>
@@ -295,7 +279,7 @@ a.btn{text-decoration:none}
     </button>
     <div class="popmenu" id="toolsMenu" role="menu" aria-labelledby="brandBtn" hidden>
       <div class="pm-label">Go to</div>
-      <a class="pm-item" role="menuitem" href="/" data-nav="home" aria-current="true">
+      <a class="pm-item" role="menuitem" href="/" data-nav="home">
         <span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><path d="M3 9.5 12 3l9 6.5V20a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 20z"/><path d="M9.5 21.5v-7h5v7"/></svg></span>Home</a>
       <div class="pm-sep"></div>
       <div class="pm-label">Lesson Plans</div>
@@ -330,7 +314,7 @@ a.btn{text-decoration:none}
       <a class="pm-item" role="menuitem" href="/lessons/happiness-c1.html">
         <span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg></span>Happiness</a>
       <div class="pm-sep"></div>
-      <a class="pm-item" role="menuitem" href="/all-tools" data-nav="all-tools">
+      <a class="pm-item" role="menuitem" href="/all-tools" data-nav="all-tools" aria-current="true">
         <span class="pm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><rect x="3" y="3" width="7.5" height="7.5" rx="1.6"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.6"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.6"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.6"/></svg></span>All Tools</a>
       <div class="pm-sep"></div>
       <a class="pm-item" role="menuitem" href="https://johnplusdictionary.com" target="_blank" rel="noopener">
@@ -346,124 +330,166 @@ a.btn{text-decoration:none}
   <!-- /jpt:themebtn -->
 </header>
 
-<div class="shell">
+<div class="app" id="app">
   <main>
     <div class="main-inner">
-
+      <!-- jpt:toolhead -->
       <div class="tool-head">
-        <span class="th-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg></span>
+        <span class="th-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><line x1="9" y1="6" x2="20" y2="6"/><line x1="9" y1="12" x2="20" y2="12"/><line x1="9" y1="18" x2="20" y2="18"/><circle cx="4.5" cy="6" r="1.1" fill="currentColor" stroke="none"/><circle cx="4.5" cy="12" r="1.1" fill="currentColor" stroke="none"/><circle cx="4.5" cy="18" r="1.1" fill="currentColor" stroke="none"/></svg></span>
         <div class="th-text">
-          <h1>Lesson plans</h1>
-          <p>Full interactive lessons, ready to run in class or copy for a new one.</p>
+          <h1>Vocab Bank</h1>
+          <p>Type a phrase, pick a topic, and it is filed as a bullet under that topic.</p>
         </div>
       </div>
+      <!-- /jpt:toolhead -->
+      
 
-      <div class="count">15 lessons</div>
+      <form class="vb-entry" id="vbForm" autocomplete="off">
+        <input id="vbTopic" list="vbTopics" placeholder="Topic (e.g. Travel)" aria-label="Topic" maxlength="60">
+        <datalist id="vbTopics"></datalist>
+        <input id="vbPhrase" placeholder="Type a word or phrase, press Enter" aria-label="Vocab phrase" maxlength="200">
+        <button class="vb-add" type="submit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add
+        </button>
+      </form>
+      <div class="vb-hint">The topic stays filled in, so you can keep adding phrases to the same group. Click any phrase to edit it.</div>
 
-      <div class="lgallery">
-      <a class="lcard" href="/lessons/manuel-ai-at-work.html">
-        <span class="lcard-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg></span>
-        <span class="lcard-name">Manuel: AI at Work</span>
-        <span class="lcard-tagline">Lesson 10 for Manuel: AI in marketing, junior jobs and daily life.</span>
-      </a>
-
-      <a class="lcard" href="/lessons/friendship-recession-c1.html">
-        <span class="lcard-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg></span>
-        <span class="lcard-name">The Friendship Recession</span>
-        <span class="lcard-tagline">C1 lesson on adult loneliness, fading friendships and why it happens.</span>
-      </a>
-
-      <a class="lcard" href="/lessons/education-today-c1.html">
-        <span class="lcard-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg></span>
-        <span class="lcard-name">Education Today</span>
-        <span class="lcard-tagline">C1 lesson on the PISA report, schools and education today.</span>
-      </a>
-
-      <a class="lcard" href="/lessons/hustle-culture-c1.html">
-        <span class="lcard-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg></span>
-        <span class="lcard-name">Hustle Culture</span>
-        <span class="lcard-tagline">C2 lesson on hustle culture and burnout, ready to teach.</span>
-      </a>
-
-      <a class="lcard" href="/lessons/longevity-c1.html">
-        <span class="lcard-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg></span>
-        <span class="lcard-name">Longevity</span>
-        <span class="lcard-tagline">C1 lesson on the longevity trend and living longer.</span>
-      </a>
-
-      <a class="lcard" href="/lessons/work-careers-c1.html">
-        <span class="lcard-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg></span>
-        <span class="lcard-name">Work & Careers</span>
-        <span class="lcard-tagline">C1 lesson on quiet quitting, hustle and work idioms.</span>
-      </a>
-
-      <a class="lcard" href="/lessons/ai-everyday-life-c1.html">
-        <span class="lcard-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg></span>
-        <span class="lcard-name">AI in Everyday Life</span>
-        <span class="lcard-tagline">C1 lesson on AI adoption, data centres and their hidden cost.</span>
-      </a>
-
-      <a class="lcard" href="/lessons/lesson-template.html">
-        <span class="lcard-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg></span>
-        <span class="lcard-name">Lesson Template</span>
-        <span class="lcard-tagline">The reusable base every new lesson is copied from.</span>
-      </a>
-
-      <a class="lcard" href="/lessons/travel-adventure-c1.html">
-        <span class="lcard-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg></span>
-        <span class="lcard-name">Travel & Adventure</span>
-        <span class="lcard-tagline">C1 lesson on travel, hidden gems and trips that go wrong.</span>
-      </a>
-
-      <a class="lcard" href="/lessons/health-fitness-biohacking-c1.html">
-        <span class="lcard-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg></span>
-        <span class="lcard-name">Health & Fitness</span>
-        <span class="lcard-tagline">C1 lesson on fitness, biohacking and getting in shape.</span>
-      </a>
-
-      <a class="lcard" href="/lessons/books-reading-c1.html">
-        <span class="lcard-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg></span>
-        <span class="lcard-name">Books & Reading</span>
-        <span class="lcard-tagline">C1 lesson on reading habits, page-turners and the decline of reading.</span>
-      </a>
-
-      <a class="lcard" href="/lessons/time-management-c1.html">
-        <span class="lcard-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg></span>
-        <span class="lcard-name">Time Management</span>
-        <span class="lcard-tagline">C1 lesson on busy lives, deadlines and who really owns your time.</span>
-      </a>
-
-      <a class="lcard" href="/lessons/the-future-c1.html">
-        <span class="lcard-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg></span>
-        <span class="lcard-name">The Future</span>
-        <span class="lcard-tagline">C1 lesson on predictions, forecasts and how wrong we can be about tomorrow.</span>
-      </a>
-
-      <a class="lcard" href="/lessons/home-where-we-live-c1.html">
-        <span class="lcard-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg></span>
-        <span class="lcard-name">Home & Where We Live</span>
-        <span class="lcard-tagline">C1 lesson on home, the housing crisis and how the places we live are changing.</span>
-      </a>
-
-      <a class="lcard" href="/lessons/happiness-c1.html">
-        <span class="lcard-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.9"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg></span>
-        <span class="lcard-name">Happiness</span>
-        <span class="lcard-tagline">C1 lesson on what makes people happy and how to talk about feeling on top of the world.</span>
-      </a>
+      <div class="vb-bar">
+        <div class="vb-count" id="vbCount"></div>
+        <input class="vb-search" id="vbSearch" placeholder="Search phrases" aria-label="Search phrases">
+        <button class="vb-ghost" id="vbExport" type="button">Back up</button>
+        <button class="vb-ghost" id="vbImport" type="button">Restore</button>
+        <input type="file" id="vbFile" accept="application/json,.json" hidden>
       </div>
 
-      <a class="tools-callout" href="/all-tools">
-        <span class="tools-callout-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><rect x="3" y="3" width="7.5" height="7.5" rx="1.6"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.6"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.6"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.6"/></svg></span>
-        <span class="tools-callout-text">
-          <span class="tools-callout-title">Classroom tools</span><br>
-          <span class="tools-callout-sub">Debate Builder, Gap-fill, Vocab Matching and 5 more</span>
-        </span>
-      </a>
+      <div class="vb-grid" id="vbGrid"></div>
 
     </div>
   </main>
 </div>
 
+<script>
+(function(){
+  var KEY = 'jpt_vocab_bank_v1';
+  var bank = [];   // [{id, topic, phrases:[{id, text}]}]
+
+  var $ = function(id){ return document.getElementById(id); };
+  var form = $('vbForm'), topicEl = $('vbTopic'), phraseEl = $('vbPhrase'), grid = $('vbGrid');
+
+  function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+  function esc(s){ return String(s).replace(/[&<>"']/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  function load(){
+    try { var d = JSON.parse(localStorage.getItem(KEY) || '[]'); if (Array.isArray(d)) bank = d; } catch(e){ bank = []; }
+  }
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(bank)); } catch(e){} }
+  function findTopic(name){
+    var k = name.trim().toLowerCase();
+    for (var i = 0; i < bank.length; i++) if (bank[i].topic.toLowerCase() === k) return bank[i];
+    return null;
+  }
+
+  function add(topic, text){
+    topic = topic.trim(); text = text.trim();
+    if (!text) return false;
+    if (!topic) topic = 'General';
+    var g = findTopic(topic);
+    if (!g){ g = {id: uid(), topic: topic, phrases: []}; bank.push(g); }
+    if (!g.phrases.some(function(p){ return p.text.toLowerCase() === text.toLowerCase(); }))
+      g.phrases.push({id: uid(), text: text});
+    save();
+    return true;
+  }
+
+  function render(){
+    var q = $('vbSearch').value.trim().toLowerCase();
+    var total = 0, html = '';
+    bank.forEach(function(g){
+      total += g.phrases.length;
+      var shown = g.phrases.filter(function(p){ return !q || p.text.toLowerCase().indexOf(q) > -1 || g.topic.toLowerCase().indexOf(q) > -1; });
+      if (q && !shown.length) return;
+      html += '<section class="vb-group" data-g="' + g.id + '"><div class="vb-ghead">' +
+        '<span class="vb-gname">' + esc(g.topic) + '</span><span class="vb-gnum">' + g.phrases.length + '</span>' +
+        '<button class="vb-gdel" type="button" data-delg="' + g.id + '" title="Delete topic" aria-label="Delete topic">&#10005;</button></div>' +
+        '<ul class="vb-list">' + shown.map(function(p){
+          return '<li><span class="vb-item"><span class="vb-text" contenteditable="plaintext-only" spellcheck="false" data-p="' + p.id + '" data-g="' + g.id + '">' +
+            esc(p.text) + '</span><button class="vb-x" type="button" data-delp="' + p.id + '" data-g="' + g.id + '" title="Remove" aria-label="Remove phrase">&times;</button></span></li>';
+        }).join('') + '</ul></section>';
+    });
+    grid.innerHTML = html || '<div class="vb-empty">' + (bank.length ? 'No phrases match your search.' :
+      'Nothing here yet. Type a topic and a phrase above, then press Enter.') + '</div>';
+    $('vbCount').textContent = total + (total === 1 ? ' phrase' : ' phrases') + ' in ' + bank.length + (bank.length === 1 ? ' topic' : ' topics');
+    $('vbTopics').innerHTML = bank.map(function(g){ return '<option value="' + esc(g.topic) + '">'; }).join('');
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if (add(topicEl.value, phraseEl.value)){
+      phraseEl.value = '';
+      $('vbSearch').value = '';
+      render();
+    }
+    phraseEl.focus();
+  });
+
+  grid.addEventListener('click', function(e){
+    var dp = e.target.closest('[data-delp]'), dg = e.target.closest('[data-delg]');
+    if (dp){
+      var g = bank.filter(function(x){ return x.id === dp.dataset.g; })[0];
+      if (g){ g.phrases = g.phrases.filter(function(p){ return p.id !== dp.dataset.delp; });
+        if (!g.phrases.length) bank = bank.filter(function(x){ return x !== g; }); }
+      save(); render();
+    } else if (dg){
+      var gg = bank.filter(function(x){ return x.id === dg.dataset.delg; })[0];
+      if (gg && (gg.phrases.length < 2 || confirm('Delete "' + gg.topic + '" and its ' + gg.phrases.length + ' phrases?'))){
+        bank = bank.filter(function(x){ return x !== gg; }); save(); render(); }
+    }
+  });
+
+  // Inline editing: commit on blur or Enter; an emptied phrase is removed.
+  grid.addEventListener('keydown', function(e){
+    if (e.target.classList.contains('vb-text') && e.key === 'Enter'){ e.preventDefault(); e.target.blur(); }
+  });
+  grid.addEventListener('focusout', function(e){
+    var el = e.target; if (!el.classList || !el.classList.contains('vb-text')) return;
+    var g = bank.filter(function(x){ return x.id === el.dataset.g; })[0]; if (!g) return;
+    var p = g.phrases.filter(function(x){ return x.id === el.dataset.p; })[0]; if (!p) return;
+    var t = el.textContent.trim();
+    if (t === p.text) return;
+    if (!t) g.phrases = g.phrases.filter(function(x){ return x !== p; }); else p.text = t;
+    if (!g.phrases.length) bank = bank.filter(function(x){ return x !== g; });
+    save(); render();
+  });
+
+  $('vbSearch').addEventListener('input', render);
+
+  $('vbExport').addEventListener('click', function(){
+    var blob = new Blob([JSON.stringify({format: 'jpt-vocab-bank', version: 1, bank: bank}, null, 2)], {type: 'application/json'});
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = 'vocab-bank-' + new Date().toISOString().slice(0, 10) + '.json';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
+  });
+  $('vbImport').addEventListener('click', function(){ $('vbFile').click(); });
+  $('vbFile').addEventListener('change', function(){
+    var f = this.files[0]; if (!f) return;
+    var r = new FileReader();
+    r.onload = function(){
+      try {
+        var d = JSON.parse(r.result);
+        if (!d || d.format !== 'jpt-vocab-bank' || !Array.isArray(d.bank)) throw 0;
+        d.bank.forEach(function(g){ (g.phrases || []).forEach(function(p){ add(String(g.topic || 'General'), String(p.text || '')); }); });
+        render();
+      } catch(e){ alert('That file is not a Vocab Bank backup.'); }
+    };
+    r.readAsText(f); this.value = '';
+  });
+
+  load(); render();
+  window.vbAdd = function(t, p){ add(t, p); render(); };   // used by make_preview seeding
+})();
+</script>
 <!-- jpt:menujs -->
 <script>
 /* Pop-out switcher. The only navigation on the site. */
@@ -511,6 +537,147 @@ a.btn{text-decoration:none}
 })();
 </script>
 <!-- /jpt:themejs -->
+<!-- jpt:floattimer -->
+<script>
+(function () {
+  var KEY = 'jpt_ftimer';
+  var st = {total: 300, remaining: 300, running: false, endAt: null, open: false};
+  try {
+    var raw = localStorage.getItem(KEY);
+    if (raw) { var s = JSON.parse(raw); if (s && typeof s.total === 'number') st = s; }
+  } catch(e){}
 
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(st)); } catch(e){} }
+  function fmt(s){ var n=s<0; s=Math.abs(s);
+    return (n?'-':'')+String(Math.floor(s/60)).padStart(2,'0')+':'+String(Math.floor(s%60)).padStart(2,'0'); }
+  function parse(str){ str=String(str).trim().replace(/\s*min(ute)?s?$/i,''); if(!str) return null; var t;
+    if(str.indexOf(':')>=0){ var pp=str.split(':'); var m=parseInt(pp[0],10)||0; var sc=parseInt(pp[1],10)||0;
+      if(sc>59) return null; t=m*60+sc; }
+    else { var mn=parseFloat(str); if(!isFinite(mn)) return null; t=Math.round(mn*60); }
+    if(!isFinite(t)||t<=0) return null; return Math.min(t, 99*60+59); }
+  function currentRemaining(){ return st.running ? Math.round((st.endAt - Date.now())/1000) : st.remaining; }
+
+  var HOURGLASS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
+    + 'stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h14L12 12 5 3M5 21h14L12 12 5 21"/></svg>';
+  var PLAY = '<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="7 4 20 12 7 20 7 4"/></svg>';
+  var PAUSE = '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4.5" width="4" height="15" rx="1"/>'
+    + '<rect x="14" y="4.5" width="4" height="15" rx="1"/></svg>';
+  var RESET = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" '
+    + 'stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>';
+  var POP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" '
+    + 'stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/>'
+    + '<rect x="12" y="12" width="8" height="6" rx="1" fill="currentColor" stroke="none"/></svg>';
+
+  var wrap = document.createElement('div');
+  wrap.className = 'jft-wrap';
+  wrap.innerHTML =
+    '<div class="jft-panel">' +
+      '<div class="jft-panel-head"><span class="jft-panel-title">Timer</span>' +
+        '<span class="jft-panel-head-btns">' +
+          '<button class="jft-pop" type="button" title="Float on top" aria-label="Float timer above other windows">' + POP + '</button>' +
+          '<button class="jft-panel-close" type="button" title="Hide" aria-label="Hide timer panel">&times;</button>' +
+        '</span></div>' +
+      '<div class="jft-controls">' +
+        '<input class="jft-in" type="text" inputmode="numeric" aria-label="Timer length" ' +
+          'title="Type a length (5, or 5:30) and press Enter to start">' +
+        '<button class="jft-play" type="button" title="Start / pause" aria-label="Start or pause">' + PLAY + '</button>' +
+        '<button class="jft-reset" type="button" title="Reset" aria-label="Reset timer">' + RESET + '</button>' +
+      '</div>' +
+      '<div class="jft-bar"><span></span></div>' +
+    '</div>' +
+    '<button class="jft-btn" type="button" title="Timer" aria-label="Timer">' +
+      '<span class="jft-icon">' + HOURGLASS + '</span><span class="jft-live"></span>' +
+    '</button>';
+  document.body.appendChild(wrap);
+
+  var input = wrap.querySelector('.jft-in'), live = wrap.querySelector('.jft-live');
+  var barFill = wrap.querySelector('.jft-bar span'), playBtn = wrap.querySelector('.jft-play');
+  var btn = wrap.querySelector('.jft-btn'), popBtn = wrap.querySelector('.jft-pop');
+  var panel = wrap.querySelector('.jft-panel');
+  var iv = null;
+  var pipWin = null;
+  if (!('documentPictureInPicture' in window)) popBtn.style.display = 'none';
+
+  function paint(){
+    var r = currentRemaining(), txt = fmt(r);
+    live.textContent = txt;
+    /* input now lives wherever the panel last landed (this page or the pip
+       window), so focus has to be checked against its own document, not
+       this script's document - the two are different once piped. */
+    if (input.ownerDocument.activeElement !== input) input.value = txt;
+    var warn = r <= 60 && r > 0, over = r <= 0;
+    wrap.classList.toggle('running', st.running);
+    wrap.classList.toggle('warn', warn);
+    wrap.classList.toggle('over', over);
+    barFill.style.width = (over ? 100 : Math.max(0, Math.min(1, r / st.total)) * 100) + '%';
+    playBtn.innerHTML = st.running ? PAUSE : PLAY;
+  }
+  function startTicking(){ clearInterval(iv); iv = setInterval(paint, 1000); }
+  function stopTicking(){ clearInterval(iv); iv = null; }
+  function applyOpen(){ wrap.classList.toggle('open', st.open); }
+
+  /* The panel is the real node, moved into the pip window rather than
+     rebuilt there, so every listener below survives untouched - same trick
+     the tools themselves use for presentation mode. */
+  function closePip(){
+    if (!pipWin) return;
+    wrap.insertBefore(panel, btn);
+    panel.style.display = '';
+    popBtn.style.display = '';
+    wrap.classList.remove('piped');
+    pipWin = null;
+  }
+  function openPip(){
+    documentPictureInPicture.requestWindow({width: 252, height: 190}).then(function (win) {
+      pipWin = win;
+      win.document.title = 'Timer';
+      Array.prototype.forEach.call(document.querySelectorAll('head style, head link[rel="stylesheet"]'), function (node) {
+        win.document.head.appendChild(node.cloneNode(true));
+      });
+      win.document.body.className = 'jft-pip-body';
+      panel.style.display = 'block';
+      popBtn.style.display = 'none';
+      win.document.body.appendChild(panel);
+      wrap.classList.add('piped');
+      st.open = false; save(); applyOpen();
+      win.addEventListener('pagehide', closePip, {once: true});
+    }).catch(function () {});
+  }
+
+  function toggle(){
+    if (st.running) { st.remaining = currentRemaining(); st.running = false; st.endAt = null; stopTicking(); }
+    else { st.endAt = Date.now() + currentRemaining() * 1000; st.running = true; startTicking(); }
+    save(); paint();
+  }
+
+  btn.addEventListener('click', function(){
+    if (pipWin) { pipWin.focus(); return; }
+    st.open = !st.open; save(); applyOpen();
+  });
+  popBtn.addEventListener('click', function(){ if (!pipWin) openPip(); });
+  wrap.querySelector('.jft-panel-close').addEventListener('click', function(){
+    if (pipWin) { pipWin.close(); return; }
+    st.open = false; save(); applyOpen();
+  });
+  input.addEventListener('focus', function(){ if (st.running) toggle(); requestAnimationFrame(function(){ input.select(); }); });
+  input.addEventListener('keydown', function(e){
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      var v = parse(input.value);
+      if (v !== null) { st.total = v; st.remaining = v; st.running = false; st.endAt = null; save(); toggle(); }
+      input.blur();
+    } else if (e.key === 'Escape') { e.preventDefault(); paint(); input.blur(); }
+  });
+  playBtn.addEventListener('click', toggle);
+  wrap.querySelector('.jft-reset').addEventListener('click', function(){
+    st.running = false; st.endAt = null; st.remaining = st.total; stopTicking(); save(); paint();
+  });
+
+  applyOpen();
+  paint();
+  if (st.running) startTicking();
+})();
+</script>
+<!-- /jpt:floattimer -->
 </body>
 </html>

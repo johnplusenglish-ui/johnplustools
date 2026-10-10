@@ -126,6 +126,14 @@ WHEEL = (f'<svg viewBox="0 0 24 24" {I} stroke-width="1.9">'
 HOURGLASS = (f'<svg viewBox="0 0 24 24" {I} stroke-width="1.9">'
              '<path d="M5 3h14L12 12 5 3M5 21h14L12 12 5 21"/></svg>')
 
+# Vocab Bank: a bulleted list, three dots with three rules.
+VOCABLIST = (f'<svg viewBox="0 0 24 24" {I} stroke-width="1.9">'
+             '<line x1="9" y1="6" x2="20" y2="6"/><line x1="9" y1="12" x2="20" y2="12"/>'
+             '<line x1="9" y1="18" x2="20" y2="18"/>'
+             '<circle cx="4.5" cy="6" r="1.1" fill="currentColor" stroke="none"/>'
+             '<circle cx="4.5" cy="12" r="1.1" fill="currentColor" stroke="none"/>'
+             '<circle cx="4.5" cy="18" r="1.1" fill="currentColor" stroke="none"/></svg>')
+
 # Lesson Plans: a page with a folded corner and ruled lines, distinct from
 # the plain BOOK mark already used for the JohnPlusDictionary link.
 LESSON_ICON = (f'<svg viewBox="0 0 24 24" {I} stroke-width="1.9">'
@@ -337,6 +345,18 @@ TOOLS = [
         'shot_dark': '/assets/timers-dark.png',
         'shot_alt': ('Timers in use: a large animated hourglass with sand draining through, a '
                      'countdown clock beneath it, and Start and Present buttons.'),
+    },
+    {
+        'slug': 'vocab-bank',
+        'name': 'Vocab Bank',
+        'icon': VOCABLIST,
+        'tagline': 'Type a phrase, pick a topic, and it is filed as a bullet under that topic.',
+        'meta': ('A simple vocab bank: enter words and phrases by topic and see them '
+                 'logged as bullets, grouped under each topic.'),
+        'shot': '/assets/vocab-bank-light.png',
+        'shot_dark': '/assets/vocab-bank-dark.png',
+        'shot_alt': ('Vocab Bank in use: an entry row for topic and phrase, with phrases '
+                     'listed as bullets in cards grouped by topic.'),
     },
 ]
 
@@ -2479,7 +2499,7 @@ def build_timers(html, t):
 BUILDERS = {'debate-builder': build_debate, 'speaking-topics': build_speaking,
             'role-plays': build_roleplays, 'vocab-matching': build_matching,
             'gap-fill': build_gapfill, 'spin-wheel': build_spinwheel,
-            'timers': build_timers}
+            'timers': build_timers, 'vocab-bank': build_timers}
 
 
 LESSON_HOME_DESC = ('Lesson plans and classroom tools by John of JohnPlusEnglish. '

@@ -78,6 +78,13 @@ SEEDS = {
       tmrTick();
       if (!document.querySelector('.tmr-svg')) throw new Error('no timer visual rendered');
     """,
+    'vocab-bank': """
+      localStorage.removeItem('jpt_vocab_bank_v1');
+      [['Travel','boarding pass'],['Travel','a layover'],['Travel','off the beaten track'],['Travel','jet lag'],
+       ['Work','to meet a deadline'],['Work','a heavy workload'],['Work','burn out'],
+       ['Food','a sweet tooth'],['Food','to grab a bite'],['Food','home-cooked']].forEach(function(r){ vbAdd(r[0], r[1]); });
+      if (document.querySelectorAll('.vb-group').length !== 3) throw new Error('vocab bank not seeded');
+    """,
 }
 
 # Something that must be on screen afterwards, as proof the seed actually took.
@@ -89,6 +96,7 @@ PROOF = {
     'gap-fill': 'Word bank',
     'spin-wheel': 'Riley',
     'timers': 'Sand runs through',
+    'vocab-bank': 'off the beaten track',
 }
 
 WRAPPER = """
@@ -122,6 +130,9 @@ def shoot(slug, theme, httpd):
     if not page.exists():
         raise SystemExit(f'make_preview: {page} missing. Run build.py first.')
     base = page.read_text(encoding='utf-8')
+    # The site gate uses a blocking prompt(), which hangs headless Chrome. Strip it from
+    # the throwaway copy only; the built page is untouched.
+    base = re.sub(r'<!-- jpt:gate -->.*?<!-- /jpt:gate -->', '', base, flags=re.S)
     seeded = WRAPPER.replace('__SEED__', SEEDS[slug]).replace('__THEME__', theme)
     i = build.sole_position(base, '</body>', 'the preview seed')
     tmp = ROOT / f'_pv-{slug}-{theme}.html'
