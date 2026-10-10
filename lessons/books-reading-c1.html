@@ -2180,43 +2180,45 @@ function ln(speaker, name, text){ return {speaker:speaker, name:name, text:text}
 var DEFAULT_LISTEN = [
   {
     title: 'Have You Read Anything Good?',
-    subtitle: 'Two friends compare notes over a Sunday coffee: a Scot on a reading streak and a Liverpudlian stuck in a slump',
+    subtitle: 'Two friends meet for coffee: one has just read a thriller in one sitting, the other is stuck in a reading slump',
     targetPhrases: ['curl up with a good book','devour a book','a page-turner','a slow burn','in a reading slump','on a reading streak','a book hoarder','it stayed with me','unputdownable','a bookworm'],
     audio: null,
     questions: [
       'Why does Jack say he is in a reading slump?',
-      'Why does Isla still recommend a slow burn to Jack?',
+      'Why does Isla think Jack should keep going with his slow burn?',
       'What practical advice does Isla give Jack for getting back into reading?'
     ],
     lines: [
-      ln('a','Isla',"Jack! Have you read anything good lately? I'm on a reading streak at the moment. Six books since June."),
-      ln('b','Jack',"[laughs] Six? I've read about two pages of one. I'm in a reading slump, honestly."),
-      ln('a','Isla',"Oh no. What happened?"),
-      ln('b','Jack',"[sighs] I don't know. I sit down, I pick up my phone instead, and then it's midnight."),
-      ln('a','Isla',"That's the trap. You used to be such a bookworm at uni."),
-      ln('b','Jack',"I know. I keep picturing a rainy Sunday where I curl up with a good book. Then I put the television on instead."),
-      ln('a','Isla',"You just need the right book. I found a thriller last week, and it's a page-turner. I devoured it in a weekend."),
-      ln('b','Jack',"Hmm... thrillers are not really my cup of tea. I always pick a slow burn, and I give up before anything actually happens."),
-      ln('a','Isla',"Fair enough. But slow burns can be brilliant. I read a quiet one years ago about two sisters, and nothing happens for a hundred pages."),
-      ln('b','Jack',"And?"),
-      ln('a','Isla',"And then everything changes. I read it from cover to cover in two days, and it stayed with me for weeks."),
-      ln('b','Jack',"[pause] Okay, that's actually tempting. What's it called?"),
-      ln('a','Isla',"I'll send you the title. Honestly, though, the best books are unputdownable. I lose track of time completely. Last week I missed my stop on the train."),
-      ln('b','Jack',"[chuckles] Of course you did. How many unread books do you have on your shelf right now?"),
-      ln('a','Isla',"[pause] ... Don't. I'm a book hoarder, I know. About sixty."),
-      ln('b','Jack',"Sixty! You'll never get through those."),
-      ln('a','Isla',"That's not the point. A shelf of unread books is a promise to your future self."),
-      ln('b','Jack',"[laughs] They say you should never judge a book by its cover, but I'm definitely judging your shelf."),
-      ln('a','Isla',"Start small, then. Ten pages before bed, with your phone in another room."),
-      ln('b','Jack',"Ten pages. I can probably manage that. Once I get stuck into a story, I'm fine."),
-      ln('a','Isla',"Exactly. I'll lend you the quiet one about the sisters. I think it's right up your street."),
-      ln('b','Jack',"Deal. But if I'm still in a slump next week, I'm blaming you."),
-      ln('a','Isla',"[laughs] Fine. That's a risk worth taking.")
+      ln('a','Isla',"Sorry, I'm late. [coughs] Sorry, I've got a bit of a tickle. Have you been waiting long?"),
+      ln('b','Jack',"No, I only just sat down. You sound terrible."),
+      ln('a','Isla',"I'm fine, I was up too late. I finished a book at two in the morning. I read the whole thing in one sitting."),
+      ln('b','Jack',"How long was it?"),
+      ln('a','Isla',"Four hundred pages. It was unputdownable, honestly. I thought I'd read a chapter before bed."),
+      ln('b','Jack',"[laughs] And then it was two o'clock."),
+      ln('a','Isla',"And then it was two o'clock. I'm on a reading streak at the moment, that's the fourth book since August. When I get going, I just tear through them."),
+      ln('b','Jack',"I'm jealous. I'm in a reading slump. I bought a novel in the summer and I'm still on page thirty."),
+      ln('a','Isla',"What's it like?"),
+      ln('b','Jack',"It's fine. It's a bit of a slow burn, to be honest. Everyone says it gets good around the middle."),
+      ln('a','Isla',"[coughs] Sorry. Well, I'd stick with it. The ones that stay with you are usually slow like that. There's one I read years ago, and it stayed with me for months."),
+      ln('b','Jack',"Maybe. I used to be a bookworm, you know. At school I read under the covers with a torch."),
+      ln('a','Isla',"Under the covers? You? I remember you reading the back of the cereal box."),
+      ln('b','Jack',"[laughs] That too. I think it's the phone. I sit down to read, and twenty minutes later I'm still looking at my phone."),
+      ln('a','Isla',"Leave it in another room. Honestly, it works. Then you can curl up with a good book and nobody interrupts you."),
+      ln('b','Jack',"Easier said than done. [coughs] Sorry, I think that's catching."),
+      ln('a','Isla',"The other thing is to pick something short. If it's short, I can devour a book in a weekend."),
+      ln('b','Jack',"How many unread books have you got at home, by the way?"),
+      ln('a','Isla',"Don't ask. I'm a book hoarder. Seventy-one, last time I counted."),
+      ln('b','Jack',"Seventy-one! You'll never read all of those."),
+      ln('a','Isla',"That's not the point. I like knowing they're there. And the one I just finished is a page-turner, so I'll lend it to you."),
+      ln('b','Jack',"Fine. Is it the one you read in one sitting?"),
+      ln('a','Isla',"That's the one. I'll bring it on Thursday, and you have to tell me what you think."),
+      ln('b','Jack',"I'll try. If I'm still stuck in a month, I'm blaming you."),
+      ln('a','Isla',"[laughs] That's fair.")
     ]
   }
 ];
 function loadListen(){
-  try{ var raw = JSON.parse(localStorage.getItem(LISTEN_KEY)); if(Array.isArray(raw) && raw.length && !(raw[0].lines && raw[0].lines[0] && (raw[0].lines[0].name === 'Niamh' || JSON.stringify(raw).indexOf('And then it completely floors you') > -1 || JSON.stringify(raw).indexOf('poisons the other') > -1))) return raw; }catch(e){}
+  try{ var raw = JSON.parse(localStorage.getItem(LISTEN_KEY)); if(Array.isArray(raw) && raw.length && !(raw[0].lines && raw[0].lines[0] && (raw[0].lines[0].name === 'Niamh' || JSON.stringify(raw).indexOf('And then it completely floors you') > -1 || JSON.stringify(raw).indexOf('poisons the other') > -1 || JSON.stringify(raw).indexOf('judge a book by its cover') > -1))) return raw; }catch(e){}
   return JSON.parse(JSON.stringify(DEFAULT_LISTEN));
 }
 var LISTEN = loadListen();
