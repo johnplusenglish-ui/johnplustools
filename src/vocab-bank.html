@@ -65,6 +65,11 @@ button{cursor:pointer}
 .vb-item{display:flex;align-items:flex-start;gap:6px}
 .vb-text{flex:1;min-width:0;border-radius:6px;outline:none}
 .vb-text:focus{background:var(--soft);box-shadow:0 0 0 3px var(--soft)}
+.vb-ty{opacity:0;max-width:92px;font-size:11px;font-weight:600;color:var(--muted);background:var(--bg);
+  border:1px solid var(--line);border-radius:999px;padding:2px 6px;outline:none;cursor:pointer;flex-shrink:0;transition:.12s}
+.vb-list li:hover .vb-ty,.vb-ty:focus{opacity:1}
+.vb-ty:hover,.vb-ty:focus{border-color:var(--accent);color:var(--accent)}
+@media (hover:none){.vb-ty{opacity:.7}}
 .vb-x{opacity:0;width:22px;height:22px;flex-shrink:0;border-radius:999px;border:none;background:transparent;
   color:var(--muted);font-size:16px;line-height:1;transition:.12s}
 .vb-list li:hover .vb-x,.vb-x:focus-visible{opacity:1}
@@ -138,6 +143,8 @@ button{cursor:pointer}
 
   function typeOf(p){ return TYPES.indexOf(p.type) > -1 ? p.type : 'Phrase'; }
 
+  function typeOpts(cur){ return TYPES.map(function(t){ return '<option' + (t === cur ? ' selected' : '') + '>' + t + '</option>'; }).join(''); }
+
   function add(topic, text, type){
     topic = topic.trim(); text = text.trim();
     if (!text) return false;
@@ -168,7 +175,7 @@ button{cursor:pointer}
         if (!items.length) return;
         html += '<div class="vb-sub">' + esc(ty === 'Other' ? ty : ty + 's') + '</div><ul class="vb-list">' + items.map(function(p){
           return '<li><span class="vb-item"><span class="vb-text" contenteditable="plaintext-only" spellcheck="false" data-p="' + p.id + '" data-g="' + g.id + '">' +
-            esc(p.text) + '</span><button class="vb-x" type="button" data-delp="' + p.id + '" data-g="' + g.id + '" title="Remove" aria-label="Remove phrase">&times;</button></span></li>';
+            esc(p.text) + '</span><select class="vb-ty" data-p="' + p.id + '" data-g="' + g.id + '" title="Change type" aria-label="Change type">' + typeOpts(typeOf(p)) + '</select><button class="vb-x" type="button" data-delp="' + p.id + '" data-g="' + g.id + '" title="Remove" aria-label="Remove phrase">&times;</button></span></li>';
         }).join('') + '</ul>';
       });
       html += '</section>';
@@ -213,6 +220,17 @@ button{cursor:pointer}
       if (gg && (gg.phrases.length < 2 || confirm('Delete "' + gg.topic + '" and its ' + gg.phrases.length + ' phrases?'))){
         bank = bank.filter(function(x){ return x !== gg; }); save(); render(); }
     }
+  });
+
+  grid.addEventListener('change', function(e){
+    var el = e.target; if (!el.classList.contains('vb-ty')) return;
+    var g = bank.filter(function(x){ return x.id === el.dataset.g; })[0]; if (!g) return;
+    var p = g.phrases.filter(function(x){ return x.id === el.dataset.p; })[0]; if (!p) return;
+    p.type = el.value;
+    // Moving into a type that already holds the same phrase would duplicate it: merge.
+    g.phrases = g.phrases.filter(function(x){
+      return x === p || !(x.text.toLowerCase() === p.text.toLowerCase() && typeOf(x) === p.type); });
+    save(); render();
   });
 
   // Inline editing: commit on blur or Enter; an emptied phrase is removed.
