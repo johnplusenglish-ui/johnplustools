@@ -64,6 +64,22 @@ button{cursor:pointer}
   background:transparent;color:var(--muted);transition:.12s}
 .vb-chip:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
 .vb-chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.vb-copy{opacity:.55;width:26px;height:26px;flex-shrink:0;border-radius:999px;border:none;background:transparent;color:var(--muted);
+  display:inline-flex;align-items:center;justify-content:center;transition:.12s}
+.vb-copy svg{width:14px;height:14px}
+.vb-copy:hover,.vb-copy:focus-visible{opacity:1;background:var(--soft);color:var(--accent)}
+.vb-copy.done{opacity:1;color:#2f9e5b}
+.vb-subrow{display:flex;align-items:center;gap:6px;margin:10px 0 2px;padding-top:8px;border-top:1px solid var(--line)}
+.vb-subrow .vb-sub{margin:0;padding:0;border:none;flex:1}
+.vb-subrow .vb-copy{width:22px;height:22px}
+.vb-subrow .vb-copy svg{width:12px;height:12px}
+.vb-bulk{display:none;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-top:10px}
+.vb-bulk.open{display:block}
+.vb-bulk textarea{width:100%;min-height:150px;resize:vertical;font-family:inherit;font-size:14.5px;line-height:1.5;color:var(--ink);
+  background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 14px;outline:none}
+.vb-bulk textarea:focus{border-color:var(--accent);background:var(--card)}
+.vb-bulk-row{display:flex;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap}
+.vb-bulk-note{font-size:12px;color:var(--muted);flex:1;min-width:200px}
 .vb-sub{font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
   margin:10px 0 2px;padding-top:8px;border-top:1px solid var(--line)}
 .vb-sub:first-of-type{margin-top:6px}
@@ -110,9 +126,19 @@ button{cursor:pointer}
       </form>
       <div class="vb-hint">The topic and type stay filled in, so you can keep adding to the same group. Click any phrase to edit it.</div>
 
+      <div class="vb-bulk" id="vbBulk">
+        <textarea id="vbBulkText" placeholder="Paste a list, one phrase per line.&#10;&#10;Travel:&#10;off the beaten track&#10;to hit the road&#10;&#10;Work:&#10;to meet a deadline" aria-label="Bulk paste"></textarea>
+        <div class="vb-bulk-row">
+          <div class="vb-bulk-note">Uses the topic and type above. A line ending in a colon starts a new topic. Bullets and numbers are stripped.</div>
+          <button class="vb-ghost" id="vbBulkCancel" type="button">Cancel</button>
+          <button class="vb-add" id="vbBulkAdd" type="button">Add all</button>
+        </div>
+      </div>
+
       <div class="vb-bar">
         <div class="vb-count" id="vbCount"></div>
         <input class="vb-search" id="vbSearch" placeholder="Search phrases" aria-label="Search phrases">
+        <button class="vb-ghost" id="vbBulkBtn" type="button">Bulk paste</button>
         <button class="vb-cloud" id="vbCloud" type="button" title="Your bank saves to the cloud automatically. Click to sync now.">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
           <span id="vbCloudTxt">Cloud</span><i></i>
@@ -217,6 +243,7 @@ button{cursor:pointer}
 
   function typeOf(p){ return TYPES.indexOf(p.type) > -1 ? p.type : 'Phrase'; }
 
+  var COPY_ICO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>';
   function typeOpts(cur){ return TYPES.map(function(t){ return '<option' + (t === cur ? ' selected' : '') + '>' + t + '</option>'; }).join(''); }
 
   function add(topic, text, type){
@@ -243,11 +270,13 @@ button{cursor:pointer}
       if ((q || typeFilter) && !shown.length) return;
       html += '<section class="vb-group" data-g="' + g.id + '"><div class="vb-ghead">' +
         '<span class="vb-gname">' + esc(g.topic) + '</span><span class="vb-gnum">' + g.phrases.length + '</span>' +
+        '<button class="vb-copy" type="button" data-copyg="' + g.id + '" title="Copy this topic" aria-label="Copy this topic">' + COPY_ICO + '</button>' +
         '<button class="vb-gdel" type="button" data-delg="' + g.id + '" title="Delete topic" aria-label="Delete topic">&#10005;</button></div>';
       TYPES.forEach(function(ty){
         var items = shown.filter(function(p){ return typeOf(p) === ty; });
         if (!items.length) return;
-        html += '<div class="vb-sub">' + esc(ty === 'Other' ? ty : ty + 's') + '</div><ul class="vb-list">' + items.map(function(p){
+        html += '<div class="vb-subrow"><div class="vb-sub">' + esc(ty === 'Other' ? ty : ty + 's') +
+          '</div><button class="vb-copy" type="button" data-copyg="' + g.id + '" data-copyt="' + esc(ty) + '" title="Copy these ' + esc(ty.toLowerCase()) + 's" aria-label="Copy section">' + COPY_ICO + '</button></div><ul class="vb-list">' + items.map(function(p){
           return '<li><span class="vb-item"><span class="vb-text" contenteditable="plaintext-only" spellcheck="false" data-p="' + p.id + '" data-g="' + g.id + '">' +
             esc(p.text) + '</span><select class="vb-ty" data-p="' + p.id + '" data-g="' + g.id + '" title="Change type" aria-label="Change type">' + typeOpts(typeOf(p)) + '</select><button class="vb-x" type="button" data-delp="' + p.id + '" data-g="' + g.id + '" title="Remove" aria-label="Remove phrase">&times;</button></span></li>';
         }).join('') + '</ul>';
@@ -351,7 +380,35 @@ button{cursor:pointer}
     phraseEl.focus();
   });
 
+  function copyText(txt, btn){
+    function ok(){ btn.classList.add('done'); setTimeout(function(){ btn.classList.remove('done'); }, 1200); }
+    function fallback(){
+      var ta = document.createElement('textarea'); ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); ok(); } catch(e){} ta.remove();
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(ok, fallback); else fallback();
+  }
+  function groupText(g, ty){
+    var lines = [];
+    if (ty){ lines.push(ty === 'Other' ? ty : ty + 's'); }
+    else lines.push(g.topic);
+    TYPES.forEach(function(t){
+      if (ty && t !== ty) return;
+      var items = g.phrases.filter(function(p){ return typeOf(p) === t; });
+      if (!items.length) return;
+      if (!ty) lines.push('', t === 'Other' ? t : t + 's');
+      items.forEach(function(p){ lines.push('\u2022 ' + p.text); });
+    });
+    return lines.join('\n');
+  }
+
   grid.addEventListener('click', function(e){
+    var cp = e.target.closest('[data-copyg]');
+    if (cp){
+      var cg = bank.filter(function(x){ return x.id === cp.dataset.copyg; })[0];
+      if (cg) copyText(groupText(cg, cp.dataset.copyt || ''), cp);
+      return;
+    }
     var dp = e.target.closest('[data-delp]'), dg = e.target.closest('[data-delg]');
     if (dp){
       var g = bank.filter(function(x){ return x.id === dp.dataset.g; })[0];
@@ -392,6 +449,31 @@ button{cursor:pointer}
   });
 
   $('vbSearch').addEventListener('input', render);
+
+  // ── Bulk paste ────────────────────────────────────────────────────────
+  function toggleBulk(open){
+    $('vbBulk').classList.toggle('open', open);
+    if (open) $('vbBulkText').focus();
+  }
+  $('vbBulkBtn').addEventListener('click', function(){ toggleBulk(!$('vbBulk').classList.contains('open')); });
+  $('vbBulkCancel').addEventListener('click', function(){ $('vbBulkText').value = ''; toggleBulk(false); });
+  $('vbBulkAdd').addEventListener('click', function(){
+    var topic = topicEl.value.trim() || 'General', chosen = $('vbType').value, items = [], added = 0;
+    $('vbBulkText').value.split(/\r?\n/).forEach(function(line){
+      line = line.replace(/^\s*(?:[-*\u2022\u2013]|\d+[.)])\s+/, '').trim();
+      if (!line) return;
+      if (/^[^:]{1,60}:$/.test(line)){ topic = line.slice(0, -1).trim(); return; }
+      items.push([topic, line]);
+    });
+    items.forEach(function(it){ if (add(it[0], it[1], chosen === 'Auto' ? 'Phrase' : chosen)) added++; });
+    if (!added) return;
+    $('vbSearch').value = ''; render();
+    $('vbBulkText').value = ''; toggleBulk(false);
+    if (chosen === 'Auto'){
+      var chain = Promise.resolve();
+      items.forEach(function(it){ chain = chain.then(function(){ return autoSort(it[0], it[1]); }); });
+    }
+  });
 
   $('vbExport').addEventListener('click', function(){
     var blob = new Blob([JSON.stringify({format: 'jpt-vocab-bank', version: 1, bank: bank}, null, 2)], {type: 'application/json'});
