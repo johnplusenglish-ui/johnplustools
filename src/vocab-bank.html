@@ -48,6 +48,17 @@ button{cursor:pointer}
 .vb-ghead{display:flex;align-items:center;gap:8px;margin-bottom:6px;min-width:0}
 .vb-gname{font-size:15px;font-weight:800;letter-spacing:-.01em;flex:1;min-width:0;overflow-wrap:anywhere}
 .vb-gnum{font-size:11px;font-weight:700;color:var(--accent);background:var(--soft);border-radius:999px;padding:2px 9px}
+#vbType{font-size:15px;color:var(--ink);background:var(--bg);border:1px solid var(--line);
+  border-radius:999px;padding:11px 14px;outline:none;flex:0 1 150px;cursor:pointer}
+#vbType:focus{border-color:var(--accent);background:var(--card)}
+.vb-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.vb-chip{font-size:12px;font-weight:600;padding:6px 12px;border-radius:999px;border:1px solid var(--soft-line);
+  background:transparent;color:var(--muted);transition:.12s}
+.vb-chip:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+.vb-chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.vb-sub{font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+  margin:10px 0 2px;padding-top:8px;border-top:1px solid var(--line)}
+.vb-sub:first-of-type{margin-top:6px}
 .vb-list{list-style:disc;margin:0;padding-left:20px}
 .vb-list li{font-size:14.5px;line-height:1.45;padding:3px 0;overflow-wrap:anywhere}
 .vb-list li::marker{color:var(--accent)}
@@ -77,13 +88,14 @@ button{cursor:pointer}
       <form class="vb-entry" id="vbForm" autocomplete="off">
         <input id="vbTopic" list="vbTopics" placeholder="Topic (e.g. Travel)" aria-label="Topic" maxlength="60">
         <datalist id="vbTopics"></datalist>
+        <select id="vbType" aria-label="Type"></select>
         <input id="vbPhrase" placeholder="Type a word or phrase, press Enter" aria-label="Vocab phrase" maxlength="200">
         <button class="vb-add" type="submit">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           Add
         </button>
       </form>
-      <div class="vb-hint">The topic stays filled in, so you can keep adding phrases to the same group. Click any phrase to edit it.</div>
+      <div class="vb-hint">The topic and type stay filled in, so you can keep adding to the same group. Click any phrase to edit it.</div>
 
       <div class="vb-bar">
         <div class="vb-count" id="vbCount"></div>
@@ -92,6 +104,8 @@ button{cursor:pointer}
         <button class="vb-ghost" id="vbImport" type="button">Restore</button>
         <input type="file" id="vbFile" accept="application/json,.json" hidden>
       </div>
+
+      <div class="vb-filters" id="vbFilters"></div>
 
       <div class="vb-grid" id="vbGrid"></div>
 
@@ -102,7 +116,9 @@ button{cursor:pointer}
 <script>
 (function(){
   var KEY = 'jpt_vocab_bank_v1';
-  var bank = [];   // [{id, topic, phrases:[{id, text}]}]
+  var TYPES = ['Idiom','Phrasal verb','Collocation','Verb','Noun','Adjective','Adverb','Phrase','Other'];
+  var bank = [];
+  var typeFilter = '';   // [{id, topic, phrases:[{id, text}]}]
 
   var $ = function(id){ return document.getElementById(id); };
   var form = $('vbForm'), topicEl = $('vbTopic'), phraseEl = $('vbPhrase'), grid = $('vbGrid');
@@ -120,14 +136,17 @@ button{cursor:pointer}
     return null;
   }
 
-  function add(topic, text){
+  function typeOf(p){ return TYPES.indexOf(p.type) > -1 ? p.type : 'Phrase'; }
+
+  function add(topic, text, type){
     topic = topic.trim(); text = text.trim();
     if (!text) return false;
     if (!topic) topic = 'General';
     var g = findTopic(topic);
     if (!g){ g = {id: uid(), topic: topic, phrases: []}; bank.push(g); }
-    if (!g.phrases.some(function(p){ return p.text.toLowerCase() === text.toLowerCase(); }))
-      g.phrases.push({id: uid(), text: text});
+    type = TYPES.indexOf(type) > -1 ? type : 'Phrase';
+    if (!g.phrases.some(function(p){ return p.text.toLowerCase() === text.toLowerCase() && typeOf(p) === type; }))
+      g.phrases.push({id: uid(), text: text, type: type});
     save();
     return true;
   }
@@ -137,25 +156,44 @@ button{cursor:pointer}
     var total = 0, html = '';
     bank.forEach(function(g){
       total += g.phrases.length;
-      var shown = g.phrases.filter(function(p){ return !q || p.text.toLowerCase().indexOf(q) > -1 || g.topic.toLowerCase().indexOf(q) > -1; });
-      if (q && !shown.length) return;
+      var shown = g.phrases.filter(function(p){
+        return (!typeFilter || typeOf(p) === typeFilter) &&
+          (!q || p.text.toLowerCase().indexOf(q) > -1 || g.topic.toLowerCase().indexOf(q) > -1 || typeOf(p).toLowerCase().indexOf(q) > -1); });
+      if ((q || typeFilter) && !shown.length) return;
       html += '<section class="vb-group" data-g="' + g.id + '"><div class="vb-ghead">' +
         '<span class="vb-gname">' + esc(g.topic) + '</span><span class="vb-gnum">' + g.phrases.length + '</span>' +
-        '<button class="vb-gdel" type="button" data-delg="' + g.id + '" title="Delete topic" aria-label="Delete topic">&#10005;</button></div>' +
-        '<ul class="vb-list">' + shown.map(function(p){
+        '<button class="vb-gdel" type="button" data-delg="' + g.id + '" title="Delete topic" aria-label="Delete topic">&#10005;</button></div>';
+      TYPES.forEach(function(ty){
+        var items = shown.filter(function(p){ return typeOf(p) === ty; });
+        if (!items.length) return;
+        html += '<div class="vb-sub">' + esc(ty === 'Other' ? ty : ty + 's') + '</div><ul class="vb-list">' + items.map(function(p){
           return '<li><span class="vb-item"><span class="vb-text" contenteditable="plaintext-only" spellcheck="false" data-p="' + p.id + '" data-g="' + g.id + '">' +
             esc(p.text) + '</span><button class="vb-x" type="button" data-delp="' + p.id + '" data-g="' + g.id + '" title="Remove" aria-label="Remove phrase">&times;</button></span></li>';
-        }).join('') + '</ul></section>';
+        }).join('') + '</ul>';
+      });
+      html += '</section>';
     });
     grid.innerHTML = html || '<div class="vb-empty">' + (bank.length ? 'No phrases match your search.' :
       'Nothing here yet. Type a topic and a phrase above, then press Enter.') + '</div>';
     $('vbCount').textContent = total + (total === 1 ? ' phrase' : ' phrases') + ' in ' + bank.length + (bank.length === 1 ? ' topic' : ' topics');
+    var used = {}; bank.forEach(function(g){ g.phrases.forEach(function(p){ used[typeOf(p)] = 1; }); });
+    if (typeFilter && !used[typeFilter]) typeFilter = '';
+    $('vbFilters').innerHTML = Object.keys(used).length < 2 ? '' :
+      ['All'].concat(TYPES.filter(function(t){ return used[t]; })).map(function(t){
+        var on = (t === 'All' && !typeFilter) || t === typeFilter;
+        return '<button type="button" class="vb-chip' + (on ? ' on' : '') + '" data-type="' + (t === 'All' ? '' : esc(t)) + '">' + esc(t) + '</button>'; }).join('');
     $('vbTopics').innerHTML = bank.map(function(g){ return '<option value="' + esc(g.topic) + '">'; }).join('');
   }
 
+  $('vbType').innerHTML = TYPES.map(function(t){ return '<option>' + t + '</option>'; }).join('');
+  try { var lt = localStorage.getItem(KEY + '_type'); if (lt && TYPES.indexOf(lt) > -1) $('vbType').value = lt; } catch(e){}
+  $('vbType').addEventListener('change', function(){ try { localStorage.setItem(KEY + '_type', this.value); } catch(e){} });
+  $('vbFilters').addEventListener('click', function(e){
+    var c = e.target.closest('[data-type]'); if (!c) return; typeFilter = c.dataset.type; render(); });
+
   form.addEventListener('submit', function(e){
     e.preventDefault();
-    if (add(topicEl.value, phraseEl.value)){
+    if (add(topicEl.value, phraseEl.value, $('vbType').value)){
       phraseEl.value = '';
       $('vbSearch').value = '';
       render();
@@ -209,7 +247,7 @@ button{cursor:pointer}
       try {
         var d = JSON.parse(r.result);
         if (!d || d.format !== 'jpt-vocab-bank' || !Array.isArray(d.bank)) throw 0;
-        d.bank.forEach(function(g){ (g.phrases || []).forEach(function(p){ add(String(g.topic || 'General'), String(p.text || '')); }); });
+        d.bank.forEach(function(g){ (g.phrases || []).forEach(function(p){ add(String(g.topic || 'General'), String(p.text || ''), p.type); }); });
         render();
       } catch(e){ alert('That file is not a Vocab Bank backup.'); }
     };
@@ -217,7 +255,7 @@ button{cursor:pointer}
   });
 
   load(); render();
-  window.vbAdd = function(t, p){ add(t, p); render(); };   // used by make_preview seeding
+  window.vbAdd = function(t, p, ty){ add(t, p, ty); render(); };   // used by make_preview seeding
 })();
 </script>
 </body>

@@ -80,9 +80,9 @@ SEEDS = {
     """,
     'vocab-bank': """
       localStorage.removeItem('jpt_vocab_bank_v1');
-      [['Travel','boarding pass'],['Travel','a layover'],['Travel','off the beaten track'],['Travel','jet lag'],
-       ['Work','to meet a deadline'],['Work','a heavy workload'],['Work','burn out'],
-       ['Food','a sweet tooth'],['Food','to grab a bite'],['Food','home-cooked']].forEach(function(r){ vbAdd(r[0], r[1]); });
+      [['Travel','off the beaten track','Idiom'],['Travel','to hit the road','Idiom'],['Travel','a layover','Noun'],['Travel','breathtaking','Adjective'],['Travel','to check in','Phrasal verb'],
+       ['Work','to meet a deadline','Collocation'],['Work','to burn the candle at both ends','Idiom'],['Work','overwhelmed','Adjective'],['Work','to take on','Phrasal verb'],
+       ['Food','a sweet tooth','Idiom'],['Food','mouth-watering','Adjective'],['Food','to grab a bite','Phrase']].forEach(function(r){ vbAdd(r[0], r[1], r[2]); });
       if (document.querySelectorAll('.vb-group').length !== 3) throw new Error('vocab bank not seeded');
     """,
 }
