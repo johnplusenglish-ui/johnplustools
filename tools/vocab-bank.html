@@ -387,6 +387,10 @@ button.st-brand[aria-expanded="true"] .brand-chev{transform:rotate(180deg)}
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
           <span id="vbCloudTxt">Cloud</span><i></i>
         </button>
+        <button class="vb-cloud" id="vbAuto" type="button" title="Let Claude pick the type for each phrase you add">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></svg>
+          <span id="vbAutoTxt">Auto-sort</span><i></i>
+        </button>
         <button class="vb-ghost" id="vbExport" type="button">Back up</button>
         <button class="vb-ghost" id="vbImport" type="button">Restore</button>
         <input type="file" id="vbFile" accept="application/json,.json" hidden>
@@ -532,15 +536,84 @@ button.st-brand[aria-expanded="true"] .brand-chev{transform:rotate(180deg)}
     $('vbTopics').innerHTML = bank.map(function(g){ return '<option value="' + esc(g.topic) + '">'; }).join('');
   }
 
-  $('vbType').innerHTML = TYPES.map(function(t){ return '<option>' + t + '</option>'; }).join('');
-  try { var lt = localStorage.getItem(KEY + '_type'); if (lt && TYPES.indexOf(lt) > -1) $('vbType').value = lt; } catch(e){}
+  // ── Auto-sort ─────────────────────────────────────────────────────────
+  // With your own Anthropic key (stored only in this browser, never synced or backed up)
+  // Claude picks the type. Without one, a few simple rules cover verbs, phrasal verbs,
+  // adverbs and adjectives and everything else lands under Phrases.
+  var AKEY = KEY + '_apikey';
+  function getKey(){ try { return localStorage.getItem(AKEY) || ''; } catch(e){ return ''; } }
+  function paintAuto(){
+    var on = !!getKey(); $('vbAuto').className = 'vb-cloud' + (on ? ' ok' : '');
+    $('vbAutoTxt').textContent = on ? 'Auto-sort on' : 'Auto-sort';
+  }
+  var PARTS = 'up|down|out|off|on|in|over|away|back|through|around|into|after|along|apart|by|for|with|across|ahead|aside|forward|together';
+  function guessType(text){
+    var t = text.trim().toLowerCase();
+    if (new RegExp('^to \\w+(\\s(' + PARTS + '))+(\\s\\w+){0,2}$').test(t) && t.split(/\s+/).length <= 4) return 'Phrasal verb';
+    if (/^to [a-z-]+$/.test(t)) return 'Verb';
+    if (/^[a-z-]+ly$/.test(t)) return 'Adverb';
+    if (/^[a-z-]{4,}(ous|ful|ive|able|ible|less|ic|ish|ent|ant)$/.test(t)) return 'Adjective';
+    return 'Phrase';
+  }
+  function askClaude(topic, text){
+    return fetch('https://api.anthropic.com/v1/messages', {method: 'POST',
+      headers: {'content-type': 'application/json', 'x-api-key': getKey(), 'anthropic-version': '2023-06-01',
+                'anthropic-dangerous-direct-browser-access': 'true'},
+      body: JSON.stringify({model: 'claude-haiku-5-5', max_tokens: 12,
+        messages: [{role: 'user', content: 'Classify this English vocabulary item for a language learner. Topic: "' + topic +
+          '". Item: "' + text + '". Answer with exactly one of: ' + TYPES.join(', ') +
+          '. Idiom = figurative fixed expression. Collocation = words that naturally go together. Phrase = other useful chunk, sentence frame or short expression. Reply with the label only.'}]})})
+      .then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function(d){
+        var out = (d.content && d.content[0] && d.content[0].text || '').trim().toLowerCase();
+        for (var i = 0; i < TYPES.length; i++) if (out.indexOf(TYPES[i].toLowerCase()) === 0) return TYPES[i];
+        throw new Error('unrecognised');
+      });
+  }
+  function retype(topic, text, type){
+    var g = findTopic(topic); if (!g) return;
+    var p = g.phrases.filter(function(x){ return x.text === text && typeOf(x) === 'Phrase'; })[0];
+    if (!p || type === 'Phrase') return;
+    p.type = type;
+    g.phrases = g.phrases.filter(function(x){ return x === p || !(x.text.toLowerCase() === text.toLowerCase() && typeOf(x) === type); });
+    save(); render();
+  }
+  function autoSort(topic, text){
+    if (!getKey()){ retype(topic, text, guessType(text)); return Promise.resolve(); }
+    return askClaude(topic, text).then(function(ty){ retype(topic, text, ty); })
+      .catch(function(){ retype(topic, text, guessType(text)); });
+  }
+  $('vbAuto').addEventListener('click', function(){
+    var cur = getKey(), k;
+    try { k = prompt('Paste your Anthropic API key to let Claude sort phrases by type.\n' +
+      'It is stored only in this browser. Leave empty to turn it off.\nGet one at console.anthropic.com/settings/keys', cur); } catch(e){ return; }
+    if (k === null) return;
+    k = k.trim();
+    try { if (k) localStorage.setItem(AKEY, k); else localStorage.removeItem(AKEY); } catch(e){}
+    paintAuto();
+    if (k && k !== cur){
+      var todo = [];
+      bank.forEach(function(g){ g.phrases.forEach(function(p){ if (typeOf(p) === 'Phrase') todo.push([g.topic, p.text]); }); });
+      if (todo.length && confirm('Sort your ' + todo.length + ' existing phrases filed under Phrases too?')){
+        var chain = Promise.resolve();
+        todo.forEach(function(it){ chain = chain.then(function(){ return autoSort(it[0], it[1]); }); });
+      }
+    }
+  });
+  paintAuto();
+
+  $('vbType').innerHTML = ['Auto'].concat(TYPES).map(function(t){ return '<option>' + t + '</option>'; }).join('');
+  $('vbType').value = 'Auto';
+  try { var lt = localStorage.getItem(KEY + '_type'); if (lt && (lt === 'Auto' || TYPES.indexOf(lt) > -1)) $('vbType').value = lt; } catch(e){}
   $('vbType').addEventListener('change', function(){ try { localStorage.setItem(KEY + '_type', this.value); } catch(e){} });
   $('vbFilters').addEventListener('click', function(e){
     var c = e.target.closest('[data-type]'); if (!c) return; typeFilter = c.dataset.type; render(); });
 
   form.addEventListener('submit', function(e){
     e.preventDefault();
-    if (add(topicEl.value, phraseEl.value, $('vbType').value)){
+    var chosen = $('vbType').value, ptxt = phraseEl.value.trim(), ptopic = topicEl.value.trim() || 'General';
+    if (add(topicEl.value, phraseEl.value, chosen === 'Auto' ? 'Phrase' : chosen)){
+      if (chosen === 'Auto') autoSort(ptopic, ptxt);
       phraseEl.value = '';
       $('vbSearch').value = '';
       render();
