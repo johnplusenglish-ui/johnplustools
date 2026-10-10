@@ -37,6 +37,14 @@ button{cursor:pointer}
 .vb-search{font-size:13px;border:1px solid var(--soft-line);background:var(--card);color:var(--ink);
   border-radius:999px;padding:8px 16px;outline:none;width:200px;max-width:100%}
 .vb-search:focus{border-color:var(--accent)}
+.vb-cloud{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;padding:8px 14px;
+  border-radius:999px;border:1px solid var(--soft-line);background:transparent;color:var(--muted);transition:.12s}
+.vb-cloud:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
+.vb-cloud svg{width:15px;height:15px;flex-shrink:0}
+.vb-cloud i{width:8px;height:8px;border-radius:50%;background:#9aa3b2;flex-shrink:0}
+.vb-cloud.ok i{background:#2f9e5b}
+.vb-cloud.busy i{background:#d9a21b}
+.vb-cloud.err i{background:#c14343}
 .vb-ghost{font-size:12.5px;font-weight:600;padding:8px 14px;border-radius:999px;border:1px solid var(--soft-line);
   background:transparent;color:var(--muted);transition:.12s}
 .vb-ghost:hover{background:var(--soft);color:var(--accent);border-color:var(--accent)}
@@ -105,6 +113,10 @@ button{cursor:pointer}
       <div class="vb-bar">
         <div class="vb-count" id="vbCount"></div>
         <input class="vb-search" id="vbSearch" placeholder="Search phrases" aria-label="Search phrases">
+        <button class="vb-cloud" id="vbCloud" type="button" title="Your bank saves to the cloud automatically. Click to sync now.">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+          <span id="vbCloudTxt">Cloud</span><i></i>
+        </button>
         <button class="vb-ghost" id="vbExport" type="button">Back up</button>
         <button class="vb-ghost" id="vbImport" type="button">Restore</button>
         <input type="file" id="vbFile" accept="application/json,.json" hidden>
@@ -134,7 +146,65 @@ button{cursor:pointer}
   function load(){
     try { var d = JSON.parse(localStorage.getItem(KEY) || '[]'); if (Array.isArray(d)) bank = d; } catch(e){ bank = []; }
   }
-  function save(){ try { localStorage.setItem(KEY, JSON.stringify(bank)); } catch(e){} }
+  function save(){
+    try { localStorage.setItem(KEY, JSON.stringify(bank)); localStorage.setItem(KEY + '_t', String(Date.now())); } catch(e){}
+    schedulePush();
+  }
+
+  // ── Cloud sync ────────────────────────────────────────────────────────
+  // One row in the shared `lessons` table (id 'vocab-bank'), last write wins by timestamp.
+  // Every change is saved locally first, then pushed after a short pause.
+  var SB_URL = 'https://uovqsqnxcgvefxpxntcj.supabase.co/rest/v1/lessons';
+  var SB_KEY = 'sb_publishable_VTOzRUebaH_xQAs4wngfug_jCVCeCFB';
+  var ROW = 'vocab-bank';
+  var pushTimer = null, pulled = false;
+  function sbHeaders(extra){
+    var h = {apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY, 'Content-Type': 'application/json'};
+    for (var k in extra) h[k] = extra[k];
+    return h;
+  }
+  function status(kind, txt){
+    var b = $('vbCloud'); b.className = 'vb-cloud ' + kind; $('vbCloudTxt').textContent = txt;
+  }
+  function localT(){ try { return Number(localStorage.getItem(KEY + '_t')) || 0; } catch(e){ return 0; } }
+  function schedulePush(){
+    if (!pulled) return;   // never overwrite the cloud before we have seen what is in it
+    status('busy', 'Saving…');
+    clearTimeout(pushTimer); pushTimer = setTimeout(push, 700);
+  }
+  function push(){
+    var t = localT() || Date.now();
+    return fetch(SB_URL, {method: 'POST',
+      headers: sbHeaders({Prefer: 'resolution=merge-duplicates,return=minimal'}),
+      body: JSON.stringify({id: ROW, data: {bank: bank, t: t}, updated_at: new Date().toISOString()})})
+      .then(function(r){ if (!r.ok) throw new Error(r.status); status('ok', 'Saved to cloud'); })
+      .catch(function(){ status('err', 'Not synced, saved on this device'); });
+  }
+  function pull(){
+    status('busy', 'Syncing…');
+    return fetch(SB_URL + '?id=eq.' + ROW + '&select=data', {headers: sbHeaders()})
+      .then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function(rows){
+        pulled = true;
+        var c = rows[0] && rows[0].data;
+        var cb = c && Array.isArray(c.bank) ? c.bank : null, ct = c ? Number(c.t) || 0 : 0, lt = localT();
+        if (!cb){ if (bank.length) return push(); status('ok', 'Saved to cloud'); return; }
+        if (lt === 0 && bank.length){
+          // Phrases entered before cloud sync existed: fold them into the cloud copy, never overwrite it.
+          var local = bank; bank = cb;
+          local.forEach(function(g){ g.phrases.forEach(function(p){ add(g.topic, p.text, p.type); }); });
+          render(); return push();
+        }
+        if (ct > lt){
+          bank = cb;
+          try { localStorage.setItem(KEY, JSON.stringify(bank)); localStorage.setItem(KEY + '_t', String(ct)); } catch(e){}
+          render(); status('ok', 'Saved to cloud');
+        } else if (lt > ct) return push();
+        else status('ok', 'Saved to cloud');
+      })
+      .catch(function(){ status('err', 'Offline, saved on this device'); });
+  }
+  $('vbCloud').addEventListener('click', function(){ if (!pulled) pull(); else { clearTimeout(pushTimer); status('busy', 'Saving…'); push(); } });
   function findTopic(name){
     var k = name.trim().toLowerCase();
     for (var i = 0; i < bank.length; i++) if (bank[i].topic.toLowerCase() === k) return bank[i];
@@ -272,7 +342,7 @@ button{cursor:pointer}
     r.readAsText(f); this.value = '';
   });
 
-  load(); render();
+  load(); render(); pull();
   window.vbAdd = function(t, p, ty){ add(t, p, ty); render(); };   // used by make_preview seeding
 })();
 </script>
