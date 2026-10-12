@@ -21,7 +21,7 @@ html.locked #lock{display:flex}
 .lockcard.shake{animation:lkshake .35s}
 @keyframes lkshake{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
 </style>
-<script>(function(){var ok=false;try{ok=localStorage.getItem('jpt_desk_ok')==='8b26737a41db71401ccdd9b5ac5b30e68050a57bae6feedb1ca52b9238f7599d'}catch(e){}if(!ok)document.documentElement.classList.add('locked')})();</script>
+<script>(function(){var ok=false;try{ok=localStorage.getItem('jpt_desk_ok')==='6d7e180fc34a950c3c12f024f99394ddce30dba22376d64af6554e0a670e1d51'}catch(e){}if(!ok)document.documentElement.classList.add('locked')})();</script>
 <!-- /jpt:desk-lock -->
 
 <title>Teaching Desk | johnplusenglish</title>
@@ -583,8 +583,9 @@ $('cSave').onclick=function(){
     state.classes=state.classes.map(function(x){return x.id===editId?mk(keep,editId):x;});
     days.filter(function(d){return d!==keep;}).forEach(function(d){state.classes.push(mk(d));});
   }else days.forEach(function(d){state.classes.push(mk(d));});
+  var made=syncGroups();
   save();closeM('clsOv');renderAll();
-  toast(days.length>1?'Class added on '+days.length+' days':'Class saved');
+  toast(made?'Class saved and group "'+name+'" created in Groups':(days.length>1?'Class added on '+days.length+' days':'Class saved'));
 };
 $('cDel').onclick=function(){if(confirm('Delete this class?')){state.classes=state.classes.filter(function(x){return x.id!==editId;});save();closeM('clsOv');renderAll();}};
 
@@ -596,6 +597,21 @@ function migrate(){
     if(!g.members){g.members=(g.students||'').split(',').map(function(n){return n.trim();}).filter(Boolean).map(function(n){return {id:uid(),name:n,paid:false};});}
     if(g.start==null)g.start='';if(g.end==null)g.end='';if(!g.lessons)g.lessons=[];
   });
+}
+function syncGroups(){
+  migrate();var made=0;
+  state.classes.forEach(function(c){
+    var n=(c.name||'').trim();if(!n)return;
+    var g=groupByName(n);
+    var names=(c.students||'').split(/,|&|\band\b/i).map(function(x){return x.trim();}).filter(Boolean);
+    if(!g){
+      g={id:uid(),name:n,level:'Unknown',students:'',start:'',end:'',members:names.map(function(x){return {id:uid(),name:x,paid:false};}),notes:'',lessons:[]};
+      state.groups.push(g);made++;
+    }else if(!g.members.length&&names.length){
+      g.members=names.map(function(x){return {id:uid(),name:x,paid:false};});
+    }
+  });
+  return made;
 }
 function paidN(g){return g.members.filter(function(m){return m.paid;}).length;}
 function courseInfo(g){
@@ -786,6 +802,7 @@ $('importFile').onchange=function(){
 };
 
 function renderAll(){renderSchedule();renderGroups();renderInq();badges();}
+if(syncGroups())save();
 renderAll();
 try{var st=localStorage.getItem(KEY+'-tab');if(st)showTab(st);}catch(e){}
 setInterval(renderSchedule,60000);
@@ -794,7 +811,7 @@ setInterval(renderSchedule,60000);
 <!-- jpt:desk-lock -->
 <script>
 (function(){
-  var SALT='7f1c4ae90c6fe5fbf46f13501c504f5f',ITER=200000,HASH='8b26737a41db71401ccdd9b5ac5b30e68050a57bae6feedb1ca52b9238f7599d',KEYV='jpt_desk_ok';
+  var SALT='8226c394ba2446993792d29da31f5a59',ITER=200000,HASH='6d7e180fc34a950c3c12f024f99394ddce30dba22376d64af6554e0a670e1d51',KEYV='jpt_desk_ok';
   var root=document.documentElement,form=document.getElementById('lockForm'),inp=document.getElementById('lockInput'),err=document.getElementById('lockErr');
   var fails=0,waitUntil=0;
   function hex(b){return Array.prototype.map.call(new Uint8Array(b),function(x){return ('0'+x.toString(16)).slice(-2)}).join('')}
