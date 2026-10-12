@@ -139,4 +139,9 @@ for ch in ('—', '–'):
 
 OUT.parent.mkdir(exist_ok=True)
 OUT.write_text(html, encoding='utf-8')
+# The site is served by GitHub Pages, which has no redirect engine, so the short
+# URL (/class-schedule) works through a folder index, same as the TOOLS pages.
+SHORT = OUT.parent.parent / 'class-schedule' / 'index.html'
+SHORT.parent.mkdir(exist_ok=True)
+SHORT.write_text(html, encoding='utf-8')
 print(f'wrote {OUT}  ({len(html):,} bytes)  hash {digest[:12]}...')
