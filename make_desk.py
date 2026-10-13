@@ -122,7 +122,7 @@ html = html[:i + 6] + '\n' + BODY + html[i + 6:]
 
 # 3. Lock button in the header, before Export
 btn = '<button class="btn sec sm" id="lockBtn" title="Lock this page on this device">Lock</button>\n    '
-i = once(html, '<button class="btn sec sm" id="exportBtn"')
+i = once(html, '<div class="dmenu-wrap">')
 html = html[:i] + btn + html[i:]
 
 # 4. unlock script just before </body> (the app script is the last <script>, no

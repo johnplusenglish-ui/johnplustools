@@ -21,7 +21,7 @@ html.locked #lock{display:flex}
 .lockcard.shake{animation:lkshake .35s}
 @keyframes lkshake{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
 </style>
-<script>(function(){var ok=false;try{ok=localStorage.getItem('jpt_desk_ok')==='6d7e180fc34a950c3c12f024f99394ddce30dba22376d64af6554e0a670e1d51'}catch(e){}if(!ok)document.documentElement.classList.add('locked')})();</script>
+<script>(function(){var ok=false;try{ok=localStorage.getItem('jpt_desk_ok')==='dc111494a244434543749f12623190669c9e627058b1a98e736a62e6bb0553b2'}catch(e){}if(!ok)document.documentElement.classList.add('locked')})();</script>
 <!-- /jpt:desk-lock -->
 
 <title>Teaching Desk | johnplusenglish</title>
@@ -104,6 +104,18 @@ footer .logo{font-size:14px}footer .logo svg{width:16px;height:16px}
 .sw2 input:checked+.trk::after{left:16px}
 .sw2 input:focus-visible+.trk{outline:2px solid var(--sky);outline-offset:2px}
 
+/* data menu */
+.dmenu-wrap{position:relative}
+.dmenu{display:none;position:absolute;right:0;top:calc(100% + 8px);width:250px;background:#fff;border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--sh-md);padding:6px;z-index:70}
+.dmenu.on{display:block}
+.dmenu button{display:block;width:100%;text-align:left;background:none;border:0;padding:9px 12px;border-radius:8px;font-size:14.5px}
+.dmenu button:hover{background:var(--cream)}
+.dm-h{font-size:11.5px;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);font-weight:500;padding:10px 12px 4px}
+.dm-sw{padding:9px 12px;border-radius:8px;font-size:14.5px;cursor:pointer}
+.dm-sw:hover{background:var(--cream)}
+.ppnote{font-size:13px;color:var(--muted);line-height:1.5;margin:0 0 14px}
+.remember{display:flex;align-items:center;gap:8px;font-size:14px;margin-top:12px;cursor:pointer}
+.remember input{width:16px;height:16px;margin:0}
 /* timetable */
 .tbar{display:flex;align-items:center;gap:12px;padding:8px 16px;border-bottom:1px solid var(--border);min-height:46px}
 .gridwrap{overflow:auto;max-height:calc(100vh - 290px);min-height:360px}
@@ -294,10 +306,22 @@ table.les textarea{min-height:40px;resize:none;overflow:hidden}
   </nav>
   <div class="right">
     <span class="saved" id="saved">Saved on this device</span>
+    <span class="saved" id="cloudSt"></span>
     <button class="btn sec sm" id="lockBtn" title="Lock this page on this device">Lock</button>
-    <button class="btn sec sm" id="exportBtn" title="Download a backup file">Export</button>
-    <button class="btn sec sm" id="importBtn" title="Restore from a backup file">Import</button>
-    <input type="file" id="importFile" accept=".json" hidden>
+    <div class="dmenu-wrap">
+      <button class="btn sec sm" id="dataBtn" aria-haspopup="true" aria-expanded="false">Data</button>
+      <div class="dmenu" id="dataMenu" role="menu">
+        <div class="dm-h">Cloud</div>
+        <button type="button" role="menuitem" id="cloudSaveBtn">Save to cloud</button>
+        <button type="button" role="menuitem" id="cloudLoadBtn">Load from cloud</button>
+        <label class="sw2 dm-sw"><input type="checkbox" id="autoSw"><span class="trk"></span>Auto-save to cloud</label>
+        <button type="button" role="menuitem" id="ppBtn">Change cloud passphrase</button>
+        <div class="dm-h">This device</div>
+        <button type="button" role="menuitem" id="exportBtn">Export backup file</button>
+        <button type="button" role="menuitem" id="importBtn">Import backup file</button>
+        <input type="file" id="importFile" accept=".json" hidden>
+      </div>
+    </div>
   </div>
 </div></header>
 
@@ -352,7 +376,7 @@ table.les textarea{min-height:40px;resize:none;overflow:hidden}
   </section>
 </main>
 
-<footer><span class="logo"><svg><use href="#cap"/></svg><span>john<b>plus</b>english</span></span><span>Teaching Desk. Everything is saved in this browser. Use Export for a backup.</span></footer>
+<footer><span class="logo"><svg><use href="#cap"/></svg><span>john<b>plus</b>english</span></span><span>Teaching Desk. Saved in this browser. Use the Data menu to save an encrypted copy to the cloud.</span></footer>
 
 <!-- class modal -->
 <div class="ov" id="clsOv"><div class="modal" role="dialog" aria-modal="true">
@@ -372,6 +396,15 @@ table.les textarea{min-height:40px;resize:none;overflow:hidden}
   <div class="err" id="cErr"></div>
   <div class="acts"><button class="btn del" id="cDel">Delete</button><span class="sp"></span><button class="btn sec" data-close>Cancel</button><button class="btn" id="cSave">Save</button></div>
 </div></div>
+
+<div class="ov" id="ppOv"><form class="modal" id="ppForm" autocomplete="off" style="max-width:440px">
+  <h3>Cloud passphrase</h3>
+  <p class="ppnote">Your timetable, groups and inquiries are encrypted in this browser with your passphrase before they are uploaded, so nobody else can read the cloud copy, including the site. Use the same passphrase on every device. If you forget it, the cloud copy cannot be recovered.</p>
+  <div class="f"><label for="ppInput">Passphrase (at least 6 characters, longer is safer)</label><input type="password" id="ppInput" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
+  <label class="remember"><input type="checkbox" id="ppRemember"><span id="ppRememberTxt">Remember on this device</span></label>
+  <div class="err" id="ppErr"></div>
+  <div class="acts"><span class="sp"></span><button type="button" class="btn sec" id="ppCancel">Cancel</button><button type="submit" class="btn">Continue</button></div>
+</form></div>
 
 <div class="toast" id="toast" role="status"></div>
 
@@ -411,6 +444,7 @@ function toast(msg){var t=$('toast');t.textContent=msg;t.classList.add('on');cle
 function save(){
   try{localStorage.setItem(KEY,JSON.stringify(state));var d=new Date();$('saved').textContent='Saved '+hm(d.getHours()*60+d.getMinutes());}
   catch(e){$('saved').textContent='Not saved (browser storage blocked)';}
+  cloudQueue();
 }
 function badges(){
   $('bSched').textContent=state.classes.length;
@@ -784,6 +818,127 @@ $('addInq').onclick=function(){
 };
 $('q').oninput=renderInq;$('fLevel').onchange=renderInq;
 
+/* ============ CLOUD ============ */
+var SB_URL='https://uovqsqnxcgvefxpxntcj.supabase.co',SB_KEY='sb_publishable_VTOzRUebaH_xQAs4wngfug_jCVCeCFB',SB_TABLE='lessons';
+var PPKEY=KEY+'-pp',SYNCKEY=KEY+'-sync',AUTOKEY=KEY+'-auto';
+var cloudPass='',cloudKeys=null,autoOn=false,autoPaused=false,qT=null,ppResolve=null,ppReject=null;
+try{cloudPass=localStorage.getItem(PPKEY)||'';autoOn=localStorage.getItem(AUTOKEY)==='1'&&!!cloudPass;}catch(e){}
+function b64(buf){var a=new Uint8Array(buf),t='';for(var i=0;i<a.length;i++)t+=String.fromCharCode(a[i]);return btoa(t);}
+function unb64(t){var b=atob(t),a=new Uint8Array(b.length);for(var i=0;i<b.length;i++)a[i]=b.charCodeAt(i);return a;}
+function hexb(a){return Array.prototype.map.call(a,function(x){return ('0'+x.toString(16)).slice(-2);}).join('');}
+function timeNow(){var d=new Date();return hm(d.getHours()*60+d.getMinutes());}
+function cloudStatus(t){$('cloudSt').textContent=t;}
+function getKeys(){
+  if(cloudKeys&&cloudKeys.pass===cloudPass)return Promise.resolve(cloudKeys);
+  var enc=new TextEncoder();
+  return crypto.subtle.importKey('raw',enc.encode(cloudPass),'PBKDF2',false,['deriveBits'])
+    .then(function(base){return crypto.subtle.deriveBits({name:'PBKDF2',salt:enc.encode('johnplusenglish-teaching-desk-v1'),iterations:200000,hash:'SHA-256'},base,512);})
+    .then(function(bits){
+      var b=new Uint8Array(bits);
+      return crypto.subtle.importKey('raw',b.slice(0,32),'AES-GCM',false,['encrypt','decrypt']).then(function(k){
+        cloudKeys={pass:cloudPass,key:k,id:'desk-'+hexb(b.slice(32,48))};return cloudKeys;
+      });
+    });
+}
+function sb(path,opts){
+  opts=opts||{};opts.headers=Object.assign({apikey:SB_KEY,Authorization:'Bearer '+SB_KEY},opts.headers||{});
+  return fetch(SB_URL+'/rest/v1/'+path,opts).then(function(r){
+    if(!r.ok)return r.text().then(function(t){throw new Error('HTTP '+r.status+' '+t.slice(0,100));});
+    return r;
+  });
+}
+function retry(fn){return fn().catch(function(e){if(e&&e.name==='TypeError')return new Promise(function(res){setTimeout(res,800);}).then(fn);throw e;});}
+function fetchRow(id){return sb(SB_TABLE+'?id=eq.'+encodeURIComponent(id)+'&select=data,updated_at').then(function(r){return r.json();}).then(function(rows){return rows[0]||null;});}
+function askPass(force,needRemember){
+  if(cloudPass&&!force)return Promise.resolve();
+  return new Promise(function(res,rej){
+    ppResolve=res;ppReject=rej;
+    $('ppInput').value='';$('ppErr').textContent='';
+    $('ppRemember').checked=needRemember||!!localStorage.getItem(PPKEY);
+    $('ppRemember').disabled=!!needRemember;
+    $('ppRememberTxt').textContent=needRemember?'Remembered on this device (needed for auto-save)':'Remember on this device';
+    openM('ppOv');setTimeout(function(){$('ppInput').focus();},50);
+  });
+}
+$('ppForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  var v=$('ppInput').value.trim();
+  if(v.length<6){$('ppErr').textContent='Use at least 6 characters.';return;}
+  cloudPass=v;cloudKeys=null;
+  try{if($('ppRemember').checked)localStorage.setItem(PPKEY,v);else localStorage.removeItem(PPKEY);}catch(x){}
+  closeM('ppOv');var r=ppResolve;ppResolve=ppReject=null;if(r)r();
+});
+function ppCancel(){closeM('ppOv');var r=ppReject;ppResolve=ppReject=null;if(r)r(new Error('cancel'));}
+$('ppCancel').onclick=ppCancel;
+$('ppOv').addEventListener('mousedown',function(e){if(e.target===$('ppOv'))ppCancel();});
+function sameTime(a,b){return !!a&&!!b&&new Date(a).getTime()===new Date(b).getTime();}
+function cloudFail(e,manual,what){
+  if(e&&e.message==='cancel')return;
+  cloudStatus('Cloud '+what+' failed');
+  if(manual)toast('Cloud '+what+' failed: '+((e&&e.message)||e));
+}
+function cloudSave(manual){
+  if(!window.crypto||!crypto.subtle){if(manual)toast('Cloud save needs a current browser');return Promise.resolve();}
+  return askPass(false).then(getKeys).then(function(k){
+    cloudStatus('Saving to cloud');
+    return retry(function(){return fetchRow(k.id);}).then(function(row){
+      var last='';try{last=localStorage.getItem(SYNCKEY)||'';}catch(e){}
+      if(row&&!sameTime(row.updated_at,last)){
+        if(!manual){autoPaused=true;cloudStatus('Cloud differs. Auto-save paused');return null;}
+        if(!confirm('The cloud copy was saved from another device or session and differs from what this device last synced. Replace it with the data on this device?')){cloudStatus('');return null;}
+      }
+      var iv=crypto.getRandomValues(new Uint8Array(12));
+      return crypto.subtle.encrypt({name:'AES-GCM',iv:iv},k.key,new TextEncoder().encode(JSON.stringify(state))).then(function(ct){
+        var stamp=new Date().toISOString();
+        return retry(function(){return sb(SB_TABLE+'?on_conflict=id',{method:'POST',headers:{'Content-Type':'application/json',Prefer:'resolution=merge-duplicates,return=minimal'},body:JSON.stringify({id:k.id,data:{v:1,iv:b64(iv),ct:b64(ct)},updated_at:stamp})});})
+          .then(function(){try{localStorage.setItem(SYNCKEY,stamp);}catch(e){}autoPaused=false;cloudStatus('Cloud saved '+timeNow());if(manual)toast('Saved to the cloud');});
+      });
+    });
+  }).catch(function(e){cloudFail(e,manual,'save');});
+}
+function cloudLoad(){
+  if(!window.crypto||!crypto.subtle){toast('Cloud load needs a current browser');return Promise.resolve();}
+  return askPass(false).then(getKeys).then(function(k){
+    return retry(function(){return fetchRow(k.id);}).then(function(row){
+      if(!row){toast('Nothing in the cloud yet for this passphrase');return;}
+      var d=row.data;
+      return crypto.subtle.decrypt({name:'AES-GCM',iv:unb64(d.iv)},k.key,unb64(d.ct)).then(function(buf){
+        var obj=JSON.parse(new TextDecoder().decode(buf));
+        var when=new Date(row.updated_at).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+        if(!confirm('Replace everything on this device with the cloud copy saved '+when+'?'))return;
+        state.classes=obj.classes||[];state.inquiries=obj.inquiries||[];state.groups=obj.groups||[];selGrp=null;
+        suppressQ=true;save();suppressQ=false;
+        try{localStorage.setItem(SYNCKEY,row.updated_at);}catch(e){}
+        autoPaused=false;renderAll();cloudStatus('Cloud loaded '+timeNow());toast('Loaded from the cloud');
+      });
+    });
+  }).catch(function(e){cloudFail(e&&e.name==='OperationError'?new Error('could not decrypt'):e,true,'load');});
+}
+var suppressQ=false;
+function cloudQueue(){
+  if(!autoOn||autoPaused||suppressQ)return;
+  clearTimeout(qT);qT=setTimeout(function(){cloudSave(false);},4000);
+}
+/* data menu */
+var dm=$('dataMenu');
+function menu(on){dm.classList.toggle('on',on);$('dataBtn').setAttribute('aria-expanded',on);}
+$('dataBtn').onclick=function(e){e.stopPropagation();menu(!dm.classList.contains('on'));};
+document.addEventListener('click',function(e){if(!e.target.closest('.dmenu-wrap'))menu(false);});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')menu(false);});
+$('cloudSaveBtn').onclick=function(){menu(false);cloudSave(true);};
+$('cloudLoadBtn').onclick=function(){menu(false);cloudLoad();};
+$('ppBtn').onclick=function(){menu(false);askPass(true,autoOn).then(function(){toast('Passphrase updated for this session');}).catch(function(){});};
+$('autoSw').checked=autoOn;
+$('autoSw').onchange=function(){
+  var sw=this;
+  if(sw.checked){
+    (cloudPass&&localStorage.getItem(PPKEY)?Promise.resolve():askPass(true,true)).then(function(){
+      autoOn=true;autoPaused=false;try{localStorage.setItem(AUTOKEY,'1');}catch(e){}toast('Auto-save to the cloud is on');cloudQueue();
+    }).catch(function(){sw.checked=false;});
+  }else{autoOn=false;try{localStorage.setItem(AUTOKEY,'0');}catch(e){}toast('Auto-save to the cloud is off');}
+};
+(function(){try{var ls=localStorage.getItem(SYNCKEY);if(ls){var d=new Date(ls);cloudStatus('Cloud synced '+hm(d.getHours()*60+d.getMinutes()));}}catch(e){}})();
+
 /* ============ BACKUP ============ */
 $('exportBtn').onclick=function(){
   var blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
@@ -811,7 +966,7 @@ setInterval(renderSchedule,60000);
 <!-- jpt:desk-lock -->
 <script>
 (function(){
-  var SALT='8226c394ba2446993792d29da31f5a59',ITER=200000,HASH='6d7e180fc34a950c3c12f024f99394ddce30dba22376d64af6554e0a670e1d51',KEYV='jpt_desk_ok';
+  var SALT='f29f0c0dd74faae7612f2fea8e55526f',ITER=200000,HASH='dc111494a244434543749f12623190669c9e627058b1a98e736a62e6bb0553b2',KEYV='jpt_desk_ok';
   var root=document.documentElement,form=document.getElementById('lockForm'),inp=document.getElementById('lockInput'),err=document.getElementById('lockErr');
   var fails=0,waitUntil=0;
   function hex(b){return Array.prototype.map.call(new Uint8Array(b),function(x){return ('0'+x.toString(16)).slice(-2)}).join('')}
