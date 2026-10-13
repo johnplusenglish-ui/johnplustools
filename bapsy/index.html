@@ -270,7 +270,7 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
   <div class="gcard">
     <div class="glock"><svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg></div>
     <h1>DCU Psychology</h1>
-    <p class="gsub">Enter the access key to open the PSY1080 study tool.</p>
+    <p class="gsub">Enter the access key to open the PSY1080 study tool. You'll only need to do this once on this device.</p>
     <input id="gkey" type="password" placeholder="Access key" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Access key">
     <button id="gbtn" type="button">Unlock</button>
     <div class="gerr" id="gerr">That key isn't right — try again.</div>
@@ -952,19 +952,25 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
     });
   });
 
-  // ---- access gate ----
+  // ---- access gate (remembered for a year via cookie + local storage) ----
   (function(){
     const KEY="erasmus", STORE="bapsy_unlocked_v1";
     const gate=document.getElementById('gate'), inp=document.getElementById('gkey'),
           btn=document.getElementById('gbtn'), err=document.getElementById('gerr');
-    let ok=false; try{ok=localStorage.getItem(STORE)==="1";}catch(e){}
-    if(ok){gate.classList.add('hide');}
+    function hasCookie(){return document.cookie.split(';').some(c=>c.trim().indexOf(STORE+'=1')===0);}
+    function remember(){
+      try{localStorage.setItem(STORE,"1");}catch(e){}
+      try{document.cookie=STORE+"=1; path=/; max-age=31536000; SameSite=Lax";}catch(e){}
+      try{document.cookie=STORE+"=1; path=/; max-age=31536000; SameSite=Lax; domain=.johnplustools.com";}catch(e){}
+    }
+    let ok=false;
+    try{ok=localStorage.getItem(STORE)==="1";}catch(e){}
+    if(!ok&&hasCookie())ok=true;
+    if(ok){gate.classList.add('hide');remember();}
     else{setTimeout(()=>inp&&inp.focus(),60);}
     function unlock(){
-      if(inp.value.trim().toLowerCase()===KEY){
-        try{localStorage.setItem(STORE,"1");}catch(e){}
-        gate.classList.add('hide');
-      }else{err.classList.add('on');inp.value="";inp.focus();}
+      if(inp.value.trim().toLowerCase()===KEY){remember();gate.classList.add('hide');}
+      else{err.classList.add('on');inp.value="";inp.focus();}
     }
     if(btn)btn.addEventListener('click',unlock);
     if(inp){inp.addEventListener('keydown',e=>{if(e.key==='Enter')unlock();});
