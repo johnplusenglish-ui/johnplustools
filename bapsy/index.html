@@ -281,7 +281,7 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
 </div>
 
 <div class="topnav">
-  <div class="nav-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a5 5 0 0 0-5 5c0 1.3.5 2.5 1.3 3.4A4 4 0 0 0 6 14a3 3 0 0 0 1 5.8"/><path d="M12 2a5 5 0 0 1 5 5c0 1.3-.5 2.5-1.3 3.4A4 4 0 0 1 18 14a3 3 0 0 1-1 5.8"/><path d="M12 2v19"/><path d="M9 21h6"/></svg>DCU Psychology<span class="sub">PSY1080 · Map &amp; Roadmap</span></div>
+  <div class="nav-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a5 5 0 0 0-5 5c0 1.3.5 2.5 1.3 3.4A4 4 0 0 0 6 14a3 3 0 0 0 1 5.8"/><path d="M12 2a5 5 0 0 1 5 5c0 1.3-.5 2.5-1.3 3.4A4 4 0 0 1 18 14a3 3 0 0 1-1 5.8"/><path d="M12 2v19"/><path d="M9 21h6"/></svg>DCU Psychology<span class="sub" id="navsub">PSY1080 · Map &amp; Roadmap</span></div>
 </div>
 
 <div class="app-row">
@@ -1372,6 +1372,8 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
     document.querySelectorAll('.mpane-wrap').forEach(w=>w.hidden=(w.dataset.m!==m));
     const first=document.querySelector('.msb[data-m="'+m+'"] .guide-nav-item');
     if(first)sel(first.dataset.t);
+    const ns=document.getElementById('navsub');
+    if(ns)ns.textContent=(m==='81'?'PSY1081':'PSY1080')+' · Map & Roadmap';
   }
   navs.forEach(n=>n.addEventListener('click',()=>sel(n.dataset.t)));
   mods.forEach(b=>b.addEventListener('click',()=>selMod(b.dataset.m)));
