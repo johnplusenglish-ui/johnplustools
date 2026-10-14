@@ -314,6 +314,7 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
         <div class="pn-rule"></div>
         <div class="pn-eyebrow">Learn the content</div>
         <button class="guide-nav-item" data-t="q6"><span class="guide-nav-dot"></span><span class="label">Ethics &amp; Research Methods</span></button>
+        <button class="guide-nav-item" data-t="q7"><span class="guide-nav-dot"></span><span class="label">SPSS Guide</span><span class="trail"><span class="nav-k due">A1</span></span></button>
       </nav>
     </div>
   </aside>
@@ -1356,6 +1357,62 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
   <div class="note"><span class="lab">Turning this into marks</span>Top marks come from accuracy and completeness on every sub-question, correct SPSS output in the appendices, clean APA, and an ethical argument that names a specific code principle rather than just describing the problem.</div>
 </section>
 
+<!-- ======== PSY1081 q7 : SPSS GUIDE ======== -->
+<section class="pane wrap" id="q7">
+  <div class="dhead">
+    <div class="kicker">Learn the content · Assessment 1</div>
+    <h2>SPSS Guide</h2>
+    <div class="pills"><span class="pill on">independent samples</span><span class="pill">assumptions</span><span class="pill">APA output</span></div>
+  </div>
+  <div class="intro-card">
+    <div class="lab">Why this matters</div>
+    <p>A1 Tasks 1 &amp; 2 are <b>70 of the 100 marks</b>, and both are the <b>same design</b>: two separate groups compared on one continuous score (mindfulness vs control; under-30 vs over-40). This is the exact SPSS workflow for both. You have <b>Laerd Premium</b>, which has the full step-by-step with screenshots — linked below. Run the analysis yourself and write your own interpretation (no AI), and remember: <b>all SPSS output goes in the appendices</b> or the task auto-fails.</p>
+  </div>
+
+  <div class="phase"><span class="lab">Step 1 · Set up the data</span><span class="line"></span></div>
+  <ol class="steps">
+    <li><div class="h">Create the variables (Variable View)</div><div class="d">Make a <b>grouping</b> variable (e.g. "Condition", Measure = <b>Nominal</b>) and add Value labels (e.g. 1 = Mindfulness, 2 = Control). Make a <b>score</b> variable (e.g. "RT_ms", Measure = <b>Scale</b>).</div></li>
+    <li><div class="h">Enter the data (Data View)</div><div class="d">One row per participant: their group code and their score. Each person appears once (independent groups).</div></li>
+  </ol>
+
+  <div class="phase"><span class="lab">Step 2 · Check the assumptions</span><span class="line"></span></div>
+  <div class="note"><span class="lab">The independent t-test's assumptions</span>Continuous DV · two independent groups · independence of observations · no significant outliers · <b>normality</b> of the DV in each group · <b>homogeneity of variance</b>. The first three come from the study design; you test the last three in SPSS.</div>
+  <ol class="steps">
+    <li><div class="h">Run Explore for outliers &amp; normality</div><div class="d"><b>Analyze → Descriptive Statistics → Explore.</b> Put the score in <em>Dependent List</em> and the grouping variable in <em>Factor List</em>. Under <b>Plots</b>, tick <em>Normality plots with tests</em> and <em>Histogram</em>, and set Boxplots to <em>Factor levels together</em>. Continue → OK.</div></li>
+    <li><div class="h">Read it</div><div class="d"><b>Shapiro-Wilk</b> (use it when each group n &lt; 50): if Sig. is <b>above .05 for both groups</b>, normality is met. The <b>boxplots</b> show outliers (points beyond the whiskers).</div></li>
+    <li><div class="h">Decide which test</div><div class="d">Assumptions met → <b>independent-samples t-test</b> (Step 3a). Normality clearly violated, or problematic outliers → <b>Mann-Whitney U</b> (Step 3b). Homogeneity of variance is checked by Levene's test, which appears inside the t-test output itself.</div></li>
+  </ol>
+
+  <div class="phase"><span class="lab">Step 3a · Independent-samples t-test</span><span class="line"></span></div>
+  <ol class="steps">
+    <li><div class="h">Run the test</div><div class="d"><b>Analyze → Compare Means → Independent-Samples T Test.</b> Score → <em>Test Variable(s)</em>; grouping variable → <em>Grouping Variable</em> → <b>Define Groups</b> (1 and 2). OK.</div></li>
+    <li><div class="h">Pick the right row using Levene's test</div><div class="d">If Levene's Sig. is <b>above .05</b>, read the <em>"Equal variances assumed"</em> row. If it is <b>.05 or below</b>, read the <em>"Equal variances not assumed"</em> row.</div></li>
+    <li><div class="h">Report from that row</div><div class="d"><b>t</b>, <b>df</b>, <b>Sig. (2-tailed)</b> = your p-value, the mean difference and its 95% CI. SPSS (v27+) also reports <b>Cohen's d</b> for effect size.</div></li>
+  </ol>
+
+  <div class="phase"><span class="lab">Step 3b · Mann-Whitney U (if normality is violated)</span><span class="line"></span></div>
+  <ol class="steps">
+    <li><div class="h">Run the test</div><div class="d"><b>Analyze → Nonparametric Tests → Legacy Dialogs → 2 Independent Samples.</b> Score → <em>Test Variable List</em>; grouping variable → <em>Grouping Variable</em> (Define Groups 1, 2); Test Type = <b>Mann-Whitney U</b>. OK.</div></li>
+    <li><div class="h">Report</div><div class="d"><b>U</b>, <b>z</b> and the <b>Asymp. Sig.</b> (p-value), and quote <b>medians</b> (from Explore) rather than means. Effect size: <b>r = z / √N</b>.</div></li>
+  </ol>
+
+  <div class="phase"><span class="lab">Step 4 · The APA chart &amp; table</span><span class="line"></span></div>
+  <ol class="steps">
+    <li><div class="h">One chart, in the main report</div><div class="d"><b>Graphs → Chart Builder → Bar → Simple.</b> Drag the grouping variable to the X-axis and the score to the Y-axis. In <em>Element Properties</em> set Statistic = <b>Mean</b> and tick <b>Display error bars</b> (Confidence intervals, 95%). OK, then tidy the axis titles to APA style.</div></li>
+    <li><div class="h">One table, in the main report</div><div class="d">Do not paste raw SPSS output — build a clean <b>APA table</b> (group Ns, means, SDs). The full SPSS output belongs in the <b>appendices</b>.</div></li>
+  </ol>
+
+  <div class="note"><span class="lab">APA write-up — the shape of the sentence</span>Report it in this form, filled with your own numbers: "A [independent-samples t-test / Mann-Whitney U test] compared [score] between the [group 1] and [group 2]. [State whether the assumptions were met.] There was [a / no] statistically significant difference, t(df) = __, p = __, d = __." Round p to three decimals; report exact p unless SPSS shows .000 (then p &lt; .001).</div>
+
+  <div class="note b"><span class="lab">Follow the full Laerd walkthroughs</span>You have Laerd Premium — these have the screen-by-screen procedure, assumption checks and reporting:
+    <br>· <a href="https://statistics.laerd.com/spss-tutorials/independent-t-test-using-spss-statistics.php" target="_blank" rel="noopener">Independent-samples t-test</a>
+    <br>· <a href="https://statistics.laerd.com/spss-tutorials/mann-whitney-u-test-using-spss-statistics.php" target="_blank" rel="noopener">Mann-Whitney U test</a>
+    <br>· <a href="https://statistics.laerd.com/spss-tutorials/testing-for-normality-using-spss-statistics.php" target="_blank" rel="noopener">Testing for normality</a>
+  </div>
+
+  <div class="note"><span class="lab">Don't lose easy marks</span>Every piece of SPSS output goes in the <b>appendices</b> (missing output = automatic fail on the task). Report exactly what each sub-question asks, concisely. The analysis and interpretation are the assessed skill — do them yourself.</div>
+</section>
+
 </div><!-- /mpane-wrap 81 -->
 
 <footer class="foot wrap">
@@ -1368,7 +1425,7 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
 <script>
   const navs=[...document.querySelectorAll('.guide-nav-item')];
   const mods=[...document.querySelectorAll('.pn-mods button')];
-  const panes={1:p1,2:p2,3:p3,4:p4,5:p5,6:p6,q1:q1,q2:q2,q3:q3,q4:q4,q5:q5,q6:q6};
+  const panes={1:p1,2:p2,3:p3,4:p4,5:p5,6:p6,q1:q1,q2:q2,q3:q3,q4:q4,q5:q5,q6:q6,q7:q7};
   function sel(id){navs.forEach(x=>x.classList.toggle('active',x.dataset.t===id));
     Object.entries(panes).forEach(([k,el])=>el.classList.toggle('on',k===id));
     window.scrollTo({top:0,behavior:'smooth'});}
