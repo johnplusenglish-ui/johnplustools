@@ -29,7 +29,10 @@
 .primary-nav{width:290px;flex-shrink:0;background:var(--card);border-right:1.5px solid var(--border);box-shadow:2px 0 12px rgba(45,48,71,.05);position:sticky;top:52px;height:calc(100vh - 52px);overflow-y:auto;padding:1.1rem 1rem;scrollbar-width:none}
 .primary-nav::-webkit-scrollbar{display:none}
 .pn-mods{display:flex;gap:3px;margin-bottom:1.15rem;background:var(--cream);border:1px solid var(--border);border-radius:11px;padding:3px}
-.pn-mods button{flex:1;border:0;background:var(--card);color:var(--mod-accent);font-weight:700;font-size:.8rem;padding:.5rem .3rem;border-radius:8px;box-shadow:0 1px 2px rgba(45,48,71,.14),0 1px 1px rgba(45,48,71,.06);cursor:default;font-family:var(--sans)}
+.pn-mods button{flex:1;border:0;background:transparent;color:var(--muted);font-weight:700;font-size:.8rem;padding:.5rem .3rem;border-radius:8px;cursor:pointer;font-family:var(--sans);transition:background .15s,color .15s,box-shadow .15s}
+.pn-mods button:not(.on):hover{color:var(--ink)}
+.pn-mods button.on{background:var(--card);color:var(--mod-accent);box-shadow:0 1px 2px rgba(45,48,71,.14),0 1px 1px rgba(45,48,71,.06)}
+.msb[hidden],.mpane-wrap[hidden]{display:none}
 .pn-eyebrow{font-size:.58rem;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);padding:0 .5rem .5rem}
 .sect-nav{display:flex;flex-direction:column;gap:2px}
 .pn-rule{height:1px;background:var(--border);margin:1rem .3rem .85rem}
@@ -283,20 +286,39 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
 
 <div class="app-row">
   <aside class="primary-nav">
-    <div class="pn-mods"><button class="on" type="button">PSY1080</button></div>
-    <div class="pn-eyebrow">Sections</div>
-    <nav class="sect-nav" id="snav">
-      <button class="guide-nav-item active" data-t="1"><span class="guide-nav-dot"></span><span class="label">Module Map</span></button>
-      <button class="guide-nav-item" data-t="2"><span class="guide-nav-dot"></span><span class="label">Step-by-step Roadmap</span><span class="trail"><span class="nav-k due">23 Nov</span></span></button>
-      <button class="guide-nav-item" data-t="3"><span class="guide-nav-dot"></span><span class="label">Assignment Briefs</span></button>
-      <button class="guide-nav-item" data-t="4"><span class="guide-nav-dot"></span><span class="label">Rules &amp; Dates</span></button>
-      <button class="guide-nav-item" data-t="5"><span class="guide-nav-dot"></span><span class="label">Reading List</span></button>
-      <div class="pn-rule"></div>
-      <div class="pn-eyebrow">Learn the content</div>
-      <button class="guide-nav-item" data-t="6"><span class="guide-nav-dot"></span><span class="label">Developmental Psychology</span></button>
-    </nav>
+    <div class="pn-mods">
+      <button class="on" type="button" data-m="80">PSY1080</button>
+      <button type="button" data-m="81">PSY1081</button>
+    </div>
+    <div class="msb" data-m="80">
+      <div class="pn-eyebrow">Sections</div>
+      <nav class="sect-nav">
+        <button class="guide-nav-item active" data-t="1"><span class="guide-nav-dot"></span><span class="label">Module Map</span></button>
+        <button class="guide-nav-item" data-t="2"><span class="guide-nav-dot"></span><span class="label">Step-by-step Roadmap</span><span class="trail"><span class="nav-k due">23 Nov</span></span></button>
+        <button class="guide-nav-item" data-t="3"><span class="guide-nav-dot"></span><span class="label">Assignment Briefs</span></button>
+        <button class="guide-nav-item" data-t="4"><span class="guide-nav-dot"></span><span class="label">Rules &amp; Dates</span></button>
+        <button class="guide-nav-item" data-t="5"><span class="guide-nav-dot"></span><span class="label">Reading List</span></button>
+        <div class="pn-rule"></div>
+        <div class="pn-eyebrow">Learn the content</div>
+        <button class="guide-nav-item" data-t="6"><span class="guide-nav-dot"></span><span class="label">Developmental Psychology</span></button>
+      </nav>
+    </div>
+    <div class="msb" data-m="81" hidden>
+      <div class="pn-eyebrow">Sections</div>
+      <nav class="sect-nav">
+        <button class="guide-nav-item active" data-t="q1"><span class="guide-nav-dot"></span><span class="label">Module Map</span></button>
+        <button class="guide-nav-item" data-t="q2"><span class="guide-nav-dot"></span><span class="label">Step-by-step Roadmap</span><span class="trail"><span class="nav-k due">2 Nov</span></span></button>
+        <button class="guide-nav-item" data-t="q3"><span class="guide-nav-dot"></span><span class="label">Assignment Briefs</span></button>
+        <button class="guide-nav-item" data-t="q4"><span class="guide-nav-dot"></span><span class="label">Rules &amp; Dates</span></button>
+        <button class="guide-nav-item" data-t="q5"><span class="guide-nav-dot"></span><span class="label">Reading List</span></button>
+        <div class="pn-rule"></div>
+        <div class="pn-eyebrow">Learn the content</div>
+        <button class="guide-nav-item" data-t="q6"><span class="guide-nav-dot"></span><span class="label">Ethics &amp; Research Methods</span></button>
+      </nav>
+    </div>
   </aside>
   <main class="app-main">
+<div class="mpane-wrap" data-m="80">
 
 <!-- ============ TAB 1 : MAP ============ -->
 <section class="pane on wrap" id="p1">
@@ -960,9 +982,378 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
     The top band rewards <b>application + evaluation</b>, not description. For each theory you use, do three things: state the idea in one line, tie it to a specific observed behaviour, then weigh it against a criticism or a rival theory. That single move — apply, then critique — is what separates a 2:1 from a first.
   </div>
 </section>
+</div><!-- /mpane-wrap 80 -->
+
+<div class="mpane-wrap" data-m="81" hidden>
+
+<!-- ======== PSY1081 q1 : MAP ======== -->
+<section class="pane on wrap" id="q1">
+  <div class="dhead">
+    <div class="kicker">Everything in the course</div>
+    <h2>The Module Map</h2>
+    <div class="pills"><span class="pill on">3 parts</span><span class="pill">3 learning books</span><span class="pill">4 assignments</span><span class="pill">many online classes + SPSS</span></div>
+  </div>
+  <div class="intro-card">
+    <div class="lab">How it is built</div>
+    <p>Three parts. Each has an overview page, a discussion forum and a learning <b>book</b>. This is a skills module — research methods, ethics and data analysis (SPSS) — so it has <b>more online classes</b> than other modules and an intensive <b>Research Week in January</b> (now optional, but watch the recordings). The marks come from <b>four assignments</b>.</p>
+  </div>
+
+  <div class="card">
+    <div class="top"><span class="badge n">Front matter</span></div>
+    <h3>Welcome, Overview &amp; Resources</h3>
+    <p class="blurb">Housekeeping, the handbook, and the things to do first.</p>
+    <div class="rows">
+      <div class="row"><div class="t key">Book</div><div class="c"><div class="nm">PSY1081 Module Handbook</div><div class="ds">Learning outcomes, assessment details, required reading, communication. Read first.</div></div></div>
+      <div class="row"><div class="t">Do first</div><div class="c"><div class="nm">Introduce Yourself</div><div class="ds">Forum post — a participation requirement. Plus the Study Hours Calculator.</div></div></div>
+      <div class="row"><div class="t">Links</div><div class="c"><div class="nm">Support &amp; resources</div><div class="ds">Course Noticeboard · Student Supports · APA Referencing · Academic Integrity · Extension form · Zoom guide · Reading List · Online Classroom · Detailed Teaching &amp; Learning Schedule · Online Classes slides · APA 7th folder · Assignment Resources folder.</div></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="top"><span class="badge">Part 1 · holds Assessment 1</span></div>
+    <h3>Introducing Psychological Research — History, Methods &amp; Ethical Research Practice</h3>
+    <p class="blurb">The foundations: what research is, the scientific method, research ethics, and quantitative methodologies. <b>Assessment 1 draws on the Ethics and Quantitative-Methods chapters.</b></p>
+    <div class="book">
+      <div class="book-h"><span class="t">Book</span><span class="nm">Introducing Psychological Research</span><span class="flag">core for A1</span></div>
+      <ol class="chaps">
+        <li>Introduction to Psychological Research<span class="sub">defining research, module overview</span></li>
+        <li>The Scientific Method<span class="sub">history of science, what is science, proof, critical thinking</span></li>
+        <li>Introduction to Ethics<span class="sub">Little Albert, Tuskegee, Nazi/Nuremberg, Milgram, Stanford, Burt; the codes</span></li>
+        <li>Exploring Quantitative Methodologies<span class="sub">variables, extraneous variables, design, hypotheses, experiments</span></li>
+      </ol>
+    </div>
+    <div class="rows">
+      <div class="row"><div class="t">Forum</div><div class="c"><div class="nm">Discussing Part 1</div></div></div>
+      <div class="row"><div class="t key">Assess</div><div class="c"><div class="nm">Assessment 1 — 20%</div><div class="ds">Ethical review + quantitative analysis. Due Monday 2 November 2026, 23:59.</div></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="top"><span class="badge">Part 2 · holds Assessments 2 &amp; 3</span></div>
+    <h3>Exploring Quantitative Research Methods</h3>
+    <p class="blurb">Describing and analysing numerical data in SPSS — the engine room of the module. Includes the January Research Week.</p>
+    <div class="book">
+      <div class="book-h"><span class="t">Book</span><span class="nm">Exploring Quantitative Research Methods</span></div>
+      <ol class="chaps">
+        <li>Describing Numerical Data<span class="sub">scales, summary stats, averages, variation, distributions, SPSS</span></li>
+        <li>Statistical Inference &amp; Hypothesis Testing<span class="sub">the logic of inference, test statistics</span></li>
+        <li>Survey Research<span class="sub">sampling, population, sampling error</span></li>
+        <li>Correlation<span class="sub">coefficients, Pearson r, choosing a test</span></li>
+      </ol>
+    </div>
+    <div class="rows">
+      <div class="row"><div class="t">Forum</div><div class="c"><div class="nm">Discussing Part 2</div></div></div>
+      <div class="row"><div class="t key">Assess</div><div class="c"><div class="nm">Assessment 2 — 20% · Assessment 3 — 30%</div><div class="ds">Quantitative Data Analysis, then a Quantitative Research Report. Research Week (online, January, optional).</div></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="top"><span class="badge">Part 3 · holds Assessment 4</span></div>
+    <h3>Exploring Qualitative Research Methods</h3>
+    <p class="blurb">Working with meaning rather than numbers — thematic analysis and other qualitative approaches.</p>
+    <div class="book">
+      <div class="book-h"><span class="t">Book</span><span class="nm">Exploring Qualitative Research Methods</span></div>
+      <ol class="chaps">
+        <li>Introduction to Part 3</li>
+        <li>Thematic Analysis<span class="sub">Braun &amp; Clarke; conducting and judging a TA</span></li>
+        <li>Documents, Archives &amp; Artefacts<span class="sub">diaries, photographs, online methods</span></li>
+        <li>Mixed Methods Research<span class="sub">the third paradigm, design, benefits</span></li>
+      </ol>
+    </div>
+    <div class="rows">
+      <div class="row"><div class="t">Forum</div><div class="c"><div class="nm">Discussing Part 3</div></div></div>
+      <div class="row"><div class="t key">Assess</div><div class="c"><div class="nm">Assessment 4 — 30%</div><div class="ds">Qualitative Research Methods — two tasks.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== PSY1081 q2 : ROADMAP ======== -->
+<section class="pane wrap" id="q2">
+  <div class="dhead">
+    <div class="kicker">What to do, in order</div>
+    <h2>Step-by-Step Roadmap</h2>
+    <div class="pills"><span class="pill on">A1 by 2 Nov</span><span class="pill">A2 &amp; A3 · Jan</span><span class="pill">A4 later</span></div>
+  </div>
+  <div class="intro-card">
+    <div class="lab">The shape of the work</div>
+    <p>This is a <b>skills</b> module: you learn research methods, ethics and statistics by <b>doing</b> them. For each part: read the book, attend/watch the online classes and tutorials, practise the SPSS analyses, use the forum, then do the assignment. The one rule that matters: build the skills yourself — no generative AI.</p>
+  </div>
+
+  <div class="phase"><span class="lab">Phase 0 · Set-up</span><span class="line"></span></div>
+  <ol class="steps">
+    <li><div class="h">Read the Module Handbook, post in "Introduce Yourself"</div><div class="d">Learning outcomes, the four assignments, communication rules.</div></li>
+    <li><div class="h">Get SPSS working and bookmark your APA toolkit</div><div class="d">SPSS is provided where needed. Bookmark the APA Referencing page, DCU Library Psychology guide and LETS tutorials.</div></li>
+    <li><div class="h">Attend the online classes — there are a lot</div><div class="d">If you can't make them live, watch every recording carefully. The pre/post-class notes matter.</div></li>
+  </ol>
+
+  <div class="phase"><span class="lab">Phase 1 · Assessment 1</span><span class="due">due 2 Nov 2026</span><span class="line"></span></div>
+  <ol class="steps">
+    <li><div class="h">Learn the content</div><div class="d">Work Part 1, especially <b>Introduction to Ethics</b> (ch 3) and <b>Exploring Quantitative Methodologies</b> (ch 4). Then the Part 2 book's early chapters and Tutorial 1+ for the SPSS steps.</div></li>
+    <li><div class="h">Read the ethics codes</div><div class="d">Download and read the <b>PSI (2019)</b>, <b>BPS (2018)</b> and <b>APA (2017)</b> codes — you cite them in Task 3.</div></li>
+    <li><div class="h">Task 1 — mindfulness vs control (SART)</div><div class="d">Enter Table 1 into SPSS. Hypotheses, IV+levels &amp; DV, an extraneous variable + control, tests of assumptions, ONE APA table + ONE APA chart, then the main analysis reported in full. Put <b>all SPSS output in the appendices</b>.</div></li>
+    <li><div class="h">Task 2 — cinema phone-checking (&lt;30 vs &gt;40)</div><div class="d">Same six steps for Table 2. Again, all SPSS output in the appendices.</div></li>
+    <li><div class="h">Task 3 — ethical review (700 words)</div><div class="d">For each scenario: identify the main ethical issue, explain why it is problematic, relate it to the PSI/BPS/APA codes, and propose an ethical alternative. 300 words per scenario + a 100-word conclusion.</div></li>
+    <li><div class="h">Assemble &amp; submit</div><div class="d">One Word file: cover page, contents page, each task on a new page, SPSS output in appendices. Name it <b>PSY1081_A1_2026_JBloggs.doc</b>.<div class="due-in">Monday 2 November 2026, 23:59</div></div></li>
+  </ol>
+
+  <div class="phase"><span class="lab">Phase 2 · Assessments 2 &amp; 3</span><span class="due">January</span><span class="line"></span></div>
+  <ol class="steps">
+    <li><div class="h">Work the Quantitative Methods book + Research Week</div><div class="d">Describing data, statistical inference, survey research, correlation. The January Research Week is intensive (online, optional but important).</div></li>
+    <li><div class="h">Assessment 2 — Quantitative Data Analysis (20%)</div><div class="d">Explore study hypotheses and interpret quantitative outcomes in SPSS.</div></li>
+    <li><div class="h">Assessment 3 — Quantitative Research Report (30%)</div><div class="d">Data preparation and analysis, then write a full research report.</div></li>
+  </ol>
+
+  <div class="phase"><span class="lab">Phase 3 · Assessment 4</span><span class="due">later</span><span class="line"></span></div>
+  <ol class="steps">
+    <li><div class="h">Work the Qualitative Methods book</div><div class="d">Thematic analysis (Braun &amp; Clarke), documents/archives, mixed methods.</div></li>
+    <li><div class="h">Assessment 4 — Qualitative Research Methods (30%)</div><div class="d">Qualitative data analysis in practice — two tasks.</div></li>
+  </ol>
+
+  <div class="note">
+    <span class="lab">The habit that protects your marks</span>
+    In a methods module the skill is in the <b>doing</b>: practise each SPSS analysis until it is automatic, and never submit a task without its SPSS output in the appendices (that alone is an automatic fail). Start the ethics reading early so Task 3 is argument, not scramble.
+  </div>
+</section>
+
+<!-- ======== PSY1081 q3 : BRIEFS ======== -->
+<section class="pane wrap" id="q3">
+  <div class="dhead">
+    <div class="kicker">The exact requirements</div>
+    <h2>Assignment Briefs</h2>
+    <div class="pills"><span class="pill on">A1 · 20%</span><span class="pill">A2 · 20%</span><span class="pill">A3 · 30%</span><span class="pill">A4 · 30%</span></div>
+  </div>
+
+  <div class="abox">
+    <div class="ah"><h3>Assessment 1 — Ethical review + quantitative analysis</h3><span class="wt">20%</span></div>
+    <div class="meta">Due Monday 2 November 2026, 23:59 · one Word file, cover + contents page, each task on a new page, SPSS output in appendices · naming: PSY1081_A1_2026_JBloggs.doc · examiners: Dr Aoife McNicholl (internal), Dr Julie Hume (external)</div>
+    <p class="lead2">A three-part portfolio. Two quantitative analyses in SPSS, then an ethical review of both studies.</p>
+    <h4>Task 1 · 35 marks · mindfulness vs control (reaction times, SART)</h4>
+    <ul>
+      <li>Enter the Table 1 data into SPSS, then: <b>(a)</b> null &amp; alternative hypotheses · <b>(b)</b> IV (name its levels) &amp; DV · <b>(c)</b> an extraneous variable + how to control it · <b>(d)</b> tests of assumptions, reported in full · <b>(e)</b> ONE APA table + ONE APA chart in the main report · <b>(f)</b> the main analysis reported in full.</li>
+      <li><b>All SPSS output must go in the appendices</b> — missing output is an automatic fail on the task.</li>
+    </ul>
+    <h4>Task 2 · 35 marks · cinema phone-checking (&lt;30 vs &gt;40)</h4>
+    <ul>
+      <li>Same six steps (a–f) for the Table 2 data. Answers concise and directly on the question.</li>
+    </ul>
+    <h4>Task 3 · 30 marks · ethical review (700 words)</h4>
+    <ul>
+      <li>For <b>each</b> scenario: identify a potential ethical issue, describe and explain why it is problematic, relate it to the <b>PSI (2019) / BPS (2018) / APA (2017)</b> codes, and propose an ethical alternative that still meets the study's aims.</li>
+      <li>300 words per scenario + a 100-word overall conclusion. The two scenarios have <b>different</b> main issues.</li>
+    </ul>
+    <h4>What earns marks</h4>
+    <ul>
+      <li>Accuracy and completeness against each question; correct SPSS output included; correct APA tables, charts and referencing; a clear, code-referenced ethical argument.</li>
+    </ul>
+  </div>
+
+  <div class="abox">
+    <div class="ah"><h3>Assessment 2 — Quantitative Data Analysis</h3><span class="wt">20%</span></div>
+    <div class="meta">Part 2 · around the January Research Week · brief to be released</div>
+    <ul><li>Engage with a number of ways data can be examined to explore study hypotheses and understand the outcomes of quantitative research (in SPSS).</li></ul>
+  </div>
+  <div class="abox">
+    <div class="ah"><h3>Assessment 3 — Quantitative Research Report</h3><span class="wt">30%</span></div>
+    <div class="meta">Part 2 · brief to be released</div>
+    <ul><li>Data preparation and analysis, then write a full quantitative research report.</li></ul>
+  </div>
+  <div class="abox">
+    <div class="ah"><h3>Assessment 4 — Qualitative Research Methods</h3><span class="wt">30%</span></div>
+    <div class="meta">Part 3 · brief to be released</div>
+    <ul><li>Engage with qualitative methods of data analysis, understand their key features and put them into practice. Two tasks.</li></ul>
+  </div>
+</section>
+
+<!-- ======== PSY1081 q4 : RULES & DATES ======== -->
+<section class="pane wrap" id="q4">
+  <div class="dhead">
+    <div class="kicker">The rules that apply to everything, and the dates</div>
+    <h2>Rules &amp; Dates</h2>
+    <div class="pills"><span class="pill due">A1 due 2 Nov</span><span class="pill">APA 7 · SPSS</span></div>
+  </div>
+
+  <h3 class="sec">Backward-planned timeline</h3>
+  <table class="tbl">
+    <thead><tr><th>When</th><th>What to be doing</th></tr></thead>
+    <tbody>
+      <tr><td>Now – late Oct 2026</td><td>Work Part 1 (Ethics + Quantitative Methodologies); read the PSI/BPS/APA codes; learn the SPSS steps from Tutorial 1 onward; attend the online classes.</td></tr>
+      <tr><td>Late Oct – 2 Nov</td><td>Run Tasks 1 &amp; 2 in SPSS, write the Task 3 ethical review, assemble the Word file with appendices.</td></tr>
+      <tr><td><em>2 Nov 2026, 23:59</em></td><td><b>Assessment 1 due.</b></td></tr>
+      <tr><td>January (Research Week)</td><td>Intensive quantitative classes. Assessment 2 (data analysis) and Assessment 3 (research report).</td></tr>
+      <tr><td>Later in the year</td><td>Part 3 qualitative methods; Assessment 4.</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="sec">Ground rules for every assignment</h3>
+  <ul class="check">
+    <li><b>No generative AI.</b> The learning outcomes require you to build the research skills yourself; AI-produced work is academic misconduct.</li>
+    <li><b>SPSS output in the appendices.</b> For the quantitative tasks, failing to include all your SPSS output is an <b>automatic fail</b> on that task.</li>
+    <li><b>APA 7 referencing.</b> Used throughout; marks are deducted for errors.</li>
+    <li><b>One Word file, properly structured.</b> Cover page, contents page, clear headings, each task on a new page. Naming: PSY1081_A1_2026_InitialSurname.doc.</li>
+    <li><b>No resubmissions.</b> You are marked on exactly what you upload.</li>
+    <li><b>Provisional marks</b> until confirmed by the Progression and Awards Board (PAB).</li>
+    <li><b>Extensions</b> via the request form before the deadline; for postponements contact the Programme Chair.</li>
+  </ul>
+
+  <h3 class="sec">Assessment at a glance</h3>
+  <table class="tbl">
+    <thead><tr><th>Assessment</th><th>Weight</th><th>What it is</th><th>When</th></tr></thead>
+    <tbody>
+      <tr><td><b>Assessment 1</b></td><td><b>20%</b></td><td>Ethical review + two SPSS analyses (3 tasks)</td><td>2 Nov 2026</td></tr>
+      <tr><td><b>Assessment 2</b></td><td><b>20%</b></td><td>Quantitative data analysis</td><td>January</td></tr>
+      <tr><td><b>Assessment 3</b></td><td><b>30%</b></td><td>Quantitative research report</td><td>January</td></tr>
+      <tr><td><b>Assessment 4</b></td><td><b>30%</b></td><td>Qualitative research methods (two tasks)</td><td>To be posted</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="sec">People &amp; essentials</h3>
+  <dl class="kv">
+    <dt>Teaching team</dt><dd>Dr Margaret (Margo) Ryan (margaret.ryan@dcu.ie) · Dr Sinéad Eccles (sinead.eccles@dcu.ie)</dd>
+    <dt>Examiners</dt><dd>Dr Aoife McNicholl (internal) · Dr Julie Hume (external)</dd>
+    <dt>Programme Chair</dt><dd>James Brunton (james.brunton@dcu.ie) — for processes such as postponing an assignment</dd>
+    <dt>Response times</dt><dd>Forum queries within <b>four days</b>; assignment feedback within <b>three weeks</b></dd>
+    <dt>Software</dt><dd>SPSS (provided where necessary); intensive online Research Week in January (optional)</dd>
+    <dt>Required reading</dt><dd>Pallant (2020) <b>SPSS Survival Manual</b> · Braun &amp; Clarke (2013) <b>Successful qualitative research</b></dd>
+  </dl>
+</section>
+
+<!-- ======== PSY1081 q5 : READING LIST ======== -->
+<section class="pane wrap" id="q5">
+  <div class="dhead">
+    <div class="kicker">What to read, and where to get it</div>
+    <h2>Reading List</h2>
+    <div class="pills"><span class="pill on">required</span><span class="pill">ethics codes</span><span class="pill">free / OER</span></div>
+  </div>
+  <div class="intro-card">
+    <div class="lab">How to use this</div>
+    <p>The two <b>required</b> texts carry most of the module. For Assessment 1 you also need the three <b>ethics codes</b> and the specific article resources named in the brief. Read and <b>cite</b> in APA; find your own ethics articles via the DCU Library.</p>
+  </div>
+
+  <h3 class="sec">Required texts</h3>
+  <ul class="reads">
+    <li><span class="ttl">SPSS Survival Manual (7th ed.)<span class="tg lib">DCU</span></span>
+      <span class="cite">Pallant, J. (2020). Routledge.</span>
+      <span class="why">Your step-by-step guide for every quantitative task — A1 Tasks 1 &amp; 2, and Assessments 2 &amp; 3.</span></li>
+    <li><span class="ttl">Successful Qualitative Research: A Practical Guide for Beginners<span class="tg lib">DCU</span></span>
+      <span class="cite">Braun, V., &amp; Clarke, V. (2013). Sage.</span>
+      <span class="why">The core text for Part 3 and Assessment 4 (thematic analysis).</span></li>
+  </ul>
+
+  <h3 class="sec">Ethics codes · essential for Assessment 1 Task 3</h3>
+  <ul class="reads">
+    <li><span class="ttl">PSI Code of Professional Ethics (2019)<span class="tg web">web</span></span>
+      <span class="cite">Psychological Society of Ireland. <a href="https://www.psychologicalsociety.ie/">psychologicalsociety.ie</a></span>
+      <span class="why">Four principles: respect for rights &amp; dignity, competence, responsibility, integrity.</span></li>
+    <li><span class="ttl">Code of Ethics and Conduct (2018)<span class="tg web">web</span></span>
+      <span class="cite">British Psychological Society. <a href="https://www.bps.org.uk/guideline/code-ethics-and-conduct">bps.org.uk</a></span></li>
+    <li><span class="ttl">Ethical Principles of Psychologists and Code of Conduct (2017)<span class="tg web">web</span></span>
+      <span class="cite">American Psychological Association. <a href="https://www.apa.org/ethics/code">apa.org/ethics/code</a></span>
+      <span class="why">Five principles: beneficence &amp; nonmaleficence, fidelity &amp; responsibility, integrity, justice, respect for rights &amp; dignity.</span></li>
+  </ul>
+
+  <h3 class="sec">Recommended</h3>
+  <ul class="reads">
+    <li><span class="ttl">Research Methods in Psychology (4th ed.)<span class="tg lib">DCU</span></span><span class="cite">Breakwell, G. M., Smith, J. A., &amp; Wright, D. B. (Eds.). (2012). Sage.</span></li>
+    <li><span class="ttl">Introductory Statistics<span class="tg free">free OER</span></span><span class="cite">Shaeffer, D. S., &amp; Zhang, Z. (2012). Saylor Foundation.</span></li>
+    <li><span class="ttl">Introduction to Statistics in the Psychological Sciences<span class="tg free">free OER</span></span><span class="cite">Côte, L. R., Gordon, R., Randell, C. E., Schmitt, J., &amp; Guerra, R. (2021). University of Missouri–St. Louis.</span></li>
+    <li><span class="ttl">Introducing Qualitative Research in Psychology<span class="tg lib">DCU</span></span><span class="cite">Willig, C. (2013). Open University Press.</span></li>
+  </ul>
+
+  <h3 class="sec">Assessment 1 article resources (named in the brief)</h3>
+  <ul class="reads">
+    <li><span class="ttl">The SART (the reaction-time task in Task 1)<span class="tg lib">DCU</span></span><span class="cite">Robertson, I. H., Manly, T., Andrade, J., Baddeley, B. T., &amp; Yiend, J. (1997). "Oops!"… <em>Neuropsychologia, 35</em>(6), 747–758. <a href="https://doi.org/10.1016/S0028-3932(97)00015-8">doi.org/10.1016/S0028-3932(97)00015-8</a></span></li>
+    <li><span class="ttl">Mindfulness and attention<span class="tg lib">DCU</span></span><span class="cite">Prakash, R. S., et al. (2020). <em>Journal of Cognitive Enhancement, 4</em>(3), 340–367.</span></li>
+    <li><span class="ttl">Mindfulness enhances cognitive functioning (meta-analysis)<span class="tg lib">DCU</span></span><span class="cite">Zainal, N. H., &amp; Newman, M. G. (2024). <em>Health Psychology Review, 18</em>(2), 369–395.</span></li>
+    <li><span class="ttl">Measuring mobile phone use<span class="tg lib">DCU</span></span><span class="cite">Vanden Abeele, M., Beullens, K., &amp; Roe, K. (2013). <em>Mobile Media &amp; Communication, 1</em>(2), 213–236.</span></li>
+    <li><span class="ttl">Drivers' distractions<span class="tg free">open access</span></span><span class="cite">Johansson, O. J., &amp; Fyhri, A. (2017). <em>Frontiers in Psychology, 8,</em> 1957. <a href="https://doi.org/10.3389/fpsyg.2017.01957">doi.org/10.3389/fpsyg.2017.01957</a></span></li>
+  </ul>
+
+  <div class="note"><span class="lab">Getting the articles</span>Items tagged <b>DCU</b> are free through the DCU Library — search the title or DOI in <b>PsycInfo</b>, <b>PsycArticles</b> or <b>ScienceDirect</b>. For Task 3 you should also find your own peer-reviewed ethics articles the same way.</div>
+</section>
+
+<!-- ======== PSY1081 q6 : LEARN ======== -->
+<section class="pane wrap" id="q6">
+  <div class="dhead">
+    <div class="kicker">Learn the content · Part 1</div>
+    <h2>Ethics &amp; Research Methods</h2>
+    <div class="pills"><span class="pill on">research ethics</span><span class="pill">quantitative methods</span><span class="pill">for Assessment 1</span></div>
+  </div>
+  <div class="intro-card">
+    <div class="lab">What this covers</div>
+    <p>Part 1 gives you the two halves of Assessment 1: the <b>ethics</b> to review the two study scenarios (Task 3), and the <b>quantitative methods</b> to run and report the analyses (Tasks 1 &amp; 2). Learn the principles and the method here — then do the actual analysis and the ethical judgement yourself (no AI).</p>
+  </div>
+
+  <h3 class="sec">Research ethics</h3>
+  <div class="lcard">
+    <div class="lh"><h3>Why ethics — and the cases that shaped it</h3><span class="ap">Part 1, ch 3</span></div>
+    <p class="one">Modern research ethics grew out of serious historical abuses. Knowing the landmark cases is how you recognise a breach.</p>
+    <div class="keyterms"><span>informed consent</span><span>deception</span><span>protection from harm</span><span>confidentiality</span><span>right to withdraw</span><span>debriefing</span></div>
+    <div class="lblk"><div class="k">The landmark cases</div>
+      <ul>
+        <li><b>Little Albert (1920):</b> conditioning fear in an infant, with no debriefing or protection from harm.</li>
+        <li><b>Tuskegee (1932–72):</b> withholding treatment from men with syphilis, without informed consent.</li>
+        <li><b>Nazi medical experiments</b> → the <b>Nuremberg Code (1947)</b>: the origin of informed, voluntary consent.</li>
+        <li><b>Milgram (1961–63):</b> obedience study — heavy deception and psychological harm.</li>
+        <li><b>Stanford Prison (1971):</b> harm and a lack of safeguards; stopped early.</li>
+        <li><b>Scheper-Hughes (1977), Cyril Burt (twin data):</b> anonymity/consent in ethnography, and fabricated data (integrity).</li>
+      </ul></div>
+    <div class="lblk"><div class="k">The codes you cite</div>
+      <p><b>PSI (Ireland)</b> and <b>BPS (UK)</b> each have four principles — respect for rights &amp; dignity, competence, responsibility, integrity. <b>APA (US)</b> has five — beneficence &amp; nonmaleficence, fidelity &amp; responsibility, integrity, justice, respect for rights &amp; dignity. All share the same core standards.</p></div>
+  </div>
+
+  <div class="lcard">
+    <div class="lh"><h3>The core principles to apply</h3><span class="ap">for Task 3</span></div>
+    <div class="lblk"><div class="k">The standards that recur across all three codes</div>
+      <ul>
+        <li><b>Informed &amp; voluntary consent:</b> participants understand the purpose, risks and their right to withdraw, and agree freely — with no coercion or <b>undue inducement</b> (e.g. a reward so large it overrides free choice).</li>
+        <li><b>Deception:</b> avoid where possible; if used, justify it and <b>debrief</b> afterwards.</li>
+        <li><b>Protection from harm:</b> physical and psychological.</li>
+        <li><b>Confidentiality &amp; data use:</b> anonymise; get consent for recording and for any <b>reuse</b> of data (e.g. showing footage later).</li>
+        <li><b>Right to withdraw</b> at any time without penalty.</li>
+      </ul></div>
+    <div class="lblk crit"><div class="k">Limits of guideline-led ethics</div>
+      <p>Codes are necessary but not sufficient: they can be treated as a box-ticking exercise, and they can miss the <b>power relations</b> between researcher and participant (a concern raised by feminist research ethics). Ethical practice is judgement, not just compliance.</p></div>
+    <div class="apply"><span class="k">A1 Task 3</span>For each scenario: name the <b>one</b> main breach, explain why it's problematic, cite the relevant PSI/BPS/APA principle, and propose an alternative that still meets the aim. Things to weigh in the two scenarios: how participants were recruited and rewarded, whether they consented and to what, whether they were observed or recorded without knowing, and how the data were used afterwards. Decide the issues yourself — that judgement is the assessed skill.</div>
+  </div>
+
+  <h3 class="sec">Quantitative methods (for Tasks 1 &amp; 2)</h3>
+  <div class="lcard">
+    <div class="lh"><h3>Variables &amp; hypotheses</h3><span class="ap">Part 1, ch 4</span></div>
+    <div class="keyterms"><span>IV</span><span>DV</span><span>levels</span><span>extraneous variable</span><span>null vs alternative</span></div>
+    <div class="lblk"><div class="k">Core idea</div>
+      <p>The <b>independent variable (IV)</b> is what differs between groups (name its <b>levels</b>); the <b>dependent variable (DV)</b> is what you measure. An <b>extraneous variable</b> is anything else that could affect the DV — control it by randomisation, standardising procedures, or counterbalancing. The <b>null hypothesis</b> says there is no difference; the <b>research (alternative) hypothesis</b> predicts one (directional or non-directional).</p>
+      <p>In both A1 scenarios the IV has two levels and the groups are separate people — a <b>between-groups (independent-samples)</b> design.</p></div>
+  </div>
+  <div class="lcard">
+    <div class="lh"><h3>Testing a difference between two groups</h3><span class="ap">SPSS</span></div>
+    <div class="lblk"><div class="k">The method</div>
+      <ul>
+        <li><b>Check assumptions first:</b> level of measurement, independence, <b>normality</b> (Shapiro-Wilk), and <b>homogeneity of variance</b> (Levene's test).</li>
+        <li><b>If met:</b> an <b>independent-samples t-test</b>. <b>If normality is violated:</b> the non-parametric <b>Mann-Whitney U</b> test.</li>
+        <li><b>Report in APA:</b> group means and SDs, the test statistic, degrees of freedom, the p-value, and an effect size.</li>
+      </ul></div>
+    <div class="lblk"><div class="k">Presenting it</div>
+      <p>Put <b>ONE</b> APA-formatted table and <b>ONE</b> APA chart (e.g. a bar chart with error bars) in the main report. Every piece of SPSS output goes in the <b>appendices</b> — missing output fails the task.</p></div>
+    <div class="apply"><span class="k">A1 Tasks 1 &amp; 2</span>In SPSS: enter a grouping variable + the score, run Explore for the assumption checks, then Independent-Samples T Test (or Mann-Whitney U), and build the figure in Chart Builder. Answer exactly what each sub-question asks, concisely.</div>
+  </div>
+
+  <h3 class="sec">Check yourself</h3>
+  <p class="lead">If you can answer these cold, you are ready to start Assessment 1.</p>
+  <ol class="qlist">
+    <li>Name three landmark cases and the ethical breach each one highlights.</li>
+    <li>What is the difference between informed consent and "undue inducement"?</li>
+    <li>Give PSI's four principles and APA's five.</li>
+    <li>Define IV, DV and extraneous variable, and give one way to control an extraneous variable.</li>
+    <li>Which test compares two independent groups, and what do you use instead if normality is violated?</li>
+    <li>Why must every piece of SPSS output go in the appendices?</li>
+  </ol>
+  <div class="note"><span class="lab">Turning this into marks</span>Top marks come from accuracy and completeness on every sub-question, correct SPSS output in the appendices, clean APA, and an ethical argument that names a specific code principle rather than just describing the problem.</div>
+</section>
+
+</div><!-- /mpane-wrap 81 -->
 
 <footer class="foot wrap">
-  <b>PSY1080 "What is Psychology?" — module map and assignment roadmap.</b> Built from the Loop course, the Module Handbook, and the Assignment 1 and 2 briefs on 13 October 2026. Always confirm deadlines, word counts and briefs against Loop, as details can change.
+  <b>PSY1080 &amp; PSY1081 — DCU study tool.</b> Built from the Loop courses, module handbooks and assignment briefs. Switch modules at the top of the sidebar. Always confirm deadlines, word counts and briefs against Loop, as details can change.
   <br><a class="totop" href="#">Back to top ↑</a>
 </footer>
   </main>
@@ -970,11 +1361,20 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
 
 <script>
   const navs=[...document.querySelectorAll('.guide-nav-item')];
-  const panes={1:p1,2:p2,3:p3,4:p4,5:p5,6:p6};
+  const mods=[...document.querySelectorAll('.pn-mods button')];
+  const panes={1:p1,2:p2,3:p3,4:p4,5:p5,6:p6,q1:q1,q2:q2,q3:q3,q4:q4,q5:q5,q6:q6};
   function sel(id){navs.forEach(x=>x.classList.toggle('active',x.dataset.t===id));
     Object.entries(panes).forEach(([k,el])=>el.classList.toggle('on',k===id));
     window.scrollTo({top:0,behavior:'smooth'});}
+  function selMod(m){
+    mods.forEach(b=>b.classList.toggle('on',b.dataset.m===m));
+    document.querySelectorAll('.msb').forEach(s=>s.hidden=(s.dataset.m!==m));
+    document.querySelectorAll('.mpane-wrap').forEach(w=>w.hidden=(w.dataset.m!==m));
+    const first=document.querySelector('.msb[data-m="'+m+'"] .guide-nav-item');
+    if(first)sel(first.dataset.t);
+  }
   navs.forEach(n=>n.addEventListener('click',()=>sel(n.dataset.t)));
+  mods.forEach(b=>b.addEventListener('click',()=>selMod(b.dataset.m)));
 
   // ---- click-to-play video embeds ----
   document.querySelectorAll('.ytlite').forEach(el=>{
