@@ -177,6 +177,8 @@ LESSON_LINKS = [
      'tagline': 'C1 lesson on home, the housing crisis and how the places we live are changing.'},
     {'href': '/lessons/happiness-c1.html', 'name': 'Happiness',
      'tagline': 'C1 lesson on what makes people happy and how to talk about feeling on top of the world.'},
+    {'href': '/lessons/nostalgia-c1.html', 'name': 'Nostalgia',
+     'tagline': 'C1 lesson on nostalgia, the nineties revival and looking back at the good old days.'},
 ]
 
 FAVICON = ("<link rel=\"icon\" href=\"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' "
