@@ -286,6 +286,29 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
 .bc-for{margin-top:16px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px 15px;font-size:13.5px;color:var(--muted);line-height:1.55}
 .bc-for .k{font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted);margin-right:7px}
 .bc-for b{color:var(--ink);font-weight:600}
+.bookbar{position:sticky;top:52px;z-index:6;background:var(--bg);padding:10px 0 12px;margin:0 0 6px;border-bottom:1px solid var(--border)}
+.bookbar .blab{font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);font-weight:800;margin-bottom:8px}
+.bookchaps{display:flex;gap:6px;flex-wrap:wrap}
+.bchip{min-width:34px;height:34px;padding:0 9px;border-radius:9px;border:1px solid var(--border);background:var(--card);font-weight:700;font-size:13px;color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:inherit}
+.bchip:hover{border-color:var(--accent);color:var(--accent)}
+.bchip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.qchap{display:none}
+.qchap.on{display:block;animation:fade .25s ease}
+.saq{margin:14px 0;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--card);overflow:hidden}
+.saq>summary{cursor:pointer;padding:12px 16px;font-weight:700;font-size:14px;color:var(--accent-dark);list-style:none}
+.saq>summary::-webkit-details-marker{display:none}
+.saq>summary::before{content:"▸ ";color:var(--accent)}
+.saq[open]>summary::before{content:"▾ "}
+.saq>summary:hover{background:var(--hover)}
+.saq .ans{padding:2px 16px 14px;font-size:14px;color:var(--muted);line-height:1.55}
+.saq .ans p{margin:10px 0 0}
+.figbox{margin:14px 0;background:var(--bg);border:1px dashed var(--border);border-radius:var(--r-sm);padding:12px 15px;font-size:13px;color:var(--muted);line-height:1.5}
+.figbox .fl{font-weight:700;color:var(--ink);font-size:12px;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+.stem{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;line-height:1.7;background:var(--card);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px 16px;margin:12px 0;white-space:pre;overflow-x:auto;color:var(--ink)}
+.bnav{display:flex;justify-content:space-between;gap:12px;margin:26px 0 0;padding-top:16px;border-top:1px solid var(--border)}
+.bnav button{border:1px solid var(--border);background:var(--card);border-radius:9px;padding:9px 15px;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;font-family:inherit}
+.bnav button:hover{border-color:var(--accent);color:var(--accent)}
+.bnav button:disabled{opacity:.4;cursor:default}
 .tscroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0;border-radius:var(--r-sm)}
 .tscroll .tbl{margin:0;min-width:660px}
 .tnote{font-size:12.5px;color:var(--muted);margin:6px 2px 0;line-height:1.5}
@@ -342,6 +365,7 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
         <div class="pn-eyebrow">Learn the content</div>
         <button class="guide-nav-item" data-t="q6"><span class="guide-nav-dot"></span><span class="label">Ethics &amp; Research Methods</span></button>
         <button class="guide-nav-item" data-t="q7"><span class="guide-nav-dot"></span><span class="label">SPSS Guide</span><span class="trail"><span class="nav-k due">A1</span></span></button>
+        <button class="guide-nav-item" data-t="q8"><span class="guide-nav-dot"></span><span class="label">Quant Methods Book</span></button>
       </nav>
     </div>
   </aside>
@@ -1690,6 +1714,221 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
   <div class="note"><span class="lab">Don't lose easy marks</span>Every piece of SPSS output goes in the <b>appendices</b> (missing output = automatic fail on the task). Report exactly what each sub-question asks, concisely. The analysis and interpretation are the assessed skill, do them yourself.</div>
 </section>
 
+<!-- ======== PSY1081 q8 : QUANT METHODS BOOK ======== -->
+<section class="pane wrap" id="q8">
+  <div class="dhead">
+    <div class="kicker">Learn the content · Part 2 · full book</div>
+    <h2>Quant Methods Book</h2>
+    <div class="pills"><span class="pill on">9 chapters</span><span class="pill">study version</span><span class="pill">SAQs + SPSS</span></div>
+  </div>
+  <div class="intro-card">
+    <div class="lab">How to use this</div>
+    <p>A study version of the Part 2 Loop book <b>Exploring Quantitative Research Methods</b>, rewritten in plain terms with the key concepts, worked logic, SPSS steps and self-check questions. It is a revision aid, not the original: the full book, figures and exact wording live on <b>Loop</b>, and you should write and cite your own work (no AI). Pick a chapter below.</p>
+  </div>
+
+  <div class="bookbar">
+    <div class="blab">Chapter</div>
+    <div class="bookchaps" id="qbChips">
+      <button class="bchip on" type="button" data-c="0" title="Describing Numerical Data">1</button>
+      <button class="bchip" type="button" data-c="1" title="Statistical Inference &amp; Hypothesis Testing">2</button>
+      <button class="bchip" type="button" data-c="2" title="Survey Research">3</button>
+      <button class="bchip" type="button" data-c="3" title="Correlation">4</button>
+      <button class="bchip" type="button" data-c="4" title="Chi-Square">5</button>
+      <button class="bchip" type="button" data-c="5" title="Comparing Independent Samples">6</button>
+      <button class="bchip" type="button" data-c="6" title="Comparing Related Samples">7</button>
+      <button class="bchip" type="button" data-c="7" title="Experimental Design 1">8</button>
+      <button class="bchip" type="button" data-c="8" title="Experimental Design 2">9</button>
+    </div>
+  </div>
+
+  <div id="qbook">
+
+    <!-- ===== CHAPTER 1 ===== -->
+    <div class="qchap on">
+      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">1. Describing Numerical Data</h2>
+      <p class="lead">Summarising a single set of numbers, both numerically (averages and spread) and graphically, and linking the shape of a distribution to the kind of variable that produced it.</p>
+      <div class="note"><span class="lab">By the end you can</span>identify a variable's measurement scale; compute the mean and median and say when each is appropriate; compute the range, standard deviation and semi-interquartile range and say when each is appropriate; explain what "resistant to outliers" means; choose a suitable graph; and relate a variable's nature to its likely distribution shape.</div>
+
+      <h3 class="sec">1.1 Ways of measuring</h3>
+      <p class="lead">Quantitative analysis needs numbers, so the first job is turning what you care about into a measurement. Psychologists draw on a wide toolkit:</p>
+      <div class="abox"><ul>
+        <li><b>Direct physical measures</b> (height, weight, grip strength, heart rate), read off an instrument.</li>
+        <li><b>Physiological measures</b> needing specialised equipment (fMRI, EEG).</li>
+        <li><b>Observation</b>, from natural to tightly controlled settings, with or without the researcher intervening; it can be qualitative (described in words) or coded numerically.</li>
+        <li><b>Performance measures</b> on a task (speed, accuracy, memory span).</li>
+        <li><b>Ratings by trained observers</b>, usually averaged across a small panel (like judges' marks).</li>
+        <li><b>Self-report</b>: rating your own anxiety, motivation or attitude, or a <b>questionnaire</b> built to measure a particular construct. Questionnaires are one of the most common methods in psychology.</li>
+      </ul></div>
+
+      <h3 class="sec">1.2 The nature of the data</h3>
+      <p class="lead">The same number can do different jobs: it can <b>count</b> ("4 bottles"), <b>measure</b> ("4 litres"), mark a <b>position</b> ("4th place"), or just <b>identify</b> ("the number 4 bus"). How a number is used decides which arithmetic is meaningful: doubling a count makes sense, but 4°F is not "twice as warm" as 2°F, and shirt number 4 is not twice shirt number 2. These differences are captured by <b>measurement scales</b>.</p>
+
+      <h3 class="sec">1.3 Types of scale</h3>
+      <div class="keyterms"><span>nominal</span><span>ordinal</span><span>interval</span><span>ratio</span><span>variable</span></div>
+      <div class="tscroll"><table class="tbl">
+        <thead><tr><th>Scale</th><th>What the numbers mean</th><th>Example</th><th>What you can do</th></tr></thead>
+        <tbody>
+          <tr><td><b>Nominal</b></td><td>Labels for categories, order is arbitrary</td><td>Nationality; gender; ice-cream flavour</td><td>Count frequencies only</td></tr>
+          <tr><td><b>Ordinal</b></td><td>Ordered, but gaps between ranks are not equal</td><td>Letter grades A–F; "no / a little / a lot of knowledge"</td><td>Rank and compare order</td></tr>
+          <tr><td><b>Interval</b></td><td>Equal gaps, but no true zero</td><td>Fahrenheit temperature</td><td>Add and subtract; differences are meaningful</td></tr>
+          <tr><td><b>Ratio</b></td><td>Equal gaps and a true zero (absence of the thing)</td><td>Money; reaction time; number of accidents</td><td>All arithmetic, including ratios ("twice as much")</td></tr>
+        </tbody>
+      </table></div>
+      <p class="lead">A <b>variable</b> is a characteristic that can take different values (if it is the same for everyone, it is a <b>constant</b>). In practice, interval and ratio data are often treated together, since both support the full range of statistical tests. ("Data" is plural; one value is a "datum".)</p>
+      <details class="saq"><summary>SAQ 1: Name the measurement scale for each</summary><div class="ans">
+        <p>Order of finish in a marathon; political party; number of fatal accidents; IQ scores.</p>
+        <p><b>Answers:</b> marathon finish = <b>ordinal</b>; political party = <b>nominal</b>; number of fatal accidents = <b>ratio</b>; IQ = <b>debated</b> (some argue it is barely ordinal, but it is usually treated as interval for analysis).</p>
+      </div></details>
+
+      <h3 class="sec">1.4–1.5 Averages: mean and median</h3>
+      <p class="lead">A summary statistic is a single number that captures something important about the whole set. The most familiar is the <b>average</b>.</p>
+      <div class="abox"><ul>
+        <li><b>Mean</b>: add all the scores and divide by how many there are. It is the "balance point" of the data, and the deviations above and below it always sum to zero.</li>
+        <li><b>Median</b>: order the scores and take the middle one. Its location is <b>(N+1)/2</b>; with an even N, take the midpoint of the two middle scores.</li>
+      </ul></div>
+      <p class="lead">Why keep the median? Because it is <b>resistant to outliers</b>. If most salaries in a firm are modest but the boss earns a fortune, the mean is dragged upwards and misrepresents the typical wage, while the median still sits among ordinary salaries. An <b>outlier</b> is a value far from the rest of the set; when outliers are present, the median is usually the fairer average.</p>
+
+      <h3 class="sec">1.6 Mean and median in SPSS</h3>
+      <p class="lead">You will rarely calculate these by hand, but you should understand the logic. In SPSS, enter the scores in one column (name it in Variable View, set its Measure to Scale), then:</p>
+      <ol class="steps">
+        <li><div class="h">Analyze → Descriptive Statistics → Frequencies</div><div class="d">Move your variable into the box; untick "Display frequency tables" if you only want the statistics.</div></li>
+        <li><div class="h">Statistics → tick Mean and Median → Continue → OK</div><div class="d">For a worked set of 27 test scores, SPSS returns Mean = 57.30 and Median = 57.00. (In a report you would reformat this in APA style, not paste the raw SPSS table.)</div></li>
+      </ol>
+
+      <h3 class="sec">1.7 Measuring variation (spread)</h3>
+      <div class="keyterms"><span>range</span><span>standard deviation</span><span>quartiles</span><span>semi-interquartile range</span><span>percentile</span></div>
+      <p class="lead">An average alone can mislead: two places with the same mean temperature can feel completely different if one is steady and the other swings between hot and cold. So you also report <b>spread</b>.</p>
+      <div class="abox"><ul>
+        <li><b>Range</b> = highest − lowest. Simple, but based on only two values, so crude.</li>
+        <li><b>Standard deviation (SD)</b>: take each score's deviation from the mean, square it, add the squares, divide by <b>N − 1</b>, then square-root. It is a kind of average distance from the mean. (For a worked 10-number set, SD = 9.55.)</li>
+        <li><b>Quartiles and semi-interquartile range (SIQR)</b>: order the data; the lower quartile sits at location <b>¼(N+1)</b> and the upper at <b>¾(N+1)</b>; <b>SIQR = ½(Q3 − Q1)</b>. Like the range but ignoring the extremes, so more stable.</li>
+        <li><b>Percentile</b>: the point below which a given percent of scores fall. The 25th, 50th and 75th percentiles are the lower quartile, median and upper quartile.</li>
+      </ul></div>
+      <div class="tscroll"><table class="tbl">
+        <thead><tr><th></th><th>Non-resistant (moved by outliers)</th><th>Resistant, rank-based</th></tr></thead>
+        <tbody>
+          <tr><td><b>Average</b></td><td>Mean</td><td>Median</td></tr>
+          <tr><td><b>Spread</b></td><td>Standard deviation</td><td>Semi-interquartile range</td></tr>
+        </tbody>
+      </table></div>
+      <details class="saq"><summary>SAQ 3: SD of the 27 test scores</summary><div class="ans"><p>Standard deviation = <b>7.85</b>.</p></div></details>
+      <details class="saq"><summary>SAQ 4: Upper quartile &amp; SIQR (expanded set)</summary><div class="ans"><p>Upper quartile = <b>14.5</b>; SIQR = ½(14.5 − 4.5) = <b>5.0</b>.</p></div></details>
+
+      <h3 class="sec">1.8 Resistant vs non-resistant, in practice</h3>
+      <p class="lead">Add a few extreme low scores to a data set and watch what happens: the <b>mean and SD shift noticeably</b>, while the <b>median and SIQR barely move</b>. That is the whole point of "resistant" statistics, and it is why skewed data are usually summarised with the median and SIQR.</p>
+
+      <h3 class="sec">1.9 Graphs for one variable</h3>
+      <div class="abox"><ul>
+        <li><b>Line / dot plot</b>: one dot per score along an axis; good for seeing individual values and marking the mean and median as points.</li>
+        <li><b>Histogram</b>: bars whose heights (strictly, areas) show how many scores fall in each interval; the overall outline reveals the distribution's shape.</li>
+        <li><b>Stem-and-leaf</b>: splits each score into a stem (tens) and leaf (units), keeping the actual values while showing the shape, like a sideways histogram with the data ordered.</li>
+        <li><b>Box-and-whisker</b>: a box from Q1 to Q3 with the median marked inside; whiskers reach out to the extremes, and any outliers are plotted as separate points.</li>
+      </ul></div>
+      <div class="figbox"><div class="fl">Stem-and-leaf of the 27 scores</div><div class="stem">7* | 0 1
+6  | 6 8 9
+6* | 0 0 1 2 2 3 3
+5  | 6 6 7 8
+5* | 0 2 3 4 4
+4  | 6 7 8 9 9
+4* | 3</div>Stems are tens (split into 0–4 and 5–9); leaves are units. The top line reads as the scores 70 and 71.</div>
+
+      <h3 class="sec">1.10 Shapes of distribution</h3>
+      <div class="abox"><ul>
+        <li><b>Normal (bell)</b>: symmetrical, most scores in the middle, tailing off evenly. Many natural measures (e.g. height) are roughly normal.</li>
+        <li><b>Skewed</b>: a longer tail on one side. <b>Positive skew</b> clusters at the low end with a tail to the high end; <b>negative skew</b> is the reverse.</li>
+        <li><b>J-shaped</b>: values drop off very fast (e.g. number of workplace accidents per worker, mostly zero).</li>
+        <li><b>Bimodal</b>: two peaks (e.g. handedness), relatively rare.</li>
+      </ul></div>
+      <p class="lead"><b>Skewness</b> measures asymmetry and <b>kurtosis</b> measures peakedness; both are 0 in a perfect normal distribution. SPSS reports each value with its standard error; a standardised score (value ÷ its standard error) beyond about <b>±1.96</b> flags meaningful departure from normality.</p>
+
+      <h3 class="sec">1.11 Review</h3>
+      <div class="note"><span class="lab">In one breath</span>Pick the measurement scale that fits your variable; summarise the centre with the mean (or the median when there are outliers) and the spread with the SD (or the SIQR when there are outliers); then picture the data with a histogram, stem-and-leaf or box plot and judge its shape. The median and SIQR are resistant; the mean and SD are not.</div>
+    </div>
+
+    <!-- ===== CHAPTER 2 ===== -->
+    <div class="qchap">
+      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">2. Statistical Inference &amp; Hypothesis Testing</h2>
+      <p class="lead">How we move from the data in our sample to a confident statement about the wider population, using hypotheses, a significance level and a test statistic.</p>
+      <div class="note"><span class="lab">By the end you can</span>link the DV's measurement scale to the choice of test; explain the logic of inference; write null and alternative hypotheses; tell directional from non-directional; and define significance level, the region of rejection, and Type I and Type II errors.</div>
+
+      <h3 class="sec">2.1 The dependent variable</h3>
+      <p class="lead">The <b>DV</b> is the data you actually analyse, so its properties drive your choice of test. For any study you should know whether the DV is <b>nominal, ordinal, interval or ratio</b> (see Chapter 1): a count of people in categories behaves very differently from a reaction time in milliseconds, and the test must match. A good DV is also a sound <b>operational definition</b> of the behaviour you are studying.</p>
+
+      <h3 class="sec">2.2 The logic of statistical inference</h3>
+      <p class="lead">We collect data from a <b>sample</b> but want to draw a conclusion about the <b>population</b>. Because samples vary by chance, we cannot be certain, so we ask a probability question: <b>if there were really no effect in the population, how likely is a result as extreme as the one we got?</b> If that probability is very small, "no effect" becomes an implausible explanation, and we infer that a real effect is more likely.</p>
+
+      <h3 class="sec">2.3 Step 1: State the hypotheses</h3>
+      <div class="keyterms"><span>null (H0)</span><span>alternative (H1)</span><span>directional</span><span>non-directional</span></div>
+      <div class="abox"><ul>
+        <li><b>Null hypothesis (H0)</b>: there is no difference or no relationship in the population (any sample difference is just chance).</li>
+        <li><b>Alternative / research hypothesis (H1)</b>: there is a difference or relationship.</li>
+        <li><b>Directional (one-tailed)</b> predicts which way (e.g. the mindfulness group is <b>faster</b>); <b>non-directional (two-tailed)</b> predicts only that the groups <b>differ</b>.</li>
+      </ul></div>
+
+      <h3 class="sec">2.4 Step 2: Set the criterion (significance level)</h3>
+      <p class="lead">Before testing, you fix the <b>significance level (alpha)</b>, conventionally <b>.05</b>. This defines the <b>region of rejection</b>: the most extreme 5% of results you would expect if H0 were true. A two-tailed test splits that 5% across both ends of the distribution (2.5% each); a one-tailed test puts it all at the predicted end.</p>
+
+      <h3 class="sec">2.5 Step 3: Compute the test statistic</h3>
+      <p class="lead">Choose the test that fits your <b>design</b> (independent vs related groups), your <b>DV's scale</b>, and whether its <b>assumptions</b> hold. SPSS then returns a test statistic (such as <b>t</b>, <b>U</b>, <b>r</b> or <b>chi-square</b>) and its <b>p-value</b>, the probability of a result this extreme if H0 were true.</p>
+
+      <h3 class="sec">2.6 Step 4: Decide, and the two errors</h3>
+      <div class="abox"><ul>
+        <li>If <b>p ≤ alpha</b> (e.g. p ≤ .05), <b>reject H0</b>: the result is "statistically significant".</li>
+        <li>If <b>p &gt; alpha</b>, <b>retain H0</b>: not enough evidence of an effect (this never "proves" H0 true).</li>
+        <li><b>Type I error</b>: rejecting a true H0 (a false alarm); its probability is alpha.</li>
+        <li><b>Type II error</b>: retaining a false H0 (a miss); its probability is beta, and <b>power = 1 − beta</b> is the chance of catching a real effect.</li>
+      </ul></div>
+
+      <h3 class="sec">2.7 Review</h3>
+      <div class="note"><span class="lab">In one breath</span>State H0 and H1, set alpha (usually .05, one- or two-tailed), run the test that matches your design and data, read p, then reject or retain H0, remembering that a decision can be a Type I or Type II error.</div>
+      <details class="saq"><summary>Check yourself: write the hypotheses</summary><div class="ans"><p>A study compares reaction times of a mindfulness group and a control group.</p><p><b>H0:</b> there is no difference in mean reaction time between the mindfulness and control groups. <b>H1 (non-directional):</b> the two groups differ in mean reaction time. A directional H1 would instead predict, say, that the mindfulness group is faster.</p></div></details>
+    </div>
+
+    <!-- ===== CHAPTERS 3–9 (outlines; full notes being added) ===== -->
+    <div class="qchap">
+      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">3. Survey Research</h2>
+      <p class="lead">Covers: what a survey is; advantages and disadvantages of questionnaires; sample vs population; sampling techniques (non-probability and probability); sampling error; and how to evaluate a survey sample.</p>
+      <div class="note"><span class="lab">Being written</span>Full study notes for this chapter are coming. For now, read Loop Part 2, Section 3.</div>
+    </div>
+    <div class="qchap">
+      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">4. Correlation</h2>
+      <p class="lead">Covers: the language of correlation; scatterplots; correlation coefficients; hypothesis testing with correlations; choosing a test; Pearson's r and Spearman's rho, and running each in SPSS.</p>
+      <div class="note"><span class="lab">Being written</span>Full study notes for this chapter are coming. For now, read Loop Part 2, Section 4.</div>
+    </div>
+    <div class="qchap">
+      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">5. Analysis of Nominal Data: Chi-Square</h2>
+      <p class="lead">Covers: summarising nominal data; contingency tables; the logic of the chi-square test; its assumptions and conditions; running and interpreting it in SPSS; and calculating the effect size.</p>
+      <div class="note"><span class="lab">Being written</span>Full study notes for this chapter are coming. For now, read Loop Part 2, Section 5.</div>
+    </div>
+    <div class="qchap">
+      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">6. Comparing Independent Samples</h2>
+      <p class="lead">Covers: choosing between ordinal and interval tests; the independent t-test (logic, assumptions, running it in SPSS); and the Mann-Whitney U test (rationale, running it in SPSS). <b>This is the test behind Assessment 1 Tasks 1 &amp; 2</b>, the full click-by-click workflow is already written up in the <b>SPSS Guide</b> tab.</p>
+      <div class="note"><span class="lab">Being written</span>Full study notes for this chapter are coming. For now, use the <b>SPSS Guide</b> tab and Loop Part 2, Section 6.</div>
+    </div>
+    <div class="qchap">
+      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">7. Comparing Related Samples</h2>
+      <p class="lead">Covers: choosing the appropriate test; the paired-samples t-test (logic and SPSS); and the Wilcoxon signed-ranks test (and SPSS).</p>
+      <div class="note"><span class="lab">Being written</span>Full study notes for this chapter are coming. For now, read Loop Part 2, Section 7.</div>
+    </div>
+    <div class="qchap">
+      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">8. Experimental Design 1</h2>
+      <p class="lead">Covers: the general approach to experiments; the role of variables; designing the experiment; extraneous and confounding variables; validity; and threats to internal validity.</p>
+      <div class="note"><span class="lab">Being written</span>Full study notes for this chapter are coming. For now, read Loop Part 2, Section 8.</div>
+    </div>
+    <div class="qchap">
+      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">9. Experimental Design 2</h2>
+      <p class="lead">Covers: the basic experimental designs (independent-groups, repeated-measures, matched-pairs) and participant economy.</p>
+      <div class="note"><span class="lab">Being written</span>Full study notes for this chapter are coming. For now, read Loop Part 2, Section 9.</div>
+    </div>
+
+  </div>
+
+  <div class="bnav">
+    <button id="qbPrev" type="button">‹ Previous chapter</button>
+    <button id="qbNext" type="button">Next chapter ›</button>
+  </div>
+</section>
+
 </div><!-- /mpane-wrap 81 -->
 
 <footer class="foot wrap">
@@ -1702,7 +1941,7 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
 <script>
   const navs=[...document.querySelectorAll('.guide-nav-item')];
   const mods=[...document.querySelectorAll('.pn-mods button')];
-  const panes={1:p1,2:p2,3:p3,4:p4,5:p5,6:p6,7:p7,8:p8,9:p9,q1:q1,q2:q2,q3:q3,q4:q4,q5:q5,q6:q6,q7:q7};
+  const panes={1:p1,2:p2,3:p3,4:p4,5:p5,6:p6,7:p7,8:p8,9:p9,q1:q1,q2:q2,q3:q3,q4:q4,q5:q5,q6:q6,q7:q7,q8:q8};
   function sel(id){navs.forEach(x=>x.classList.toggle('active',x.dataset.t===id));
     Object.entries(panes).forEach(([k,el])=>el.classList.toggle('on',k===id));
     window.scrollTo({top:0,behavior:'smooth'});}
@@ -1726,6 +1965,28 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
       el.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&rel=0" title="Video explainer" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>';
     });
   });
+
+  // ---- quant methods book (PSY1081) chapter picker ----
+  (function(){
+    const chaps=[...document.querySelectorAll('#qbook .qchap')];
+    if(!chaps.length)return;
+    const chips=[...document.querySelectorAll('#qbChips .bchip')];
+    const prev=document.getElementById('qbPrev'), next=document.getElementById('qbNext');
+    let i=0;
+    function show(n){
+      i=Math.max(0,Math.min(chaps.length-1,n));
+      chaps.forEach((c,k)=>c.classList.toggle('on',k===i));
+      chips.forEach((c,k)=>c.classList.toggle('on',k===i));
+      if(prev)prev.disabled=(i===0);
+      if(next)next.disabled=(i===chaps.length-1);
+      const pane=document.getElementById('q8');
+      if(pane&&pane.classList.contains('on'))window.scrollTo({top:0,behavior:'smooth'});
+    }
+    chips.forEach((c,k)=>c.addEventListener('click',()=>show(k)));
+    if(prev)prev.addEventListener('click',()=>show(i-1));
+    if(next)next.addEventListener('click',()=>show(i+1));
+    show(0);
+  })();
 
   // ---- lecture-card deck (PSY1080 Key People) ----
   (function(){
