@@ -1887,38 +1887,232 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
     <!-- ===== CHAPTERS 3–9 (outlines; full notes being added) ===== -->
     <div class="qchap">
       <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">3. Survey Research</h2>
-      <p class="lead">Covers: what a survey is; advantages and disadvantages of questionnaires; sample vs population; sampling techniques (non-probability and probability); sampling error; and how to evaluate a survey sample.</p>
-      <div class="note"><span class="lab">Being written</span>Full study notes for this chapter are coming. For now, read Loop Part 2, Section 3.</div>
+      <p class="lead">Collecting self-report data from a sample to describe the attitudes or behaviour of a wider population, in a way that lets you generalise.</p>
+
+      <h3 class="sec">3.1 What is a survey?</h3>
+      <p class="lead">A survey gathers information by <b>asking people questions</b>, through interviews or (most often) a <b>questionnaire</b>. The aim is usually descriptive: to estimate how common an attitude, belief or behaviour is in a population, by studying a representative sample of it.</p>
+
+      <h3 class="sec">3.2 Questionnaires: strengths and weaknesses</h3>
+      <div class="tscroll"><table class="tbl">
+        <thead><tr><th>Strengths</th><th>Weaknesses</th></tr></thead>
+        <tbody>
+          <tr><td>Cheap and fast; can reach large samples</td><td>Response bias and <b>social-desirability</b> answering</td></tr>
+          <tr><td>Standardised, so answers are comparable</td><td>Low response rates can bias who replies</td></tr>
+          <tr><td>Can be anonymous, encouraging honesty</td><td>Questions can be misunderstood; no chance to probe</td></tr>
+          <tr><td>Easy to quantify and analyse</td><td>Often shallow; self-report may not match real behaviour</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3 class="sec">3.3 Sample and population</h3>
+      <div class="keyterms"><span>population</span><span>sample</span><span>representative</span><span>parameter vs statistic</span></div>
+      <p class="lead">The <b>population</b> is every case you care about (e.g. all DCU first-years); the <b>sample</b> is the subset you actually study. You want the sample to be <b>representative</b> so that what is true of it is likely true of the population. A number describing the population is a <b>parameter</b>; the matching number in your sample is a <b>statistic</b>.</p>
+
+      <h3 class="sec">3.4 to 3.6 Sampling techniques</h3>
+      <p class="lead">Two broad families, and the difference decides whether you can generalise with confidence:</p>
+      <div class="abox"><ul>
+        <li><b>Non-probability sampling</b> (no known chance of selection): <b>convenience</b> (whoever is to hand), <b>quota</b> (fill set numbers per group), <b>purposive</b> (hand-picked for a reason), <b>snowball</b> (participants recruit others). Cheap and practical, but prone to bias, and you cannot properly quantify sampling error.</li>
+        <li><b>Probability sampling</b> (every member has a known, non-zero chance): <b>simple random</b>, <b>systematic</b> (every nth case), <b>stratified</b> (random within subgroups to mirror the population), <b>cluster</b> (sample whole groups). More work, but it supports inference and representativeness.</li>
+      </ul></div>
+
+      <h3 class="sec">3.7 Sampling error</h3>
+      <p class="lead"><b>Sampling error</b> is the gap between a sample statistic and the true population parameter that arises purely because you studied a sample rather than everyone. It shrinks as the sample grows, and the <b>standard error</b> quantifies how much a statistic would vary from sample to sample. It is different from <b>bias</b>, a systematic error from a poor sampling method that a bigger sample will not fix.</p>
+
+      <h3 class="sec">3.8 Evaluating a survey sample</h3>
+      <p class="lead">Ask: probability or non-probability method? Is the sample big enough and representative? What was the response rate, and could non-responders differ from responders? Any one of these can undermine the conclusions.</p>
+
+      <h3 class="sec">3.9 Review</h3>
+      <div class="note"><span class="lab">In one breath</span>A survey asks a sample questions to describe a population. Probability sampling supports generalisation and lets you estimate sampling error; non-probability sampling is convenient but risks bias. Judge any survey on its method, size, representativeness and response rate.</div>
+      <details class="saq"><summary>Check yourself: which sampling method?</summary><div class="ans"><p>You survey the first 50 students who walk past the library door. What method is this, and what is the main risk?</p><p><b>Answer:</b> <b>convenience sampling</b> (non-probability). The main risk is <b>bias</b>: library-goers may differ systematically from the wider student body, so the results may not generalise.</p></div></details>
     </div>
     <div class="qchap">
       <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">4. Correlation</h2>
-      <p class="lead">Covers: the language of correlation; scatterplots; correlation coefficients; hypothesis testing with correlations; choosing a test; Pearson's r and Spearman's rho, and running each in SPSS.</p>
-      <div class="note"><span class="lab">Being written</span>Full study notes for this chapter are coming. For now, read Loop Part 2, Section 4.</div>
+      <p class="lead">Measuring how two variables move together: the direction and strength of the relationship, and whether it is bigger than chance.</p>
+
+      <h3 class="sec">4.1 The language of correlation</h3>
+      <div class="keyterms"><span>positive</span><span>negative</span><span>strength</span><span>no causation</span></div>
+      <p class="lead">A correlation describes a relationship between two variables. It has a <b>direction</b>, <b>positive</b> (both rise together) or <b>negative</b> (one rises as the other falls), and a <b>strength</b> (how tightly the points follow the trend). Crucially, <b>correlation is not causation</b>: a link between two variables can be due to a third variable, or to coincidence.</p>
+
+      <h3 class="sec">4.2 Scatterplots</h3>
+      <p class="lead">Always plot the data first. A <b>scatterplot</b> puts one variable on each axis and a point for every pair of scores. A cloud sloping up is a positive relationship, sloping down is negative, and a shapeless blob is little or none. The scatterplot also reveals <b>non-linear</b> patterns and outliers that a single number would hide.</p>
+
+      <h3 class="sec">4.3 Correlation coefficients</h3>
+      <p class="lead">A <b>correlation coefficient</b> summarises the relationship as one number from <b>-1 to +1</b>. The <b>sign</b> gives the direction; the <b>size</b> gives the strength: 0 means no linear relationship, and -1 or +1 means a perfect one. Squaring it (<b>r²</b>) gives the proportion of variance in one variable shared with the other.</p>
+
+      <h3 class="sec">4.4 Hypothesis testing with correlation</h3>
+      <p class="lead">The null hypothesis is that the correlation in the population is <b>zero</b>. SPSS tests whether your sample coefficient is large enough (given the sample size) to reject that, reporting the coefficient, its degrees of freedom (N - 2 for Pearson) and a p-value.</p>
+
+      <h3 class="sec">4.5 Choosing a test</h3>
+      <div class="tscroll"><table class="tbl">
+        <thead><tr><th>Use</th><th>When</th></tr></thead>
+        <tbody>
+          <tr><td><b>Pearson's r</b> (parametric)</td><td>Both variables interval/ratio, relationship roughly linear, no extreme outliers</td></tr>
+          <tr><td><b>Spearman's rho</b> (non-parametric)</td><td>Ordinal data, or interval data that are non-normal or have a monotonic (but not straight-line) relationship</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3 class="sec">4.6 to 4.8 Pearson's r in SPSS</h3>
+      <ol class="steps">
+        <li><div class="h">Analyze → Correlate → Bivariate</div><div class="d">Move both variables across; tick <b>Pearson</b>; choose one- or two-tailed to match your hypothesis; OK.</div></li>
+        <li><div class="h">Report</div><div class="d">The correlation r, df (N - 2), and Sig. (p). For example: r(48) = .42, p = .003. Quote r² as the effect size.</div></li>
+      </ol>
+
+      <h3 class="sec">4.9 to 4.10 Spearman's rho in SPSS</h3>
+      <p class="lead">Same path (<b>Analyze → Correlate → Bivariate</b>), but tick <b>Spearman</b> instead. It works on the ranks of the scores rather than the raw values, so it is the one to use when Pearson's assumptions are not met. Report rho and p.</p>
+
+      <h3 class="sec">4.11 Review</h3>
+      <div class="note"><span class="lab">In one breath</span>Plot the scatter, pick Pearson (parametric) or Spearman (non-parametric), read the coefficient (-1 to +1) for direction and strength and its p-value for significance, report r² as effect size, and never read causation into a correlation.</div>
     </div>
     <div class="qchap">
       <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">5. Analysis of Nominal Data: Chi-Square</h2>
-      <p class="lead">Covers: summarising nominal data; contingency tables; the logic of the chi-square test; its assumptions and conditions; running and interpreting it in SPSS; and calculating the effect size.</p>
-      <div class="note"><span class="lab">Being written</span>Full study notes for this chapter are coming. For now, read Loop Part 2, Section 5.</div>
+      <p class="lead">Testing whether two categorical variables are associated, by comparing the frequencies you observed with the frequencies you would expect if there were no association.</p>
+
+      <h3 class="sec">5.1 Summarising nominal data</h3>
+      <p class="lead">Nominal data are <b>counts</b> of cases in categories, so you summarise them with <b>frequencies</b> and percentages, and display them with <b>bar charts</b> or <b>pie charts</b>. There is no mean or median to report, because the categories have no numerical order.</p>
+
+      <h3 class="sec">5.2 Contingency table</h3>
+      <p class="lead">A <b>contingency table</b> (cross-tabulation) sets one categorical variable across the rows and another down the columns, with the <b>observed frequency</b> in each cell. For example, gender (rows) by preferred study method (columns). This table is the input for the chi-square test.</p>
+
+      <h3 class="sec">5.3 The logic of chi-square</h3>
+      <p class="lead">For each cell, work out the <b>expected frequency</b>: how many cases would fall there if the two variables were completely unrelated. Chi-square sums the squared differences between <b>observed and expected</b> counts (scaled by the expected count). The bigger the gap between what you saw and what independence predicts, the larger chi-square, and the less plausible "no association" becomes.</p>
+
+      <h3 class="sec">5.4 Assumptions and conditions</h3>
+      <div class="abox"><ul>
+        <li>Data are <b>frequencies</b> (counts), not means or percentages.</li>
+        <li>Each case appears in <b>one cell only</b> (independence of observations); categories are mutually exclusive.</li>
+        <li>Expected frequencies are large enough: a common rule is <b>all expected counts ≥ 5</b> (for a 2×2 table especially).</li>
+      </ul></div>
+
+      <h3 class="sec">5.5 to 5.6 Chi-square in SPSS</h3>
+      <ol class="steps">
+        <li><div class="h">Analyze → Descriptive Statistics → Crosstabs</div><div class="d">Put one variable in Rows, the other in Columns.</div></li>
+        <li><div class="h">Statistics → tick Chi-square → Continue → OK</div><div class="d">(Cells → tick Expected to check the ≥ 5 condition.)</div></li>
+        <li><div class="h">Read the output</div><div class="d">Use the <b>Pearson Chi-Square</b> row: the value, <b>df = (rows - 1)(columns - 1)</b>, and <b>Asymp. Sig.</b> (p). If p ≤ .05, the two variables are associated.</div></li>
+      </ol>
+
+      <h3 class="sec">5.7 Effect size</h3>
+      <p class="lead">Significance alone does not say how strong the association is. Report <b>phi</b> (for a 2×2 table) or <b>Cramer's V</b> (for larger tables), both available in the Crosstabs Statistics box. They run from 0 (no association) to 1 (perfect).</p>
+
+      <h3 class="sec">5.8 Review</h3>
+      <div class="note"><span class="lab">In one breath</span>Chi-square compares observed against expected cell counts in a contingency table to test whether two categorical variables are associated. Check the expected-count condition, report chi-square with its df and p, and give phi or Cramer's V as the effect size.</div>
     </div>
     <div class="qchap">
       <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">6. Comparing Independent Samples</h2>
-      <p class="lead">Covers: choosing between ordinal and interval tests; the independent t-test (logic, assumptions, running it in SPSS); and the Mann-Whitney U test (rationale, running it in SPSS). <b>This is the test behind Assessment 1 Tasks 1 &amp; 2</b>, the full click-by-click workflow is already written up in the <b>SPSS Guide</b> tab.</p>
-      <div class="note"><span class="lab">Being written</span>Full study notes for this chapter are coming. For now, use the <b>SPSS Guide</b> tab and Loop Part 2, Section 6.</div>
+      <p class="lead">Testing whether two separate groups differ on one continuous measure. <b>This is the test behind Assessment 1 Tasks 1 &amp; 2</b> (mindfulness vs control; under-30 vs over-40). The click-by-click SPSS steps are in the <b>SPSS Guide</b> tab; this is the underlying theory.</p>
+
+      <h3 class="sec">6.1 Choosing the test: ordinal vs interval</h3>
+      <p class="lead">Both tests compare two <b>independent</b> groups (different people in each). Which one you use depends on the data and its assumptions:</p>
+      <div class="tscroll"><table class="tbl">
+        <thead><tr><th>Test</th><th>Use when</th><th>Compares</th></tr></thead>
+        <tbody>
+          <tr><td><b>Independent t-test</b> (parametric)</td><td>Interval/ratio DV, roughly normal in each group, similar variances</td><td>Means</td></tr>
+          <tr><td><b>Mann-Whitney U</b> (non-parametric)</td><td>Ordinal DV, or interval data that are non-normal or have outliers</td><td>Ranks (report medians)</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3 class="sec">6.2 to 6.3 The independent t-test and its logic</h3>
+      <p class="lead">The t-test asks whether the <b>difference between the two group means</b> is large relative to the <b>variability</b> in the data. In words, <b>t = (difference between means) ÷ (standard error of that difference)</b>. A big mean difference and small, consistent spread give a large t, and a small p. The spread matters: the same gap in means is more convincing when scores are tightly clustered.</p>
+
+      <h3 class="sec">6.4 Carrying it out: assumptions</h3>
+      <div class="abox"><ul>
+        <li><b>Continuous DV</b>, measured on an interval or ratio scale.</li>
+        <li><b>Independence</b>: the two groups are different people, and observations do not influence each other.</li>
+        <li><b>Normality</b>: the DV is roughly normal in each group (check with <b>Shapiro-Wilk</b> when n &lt; 50, and boxplots for outliers).</li>
+        <li><b>Homogeneity of variance</b>: the groups have similar spread (checked by <b>Levene's test</b>, which appears in the t-test output itself).</li>
+      </ul></div>
+
+      <h3 class="sec">6.5 Independent t-test in SPSS</h3>
+      <ol class="steps">
+        <li><div class="h">Analyze → Compare Means → Independent-Samples T Test</div><div class="d">Score into Test Variable(s); grouping variable into Grouping Variable, then Define Groups (1 and 2).</div></li>
+        <li><div class="h">Use Levene's test to pick the row</div><div class="d">If Levene's Sig. &gt; .05, read "Equal variances assumed"; if ≤ .05, read "Equal variances not assumed".</div></li>
+        <li><div class="h">Report</div><div class="d"><b>t</b>, <b>df</b>, <b>Sig. (2-tailed)</b> = p, the two means and SDs, and <b>Cohen's d</b> as the effect size.</div></li>
+      </ol>
+
+      <h3 class="sec">6.6 to 6.7 Mann-Whitney U and its rationale</h3>
+      <p class="lead">When the t-test's assumptions fail, use <b>Mann-Whitney U</b>. It pools all the scores from both groups, <b>ranks them</b>, then checks whether one group's ranks cluster higher than the other's. Because it uses ranks, not raw values, it is not thrown off by non-normality or outliers.</p>
+
+      <h3 class="sec">6.8 to 6.9 Mann-Whitney U in SPSS</h3>
+      <ol class="steps">
+        <li><div class="h">Analyze → Nonparametric Tests → Legacy Dialogs → 2 Independent Samples</div><div class="d">Score into Test Variable List; grouping variable with Define Groups (1, 2); Test Type = Mann-Whitney U.</div></li>
+        <li><div class="h">Report</div><div class="d"><b>U</b>, <b>z</b> and the <b>Asymp. Sig.</b> (p); quote <b>medians</b> (not means); effect size <b>r = z ÷ √N</b>.</div></li>
+      </ol>
+
+      <h3 class="sec">6.10 Review</h3>
+      <div class="note"><span class="lab">In one breath</span>Two independent groups, one continuous DV: check the assumptions, then run an independent t-test (compare means, report t, df, p, d) if they hold, or Mann-Whitney U (compare ranks, report U, z, p, medians, r) if normality fails. For the A1 tasks, follow the step-by-step in the SPSS Guide tab and put all output in the appendices.</div>
     </div>
     <div class="qchap">
       <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">7. Comparing Related Samples</h2>
-      <p class="lead">Covers: choosing the appropriate test; the paired-samples t-test (logic and SPSS); and the Wilcoxon signed-ranks test (and SPSS).</p>
-      <div class="note"><span class="lab">Being written</span>Full study notes for this chapter are coming. For now, read Loop Part 2, Section 7.</div>
+      <p class="lead">Testing a difference when the two sets of scores come from the <b>same people</b> (measured twice) or from matched pairs. The key move is to analyse the <b>differences</b> within each pair.</p>
+
+      <h3 class="sec">7.1 to 7.2 Related samples, and choosing a test</h3>
+      <p class="lead">A <b>related</b> (repeated-measures or matched-pairs) design has a natural link between the two scores: the same participant before and after, or two people matched on key characteristics. Analysing the pair-by-pair differences removes a lot of the noise from individual differences, which makes these designs sensitive. Choose the test the same way as for independent samples:</p>
+      <div class="tscroll"><table class="tbl">
+        <thead><tr><th>Test</th><th>Use when</th></tr></thead>
+        <tbody>
+          <tr><td><b>Paired-samples t-test</b> (parametric)</td><td>Interval/ratio DV; the differences are roughly normal</td></tr>
+          <tr><td><b>Wilcoxon signed-ranks</b> (non-parametric)</td><td>Ordinal DV, or differences that are non-normal</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3 class="sec">7.3 to 7.4 The paired t-test and its logic</h3>
+      <p class="lead">Work out each pair's difference, then test whether the <b>mean of those differences</b> is far enough from zero to be more than chance: <b>t = (mean difference) ÷ (standard error of the differences)</b>. The null hypothesis is that the mean difference in the population is zero.</p>
+
+      <h3 class="sec">7.5 Paired t-test in SPSS</h3>
+      <ol class="steps">
+        <li><div class="h">Analyze → Compare Means → Paired-Samples T Test</div><div class="d">Each person's two scores sit in two columns; select the pair.</div></li>
+        <li><div class="h">Report</div><div class="d"><b>t</b>, <b>df</b> (pairs - 1), <b>Sig. (2-tailed)</b> = p, the mean difference and its 95% CI, and Cohen's d.</div></li>
+      </ol>
+
+      <h3 class="sec">7.6 to 7.7 Wilcoxon signed-ranks in SPSS</h3>
+      <p class="lead">The non-parametric alternative. It ranks the <b>sizes of the differences</b> (ignoring pairs with no change) and checks whether the positive and negative differences balance out. In SPSS: <b>Analyze → Nonparametric Tests → Legacy Dialogs → 2 Related Samples → Wilcoxon</b>. Report the test statistic, z and p, with medians.</p>
+
+      <h3 class="sec">7.8 Review</h3>
+      <div class="note"><span class="lab">In one breath</span>Related samples link the two scores (same or matched people), so you analyse the differences. Use a paired t-test when the differences are roughly normal, or Wilcoxon when they are not.</div>
     </div>
     <div class="qchap">
       <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">8. Experimental Design 1</h2>
-      <p class="lead">Covers: the general approach to experiments; the role of variables; designing the experiment; extraneous and confounding variables; validity; and threats to internal validity.</p>
-      <div class="note"><span class="lab">Being written</span>Full study notes for this chapter are coming. For now, read Loop Part 2, Section 8.</div>
+      <p class="lead">What makes a study a true experiment, and how design choices let you argue that the IV, rather than something else, caused the change in the DV.</p>
+
+      <h3 class="sec">8.1 The general approach</h3>
+      <p class="lead">In an experiment you <b>manipulate</b> an independent variable, <b>measure</b> a dependent variable, and <b>control everything else</b>, so that any difference in the DV can be attributed to the IV. This control is what separates an experiment from a correlational study and lets you make <b>causal</b> claims.</p>
+
+      <h3 class="sec">8.2 to 8.3 The role of variables, and designing the study</h3>
+      <div class="keyterms"><span>IV</span><span>DV</span><span>levels</span><span>operationalise</span><span>control</span></div>
+      <p class="lead">The <b>IV</b> is what you manipulate (with two or more <b>levels</b>, e.g. mindfulness vs control); the <b>DV</b> is what you measure. Both must be clearly <b>operationalised</b>. Good design means deciding the levels, how participants meet them, and how everything else is held constant or randomised.</p>
+
+      <h3 class="sec">8.4 to 8.5 Extraneous and confounding variables</h3>
+      <div class="abox"><ul>
+        <li>An <b>extraneous variable</b> is anything other than the IV that could affect the DV. It adds noise. Control it by <b>randomisation</b>, <b>standardising</b> the procedure, or <b>counterbalancing</b>.</li>
+        <li>A <b>confounding variable</b> is the dangerous kind: an extraneous variable that <b>changes systematically with the IV</b>, so you cannot tell whether the IV or the confound caused the effect. Confounds destroy a causal conclusion.</li>
+      </ul></div>
+
+      <h3 class="sec">8.6 Validity</h3>
+      <p class="lead"><b>Internal validity</b>: can you be confident the IV (and not something else) caused the change in the DV? <b>External validity</b>: do the results generalise to other people, settings and times? Tight control raises internal validity but can lower external validity (an artificial lab task).</p>
+
+      <h3 class="sec">8.7 Threats to internal validity</h3>
+      <p class="lead">Common threats to watch for: <b>history</b> (an outside event during the study), <b>maturation</b> (participants naturally change over time), <b>testing</b> (the first test affects the second), <b>instrumentation</b> (the measure drifts), <b>regression to the mean</b> (extreme scorers drift back toward average), <b>selection</b> (groups differ from the start), and <b>attrition</b> (who drops out is not random).</p>
+
+      <h3 class="sec">8.8 Review</h3>
+      <div class="note"><span class="lab">In one breath</span>An experiment manipulates an IV, measures a DV and controls the rest so the IV can be claimed as the cause. Control extraneous variables, eliminate confounds, protect internal validity against the standard threats, and remember the trade-off with external validity.</div>
     </div>
     <div class="qchap">
       <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">9. Experimental Design 2</h2>
-      <p class="lead">Covers: the basic experimental designs (independent-groups, repeated-measures, matched-pairs) and participant economy.</p>
-      <div class="note"><span class="lab">Being written</span>Full study notes for this chapter are coming. For now, read Loop Part 2, Section 9.</div>
+      <p class="lead">The main ways to assign participants to the conditions of an experiment, and the trade-offs between them.</p>
+
+      <h3 class="sec">9.1 The basic designs</h3>
+      <div class="tscroll"><table class="tbl">
+        <thead><tr><th>Design</th><th>How it works</th><th>Strength</th><th>Watch for</th></tr></thead>
+        <tbody>
+          <tr><td><b>Independent groups</b> (between-subjects)</td><td>Different participants in each condition</td><td>No order effects; quicker per person</td><td>Individual differences between groups (reduce by random allocation)</td></tr>
+          <tr><td><b>Repeated measures</b> (within-subjects)</td><td>The same participants do every condition</td><td>Controls individual differences; needs fewer people</td><td><b>Order effects</b> (practice, fatigue); counterbalance the order</td></tr>
+          <tr><td><b>Matched pairs</b></td><td>Different participants, paired on key variables</td><td>Reduces individual differences without order effects</td><td>Hard and time-consuming to match well</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3 class="sec">9.2 Participant economy</h3>
+      <p class="lead"><b>Participant economy</b> is about getting the most information from the fewest people. A <b>repeated-measures</b> design is the most economical, because each person serves as their own control and provides data in every condition. The price is <b>order effects</b>, which you manage by <b>counterbalancing</b> (varying the order across participants so practice and fatigue cancel out).</p>
+
+      <h3 class="sec">9.3 Review</h3>
+      <div class="note"><span class="lab">In one breath</span>Independent-groups designs avoid order effects but carry individual differences; repeated-measures designs control individual differences and are economical but introduce order effects (fix by counterbalancing); matched pairs sit in between. The A1 tasks both use an <b>independent-groups</b> design.</div>
     </div>
 
   </div>
