@@ -336,6 +336,16 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
 .pv-verdict.fail .pv-vh{color:var(--ink)}
 .pv-vb{font-size:13.5px;line-height:1.55;color:#236b3b}
 .pv-verdict.fail .pv-vb{color:var(--muted)}
+.pv-ends{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin:5px 2px 0;font-weight:600}
+.pv-live{font-size:13px;margin:9px 0 0;padding:9px 13px;border-radius:var(--r-sm);background:var(--accent-light);color:var(--accent-dark);line-height:1.45;font-weight:600}
+.pv-gcap{font-size:13px;color:var(--ink);margin:16px 0 8px;line-height:1.5}
+.pv-gcap b{color:var(--accent-dark)}
+.pv-grid{display:grid;grid-template-columns:repeat(20,1fr);gap:3px;margin:0}
+.pv-cell{aspect-ratio:1;border-radius:2px;background:#eceae4}
+.pv-cell.on{background:#2f9e63}
+.pv-grid.fail .pv-cell.on{background:#9db4d6}
+.pv-compare{font-size:13.5px;margin:15px 0 0;padding:12px 15px;border-radius:var(--r-sm);background:var(--bg);border:1px solid var(--border);line-height:1.5}
+.pv-compare b{color:var(--ink)}
 .viz{border:1px solid var(--border);border-radius:var(--r-sm);background:var(--card);padding:16px 18px;margin:16px 0}
 .viz-cap{font-size:10px;letter-spacing:.09em;text-transform:uppercase;font-weight:800;color:var(--accent-dark);margin:0 0 10px}
 .viz-svg{width:100%;max-width:480px;height:auto;display:block;margin:0 auto}
@@ -2540,17 +2550,25 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
       <p class="lead"><b>Why the sample must be representative.</b> All of this only works if the sample fairly stands in for the population. <b>Random sampling</b> (everyone has a known, non-zero chance of being picked) is what keeps hidden bias out. <b>Sampling error</b> is the gap between your sample's number and the true population number that arises simply because you studied a sample, it is unavoidable, not a mistake, and it shrinks as the sample grows. <b>Bias</b> is a different and worse problem: a lopsided method (for example, only surveying people leaving the library). A bigger sample does <b>not</b> fix bias, it just makes you more confident in the wrong answer. As the lecturers put it, a large biased sample is a confidently wrong one.</p>
 
       <h3 class="sec">See it: p-values and the .05 line</h3>
-      <p class="lead">Pick an everyday example, then drag the slider. Left of the .05 line a result is too rare to be chance, so you <b>reject the null</b>; right of it the result is ordinary, so you cannot. The one rule to take away: <b>small p means reject.</b></p>
+      <p class="lead">Pick an everyday example, then drag the slider. The slider is your <b>p value</b>: how often a result this big would happen <b>by pure luck in a world where nothing is really going on</b> (the null). Watch the grid, the bar and the verdict all update together. The one rule to take away: <b>small p means reject.</b></p>
       <div class="pv">
         <div class="pv-pick" id="pvPick"></div>
         <div class="pv-story" id="pvStory"></div>
+
+        <div class="pv-slide"><label>Drag: how rare is your result?</label><input type="range" min="1" max="100" value="1" step="1" id="pvP" aria-label="p value as a percentage"><span class="pv-pout" id="pvOut">.01</span></div>
+        <div class="pv-ends"><span>&larr; rarer result</span><span>more ordinary result &rarr;</span></div>
+        <p class="pv-live" id="pvLive"></p>
+
+        <div class="pv-gcap" id="pvGcap"></div>
+        <div class="pv-grid" id="pvGrid"></div>
+
         <div class="pv-bar">
           <div class="rj"></div><div class="ln"></div>
-          <div class="l5">.05 line</div><div class="zr">reject</div><div class="zf">fail to reject</div>
+          <div class="l5">.05 line</div><div class="zr">reject zone</div><div class="zf">keep (fail to reject)</div>
           <div class="pv-mk" id="pvMk"></div>
         </div>
-        <div class="pv-slide"><label>p =</label><input type="range" min="1" max="100" value="1" step="1" id="pvP" aria-label="p value in percent"><span class="pv-pout" id="pvOut">.01</span></div>
-        <p class="pv-hint">p = how often a result this big would happen if the null (no effect) were true.</p>
+
+        <div class="pv-compare" id="pvCompare"></div>
         <div class="pv-verdict" id="pvVerdict"><div class="pv-vh" id="pvVh"></div><div class="pv-vb" id="pvVb"></div></div>
       </div>
 
@@ -2837,7 +2855,8 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
     var pick=document.getElementById('pvPick');
     if(!pick)return;
     var story=document.getElementById('pvStory'), P=document.getElementById('pvP'), out=document.getElementById('pvOut'),
-        mk=document.getElementById('pvMk'), vd=document.getElementById('pvVerdict'), vh=document.getElementById('pvVh'), vb=document.getElementById('pvVb');
+        mk=document.getElementById('pvMk'), vd=document.getElementById('pvVerdict'), vh=document.getElementById('pvVh'), vb=document.getElementById('pvVb'),
+        live=document.getElementById('pvLive'), gcap=document.getElementById('pvGcap'), grid=document.getElementById('pvGrid'), comp=document.getElementById('pvCompare');
     var scn=[
       {em:'🪙',name:'Fair coin',h0:'The coin is fair, 50/50.',result:'Your friend flips it 10 times and gets <b>10 heads in a row</b>.',p:1,effect:'the coin is rigged'},
       {em:'⚽',name:'Penalty taker',h0:'This striker is no better than an average player at penalties.',result:'He scores <b>19 of 20</b> against top keepers.',p:1,effect:'this striker really is better than average at penalties'},
@@ -2847,6 +2866,8 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
     ];
     var cur=scn[0];
     function fmt(v){return (v/100).toFixed(2).replace(/^0/,'');}
+    var cells=[];
+    for(var k=0;k<100;k++){var c=document.createElement('div');c.className='pv-cell';grid.appendChild(c);cells.push(c);}
     scn.forEach(function(s,i){
       var b=document.createElement('button');
       b.type='button'; b.className='pv-scn'+(i===0?' on':''); b.textContent=s.em+' '+s.name;
@@ -2857,8 +2878,15 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
     function render(){
       var v=+P.value, pv=v/100, rej=pv<0.05;
       out.textContent=fmt(v); mk.style.left=v+'%';
-      if(rej){vd.className='pv-verdict';vh.textContent='✓ Reject the null';vb.textContent='A result this extreme (p = '+fmt(v)+', about '+v+' in 100) would be rare if the null were true, so the "nothing is going on" story looks wrong. Conclude that '+cur.effect+'.';mk.style.background='#2f9e63';}
-      else{vd.className='pv-verdict fail';vh.textContent='– Fail to reject the null';vb.textContent='A result like this (p = '+fmt(v)+', about '+v+' in 100) happens easily by chance, so you cannot rule out luck. You keep the null and cannot conclude that '+cur.effect+'.';mk.style.background='var(--ink)';}
+      grid.className='pv-grid'+(rej?'':' fail');
+      for(var i=0;i<100;i++){cells[i].classList.toggle('on',i<v);}
+      gcap.innerHTML='If the null were true, a result this big would happen about <b>'+v+' in 100</b> tries by luck alone (the coloured squares). The other '+(100-v)+' would show a smaller result.';
+      live.textContent = rej
+        ? 'You are in the reject zone. A result this rare is hard to pass off as "just chance", so the no-effect story looks wrong.'
+        : 'You are in the keep zone. A result this common turns up easily by chance, so you cannot rule out luck.';
+      comp.innerHTML='Your result: <b>p = '+fmt(v)+'</b> ('+v+' in 100). The cut-off: <b>.05</b> (5 in 100). '+(rej?'Your p is <b>below</b> the line, so you reject the null.':'Your p is <b>at or above</b> the line, so you cannot reject the null.');
+      if(rej){vd.className='pv-verdict';vh.textContent='✓ Reject the null';vb.textContent='Because a result this extreme would be rare if the null were true, the "nothing is going on" story looks wrong. Conclude that '+cur.effect+'.';mk.style.background='#2f9e63';}
+      else{vd.className='pv-verdict fail';vh.textContent='– Fail to reject the null';vb.textContent='Because a result like this happens easily by chance, you cannot rule out luck. You keep the null and cannot conclude that '+cur.effect+'.';mk.style.background='var(--ink)';}
     }
     P.addEventListener('input',render);
     drawStory(); render();
