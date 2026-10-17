@@ -407,6 +407,41 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
 .wt-sec p{margin:0;font-size:13.5px;color:var(--ink);line-height:1.5}
 .wt-again{margin-top:16px;border:1px solid var(--border);background:var(--card);border-radius:9px;padding:9px 15px;font-family:inherit;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer}
 .wt-again:hover{border-color:var(--accent);color:var(--accent)}
+/* mind map */
+.mmwrap{border:1px solid var(--border);border-radius:var(--r);background:var(--card);padding:6px 6px 10px;overflow-x:auto}
+.mmwrap svg{display:block}
+.mm-node{cursor:pointer}
+.mm-node:hover rect{stroke:var(--accent)}
+.mm-det{margin-top:12px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--accent-light);padding:14px 17px;min-height:44px}
+.mm-det .t{font-size:15px;font-weight:800;color:var(--ink);margin:0 0 4px}
+.mm-det .d{font-size:13.5px;color:var(--ink);line-height:1.55;margin:0}
+.mm-det .hint{font-size:13px;color:var(--muted);margin:0}
+/* glossary + flashcards */
+.gl-tabs{display:flex;gap:7px;margin:0 0 14px}
+.gl-tab{border:1px solid var(--border);background:var(--card);border-radius:100px;padding:7px 15px;font-family:inherit;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer}
+.gl-tab.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.gl-search{width:100%;box-sizing:border-box;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--card);padding:11px 14px;font-family:inherit;font-size:14px;color:var(--ink);margin:0 0 10px}
+.gl-search:focus{outline:0;border-color:var(--accent)}
+.gl-count{font-size:12px;color:var(--muted);margin:0 0 10px}
+.gl-cat{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
+.gl-cb{border:1px solid var(--border);background:var(--card);border-radius:100px;padding:5px 12px;font-family:inherit;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer}
+.gl-cb.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.gl-item{border:1px solid var(--border);border-radius:var(--r-sm);background:var(--card);padding:12px 15px;margin:0 0 7px}
+.gl-t{font-size:14.5px;font-weight:700;color:var(--ink)}
+.gl-tag{font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:800;color:var(--accent-dark);background:var(--accent-light);border-radius:100px;padding:2px 8px;margin-left:8px;vertical-align:2px}
+.gl-d{font-size:13.5px;color:var(--ink);line-height:1.55;margin:4px 0 0}
+.gl-ex{font-size:12.5px;color:var(--muted);line-height:1.5;margin:5px 0 0}
+.fc-stage{border:1px solid var(--border);border-radius:var(--r);background:var(--card);padding:34px 26px;min-height:190px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;cursor:pointer}
+.fc-stage:hover{border-color:var(--accent)}
+.fc-side{font-size:10px;letter-spacing:.09em;text-transform:uppercase;font-weight:800;color:var(--muted);margin:0 0 9px}
+.fc-term{font-size:24px;font-weight:800;color:var(--ink);line-height:1.25;letter-spacing:-.01em;margin:0}
+.fc-def{font-size:15px;color:var(--ink);line-height:1.55;margin:0;max-width:560px}
+.fc-tap{font-size:12px;color:var(--muted);margin:14px 0 0}
+.fc-bar{display:flex;align-items:center;gap:9px;margin-top:12px;flex-wrap:wrap}
+.fc-btn{border:1px solid var(--border);background:var(--card);border-radius:9px;padding:9px 15px;font-family:inherit;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer}
+.fc-btn:hover{border-color:var(--accent);color:var(--accent)}
+.fc-btn.pri{background:var(--accent);border-color:var(--accent);color:#fff}
+.fc-pos{font-size:12.5px;color:var(--muted);margin-left:auto}
 .bchip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
 .qchap{display:none}
 .qchap.on{display:block;animation:fade .25s ease}
@@ -468,6 +503,8 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
         <button class="guide-nav-item" data-t="7"><span class="guide-nav-dot"></span><span class="label">Key People</span></button>
         <button class="guide-nav-item" data-t="8"><span class="guide-nav-dot"></span><span class="label">Founders &amp; Schools</span></button>
         <button class="guide-nav-item" data-t="9"><span class="guide-nav-dot"></span><span class="label">Comparison Tables</span></button>
+        <button class="guide-nav-item" data-t="11"><span class="guide-nav-dot"></span><span class="label">Mind Map</span></button>
+        <button class="guide-nav-item" data-t="12"><span class="guide-nav-dot"></span><span class="label">Glossary &amp; Flashcards</span></button>
       </nav>
     </div>
     <div class="msb" data-m="81" hidden>
@@ -487,6 +524,8 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
         <button class="guide-nav-item" data-t="q12"><span class="guide-nav-dot"></span><span class="label">Which Test?</span></button>
         <button class="guide-nav-item" data-t="q8"><span class="guide-nav-dot"></span><span class="label">Quant Methods Book</span></button>
         <button class="guide-nav-item" data-t="q9"><span class="guide-nav-dot"></span><span class="label">Classes</span><span class="trail"><span class="nav-k due">C5</span></span></button>
+        <button class="guide-nav-item" data-t="q13"><span class="guide-nav-dot"></span><span class="label">Mind Map</span></button>
+        <button class="guide-nav-item" data-t="q14"><span class="guide-nav-dot"></span><span class="label">Glossary &amp; Flashcards</span></button>
       </nav>
     </div>
   </aside>
@@ -1402,6 +1441,43 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
     <p>Every assignment across both modules, sorted by what is due next, with the days remaining counted from today. Anything in red is within three weeks. Always confirm dates against Loop, as they can change.</p>
   </div>
   <div class="ddash"></div>
+</section>
+
+<!-- ============ TAB 11 : MIND MAP (PSY1080) ============ -->
+<section class="pane wrap" id="p11">
+  <div class="dhead">
+    <div class="kicker">The whole module on one page</div>
+    <h2>Mind Map</h2>
+    <div class="pills"><span class="pill on">click any box</span><span class="pill">PSY1080</span></div>
+  </div>
+  <div class="intro-card">
+    <div class="lab">How to use this</div>
+    <ul>
+      <li><b>Read it left to right.</b> The module sits on the left, its six big areas branch off it, and the detail hangs off each of those.</li>
+      <li><b>Click any box.</b> A short explanation of that piece, and why it matters for your assignment, appears underneath the map.</li>
+      <li><b>Use it as a checklist.</b> If you click a box and cannot say anything about it yourself, that is the bit to go and revise.</li>
+    </ul>
+  </div>
+  <div class="mmwrap" data-mm="80"></div>
+  <div class="mm-det" data-mmdet="80"><p class="hint">Click a box in the map to see what it covers.</p></div>
+</section>
+
+<!-- ============ TAB 12 : GLOSSARY (PSY1080) ============ -->
+<section class="pane wrap" id="p12">
+  <div class="dhead">
+    <div class="kicker">Every term you need, defined plainly</div>
+    <h2>Glossary &amp; Flashcards</h2>
+    <div class="pills"><span class="pill on">search or test yourself</span><span class="pill">PSY1080</span></div>
+  </div>
+  <div class="intro-card">
+    <div class="lab">How to use this</div>
+    <ul>
+      <li><b>Glossary tab.</b> Type in the search box to find a term fast, or filter by topic with the grey buttons.</li>
+      <li><b>Flashcards tab.</b> You get the term, you say the definition out loud, then you click the card to check. Shuffle before each round.</li>
+      <li><b>Use the terms in the essay.</b> Markers reward correct technical language, so lift these exact words into your writing.</li>
+    </ul>
+  </div>
+  <div class="gloss" data-gl="80"></div>
 </section>
 
 </div><!-- /mpane-wrap 80 -->
@@ -3029,6 +3105,43 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
   <div id="whichTest"></div>
 </section>
 
+<!-- ======== PSY1081 q13 : MIND MAP ======== -->
+<section class="pane wrap" id="q13">
+  <div class="dhead">
+    <div class="kicker">The whole module on one page</div>
+    <h2>Mind Map</h2>
+    <div class="pills"><span class="pill on">click any box</span><span class="pill">PSY1081</span></div>
+  </div>
+  <div class="intro-card">
+    <div class="lab">How to use this</div>
+    <ul>
+      <li><b>Read it left to right.</b> The module sits on the left, its main areas branch off it, and the detail hangs off each of those.</li>
+      <li><b>Click any box.</b> A plain explanation of that piece, and where it comes up in the assignments, appears underneath the map.</li>
+      <li><b>Three parts, one picture.</b> Part 1 (method and ethics), Part 2 (quantitative and stats) and Part 3 (qualitative) are all on the same map, so you can see how they connect.</li>
+    </ul>
+  </div>
+  <div class="mmwrap" data-mm="81"></div>
+  <div class="mm-det" data-mmdet="81"><p class="hint">Click a box in the map to see what it covers.</p></div>
+</section>
+
+<!-- ======== PSY1081 q14 : GLOSSARY ======== -->
+<section class="pane wrap" id="q14">
+  <div class="dhead">
+    <div class="kicker">Every term you need, defined plainly</div>
+    <h2>Glossary &amp; Flashcards</h2>
+    <div class="pills"><span class="pill on">search or test yourself</span><span class="pill">PSY1081</span></div>
+  </div>
+  <div class="intro-card">
+    <div class="lab">How to use this</div>
+    <ul>
+      <li><b>Glossary tab.</b> Type in the search box to find a term fast, or filter by topic with the grey buttons.</li>
+      <li><b>Flashcards tab.</b> You get the term, you say the definition out loud, then you click the card to check. Shuffle before each round.</li>
+      <li><b>This is the vocabulary of the module.</b> Most of the confusion in the live classes is vocabulary, not maths, so twenty minutes here is worth an hour of re-reading slides.</li>
+    </ul>
+  </div>
+  <div class="gloss" data-gl="81"></div>
+</section>
+
 </div><!-- /mpane-wrap 81 -->
 
 <footer class="foot wrap">
@@ -3041,7 +3154,7 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
 <script>
   const navs=[...document.querySelectorAll('.guide-nav-item')];
   const mods=[...document.querySelectorAll('.pn-mods button')];
-  const panes={1:p1,2:p2,3:p3,4:p4,5:p5,6:p6,7:p7,8:p8,9:p9,10:p10,q1:q1,q2:q2,q3:q3,q4:q4,q5:q5,q6:q6,q7:q7,q8:q8,q9:q9,q10:q10,q11:q11,q12:q12};
+  const panes={1:p1,2:p2,3:p3,4:p4,5:p5,6:p6,7:p7,8:p8,9:p9,10:p10,11:p11,12:p12,q1:q1,q2:q2,q3:q3,q4:q4,q5:q5,q6:q6,q7:q7,q8:q8,q9:q9,q10:q10,q11:q11,q12:q12,q13:q13,q14:q14};
   function sel(id){navs.forEach(x=>x.classList.toggle('active',x.dataset.t===id));
     Object.entries(panes).forEach(([k,el])=>el.classList.toggle('on',k===id));
     window.scrollTo({top:0,behavior:'smooth'});}
@@ -3333,6 +3446,440 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
       ]);
     }
     start();
+  })();
+
+  // ---- mind maps (computed tidy-tree layout, no hand-placed coordinates) ----
+  (function(){
+    function N(l,d,c){return {label:l,detail:d,children:c||null};}
+    var MAPS={};
+
+    MAPS['80']=N('PSY1080: What is Psychology?','This module answers one question from several angles: what kind of thing is psychology, where did it come from, and how does it study people? Two assignments come out of it, and the big one is the developmental essay on the toddler observation video.',[
+      N('What psychology is','The opening lectures define the subject and separate it from the everyday meaning of the word.',[
+        N('The science of mind and behaviour','Psychology studies both what people do (behaviour, which you can see) and what goes on inside (thought, feeling, memory, which you infer). The word science matters: claims are tested against evidence, not just argued.'),
+        N('Four goals: describe, explain, predict, change','Describe what happens, explain why, predict when it will happen again, and change it for the better. Any study you read is doing one or more of these four.'),
+        N('Psychology is not psychiatry','A psychologist studies behaviour and mind and usually trains in research and therapy; a psychiatrist is a medical doctor who can prescribe medication. Getting this right in writing is an easy mark.'),
+        N('Levels of explanation','The same behaviour can be explained at the level of brain chemistry, of the individual mind, of the family, or of society. None of these is the only true answer; they sit at different zoom levels.'),
+        N('Why common sense is not enough','Common sense is full of comfortable contradictions ("opposites attract" and "birds of a feather flock together"). Research exists to find out which one actually holds, and under what conditions.')
+      ]),
+      N('Founders and schools','The history lectures. You need to be able to name the school, its founder, its core claim and its fatal weakness.',[
+        N('Wundt and the first lab, 1879','Wilhelm Wundt opened the first psychology laboratory in Leipzig, which is the conventional birth date of the subject. His method was introspection under controlled conditions, so he treated inner experience as something measurable.'),
+        N('Structuralism (Titchener)','Edward Titchener, Wundt’s student, tried to break conscious experience into its basic elements, the way chemistry breaks matter into atoms. It collapsed because introspective reports could not be checked by anyone else.'),
+        N('Functionalism (James)','William James asked what mental processes are FOR, which pulled psychology towards purpose, adaptation and Darwin. It is the ancestor of applied and evolutionary psychology.'),
+        N('Psychodynamic (Freud)','Behaviour is driven largely by unconscious conflict and early childhood experience. Hugely influential on therapy and on how we talk about ourselves, but criticised as unfalsifiable and built on a handful of case studies.'),
+        N('Behaviourism (Watson, Skinner)','Only observable behaviour counts as data; learning happens through conditioning. It gave psychology rigour and powerful techniques, but by ignoring thought it left out most of what people actually do.'),
+        N('Humanistic (Rogers, Maslow)','People are not driven machines; they have agency and a drive to grow towards their potential. Gave us client-centred therapy and the hierarchy of needs, criticised as vague and hard to test.'),
+        N('The cognitive revolution','From the 1950s, the computer analogy made it respectable again to study internal processes as information processing: input, storage, retrieval, output. This is the dominant framework today.'),
+        N('The biological approach','Behaviour explained through genes, hormones, neurotransmitters and brain structures, studied with scanning, lesions and twin studies. Strong evidence base, but risks reducing a person to their biology.')
+      ]),
+      N('Developmental psychology','The content block the big essay comes from. Know the theory, the stage, and the evidence for and against.',[
+        N('Nature and nurture','Not a contest but an interaction: genes set tendencies, environment shapes how they show up, and the two feed back into each other. Modern phrasing is "nature via nurture".'),
+        N('Stages versus continuous change','Stage theories (Piaget, Erikson, Freud) say development jumps between qualitatively different ways of being. Continuity views say it is steady accumulation. Evidence is mixed, and that tension is an easy evaluation point in an essay.'),
+        N('Piaget: cognitive stages','Children build schemas and move through sensorimotor, preoperational, concrete operational and formal operational stages. Toddlers aged 1 to 3 are late sensorimotor into early preoperational: object permanence is in place, symbolic play is appearing, logic is not.'),
+        N('Vygotsky: the social route','Learning is social first and individual second. The zone of proximal development is the gap between what a child can do alone and what they can do with help, and scaffolding is the help that closes it.'),
+        N('Erikson: psychosocial stages','Eight life stages, each a crisis to resolve. Your video sits squarely in Autonomy versus Shame and Doubt (roughly 1 to 3): the toddler pushes to do things alone, and the adult response decides whether that becomes confidence or shame.'),
+        N('Bandura: social learning','Children learn by watching and imitating, especially models who are warm, similar or rewarded. The Bobo doll studies are the classic evidence, and observed imitation is one of the easiest things to actually spot on an observation video.'),
+        N('Self-regulation and empathy','Current research on toddlers focuses on emotion regulation, executive function and early prosocial behaviour (helping, comforting, sharing). This is the modern evidence you use to evaluate the older stage theories.')
+      ]),
+      N('Attachment','Treated as its own strand because it is the strongest age-appropriate lens for a toddler video.',[
+        N('Bowlby: attachment as a system','Infants are biologically prepared to form a bond with a caregiver who serves as a secure base for exploring and a safe haven when frightened. He claimed a sensitive period and lasting effects through the internal working model.'),
+        N('Ainsworth: the Strange Situation','A standard procedure of separations and reunions that classifies attachment as secure, insecure-avoidant or insecure-resistant (later plus disorganised). What matters is behaviour at REUNION, not the crying.'),
+        N('Harlow: contact comfort','Infant monkeys chose the soft cloth surrogate over the wire one that fed them, which killed the idea that attachment is just about food. Also demonstrates why the ethics of animal research is on the syllabus.'),
+        N('Secure base behaviour on video','In a daycare room you can watch a toddler move away to play, check back towards the adult, and return when something goes wrong. Naming this as secure base behaviour is exactly the kind of theory-to-evidence link the marker wants.')
+      ]),
+      N('Observation as a method','How you actually gather the evidence for the essay, and the limits of what it can tell you.',[
+        N('Naturalistic observation','Watching behaviour where it normally happens, with no manipulation. Strong on realism (ecological validity), weak on control, and it cannot establish cause.'),
+        N('Behavioural categories and coding','Before watching, you decide what counts as an instance of the behaviour and write it in observable terms. Vague categories like "aggressive" produce unusable data; "pushes another child" can be counted.'),
+        N('Inter-rater reliability','If two observers watch the same clip and code it the same way, the coding scheme is reliable. If they disagree, the scheme is too vague, not the children.'),
+        N('Observer bias and the observer effect','Bias is seeing what your theory predicts; the observer effect is people behaving differently because they know they are watched. Counters are clear operational definitions, more than one coder, and unobtrusive recording.'),
+        N('Ethics of observing children','Children cannot give informed consent, so you need parental or guardian consent plus the child’s own assent, and the right to withdraw. Your video is an openly published teaching resource, which is why using it is fine.')
+      ]),
+      N('Research ethics','The second thread that runs all year, and the reason several famous studies could not be run today.',[
+        N('Informed consent','Participants must know what they are agreeing to, in language they can understand, and be free to say no or stop later without penalty. With children, consent comes from the guardian and assent from the child.'),
+        N('Little Albert (Watson, 1920)','A baby was conditioned to fear a white rat, which spread to other furry objects. It showed classical conditioning in humans and is now the standard example of harm without consent, with no attempt to undo the fear.'),
+        N('Milgram’s obedience studies','Ordinary people continued delivering what they believed were dangerous shocks because an authority figure told them to. The findings are sobering and the deception plus distress are still argued over.'),
+        N('Zimbardo’s prison study','Students assigned as guards and prisoners in a mock prison; the study was stopped early amid serious distress. Often used to argue that situations shape behaviour, but criticised for weak control and leading instructions.'),
+        N('BPS and PSI codes','The British Psychological Society and the Psychological Society of Ireland publish the ethical codes you are expected to cite: respect, competence, responsibility and integrity, with ethical review before data collection.')
+      ]),
+      N('Assignment 1: the observation essay','The developmental essay, 23 November 2026. Everything above exists to feed this.',[
+        N('The video: Toddlers Observing Lab #2','A CCDMD teaching resource filmed in a Montreal daycare toddler room. Use the first 10 minutes only, and the children are toddlers aged 1 to 3, which fixes which theories and stages apply.'),
+        N('Describe, then explain','Half the marks come from precise description of what actually happens on screen; the other half from explaining it with named theory. Never assert theory without the specific moment that shows it.'),
+        N('Pick two or three lenses, not six','Erikson plus attachment, with Piaget on play, gives you depth. Listing every theorist you know produces a shallow essay.'),
+        N('Evaluate the theory','Say where the old theory fits what you saw, where it does not, and what newer evidence on self-regulation or empathy adds. Evaluation is where the higher marks live.'),
+        N('APA referencing','In-text author and date, full reference list, no wasted marks. The four DCU articles already saved in your readings folder are enough to carry the evaluation section.')
+      ]),
+      N('Study and assessment skills','The general-skills thread: how to read, write and be assessed at university level.',[
+        N('Reading a journal article','Abstract, then method and results, then discussion; the introduction last. Ask what was measured, in whom, and how strong the design was before you believe the conclusion.'),
+        N('Academic writing in APA','Formal, cautious, evidenced. "The findings suggest" rather than "this proves", and every claim attached to a source.'),
+        N('Avoiding plagiarism','Paraphrase in your own words and cite anyway; quote sparingly and always with a page number. Reusing your own earlier work without saying so also counts.'),
+        N('What the two assignments reward','Both reward accurate use of technical terms, evidence for every claim, and a clear structure. Neither rewards length for its own sake.')
+      ])
+    ]);
+
+    MAPS['81']=N('PSY1081: Exploring Psychological Research','How psychologists actually produce knowledge, in three parts: the method and its ethics, quantitative research with statistics and SPSS, and qualitative research. Four assignments, worth 20, 20, 30 and 30 per cent.',[
+      N('Part 1: the scientific method','What makes a claim scientific, and the machinery of hypotheses and variables that everything later depends on.',[
+        N('What makes something science','Systematic observation, measurement that others could repeat, and claims open to being proved wrong. Psychology is a science because of the method, not the subject matter.'),
+        N('Theory, hypothesis, prediction','A theory is a broad explanation; a hypothesis is a specific testable statement drawn from it; a prediction is what you should see in a particular study if the hypothesis holds.'),
+        N('Falsifiability and replication','A claim that no possible result could contradict is not scientific. Replication, repeating a study to see if the result holds, is how the field self-corrects.'),
+        N('Variables: IV and DV','The independent variable is what you manipulate or group by; the dependent variable is what you measure. In Assignment 1 Task 1, mindfulness condition is the IV and SART performance is the DV.'),
+        N('Operational definitions','Turning a fuzzy concept into something countable: "anxiety" becomes "score on the GAD-7". Without this nobody can replicate you, and nobody can check you.'),
+        N('Reliability and validity','Reliability is consistency: the same measure gives the same answer again. Validity is accuracy: it measures what it claims to. A bathroom scale that is always 5kg heavy is reliable but not valid.')
+      ]),
+      N('Part 1: research ethics','The code of conduct, and the skill assessed directly in Assignment 1 Task 3.',[
+        N('Why the codes exist','They were written in response to real harm: Nuremberg, Tuskegee, Little Albert, Milgram. The codes are not paperwork, they are the field’s answer to its own history.'),
+        N('Informed consent','Participants get a plain-language information sheet, agree freely, and know they can withdraw without giving a reason and without penalty.'),
+        N('Deception and debriefing','Deception is only acceptable if the research cannot be done otherwise and the risk is low; a full debriefing afterwards explains the real purpose and undoes any misleading impression.'),
+        N('Confidentiality and data protection','Data are anonymised or pseudonymised, stored securely, and reported so that no individual can be identified. GDPR applies to research data like any other personal data.'),
+        N('Risk and vulnerable groups','Extra safeguards apply with children, patients, prisoners or anyone who may feel pressured to take part. Assess both physical and psychological risk, including distressing topics.'),
+        N('Ethical review (A1 Task 3)','Your 700-word review judges the two studies against the code: consent, deception, harm, confidentiality, debriefing, and whether the design justifies the risk. Cite PSI or BPS, and argue, do not just describe.')
+      ]),
+      N('Part 2: research designs','Deciding how to collect the numbers, which fixes what you are allowed to conclude.',[
+        N('Experimental versus correlational','Only an experiment, where you manipulate the IV and control everything else, licenses a causal claim. Correlational work tells you two things move together and nothing about which causes which.'),
+        N('Between-subjects design','Different people in each condition, compared with an independent-samples t-test or Mann-Whitney U. Simple and immune to practice effects, but individual differences add noise.'),
+        N('Within-subjects design','The same people in every condition, compared with a paired t-test or Wilcoxon. Far more sensitive because each person is their own control, but prone to practice and fatigue effects, which counterbalancing offsets.'),
+        N('Confounds and control','A confound is a third variable that differs along with your IV and could explain the result instead. Control methods are randomisation, matching, holding conditions constant, and counterbalancing.'),
+        N('Sampling','Random sampling gives everyone an equal chance and supports generalisation; convenience sampling, what most student research uses, is quick and biased. Say which you used and discuss the limits honestly.')
+      ]),
+      N('Part 2: describing data','Summarising what you collected before you test anything.',[
+        N('Levels of measurement','Nominal (labels), ordinal (ranked), interval (equal gaps) and ratio (equal gaps plus a true zero). This single decision drives which test you are allowed to run.'),
+        N('Mean, median, mode','Mean is the arithmetic average and the usual choice; median is the middle value and is the honest one when data are skewed or have outliers; mode is the most common value and the only option for categories.'),
+        N('Standard deviation and variance','Both measure spread. Variance is the average squared distance from the mean, the standard deviation is its square root, which puts it back in the original units so you can actually interpret it.'),
+        N('Distributions and normality','Many tests assume a roughly normal, bell-shaped distribution. Check it with a histogram, skewness and kurtosis, and the Shapiro-Wilk test, where a p above .05 means normality is not rejected.'),
+        N('Charts that earn marks','Histogram for one variable’s shape, boxplot for comparing groups and spotting outliers, scatterplot for two continuous variables, bar chart with error bars for group means.')
+      ]),
+      N('Part 2: testing hypotheses','The logic of inferential statistics, which is the bit that feels like double Dutch until it clicks.',[
+        N('Null and alternative hypotheses','H0 says there is nothing going on: no difference, no relationship. H1 says there is. You never prove H1; you either reject H0 or fail to reject it.'),
+        N('p-values and the .05 cut-off','The p-value is the probability of getting a result at least this extreme IF H0 were true. Small p means your data are surprising under H0, so you reject H0. Below .05 is conventionally called significant.'),
+        N('Type I and Type II errors','A Type I error is a false alarm: rejecting H0 when it is true, and alpha of .05 is your accepted 5 per cent risk of it. A Type II error is a miss: failing to reject a false H0, usually because the sample was too small.'),
+        N('Statistical power','The chance of detecting a real effect if there is one. It rises with sample size and effect size, and it is why small studies that find nothing prove nothing.'),
+        N('Effect size','How big the difference or relationship is, in a way sample size cannot inflate: Cohen’s d for differences, r for relationships. Significance says something is there, effect size says whether it matters.')
+      ]),
+      N('Part 2: choosing a test','Matching the test to the data and the design. The Which Test? tab walks you through this live.',[
+        N('Chi-square','For counts in categories: is there an association between two categorical variables? Needs expected counts of at least 5 in nearly every cell.'),
+        N('Pearson r and Spearman rho','Both measure relationship strength from -1 to +1. Pearson needs interval data and a straight-line relationship; Spearman works on ranks and makes no assumption about shape.'),
+        N('Independent-samples t-test','Compares the means of two separate groups. This is the test behind Assignment 1 Tasks 1 and 2, so know its assumptions and how to read Levene’s test.'),
+        N('Paired-samples t-test','Compares the same people measured twice, by testing whether the mean difference differs from zero. Degrees of freedom are the number of pairs minus one.'),
+        N('Mann-Whitney and Wilcoxon','The non-parametric partners of the two t-tests, working on ranks instead of means. Use them when the data are ordinal or clearly not normal, and report medians.'),
+        N('Parametric assumptions','Parametric tests assume interval data, rough normality, no serious outliers, and for independent groups roughly equal variances. Break them badly and you switch to the rank-based alternative.')
+      ]),
+      N('Part 2: SPSS and reporting','Turning the analysis into an assignment that can be marked.',[
+        N('Data entry and Variable View','Each row is one participant, each column one variable. In Variable View you set the name, type, value labels for groups, and measure, and getting measure right stops SPSS offering you nonsense.'),
+        N('Running and reading output','Find the numbers that matter in the output: group means and standard deviations, the test statistic, degrees of freedom, p, and the effect size or confidence interval.'),
+        N('APA results sentences','A results sentence names the test, the comparison, the direction, then the statistics: t(38) = 2.41, p = .021, d = 0.78. Statistics support a sentence in English, they never replace it.'),
+        N('Tables and appendices','Your SPSS output goes in the appendices, and leaving it out is an automatic fail on Assignment 1. Tables in the body follow APA format: no vertical lines, a clear title, units stated.')
+      ]),
+      N('Part 3: qualitative research','The final part, assessed in Assignment 4. Different question, different logic, not a softer version of the same thing.',[
+        N('When to go qualitative','When you want to understand meaning and experience rather than count or compare. Good for "what is it like" and "how do people make sense of this" questions.'),
+        N('Interviews and focus groups','Semi-structured interviews use a topic guide with freedom to follow the participant; focus groups add group interaction, which generates debate but silences some voices.'),
+        N('Thematic analysis (Braun and Clarke)','Six phases: familiarise yourself with the data, generate codes, construct themes, review them, define and name them, then write up. Themes are built by the analyst, they do not simply emerge.'),
+        N('Reflexivity','The researcher is part of the instrument, so you state your own position and how it might shape the analysis. This is a strength in qualitative work, not an apology.'),
+        N('Judging quality','Not reliability and validity but credibility, transferability, dependability and a clear audit trail, with grounded extracts from the data to back every claim.')
+      ]),
+      N('The four assignments','What is assessed, when, and what each one is really testing.',[
+        N('A1, 20 per cent, due 2 November 2026','Three tasks: two independent-samples analyses in SPSS (mindfulness and SART, phones in the cinema) plus a 700-word ethical review of both studies. SPSS output in the appendices is mandatory.'),
+        N('A2, 20 per cent','IPIP-NEO personality work plus the discussion forum, with forum participation across 18 January to 8 February. Confirm the submission date on Loop, as the Class 1 slide and the module map disagree.'),
+        N('A3, 30 per cent','The full quantitative report: introduction, method, results, discussion, in APA format. Everything in Part 2 exists to make this possible.'),
+        N('A4, 30 per cent','The qualitative assignment from Part 3, built on thematic analysis. Braun and Clarke is the required reading behind it.'),
+        N('Marking and penalties','Late submission and missing appendices cost you marks outright, so the admin is worth as much attention as the content. Check the rubric before you start writing, not after.')
+      ])
+    ]);
+
+    var LV=[
+      {x:12,w:160,ch:17,fs:14.5,fw:800,fill:'#2D3047',stroke:'#2D3047',tx:'#ffffff'},
+      {x:208,w:192,ch:25,fs:13,fw:700,fill:'#E8EEFF',stroke:'#2176FF',tx:'#2D3047'},
+      {x:436,w:300,ch:41,fs:12.5,fw:500,fill:'#ffffff',stroke:'#E8E5DF',tx:'#2D3047'}
+    ];
+    var LH=16, GAP=9, GGAP=14, PAD=10;
+
+    function wrapText(s,max){
+      var words=s.split(' '),out=[],cur='';
+      words.forEach(function(w){
+        var t=cur?cur+' '+w:w;
+        if(t.length>max&&cur){out.push(cur);cur=w;}else{cur=t;}
+      });
+      if(cur)out.push(cur);
+      return out;
+    }
+    function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+    function render(wrapEl,detEl,root){
+      var cursor=PAD, flat=[], edges=[];
+      (function place(n,d){
+        var lv=LV[Math.min(d,2)];
+        n.d=d;
+        n.lines=wrapText(n.label,lv.ch);
+        n.h=Math.max(34,n.lines.length*LH+15);
+        if(n.children&&n.children.length){
+          n.children.forEach(function(c){place(c,d+1);});
+          var f=n.children[0],l=n.children[n.children.length-1];
+          n.y=(f.y+l.y)/2;
+          n.children.forEach(function(c){edges.push([n,c]);});
+          if(d===1)cursor+=GGAP;
+        }else{
+          n.y=cursor+n.h/2;
+          cursor+=n.h+GAP;
+        }
+        flat.push(n);
+      })(root,0);
+
+      var H=Math.max(cursor+PAD,120), W=LV[2].x+LV[2].w+14;
+      var parts=['<svg viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'" xmlns="http://www.w3.org/2000/svg" role="img">'];
+      edges.forEach(function(e){
+        var p=e[0],c=e[1],lp=LV[Math.min(p.d,2)],lc=LV[Math.min(c.d,2)];
+        var x1=lp.x+lp.w, y1=p.y, x2=lc.x, y2=c.y, dx=Math.max(26,(x2-x1)/2);
+        parts.push('<path d="M'+x1+' '+y1+' C'+(x1+dx)+' '+y1+','+(x2-dx)+' '+y2+','+x2+' '+y2+'" fill="none" stroke="'+(c.d===1?'#9BB8F2':'#DCDAD4')+'" stroke-width="'+(c.d===1?1.6:1.2)+'"/>');
+      });
+      flat.forEach(function(n,i){
+        var lv=LV[Math.min(n.d,2)], top=n.y-n.h/2;
+        n._i=i;
+        parts.push('<g class="mm-node" data-i="'+i+'">');
+        parts.push('<rect x="'+lv.x+'" y="'+top.toFixed(1)+'" width="'+lv.w+'" height="'+n.h+'" rx="9" fill="'+lv.fill+'" stroke="'+lv.stroke+'" stroke-width="1.2"/>');
+        var ty=top+(n.h-n.lines.length*LH)/2+LH-4.5;
+        parts.push('<text x="'+(lv.x+lv.w/2)+'" y="'+ty.toFixed(1)+'" text-anchor="middle" font-family="Outfit, sans-serif" font-size="'+lv.fs+'" font-weight="'+lv.fw+'" fill="'+lv.tx+'">');
+        n.lines.forEach(function(ln,k){parts.push('<tspan x="'+(lv.x+lv.w/2)+'" dy="'+(k?LH:0)+'">'+esc(ln)+'</tspan>');});
+        parts.push('</text></g>');
+      });
+      parts.push('</svg>');
+      wrapEl.innerHTML=parts.join('');
+      wrapEl.querySelectorAll('.mm-node').forEach(function(g){
+        g.addEventListener('click',function(){
+          var n=flat[+g.dataset.i];
+          detEl.innerHTML='<p class="t">'+esc(n.label)+'</p><p class="d">'+esc(n.detail)+'</p>';
+        });
+      });
+    }
+
+    document.querySelectorAll('.mmwrap').forEach(function(w){
+      var k=w.dataset.mm, det=document.querySelector('.mm-det[data-mmdet="'+k+'"]');
+      if(MAPS[k]&&det)render(w,det,MAPS[k]);
+    });
+  })();
+
+  // ---- glossary + flashcards ----
+  (function(){
+    function T(t,c,d,e){return {t:t,c:c,d:d,e:e||''};}
+    var SETS={};
+
+    SETS['80']=[
+      T('Psychology','Core','The scientific study of mind and behaviour: what people do, and the thinking and feeling behind it.','Studying mind and behaviour SCIENTIFICALLY is what separates it from everyday opinion about people.'),
+      T('Behaviour','Core','Anything a person or animal does that an observer could see and record.','On your video: reaching, pushing, crying, looking back at the adult.'),
+      T('Introspection','Schools','Reporting on your own conscious experience under controlled conditions. Wundt’s original method.','Abandoned because nobody else can check another person’s inner report.'),
+      T('Structuralism','Schools','Titchener’s attempt to break conscious experience into its basic elements, like chemistry breaking matter into atoms.'),
+      T('Functionalism','Schools','William James’s view that the point is what mental processes are FOR, how they help us adapt and survive.'),
+      T('Psychodynamic approach','Schools','Freud’s view that unconscious conflict and early childhood experience drive most of what we do.'),
+      T('Behaviourism','Schools','Watson and Skinner’s position that only observable behaviour is proper data, and that learning happens through conditioning.'),
+      T('Humanistic approach','Schools','Rogers and Maslow’s view that people have agency and a drive to grow towards their potential, not just drives to satisfy.'),
+      T('Cognitive approach','Schools','Explaining behaviour through internal information processing: attention, memory, thinking, decision-making.'),
+      T('Biological approach','Schools','Explaining behaviour through genes, hormones, neurotransmitters and brain structure.'),
+      T('Levels of explanation','Core','The same behaviour can be explained at the level of neurons, of the individual, of the family, or of society. Different zoom levels, not rival truths.'),
+      T('Nature and nurture','Development','The interaction of inherited tendencies with environment and experience. Modern phrasing is "nature via nurture", because the two shape each other.'),
+      T('Schema','Development','Piaget’s term for a mental template for dealing with the world, built up and revised through experience.','A toddler’s "cup" schema has to stretch when they meet a cup with no handle.'),
+      T('Assimilation','Development','Fitting new experience into a schema you already have.'),
+      T('Accommodation','Development','Changing the schema itself because the new experience will not fit.'),
+      T('Object permanence','Development','Knowing that something still exists when you cannot see it. In place by the end of the sensorimotor stage, so toddlers of 1 to 3 already have it.'),
+      T('Sensorimotor stage','Development','Piaget’s first stage, roughly birth to 2: the child learns through senses and movement and achieves object permanence.'),
+      T('Preoperational stage','Development','Piaget’s second stage, roughly 2 to 7: symbolic and pretend play appear, but logic and other people’s viewpoints do not yet.'),
+      T('Egocentrism','Development','The preoperational child’s difficulty in taking another person’s perspective. Not selfishness, a limitation.'),
+      T('Zone of proximal development','Development','Vygotsky’s gap between what a child can do alone and what they can do with help from someone more able.'),
+      T('Scaffolding','Development','The support an adult or older child gives inside that zone, withdrawn as the child takes over.','A carer steadying the base of a tower so the toddler can place the next block.'),
+      T('Psychosocial stages','Development','Erikson’s eight life stages, each a crisis between two outcomes that must be resolved to move on healthily.'),
+      T('Autonomy versus shame and doubt','Development','Erikson’s stage for roughly 1 to 3, and the lead stage for your assignment video: the toddler pushes to do things alone, and the adult response builds either confidence or shame.'),
+      T('Initiative versus guilt','Development','Erikson’s next stage, roughly 3 to 6, when children start planning and leading play. Mention it only as what comes next, not as your video’s stage.'),
+      T('Social learning theory','Development','Bandura’s view that we learn by watching and imitating others, especially models who are warm, similar to us, or rewarded.'),
+      T('Observational learning','Development','Picking up a behaviour just by watching someone else do it, with no reinforcement of your own.','A toddler copying another child’s way of carrying a toy.'),
+      T('Self-regulation','Development','Managing your own attention, emotion and impulses. The modern research focus for toddlers, and your best route to evaluating Freud and Erikson.'),
+      T('Prosocial behaviour','Development','Acting for someone else’s benefit: helping, comforting, sharing. Already visible in toddlers, which surprised the older theories.'),
+      T('Attachment','Attachment','A lasting emotional bond between an infant and a caregiver, which organises how the child explores and seeks comfort.'),
+      T('Secure base','Attachment','Bowlby’s idea that a trusted caregiver is the base a child ventures out from and returns to when uneasy.','Watch for the toddler playing away, glancing back, then coming back after a bump.'),
+      T('Internal working model','Attachment','The mental template of relationships built from early attachment, which shapes expectations of later ones.'),
+      T('Strange Situation','Attachment','Ainsworth’s standard procedure of separations and reunions used to classify attachment type. The classification comes from behaviour at REUNION, not from how much the child cried.'),
+      T('Secure attachment','Attachment','The child uses the caregiver as a base, may be upset at separation, and is readily comforted on reunion.'),
+      T('Insecure-avoidant attachment','Attachment','Little distress at separation and active avoidance of the caregiver on reunion.'),
+      T('Insecure-resistant attachment','Attachment','High distress at separation and an angry, clingy mix on reunion that is hard to settle.'),
+      T('Contact comfort','Attachment','Harlow’s finding that infant monkeys chose the soft surrogate over the one that fed them, so attachment is not just about food.'),
+      T('Naturalistic observation','Method','Watching behaviour where it normally occurs with no manipulation. High realism, no causal claims.'),
+      T('Behavioural category','Method','A behaviour defined in observable terms so it can be counted consistently.','"Pushes another child" is usable; "aggressive" is not.'),
+      T('Operational definition','Method','Stating exactly how an abstract concept will be measured or recognised in this study.'),
+      T('Inter-rater reliability','Method','The degree to which two independent observers code the same behaviour the same way.'),
+      T('Observer bias','Method','Seeing what your theory predicts rather than what happened. Countered by clear definitions and more than one coder.'),
+      T('Observer effect','Method','People behaving differently because they know they are being watched.'),
+      T('Ecological validity','Method','How well findings hold up in real settings outside the study. A strength of observation, a weakness of lab experiments.'),
+      T('Informed consent','Ethics','Agreement to take part given freely, with a clear understanding of what is involved and the right to withdraw.'),
+      T('Assent','Ethics','A child’s own willingness to take part, needed alongside a guardian’s consent.'),
+      T('Debriefing','Ethics','Explaining the real purpose afterwards and undoing any misleading impression or distress.'),
+      T('Little Albert','Ethics','Watson’s 1920 study conditioning an infant to fear a white rat. Demonstrated classical conditioning in humans; now the standard example of harm without consent.'),
+      T('Milgram’s obedience study','Ethics','Participants continued giving what they believed were dangerous shocks under instruction from an authority figure. Still argued over for deception and distress.'),
+      T('Zimbardo’s prison study','Ethics','A mock prison stopped early amid serious distress, used to argue that situations shape behaviour, and criticised for weak control and leading instructions.'),
+      T('BPS and PSI codes','Ethics','The British and Irish professional ethical codes you cite: respect, competence, responsibility, integrity, and review before data collection.'),
+      T('APA style','Core','The referencing and reporting format psychology uses: author and date in text, a full reference list, and set rules for tables and statistics.')
+    ];
+
+    SETS['81']=[
+      T('Empiricism','Method','The position that knowledge comes from evidence you can observe and measure, not from authority or intuition.'),
+      T('Theory','Method','A broad, organised explanation of a set of findings, which generates testable hypotheses.'),
+      T('Hypothesis','Method','A specific, testable statement predicting a relationship or difference.','"Mindfulness training improves sustained attention."'),
+      T('Falsifiability','Method','A claim counts as scientific only if some possible result could show it to be wrong.'),
+      T('Replication','Method','Repeating a study to see whether the finding holds. The field’s main self-correcting mechanism.'),
+      T('Independent variable (IV)','Method','What the researcher manipulates or groups people by.','Mindfulness condition versus control.'),
+      T('Dependent variable (DV)','Method','What gets measured, and what you expect the IV to affect.','SART performance score.'),
+      T('Extraneous variable','Design','Any variable other than the IV that could affect the DV, and which you try to hold constant.'),
+      T('Confound','Design','An extraneous variable that actually differs along with your IV, so it could explain the result instead.','If all the mindfulness group were tested in the morning and the controls at night, time of day is a confound.'),
+      T('Operational definition','Method','Stating exactly how a concept will be measured in this study, so others can replicate it.','"Anxiety" becomes "score on the GAD-7".'),
+      T('Reliability','Method','Consistency of measurement: the same measure gives the same answer again under the same conditions.'),
+      T('Validity','Method','Accuracy of measurement: the instrument measures what it claims to measure.','A scale always 5kg heavy is reliable but not valid.'),
+      T('Internal validity','Design','Confidence that the IV, and not something else, caused the change in the DV.'),
+      T('External validity','Design','How far the findings generalise beyond this sample, setting and task.'),
+      T('Experiment','Design','A design where the researcher manipulates the IV and controls other variables. The only design that licenses a causal claim.'),
+      T('Correlational design','Design','Measuring two variables without manipulating either. Shows that they move together, never which causes which.'),
+      T('Quasi-experiment','Design','Comparing groups that already exist and cannot be randomly assigned, such as smokers and non-smokers. Weaker causal claims.'),
+      T('Between-subjects design','Design','Different people in each condition. Analysed with an independent-samples t-test or Mann-Whitney U.'),
+      T('Within-subjects design','Design','The same people in every condition. More sensitive, but vulnerable to practice and fatigue effects.'),
+      T('Counterbalancing','Design','Varying the order of conditions across participants so order effects cancel out.'),
+      T('Random assignment','Design','Allocating participants to conditions by chance, so that groups start out equivalent on average.'),
+      T('Random sampling','Design','Every member of the population has an equal chance of selection, which supports generalisation.'),
+      T('Convenience sampling','Design','Using whoever is available, as most student research does. Quick, and biased. Say so in your limitations.'),
+      T('Informed consent','Ethics','Free agreement to take part, based on a plain-language information sheet, with the right to withdraw without penalty.'),
+      T('Deception','Ethics','Withholding or misrepresenting the purpose of a study. Acceptable only when there is no alternative and the risk is low, and always followed by a full debriefing.'),
+      T('Debriefing','Ethics','The explanation given afterwards that reveals the real purpose and corrects any misleading impression.'),
+      T('Confidentiality','Ethics','Keeping data secure and reporting it so that no individual can be identified. GDPR applies.'),
+      T('Anonymity','Ethics','Collecting data so that even the researcher cannot link it to a named person. Stronger than confidentiality.'),
+      T('Right to withdraw','Ethics','A participant can stop at any point, and have their data removed, without giving a reason.'),
+      T('Ethical review','Ethics','Independent approval of a study’s ethics BEFORE data collection. Writing one is Task 3 of Assignment 1.'),
+      T('Nominal data','Stats','Categories with no order: eye colour, county, yes or no. Counted, never averaged.'),
+      T('Ordinal data','Stats','Ranked categories where the gaps are not equal: finishing positions, a 1 to 5 agreement scale.'),
+      T('Interval data','Stats','Equal gaps between values but no true zero: temperature in Celsius, many test scores.'),
+      T('Ratio data','Stats','Equal gaps and a true zero, so ratios make sense: reaction time, number of errors.'),
+      T('Mean','Stats','The arithmetic average. The usual choice, but pulled around by outliers.'),
+      T('Median','Stats','The middle value when the scores are ordered. The honest summary for skewed data, and what you report with non-parametric tests.'),
+      T('Mode','Stats','The most frequent value, and the only average available for nominal data.'),
+      T('Standard deviation','Stats','The typical distance of scores from the mean, in the original units. Small SD means scores cluster tightly.'),
+      T('Variance','Stats','The average squared distance from the mean. The standard deviation squared.'),
+      T('Normal distribution','Stats','The symmetrical bell-shaped curve, where most scores sit near the mean. Assumed by parametric tests.'),
+      T('Skew','Stats','Lopsidedness in a distribution. A long right tail is positive skew, a long left tail is negative skew.'),
+      T('Outlier','Stats','An extreme score far from the rest, which can distort a mean and a t-test. Spot them on a boxplot.'),
+      T('Shapiro-Wilk test','Stats','A test of normality. A p ABOVE .05 means normality is not rejected, so you may proceed with a parametric test.'),
+      T('Null hypothesis (H0)','Stats','The statement that there is nothing going on: no difference, no relationship. The thing a test actually examines.'),
+      T('Alternative hypothesis (H1)','Stats','The statement that there IS a difference or relationship. You never prove it, you only reject H0 or fail to.'),
+      T('p-value','Stats','The probability of getting a result at least this extreme IF the null hypothesis were true. Small p means the data are surprising under H0, so you reject H0.'),
+      T('Alpha (.05)','Stats','The cut-off you set in advance for calling a result significant, and your accepted risk of a false alarm: 5 per cent.'),
+      T('Statistically significant','Stats','Shorthand for "p is below alpha, so we reject the null". It says the effect is probably real, not that it is large or important.'),
+      T('Type I error','Stats','A false alarm: rejecting a null hypothesis that was actually true.'),
+      T('Type II error','Stats','A miss: failing to reject a null hypothesis that was actually false, usually because the sample was too small.'),
+      T('Statistical power','Stats','The probability of detecting a real effect if one exists. Rises with sample size and effect size.'),
+      T('Effect size','Stats','How big the difference or relationship is, independent of sample size. Cohen’s d for differences, r for relationships.'),
+      T('Cohen’s d','Stats','An effect size for the difference between two means, in standard deviation units. Rough guide: 0.2 small, 0.5 medium, 0.8 large.'),
+      T('Confidence interval','Stats','A range that would contain the true value in 95 per cent of repeated samples. If a 95 per cent CI for a difference excludes zero, the result is significant at .05.'),
+      T('Degrees of freedom','Stats','The number of values free to vary, reported in brackets with the test statistic.','Independent t-test: N minus 2. Paired t-test: pairs minus 1.'),
+      T('Parametric test','Tests','A test that assumes interval or ratio data, rough normality, and no serious outliers. More powerful when the assumptions hold.'),
+      T('Non-parametric test','Tests','A test that works on ranks and assumes nothing about distribution shape. Use it with ordinal data or badly non-normal data.'),
+      T('Chi-square test','Tests','Tests whether two categorical variables are associated, by comparing observed with expected counts. Needs expected counts of at least 5 in nearly every cell.'),
+      T('Pearson’s r','Tests','Measures the strength and direction of a straight-line relationship between two interval or ratio variables, from -1 to +1.'),
+      T('Spearman’s rho','Tests','The rank-based correlation. Same question as Pearson, no assumption about distribution shape.'),
+      T('Independent-samples t-test','Tests','Compares the means of two separate groups. The test behind Assignment 1 Tasks 1 and 2.'),
+      T('Paired-samples t-test','Tests','Compares the same people measured twice, by testing whether the mean of the differences differs from zero.'),
+      T('Mann-Whitney U','Tests','The non-parametric alternative to the independent t-test. Compares ranks across two separate groups, and you report medians.'),
+      T('Wilcoxon signed-ranks','Tests','The non-parametric alternative to the paired t-test. Ranks the sizes of the differences within people.'),
+      T('Levene’s test','Tests','Tests whether two groups have equal variances. If p is below .05, read the "equal variances not assumed" row of the SPSS t-test output.'),
+      T('One-tailed and two-tailed','Tests','A one-tailed test predicts the direction of the effect; a two-tailed test does not. Two-tailed is the default, and safer.'),
+      T('Variable View','SPSS','The SPSS screen where you name variables and set their type, value labels for groups, and level of measurement.'),
+      T('Value labels','SPSS','The text attached to group codes, so 1 reads as "mindfulness" and 2 as "control" in your output.'),
+      T('Syntax','SPSS','The command language behind the menus. Pasting syntax makes an analysis reproducible and is worth doing before you forget what you clicked.'),
+      T('APA results sentence','SPSS','The standard write-up: name the test, the comparison, the direction, then the statistics.','t(38) = 2.41, p = .021, d = 0.78.'),
+      T('Appendices','SPSS','Where your SPSS output goes. Omitting it on Assignment 1 is an automatic fail.'),
+      T('Qualitative research','Qualitative','Research into meaning and experience, using words rather than numbers, and asking "what is this like" rather than "how much".'),
+      T('Semi-structured interview','Qualitative','An interview with a topic guide, but freedom to follow what the participant brings up.'),
+      T('Focus group','Qualitative','A guided group discussion. Generates debate and shared meaning, but can silence quieter voices.'),
+      T('Thematic analysis','Qualitative','Braun and Clarke’s six-phase method: familiarise, code, construct themes, review, define and name, write up.'),
+      T('Code','Qualitative','A short label attached to a piece of data that captures something interesting about it. Codes are the raw material of themes.'),
+      T('Theme','Qualitative','A pattern of meaning built by the analyst across the data set, which says something about the research question. Themes are constructed, not simply found.'),
+      T('Reflexivity','Qualitative','Examining and stating how your own position and assumptions shape the analysis. A strength in qualitative work.'),
+      T('Saturation','Qualitative','The point at which new data stop adding anything new. Used to justify sample size, and contested.'),
+      T('Credibility','Qualitative','The qualitative counterpart of validity: does the analysis genuinely reflect the data, evidenced with extracts.'),
+      T('Audit trail','Qualitative','A documented record of the analytic decisions, so a reader can follow how you got from data to themes.')
+    ];
+
+    function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+    document.querySelectorAll('.gloss').forEach(function(host){
+      var data=SETS[host.dataset.gl]; if(!data)return;
+      var cats=[]; data.forEach(function(x){if(cats.indexOf(x.c)<0)cats.push(x.c);});
+      host.innerHTML=
+        '<div class="gl-tabs"><button class="gl-tab on" data-v="g" type="button">Glossary</button><button class="gl-tab" data-v="f" type="button">Flashcards</button></div>'+
+        '<div class="gl-view" data-v="g">'+
+          '<input class="gl-search" type="search" placeholder="Search a term or a definition">'+
+          '<div class="gl-cat"><button class="gl-cb on" data-c="" type="button">All</button>'+cats.map(function(c){return '<button class="gl-cb" data-c="'+esc(c)+'" type="button">'+esc(c)+'</button>';}).join('')+'</div>'+
+          '<p class="gl-count"></p><div class="gl-list"></div>'+
+        '</div>'+
+        '<div class="gl-view" data-v="f" hidden>'+
+          '<div class="gl-cat"><button class="gl-cb on" data-c="" type="button">All</button>'+cats.map(function(c){return '<button class="gl-cb" data-c="'+esc(c)+'" type="button">'+esc(c)+'</button>';}).join('')+'</div>'+
+          '<div class="fc-stage"></div>'+
+          '<div class="fc-bar"><button class="fc-btn" data-a="prev" type="button">Back</button><button class="fc-btn pri" data-a="next" type="button">Next card</button><button class="fc-btn" data-a="shuffle" type="button">Shuffle</button><span class="fc-pos"></span></div>'+
+        '</div>';
+      var list=host.querySelector('.gl-list'), count=host.querySelector('.gl-count'),
+          search=host.querySelector('.gl-search'), gcat='';
+
+      function drawList(){
+        var q=search.value.trim().toLowerCase();
+        var rows=data.filter(function(x){
+          if(gcat&&x.c!==gcat)return false;
+          if(!q)return true;
+          return (x.t+' '+x.d+' '+x.e).toLowerCase().indexOf(q)>=0;
+        });
+        count.textContent=rows.length+(rows.length===1?' term':' terms')+(gcat?' in '+gcat:'')+(q?' matching "'+search.value.trim()+'"':'');
+        list.innerHTML=rows.length?rows.map(function(x){
+          return '<div class="gl-item"><div><span class="gl-t">'+esc(x.t)+'</span><span class="gl-tag">'+esc(x.c)+'</span></div><p class="gl-d">'+esc(x.d)+'</p>'+(x.e?'<p class="gl-ex"><b>Example:</b> '+esc(x.e)+'</p>':'')+'</div>';
+        }).join(''):'<div class="gl-item"><p class="gl-d">No term matches that. Try a shorter word.</p></div>';
+      }
+      search.addEventListener('input',drawList);
+      host.querySelectorAll('.gl-view[data-v="g"] .gl-cb').forEach(function(b){
+        b.addEventListener('click',function(){
+          gcat=b.dataset.c;
+          host.querySelectorAll('.gl-view[data-v="g"] .gl-cb').forEach(function(o){o.classList.toggle('on',o===b);});
+          drawList();
+        });
+      });
+
+      var stage=host.querySelector('.fc-stage'), pos=host.querySelector('.fc-pos'),
+          deck=[], idx=0, flipped=false, fcat='';
+      function build(){
+        deck=data.filter(function(x){return !fcat||x.c===fcat;});
+        idx=0;flipped=false;drawCard();
+      }
+      function drawCard(){
+        if(!deck.length){stage.innerHTML='<p class="fc-def">No cards in that topic.</p>';pos.textContent='';return;}
+        var c=deck[idx];
+        stage.innerHTML=flipped
+          ? '<p class="fc-side">Definition</p><p class="fc-def">'+esc(c.d)+'</p>'+(c.e?'<p class="fc-tap">Example: '+esc(c.e)+'</p>':'<p class="fc-tap">Click to go back to the term</p>')
+          : '<p class="fc-side">Term</p><p class="fc-term">'+esc(c.t)+'</p><p class="fc-tap">Say the definition out loud, then click the card</p>';
+        pos.textContent='Card '+(idx+1)+' of '+deck.length;
+      }
+      stage.addEventListener('click',function(){flipped=!flipped;drawCard();});
+      host.querySelectorAll('.fc-bar .fc-btn').forEach(function(b){
+        b.addEventListener('click',function(){
+          var a=b.dataset.a;
+          if(!deck.length)return;
+          if(a==='next'){idx=(idx+1)%deck.length;flipped=false;}
+          else if(a==='prev'){idx=(idx-1+deck.length)%deck.length;flipped=false;}
+          else if(a==='shuffle'){for(var i=deck.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=deck[i];deck[i]=deck[j];deck[j]=t;}idx=0;flipped=false;}
+          drawCard();
+        });
+      });
+      host.querySelectorAll('.gl-view[data-v="f"] .gl-cb').forEach(function(b){
+        b.addEventListener('click',function(){
+          fcat=b.dataset.c;
+          host.querySelectorAll('.gl-view[data-v="f"] .gl-cb').forEach(function(o){o.classList.toggle('on',o===b);});
+          build();
+        });
+      });
+
+      host.querySelectorAll('.gl-tab').forEach(function(t){
+        t.addEventListener('click',function(){
+          host.querySelectorAll('.gl-tab').forEach(function(o){o.classList.toggle('on',o===t);});
+          host.querySelectorAll('.gl-view').forEach(function(v){v.hidden=(v.dataset.v!==t.dataset.v);});
+        });
+      });
+
+      drawList();build();
+    });
   })();
 
   // ---- visual aids (reusable, multi-instance) ----
