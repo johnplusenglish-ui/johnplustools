@@ -307,6 +307,35 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
 .qz-fb{display:none;margin-top:11px;font-size:13px;color:var(--muted);line-height:1.5;padding-left:2px}
 .qz-q.done .qz-fb{display:block}
 .qz-score{padding:13px 16px;border-top:1px solid var(--border);font-weight:700;font-size:14px;color:var(--ink);background:var(--bg)}
+.pv{margin:16px 0 4px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--card);padding:18px 20px}
+.pv-pick{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 15px}
+.pv-scn{display:flex;align-items:center;gap:7px;border:1px solid var(--border);background:var(--bg);border-radius:100px;padding:7px 13px;font:inherit;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer}
+.pv-scn:hover{border-color:var(--accent);color:var(--accent)}
+.pv-scn.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.pv-story{background:var(--bg);border:1px solid var(--border-soft);border-radius:var(--r-sm);padding:14px 16px;margin:0 0 14px}
+.pv-h0{display:flex;gap:9px;align-items:flex-start}
+.pv-tag{flex:none;font-size:10px;font-weight:800;letter-spacing:.04em;background:var(--accent-light);color:var(--accent-dark);border-radius:6px;padding:3px 7px;margin-top:2px}
+.pv-txt{font-size:14.5px;color:var(--ink);font-weight:600}
+.pv-res{font-size:13.5px;color:var(--muted);margin:10px 0 0;padding-top:10px;border-top:1px solid var(--border-soft)}
+.pv-res b{color:var(--ink)}
+.pv-bar{position:relative;height:50px;border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--border);background:var(--bg);margin:0 0 13px}
+.pv-bar .rj{position:absolute;left:0;top:0;bottom:0;width:5%;background:#e7f6ec}
+.pv-bar .ln{position:absolute;left:5%;top:0;bottom:0;width:2px;background:var(--ink);opacity:.5}
+.pv-bar .l5{position:absolute;left:5%;top:4px;transform:translateX(-50%);font-size:10px;color:var(--muted);white-space:nowrap;font-weight:700}
+.pv-bar .zr{position:absolute;left:2.5%;bottom:5px;transform:translateX(-50%);font-size:10px;color:#2f9e63;white-space:nowrap;font-weight:700}
+.pv-bar .zf{position:absolute;left:52%;bottom:5px;transform:translateX(-50%);font-size:10px;color:var(--muted);white-space:nowrap;font-weight:700}
+.pv-mk{position:absolute;top:0;bottom:0;width:3px;background:var(--ink);left:1%;transition:left .1s}
+.pv-slide{display:flex;align-items:center;gap:12px;margin:0 0 4px}
+.pv-slide label{font-size:13px;color:var(--muted)}
+.pv-slide input[type=range]{flex:1;accent-color:var(--accent)}
+.pv-pout{font-size:18px;font-weight:800;min-width:52px;text-align:right;color:var(--ink)}
+.pv-hint{font-size:12px;color:var(--muted);margin:0 0 14px}
+.pv-verdict{border-radius:var(--r-sm);padding:14px 16px;border:1px solid #bfe6cf;background:#e7f6ec}
+.pv-verdict.fail{background:var(--bg);border-color:var(--border)}
+.pv-vh{font-size:15.5px;font-weight:800;color:#2f9e63;margin:0 0 4px}
+.pv-verdict.fail .pv-vh{color:var(--ink)}
+.pv-vb{font-size:13.5px;line-height:1.55;color:#236b3b}
+.pv-verdict.fail .pv-vb{color:var(--muted)}
 .bchip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
 .qchap{display:none}
 .qchap.on{display:block;animation:fade .25s ease}
@@ -2458,6 +2487,21 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
 
       <p class="lead"><b>Why the sample must be representative.</b> All of this only works if the sample fairly stands in for the population. <b>Random sampling</b> (everyone has a known, non-zero chance of being picked) is what keeps hidden bias out. <b>Sampling error</b> is the gap between your sample's number and the true population number that arises simply because you studied a sample, it is unavoidable, not a mistake, and it shrinks as the sample grows. <b>Bias</b> is a different and worse problem: a lopsided method (for example, only surveying people leaving the library). A bigger sample does <b>not</b> fix bias, it just makes you more confident in the wrong answer. As the lecturers put it, a large biased sample is a confidently wrong one.</p>
 
+      <h3 class="sec">See it: p-values and the .05 line</h3>
+      <p class="lead">Pick an everyday example, then drag the slider. Left of the .05 line a result is too rare to be chance, so you <b>reject the null</b>; right of it the result is ordinary, so you cannot. The one rule to take away: <b>small p means reject.</b></p>
+      <div class="pv">
+        <div class="pv-pick" id="pvPick"></div>
+        <div class="pv-story" id="pvStory"></div>
+        <div class="pv-bar">
+          <div class="rj"></div><div class="ln"></div>
+          <div class="l5">.05 line</div><div class="zr">reject</div><div class="zf">fail to reject</div>
+          <div class="pv-mk" id="pvMk"></div>
+        </div>
+        <div class="pv-slide"><label>p =</label><input type="range" min="1" max="100" value="1" step="1" id="pvP" aria-label="p value in percent"><span class="pv-pout" id="pvOut">.01</span></div>
+        <p class="pv-hint">p = how often a result this big would happen if the null (no effect) were true.</p>
+        <div class="pv-verdict" id="pvVerdict"><div class="pv-vh" id="pvVh"></div><div class="pv-vb" id="pvVb"></div></div>
+      </div>
+
       <h3 class="sec">Block 2: Hypotheses, and the four steps</h3>
       <p class="lead"><b>What a hypothesis is.</b> A hypothesis is a clear, specific, <b>testable prediction</b>, written down <b>before</b> you collect the data. "People who watch a feel-good film will report less stress than people who watch a neutral film" is a hypothesis; "films affect mood somehow" is too vague to test.</p>
 
@@ -2729,6 +2773,38 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
       if(sc)sc.textContent='Score: '+correct+' correct, '+answered+' of '+total+' answered'+(answered===total?'. All done.':'');
     }
   });
+
+  // ---- p-value interactive (Class 5) ----
+  (function(){
+    var pick=document.getElementById('pvPick');
+    if(!pick)return;
+    var story=document.getElementById('pvStory'), P=document.getElementById('pvP'), out=document.getElementById('pvOut'),
+        mk=document.getElementById('pvMk'), vd=document.getElementById('pvVerdict'), vh=document.getElementById('pvVh'), vb=document.getElementById('pvVb');
+    var scn=[
+      {em:'🪙',name:'Fair coin',h0:'The coin is fair, 50/50.',result:'Your friend flips it 10 times and gets <b>10 heads in a row</b>.',p:1,effect:'the coin is rigged'},
+      {em:'⚽',name:'Penalty taker',h0:'This striker is no better than an average player at penalties.',result:'He scores <b>19 of 20</b> against top keepers.',p:1,effect:'this striker really is better than average at penalties'},
+      {em:'💊',name:'New painkiller',h0:'The new painkiller works no better than a sugar pill.',result:'Patients on it report <b>much less pain</b> than the placebo group.',p:2,effect:'the painkiller genuinely works'},
+      {em:'🎲',name:'Loaded dice',h0:'The dice is fair, each face equally likely.',result:'It rolls a <b>six, six times in a row</b>.',p:1,effect:'the dice is loaded'},
+      {em:'📈',name:'Study routine',h0:'My new study routine makes no difference to my grades.',result:'After switching, my grades <b>go up a little</b> this term.',p:38,effect:'the new routine really improves my grades'}
+    ];
+    var cur=scn[0];
+    function fmt(v){return (v/100).toFixed(2).replace(/^0/,'');}
+    scn.forEach(function(s,i){
+      var b=document.createElement('button');
+      b.type='button'; b.className='pv-scn'+(i===0?' on':''); b.textContent=s.em+' '+s.name;
+      b.addEventListener('click',function(){cur=s;[].forEach.call(pick.children,function(x){x.classList.remove('on');});b.classList.add('on');P.value=s.p;drawStory();render();});
+      pick.appendChild(b);
+    });
+    function drawStory(){story.innerHTML='<div class="pv-h0"><span class="pv-tag">H0</span><span class="pv-txt">'+cur.h0+'</span></div><div class="pv-res">What happened: '+cur.result+'</div>';}
+    function render(){
+      var v=+P.value, pv=v/100, rej=pv<0.05;
+      out.textContent=fmt(v); mk.style.left=v+'%';
+      if(rej){vd.className='pv-verdict';vh.textContent='✓ Reject the null';vb.textContent='A result this extreme (p = '+fmt(v)+', about '+v+' in 100) would be rare if the null were true, so the "nothing is going on" story looks wrong. Conclude that '+cur.effect+'.';mk.style.background='#2f9e63';}
+      else{vd.className='pv-verdict fail';vh.textContent='– Fail to reject the null';vb.textContent='A result like this (p = '+fmt(v)+', about '+v+' in 100) happens easily by chance, so you cannot rule out luck. You keep the null and cannot conclude that '+cur.effect+'.';mk.style.background='var(--ink)';}
+    }
+    P.addEventListener('input',render);
+    drawStory(); render();
+  })();
 
   // ---- classes (PSY1081) class picker ----
   (function(){
