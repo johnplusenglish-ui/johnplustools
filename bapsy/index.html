@@ -361,6 +361,12 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
 .viz-out{font-size:15px;font-weight:800;color:var(--ink);min-width:66px;text-align:right}
 .viz-note{font-size:13px;color:var(--muted);line-height:1.55;margin:11px 0 0}
 .viz-note b{color:var(--ink)}
+.viz-help{font-size:12.5px;color:var(--muted);line-height:1.5;margin:0 0 12px;padding:11px 14px;border-radius:var(--r-sm);background:var(--bg);border:1px solid var(--border-soft)}
+.viz-help .hl{font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:var(--accent-dark);display:block;margin:0 0 6px}
+.viz-help ul{margin:0;padding-left:18px}
+.viz-help li{margin:0 0 4px}
+.viz-help li:last-child{margin-bottom:0}
+.viz-help b{color:var(--ink)}
 .bchip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
 .qchap{display:none}
 .qchap.on{display:block;animation:fade .25s ease}
@@ -3031,6 +3037,7 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
   document.querySelectorAll('.viz-nd').forEach(function(w){
     var svg=w.querySelector('.viz-svg'),R=w.querySelector('.viz-r'),out=w.querySelector('.viz-out'),note=w.querySelector('.viz-note');
     var W=320,H=150,cx=W/2,base=H-22,peakH=H-46;
+    (function(){var cap=w.querySelector('.viz-cap'),help=document.createElement('div');help.className='viz-help';help.innerHTML='<span class="hl">How to read it</span><ul><li>The curve is the <b>bell</b>: most scores sit in the middle, fewer at the edges.</li><li>Drag the slider to change the <b>spread (SD)</b>: bigger = wider and flatter, smaller = tall and narrow.</li><li>The shaded bands are the <b>68 / 95 rule</b>: about 68% of scores fall within 1 SD of the mean, 95% within 2 SD.</li></ul>';if(cap)cap.insertAdjacentElement('afterend',help);})();
     function area(sd,x0,x1){var s='M'+x0.toFixed(1)+','+base;for(var px=x0;px<=x1;px+=3){var x=px-cx;s+=' L'+px.toFixed(1)+','+(base-Math.exp(-(x*x)/(2*sd*sd))*peakH).toFixed(1);}return s+' L'+x1.toFixed(1)+','+base+' Z';}
     function draw(){var sd=+R.value;var p='';for(var px=0;px<=W;px+=3){var x=px-cx;p+=(px===0?'M':' L')+px.toFixed(1)+','+(base-Math.exp(-(x*x)/(2*sd*sd))*peakH).toFixed(1);}
       svg.innerHTML='<path d="'+area(sd,Math.max(0,cx-2*sd),Math.min(W,cx+2*sd))+'" fill="#e8eeff"/><path d="'+area(sd,Math.max(0,cx-sd),Math.min(W,cx+sd))+'" fill="#bcd3ff"/><path d="'+p+'" fill="none" stroke="#2176FF" stroke-width="2.5"/><line x1="'+cx+'" y1="20" x2="'+cx+'" y2="'+base+'" stroke="#2D3047" stroke-width="1" stroke-dasharray="3 3" opacity=".4"/><line x1="0" y1="'+base+'" x2="'+W+'" y2="'+base+'" stroke="#E8E5DF" stroke-width="1.5"/>';
@@ -3041,6 +3048,7 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
   document.querySelectorAll('.viz-mm').forEach(function(w){
     var svg=w.querySelector('.viz-svg'),R=w.querySelector('.viz-r'),out=w.querySelector('.viz-out'),note=w.querySelector('.viz-note');
     var fixed=[40,45,48,52,55,58,62],W=320,H=92,pad=22,y=54;
+    (function(){var cap=w.querySelector('.viz-cap'),help=document.createElement('div');help.className='viz-help';help.innerHTML='<span class="hl">How to read it</span><ul><li>Each dot is a score; the <b>red dot is an outlier</b> you can drag with the slider.</li><li>The <b>blue line is the mean</b>, the <b>green line is the median</b>.</li><li>Drag the outlier out and watch: the mean chases it, the median barely moves.</li></ul>';if(cap)cap.insertAdjacentElement('afterend',help);})();
     function sx(v){return pad+(v/100)*(W-2*pad);}
     function draw(){var o=+R.value,d=fixed.concat([o]),mean=d.reduce(function(a,b){return a+b;},0)/d.length,s=d.slice().sort(function(a,b){return a-b;}),med=(s[3]+s[4])/2;
       var dots=d.map(function(v,i){var O=i===fixed.length;return '<circle cx="'+sx(v).toFixed(1)+'" cy="'+y+'" r="'+(O?6:5)+'" fill="'+(O?'#D6453F':'#9db4d6')+'"/>';}).join('');
@@ -3052,6 +3060,7 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
   document.querySelectorAll('.viz-tt').forEach(function(w){
     var svg=w.querySelector('.viz-svg'),R=w.querySelector('.viz-r'),note=w.querySelector('.viz-note'),out=w.querySelector('.viz-out');
     var W=320,H=150,base=H-20,peakH=H-48,sd=32,m0=W*0.36,m1=W*0.64;
+    (function(){var cap=w.querySelector('.viz-cap'),help=document.createElement('div');help.className='viz-help';help.innerHTML='<span class="hl">How to read it</span><ul><li>The <b>blue curve is the "no effect" world (H0)</b>; the <b>green curve is the "real effect" world (H1)</b>.</li><li>The dark line is your <b>decision cut-off</b>, drag it.</li><li><b>Red</b> tail = Type 1 error (a false alarm); <b>amber</b> tail = Type 2 error (a miss). A stricter cut-off shrinks one and grows the other.</li></ul>';if(cap)cap.insertAdjacentElement('afterend',help);})();
     function g(px,mu){var x=px-mu;return Math.exp(-(x*x)/(2*sd*sd));}
     function reg(mu,x0,x1){var s='M'+x0.toFixed(1)+','+base;for(var px=x0;px<=x1;px+=3){s+=' L'+px.toFixed(1)+','+(base-g(px,mu)*peakH).toFixed(1);}return s+' L'+x1.toFixed(1)+','+base+' Z';}
     function cv(mu){var p='';for(var px=0;px<=W;px+=3){p+=(px===0?'M':' L')+px.toFixed(1)+','+(base-g(px,mu)*peakH).toFixed(1);}return p;}
@@ -3064,6 +3073,7 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
   document.querySelectorAll('.viz-cr').forEach(function(w){
     var svg=w.querySelector('.viz-svg'),R=w.querySelector('.viz-r'),out=w.querySelector('.viz-out'),note=w.querySelector('.viz-note');
     var W=240,H=150,pad=16,n=36,xs=[],zs=[],seed=42;
+    (function(){var cap=w.querySelector('.viz-cap'),help=document.createElement('div');help.className='viz-help';help.innerHTML='<span class="hl">How to read it</span><ul><li>Each dot is a pair of scores (one variable on each axis).</li><li>Drag the slider to set <b>r</b> from -1 to +1.</li><li><b>Sign</b> = direction (both rise together, or one up as the other falls); <b>size</b> = strength (near 0 = shapeless cloud, near 1 = tight line).</li></ul>';if(cap)cap.insertAdjacentElement('afterend',help);})();
     function rnd(){seed=(seed*1103515245+12345)&0x7fffffff;return seed/0x7fffffff;}
     function gs(){return Math.sqrt(-2*Math.log(rnd()+1e-9))*Math.cos(2*Math.PI*rnd());}
     for(var i=0;i<n;i++){xs.push(gs());zs.push(gs());}
