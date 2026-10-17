@@ -3724,9 +3724,9 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
         s.setAttribute('width',Math.round(last.W*scale));
         s.setAttribute('height',Math.round(last.H*scale));
       }
-      function fit(){
+      function fit(floor){
         var avail=wrapEl.clientWidth-14;
-        scale=Math.min(1,Math.max(.4,avail/last.W));
+        scale=Math.min(1,Math.max(floor||.4,avail/last.W));
         apply();
       }
       bar.addEventListener('click',function(e){
@@ -3741,7 +3741,7 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
         else if(a==='fit')fit();
       });
       paint();
-      fit();
+      fit(.72); // on load never shrink past readable: a narrow window scrolls sideways instead
     });
   })();
 
