@@ -2358,72 +2358,126 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
 
       <h3 class="sec">Block 1: The logic of statistical inference</h3>
       <div class="keyterms"><span>population vs sample</span><span>parameter vs statistic</span><span>p value</span><span>confidence interval</span><span>standard error</span></div>
+
+      <p class="lead"><b>What "inference" actually means.</b> You want to know something about a huge group, say everyone with anxiety. You cannot test all of them, so you test a small group and make a careful, probability-based guess about the whole group. That careful guess is <b>statistical inference</b>. The catch is that a small group is never a perfect miniature of the whole, so your guess always carries some uncertainty. This entire topic is really just about measuring that uncertainty and being honest about it.</p>
+
+      <div class="note"><span class="lab">The soup analogy</span>A pot of soup is the <b>population</b>; a spoonful is your <b>sample</b>. If you stir the pot well first (that is <b>random sampling</b>), one spoonful tells you about the whole pot. You taste the spoon to estimate the pot. You never have to drink the whole pot.</div>
+
+      <p class="lead"><b>Population vs sample, parameter vs statistic.</b> The <b>population</b> is everyone or everything you care about (all anxious clients; all Irish voters). The true numbers that describe the population are called <b>parameters</b>: they are fixed and real, but unknown to you. The <b>sample</b> is the smaller group you actually measure, and the numbers from it are <b>statistics</b>: your best estimates of the parameters. In symbols you will often see <b>N</b> for the population size and <b>n</b> for the sample size.</p>
+
+      <p class="lead"><b>How to tell a statistic from a parameter.</b> A statistic comes from a sample; a parameter comes from measuring the whole group. The quick giveaway: if a number has a <b>margin of error</b> attached, it is a statistic (an estimate). A parameter needs no margin of error, because nothing is being estimated, you counted everyone.</p>
       <div class="abox"><ul>
-        <li><b>Inference</b> = generalising from a sample to a population, with a calculated degree of certainty based on probability. The <b>population</b> holds the true, fixed, unknown <b>parameters</b>; the <b>sample</b> gives you <b>statistics</b> that estimate them.</li>
-        <li>Two forms: <b>parameter estimation</b> ("what is the value, and how precisely do we know it?") and <b>hypothesis testing</b> ("is the value different from what we assumed?"). The rest of the module lives inside hypothesis testing.</li>
-        <li><b>Statistic vs parameter</b>: a statistic describes a sample (55% of polled voters), a parameter describes a whole group (90% of a class who raised their hand). A reported <b>margin of error</b> is the giveaway that you are looking at a statistic.</li>
-        <li><b>Statistical significance</b>: a result is significant if, at a set level of certainty, it is unlikely to be down to random fluctuation rather than a real effect.</li>
-        <li><b>The p value</b> is the probability of your result, or a more extreme one, <b>if the null hypothesis were true</b>. Psychology's benchmark is <b>p &lt; .05</b>. It is <b>not</b> the probability the null is true, not the probability your hunch is true, and says nothing about how big the effect is.</li>
-        <li><b>Confidence interval</b>: a range that should contain the true population value a set proportion of the time (usually 95%). If a 95% CI for a difference <b>excludes zero</b>, the result is significant at .05. A narrow CI means a precise estimate; a wide one means you know little, even if p dips below .05.</li>
-        <li><b>SD vs standard error</b>: the <b>SD</b> describes spread in your sample; the <b>standard error</b> = SD ÷ √N, and measures how far the sample mean is likely to sit from the true population mean. Bigger samples shrink the standard error.</li>
-        <li><b>Representative sampling</b> is what licenses the whole inference. Random sampling keeps systematic bias out. Sampling error (sample vs population gap) is unavoidable and shrinks with sample size, but a <b>biased</b> sample does not improve with size: a large biased sample is just confidently wrong.</li>
+        <li>A poll of 1,100 adults reports 38% support, plus or minus 3%. That is a <b>statistic</b> (only a sample was asked, hence the margin of error).</li>
+        <li>The exams office reports that all 214 registered students last year averaged 62.4%. That is a <b>parameter</b> (every member was measured, no estimate needed).</li>
       </ul></div>
 
+      <p class="lead"><b>Inference does two jobs.</b> <b>Parameter estimation</b> asks "what is the value, and how sure are we?" (estimate the average and give a range). <b>Hypothesis testing</b> asks "is the value different from what we assumed?" (is CBT's average different from the control's?). Everything from here to the end of the module is hypothesis testing.</p>
+
+      <p class="lead"><b>What "statistically significant" means.</b> When you compare two groups, their averages will almost never be exactly equal, even pure chance produces some gap. The real question is: is the gap big enough that "it was just chance" becomes an unconvincing explanation? If yes, we call the result <b>statistically significant</b>: we decide a genuine effect is more believable than a fluke.</p>
+
+      <p class="lead"><b>The p value (this is the one everyone trips on).</b> Picture a pretend world where there is truly no effect (CBT does nothing at all). Even in that world, random luck over who ended up in each group could still produce a gap between the two averages. The <b>p value is the probability of getting a result at least as extreme as yours, if that no-effect world were real.</b> A <b>small</b> p means "a gap this big would almost never happen by luck alone," so the no-effect story becomes hard to believe and we reject it. Psychology draws the line at <b>p &lt; .05</b> (less than a 5% chance): below it, the result is significant and we reject the null; above it, it is not significant and we keep the null.</p>
+      <div class="note"><span class="lab">Reading p = .03 in plain words</span>"If CBT truly did nothing, a difference this big would turn up only about 3 times in 100 studies." That is rare enough (under our 5% line) to reject the no-effect idea. Now the three traps. p is <b>not</b> the chance the null is true; it is <b>not</b> the chance your hunch is true; and it says <b>nothing</b> about how big or important the effect is (that is effect size, which comes in Class 6).</div>
+
+      <p class="lead"><b>Confidence intervals.</b> Instead of one lonely number, we give a <b>range of believable values</b> for the true difference. A <b>95% confidence interval</b> means that if you repeated the study many times, about 95 of every 100 such intervals would capture the true value. How to read one: say the mean difference in anxiety is 3.20 points, with a 95% CI from <b>0.85 to 5.55</b>. Your best single guess is 3.2 points; the true value is plausibly anywhere from about 0.85 to 5.55. Because that range does <b>not</b> include <b>0</b> (which would mean "no difference"), no difference is not a believable value, so the result is significant. Had the range been from -1.10 to 7.50, zero would sit inside it, and you could not rule out "no difference", so the result would not be significant. A <b>narrow</b> interval means a precise estimate; a <b>wide</b> one means you really know very little, even when p happens to dip below .05.</p>
+
+      <p class="lead"><b>Standard deviation vs standard error (easy to mix up).</b> The <b>standard deviation (SD)</b> tells you how spread out the individual scores are around their own average, it describes the people you measured. The <b>standard error (SE)</b> tells you how much the sample <b>average itself</b> would jump around if you kept repeating the study with fresh samples, and it equals <b>SD ÷ √n</b>. Because you divide by the square root of the sample size, the SE <b>shrinks as the sample grows</b>: an average from 1,000 people is far steadier than one from 10. So SD answers "how varied are my people?" and SE answers "how trustworthy is my average?"</p>
+
+      <p class="lead"><b>Why the sample must be representative.</b> All of this only works if the sample fairly stands in for the population. <b>Random sampling</b> (everyone has a known, non-zero chance of being picked) is what keeps hidden bias out. <b>Sampling error</b> is the gap between your sample's number and the true population number that arises simply because you studied a sample, it is unavoidable, not a mistake, and it shrinks as the sample grows. <b>Bias</b> is a different and worse problem: a lopsided method (for example, only surveying people leaving the library). A bigger sample does <b>not</b> fix bias, it just makes you more confident in the wrong answer. As the lecturers put it, a large biased sample is a confidently wrong one.</p>
+
       <h3 class="sec">Block 2: Hypotheses, and the four steps</h3>
-      <p class="lead">A hypothesis is a formal, testable, specific prediction. Hypothesis testing has four steps, and every analysis in the module follows them:</p>
+      <p class="lead"><b>What a hypothesis is.</b> A hypothesis is a clear, specific, <b>testable prediction</b>, written down <b>before</b> you collect the data. "People who watch a feel-good film will report less stress than people who watch a neutral film" is a hypothesis; "films affect mood somehow" is too vague to test.</p>
+
+      <p class="lead"><b>The null and the alternative, and why there are two.</b> Every test is built around a pair of statements that are really two sides of one coin:</p>
+      <div class="abox"><ul>
+        <li><b>Null hypothesis (H0)</b>: the "nothing is going on" statement. The IV has <b>no effect</b> on the DV in the population (CBT makes no difference to anxiety).</li>
+        <li><b>Alternative hypothesis (H1)</b>: the "something is going on" statement. The IV <b>does</b> affect the DV (CBT changes anxiety). This is your actual prediction, also called the research or experimental hypothesis.</li>
+      </ul></div>
+      <div class="note"><span class="lab">The courtroom analogy (worth really getting)</span>We put the <b>null</b> on trial, the way a court presumes the accused <b>innocent</b>. "Innocent" here means "no effect". We then look for enough evidence to <b>reject</b> that presumption. If the evidence is strong (small p), we <b>reject the null</b>, like a guilty verdict. If it is weak, we <b>fail to reject</b> the null, like a "not guilty" verdict, which does <b>not</b> mean we proved innocence, only that there was not enough evidence. This is why we <b>never say "accept the null" or "prove"</b>. We can only reject it or fail to reject it. We test the null rather than the hunch because you cannot prove a positive outright, but you can show that the "no effect" story is too unlikely to keep believing.</div>
+
+      <p class="lead"><b>The four steps.</b> Every analysis in the rest of the module follows exactly these four steps, so it is worth learning them as a routine:</p>
       <ol class="steps">
-        <li><div class="h">State the hypotheses</div><div class="d"><b>H0 (null)</b>: the IV has no effect on the DV in the population (the "no effect" hypothesis). <b>H1 (alternative)</b>: the IV does affect the DV. They are two sides of one coin. We <b>test the null</b>, because science falsifies rather than verifies (innocent until proven guilty), and we <b>reject</b> or <b>fail to reject</b> it, never "accept" or "prove".</div></li>
-        <li><div class="h">Set the criterion</div><div class="d">Choose <b>alpha</b> in advance: .05 by convention, or .01 to be stricter. Alpha is the Type 1 error rate you accept. Picking it after seeing p is not hypothesis testing.</div></li>
-        <li><div class="h">Compute the test statistic</div><div class="d">Pick the test from the DV's scale, the question (difference or relationship) and the design (independent or related), then let SPSS compute it.</div></li>
-        <li><div class="h">Decide</div><div class="d">Compare the result to the criterion. If <b>p &lt; alpha</b>, reject H0 and report the effect; if not, fail to reject. Report the statistic, df, exact p and effect size.</div></li>
+        <li><div class="h">1. State the hypotheses</div><div class="d">Write H0 (no effect) and H1 (an effect), and decide whether H1 is <b>directional</b> (predicts which way) or <b>non-directional</b> (just predicts a difference).</div></li>
+        <li><div class="h">2. Set the criterion (choose alpha)</div><div class="d">Decide <b>in advance</b> how much evidence is enough, by picking the significance level <b>alpha</b>: .05 by convention, or .01 when a false alarm would be costly. Alpha is the Type 1 error rate you are willing to live with. Choosing it <b>after</b> seeing the p value is cheating, not hypothesis testing.</div></li>
+        <li><div class="h">3. Compute the test statistic</div><div class="d">Pick the right test from three things, the DV's measurement scale, whether you are asking about a difference or a relationship, and the design (independent or related groups), then let SPSS calculate it and give you a p value.</div></li>
+        <li><div class="h">4. Decide</div><div class="d">Compare p against alpha. If <b>p is less than alpha</b> (e.g. p &lt; .05), reject H0 and report the effect. If not, fail to reject H0. Either way, report the test statistic, its degrees of freedom, the exact p, and the effect size.</div></li>
       </ol>
-      <div class="note"><span class="lab">Worked example (runs through the class)</span>A fictitious <b>CBT and GAD-7</b> study: 30 anxious clients randomly assigned to 10 weeks of CBT or a waiting-list control, then all complete the GAD-7 anxiety scale (0 to 21). <b>IV</b> = CBT treatment, two levels (CBT vs control). <b>DV</b> = total anxiety score, measured by the GAD-7. <b>H1</b>: CBT clients show lower anxiety than controls. <b>H0</b>: CBT clients do not differ from controls.</div>
+
+      <div class="note"><span class="lab">The worked example that runs through the whole class</span>A made-up but realistic <b>CBT and GAD-7 study</b>: 30 anxious clients are randomly split into two groups, one gets 10 weeks of Cognitive Behavioural Therapy (CBT), the other stays on a waiting list (the control). Afterwards everyone fills in the GAD-7, a short anxiety questionnaire scored from 0 (none) to 21 (severe). So the <b>IV</b> is treatment, with two levels (CBT vs control), and the <b>DV</b> is the total anxiety score. Step 1 for this study: <b>H0</b> = CBT clients do not differ from controls in anxiety; <b>H1</b> = CBT clients show lower anxiety than controls.</div>
+
+      <p class="lead"><b>One-tailed or two-tailed?</b> This is just about whether your prediction names a <b>direction</b>.</p>
       <div class="tscroll"><table class="tbl">
-        <thead><tr><th>Direction</th><th>What it predicts</th><th>Example wording</th></tr></thead>
+        <thead><tr><th>Type</th><th>What it predicts</th><th>Example wording</th><th>Use when</th></tr></thead>
         <tbody>
-          <tr><td><b>One-tailed</b> (directional)</td><td>Which way the effect goes</td><td>"CBT clients will show <b>reduced</b> anxiety vs controls"</td></tr>
-          <tr><td><b>Two-tailed</b> (non-directional)</td><td>Only that there is a difference</td><td>"CBT clients will show <b>different</b> anxiety vs controls"</td></tr>
+          <tr><td><b>One-tailed</b> (directional)</td><td>A difference <b>and which way</b> it goes</td><td>"CBT clients will show <b>reduced</b> anxiety vs controls"</td><td>You have a solid theoretical reason to expect that direction</td></tr>
+          <tr><td><b>Two-tailed</b> (non-directional)</td><td>Only that the groups <b>differ</b>, not which way</td><td>"CBT clients will show <b>different</b> anxiety vs controls"</td><td>You expect a difference but cannot justify the direction in advance</td></tr>
         </tbody>
       </table></div>
-      <p class="tnote">A directional hypothesis needs a theoretical reason for the direction. It is not a trick for pushing a marginal result over the line.</p>
+      <p class="tnote">Important honesty point: a directional hypothesis needs a genuine theoretical or evidence-based reason for the direction. It is not a trick for nudging a borderline result over the significance line.</p>
 
       <h3 class="sec">Block 3: When we get it wrong, Type 1 and Type 2 errors</h3>
-      <p class="lead">Reality (an effect exists or not) and your decision (reject H0 or not) may not match. Two of the four outcomes are errors:</p>
+      <p class="lead">No test is ever 100% certain, so sometimes the decision you make does not match reality. There are two things that can each be one of two ways: in <b>reality</b> an effect either exists or it does not, and in your <b>decision</b> you either reject H0 or you do not. That gives four combinations. Two are correct, and two are mistakes with names you must know.</p>
       <div class="tscroll"><table class="tbl">
-        <thead><tr><th></th><th>H0 actually true</th><th>H0 actually false</th></tr></thead>
+        <thead><tr><th>Your decision ↓ / Reality →</th><th>H0 is actually TRUE (no real effect)</th><th>H0 is actually FALSE (a real effect exists)</th></tr></thead>
         <tbody>
-          <tr><td><b>Reject H0</b></td><td><b>Type 1 error</b> (false positive, rate = alpha)</td><td>Correct</td></tr>
-          <tr><td><b>Fail to reject H0</b></td><td>Correct</td><td><b>Type 2 error</b> (false negative, rate = beta)</td></tr>
+          <tr><td><b>You reject H0</b> (claim an effect)</td><td><b>Type 1 error</b> (false positive)</td><td>Correct</td></tr>
+          <tr><td><b>You fail to reject H0</b> (claim no effect)</td><td>Correct</td><td><b>Type 2 error</b> (false negative)</td></tr>
         </tbody>
       </table></div>
+      <div class="note"><span class="lab">The fire-alarm way to remember it</span>A <b>Type 1 error</b> is the alarm going off when there is <b>no fire</b> (a false alarm, you cry wolf). A <b>Type 2 error</b> is the alarm staying silent when there <b>is</b> a fire (a dangerous miss). One raises a false alarm about an effect that is not there; the other sleeps through an effect that is.</div>
+
+      <p class="lead"><b>Type 1 error, the false positive.</b> You reject a null that was actually true, so you announce an effect that is not real. Its rate is <b>alpha</b>, the very significance level you set. With alpha = .05 you are accepting that, by sheer chance, about <b>1 in every 20</b> true-null tests will give a "significant" result anyway. In the CBT study, this would happen if your test said CBT lowered anxiety, but really the CBT group simply <b>happened to start less anxious</b> than the control group, so the difference was there before the therapy, not because of it.</p>
+
+      <p class="lead"><b>Type 2 error, the false negative.</b> You fail to reject a null that was actually false, so you miss a real effect. Its rate is called <b>beta</b>, and it is tied to the test's <b>power</b> (power = 1 - beta = the chance of catching a real effect when there is one). Type 2 errors usually come from an <b>underpowered</b> study, most often one with too small a sample. In the CBT study, this would happen if CBT really did work, but the two groups looked similar at the end because the CBT group had <b>started more anxious</b>, hiding the improvement.</p>
+
+      <p class="lead"><b>The trade-off you cannot escape.</b> Lowering alpha (say to .01) makes false positives rarer, but it also makes you <b>less likely to detect a real effect</b>, so Type 2 errors go up. Boosting power (mainly by using a <b>bigger sample</b>) lowers Type 2 errors. The two risks pull against each other, so the honest move is to decide <b>which error would be worse in your situation first</b>: missing a drug that genuinely works is very different from falsely approving one that does not.</p>
       <div class="abox"><ul>
-        <li><b>Type 1</b>: you claim an effect that is not real. With alpha = .05, about 1 in 20 tests will do this by chance. (In the CBT study: the groups differed only because the CBT group happened to start less anxious.)</li>
-        <li><b>Type 2</b>: you miss a real effect, usually because the study is <b>underpowered</b> (too small). (In the CBT study: CBT worked, but the groups looked similar because the CBT group started more anxious.)</li>
-        <li>Lower alpha (.01) cuts Type 1 risk but raises Type 2 risk; more <b>power</b> (mainly a bigger sample) cuts Type 2 risk. The two trade off, so decide which error is worse in your situation first.</li>
-        <li>This is why <b>replication</b> matters: one significant finding is a beginning, not a verdict.</li>
+        <li><b>Which error is this?</b> A study finds no difference between a new therapy and the usual care, so the therapy is dropped. Five years later a large, well-powered trial shows it works. That first study made a <b>Type 2 error</b>: it failed to reject a false null, probably because it was too small.</li>
+        <li><b>Which error is this?</b> A study reports that a supplement boosts memory, p = .04. Twelve bigger replications find nothing. The original made a <b>Type 1 error</b>: a true null was rejected. With alpha at .05, roughly 1 in 20 such tests will do this by chance.</li>
+        <li>This is exactly why <b>replication matters</b>: a single significant finding is a starting point, not a final verdict.</li>
       </ul></div>
 
       <h3 class="sec">Block 4: Experimental design</h3>
+      <p class="lead"><b>Why this matters before any numbers.</b> How you set the study up, specifically whether each person appears in <b>one</b> condition or in <b>both</b>, decides which t-test you are allowed to run. You settle this at the design stage, long before you open SPSS. There are two basic shapes:</p>
+      <div class="abox"><ul>
+        <li><b>Independent groups (between-subjects)</b>: different people in each condition, randomly allocated. The CBT study as run is this shape, one group gets CBT, a separate group waits, and each person is measured once.</li>
+        <li><b>Repeated measures (within-subjects)</b>: the <b>same</b> people do both conditions. The CBT study could be rebuilt this way, measure everyone's anxiety first, give everyone CBT, then measure again, and compare each person's "before" with their "after".</li>
+      </ul></div>
       <div class="tscroll"><table class="tbl">
         <thead><tr><th></th><th>Independent groups (between-subjects)</th><th>Repeated measures (within-subjects)</th></tr></thead>
         <tbody>
           <tr><td>Set-up</td><td>Each person in one condition only, randomly allocated</td><td>Each person does both conditions</td></tr>
           <tr><td>DV measured</td><td>Once per person; scores compared across groups</td><td>Twice per person; scores compared across time</td></tr>
           <tr><td>Analysed with</td><td><b>Independent-samples t-test</b></td><td><b>Related-samples t-test</b></td></tr>
-          <tr><td>Strength</td><td>No order effects; can study fixed attributes (e.g. gender)</td><td>Fewer participants; groups cannot differ (same people)</td></tr>
-          <tr><td>Watch for</td><td>Groups may differ by chance (confounds)</td><td><b>Order effects</b> (practice, fatigue, carry-over)</td></tr>
+          <tr><td>Main strength</td><td>No order effects; can study fixed attributes (e.g. gender)</td><td>Fewer participants needed; the groups cannot differ, because they are the same people</td></tr>
+          <tr><td>Main weakness</td><td>The two groups may differ by chance (a confound)</td><td><b>Order effects</b> (practice, fatigue, carry-over)</td></tr>
         </tbody>
       </table></div>
-      <p class="lead">The CBT study, as run, is an <b>independent groups</b> design. The remedy for order effects in a repeated-measures design is <b>counterbalancing</b> (half do A then B, half do B then A). An <b>extraneous variable</b> is anything besides the IV that could sway the DV (situational, participant or nuisance). A <b>confounding variable</b> is the dangerous kind: it varies <b>systematically</b> with the IV, so you cannot tell IV from confound. In an independent-groups design, <b>random allocation</b> is the main defence.</p>
+
+      <p class="lead"><b>Order effects, the price of repeated measures.</b> Because the same person does both conditions, doing the first can change how they do the second. <b>Practice</b>: they improve just from having done the task before. <b>Fatigue or boredom</b>: they get worse through tiredness or losing interest. <b>Carry-over</b>: the first treatment is still working during the second. The standard fix is <b>counterbalancing</b>: half the participants do condition A then B, and the other half do B then A, so these effects cancel out across the group instead of piling up in one condition.</p>
+
+      <p class="lead"><b>Extraneous vs confounding variables.</b> An <b>extraneous variable</b> is anything other than the IV that could affect the DV, for example the room, the noise, the time of day (situational), or a participant's age, anxiety or health (participant variables). Most just add random "noise". A <b>confounding variable</b> is the dangerous kind: it varies <b>systematically along with the IV</b>, so you cannot tell whether the IV or the confound caused the result. In the CBT study, if the CBT group happened to start less anxious than the control group, then "prior anxiety level" is confounded with treatment, and that is exactly the route to a Type 1 error from Block 3. In an independent-groups design, <b>random allocation</b> is the main defence: it does not guarantee the two groups are identical, but it stops any bias from being built in on purpose.</p>
 
       <h3 class="sec">Block 5: Introducing the independent-samples t-test</h3>
-      <p class="lead">Choosing the test comes down to three questions:</p>
+      <p class="lead"><b>First, how you pick any test.</b> Three questions, in order, point you to the right analysis:</p>
       <ol class="steps">
-        <li><div class="h">What is the DV?</div><div class="d">Nominal → chi-square. At least ordinal → go on.</div></li>
-        <li><div class="h">Difference or relationship?</div><div class="d">Relationship → correlation. Difference → go on.</div></li>
-        <li><div class="h">What is the design?</div><div class="d">Two separate groups → independent samples. Same people twice → related samples.</div></li>
+        <li><div class="h">1. What is the DV?</div><div class="d">If it is <b>nominal</b> (categories), the test is <b>chi-square</b>. If it is at least <b>ordinal</b>, carry on.</div></li>
+        <li><div class="h">2. Are you asking about a difference or a relationship?</div><div class="d">A <b>relationship</b> between two variables → <b>correlation</b>. A <b>difference</b> between two sets of scores → carry on.</div></li>
+        <li><div class="h">3. What is the design?</div><div class="d">Two <b>separate</b> groups of people → <b>independent samples</b>. The <b>same</b> people measured twice → <b>related samples</b>.</div></li>
       </ol>
-      <p class="lead">Two independent groups with an interval/ratio DV gives the <b>independent-samples t-test</b> (a parametric test of the difference between two group means). It is <b>robust</b> to modest violations of its assumptions. Those assumptions: one IV with two levels, independent groups, a scale DV, each group roughly normal, no serious outliers, and roughly equal variances. When normality fails or the DV is only ordinal, use the <b>Mann-Whitney U</b> (non-parametric): it ranks the scores, makes no distribution assumptions, is never wrong, but is a blunter instrument. Every t-test is reported with its <b>degrees of freedom</b>: for the independent t-test, <b>df = N - 2</b> (so two groups of 15 give df = 28, written t(28)).</p>
+      <p class="lead">Two independent groups, with an interval or ratio DV, and you asking about a difference, lands you on the <b>independent-samples t-test</b>, which is where Class 6 begins.</p>
+
+      <p class="lead"><b>What the t-test actually does, in plain terms.</b> It asks a single sensible question: <b>is the gap between the two group averages big compared with the random scatter in the scores?</b> A large gap between two very tight, consistent sets of scores is convincing. The same large gap between two wildly varying sets could easily be noise. In formula terms, <b>t = (difference between the two means) ÷ (standard error of that difference)</b>. So t gets bigger when the means are far apart and/or the data are tight and consistent, and a bigger t produces a smaller p.</p>
+
+      <p class="lead"><b>"Parametric" and its assumptions.</b> The t-test is a <b>parametric</b> test, meaning it assumes the data behave nicely; in return it uses the actual scores and is <b>sensitive</b> (good at catching a real effect). Some assumptions you already know just from the design, and some you have to check in SPSS:</p>
+      <div class="abox"><ul>
+        <li><b>Known from the design:</b> one IV with two levels; two <b>independent</b> groups (different people); and a <b>scale</b> (interval or ratio) DV.</li>
+        <li><b>Tested in SPSS (this is Class 6):</b> the scores in <b>each group are roughly normal</b>; there are <b>no serious outliers</b>; and the two groups have <b>roughly equal spread</b> (equal variances).</li>
+      </ul></div>
+      <p class="lead">Helpfully, the t-test is <b>robust</b>: it still gives trustworthy answers when these assumptions are only mildly broken, as long as the violations are not severe.</p>
+
+      <p class="lead"><b>The backup test: Mann-Whitney U.</b> When normality clearly fails, or the DV is only ordinal, use the <b>Mann-Whitney U</b>, the non-parametric equivalent. It throws away the raw values and works only on their <b>ranks</b> (1st, 2nd, 3rd and so on), then checks whether one group's ranks sit higher than the other's. Because it uses ranks, it makes <b>no assumption about the shape</b> of the distribution. It is "never wrong" to use, but it is a <b>blunter instrument</b>: ranking loses some information, so it is a little worse at detecting a real effect.</p>
+
+      <p class="lead"><b>Degrees of freedom.</b> Every t-test is reported with its <b>degrees of freedom (df)</b>, written in brackets after the t. For an independent-samples t-test, <b>df = N - 2</b>, where N is the total number of people across both groups. Loosely, df is how many values were free to vary once the two means were fixed; in practice it tells the test which theoretical distribution to compare your t against. Two groups of 15 give df = 30 - 2 = 28, so you report <b>t(28)</b>. SPSS works out the df for you, but you must include it when you write the result up.</p>
 
       <details class="saq"><summary>Breakout task (try it, then check)</summary><div class="ans">
         <p>Using the CBT and GAD-7 study: state H0 and H1 in full; is H1 one- or two-tailed; name the IV and its levels and the DV and its measurement; what does p = .03 let you conclude, and what error might you be making; and what about p = .32? Then redesign it as repeated measures: what do you gain and what problem appears?</p>
