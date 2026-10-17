@@ -594,6 +594,7 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
         <button class="guide-nav-item" data-t="q8"><span class="guide-nav-dot"></span><span class="label">Quant Methods Book</span></button>
         <div class="pn-rule"></div>
         <div class="pn-eyebrow">Do the analysis</div>
+        <button class="guide-nav-item" data-t="q15"><span class="guide-nav-dot"></span><span class="label">Null &amp; p-values</span><span class="trail"><span class="nav-k due">A1</span></span></button>
         <button class="guide-nav-item" data-t="q12"><span class="guide-nav-dot"></span><span class="label">Which Test?</span></button>
         <button class="guide-nav-item" data-t="q7"><span class="guide-nav-dot"></span><span class="label">SPSS Guide</span><span class="trail"><span class="nav-k due">A1</span></span></button>
         <div class="pn-rule"></div>
@@ -5500,6 +5501,172 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
   <div class="note"><span class="lab">The one that fails you</span>Every piece of <b>SPSS output must be pasted into the appendices</b>. Missing output is an automatic fail on that task, no matter how good the analysis is.</div>
 </section>
 
+<!-- ======== PSY1081 q15 : NULL & P-VALUES ======== -->
+<section class="pane wrap" id="q15">
+  <div class="dhead">
+    <div class="kicker">Do the analysis · the idea everything rests on</div>
+    <h2>The Null and the p-value</h2>
+    <div class="pills"><span class="pill on">plain English</span><span class="pill">worked examples</span><span class="pill">why it matters</span></div>
+  </div>
+  <div class="intro-card">
+    <div class="lab">How to use this</div>
+    <ul>
+      <li><b>Read section 1 to 3 once, slowly.</b> They are the whole idea. Everything after that is examples and consequences.</li>
+      <li><b>Section 5 is the one to come back to.</b> It lists the five things people wrongly think a p-value means, with what it actually means beside each.</li>
+      <li><b>Sections 9 and 10 answer "why does this matter".</b> First for your own Assignment 1, then for psychology as a field.</li>
+      <li><b>There is a slider version in Classes, Class 5</b> if you want to drag a p-value around and watch the verdict change.</li>
+    </ul>
+  </div>
+
+  <h3 class="sec">1. The whole idea in four lines</h3>
+  <div class="abox"><ul>
+    <li><b>You cannot prove an effect is real.</b> You can only show that the result you got would be <b>surprising</b> if nothing were going on.</li>
+    <li>So you start by assuming <b>nothing is going on</b>. That assumption is the <b>null hypothesis</b>.</li>
+    <li>Then you ask: <b>if that were true, how often would I see a result at least this extreme, just by luck?</b> That answer is the <b>p-value</b>.</li>
+    <li>If the answer is "hardly ever", you stop believing the assumption. That is all "statistically significant" means.</li>
+  </ul></div>
+
+  <h3 class="sec">2. The courtroom, which is the clearest version of this</h3>
+  <p class="lead">A criminal trial works exactly the same way, and if you can hold this analogy you can always reconstruct the logic.</p>
+  <div class="tscroll"><table class="tbl">
+    <tr><th>In court</th><th>In your analysis</th></tr>
+    <tr><td>The defendant is <b>presumed innocent</b>. That is the starting position, held whether or not anyone believes it.</td><td><b>H0: there is no difference.</b> You start here by default.</td></tr>
+    <tr><td>The prosecution presents evidence.</td><td>You collect your data and run the test.</td></tr>
+    <tr><td>The jury asks: <b>how likely is this evidence if the defendant were innocent?</b></td><td>The p-value asks: <b>how likely is this data if H0 were true?</b></td></tr>
+    <tr><td>Evidence that would be very unlikely from an innocent person means: <b>guilty beyond reasonable doubt</b>.</td><td>A small p means: <b>reject H0</b>.</td></tr>
+    <tr><td>Weak evidence gives <b>not guilty</b>, which is NOT the same as <b>proven innocent</b>.</td><td>A large p means <b>fail to reject H0</b>, which is NOT the same as <b>proving there is no effect</b>.</td></tr>
+    <tr><td>"Beyond reasonable doubt" is a chosen threshold, not a measurement.</td><td><b>Alpha of .05</b> is a chosen threshold, not a measurement.</td></tr>
+  </table></div>
+  <div class="note"><span class="lab">The single most useful sentence on this page</span>A verdict of "not guilty" does not mean the person did not do it. It means the evidence was not strong enough. <b>Failing to reject the null does not mean there is no effect.</b> It means your study did not find enough evidence of one, which may be because there is none, or because your sample was too small to see it.</div>
+
+  <h3 class="sec">3. What H0 and H1 actually say</h3>
+  <div class="abox"><ul>
+    <li><b>H0, the null hypothesis.</b> There is <b>no</b> difference, or <b>no</b> relationship, <b>in the population</b>. Any gap you see in your sample is just the luck of who ended up in which group.</li>
+    <li><b>H1, the alternative hypothesis.</b> There <b>is</b> a difference or relationship. This is usually what you actually believe, which is why it feels back to front to spend the whole analysis testing the other one.</li>
+    <li><b>Directional (one-tailed)</b> H1 predicts <b>which way</b>: the mindfulness group will score HIGHER. <b>Non-directional (two-tailed)</b> H1 just predicts a difference in either direction. Two-tailed is the default and the safer choice, and you must decide <b>before</b> you look at the data.</li>
+    <li><b>You never prove H1.</b> You reject H0, or you fail to reject it. Writing "this proves mindfulness works" is the single most common way to lose marks here.</li>
+  </ul></div>
+  <div class="tscroll"><table class="tbl">
+    <tr><th>Study</th><th>H0 (what you test)</th><th>H1 (what you suspect)</th></tr>
+    <tr><td><b>A1 Task 1:</b> mindfulness training vs control, measured on the SART</td><td>There is no difference in mean SART performance between the mindfulness group and the control group.</td><td>There is a difference in mean SART performance between the two groups. (Directional version: the mindfulness group performs better.)</td></tr>
+    <tr><td><b>A1 Task 2:</b> phone-checking in the cinema, under 30s vs over 40s</td><td>There is no difference in the mean number of phone checks between the under-30 group and the over-40 group.</td><td>There is a difference in the mean number of phone checks between the two age groups.</td></tr>
+    <tr><td>Does sleep relate to exam marks?</td><td>The correlation between hours of sleep and exam mark is <b>zero</b> in the population.</td><td>There is a relationship between hours of sleep and exam mark.</td></tr>
+    <tr><td>Does a new painkiller beat a placebo?</td><td>There is no difference in mean reported pain between the drug and placebo groups.</td><td>The drug group reports less pain.</td></tr>
+  </table></div>
+  <p class="lead">Notice the pattern. <b>H0 is always boring, always specific, and always about the population rather than your sample.</b> That is what makes it testable: you can calculate exactly what the world should look like if it were true.</p>
+
+  <h3 class="sec">4. What p actually is</h3>
+  <div class="abox"><ul>
+    <li><b>The careful version.</b> The p-value is the probability of obtaining a result <b>at least as extreme</b> as the one you got, <b>assuming the null hypothesis is true</b>.</li>
+    <li><b>The plain version.</b> Imagine a world where the thing you are testing genuinely does nothing. Run your study 100 times in that world. <b>How many of those 100 runs would throw up a gap as big as yours, purely by chance?</b> That count, as a proportion, is p.</li>
+    <li><b>So p = .03 means:</b> in a world where nothing is going on, you would see a gap this big about <b>3 times in 100</b>. That is rare enough to make you doubt the "nothing is going on" assumption.</li>
+    <li><b>And p = .32 means:</b> you would see a gap this big about <b>32 times in 100</b> by sheer luck. That is completely unremarkable, so you have no reason to abandon the assumption.</li>
+    <li><b>The direction catches everyone out.</b> A <b>small</b> p is evidence <b>against</b> the null. It feels backwards because small usually sounds like weak. Here, small means <b>surprising</b>, and surprising is what undermines the assumption.</li>
+  </ul></div>
+  <div class="viz viz-nd">
+    <div class="viz-cap">Try it: what "extreme" means</div>
+    <svg class="viz-svg" viewBox="0 0 320 150"></svg>
+    <div class="viz-slide"><label>Spread (SD)</label><input type="range" class="viz-r" min="10" max="34" value="16"><span class="viz-out"></span></div>
+    <div class="viz-note"></div>
+  </div>
+
+  <h3 class="sec">5. Five things p does NOT mean</h3>
+  <p class="lead">Every one of these appears in student essays, and most of them appear in newspapers. If you can avoid all five you are ahead of a lot of published researchers.</p>
+  <div class="tscroll"><table class="tbl">
+    <tr><th>The misreading</th><th>What is actually true</th></tr>
+    <tr><td>"p = .03 means there is a 3% chance the null is true."</td><td>No. p is the probability of <b>the data given the null</b>, not the probability of <b>the null given the data</b>. Those are different questions, like confusing "how likely is this evidence if he is innocent" with "how likely is he innocent given this evidence".</td></tr>
+    <tr><td>"p = .03 means there is a 97% chance the effect is real."</td><td>No, for the same reason. p says nothing about the probability that your hypothesis is correct.</td></tr>
+    <tr><td>"p &lt; .001 means the effect is huge."</td><td>No. p tells you how <b>surprising</b> the result is, not how <b>big</b> it is. A tiny, useless difference becomes highly significant if your sample is big enough. Size is what <b>effect size</b> (Cohen's d, r) is for, which is exactly why you must report it.</td></tr>
+    <tr><td>"p = .06 means there is no effect."</td><td>No. It means you did not clear the line you set in advance. The difference between p = .049 and p = .051 is practically nothing, yet one is called significant and the other is not. Treat .05 as a convention, not a law of nature.</td></tr>
+    <tr><td>"A significant result means the finding will replicate."</td><td>No. One significant result in one sample is weak evidence on its own. Whether it holds up is settled by <b>replication</b>, not by the p-value.</td></tr>
+  </table></div>
+
+  <h3 class="sec">6. Three examples with real numbers</h3>
+  <div class="abox">
+    <ul>
+      <li><b>The coin.</b> H0: this coin is fair. You flip it 10 times and get 10 heads.
+        <ul>
+          <li>If the coin really were fair, the chance of 10 heads in a row is about <b>1 in 1,024</b>, so p is about <b>.001</b>.</li>
+          <li>That is so surprising under "the coin is fair" that you stop believing it. You did not <b>prove</b> the coin is biased; you decided the alternative explanation is now more comfortable than the coincidence.</li>
+          <li>Flip it 10 times and get 6 heads and p is about <b>.75</b>. Completely ordinary. No case to answer.</li>
+        </ul>
+      </li>
+      <li><b>The penalty taker.</b> H0: this player is no better than the squad average of 70%.
+        <ul>
+          <li>He scores <b>8 out of 10</b>. Good, but 8 out of 10 happens often enough by luck for a 70% taker, so p is large and you cannot claim he is better.</li>
+          <li>He scores <b>88 out of 100</b>. The same percentage gap, but now it is very hard to get by luck, so p is small and you can.</li>
+          <li><b>This is the lesson about sample size in one example.</b> The same size of effect is unconvincing in a small sample and convincing in a large one. Nothing about the player changed; your evidence did.</li>
+        </ul>
+      </li>
+      <li><b>Your Assignment 1, Task 1.</b> H0: mindfulness training makes no difference to SART performance.
+        <ul>
+          <li>SPSS gives you something like <b>t(38) = 2.41, p = .021</b>.</li>
+          <li>Read it as: if mindfulness truly did nothing, you would see a gap this big about <b>2 times in 100</b>. That is rare, so you reject H0.</li>
+          <li>You then write: there <b>was</b> a statistically significant difference, in this direction, of this size (Cohen's d), and here are the group means and standard deviations.</li>
+          <li>And you add the honest caveat: this is one sample, there is a 5% risk you are reporting a false alarm, and significance is not the same as importance.</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <h3 class="sec">7. Why .05, and what it costs you</h3>
+  <div class="abox"><ul>
+    <li><b>It is a convention, not a discovery.</b> Fisher suggested 1 in 20 as a convenient line and it stuck. There is nothing magic about it, and some fields use .01 or .001.</li>
+    <li><b>What you are actually choosing.</b> Alpha is the <b>risk of a false alarm you are willing to accept</b>. Setting alpha at .05 says: I accept that, in a world where nothing is going on, I will wrongly claim an effect about 5% of the time.</li>
+    <li><b>Type 1 error, the false alarm.</b> Rejecting H0 when it was true. Its probability <b>is</b> alpha.</li>
+    <li><b>Type 2 error, the miss.</b> Failing to reject H0 when there really was an effect. Usually caused by too small a sample.</li>
+    <li><b>They trade off against each other.</b> Make alpha stricter (.01) and you get fewer false alarms but more misses. Make it looser and the reverse. You cannot reduce both at once by moving the line; <b>the only way to reduce both is a bigger sample</b>.</li>
+    <li><b>Set it before you look.</b> Choosing alpha, or switching from two-tailed to one-tailed, after seeing your data is not analysis. It is choosing the finish line once you know where the runner stopped.</li>
+  </ul></div>
+  <div class="viz viz-tt">
+    <div class="viz-cap">Try it: the Type 1 / Type 2 trade-off</div>
+    <svg class="viz-svg" viewBox="0 0 320 150"></svg>
+    <div class="viz-slide"><label>Decision cut-off</label><input type="range" class="viz-r" min="100" max="236" value="170"><span class="viz-out"></span></div>
+    <div class="viz-note"></div>
+  </div>
+
+  <h3 class="sec">8. Reading it off SPSS without tripping up</h3>
+  <div class="abox"><ul>
+    <li><b>"Sig. (2-tailed)" IS your p-value.</b> That is the column you want.</li>
+    <li><b>SPSS prints .000, which is never true.</b> A probability is never exactly zero. Report it as <b>p &lt; .001</b>. Writing "p = .000" is a small error that markers notice every time.</li>
+    <li><b>Report exact p otherwise.</b> "p = .021", not "p &lt; .05". APA wants the actual number, to three decimal places, with no leading zero before the point.</li>
+    <li><b>Halving for one-tailed.</b> SPSS gives two-tailed by default. If you predicted a direction and the result went that way, you may halve it, but say that you did, and only if you committed to the direction beforehand.</li>
+    <li><b>Check the right row.</b> In the independent-samples t-test output, Levene's test decides whether you read "equal variances assumed" or "equal variances not assumed". Reading the wrong row gives you the wrong t, df and p.</li>
+    <li><b>p is not the whole sentence.</b> A result needs the test, the comparison, the direction, then <b>t, df, p and the effect size</b>, plus the means and standard deviations. p on its own tells the reader almost nothing.</li>
+  </ul></div>
+
+  <h3 class="sec">9. Why this matters for Assignment 1</h3>
+  <div class="abox"><ul>
+    <li><b>Both analysis tasks are literally this.</b> Tasks 1 and 2 are each an independent-samples t-test, and a t-test is a machine for turning two sets of numbers into one p-value. Everything you are asked to write hangs off whether you understood what it means.</li>
+    <li><b>Part (a) of each task is the hypotheses.</b> You cannot bluff this. You have to write H0 and H1 properly and say whether H1 is directional. That is marks available before you open SPSS.</li>
+    <li><b>Part (f) is the decision.</b> Reporting the main analysis means stating the test, the statistic, df, the exact p, the effect size, and then a sentence in English saying what it means. If you say "this proves" or "p = .000" or "there is a 2% chance the null is true", you lose marks on an otherwise correct analysis.</li>
+    <li><b>The assumption checks exist for this reason.</b> Shapiro-Wilk, boxplots and Levene's test are not box-ticking. If the assumptions fail, the p-value the t-test gives you is not trustworthy, and you should be running Mann-Whitney U instead.</li>
+    <li><b>It protects you when the result is null.</b> If one of your tasks comes out non-significant, that is a perfectly good result. Write it as "there was no statistically significant difference", discuss power and sample size as a limitation, and you will do better than someone who tries to spin it.</li>
+  </ul></div>
+  <div class="guide-tip"><span class="lab">The sentence to have ready</span>"An independent-samples t-test compared [DV] between [group 1] and [group 2]. There was a statistically significant difference, t(38) = 2.41, p = .021, d = 0.78, with [group 1] scoring higher (M = __, SD = __) than [group 2] (M = __, SD = __)." Swap in your numbers. If p is above .05, change it to "There was no statistically significant difference" and keep everything else.</div>
+
+  <h3 class="sec">10. Why psychology as a field cares so much about this</h3>
+  <p class="lead">This is not just an assignment hoop. Over the last fifteen years the misuse of p-values has become one of the biggest controversies in the discipline, and knowing why gives you something genuinely worth saying in a discussion section.</p>
+  <div class="abox"><ul>
+    <li><b>The replication crisis.</b> Large projects set out to repeat well-known published psychology findings and found that a substantial proportion did not come out the same way the second time. Many of the originals were significant at p &lt; .05. Being significant once turned out to be much weaker evidence than the field had assumed.</li>
+    <li><b>p-hacking.</b> If you test enough variables, drop enough awkward participants, or keep collecting data until the p drops below .05, you will eventually get a significant result out of nothing at all. With alpha at .05, roughly 1 in 20 tests of pure noise comes out significant by definition. Run twenty analyses and expect one false alarm.</li>
+    <li><b>Publication bias.</b> Journals have historically preferred significant findings, so the studies that found nothing often went unpublished. That makes the published literature look more certain than reality, because the misses are invisible.</li>
+    <li><b>The fixes you should know by name.</b> <b>Pre-registration</b>, committing to your hypotheses and analysis before collecting data, which removes the option of moving the goalposts. <b>Reporting effect sizes and confidence intervals</b>, so readers see how big the effect is, not just whether it cleared a line. <b>Replication</b> treated as real science rather than as unoriginal. And <b>adequate power</b>, meaning samples large enough to find an effect if it exists.</li>
+    <li><b>Why it matters outside the lab.</b> These are the statistics behind whether a therapy is offered, whether a drug is licensed, whether an education policy is rolled out. A false alarm means real people get a treatment that does nothing; a miss means a treatment that works never reaches them.</li>
+  </ul></div>
+  <div class="note"><span class="lab">What to carry away</span>The p-value answers one narrow question well: <b>would a result like this be surprising if nothing were going on?</b> It does not tell you the effect is real, large, important or repeatable. Treat it as one piece of evidence alongside the effect size, the confidence interval, the quality of the design and whether anyone has reproduced it.</div>
+
+  <details class="quiz"><summary>Check yourself (7 questions)</summary><div class="qz">
+    <div class="qz-q"><p class="qz-stem">1. A study reports p = .04. What does that mean?</p><div class="qz-opts"><button class="qz-opt" type="button">There is a 4% chance the null hypothesis is true</button><button class="qz-opt" type="button" data-ok>If the null were true, a result this extreme would occur about 4 times in 100 by chance</button><button class="qz-opt" type="button">There is a 96% chance the effect is real</button><button class="qz-opt" type="button">The effect is small</button></div><div class="qz-fb">p is the probability of the data given the null, never the probability of the null given the data.</div></div>
+    <div class="qz-q"><p class="qz-stem">2. You get p = .40. The correct conclusion is:</p><div class="qz-opts"><button class="qz-opt" type="button">The null hypothesis is proved true</button><button class="qz-opt" type="button">There is definitely no effect</button><button class="qz-opt" type="button" data-ok>You fail to reject the null; there is not enough evidence of an effect</button><button class="qz-opt" type="button">You should lower alpha and retest</button></div><div class="qz-fb">Like a "not guilty" verdict, it means the evidence was insufficient, not that innocence was proved.</div></div>
+    <div class="qz-q"><p class="qz-stem">3. A very small p-value tells you the effect is:</p><div class="qz-opts"><button class="qz-opt" type="button">large</button><button class="qz-opt" type="button">important</button><button class="qz-opt" type="button" data-ok>surprising under the null, which is not the same as large</button><button class="qz-opt" type="button">certain to replicate</button></div><div class="qz-fb">Size is the job of the effect size, such as Cohen's d. A trivial difference can reach p < .001 in a big enough sample.</div></div>
+    <div class="qz-q"><p class="qz-stem">4. The penalty taker scores the same percentage in 10 attempts and in 100 attempts. Why is only the second significant?</p><div class="qz-opts"><button class="qz-opt" type="button">He improved</button><button class="qz-opt" type="button">The null hypothesis changed</button><button class="qz-opt" type="button" data-ok>A larger sample makes the same gap much harder to produce by luck</button><button class="qz-opt" type="button">Alpha is different for larger samples</button></div><div class="qz-fb">The effect is identical; the evidence is not. Sample size drives how surprising a given gap is.</div></div>
+    <div class="qz-q"><p class="qz-stem">5. SPSS prints "Sig. (2-tailed) = .000". You should write:</p><div class="qz-opts"><button class="qz-opt" type="button">p = .000</button><button class="qz-opt" type="button">p = 0</button><button class="qz-opt" type="button" data-ok>p &lt; .001</button><button class="qz-opt" type="button">p = .0001</button></div><div class="qz-fb">A probability is never exactly zero; SPSS has simply rounded. Report p < .001.</div></div>
+    <div class="qz-q"><p class="qz-stem">6. Making alpha stricter, from .05 to .01, means:</p><div class="qz-opts"><button class="qz-opt" type="button">fewer of both error types</button><button class="qz-opt" type="button" data-ok>fewer Type 1 errors but more Type 2 errors</button><button class="qz-opt" type="button">more Type 1 errors but fewer Type 2</button><button class="qz-opt" type="button">no change to either</button></div><div class="qz-fb">The two trade off. Only a larger sample reduces both at once.</div></div>
+    <div class="qz-q"><p class="qz-stem">7. Running twenty separate tests on noise with alpha at .05, you should expect roughly:</p><div class="qz-opts"><button class="qz-opt" type="button">no significant results</button><button class="qz-opt" type="button" data-ok>about one significant result purely by chance</button><button class="qz-opt" type="button">about five significant results</button><button class="qz-opt" type="button">all twenty to be significant</button></div><div class="qz-fb">Alpha of .05 means a 1 in 20 false alarm rate by definition. This is the arithmetic behind p-hacking.</div></div>
+  </div><p class="qz-score"></p></details>
+</section>
+
 <!-- ======== PSY1081 q12 : WHICH TEST ======== -->
 <section class="pane wrap" id="q12">
   <div class="dhead">
@@ -5563,7 +5730,7 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
 <script>
   const navs=[...document.querySelectorAll('.guide-nav-item')];
   const mods=[...document.querySelectorAll('.pn-mods button')];
-  const panes={1:p1,2:p2,3:p3,4:p4,5:p5,6:p6,7:p7,8:p8,9:p9,10:p10,11:p11,12:p12,13:p13,14:p14,15:p15,16:p16,17:p17,18:p18,19:p19,q1:q1,q2:q2,q3:q3,q4:q4,q5:q5,q6:q6,q7:q7,q8:q8,q9:q9,q10:q10,q11:q11,q12:q12,q13:q13,q14:q14};
+  const panes={1:p1,2:p2,3:p3,4:p4,5:p5,6:p6,7:p7,8:p8,9:p9,10:p10,11:p11,12:p12,13:p13,14:p14,15:p15,16:p16,17:p17,18:p18,19:p19,q1:q1,q2:q2,q3:q3,q4:q4,q5:q5,q6:q6,q7:q7,q8:q8,q9:q9,q10:q10,q11:q11,q12:q12,q13:q13,q14:q14,q15:q15};
   // the header subtitle names the section you are in, which matters when the menu is closed
   function updSub(id){
     const ns=document.getElementById('navsub'); if(!ns)return;
