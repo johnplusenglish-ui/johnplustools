@@ -336,6 +336,16 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
 .pv-verdict.fail .pv-vh{color:var(--ink)}
 .pv-vb{font-size:13.5px;line-height:1.55;color:#236b3b}
 .pv-verdict.fail .pv-vb{color:var(--muted)}
+.viz{border:1px solid var(--border);border-radius:var(--r-sm);background:var(--card);padding:16px 18px;margin:16px 0}
+.viz-cap{font-size:10px;letter-spacing:.09em;text-transform:uppercase;font-weight:800;color:var(--accent-dark);margin:0 0 10px}
+.viz-svg{width:100%;max-width:480px;height:auto;display:block;margin:0 auto}
+.viz-cr .viz-svg{max-width:300px}
+.viz-slide{display:flex;align-items:center;gap:12px;margin:12px 0 0}
+.viz-slide label{font-size:13px;color:var(--muted);min-width:96px}
+.viz-slide input[type=range]{flex:1;accent-color:var(--accent)}
+.viz-out{font-size:15px;font-weight:800;color:var(--ink);min-width:66px;text-align:right}
+.viz-note{font-size:13px;color:var(--muted);line-height:1.55;margin:11px 0 0}
+.viz-note b{color:var(--ink)}
 .bchip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
 .qchap{display:none}
 .qchap.on{display:block;animation:fade .25s ease}
@@ -1714,6 +1724,12 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
     <li><div class="h">Read it</div><div class="d"><b>Shapiro-Wilk</b> (use it when each group n &lt; 50): if Sig. is <b>above .05 for both groups</b>, normality is met. The <b>boxplots</b> show outliers (points beyond the whiskers).</div></li>
     <li><div class="h">Decide which test</div><div class="d">Assumptions met → <b>independent-samples t-test</b> (Step 3a). Normality clearly violated, or problematic outliers → <b>Mann-Whitney U</b> (Step 3b). Homogeneity of variance is checked by Levene's test, which appears inside the t-test output itself.</div></li>
   </ol>
+  <div class="viz viz-nd">
+    <div class="viz-cap">Reminder: what a normal distribution looks like</div>
+    <svg class="viz-svg" viewBox="0 0 320 150"></svg>
+    <div class="viz-slide"><label>Spread (SD)</label><input type="range" class="viz-r" min="10" max="34" value="16"><span class="viz-out"></span></div>
+    <div class="viz-note"></div>
+  </div>
 
   <div class="phase"><span class="lab">Step 3a · Independent-samples t-test</span><span class="line"></span></div>
   <ol class="steps">
@@ -1852,6 +1868,12 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
         <li><b>Median</b>: order the scores and take the middle one. Its location is <b>(N+1)/2</b>; with an even N, take the midpoint of the two middle scores.</li>
       </ul></div>
       <p class="lead">Why keep the median? Because it is <b>resistant to outliers</b>. If most salaries in a firm are modest but the boss earns a fortune, the mean is dragged upwards and misrepresents the typical wage, while the median still sits among ordinary salaries. An <b>outlier</b> is a value far from the rest of the set; when outliers are present, the median is usually the fairer average.</p>
+      <div class="viz viz-mm">
+        <div class="viz-cap">Try it: why the median beats the mean with outliers</div>
+        <svg class="viz-svg" viewBox="0 0 320 92"></svg>
+        <div class="viz-slide"><label>Outlier value</label><input type="range" class="viz-r" min="62" max="100" value="70"><span class="viz-out"></span></div>
+        <div class="viz-note"></div>
+      </div>
 
       <h3 class="sec">1.6 Mean and median in SPSS</h3>
       <p class="lead">You will rarely calculate these by hand, but you should understand the logic. In SPSS, enter the scores in one column (name it in Variable View, set its Measure to Scale), then:</p>
@@ -1904,6 +1926,12 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
         <li><b>J-shaped</b>: values drop off very fast (e.g. number of workplace accidents per worker, mostly zero).</li>
         <li><b>Bimodal</b>: two peaks (e.g. handedness), relatively rare.</li>
       </ul></div>
+      <div class="viz viz-nd">
+        <div class="viz-cap">Try it: standard deviation and the bell</div>
+        <svg class="viz-svg" viewBox="0 0 320 150"></svg>
+        <div class="viz-slide"><label>Spread (SD)</label><input type="range" class="viz-r" min="10" max="34" value="16"><span class="viz-out"></span></div>
+        <div class="viz-note"></div>
+      </div>
       <p class="lead"><b>Skewness</b> measures asymmetry and <b>kurtosis</b> measures peakedness; both are 0 in a perfect normal distribution. SPSS reports each value with its standard error; a standardised score (value ÷ its standard error) beyond about <b>±1.96</b> flags meaningful departure from normality.</p>
 
       <h3 class="sec">1.11 Review</h3>
@@ -1943,6 +1971,12 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
         <li><b>Type I error</b>: rejecting a true H0 (a false alarm); its probability is alpha.</li>
         <li><b>Type II error</b>: retaining a false H0 (a miss); its probability is beta, and <b>power = 1 − beta</b> is the chance of catching a real effect.</li>
       </ul></div>
+      <div class="viz viz-tt">
+        <div class="viz-cap">Try it: the Type 1 / Type 2 trade-off</div>
+        <svg class="viz-svg" viewBox="0 0 320 150"></svg>
+        <div class="viz-slide"><label>Decision cut-off</label><input type="range" class="viz-r" min="100" max="236" value="170"><span class="viz-out"></span></div>
+        <div class="viz-note"></div>
+      </div>
 
       <h3 class="sec">2.7 Review</h3>
       <div class="note"><span class="lab">In one breath</span>State H0 and H1, set alpha (usually .05, one- or two-tailed), run the test that matches your design and data, read p, then reject or retain H0, remembering that a decision can be a Type I or Type II error.</div>
@@ -2002,6 +2036,12 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
 
       <h3 class="sec">4.3 Correlation coefficients</h3>
       <p class="lead">A <b>correlation coefficient</b> summarises the relationship as one number from <b>-1 to +1</b>. The <b>sign</b> gives the direction; the <b>size</b> gives the strength: 0 means no linear relationship, and -1 or +1 means a perfect one. Squaring it (<b>r²</b>) gives the proportion of variance in one variable shared with the other.</p>
+      <div class="viz viz-cr">
+        <div class="viz-cap">Try it: what r actually looks like</div>
+        <svg class="viz-svg" viewBox="0 0 240 150"></svg>
+        <div class="viz-slide"><label>Correlation (r)</label><input type="range" class="viz-r" min="-100" max="100" value="70"><span class="viz-out"></span></div>
+        <div class="viz-note"></div>
+      </div>
 
       <h3 class="sec">4.4 Hypothesis testing with correlation</h3>
       <p class="lead">The null hypothesis is that the correlation in the population is <b>zero</b>. SPSS tests whether your sample coefficient is large enough (given the sample size) to reject that, reporting the coefficient, its degrees of freedom (N - 2 for Pearson) and a p-value.</p>
@@ -2410,6 +2450,12 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
         <li><b>Mode</b> (the most common value): here <b>14</b>, because four people scored 14, more than any other score.</li>
       </ul></div>
       <p class="tnote">Because the mean (12.43) and median (12.50) are almost the same, the distribution is roughly <b>symmetric</b>, not skewed. A big gap between them would have signalled skew.</p>
+      <div class="viz viz-mm">
+        <div class="viz-cap">Try it: why the median beats the mean with outliers</div>
+        <svg class="viz-svg" viewBox="0 0 320 92"></svg>
+        <div class="viz-slide"><label>Outlier value</label><input type="range" class="viz-r" min="62" max="100" value="70"><span class="viz-out"></span></div>
+        <div class="viz-note"></div>
+      </div>
       <p class="lead"><b>How spread out they are.</b> An average alone can mislead (two holiday spots with the same average temperature can feel completely different), so you also report spread.</p>
       <div class="abox"><ul>
         <li><b>Range</b> = highest minus lowest. Quick, but based on only two values, so crude.</li>
@@ -2440,6 +2486,12 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
         <li><b>Box plot</b>: the box runs from Q1 to Q3 (the middle 50% of scores), with a line inside marking the median; whiskers reach out toward the extremes. It lets you read the median and quartiles at a glance.</li>
       </ul></div>
       <p class="lead"><b>The common shapes:</b> <b>normal</b> (a symmetric bell, most scores in the middle); <b>positively skewed</b> (scores bunched at the low end, a tail stretching to the right); <b>negatively skewed</b> (bunched high, tail to the left); <b>J-shaped</b> (values drop off very fast); and <b>bimodal</b> (two peaks). <b>Skewness</b> measures how lopsided the shape is and <b>kurtosis</b> how peaked or flat it is; both are near <b>0</b> for a normal distribution, and the further from 0, the less normal. SPSS gives these as numbers, and the histogram shows the same thing as a picture.</p>
+      <div class="viz viz-nd">
+        <div class="viz-cap">Try it: standard deviation and the bell</div>
+        <svg class="viz-svg" viewBox="0 0 320 150"></svg>
+        <div class="viz-slide"><label>Spread (SD)</label><input type="range" class="viz-r" min="10" max="34" value="16"><span class="viz-out"></span></div>
+        <div class="viz-note"></div>
+      </div>
       <div class="note"><span class="lab">The take-home</span>Classification comes first and decides everything. Then the mean, median and mode tell you where the middle is, and the SD and quartiles tell you how much the scores vary. Finally the histogram and box plot confirm the shape with a picture, which the skewness and kurtosis values put into numbers.</div>
 
       <details class="quiz"><summary>Quiz: test yourself (6 questions)</summary><div class="qz">
@@ -2542,6 +2594,12 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
         </tbody>
       </table></div>
       <div class="note"><span class="lab">The fire-alarm way to remember it</span>A <b>Type 1 error</b> is the alarm going off when there is <b>no fire</b> (a false alarm, you cry wolf). A <b>Type 2 error</b> is the alarm staying silent when there <b>is</b> a fire (a dangerous miss). One raises a false alarm about an effect that is not there; the other sleeps through an effect that is.</div>
+      <div class="viz viz-tt">
+        <div class="viz-cap">Try it: the Type 1 / Type 2 trade-off</div>
+        <svg class="viz-svg" viewBox="0 0 320 150"></svg>
+        <div class="viz-slide"><label>Decision cut-off</label><input type="range" class="viz-r" min="100" max="236" value="170"><span class="viz-out"></span></div>
+        <div class="viz-note"></div>
+      </div>
 
       <p class="lead"><b>Type 1 error, the false positive.</b> You reject a null that was actually true, so you announce an effect that is not real. Its rate is <b>alpha</b>, the very significance level you set. With alpha = .05 you are accepting that, by sheer chance, about <b>1 in every 20</b> true-null tests will give a "significant" result anyway. In the CBT study, this would happen if your test said CBT lowered anxiety, but really the CBT group simply <b>happened to start less anxious</b> than the control group, so the difference was there before the therapy, not because of it.</p>
 
@@ -2805,6 +2863,55 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
     P.addEventListener('input',render);
     drawStory(); render();
   })();
+
+  // ---- visual aids (reusable, multi-instance) ----
+  document.querySelectorAll('.viz-nd').forEach(function(w){
+    var svg=w.querySelector('.viz-svg'),R=w.querySelector('.viz-r'),out=w.querySelector('.viz-out'),note=w.querySelector('.viz-note');
+    var W=320,H=150,cx=W/2,base=H-22,peakH=H-46;
+    function area(sd,x0,x1){var s='M'+x0.toFixed(1)+','+base;for(var px=x0;px<=x1;px+=3){var x=px-cx;s+=' L'+px.toFixed(1)+','+(base-Math.exp(-(x*x)/(2*sd*sd))*peakH).toFixed(1);}return s+' L'+x1.toFixed(1)+','+base+' Z';}
+    function draw(){var sd=+R.value;var p='';for(var px=0;px<=W;px+=3){var x=px-cx;p+=(px===0?'M':' L')+px.toFixed(1)+','+(base-Math.exp(-(x*x)/(2*sd*sd))*peakH).toFixed(1);}
+      svg.innerHTML='<path d="'+area(sd,Math.max(0,cx-2*sd),Math.min(W,cx+2*sd))+'" fill="#e8eeff"/><path d="'+area(sd,Math.max(0,cx-sd),Math.min(W,cx+sd))+'" fill="#bcd3ff"/><path d="'+p+'" fill="none" stroke="#2176FF" stroke-width="2.5"/><line x1="'+cx+'" y1="20" x2="'+cx+'" y2="'+base+'" stroke="#2D3047" stroke-width="1" stroke-dasharray="3 3" opacity=".4"/><line x1="0" y1="'+base+'" x2="'+W+'" y2="'+base+'" stroke="#E8E5DF" stroke-width="1.5"/>';
+      out.textContent='SD '+(sd/8).toFixed(1);
+      note.innerHTML='About <b>68%</b> of scores sit within <b>1 SD</b> of the mean (darker band) and about <b>95%</b> within <b>2 SD</b> (lighter band). A bigger SD makes the bell <b>wider and flatter</b>, a smaller SD makes it <b>tall and narrow</b>, but the 68 and 95 always hold.';}
+    R.addEventListener('input',draw);draw();
+  });
+  document.querySelectorAll('.viz-mm').forEach(function(w){
+    var svg=w.querySelector('.viz-svg'),R=w.querySelector('.viz-r'),out=w.querySelector('.viz-out'),note=w.querySelector('.viz-note');
+    var fixed=[40,45,48,52,55,58,62],W=320,H=92,pad=22,y=54;
+    function sx(v){return pad+(v/100)*(W-2*pad);}
+    function draw(){var o=+R.value,d=fixed.concat([o]),mean=d.reduce(function(a,b){return a+b;},0)/d.length,s=d.slice().sort(function(a,b){return a-b;}),med=(s[3]+s[4])/2;
+      var dots=d.map(function(v,i){var O=i===fixed.length;return '<circle cx="'+sx(v).toFixed(1)+'" cy="'+y+'" r="'+(O?6:5)+'" fill="'+(O?'#D6453F':'#9db4d6')+'"/>';}).join('');
+      svg.innerHTML='<line x1="'+pad+'" y1="'+y+'" x2="'+(W-pad)+'" y2="'+y+'" stroke="#E8E5DF" stroke-width="2"/>'+dots+'<line x1="'+sx(mean).toFixed(1)+'" y1="18" x2="'+sx(mean).toFixed(1)+'" y2="'+(y+13)+'" stroke="#2176FF" stroke-width="2.5"/><text x="'+sx(mean).toFixed(1)+'" y="14" fill="#2176FF" font-size="11" font-weight="700" text-anchor="middle">mean</text><line x1="'+sx(med).toFixed(1)+'" y1="'+(y-13)+'" x2="'+sx(med).toFixed(1)+'" y2="'+(H-10)+'" stroke="#2f9e63" stroke-width="2.5"/><text x="'+sx(med).toFixed(1)+'" y="'+(H-1)+'" fill="#2f9e63" font-size="11" font-weight="700" text-anchor="middle">median</text>';
+      out.textContent='= '+o;
+      note.innerHTML='The red dot is an <b>outlier</b>. Slide it right and the <b>mean</b> (blue) chases after it, while the <b>median</b> (green) barely moves. That is exactly why the mean is <b>non-resistant</b> and the median is <b>resistant</b> to outliers. Mean = '+mean.toFixed(1)+', median = '+med.toFixed(1)+'.';}
+    R.addEventListener('input',draw);draw();
+  });
+  document.querySelectorAll('.viz-tt').forEach(function(w){
+    var svg=w.querySelector('.viz-svg'),R=w.querySelector('.viz-r'),note=w.querySelector('.viz-note'),out=w.querySelector('.viz-out');
+    var W=320,H=150,base=H-20,peakH=H-48,sd=32,m0=W*0.36,m1=W*0.64;
+    function g(px,mu){var x=px-mu;return Math.exp(-(x*x)/(2*sd*sd));}
+    function reg(mu,x0,x1){var s='M'+x0.toFixed(1)+','+base;for(var px=x0;px<=x1;px+=3){s+=' L'+px.toFixed(1)+','+(base-g(px,mu)*peakH).toFixed(1);}return s+' L'+x1.toFixed(1)+','+base+' Z';}
+    function cv(mu){var p='';for(var px=0;px<=W;px+=3){p+=(px===0?'M':' L')+px.toFixed(1)+','+(base-g(px,mu)*peakH).toFixed(1);}return p;}
+    function draw(){var c=+R.value;
+      svg.innerHTML='<path d="'+reg(m0,c,W)+'" fill="#f3c9c9"/><path d="'+reg(m1,0,c)+'" fill="#f6e2b4"/><path d="'+cv(m0)+'" fill="none" stroke="#2176FF" stroke-width="2"/><path d="'+cv(m1)+'" fill="none" stroke="#2f9e63" stroke-width="2"/><line x1="'+c+'" y1="12" x2="'+c+'" y2="'+base+'" stroke="#2D3047" stroke-width="2"/><text x="'+m0+'" y="13" fill="#2176FF" font-size="10" font-weight="700" text-anchor="middle">no effect (H0)</text><text x="'+m1+'" y="13" fill="#2f9e63" font-size="10" font-weight="700" text-anchor="middle">real effect (H1)</text>';
+      out.textContent='';
+      note.innerHTML='The dark line is your <b>decision cut-off</b>. The <b>red</b> tail (the no-effect curve past the line) is the <b>Type 1</b> error, false positives (alpha). The <b>amber</b> tail (the real-effect curve before the line) is the <b>Type 2</b> error, misses (beta). Slide it <b>right</b> to be stricter: the red shrinks but the amber grows. You cannot cut both at once.';}
+    R.addEventListener('input',draw);draw();
+  });
+  document.querySelectorAll('.viz-cr').forEach(function(w){
+    var svg=w.querySelector('.viz-svg'),R=w.querySelector('.viz-r'),out=w.querySelector('.viz-out'),note=w.querySelector('.viz-note');
+    var W=240,H=150,pad=16,n=36,xs=[],zs=[],seed=42;
+    function rnd(){seed=(seed*1103515245+12345)&0x7fffffff;return seed/0x7fffffff;}
+    function gs(){return Math.sqrt(-2*Math.log(rnd()+1e-9))*Math.cos(2*Math.PI*rnd());}
+    for(var i=0;i<n;i++){xs.push(gs());zs.push(gs());}
+    function draw(){var r=+R.value/100,pts='';
+      for(var i=0;i<n;i++){var x=xs[i],yv=r*x+Math.sqrt(Math.max(0,1-r*r))*zs[i];var px=pad+((x+3)/6)*(W-2*pad),py=(H-pad)-((yv+3)/6)*(H-2*pad);px=Math.max(pad,Math.min(W-pad,px));py=Math.max(pad,Math.min(H-pad,py));pts+='<circle cx="'+px.toFixed(1)+'" cy="'+py.toFixed(1)+'" r="3.2" fill="#2176FF" opacity=".72"/>';}
+      svg.innerHTML='<rect x="'+pad+'" y="'+pad+'" width="'+(W-2*pad)+'" height="'+(H-2*pad)+'" fill="none" stroke="#E8E5DF" stroke-width="1.5"/>'+pts;
+      var a=Math.abs(r),str=a<0.1?'no':a<0.4?'weak':a<0.7?'moderate':'strong',dir=r<0?'negative':'positive';
+      out.textContent='r = '+(r>=0?'+':'')+r.toFixed(2);
+      note.innerHTML='<b>r = '+(r>=0?'+':'')+r.toFixed(2)+'</b>: a <b>'+(a<0.1?'flat, no':str+' '+dir)+'</b> relationship. The <b>sign</b> gives the direction (both rise together, or one rises as the other falls) and the <b>size</b> gives the strength: near 0 the cloud is shapeless, near '+(r<0?'-1':'+1')+' it tightens toward a line. Remember, correlation is not causation.';}
+    R.addEventListener('input',draw);draw();
+  });
 
   // ---- classes (PSY1081) class picker ----
   (function(){
