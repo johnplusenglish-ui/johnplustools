@@ -2551,11 +2551,13 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
 
       <h3 class="sec">See it: p-values and the .05 line</h3>
       <p class="lead">Pick an everyday example, then drag the slider. The slider is your <b>p value</b>: how often a result this big would happen <b>by pure luck in a world where nothing is really going on</b> (the null). Watch the grid, the bar and the verdict all update together. The one rule to take away: <b>small p means reject.</b></p>
-      <div class="note" style="line-height:1.65">
+      <div class="note">
         <span class="lab">How it works, in plain English</span>
-        <b>1. Start by assuming nothing special is going on.</b> This boring starting point is the <b>null hypothesis</b> (innocent until proven guilty).<br>
-        <b>2. Then ask one question:</b> if nothing special were really going on, how often would a result this surprising happen <b>just by luck</b>? That chance, as a number, is the <b>p-value</b>.<br>
-        <b>3. Decide.</b> If that chance is tiny (under <b>5 in 100</b>, the .05 line), "it was just luck" is too weak to believe, so you <b>reject</b> the null and say something real is going on. If the chance is big, luck explains it, so you <b>cannot</b>.
+        <ol style="margin:9px 0 0;padding-left:20px;line-height:1.5">
+          <li style="margin-bottom:7px"><b>Assume nothing special is going on.</b> This boring starting point is the <b>null hypothesis</b> (innocent until proven guilty).</li>
+          <li style="margin-bottom:7px"><b>Ask one question:</b> if nothing special were really going on, how often would a result this surprising happen <b>just by luck</b>? That chance, as a number, is the <b>p-value</b>.</li>
+          <li><b>Decide.</b> A tiny chance (under <b>5 in 100</b>, the .05 line) means "just luck" is too weak to believe, so you <b>reject</b> the null and say something real is going on. A big chance means luck explains it, so you <b>cannot</b>.</li>
+        </ol>
       </div>
       <div class="pv">
         <div class="pv-pick" id="pvPick"></div>
