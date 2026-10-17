@@ -2551,6 +2551,12 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
 
       <h3 class="sec">See it: p-values and the .05 line</h3>
       <p class="lead">Pick an everyday example, then drag the slider. The slider is your <b>p value</b>: how often a result this big would happen <b>by pure luck in a world where nothing is really going on</b> (the null). Watch the grid, the bar and the verdict all update together. The one rule to take away: <b>small p means reject.</b></p>
+      <div class="note" style="line-height:1.65">
+        <span class="lab">How it works, in plain English</span>
+        <b>1. Start by assuming nothing special is going on.</b> This boring starting point is the <b>null hypothesis</b> (innocent until proven guilty).<br>
+        <b>2. Then ask one question:</b> if nothing special were really going on, how often would a result this surprising happen <b>just by luck</b>? That chance, as a number, is the <b>p-value</b>.<br>
+        <b>3. Decide.</b> If that chance is tiny (under <b>5 in 100</b>, the .05 line), "it was just luck" is too weak to believe, so you <b>reject</b> the null and say something real is going on. If the chance is big, luck explains it, so you <b>cannot</b>.
+      </div>
       <div class="pv">
         <div class="pv-pick" id="pvPick"></div>
         <div class="pv-story" id="pvStory"></div>
@@ -2859,9 +2865,14 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
         live=document.getElementById('pvLive'), gcap=document.getElementById('pvGcap'), grid=document.getElementById('pvGrid'), comp=document.getElementById('pvCompare');
     var scn=[
       {em:'🪙',name:'Fair coin',h0:'The coin is fair, 50/50.',result:'Your friend flips it 10 times and gets <b>10 heads in a row</b>.',p:1,effect:'the coin is rigged'},
-      {em:'⚽',name:'Penalty taker',h0:'This striker is no better than an average player at penalties.',result:'He scores <b>19 of 20</b> against top keepers.',p:1,effect:'this striker really is better than average at penalties'},
+      {em:'⚽',name:'Penalty taker',h0:'This striker is no better than an average player at penalties.',result:'He scores <b>19 of 20</b> against top keepers.',p:1,effect:'this striker really is better than average'},
+      {em:'🎓',name:'Exam cheat',h0:'The student did not cheat; the mark is their real ability.',result:'They failed every test all year, then scored <b>98% in the final</b>.',p:1,effect:'the student cheated'},
+      {em:'🍔',name:'Food poisoning',h0:'The restaurant food is perfectly safe.',result:'<b>7 of the 9 people</b> at one table got sick that same night.',p:2,effect:'the food made them ill'},
       {em:'💊',name:'New painkiller',h0:'The new painkiller works no better than a sugar pill.',result:'Patients on it report <b>much less pain</b> than the placebo group.',p:2,effect:'the painkiller genuinely works'},
       {em:'🎲',name:'Loaded dice',h0:'The dice is fair, each face equally likely.',result:'It rolls a <b>six, six times in a row</b>.',p:1,effect:'the dice is loaded'},
+      {em:'🌦️',name:'Weather tipster',h0:'This forecaster is just guessing.',result:'They call the weather right <b>9 days in a row</b>.',p:2,effect:'the forecaster genuinely has skill'},
+      {em:'🧦',name:'Lucky socks',h0:'My lucky socks make no difference to whether we win.',result:'We won a few games wearing them, then <b>lost the next one</b>.',p:42,effect:'the lucky socks actually help'},
+      {em:'🧠',name:'Brain app',h0:'The brain-training app does nothing for my memory.',result:'My scores <b>crept up a little</b> after a month of using it.',p:35,effect:'the app really improves my memory'},
       {em:'📈',name:'Study routine',h0:'My new study routine makes no difference to my grades.',result:'After switching, my grades <b>go up a little</b> this term.',p:38,effect:'the new routine really improves my grades'}
     ];
     var cur=scn[0];
