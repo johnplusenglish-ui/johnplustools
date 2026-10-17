@@ -525,6 +525,7 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
         <div class="pn-eyebrow">The module books</div>
         <button class="guide-nav-item" data-t="15"><span class="guide-nav-dot"></span><span class="label">Intro &amp; Study Skills</span></button>
         <button class="guide-nav-item" data-t="13"><span class="guide-nav-dot"></span><span class="label">Developmental</span><span class="trail"><span class="nav-k due">A1</span></span></button>
+        <button class="guide-nav-item" data-t="16"><span class="guide-nav-dot"></span><span class="label">Personality</span><span class="trail"><span class="nav-k due">A2</span></span></button>
         <div class="pn-rule"></div>
         <div class="pn-eyebrow">Learn the content</div>
         <button class="guide-nav-item" data-t="8"><span class="guide-nav-dot"></span><span class="label">Founders &amp; Schools</span></button>
@@ -2386,6 +2387,409 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
   <div class="bnav"><button class="bbtn" id="dbPrev" type="button">Previous chapter</button><button class="bbtn" id="dbNext" type="button">Next chapter</button></div>
 </section>
 
+<!-- ============ TAB 16 : PERSONALITY BOOK (PSY1080) ============ -->
+<section class="pane wrap" id="p16">
+  <div class="dhead">
+    <div class="kicker">Learn the content · Part 2 book</div>
+    <h2>Personality Psychology Book</h2>
+    <div class="pills"><span class="pill on">7 chapters</span><span class="pill">core reading for Assignment 2</span></div>
+  </div>
+  <div class="intro-card">
+    <div class="lab">What this is</div>
+    <ul>
+      <li><b>The individual differences book, distilled.</b> It asks one question in seven ways: what makes you different from me, and how would you measure it?</li>
+      <li><b>It has a strong point of view.</b> The author is openly sceptical of theories that cannot be measured, and openly keen on psychometrics. Knowing that helps you read it critically rather than swallowing it.</li>
+      <li><b>Chapters 4 and 5 are the backbone.</b> Reliability, validity, norms and factor analysis are the tools every later chapter uses, and they come up again in PSY1081.</li>
+    </ul>
+  </div>
+
+  <div class="bookbar">
+    <div class="blab">Chapter</div>
+    <div class="bookchaps" id="peChips">
+      <button class="bchip on" type="button" title="Introduction to Individual Differences">1</button>
+      <button class="bchip" type="button" title="Kelly and Rogers">2</button>
+      <button class="bchip" type="button" title="The Psychoanalytic Model of Freud">3</button>
+      <button class="bchip" type="button" title="Psychological Tests">4</button>
+      <button class="bchip" type="button" title="The Psychometric Model">5</button>
+      <button class="bchip" type="button" title="Applied to Abilities">6</button>
+      <button class="bchip" type="button" title="Applied to Personality">7</button>
+    </div>
+  </div>
+
+  <div id="perbook">
+
+    <!-- ===== CHAPTER 1 ===== -->
+    <div class="qchap on">
+      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">1. Introduction to Individual Differences</h2>
+      <p class="lead">The study of individual differences is, as the book puts it, the study of what makes you different from me.</p>
+      <div class="note"><span class="lab">By the end you can</span>say why individual differences matter; explain why psychological laws are less precise than those of chemistry; distinguish the two ways of studying individual differences; define the four measurement scales; and give two reasons why introspection is a poor measuring tool.</div>
+
+      <h3 class="sec">1.1 Why it matters</h3>
+      <div class="abox"><ul>
+        <li><b>It is obviously true and widely ignored.</b> Most branches of psychology proceed as though people were as alike as ball bearings off a production line, because that assumption is simpler. The book's argument is that you need <b>both</b> regularities and individual differences to describe, explain and predict behaviour.</li>
+        <li><b>Scientific laws detect regularities.</b> A chemist can predict exactly what two solutions will do, wherever they came from and whoever is mixing them. An astronomer's predictions do not care whether a planet supports life or is made of cheese.</li>
+        <li><b>Psychological laws cannot do that.</b> They predict that <b>most</b> four-year-olds will fail a problem and solve it at five. Some will not. This is why psychology leans so heavily on statistics to test whether its laws hold at all.</li>
+        <li><b>Why the difference.</b> People arrive with different genes, upbringings, values, experiences and histories of reward and punishment. Two pure samples of a chemical are identical; two people never are. There are always extraneous variables you cannot anticipate.</li>
+      </ul></div>
+      <p class="lead">The book's best illustration: a behaviour therapist can predict that after a dozen aversive trials about <b>80%</b> of people will stop biting their nails, but cannot say which. Add a personality measure and the prediction sharpens: an introvert might have a 95% chance of breaking the habit and an extrovert only 60%, because Eysenck found introverts learn from punishment faster. Knowing the person makes the law useful.</p>
+
+      <h3 class="sec">1.2 Two ways to study it</h3>
+      <div class="abox"><ul>
+        <li><b>Detailed analysis of individuals.</b> Build a full picture of one person's hopes, fears, motives, abilities and disposition, as clinical psychology does. Invaluable for understanding and predicting that one person. The limit: after a hundred such analyses you have a hundred different models and cannot generalise to the 101st person.</li>
+        <li><b>Studying similarities and differences.</b> Choose a dimension, measure everyone on it, and compare each score with the norm. This is what makes comparison possible, and it is the route the rest of the book takes.</li>
+      </ul></div>
+
+      <h3 class="sec">1.3 The four measurement scales</h3>
+      <div class="tscroll"><table class="tbl">
+        <tr><th>Scale</th><th>What it does</th><th>Example from the book</th></tr>
+        <tr><td><b>Nominal</b></td><td>Assigns people to arbitrary categories that are simply different from each other.</td><td>Religion: Muslim, Protestant, Jewish, Catholic, atheist. The categories do not represent "religiousness" in any amount.</td></tr>
+        <tr><td><b>Ordinal</b></td><td>Rank orders people. Bigger number, more of the thing.</td><td>Five children and two adults numbered 1 to 7 by height.</td></tr>
+        <tr><td><b>Interval</b></td><td>Measures the size of differences, but from an arbitrary zero.</td><td>Heights measured from a mark on the wall at knee height. Someone 100cm above it is NOT twice as tall as someone 50cm above it.</td></tr>
+        <tr><td><b>Ratio</b></td><td>Interval with a true zero meaning the absence of the thing, so ratios work.</td><td>Height from the floor. 150cm really is twice 75cm.</td></tr>
+      </table></div>
+      <p class="lead">Psychological test scores are normally <b>assumed</b> to form an interval scale, which is what permits the statistics used on them. Hold on to that word "assumed".</p>
+
+      <h3 class="sec">1.4 Why introspection will not do</h3>
+      <div class="abox"><ul>
+        <li><b>Different words, same thing?</b> Eight friends describe themselves as quiet, shy, timid, withdrawn, antisocial, thoughtful, introverted and boring. Do any of those mean the same? Probably, but you cannot be sure.</li>
+        <li><b>Same word, different things.</b> One person's "antisocial" means liking their own company; another's means vandalising bus shelters.</li>
+        <li><b>It yields only nominal data.</b> You know someone used the word, not how much of the characteristic they have. There is very little you can do with that statistically.</li>
+        <li><b>Your own judgement is contaminated.</b> The stranger who stops to help your broken-down car at midnight is read very differently depending on your personality, mood, past experience and gender. If our view of others is that distorted, our view of ourselves is too.</li>
+        <li><b>And the unconscious makes it worse.</b> Depth theories claim we are only dimly aware of what drives us, that emotionally important memories are unreliable, and that we may forget real events and remember ones that never happened. If so, no questionnaire relying on insight can see the whole picture.</li>
+      </ul></div>
+      <p class="lead">The book's resolution is pragmatic and worth copying: this can be settled <b>empirically</b>. If theories based on introspection predict behaviour well, there is no need to complicate matters with unconscious factors. If they do not, there is.</p>
+      <details class="quiz"><summary>Quiz: chapter 1 (5 questions)</summary><div class="qz">
+        <div class="qz-q"><p class="qz-stem">1. Which scale has a true zero, allowing you to say one value is twice another?</p><div class="qz-opts"><button class="qz-opt" type="button">Nominal</button><button class="qz-opt" type="button">Ordinal</button><button class="qz-opt" type="button">Interval</button><button class="qz-opt" type="button" data-ok>Ratio</button></div><div class="qz-fb">Ratio. Interval has equal gaps but an arbitrary zero, so ratios are meaningless.</div></div>
+        <div class="qz-q"><p class="qz-stem">2. Why are psychological laws less precise than chemical ones?</p><div class="qz-opts"><button class="qz-opt" type="button">Psychologists use worse equipment</button><button class="qz-opt" type="button" data-ok>People differ in genes, upbringing and experience, so extraneous variables always remain</button><button class="qz-opt" type="button">Psychology is not a science</button><button class="qz-opt" type="button">Samples are always too small</button></div><div class="qz-fb">Two pure samples of a chemical are identical; two people never are.</div></div>
+        <div class="qz-q"><p class="qz-stem">3. The main drawback of studying individuals in depth is that:</p><div class="qz-opts"><button class="qz-opt" type="button">It takes too long</button><button class="qz-opt" type="button" data-ok>You end up with many separate models and cannot generalise to a new person</button><button class="qz-opt" type="button">It cannot predict that person's behaviour</button><button class="qz-opt" type="button">It requires factor analysis</button></div><div class="qz-fb">A hundred analyses give a hundred models, and none of them covers the 101st person.</div></div>
+        <div class="qz-q"><p class="qz-stem">4. Eysenck found that people who learn fastest from punishment tend to be:</p><div class="qz-opts"><button class="qz-opt" type="button" data-ok>introverted</button><button class="qz-opt" type="button">extroverted</button><button class="qz-opt" type="button">neurotic</button><button class="qz-opt" type="button">psychotic</button></div><div class="qz-fb">Introverts. That is why adding a personality measure sharpens a prediction that a general law leaves vague.</div></div>
+        <div class="qz-q"><p class="qz-stem">5. Self-descriptions in everyday words are, statistically speaking:</p><div class="qz-opts"><button class="qz-opt" type="button">interval data</button><button class="qz-opt" type="button">ratio data</button><button class="qz-opt" type="button" data-ok>nominal data</button><button class="qz-opt" type="button">ordinal data</button></div><div class="qz-fb">Nominal: you know the word was used, not how much of the quality the person has.</div></div>
+      </div><p class="qz-score"></p></details>
+    </div>
+
+    <!-- ===== CHAPTER 2 ===== -->
+    <div class="qchap">
+      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">2. Personality Through Introspection: Kelly and Rogers</h2>
+      <p class="lead">Two American clinicians working in the 1940s and 1950s, both building <b>phenomenological</b> theories: theories based on what people report about their own inner life, which assume people are rational, insightful and in touch with their feelings.</p>
+
+      <h3 class="sec">2.1 Kelly: man-the-scientist</h3>
+      <div class="abox"><ul>
+        <li><b>The core idea.</b> People behave like scientists. We constantly try to understand and predict a complicated world, classifying people and objects so we can anticipate how they will behave. Set out in <b>The Psychology of Personal Constructs</b> (1955).</li>
+        <li><b>The art gallery analogy.</b> Someone who knows nothing about art, in a gallery where the paintings are hung at random, invents their own categories: representational versus abstract, with or without perspective, liked or detested. Mentally they give each picture marks out of ten on each scale. Another visitor invents entirely different scales.</li>
+        <li><b>A personal construct</b> is one of those dimensions. It is bipolar, described by two words seen as opposites, such as generous versus mean. It is <b>personal</b> because it belongs to the observer, not to the people being judged.</li>
+        <li><b>Constructs come in bundles.</b> Deciding someone is generous may carry with it trustworthy, friendly and well adjusted. That bundle is effectively a stereotype, built from experience, and it is what lets you feel you can predict a person.</li>
+        <li><b>When the prediction fails, you feel anxiety</b>, because your model of the world is flawed. You then have three options: <b>add a new construct</b>, <b>change the links</b> between constructs, or <b>re-categorise the person</b> who does not fit. The third is the cheapest and probably the most common.</li>
+        <li><b>The claim.</b> Know someone's constructs, how many they use and how they relate, and you know how they see the world. That, for Kelly, is their personality.</li>
+      </ul></div>
+
+      <h3 class="sec">2.2 The Repertory Grid</h3>
+      <p class="lead">Kelly's method for getting at a person's constructs, and genuinely clever.</p>
+      <div class="abox">
+        <ul>
+          <li><b>Elements.</b> Name a real person for each role in your life: yourself, mother, father, partner, a sibling, someone you dislike, someone you feel sorry for, your boss, a close same-sex friend.</li>
+          <li><b>Generate constructs.</b> Take three elements at random and ask in what important way one differs from the other two. Then ask what the opposite of that is. Those two words are one construct. Repeat with new triads. Few people produce more than ten.</li>
+          <li><b>Two rules.</b> Constructs must be <b>psychological</b>, not physical (fat versus thin), background (Dubliner versus Kerryperson) or habits (drinks versus teetotal). And each must genuinely differ from those already given.</li>
+          <li><b>Rate every element on every construct</b>, usually on a five-point scale where 1 is the left pole and 5 the right.</li>
+          <li><b>Analysis.</b> Correlate the rows to find links between constructs, which reveals the stereotypes; compare the columns to see which people you view as similar. A correlation of 1.0 means two constructs are used identically, -1.0 means one is effectively the opposite of the other, and 0.0 means no relationship.</li>
+        </ul>
+      </div>
+      <div class="guide-tip"><span class="lab">Try it</span>The book sets this as an activity, and it takes about 40 minutes: six elements, eight triads, eight constructs, rate everything, then look for patterns. It is the fastest way to actually understand the theory rather than memorise it.</div>
+
+      <h3 class="sec">2.3 Five criticisms of Kelly</h3>
+      <div class="abox"><ul>
+        <li><b>Purely descriptive.</b> It says almost nothing about the <b>processes</b>: what makes someone try a construct, what triggers revision, why people develop such different systems.</li>
+        <li><b>Hard to test.</b> Does anyone actually walk around mentally rating people on constructs, or is that a laboratory artefact? A theory that merely "feels right" may be falling for the Barnum effect, the same thing that makes horoscopes convincing.</li>
+        <li><b>Weak at prediction.</b> Someone using aggressive, tough and macho constructs about themselves is probably violent, but in what way? Heated debate? Partner-beating? Violent films? The theory cannot say.</li>
+        <li><b>A grid is just self-report.</b> It assumes people are conscious of their true feelings, which Freudians flatly deny.</li>
+        <li><b>Phenomenology cuts both ways.</b> One person's construct is nervous versus confident, another's is uptight versus cool, a third's is anxious versus sane. Do they mean the same? There is no way to tell, so grids from different people cannot really be compared. Forcing everyone to use the same construct does not fix it, because your definition of "anxious" may not be mine.</li>
+      </ul></div>
+
+      <h3 class="sec">2.4 Rogers: the self-concept</h3>
+      <div class="abox"><ul>
+        <li><b>Subjective experience is what matters.</b> It does not matter whether a questionnaire says you are sociable; what shapes your behaviour is how you see yourself. This is the direct opposite of the trait theorists in chapter 7.</li>
+        <li><b>The self.</b> A comprehensive, integrated picture of who you are. <b>Comprehensive</b> because it covers emotions, relationships and past behaviour; <b>integrated</b> because we see ourselves as one consistent person rather than two or three. Normally conscious, and the main determiner of behaviour: believe you are not violent and you will probably not retaliate.</li>
+        <li><b>The Q-sort</b> (Stephenson, 1953) measures it. Sort a stack of statement cards from "describes me well" to "not characteristic of me".</li>
+        <li><b>The ideal self</b> is measured the same way, sorting for how you would <b>like</b> to be. A large gap between self and ideal self signals trouble: the person does not like, accept or value themselves, and strives to be something they are not.</li>
+        <li><b>Anxiety</b> arises when experience contradicts the self-concept. Someone who thinks of themselves as easy-going feels sudden rage after a robbery; the model has been proved wrong and the feeling must be assimilated.</li>
+        <li><b>The self develops socially.</b> We form a view of how significant others see us and behave to win approval. A child may steal sweets not from wanting to but because friends value it. That is unhealthy, because acceptance has become <b>conditional</b> on behaving a certain way.</li>
+        <li><b>Unconditional positive regard</b> is the alternative: being known, valued and liked whatever you do. Not "if you don't eat your greens Mummy won't love you". The person is valued, not the behaviour.</li>
+        <li><b>Therapy follows from this.</b> The client is in control and holds the answers; the therapist supplies a genuine, warm, empathic relationship in which it is safe to explore. Therapy is not done <b>to</b> a passive client.</li>
+      </ul></div>
+      <p class="lead"><b>The criticism:</b> the terms are poorly defined. How do you measure self-actualisation? How do you know what your capacities are, and therefore whether you have developed them? Without measurement the theory cannot be tested. It remains hugely influential on counselling practice anyway.</p>
+      <details class="quiz"><summary>Quiz: chapter 2 (5 questions)</summary><div class="qz">
+        <div class="qz-q"><p class="qz-stem">1. In Kelly's theory, a personal construct is:</p><div class="qz-opts"><button class="qz-opt" type="button">a stable trait belonging to the person being judged</button><button class="qz-opt" type="button" data-ok>a bipolar dimension the observer finds useful for classifying people</button><button class="qz-opt" type="button">an unconscious drive</button><button class="qz-opt" type="button">a score on a standardised test</button></div><div class="qz-fb">It belongs to the observer, not to the person observed, and it always has two opposing poles.</div></div>
+        <div class="qz-q"><p class="qz-stem">2. When someone's construct system fails to predict a person, Kelly says they may:</p><div class="qz-opts"><button class="qz-opt" type="button">only add a new construct</button><button class="qz-opt" type="button">only change their view of that person</button><button class="qz-opt" type="button" data-ok>add a construct, change the links between constructs, or re-categorise the person</button><button class="qz-opt" type="button">abandon the system entirely</button></div><div class="qz-fb">Three options. Re-categorising the awkward person is usually the easiest.</div></div>
+        <div class="qz-q"><p class="qz-stem">3. In a repertory grid, the named people are called:</p><div class="qz-opts"><button class="qz-opt" type="button">constructs</button><button class="qz-opt" type="button" data-ok>elements</button><button class="qz-opt" type="button">poles</button><button class="qz-opt" type="button">factors</button></div><div class="qz-fb">Elements. The bipolar dimensions you generate from them are the constructs.</div></div>
+        <div class="qz-q"><p class="qz-stem">4. The Q-sort measures:</p><div class="qz-opts"><button class="qz-opt" type="button">general intelligence</button><button class="qz-opt" type="button">unconscious drives</button><button class="qz-opt" type="button" data-ok>the self-concept, and with different instructions the ideal self</button><button class="qz-opt" type="button">test-retest reliability</button></div><div class="qz-fb">Sorting statement cards for how well they describe you gives the self-concept; sorting for how you would like to be gives the ideal self.</div></div>
+        <div class="qz-q"><p class="qz-stem">5. The main scientific objection to Rogers is that:</p><div class="qz-opts"><button class="qz-opt" type="button">he ignored childhood</button><button class="qz-opt" type="button" data-ok>key terms such as self-actualisation cannot be measured, so the theory cannot be tested</button><button class="qz-opt" type="button">he relied too heavily on factor analysis</button><button class="qz-opt" type="button">his samples were too small</button></div><div class="qz-fb">No measurement, no test. The same objection the book makes against Freud.</div></div>
+      </div><p class="qz-score"></p></details>
+    </div>
+
+    <!-- ===== CHAPTER 3 ===== -->
+    <div class="qchap">
+      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">3. The Psychoanalytic Model of Freud</h2>
+      <p class="lead">A fuller treatment than the developmental book gives, and more sceptical. Note this chapter's angle: Freud is important because of how much he tried to explain, and problematic because of how little of it can be tested.</p>
+
+      <h3 class="sec">3.1 Where the theory came from</h3>
+      <div class="abox"><ul>
+        <li><b>Freud was trained as a scientist.</b> A medical doctor who worked in physiological and neurological research, with early papers on the testicles of eels and on the physiological effects of cocaine. He told his bride that the anatomy of the brain was the only serious rival she would ever have.</li>
+        <li><b>Psychiatry was the Cinderella of medicine.</b> Disorders with no obvious physical cause were dismissed as impossible, and sufferers accused of malingering. After a year studying with <b>Charcot</b> in Paris in 1885, Freud returned to Vienna to specialise in exactly those conditions.</li>
+        <li><b>Free association</b> was his method. The patient reclines in a quiet darkened room, the therapist sits out of sight, and the patient says the very first thing that comes to mind in response to occasional words, omitting nothing however trivial or embarrassing. Charcot had used hypnosis for the same purpose.</li>
+        <li><b>The telling sign</b> was <b>difficulty</b> producing an association. Since the patient had been urged to say anything at all, a blockage suggested something more serious than self-censorship.</li>
+        <li><b>The discovery.</b> Patients recalled painful childhood events, long forgotten, attached to strong emotions of anger, sorrow or guilt, very often sexual. Crucially, when the patient remembered the event <b>and re-experienced the emotion</b>, the physical symptom vanished. Freud claimed cures of inability to drink, paralysis, blindness, nervous tics and memory loss.</li>
+        <li><b>Screen memories.</b> Many patients reported childhood seduction by their fathers. Freud took the conventional view that this was unlikely to have happened and concluded the memories were fantasies superimposed on early memories, expressing wishes rather than events. This is why he came to believe a sexual instinct is present even in children.</li>
+      </ul></div>
+
+      <h3 class="sec">3.2 Structure and process</h3>
+      <div class="tscroll"><table class="tbl">
+        <tr><th>Part</th><th>What it holds</th><th>How it works</th></tr>
+        <tr><td><b>Id</b> ("it")</td><td>Painful memories, forbidden thoughts and wishes, base instincts and lusts. Not accessible to consciousness.</td><td>The <b>primary process</b>: total and immediate satisfaction of every drive, however inappropriate. "I want it and I want it now." Not rational, so contradictory wishes coexist without conflict.</td></tr>
+        <tr><td><b>Ego</b> ("I")</td><td>Memories, wishes and feelings that are or could be conscious.</td><td>The <b>secondary process</b>: rational, aware of the external world, able to delay satisfaction for a greater long-term payoff, and unable to tolerate ambiguity. It splits off from the id as the child experiences the outside world.</td></tr>
+        <tr><td><b>Superego</b></td><td>Moral values; the conscience.</td><td>Checks the moral correctness of what the ego plans.</td></tr>
+      </table></div>
+      <p class="lead">The book's own bicycle analogy is the clearest summary going: <b>the id pedals</b>, supplying the energy that drives us into action; <b>the ego steers</b>, choosing routes that eventually satisfy the id; <b>the superego brakes</b>, checking whether the activity is morally acceptable.</p>
+      <div class="abox"><ul>
+        <li><b>Defence mechanisms</b> keep painful memories and wishes out of consciousness. Over a dozen have been proposed; <b>repression</b> is the best known and in Freud's early writing the terms are interchangeable.</li>
+        <li><b>The perpetual battle.</b> A repressed wish does not cease to exist; it constantly tries to re-enter consciousness. Rising <b>anxiety</b> acts as the trip wire that triggers the defences. Disguised substitutes do get through, as daydreams, fantasies or symptoms.</li>
+        <li><b>Symptoms are linked to the repressed content.</b> Breuer's patient who could not drink recalled under hypnosis seeing a dog drink from a glass and saying nothing out of politeness. Another, whose tic made loud clacking noises, had twice forced herself to stay silent, once by a sick sleeping child and once with bolting horses.</li>
+      </ul></div>
+
+      <h3 class="sec">3.3 Dreams and art</h3>
+      <div class="abox"><ul>
+        <li><b>Dreams are the royal road to the unconscious.</b> Almost no psychologists study dream content; the physiology of sleep gets the attention. Freud and Jung are the exceptions.</li>
+        <li><b>How dreaming works.</b> During sleep the defences relax. Repressed wishes from the id can enter consciousness as dreams, provided they are disguised well enough not to alert the censor. If the censor notices, you wake up anxious.</li>
+        <li><b>Latent content</b> is the underlying wish; the dream you remember is its disguise. Freud uncovered these by having patients free-associate to their dreams.</li>
+        <li><b>Symbolism</b> covers the parts that produce no associations, where one acceptable object stands for an unacceptable one. Given the weight Freud put on the sexual drive, most of these symbols are sexual: extracted teeth as symbolic castration, and lances, guns, reptiles and fountain pens meaning the obvious.</li>
+        <li><b>Art works the same way,</b> except that the disguising is done by the artist rather than by each individual. Viewing art gives a sanitised, socially acceptable substitute for a repressed wish.</li>
+      </ul></div>
+
+      <h3 class="sec">3.4 Can any of it be tested?</h3>
+      <p class="lead">Eysenck, in <b>The Decline and Fall of the Freudian Empire</b>, says no: the original observations were unsystematic and the resulting theory untestable. The book takes him seriously and lists four specific obstacles:</p>
+      <div class="abox"><ul>
+        <li><b>Measurement.</b> Anything relying on self-knowledge obviously cannot probe an unconscious region of the mind.</li>
+        <li><b>Equivocal predictions.</b> The defence mechanism <b>reaction formation</b> lets aggressive drives be inferred from either aggression or its extreme opposite, excessive pacifism. A theory that predicts both outcomes cannot be tested by either.</li>
+        <li><b>A closed shop.</b> Orthodox psychoanalysts reject quantifying responses or video-recording sessions, and claim only the analysed can fully understand the theory. That disqualifies most critics by definition.</li>
+        <li><b>Operationalising.</b> Nobody can say which observable behaviour would count as a clear instance of repression, or unambiguously indicate a repressed wish.</li>
+      </ul></div>
+      <p class="lead">The balanced verdict the book lands on: there <b>is</b> evidence for parts of it, notably defence mechanisms and the existence of an unconscious that processes information without awareness. The effectiveness of psychoanalysis as therapy is <b>not</b> well supported. Kline's position, that the theory contains grains of truth, sits between Eysenck's total rejection and the analysts' total acceptance.</p>
+      <details class="quiz"><summary>Quiz: chapter 3 (5 questions)</summary><div class="qz">
+        <div class="qz-q"><p class="qz-stem">1. In free association, what did Freud treat as the significant signal?</p><div class="qz-opts"><button class="qz-opt" type="button">The speed of the response</button><button class="qz-opt" type="button" data-ok>Difficulty in producing an association at all</button><button class="qz-opt" type="button">Repetition of the same word</button><button class="qz-opt" type="button">The patient falling asleep</button></div><div class="qz-fb">Since the patient was urged to say anything however embarrassing, a blockage suggested something deeper than self-censorship.</div></div>
+        <div class="qz-q"><p class="qz-stem">2. On the bicycle analogy, the superego is:</p><div class="qz-opts"><button class="qz-opt" type="button">the pedals</button><button class="qz-opt" type="button">the handlebars</button><button class="qz-opt" type="button" data-ok>the brakes</button><button class="qz-opt" type="button">the wheels</button></div><div class="qz-fb">The id pedals, the ego steers, the superego brakes.</div></div>
+        <div class="qz-q"><p class="qz-stem">3. Freud's term for the fantasies he believed were superimposed on early memories was:</p><div class="qz-opts"><button class="qz-opt" type="button">latent content</button><button class="qz-opt" type="button" data-ok>screen memories</button><button class="qz-opt" type="button">primary process</button><button class="qz-opt" type="button">reaction formation</button></div><div class="qz-fb">Screen memories. He concluded the reported childhood seductions were wishes rather than events.</div></div>
+        <div class="qz-q"><p class="qz-stem">4. Why does reaction formation make the theory hard to test?</p><div class="qz-opts"><button class="qz-opt" type="button">It only occurs in children</button><button class="qz-opt" type="button">It cannot be observed in therapy</button><button class="qz-opt" type="button" data-ok>Aggressive drives can be inferred from either aggression or extreme pacifism, so no result can disconfirm it</button><button class="qz-opt" type="button">It was never properly defined by Freud</button></div><div class="qz-fb">A theory that predicts opposite outcomes equally well cannot be refuted by either.</div></div>
+        <div class="qz-q"><p class="qz-stem">5. Which part of Freudian theory does the book say has some empirical support?</p><div class="qz-opts"><button class="qz-opt" type="button">The effectiveness of psychoanalysis as therapy</button><button class="qz-opt" type="button" data-ok>Defence mechanisms, and an unconscious that processes information without awareness</button><button class="qz-opt" type="button">The symbolic meaning of dreams</button><button class="qz-opt" type="button">The Oedipus complex</button></div><div class="qz-fb">Defence mechanisms and unconscious processing have support; psychoanalysis as a treatment does not.</div></div>
+      </div><p class="qz-score"></p></details>
+    </div>
+
+    <!-- ===== CHAPTER 4 ===== -->
+    <div class="qchap">
+      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">4. Psychological Tests</h2>
+      <p class="lead">The chapter that makes everything else possible, and the one whose vocabulary comes back in PSY1081. The guiding question: if you cannot measure it, how will you ever know whether the theory is right?</p>
+
+      <h3 class="sec">4.1 Why measurement decides everything</h3>
+      <p class="lead">The chapter opens by turning this on Freud and Rogers. There is no agreed way to measure defence mechanisms, superego strength, self-actualisation or unconditional positive regard. Without measures, you cannot establish whether self-actualisation increases with age or after therapy, and therefore whether either theory describes anything real. The test to apply to any concept in any branch of psychology:</p>
+      <div class="abox"><ul>
+        <li>Could you decide whether one person has more of it than another, and how?</li>
+        <li>Could it be measured by a questionnaire?</li>
+        <li>Could trained observers rate people on it?</li>
+        <li>Would behaviour in a particular situation measure it?</li>
+      </ul></div>
+      <p class="lead">If the answer to all of those is probably not, the theory is untestable, and an untestable theory is of no scientific merit. Equally, the book warns that a test claiming to measure something is no guarantee that it does: many published tests are so poorly constructed as to be useless.</p>
+
+      <h3 class="sec">4.2 Three ways to measure</h3>
+      <div class="tscroll"><table class="tbl">
+        <tr><th>Method</th><th>How it works</th><th>Problems</th></tr>
+        <tr><td><b>Ratings of behaviour</b></td><td>Trained raters observe and count, for example nervous twitches per hour as a measure of anxiety.</td><td>Three reasons it is rarely used: it takes a long time; situations differ between people so scores cannot be compared; and people may not behave naturally when shadowed by someone with a clipboard.</td></tr>
+        <tr><td><b>Questionnaires</b></td><td>By far the most widely used tool. Quick and cheap, especially in groups.</td><td>People fake answers, particularly in selection. Some lack the self-insight to answer accurately. Anxiety about an IQ test can depress performance. A bored participant may answer at random, and spotting them is not simple.</td></tr>
+        <tr><td><b>Objective tests</b></td><td>Cattell's preference: measure behaviour where the person does not know they are being tested or cannot alter the response. Skin moistness for anxiety, threading a needle, or brainwave patterns for intelligence.</td><td>They simply do not work as well as questionnaires, and are much harder to administer and score. Mainly of research interest.</td></tr>
+      </table></div>
+
+      <h3 class="sec">4.3 Reliability</h3>
+      <div class="abox">
+        <ul>
+          <li><b>Internal consistency reliability</b> (coefficient alpha, or KR20). Asks whether all the items measure the <b>same</b> thing.
+            <ul>
+              <li>The book's absurd example makes the point: a four-item test where two items measure anxiety and two measure general knowledge. A score of 2 could mean low anxiety and high intelligence, high anxiety and low intelligence, or moderate amounts of both. The score is uninterpretable.</li>
+              <li>So each <b>scale</b> must measure one and only one characteristic. A questionnaire may contain 16 scales, but they must be scored separately.</li>
+              <li>Maximum value 1.0. <b>Above 0.9</b> is wanted for decisions about individuals such as diagnosis or educational placement; <b>around 0.7</b> is acceptable for low-stakes screening and general research.</li>
+              <li>Alpha depends on two things: the average correlation between items, and <b>test length</b>. Longer tests are more reliable, so do not compare the alphas of tests of different lengths naively.</li>
+            </ul>
+          </li>
+          <li><b>Test-retest reliability.</b> Give the same test to the same people twice and correlate the two sets of scores. A child who is highly intelligent on Monday should not be a dunce by Friday. Figures <b>above 0.8</b> are usual. Lower values suggest either that the test is measuring something variable such as mood, or that people answered at random on one occasion.</li>
+        </ul>
+      </div>
+
+      <h3 class="sec">4.4 Validity</h3>
+      <p class="lead">A test is valid if it measures what it claims and its scores are useful. Crucially, <b>validity is not a fixed statistical property of the test the way reliability is</b>. It depends on the use, the sample and the circumstances: a test that identifies promising nurses may be useless for predicting which mechanics will suffer psychiatric problems, and a test that works when people cooperate may fail in selection, where applicants give socially desirable answers. Culture, age, ability, instructions, time limits, perceived purpose and even the gender of the administrator can all affect it.</p>
+      <div class="abox"><ul>
+        <li><b>Predictive validity.</b> Does it work for real decisions? Do secretaries selected by the test outperform secretaries chosen at random from the applicants?</li>
+        <li><b>Content validity.</b> Where the domain is well defined, such as multiplication tables up to twelve, a random sample of those items is valid by definition. Rarely applicable, because domains are rarely that tidy.</li>
+        <li><b>Construct validity.</b> Ask "what if" and run experiments. If an anxiety inventory really measures anxiety then: people with anxiety disorders should score higher than others; scores should rise on the day of an important exam; it should correlate with other anxiety measures and with observer ratings; and it should <b>not</b> correlate with reading ability, intelligence or sociability.</li>
+      </ul></div>
+
+      <h3 class="sec">4.5 Norms</h3>
+      <p class="lead">A raw score means nothing on its own. Forty correct out of fifty on a spelling test could be bottom of the class if the test was easy, or exceptional if it was hard. <b>Tables of norms</b> fix this by showing which scores are usual. They require administering the test to a large (500 or more) <b>representative</b> sample. Norming an intelligence test on pupils at one of the country's top schools would be useless, because those children were selected for their intelligence in the first place.</p>
+
+      <h3 class="sec">4.6 Ethics</h3>
+      <div class="abox"><ul>
+        <li><b>Tests can be dangerous.</b> Many have little or no evidence of validity, making them no better than tea leaves. Telling someone they have below-average intelligence or a psychopathic personality on the strength of a useless test is unethical.</li>
+        <li><b>Only qualified users.</b> Administration is teachable; <b>interpretation</b> demands training. A test score is only a starting point, to be read alongside health, educational history, training, experience, attitudes, interests and circumstances. Publishers supply tests only to registered, qualified individuals.</li>
+        <li><b>Standards.</b> Laid down by the American Psychological Association and the British Psychological Society. The book notes that the Psychological Society of Ireland had not drawn up its own, so BPS guidance is used.</li>
+        <li><b>Projective tests</b> such as the <b>Rorschach</b> inkblots and the <b>Thematic Apperception Test</b> ask for stories or interpretations rather than ticks. They are exceptionally hard to quantify or compare, generally have very low validity, and have been severely criticised.</li>
+        <li><b>The MBTI.</b> The Myers-Briggs Type Indicator sorts people into 16 types on four dichotomies and is used by a large majority of Fortune 500 companies in over a hundred countries. The book's framing is pointed: popular personality instruments are not always as reliable and valid as they seem, however satisfying it is to be categorised.</li>
+      </ul></div>
+      <div class="guide-tip"><span class="lab">Carry this into PSY1081</span>Reliability and validity are the same concepts you meet in the research methods module, and this chapter explains them better than most. Reliability is consistency, validity is accuracy, and the trap to remember is that a test can be perfectly reliable and still measure the wrong thing.</div>
+      <details class="quiz"><summary>Quiz: chapter 4 (6 questions)</summary><div class="qz">
+        <div class="qz-q"><p class="qz-stem">1. Coefficient alpha tells you:</p><div class="qz-opts"><button class="qz-opt" type="button">whether the test predicts real-world performance</button><button class="qz-opt" type="button" data-ok>the extent to which all items in a scale measure the same characteristic</button><button class="qz-opt" type="button">whether scores are stable over time</button><button class="qz-opt" type="button">how representative the norms are</button></div><div class="qz-fb">Internal consistency. Stability over time is test-retest reliability; real-world prediction is predictive validity.</div></div>
+        <div class="qz-q"><p class="qz-stem">2. For decisions about individuals, such as diagnosis, internal consistency should be above:</p><div class="qz-opts"><button class="qz-opt" type="button">0.5</button><button class="qz-opt" type="button">0.7</button><button class="qz-opt" type="button" data-ok>0.9</button><button class="qz-opt" type="button">1.0</button></div><div class="qz-fb">Above 0.9 for high-stakes individual decisions; around 0.7 is acceptable for research and low-level screening.</div></div>
+        <div class="qz-q"><p class="qz-stem">3. Besides item correlations, what else raises coefficient alpha?</p><div class="qz-opts"><button class="qz-opt" type="button">A more representative sample</button><button class="qz-opt" type="button" data-ok>Test length, since longer tests are more reliable</button><button class="qz-opt" type="button">Clearer instructions</button><button class="qz-opt" type="button">Using trained raters</button></div><div class="qz-fb">Length. That is why comparing the alphas of tests of very different lengths is misleading.</div></div>
+        <div class="qz-q"><p class="qz-stem">4. Which is NOT one of the three types of validity described?</p><div class="qz-opts"><button class="qz-opt" type="button">Predictive</button><button class="qz-opt" type="button">Content</button><button class="qz-opt" type="button">Construct</button><button class="qz-opt" type="button" data-ok>Internal</button></div><div class="qz-fb">Predictive, content and construct. Internal consistency is a form of reliability, not validity.</div></div>
+        <div class="qz-q"><p class="qz-stem">5. Why can't you norm an IQ test on pupils of a top selective school?</p><div class="qz-opts"><button class="qz-opt" type="button">The sample would be too small</button><button class="qz-opt" type="button" data-ok>They were selected for intelligence, so they are not representative of children in general</button><button class="qz-opt" type="button">Schools do not permit testing</button><button class="qz-opt" type="button">Their scores would be too variable</button></div><div class="qz-fb">Norms require a large representative sample of the population the test is designed for.</div></div>
+        <div class="qz-q"><p class="qz-stem">6. Why are ratings of behaviour rarely used in psychometrics?</p><div class="qz-opts"><button class="qz-opt" type="button">They are unethical</button><button class="qz-opt" type="button">They cannot be scored</button><button class="qz-opt" type="button" data-ok>They are slow, situations differ so scores are not comparable, and observation changes behaviour</button><button class="qz-opt" type="button">They always have low validity</button></div><div class="qz-fb">Those three practical reasons, plus the expense of trained raters.</div></div>
+      </div><p class="qz-score"></p></details>
+    </div>
+
+    <!-- ===== CHAPTER 5 ===== -->
+    <div class="qchap">
+      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">5. The Psychometric Model</h2>
+      <p class="lead">Traits, states, and the technique that finds them: factor analysis.</p>
+
+      <h3 class="sec">5.1 Traits and states</h3>
+      <div class="abox"><ul>
+        <li><b>A trait</b> is a relatively stable characteristic describing how someone behaves across many situations. Two kinds: <b>ability traits</b> (knowledge, performance, reasoning skills) and <b>personality traits</b> (stable characteristics not related to thinking, such as sociability or nervousness).</li>
+        <li><b>A state</b> is changeable, often influenced by the situation. Also two kinds: <b>motivational states</b> driven by biological or social forces (hunger, sex, need for self-esteem) which decline once the goal is reached; and <b>mood states</b> describing feelings (happy, grumpy, tearful), which shift with circumstances or spontaneously.</li>
+        <li><b>The test to apply.</b> "Hungry" is not a trait, because you will not be hungry after your next meal. "Depressed" is not one either, unless it is permanent.</li>
+        <li><b>Mischel's challenge.</b> He argued there are no real consistencies in behaviour across situations, so personality traits do not exist. The book's verdict is blunt: the evidence proved him wrong and he later retracted.</li>
+      </ul></div>
+
+      <h3 class="sec">5.2 What the psychometric model claims</h3>
+      <p class="lead">Behaviour depends on five things: your <b>abilities and skills</b>, your <b>personality traits</b>, your <b>moods</b>, your <b>motivational drives</b>, and <b>the situation as you perceive it</b>. The worked example is an exam. Your mark reflects reading ability and arithmetic and specialised knowledge; whether you are sociable enough to have avoided solitary practice, or slapdash enough never to check your answer; whether you panic; whether you need to appear intelligent; and whether you find the room quiet or find the invigilators' pacing intimidating.</p>
+      <p class="lead">Two aims follow: <b>identify and measure all the major states and traits</b>, and <b>build mathematical models</b> of how they combine to predict behaviour. The book admits most researchers get stuck on the first and rarely reach the second, and that the models built are usually simplistic.</p>
+
+      <h3 class="sec">5.3 Factor analysis, explained without the maths</h3>
+      <div class="abox">
+        <ul>
+          <li><b>Start with correlations.</b> Measure many abilities in several hundred people and correlate every test with every other. The result is a <b>correlation matrix</b>.</li>
+          <li><b>Look for overlap.</b> In the book's example, addition correlates very highly with multiplication, and "adjectives" correlates very highly with "unusual uses", while the two pairs barely correlate with each other. Four tests, but only <b>two</b> underlying traits.</li>
+          <li><b>That is the whole idea.</b> Factor analysis does by computer what you just did by eye, and tells you two things: <b>how many factors there are</b>, and <b>which tests combine to form each one</b>.</li>
+          <li><b>Why a variable correlates 1.0 with itself.</b> Because the two values are identical, so they are exactly proportional by definition.</li>
+          <li><b>The warning that always applies.</b> Correlation is not cause. The book's example: worldwide AIDS deaths and CD player sales both rose through the 1980s, producing a large positive correlation and no causal link whatsoever.</li>
+        </ul>
+      </div>
+      <details class="quiz"><summary>Quiz: chapter 5 (4 questions)</summary><div class="qz">
+        <div class="qz-q"><p class="qz-stem">1. Which of these is a state rather than a trait?</p><div class="qz-opts"><button class="qz-opt" type="button">Sociable</button><button class="qz-opt" type="button" data-ok>Hungry</button><button class="qz-opt" type="button">Good at mathematics</button><button class="qz-opt" type="button">Tender-minded</button></div><div class="qz-fb">Hungry changes and is situation-dependent. Traits are stable across situations and time.</div></div>
+        <div class="qz-q"><p class="qz-stem">2. Factor analysis tells you:</p><div class="qz-opts"><button class="qz-opt" type="button">whether one variable causes another</button><button class="qz-opt" type="button" data-ok>how many traits a set of tests measures, and which tests go together</button><button class="qz-opt" type="button">the reliability of each test</button><button class="qz-opt" type="button">the norms for a population</button></div><div class="qz-fb">It finds the overlap between tests, revealing the number of underlying factors and their composition.</div></div>
+        <div class="qz-q"><p class="qz-stem">3. Who argued that personality traits do not exist because behaviour is not consistent across situations?</p><div class="qz-opts"><button class="qz-opt" type="button">Cattell</button><button class="qz-opt" type="button">Eysenck</button><button class="qz-opt" type="button" data-ok>Mischel</button><button class="qz-opt" type="button">Spearman</button></div><div class="qz-fb">Mischel (1968). The evidence went against him and he retracted the position.</div></div>
+        <div class="qz-q"><p class="qz-stem">4. Two tests correlate at 0.85 and both correlate weakly with everything else. This suggests:</p><div class="qz-opts"><button class="qz-opt" type="button">one test causes performance on the other</button><button class="qz-opt" type="button">the tests are unreliable</button><button class="qz-opt" type="button" data-ok>they measure the same underlying trait</button><button class="qz-opt" type="button">the sample is unrepresentative</button></div><div class="qz-fb">High mutual correlation plus low correlation with everything else is the signature of one shared factor.</div></div>
+      </div><p class="qz-score"></p></details>
+    </div>
+
+    <!-- ===== CHAPTER 6 ===== -->
+    <div class="qchap">
+      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">6. The Psychometric Model Applied to Abilities</h2>
+      <p class="lead">Intelligence: where it came from as a concept, what IQ actually means, and whether it has a biological basis.</p>
+
+      <h3 class="sec">6.1 Ability versus attainment</h3>
+      <div class="abox"><ul>
+        <li><b>Attainment (or achievement)</b> tests how well you have mastered material you were taught. A class all study the same 18th-century European history and sit the same exam. You cannot generalise from it: a student brilliant on that century may know nothing about any other.</li>
+        <li><b>Ability (or aptitude)</b> is about reasoning and solving <b>unfamiliar</b> problems. You may never have seen 1, 4, 9, 16 before, but you can work out what follows. That predicts performance in other related areas, which is why aptitude tests are useful for career guidance and selection.</li>
+      </ul></div>
+
+      <h3 class="sec">6.2 Spearman and the discovery of general intelligence</h3>
+      <p class="lead">In <b>1904</b>, Charles Spearman gave schoolchildren in Hampshire half a dozen tests: vocabulary, mathematics, following complex instructions, visualisation, matching colours and matching musical pitch. He then asked how those skills related, and invented the statistical tool to answer it. There were three logical possibilities:</p>
+      <div class="abox"><ul>
+        <li><b>(a) All unrelated.</b> Performance in one area tells you nothing about any other, so you need as many traits as there are skills.</li>
+        <li><b>(b) All correlated.</b> One trait explains everything: someone good at maths also tends to have a good vocabulary, good memory, better visualisation and even a better chance of singing in tune.</li>
+        <li><b>(c) Groups of skills correlate.</b> Somewhere in between, for example verbal skills clustering separately from creative ones.</li>
+      </ul></div>
+      <p class="lead">Factor analysing by hand, Spearman found <b>(b)</b> fitted. People tended to show a similar level of ability across all skills. That is the birth of <b>general intelligence</b>, or <b>g</b>, and despite much better methods since, the view is still widely accepted as substantially correct.</p>
+      <p class="lead"><b>Thurstone</b> later argued for model (c), identifying <b>primary mental abilities</b>: verbal comprehension, word fluency, induction, spatial ability and perceptual speed. The apparent contradiction dissolves neatly: Thurstone's PMAs are themselves correlated, and factor analysing <b>those</b> correlations produces g again. The two models are compatible, and which you measure is largely a matter of choice.</p>
+
+      <h3 class="sec">6.3 IQ, and the thing everyone gets wrong</h3>
+      <div class="tscroll"><table class="tbl">
+        <tr><th></th><th>Ratio IQ</th><th>Deviation IQ</th></tr>
+        <tr><td>How it works</td><td>Mental age divided by chronological age, times 100. A six-year-old performing like an average eight-year-old scores 8/6 x 100 = 133.</td><td>The mean for any age group is defined as exactly 100. It shows how common a score is <b>within one age group</b>.</td></tr>
+        <tr><td>Status</td><td>Abandoned about 40 years ago; of historical interest only.</td><td>Has completely replaced it.</td></tr>
+        <tr><td>The fatal flaw</td><td>Intelligence stops rising much after the mid-teens. Someone with a mental age of 15 at 16 has an IQ of 94; at 36, with the same test score, the formula gives 42. Absurd.</td><td>None of that, because it compares you only with your own age group.</td></tr>
+      </table></div>
+      <div class="abox"><ul>
+        <li><b>The distribution.</b> IQ follows a normal distribution with a mean of <b>100</b> and a standard deviation of <b>15</b>. About 16% of people score 85 or less and 84% score 115 or less, so about <b>68%</b> sit between 85 and 115.</li>
+        <li><b>The beauty of it.</b> It lets people be compared regardless of which test they took, because each test's manual maps raw scores onto IQ levels using its own norms.</li>
+        <li><b>The headline trap.</b> A newspaper announcing that half the nation's children have IQs below 100 has announced nothing at all. The mean is <b>defined</b> as 100, so half will always be below it.</li>
+      </ul></div>
+
+      <h3 class="sec">6.4 Is intelligence biological?</h3>
+      <p class="lead">Four research approaches, and the book is openly on one side of the argument:</p>
+      <div class="abox"><ul>
+        <li><b>Elementary cognitive operations.</b> Sternberg and Carroll break a problem such as "dog is to puppy as cow is to..." into steps: read it, retrieve three word meanings, find the relationship, apply it, respond. Each person may take a characteristic time per step. It gets complicated fast, because even simple tasks can be done many ways.</li>
+        <li><b>Genetics.</b> Identical twins separated at birth and raised apart should have similar IQs if genes matter. Highly controversial, not least because marked racial differences in test performance have been found, and attributing them to genes has drawn accusations of fascism that have clouded the issue.</li>
+        <li><b>Brain electrical activity.</b> Early work by Hendrickson and Hendrickson (1980) claimed a very strong relationship, but it has not been confirmed by later studies.</li>
+        <li><b>Simple perceptual tasks.</b> Jensen and Eysenck proposed that intelligence reflects how fast or how efficiently nerves conduct impulses. Vernon and Mori (1992) found nerve conduction speed correlated substantially with intelligence. More intelligent people also react faster and more consistently to simple stimuli (Jensen, 1982), and show shorter <b>inspection time</b>: shown two lines very briefly, they can tell which is longer at shorter exposures. Discovered by Vickers, Nettelbeck and Willson (1972).</li>
+      </ul></div>
+      <p class="lead">The author concludes that general intelligence has a genetic basis linked to the biology of the nervous system. Note that this is the <b>author's view</b>, and the book itself says Kamin (1974) and others disagree vehemently, arguing the genetic studies are flawed and an environmental explanation suffices. When you write about this, name both positions.</p>
+      <details class="quiz"><summary>Quiz: chapter 6 (6 questions)</summary><div class="qz">
+        <div class="qz-q"><p class="qz-stem">1. Which is an aptitude rather than an attainment?</p><div class="qz-opts"><button class="qz-opt" type="button">Remembering what was in the last section</button><button class="qz-opt" type="button" data-ok>Solving a crossword puzzle</button><button class="qz-opt" type="button">Cooking a dinner you were taught to cook</button><button class="qz-opt" type="button">Reciting the twelve times table</button></div><div class="qz-fb">Aptitude is about solving unfamiliar problems; attainment is mastery of material you were taught.</div></div>
+        <div class="qz-q"><p class="qz-stem">2. In what year did Spearman identify general intelligence?</p><div class="qz-opts"><button class="qz-opt" type="button">1879</button><button class="qz-opt" type="button" data-ok>1904</button><button class="qz-opt" type="button">1936</button><button class="qz-opt" type="button">1963</button></div><div class="qz-fb">1904, with schoolchildren in Hampshire. 1879 is Wundt's laboratory.</div></div>
+        <div class="qz-q"><p class="qz-stem">3. Thurstone's primary mental abilities and Spearman's g are:</p><div class="qz-opts"><button class="qz-opt" type="button">mutually exclusive</button><button class="qz-opt" type="button" data-ok>compatible, because the PMAs themselves correlate and yield g when factor analysed</button><button class="qz-opt" type="button">both now rejected</button><button class="qz-opt" type="button">measures of attainment, not ability</button></div><div class="qz-fb">Factor analysing the correlations between the PMAs produces general intelligence again.</div></div>
+        <div class="qz-q"><p class="qz-stem">4. The standard deviation of IQ is:</p><div class="qz-opts"><button class="qz-opt" type="button">5</button><button class="qz-opt" type="button">10</button><button class="qz-opt" type="button" data-ok>15</button><button class="qz-opt" type="button">25</button></div><div class="qz-fb">Mean 100, standard deviation 15, so roughly 68% of people fall between 85 and 115.</div></div>
+        <div class="qz-q"><p class="qz-stem">5. Why was the ratio IQ abandoned?</p><div class="qz-opts"><button class="qz-opt" type="button">It was too difficult to calculate</button><button class="qz-opt" type="button" data-ok>Because mental age plateaus in the mid-teens, the same person's IQ appears to collapse with age</button><button class="qz-opt" type="button">It could not be used with children</button><button class="qz-opt" type="button">It required norms that did not exist</button></div><div class="qz-fb">An unchanged test score produces a falling ratio IQ as chronological age rises, which is absurd.</div></div>
+        <div class="qz-q"><p class="qz-stem">6. "Inspection time" refers to:</p><div class="qz-opts"><button class="qz-opt" type="button">how long a test session lasts</button><button class="qz-opt" type="button">the time taken to mark a test</button><button class="qz-opt" type="button" data-ok>the brief exposure needed to judge which of two lines is longer</button><button class="qz-opt" type="button">the delay before a nerve impulse fires</button></div><div class="qz-fb">More intelligent people can make the judgement at shorter exposures. Discovered by Vickers, Nettelbeck and Willson (1972).</div></div>
+      </div><p class="qz-score"></p></details>
+    </div>
+
+    <!-- ===== CHAPTER 7 ===== -->
+    <div class="qchap">
+      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">7. The Psychometric Model Applied to Personality</h2>
+      <p class="lead">Cattell, Eysenck and the Big Five. Three attempts to find the real dimensions of personality, with very different levels of success.</p>
+
+      <h3 class="sec">7.1 Cattell: sample the dictionary</h3>
+      <div class="abox"><ul>
+        <li><b>The logic.</b> If a personality trait exists, some word in the language must describe it. So start from the language.</li>
+        <li><b>The method.</b> Cattell (1957) took Allport and Odbert's 1936 list of <b>4,500</b> trait names, had scholars strip out synonyms down to <b>171</b> adjectives, had trained raters assess a large sample on each, and factor analysed the correlations.</li>
+        <li><b>The result.</b> 36 traits emerged, another ten were added from psychiatry, giving about <b>46</b> traits, and he built tests for the most important, most famously the <b>16PF</b>.</li>
+        <li><b>The problem, and it is fatal.</b> When independent researchers factor analyse his questionnaire items, the expected factors <b>do not emerge</b>. Half a dozen studies have tried; none found his factors. Cattell dismissed that work for not using his own unusual factor-analytic methods. The 16PF does not measure sixteen factors, yet it remains widely used in occupational psychology, where interpreting it is a lucrative business.</li>
+      </ul></div>
+
+      <h3 class="sec">7.2 Eysenck: start from the clinic</h3>
+      <div class="abox"><ul>
+        <li><b>A focused approach.</b> Rather than sampling everything, Eysenck decided in advance what to measure, based on older theories, and wrote excellent questionnaires for it.</li>
+        <li><b>Neuroticism</b> came first, in the early 1950s, aiming to separate neurotics from normals. Neurotic means anxious, worrying, moody, restless; emotionally stable means calm, even-tempered, carefree. Items such as "do you worry a lot?" and "do your moods vary a lot from day to day?" all loaded on one factor, as predicted. Published as the <b>Maudsley Medical Questionnaire</b>.</li>
+        <li><b>Extroversion</b> came second, borrowed from <b>Carl Jung</b>, who coined the term from clinical observation. Extroverts are people-oriented, active, outgoing and optimistic; introverts prefer their own company and avoid social gatherings. This produced the <b>Maudsley Personality Inventory (MPI)</b> and the <b>Eysenck Personality Inventory (EPI)</b>.</li>
+        <li><b>Psychoticism</b> was added in 1976: cold, callous and ruthless, sometimes with schizophrenia-like symptoms such as paranoia. This gave the <b>EPQ</b> and <b>EPQ-R</b>. Males, criminals and people with schizophrenia score higher on it.</li>
+        <li><b>The crucial contrast with Cattell.</b> Eysenck's factors reappear clearly whenever independent researchers analyse his questionnaires. That is why his scales are genuinely useful.</li>
+      </ul></div>
+
+      <h3 class="sec">7.3 The Big Five</h3>
+      <div class="abox"><ul>
+        <li><b>Origin.</b> Proposed by <b>Norman in 1963</b>, without reviewing much of the relevant literature, and revived by <b>McCrae and Costa</b> from 1985. Usually measured by the <b>NEO</b> inventory.</li>
+        <li><b>The five, as OCEAN:</b> <b>O</b>penness to experience, <b>C</b>onscientiousness, <b>E</b>xtroversion, <b>A</b>greeableness, <b>N</b>euroticism.</li>
+        <li><b>How they map onto Eysenck.</b> Give people both the NEO and the EPQ and correlate the scales. Extroversion and neuroticism turn out to be nearly identical in both. <b>Agreeableness is the opposite of psychoticism</b>, and conscientiousness also correlates negatively with psychoticism. So four of the Big Five correspond closely to Eysenck's three.</li>
+        <li><b>A sharp criticism.</b> Angleitner (1992) showed that the NEO's openness to experience scale is a measure of <b>ability</b>, not personality.</li>
+        <li><b>Which model wins?</b> The book declines to say. The NEO is much newer, so less is known about its validity, and it may be prudent to wait until conscientiousness and openness, the two scales with no equivalent in Eysenck, are properly validated.</li>
+      </ul></div>
+
+      <h3 class="sec">7.4 The biology of personality</h3>
+      <p class="lead">Separated twin studies give good evidence that extroversion and neuroticism are partly genetic. Eysenck went further and tied each to a specific brain system:</p>
+      <div class="abox"><ul>
+        <li><b>Neuroticism and the autonomic nervous system.</b> The system that pumps adrenalin into the bloodstream under stress, enabling fight or flight. Neurotic people enter that mode more readily than stable ones.</li>
+        <li><b>Extroversion and the Ascending Reticular Activating System (ARAS).</b> It governs how strongly the cortex reacts to stimulation and how quickly that activity dies down.</li>
+        <li><b>The counterintuitive bit, and the one most worth understanding.</b> <b>Extroverts have LOW cortical arousal.</b> Their cortex quietens as soon as external stimulation stops, so they go looking for conversation and excitement to top it up. <b>Introverts' cortices are already aroused</b> without much sensory input, so they do not need to seek strong experiences. Introversion is not shyness in this model; it is a brain that is already busy.</li>
+      </ul></div>
+      <div class="guide-tip"><span class="lab">For Assignment 2</span>This chapter is the direct background to any personality assignment using a Big Five inventory. Three things are worth having ready: the <b>OCEAN</b> labels and what each means; the <b>mapping onto Eysenck</b>, especially agreeableness as the opposite of psychoticism; and the <b>critical angle</b>, which is that the 16PF does not replicate, that openness may be measuring ability, and that any inventory is only as good as its reliability and validity evidence from chapter 4.</div>
+      <details class="quiz"><summary>Quiz: chapter 7 (6 questions)</summary><div class="qz">
+        <div class="qz-q"><p class="qz-stem">1. Cattell's raters assessed people on how many adjectives?</p><div class="qz-opts"><button class="qz-opt" type="button">16</button><button class="qz-opt" type="button">46</button><button class="qz-opt" type="button" data-ok>171</button><button class="qz-opt" type="button">4,500</button></div><div class="qz-fb">171, reduced from Allport and Odbert's 4,500 trait names. 36 factors emerged, extended to about 46, and the questionnaire measures 16.</div></div>
+        <div class="qz-q"><p class="qz-stem">2. The fundamental problem with the 16PF is that:</p><div class="qz-opts"><button class="qz-opt" type="button">it is too long to administer</button><button class="qz-opt" type="button" data-ok>independent researchers cannot reproduce its factors</button><button class="qz-opt" type="button">it has no norms</button><button class="qz-opt" type="button">it was never published</button></div><div class="qz-fb">Half a dozen independent studies failed to find Cattell's factors, so the scales are fundamentally flawed despite remaining popular.</div></div>
+        <div class="qz-q"><p class="qz-stem">3. Who coined the term extroversion?</p><div class="qz-opts"><button class="qz-opt" type="button">Eysenck</button><button class="qz-opt" type="button">Cattell</button><button class="qz-opt" type="button" data-ok>Carl Jung</button><button class="qz-opt" type="button">Norman</button></div><div class="qz-fb">Jung, from clinical observation. Eysenck later built questionnaires to measure it.</div></div>
+        <div class="qz-q"><p class="qz-stem">4. Which Big Five factor corresponds to the opposite of Eysenck's psychoticism?</p><div class="qz-opts"><button class="qz-opt" type="button">Openness</button><button class="qz-opt" type="button">Conscientiousness</button><button class="qz-opt" type="button" data-ok>Agreeableness</button><button class="qz-opt" type="button">Neuroticism</button></div><div class="qz-fb">Agreeableness. Conscientiousness also correlates negatively with psychoticism, but agreeableness is its direct opposite.</div></div>
+        <div class="qz-q"><p class="qz-stem">5. Someone with a highly aroused cortex is likely to be:</p><div class="qz-opts"><button class="qz-opt" type="button">extroverted</button><button class="qz-opt" type="button" data-ok>introverted</button><button class="qz-opt" type="button">neurotic</button><button class="qz-opt" type="button">emotionally stable</button></div><div class="qz-fb">Introverted. Their cortex is already active, so they do not need to seek external stimulation. Extroverts have low cortical arousal.</div></div>
+        <div class="qz-q"><p class="qz-stem">6. High autonomic nervous system activity is associated with:</p><div class="qz-opts"><button class="qz-opt" type="button" data-ok>neuroticism</button><button class="qz-opt" type="button">extroversion</button><button class="qz-opt" type="button">intelligence</button><button class="qz-opt" type="button">openness</button></div><div class="qz-fb">Neuroticism. The autonomic system drives fight or flight, and neurotic people enter it more readily.</div></div>
+      </div><p class="qz-score"></p></details>
+    </div>
+
+  </div>
+  <div class="bnav"><button class="bbtn" id="pePrev" type="button">Previous chapter</button><button class="bbtn" id="peNext" type="button">Next chapter</button></div>
+</section>
+
 <!-- ============ TAB 14 : ESSAY TOOLKIT (PSY1080) ============ -->
 <section class="pane wrap" id="p14">
   <div class="dhead">
@@ -4138,7 +4542,7 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
 <script>
   const navs=[...document.querySelectorAll('.guide-nav-item')];
   const mods=[...document.querySelectorAll('.pn-mods button')];
-  const panes={1:p1,2:p2,3:p3,4:p4,5:p5,6:p6,7:p7,8:p8,9:p9,10:p10,11:p11,12:p12,13:p13,14:p14,15:p15,q1:q1,q2:q2,q3:q3,q4:q4,q5:q5,q6:q6,q7:q7,q8:q8,q9:q9,q10:q10,q11:q11,q12:q12,q13:q13,q14:q14};
+  const panes={1:p1,2:p2,3:p3,4:p4,5:p5,6:p6,7:p7,8:p8,9:p9,10:p10,11:p11,12:p12,13:p13,14:p14,15:p15,16:p16,q1:q1,q2:q2,q3:q3,q4:q4,q5:q5,q6:q6,q7:q7,q8:q8,q9:q9,q10:q10,q11:q11,q12:q12,q13:q13,q14:q14};
   function sel(id){navs.forEach(x=>x.classList.toggle('active',x.dataset.t===id));
     Object.entries(panes).forEach(([k,el])=>el.classList.toggle('on',k===id));
     window.scrollTo({top:0,behavior:'smooth'});}
