@@ -407,6 +407,19 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
 .wt-sec p{margin:0;font-size:13.5px;color:var(--ink);line-height:1.5}
 .wt-again{margin-top:16px;border:1px solid var(--border);background:var(--card);border-radius:9px;padding:9px 15px;font-family:inherit;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer}
 .wt-again:hover{border-color:var(--accent);color:var(--accent)}
+/* observation evidence log */
+.elog-bar{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin:0 0 10px}
+.elog-in{display:grid;grid-template-columns:92px 1fr 150px;gap:7px;margin:0 0 9px}
+.elog-in input,.elog-in select,.elog-in textarea{min-width:0;box-sizing:border-box;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--card);padding:10px 12px;font-family:inherit;font-size:13.5px;color:var(--ink)}
+.elog-in input:focus,.elog-in select:focus{outline:0;border-color:var(--accent)}
+.elog-row{display:grid;grid-template-columns:92px 1fr 150px 30px;gap:7px;align-items:start;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--card);padding:10px 12px;margin:0 0 7px}
+.elog-t{font-size:13px;font-weight:800;color:var(--accent-dark);font-variant-numeric:tabular-nums}
+.elog-w{font-size:13.5px;color:var(--ink);line-height:1.5}
+.elog-th{font-size:11.5px;font-weight:700;color:var(--muted)}
+.elog-x{border:0;background:none;color:var(--muted);font-size:16px;line-height:1;cursor:pointer;padding:0}
+.elog-x:hover{color:var(--due)}
+.elog-empty{font-size:13.5px;color:var(--muted);border:1px dashed var(--border);border-radius:var(--r-sm);padding:16px;text-align:center}
+@media(max-width:620px){.elog-in,.elog-row{grid-template-columns:1fr}.elog-row{grid-template-columns:1fr 30px}}
 /* mind map */
 .mm-bar{display:flex;align-items:center;gap:7px;margin:0 0 10px;flex-wrap:wrap}
 .mm-b{border:1px solid var(--border);background:var(--card);border-radius:100px;padding:7px 14px;font-family:inherit;font-size:12.5px;font-weight:600;color:var(--ink);cursor:pointer}
@@ -505,10 +518,12 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
         <div class="pn-rule"></div>
         <div class="pn-eyebrow">Assessment</div>
         <button class="guide-nav-item" data-t="3"><span class="guide-nav-dot"></span><span class="label">Assignment Briefs</span></button>
+        <button class="guide-nav-item" data-t="14"><span class="guide-nav-dot"></span><span class="label">Essay Toolkit</span><span class="trail"><span class="nav-k due">23 Nov</span></span></button>
         <button class="guide-nav-item" data-t="10"><span class="guide-nav-dot"></span><span class="label">Deadlines</span><span class="trail"><span class="nav-k due">23 Nov</span></span></button>
         <button class="guide-nav-item" data-t="4"><span class="guide-nav-dot"></span><span class="label">Rules &amp; Dates</span></button>
         <div class="pn-rule"></div>
         <div class="pn-eyebrow">Learn the content</div>
+        <button class="guide-nav-item" data-t="13"><span class="guide-nav-dot"></span><span class="label">Developmental Book</span><span class="trail"><span class="nav-k due">A1</span></span></button>
         <button class="guide-nav-item" data-t="8"><span class="guide-nav-dot"></span><span class="label">Founders &amp; Schools</span></button>
         <button class="guide-nav-item" data-t="6"><span class="guide-nav-dot"></span><span class="label">Developmental Psychology</span></button>
         <button class="guide-nav-item" data-t="7"><span class="guide-nav-dot"></span><span class="label">Key People</span></button>
@@ -1496,6 +1511,606 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
     </ul>
   </div>
   <div class="gloss" data-gl="80"></div>
+</section>
+
+<!-- ============ TAB 13 : DEVELOPMENTAL BOOK (PSY1080) ============ -->
+<section class="pane wrap" id="p13">
+  <div class="dhead">
+    <div class="kicker">Learn the content · the A1 book</div>
+    <h2>Developmental Psychology Book</h2>
+    <div class="pills"><span class="pill on">6 chapters</span><span class="pill">core reading for Assignment 1</span></div>
+  </div>
+  <div class="intro-card">
+    <div class="lab">What this is</div>
+    <ul>
+      <li><b>A study version of the module's own book.</b> This follows the chapter and section order of the Loop book "Developmental Psychology", rewritten in plain language so you can actually get through it.</li>
+      <li><b>It is not a replacement for the book.</b> Read the real thing on Loop for the figures, videos and tables. Use this to understand it, to revise it fast, and to find the bits that matter for the essay.</li>
+      <li><b>Each chapter ends with a quiz.</b> Self-check questions are hidden behind grey bars; click to reveal the answer only after you have tried it in your head.</li>
+      <li><b>Watch for the blue "For Assignment 1" boxes.</b> They say exactly how that chapter feeds the toddler observation essay due 23 November.</li>
+    </ul>
+  </div>
+
+  <div class="bookbar">
+    <div class="blab">Chapter</div>
+    <div class="bookchaps" id="dbChips">
+      <button class="bchip on" type="button" title="Introduction to Developmental Psychology">1</button>
+      <button class="bchip" type="button" title="Biological Processes">2</button>
+      <button class="bchip" type="button" title="Cognitive Development">3</button>
+      <button class="bchip" type="button" title="Language Development">4</button>
+      <button class="bchip" type="button" title="Social Development: the Self">5</button>
+      <button class="bchip" type="button" title="Theories of Development">6</button>
+    </div>
+  </div>
+
+  <div id="devbook">
+
+    <!-- ===== CHAPTER 1 ===== -->
+    <div class="qchap on">
+      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">1. Introduction to Developmental Psychology</h2>
+      <p class="lead">What the word "development" actually means, the arguments that run through the whole subject, and the methods used to study children.</p>
+      <div class="note"><span class="lab">By the end you can</span>define development and say how it differs from mere change; name the three processes and the six periods; state the three recurring debates; tell descriptive, correlational and experimental methods apart; weigh longitudinal against cross-sectional designs; and explain why research with children carries extra ethical duties.</div>
+
+      <h3 class="sec">1.1 What development means</h3>
+      <p class="lead">Development is the pattern of movement or change that starts at conception and runs through the whole life cycle. It includes growth, as in childhood, and decay, as in illness and dying. It is produced by three kinds of process working together:</p>
+      <div class="abox"><ul>
+        <li><b>Biological processes.</b> Changes in the body: the head, the hands, height, the brain.</li>
+        <li><b>Cognitive processes.</b> Changes in thought, language and problem-solving, from watching a mobile over a cot to imagining being an astronaut.</li>
+        <li><b>Social processes.</b> Changes in relationships, emotions and personality, from a baby smiling at a gentle touch to a teenager asserting themselves.</li>
+      </ul></div>
+      <p class="lead">These three never run independently of each other. A child who learns to walk (biological) gets to new places and new people (social) and new things to think about (cognitive).</p>
+
+      <h3 class="sec">1.2 Why this is more than just "change"</h3>
+      <p class="lead">Everything changes over time. Development is a particular kind of change, with three features. This three-part definition is the one the book keeps coming back to, so learn it.</p>
+      <div class="abox"><ul>
+        <li><b>Differentiation.</b> Movement from the general to the particular and from the simple to the complex. One cell becomes millions of specialised cells. General arm waving becomes precise finger movements. Babbling becomes particular word sounds.</li>
+        <li><b>Growth.</b> Getting bigger, but also getting more: physical growth tails off in early adulthood, while growth through learning from experience carries on for life.</li>
+        <li><b>Orderly progression.</b> The sequence is strikingly similar across children and across cultures. One child walks at 14 months and another at 17, but both get there by the same route. That is what makes development predictable at all.</li>
+      </ul></div>
+      <details class="saq"><summary>SAQ 1: How is development different from change?</summary><div class="ans"><p>Development has three characteristics that ordinary change does not need to have: the organism <b>differentiates</b> over time, it <b>grows</b> over time, and that differentiation and growth follow an <b>orderly progression</b>.</p></div></details>
+
+      <h3 class="sec">1.3 The six periods of development</h3>
+      <div class="abox"><ul>
+        <li><b>Prenatal.</b> Conception to birth.</li>
+        <li><b>Infancy.</b> Birth to about 24 months.</li>
+        <li><b>Early childhood.</b> About 2 to 5 or 6.</li>
+        <li><b>Middle and late childhood.</b> About 6 to 11.</li>
+        <li><b>Adolescence.</b> About 11 to 18.</li>
+        <li><b>Adulthood.</b> Development does not stop at 18, though this part of the module stops at late childhood.</li>
+      </ul></div>
+      <div class="guide-tip"><span class="lab">For Assignment 1</span>The children in your video are <b>1 to 3 years old</b>, which straddles the end of infancy and the very start of early childhood. Say so explicitly in the essay and the examiner knows immediately that you have placed them correctly.</div>
+
+      <h3 class="sec">1.4 The three debates that never go away</h3>
+      <div class="abox"><ul>
+        <li><b>Nature versus nurture.</b> Nature means genetic inheritance; nurture means environment and experience. Those who favour nature are called <b>maturationists</b>, and maturation is the orderly sequence of change dictated by the genetic blueprint. Most psychologists are <b>interactionists</b>: the two shape each other. The book's example is worth keeping: someone who thinks musical ability is inherited would stream children by ability, while someone who thinks it is learned would give every child a rich musical environment. Same evidence, opposite policy.</li>
+        <li><b>Continuity versus discontinuity.</b> Continuity says development is gradual and cumulative, so adult problem-solving traces back to the child's. Discontinuity says development moves through qualitatively distinct stages, so the adult's thinking is a different kind of thing, not just more of the same.</li>
+        <li><b>Stability versus change.</b> Does the shy child become the introverted adult, or not? This is the debate parents and teachers care about most.</li>
+      </ul></div>
+      <details class="saq"><summary>SAQ 2: How would a naturist and a nurturist teach music differently?</summary><div class="ans"><p>The <b>naturist</b> believes ability is largely inherited, so they would grade children by their endowed ability and place them in classes suited to it. The <b>nurturist</b> believes ability comes from experience, so they would give every child the same rich musical environment.</p></div></details>
+
+      <h3 class="sec">1.5 The three research methods</h3>
+      <p class="lead">Science is defined by how it investigates, not by what it investigates. That is why child development can be studied scientifically at all.</p>
+      <div class="abox"><ul>
+        <li><b>Descriptive methods.</b> The oldest: watch children and record systematically what you see. Structured by <b>variables</b>, which are factors that can take different values. Behaviour can be a variable too: how often it happens (frequency), how long it lasts (duration), how strongly it is done (intensity). Used today mainly when very little is known about a topic, or as research training.</li>
+        <li><b>Correlational methods.</b> Describe how change in one variable goes with change in another. <b>Positive</b> correlation: both move the same way, like age and height. <b>Negative</b>: they move in opposite directions, like age and time spent crying. <b>No</b> correlation: no relationship, like height and number of siblings. Correlation raises good questions but <b>cannot</b> tell you which thing caused which.</li>
+        <li><b>Experimental methods.</b> The researcher systematically changes one variable (the <b>independent variable</b>) and measures the effect on another (the <b>dependent variable</b>), holding the rest constant. This is the only method that licenses a causal claim, and it is what most child research uses.</li>
+      </ul></div>
+      <div class="guide-tip"><span class="lab">For Assignment 1</span>Watching a video of toddlers is a <b>descriptive</b> method. That fixes what you are allowed to say: you can describe and interpret what you see, you can link it to theory, but you cannot claim that anything on screen <b>caused</b> anything else. Saying this yourself, once, in the essay is a cheap evaluation mark.</div>
+
+      <h3 class="sec">1.6 Two ways to study change over time</h3>
+      <div class="tscroll"><table class="tbl">
+        <tr><th>Approach</th><th>What you do</th><th>Strengths</th><th>Weaknesses</th></tr>
+        <tr><td><b>Longitudinal</b></td><td>Follow the same group of children over months, years or decades. Growing Up in Ireland is the local example.</td><td>The only way to study stability versus change in the same people, and the effects of early experience on later development.</td><td>Very expensive, needs a big research team, and participants drop out as families move or lose interest.</td></tr>
+        <tr><td><b>Cross-sectional</b></td><td>Compare different children of different ages at the same moment.</td><td>Much faster and much cheaper.</td><td>Cannot show the effect of early experience on later life, and is open to the <b>cohort effect</b>.</td></tr>
+      </table></div>
+      <p class="lead">The <b>cohort effect</b> is the trap worth remembering. If 60-year-olds do worse than 20-year-olds at maths, that may have nothing to do with ageing: the older group grew up in a depression, left school early, and were taught differently. The difference is experience, not age.</p>
+
+      <h3 class="sec">1.7 Ethics with children</h3>
+      <p class="lead">The Society for Research in Child Development sets out fourteen principles. They group into five ideas worth remembering as a set:</p>
+      <div class="abox"><ul>
+        <li><b>Do no harm.</b> No procedure that could hurt the child physically or psychologically. If unforeseen harm appears, correct it and redesign the study.</li>
+        <li><b>Consent, several times over.</b> The child must be informed in words they can understand; the parent or guardian must give informed consent; and anyone else involved, such as a teacher, must consent too. Incentives must be fair and not out of the ordinary for that child.</li>
+        <li><b>Honesty.</b> Deception only where it is genuinely essential, and only after other researchers agree the judgement is sound. Clear up any misunderstanding immediately after the data are collected.</li>
+        <li><b>Confidentiality and anonymity.</b> Everything learned about a participant is kept in confidence; records are accessed through the proper authority and kept anonymous.</li>
+        <li><b>Responsibility.</b> Agree everyone's role from the start; if anything emerges suggesting the child is at risk, raise it with parents or experts; be careful how findings are reported, because a psychologist's words carry weight with parents and children.</li>
+      </ul></div>
+      <div class="guide-tip"><span class="lab">For Assignment 1</span>You do not need consent yourself, because the video is a published teaching resource released for exactly this purpose. One sentence acknowledging that, and noting that children cannot consent for themselves so guardians must, shows the marker you understand the issue rather than ignoring it.</div>
+
+      <details class="quiz"><summary>Quiz: chapter 1 (6 questions)</summary><div class="qz">
+        <div class="qz-q"><p class="qz-stem">1. Which three characteristics distinguish development from ordinary change?</p><div class="qz-opts"><button class="qz-opt" type="button">Speed, direction and size</button><button class="qz-opt" type="button" data-ok>Differentiation, growth and orderly progression</button><button class="qz-opt" type="button">Nature, nurture and interaction</button><button class="qz-opt" type="button">Biological, cognitive and social</button></div><div class="qz-fb">Differentiation, growth and orderly progression. The three processes (biological, cognitive, social) are a different list, so do not mix them up.</div></div>
+        <div class="qz-q"><p class="qz-stem">2. A researcher finds that as children's age rises, time spent crying falls. This is:</p><div class="qz-opts"><button class="qz-opt" type="button">a positive correlation</button><button class="qz-opt" type="button" data-ok>a negative correlation</button><button class="qz-opt" type="button">an experimental effect</button><button class="qz-opt" type="button">proof that age reduces crying</button></div><div class="qz-fb">Negative: the two variables move in opposite directions. And because it is correlational, it proves nothing about cause.</div></div>
+        <div class="qz-q"><p class="qz-stem">3. The variable the researcher deliberately changes is the:</p><div class="qz-opts"><button class="qz-opt" type="button">dependent variable</button><button class="qz-opt" type="button" data-ok>independent variable</button><button class="qz-opt" type="button">behavioural variable</button><button class="qz-opt" type="button">confounding variable</button></div><div class="qz-fb">The independent variable is manipulated; the dependent variable is measured and is expected to be affected by it.</div></div>
+        <div class="qz-q"><p class="qz-stem">4. 60-year-olds score lower than 20-year-olds on maths in a cross-sectional study. The best explanation to rule out first is:</p><div class="qz-opts"><button class="qz-opt" type="button">participant drop-out</button><button class="qz-opt" type="button">observer bias</button><button class="qz-opt" type="button" data-ok>the cohort effect</button><button class="qz-opt" type="button">maturation</button></div><div class="qz-fb">The cohort effect: the two groups grew up in different times with different schooling, so the gap may be experience rather than ageing.</div></div>
+        <div class="qz-q"><p class="qz-stem">5. The orderly sequence of change dictated by our genetic blueprint is called:</p><div class="qz-opts"><button class="qz-opt" type="button">differentiation</button><button class="qz-opt" type="button">adaptation</button><button class="qz-opt" type="button" data-ok>maturation</button><button class="qz-opt" type="button">equilibration</button></div><div class="qz-fb">Maturation. Those who emphasise it over environment are called maturationists.</div></div>
+        <div class="qz-q"><p class="qz-stem">6. Which is the main limitation of the longitudinal approach?</p><div class="qz-opts"><button class="qz-opt" type="button">It cannot study the same people twice</button><button class="qz-opt" type="button" data-ok>Cost and heavy loss of participants over time</button><button class="qz-opt" type="button">It is vulnerable to the cohort effect</button><button class="qz-opt" type="button">It cannot study early experience</button></div><div class="qz-fb">Expense and drop-out. The cohort effect and the inability to study early experience are the cross-sectional problems.</div></div>
+      </div><p class="qz-score"></p></details>
+    </div>
+
+    <!-- ===== CHAPTER 2 ===== -->
+    <div class="qchap">
+      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">2. Biological Processes</h2>
+      <p class="lead">What genes do, what can go wrong before birth, and how much a newborn can already do. The chapter's real argument is that babies do not arrive "empty-headed".</p>
+      <div class="note"><span class="lab">By the end you can</span>explain the role of genes from conception; distinguish genotype from phenotype; name the three prenatal stages; define a teratogen and state the principles governing its effects; describe the three newborn assessments; and list the main patterns of physical development after birth.</div>
+
+      <h3 class="sec">2.1 Genetics</h3>
+      <div class="abox"><ul>
+        <li><b>Chromosomes.</b> Thread-like structures in the nucleus of every human cell: <b>46</b>, arranged in <b>23 pairs</b>, one of each pair from each parent.</li>
+        <li><b>DNA and genes.</b> Chromosomes contain DNA; a <b>gene</b> is a short segment of DNA. Genes are the blueprint telling cells how to reproduce and which proteins to make.</li>
+        <li><b>Genotype.</b> Your genetic inheritance, the material actually in your chromosomes.</li>
+        <li><b>Phenotype.</b> How that genotype shows up in observable appearance and behaviour. One genotype can produce a <b>range</b> of phenotypes, depending on conditions. This single distinction is how the book keeps nature and nurture in the same sentence.</li>
+      </ul></div>
+      <p class="lead">Genetic influence is most visible when something goes wrong with the blueprint. <b>PKU</b> (phenylketonuria) is an inability to metabolise protein properly; routine screening catches it, and untreated it leads to intellectual disability and hyperactivity. <b>Down's syndrome</b> is caused by an extra 47th chromosome. <b>XYY syndrome</b> is an extra Y chromosome in males.</p>
+      <details class="saq"><summary>SAQ 1: Genotype or phenotype?</summary><div class="ans"><p><b>Genotype</b> is the genetic blueprint, which may or may not be expressed. <b>Phenotype</b> is the overt appearance and behaviour, whatever the blueprint says.</p></div></details>
+
+      <h3 class="sec">2.2 The three stages before birth</h3>
+      <div class="tscroll"><table class="tbl">
+        <tr><th>Stage</th><th>When</th><th>What happens</th></tr>
+        <tr><td><b>Zygote</b></td><td>Conception to week 2</td><td>Sperm and egg form a single cell that multiplies as it travels to the uterus, attaching to the uterine wall around day six. Cells begin to specialise, and an inner cell mass forms that will become the embryo.</td></tr>
+        <tr><td><b>Embryo</b></td><td>Weeks 3 to 8</td><td>Internal and external structures form from three layers: <b>endodermal</b> (internal organs and glands), <b>ectodermal</b> (sensory parts of eyes, ears, nose, skin, hair) and <b>mesodermal</b> (muscle, bone, heart, sex organs). Head and brain develop fast. Support systems appear: the <b>amniotic sac</b>, the <b>placenta</b> and the <b>umbilical cord</b>. By week 8 it has distinctly human features.</td></tr>
+        <tr><td><b>Foetus</b></td><td>Weeks 9 to 38</td><td>Growth and further development of the organ systems. Movement begins around month three, far too small for the mother to feel. Survival outside the uterus is not possible before about 24 weeks, mainly because the lungs cannot yet transfer oxygen to the blood.</td></tr>
+      </table></div>
+
+      <h3 class="sec">2.3 Teratology</h3>
+      <p class="lead">A <b>teratogen</b> is any agent that causes a birth defect, and teratology is the study of them. The word comes from the Greek for monster. Almost every foetus is exposed to some teratogen, which is exactly why it is so hard to tie one agent to one defect.</p>
+      <p class="lead">Six principles govern how they act:</p>
+      <div class="abox"><ul>
+        <li><b>Genetic make-up matters.</b> The same substance that harms a human foetus may not harm a rabbit or a rat.</li>
+        <li><b>Timing matters, enormously.</b> Rubella affects up to 50% of babies if the mother is infected in the first month, but only 2 to 3% after the third month.</li>
+        <li><b>Effects can be specific.</b> Thalidomide produces gross limb defects; rubella mainly hits the sensory and internal organs.</li>
+        <li><b>Outcomes vary in kind.</b> Death, malformation, growth retardation, or functional and behavioural disorders.</li>
+        <li><b>Routes of access differ.</b> Radiation passes straight through the mother's body; physical blows are cushioned by her body and the amniotic fluid; some chemicals are filtered out by the blood and placenta while others pass easily.</li>
+        <li><b>Dose matters.</b> The probability and severity rise with the amount, from no effect at all up to a lethal one.</li>
+      </ul></div>
+      <div class="tscroll"><table class="tbl">
+        <tr><th>Teratogen</th><th>Potential effect</th></tr>
+        <tr><td>Aspirin, in very large quantities</td><td>Abortion, newborn respiratory problems</td></tr>
+        <tr><td>Thalidomide</td><td>Deformed limbs, sensory deficits, defects in internal organs, death</td></tr>
+        <tr><td>Alcohol use</td><td>Brain and heart disease, growth retardation, intellectual disability, foetal alcohol syndrome</td></tr>
+        <tr><td>Smoking</td><td>Growth retardation, prematurity</td></tr>
+        <tr><td>Rubella</td><td>Intellectual disability, eye damage, deafness, heart disease</td></tr>
+        <tr><td>Syphilis</td><td>Intellectual disability, blindness, deafness, death</td></tr>
+        <tr><td>Lead</td><td>Miscarriage, anaemia, intellectual disability</td></tr>
+        <tr><td>Radiation</td><td>Leukaemia, abnormal brain and body growth, cancer, stillbirth, genetic alterations</td></tr>
+      </table></div>
+
+      <h3 class="sec">2.4 Learning in the womb</h3>
+      <p class="lead">DeCasper and Spence (1986) is the study to be able to name. Sixteen pregnant women read one of two stories aloud twice a day for the last six weeks of pregnancy: "The Cat in the Hat" or a story with a different rhyme and pace. After birth the babies could choose which recording they heard by changing how fast they sucked on an artificial teat. They systematically adjusted their sucking rate to hear the story they had heard before birth.</p>
+      <div class="abox"><ul>
+        <li><b>It shows the foetus can hear and learn</b> in the last months of pregnancy.</li>
+        <li><b>It shows how ingenious infant research has to be,</b> using an existing behaviour (sucking) as the response.</li>
+        <li><b>It is an experiment,</b> so it demonstrates controlled method with participants who cannot be asked anything.</li>
+      </ul></div>
+
+      <h3 class="sec">2.5 Assessing the newborn</h3>
+      <div class="tscroll"><table class="tbl">
+        <tr><th>Test</th><th>When</th><th>What it measures</th></tr>
+        <tr><td><b>Apgar</b></td><td>Immediately after birth</td><td>Five vital functions: heart rate, respiration, muscle tone, response to a mildly painful stimulus, skin colour. Each scored 0 to 2. Good at flagging babies who need special attention early.</td></tr>
+        <tr><td><b>Prechtl</b></td><td>Shortly after birth</td><td>A fuller neurological assessment: alertness, spontaneous movement and tremors, facial expression, muscle tone and around 15 reflexes.</td></tr>
+        <tr><td><b>Brazelton</b></td><td>Several days after birth</td><td>26 items across four categories (physiological, motoric, state, interaction), including 20 reflexes and reactions to things like a rattle. A very low score can indicate brain damage.</td></tr>
+      </table></div>
+      <p class="lead">All three rest on the same point: reflexes are a window onto the brain and nervous system. The <b>sucking reflex</b> is the clearest example, a genetically coded survival mechanism; stroke a newborn's cheek and the head turns, the mouth opens and sucking begins. <b>Non-nutritive sucking</b>, sucking unrelated to feeding, is heavily used in research because infants stop sucking when something interesting captures their attention.</p>
+      <details class="saq"><summary>SAQ 2: What do the three newborn tests actually reveal?</summary><div class="ans"><p>They are sensitive to the state of the baby's <b>central nervous system</b>, the brain and spinal cord, as revealed through reflexes and other behaviour.</p></div></details>
+
+      <h3 class="sec">2.6 Physical and motor development</h3>
+      <div class="abox"><ul>
+        <li><b>Cephalocaudal.</b> Growth proceeds from the head downwards. The head leads in size, weight and differentiation.</li>
+        <li><b>Proximodistal.</b> Growth proceeds from the centre of the body outwards. Control of the trunk and arms comes before control of the hands and fingers, which is why sitting up is mastered before finger control.</li>
+        <li><b>Gross before fine.</b> Large-muscle movements such as moving arms and legs come first; finely tuned movements such as finger dexterity come later.</li>
+        <li><b>Walking needs no teaching.</b> It follows an invariant sequence characteristic of the species. More stimulating cultures produce earlier walking, but never a different order.</li>
+      </ul></div>
+      <p class="lead">Three terms worth keeping separate when you write about what a child is doing: <b>sensation</b> is detecting and discriminating sensory information; <b>perception</b> is interpreting it, including recognition and identification; <b>attention</b> is the selectivity of perception, choosing some input and excluding the rest.</p>
+      <p class="lead">By birth or soon after: objects are seen as bounded, solid and separate from their background, certainly by month three or four; hearing works, though sounds must be louder than for an adult; newborns distinguish odours and prefer sweet tastes; and they are sensitive to touch and do experience pain. From about month six they connect what they see with what they feel.</p>
+      <div class="guide-tip"><span class="lab">For Assignment 1</span>This chapter is background rather than front-line material for the essay, with one exception: <b>gross before fine</b> and <b>proximodistal</b> let you describe toddler motor behaviour precisely. A child who can run across a room but struggles to post a shape into a hole is not clumsy, they are showing exactly the pattern the theory predicts.</div>
+
+      <details class="quiz"><summary>Quiz: chapter 2 (6 questions)</summary><div class="qz">
+        <div class="qz-q"><p class="qz-stem">1. How many chromosomes are in the nucleus of a human cell?</p><div class="qz-opts"><button class="qz-opt" type="button">23</button><button class="qz-opt" type="button" data-ok>46, in 23 pairs</button><button class="qz-opt" type="button">47</button><button class="qz-opt" type="button">50,000</button></div><div class="qz-fb">46, arranged in 23 pairs, one of each pair from each parent. 47 is the count in Down's syndrome.</div></div>
+        <div class="qz-q"><p class="qz-stem">2. Which layer of the embryo forms the basis of the sensory parts of the eyes, ears, nose and skin?</p><div class="qz-opts"><button class="qz-opt" type="button">Endodermal</button><button class="qz-opt" type="button" data-ok>Ectodermal</button><button class="qz-opt" type="button">Mesodermal</button><button class="qz-opt" type="button">Amniotic</button></div><div class="qz-fb">Ectodermal. Endodermal gives internal organs and glands; mesodermal gives muscle, bone, heart and sex organs.</div></div>
+        <div class="qz-q"><p class="qz-stem">3. Rubella harms up to half of babies in month one but only 2 to 3% after month three. Which teratogen principle is this?</p><div class="qz-opts"><button class="qz-opt" type="button">Dose</button><button class="qz-opt" type="button" data-ok>Timing</button><button class="qz-opt" type="button">Route of access</button><button class="qz-opt" type="button">Genetic make-up</button></div><div class="qz-fb">Timing. The effect of a teratogen depends heavily on when in prenatal development the exposure happens.</div></div>
+        <div class="qz-q"><p class="qz-stem">4. DeCasper and Spence (1986) measured newborns' preference using:</p><div class="qz-opts"><button class="qz-opt" type="button">heart rate</button><button class="qz-opt" type="button">eye movement</button><button class="qz-opt" type="button" data-ok>rate of non-nutritive sucking</button><button class="qz-opt" type="button">the Apgar score</button></div><div class="qz-fb">Sucking rate on an artificial teat, which determined which recording they heard. They chose the story read to them before birth.</div></div>
+        <div class="qz-q"><p class="qz-stem">5. Control of the trunk develops before control of the fingers. This pattern is:</p><div class="qz-opts"><button class="qz-opt" type="button">cephalocaudal</button><button class="qz-opt" type="button" data-ok>proximodistal</button><button class="qz-opt" type="button">differentiation</button><button class="qz-opt" type="button">horizontal decalage</button></div><div class="qz-fb">Proximodistal: from the centre of the body outwards. Cephalocaudal is from the head downwards.</div></div>
+        <div class="qz-q"><p class="qz-stem">6. Major features of motor and sensory development occur in a fixed order mainly because:</p><div class="qz-opts"><button class="qz-opt" type="button">development must occur in stages</button><button class="qz-opt" type="button" data-ok>some capacities depend on the existence of others</button><button class="qz-opt" type="button">sense organs mature before movement</button><button class="qz-opt" type="button">the infant begins with reflexes</button></div><div class="qz-fb">Some capacities depend on others already being in place. That dependency is why development shows orderly progression at all.</div></div>
+      </div><p class="qz-score"></p></details>
+    </div>
+
+    <!-- ===== CHAPTER 3 ===== -->
+    <div class="qchap">
+      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">3. Cognitive Development</h2>
+      <p class="lead">Piaget and Vygotsky. This is the heaviest chapter in the book and the one you will quote most in the essay, so it is worth the time.</p>
+      <div class="note"><span class="lab">By the end you can</span>describe Piaget's mechanism (schemes, assimilation, accommodation, organisation, equilibration); name and date the four stages and the six sensorimotor substages; explain object permanence, egocentrism, animism, centration and conservation; give four serious criticisms of Piaget; and set out Vygotsky's sociocultural theory with the zone of proximal development and scaffolding.</div>
+
+      <h3 class="sec">3.1 How Piaget thought thinking works</h3>
+      <p class="lead">Piaget trained as a zoologist and came to intelligence through the question of how animals adapt to their environment. What caught his attention was children's <b>wrong</b> answers: he believed the errors were systematic rather than random, and that they revealed the mental structures underneath. He was the first to build experimental methods for studying children's thinking, and the first to claim that children think in a way that is <b>qualitatively</b> different from adults, not just less well.</p>
+      <div class="abox"><ul>
+        <li><b>Intelligence is a process, not a thing.</b> It is a <b>hypothetical construct</b>: something that cannot be observed directly, only inferred from behaviour. You never see intelligence, you see what a child does.</li>
+        <li><b>A scheme</b> (or schema) is the basic unit of an organised pattern of behaviour or thought, a mental template for dealing with the world.</li>
+        <li><b>Adaptation</b> has two halves. <b>Assimilation</b> takes new information into an existing scheme. <b>Accommodation</b> changes the scheme because the new information will not fit.</li>
+        <li><b>Organisation</b> is the grouping of isolated behaviours into a higher-order, smoother system of thinking. Those systems are what he calls stages.</li>
+        <li><b>Equilibration</b> is the engine. The child meets something that does not fit, experiences cognitive conflict or <b>disequilibrium</b>, and resolves it by changing how they think, reaching a new equilibrium. Puzzlement is not a failure, it is the mechanism.</li>
+      </ul></div>
+
+      <h3 class="sec">3.2 The sensorimotor stage, birth to about 2</h3>
+      <p class="lead">Infants learn by coordinating sensations and perceptions with physical movement, which is where the name comes from. It starts with a newborn who has little but reflexes and ends with a two-year-old using primitive symbols. Six substages:</p>
+      <div class="tscroll"><table class="tbl">
+        <tr><th>Substage</th><th>Age</th><th>What is new</th></tr>
+        <tr><td>1. Simple reflexes</td><td>First month</td><td>Coordination through inborn reflexes such as sucking. The infant begins producing reflex-like behaviour even without the usual trigger.</td></tr>
+        <tr><td>2. Primary circular reactions</td><td>1 to 4 months</td><td><b>Habits</b> (a reflex-based scheme now detached from its trigger, such as sucking with no bottle present) and <b>primary circular reactions</b> (repeating a pleasant event that first happened by chance, such as finding the fingers to suck). Focused on the infant's own body.</td></tr>
+        <tr><td>3. Secondary circular reactions</td><td>4 to 8 months</td><td>Attention turns outward to objects. Shaking a rattle by chance is repeated for its own sake. Simple imitation appears, but only of actions already in the repertoire. Still not goal-directed.</td></tr>
+        <tr><td>4. Coordination of secondary circular reactions</td><td>8 to 12 months</td><td>Schemes combine, and <b>intentionality</b> appears: means separate from goals. Pulling a rug (means) to bring a toy within reach (goal).</td></tr>
+        <tr><td>5. Tertiary circular reactions</td><td>12 to 18 months</td><td>Deliberate experimentation. The infant varies what they do to an object to see what else it will do: a block can fall, spin, slide, hit something. Novelty and curiosity.</td></tr>
+        <tr><td>6. Internalisation of schemes</td><td>18 to 24 months</td><td>The shift from sensing and doing to <b>symbols</b>. An internalised image or word stands for an event, so the child can think about something without acting it out, and can manipulate it mentally.</td></tr>
+      </table></div>
+      <p class="lead"><b>Object permanence</b> is the headline achievement of the first 24 months: understanding that things continue to exist when they cannot be seen, heard or touched. It is tested by hiding an attractive toy. No reaction suggests the object has ceased to exist for the child; surprise, frustration or searching suggests it has not. It develops across the same six substages.</p>
+
+      <h3 class="sec">3.3 Preoperational thought, about 2 to 7</h3>
+      <p class="lead">An <b>operation</b> is an internalised action that lets the child do mentally what they once had to do physically, following rules of logic. Preoperational means these are not yet in place. The stage divides in two.</p>
+      <div class="abox">
+        <ul>
+          <li><b>Symbolic function substage, about 2 to 4.</b> The child can mentally represent an object that is not there. Scribbles stand for people and houses; pretend play appears. Two limitations define it:
+            <ul>
+              <li><b>Egocentrism.</b> Inability to separate your own perspective from someone else's. The book's example is a four-year-old on the phone to her father who nods silently in answer, never considering that he cannot see her. Not selfishness, a genuine limitation.</li>
+              <li><b>Animism.</b> Believing inanimate objects have lifelike qualities and can act. It shows up in treating death as reversible and engines as alive.</li>
+            </ul>
+          </li>
+          <li><b>Intuitive thought substage, about 4 to 7.</b> Primitive reasoning and relentless questioning: "Mummy, why does...". Piaget called it intuitive because children are confident they know things but have no idea <b>how</b> they know them. Two terms belong here:
+            <ul>
+              <li><b>Centration.</b> Focusing on one feature of a thing and ignoring all others. It is why a child cannot sort objects by two properties at once.</li>
+              <li><b>Conservation.</b> The understanding that physical quantity stays the same despite a change in appearance. Preoperational children fail it. Pour the same water into a taller, thinner glass and they say there is more, pointing at the height. Older children say no and explain that pouring it back would prove it. Failing conservation of liquid marks the preoperational stage; passing it marks concrete operational.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+      <h3 class="sec">3.4 Concrete operational thought, about 7 to 11</h3>
+      <div class="abox"><ul>
+        <li><b>A concrete operation</b> is a reversible mental action on real objects. Reversibility is the key insight the child has gained.</li>
+        <li><b>Conservation</b> is now passed, but not all at once. The usual order of mastery is number, length, liquid quantity, mass, weight, volume. That staggering is called <b>horizontal decalage</b>: similar abilities not arriving together within one stage.</li>
+        <li><b>Classification.</b> The child can group things into sets and subsets and handle their relationships. Piaget's test is a four-generation family tree: the concrete operational child grasps that one man can be father, brother and grandson at once, while the preoperational child cannot see how their own mummy can have a mummy.</li>
+        <li><b>The limit.</b> Logic works on specific, concrete material. An algebraic equation is still too abstract.</li>
+      </ul></div>
+
+      <h3 class="sec">3.5 Formal operational thought, about 11 to 15</h3>
+      <div class="abox"><ul>
+        <li><b>Abstraction.</b> Thought is no longer anchored to concrete experience. Hypothetical possibilities and purely abstract propositions can be reasoned about.</li>
+        <li><b>Idealism.</b> Adolescents compare themselves and others to ideal standards, and get impatient with the gap.</li>
+        <li><b>Hypothetical-deductive reasoning.</b> Generate hypotheses, then systematically deduce which path solves the problem, instead of the child's trial and error.</li>
+        <li><b>Two phases.</b> First, unconstrained hypothesising where idealism and possibility dominate (an excess of assimilation). Then, in middle adolescence, balance is restored as the person tests their reasoning against experience and accommodates.</li>
+      </ul></div>
+
+      <h3 class="sec">3.6 Four criticisms of Piaget</h3>
+      <p class="lead">Knowing these is what separates a description from an evaluation, and evaluation is where the higher marks are.</p>
+      <div class="abox"><ul>
+        <li><b>Lack of synchrony.</b> If a stage is a single unitary structure, its abilities should appear together. They do not: children do not learn to conserve at the same time they learn to cross-classify.</li>
+        <li><b>Task wording changes the answer.</b> Small changes to the procedure or wording produce substantially different responses, which raises the question of whether the child failed the concept or just the question.</li>
+        <li><b>Training works.</b> Children at one stage can sometimes be trained to reason at the next, which Piaget's theory says should only work at a transition point.</li>
+        <li><b>Abilities arrive earlier.</b> Conservation of number has been shown in children as young as three, against Piaget's seven.</li>
+      </ul></div>
+      <p class="lead">The settled verdict in the book is worth memorising almost word for word: Piaget's cognitive milestones are best treated not as a succession of mental <b>stages</b> but as a <b>sequence of mental steps</b>. The ordering is real; the sharp stage boundaries are not.</p>
+
+      <h3 class="sec">3.7 Vygotsky's sociocultural theory</h3>
+      <p class="lead">Vygotsky died at 37, so he never produced a finished theory with a body of research behind it, which matters when you evaluate him. His position: cognitive development combines biology with the social and cultural influence of family, peers and society. Without other people, we would not advance our thinking at all.</p>
+      <div class="abox"><ul>
+        <li><b>Elementary mental functions.</b> Children are born with attention, sensation, perception and memory. These develop through <b>social interaction</b> rather than through fixed stages. This is the clean contrast with Piaget.</li>
+        <li><b>Language in three levels.</b> <b>Social speech</b>, external communication with others, around age two. <b>Private speech</b>, talking out loud to yourself while problem-solving, around age three, the transition point. <b>Internalised private speech</b>, the inner voice, around age seven, which takes on a self-regulating function and drives cognitive development.</li>
+        <li><b>The zone of proximal development.</b> The distance between what a learner can do alone and what they can achieve with help from a <b>more knowledgeable other</b>, whether an adult or a more capable peer. Picture three circles: the centre is what they can do alone, the middle is what they can do with help, the outer is what they cannot do at all.</li>
+        <li><b>Scaffolding.</b> The support given inside that zone. As the child gains proficiency the zone shifts, and the support is withdrawn.</li>
+        <li><b>Reciprocal teaching.</b> Collaborative two-way learning from text across four skills: summarising, questioning, clarifying and predicting, with the teacher's involvement reducing as students progress.</li>
+      </ul></div>
+      <div class="tscroll"><table class="tbl">
+        <tr><th></th><th>Vygotsky</th><th>Piaget</th></tr>
+        <tr><td>What drives development</td><td>Social factors</td><td>The child's own interactions and explorations</td></tr>
+        <tr><td>Across cultures</td><td>Development can differ</td><td>Development is largely universal</td></tr>
+        <tr><td>Main weakness</td><td>Fewer testable hypotheses, so harder to prove false</td><td>Stage boundaries do not hold up; abilities appear earlier than claimed</td></tr>
+      </table></div>
+      <details class="saq"><summary>SAQ 3: The three levels of speech, in order</summary><div class="ans"><p><b>Social</b> speech (external communication with others), then <b>private</b> speech (talking out loud to yourself), then <b>internalised private</b> speech (the inner voice).</p></div></details>
+
+      <div class="guide-tip"><span class="lab">For Assignment 1</span>This is your richest chapter. Toddlers of 1 to 3 sit at the <b>end of sensorimotor</b> and the <b>start of the symbolic function substage</b>. On the video, look for: tertiary circular reactions (a child doing the same thing to an object in different ways to see what happens), object permanence (searching for something out of sight), the first pretend play, egocentrism, and an adult scaffolding inside the zone of proximal development. Name the substage, describe the exact moment, then say what the theory predicts and whether the clip matches.</div>
+
+      <details class="quiz"><summary>Quiz: chapter 3 (8 questions)</summary><div class="qz">
+        <div class="qz-q"><p class="qz-stem">1. Changing an existing scheme because new information will not fit it is:</p><div class="qz-opts"><button class="qz-opt" type="button">assimilation</button><button class="qz-opt" type="button" data-ok>accommodation</button><button class="qz-opt" type="button">organisation</button><button class="qz-opt" type="button">equilibration</button></div><div class="qz-fb">Accommodation changes the scheme. Assimilation changes the information to fit the scheme you already have.</div></div>
+        <div class="qz-q"><p class="qz-stem">2. A 14-month-old repeatedly drops a block in different ways to see what happens. This is:</p><div class="qz-opts"><button class="qz-opt" type="button">a primary circular reaction</button><button class="qz-opt" type="button">a secondary circular reaction</button><button class="qz-opt" type="button" data-ok>a tertiary circular reaction</button><button class="qz-opt" type="button">internalisation of schemes</button></div><div class="qz-fb">Tertiary circular reactions, substage 5 (12 to 18 months): deliberately varying the action to explore new possibilities.</div></div>
+        <div class="qz-q"><p class="qz-stem">3. Object permanence means understanding that:</p><div class="qz-opts"><button class="qz-opt" type="button">objects can be sorted into classes</button><button class="qz-opt" type="button">quantity survives a change in shape</button><button class="qz-opt" type="button" data-ok>things still exist when you cannot see them</button><button class="qz-opt" type="button">other people have their own viewpoint</button></div><div class="qz-fb">Things continue to exist when they cannot be seen, heard or touched. The quantity one is conservation.</div></div>
+        <div class="qz-q"><p class="qz-stem">4. A four-year-old nods silently down the phone. Piaget would call this:</p><div class="qz-opts"><button class="qz-opt" type="button">animism</button><button class="qz-opt" type="button" data-ok>egocentrism</button><button class="qz-opt" type="button">centration</button><button class="qz-opt" type="button">rudeness</button></div><div class="qz-fb">Egocentrism: failing to separate your own perspective from the listener's. It is a cognitive limitation, not bad manners.</div></div>
+        <div class="qz-q"><p class="qz-stem">5. Children conserve number before volume. Piaget's name for this uneven arrival is:</p><div class="qz-opts"><button class="qz-opt" type="button">centration</button><button class="qz-opt" type="button">equilibration</button><button class="qz-opt" type="button" data-ok>horizontal decalage</button><button class="qz-opt" type="button">reversibility</button></div><div class="qz-fb">Horizontal decalage: similar abilities not appearing at the same time within a stage.</div></div>
+        <div class="qz-q"><p class="qz-stem">6. Which is NOT one of the four standard criticisms of Piaget?</p><div class="qz-opts"><button class="qz-opt" type="button">Abilities appear earlier than he claimed</button><button class="qz-opt" type="button">Stage abilities do not appear in synchrony</button><button class="qz-opt" type="button">Small wording changes alter children's answers</button><button class="qz-opt" type="button" data-ok>He ignored the role of biology entirely</button></div><div class="qz-fb">He did not ignore biology; he trained as a zoologist and treated intelligence as biological adaptation. The fourth real criticism is that children can be trained to reason at a higher stage.</div></div>
+        <div class="qz-q"><p class="qz-stem">7. The gap between what a learner can do alone and what they can do with help is:</p><div class="qz-opts"><button class="qz-opt" type="button">scaffolding</button><button class="qz-opt" type="button" data-ok>the zone of proximal development</button><button class="qz-opt" type="button">reciprocal teaching</button><button class="qz-opt" type="button">private speech</button></div><div class="qz-fb">The zone of proximal development. Scaffolding is the support you give inside that zone.</div></div>
+        <div class="qz-q"><p class="qz-stem">8. The single clearest difference between Vygotsky and Piaget is that Vygotsky holds development is:</p><div class="qz-opts"><button class="qz-opt" type="button">universal across cultures</button><button class="qz-opt" type="button" data-ok>driven by social interaction and can differ between cultures</button><button class="qz-opt" type="button">complete by age seven</button><button class="qz-opt" type="button">unaffected by language</button></div><div class="qz-fb">Vygotsky: social factors drive it and it can differ between cultures. Piaget: the child's own exploration drives it and it is largely universal.</div></div>
+      </div><p class="qz-score"></p></details>
+    </div>
+
+    <!-- ===== CHAPTER 4 ===== -->
+    <div class="qchap">
+      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">4. Language Development</h2>
+      <p class="lead">How children get from babbling to sentences, and why their mistakes are the most informative thing about them.</p>
+      <div class="note"><span class="lab">By the end you can</span>define language and name the four parts of a grammar; describe the pre-linguistic, one-word and two-word stages with ages; explain over-extension, over-regularisation, holophrases and telegraphic speech; state the critical period hypothesis; and summarise what is known about bilingual children.</div>
+
+      <h3 class="sec">4.1 What language is</h3>
+      <p class="lead">Psycholinguistics is psychology and linguistics combined. Its definition of language: an <b>arbitrary system of symbols</b> which together let an organism with limited perception and cognition communicate and understand an <b>infinite</b> variety of messages.</p>
+      <p class="lead">The crucial point for development is that children do not learn a huge list of sentences. They learn a <b>rule system</b>, a grammar, that generates infinitely many sentences they have never heard. A grammar has four parts:</p>
+      <div class="abox"><ul>
+        <li><b>Phonology.</b> The sound system. The elementary sounds are <b>phonemes</b>, and English has about <b>36</b> of them. Phonological rules allow some sequences (sp, ba, ar) and forbid others (zj, xb).</li>
+        <li><b>Morphology.</b> A <b>morpheme</b> is the smallest string of sounds carrying meaning. "Sing" is one morpheme; "singer" is two, sing plus er. English has roughly <b>50,000</b> morphemes.</li>
+        <li><b>Semantics.</b> The meaning of words and sentences. Every word has a set of semantic features; "boy" and "man" share most of theirs and differ on age.</li>
+        <li><b>Syntax.</b> How words combine into acceptable phrases and sentences.</li>
+      </ul></div>
+      <p class="lead">The hierarchy, which is a common exam question: <b>phoneme, morpheme, word, phrase</b>.</p>
+
+      <h3 class="sec">4.2 The course of language development</h3>
+      <p class="lead">There appears to be a universal timetable: all children pass through the same stages at roughly the same ages, whatever the language, the culture or the training. The rate varies between children; the order does not.</p>
+      <div class="tscroll"><table class="tbl">
+        <tr><th>Stage</th><th>When</th><th>What happens</th></tr>
+        <tr><td><b>Pre-linguistic</b></td><td>Up to about 1 year</td><td>First six months are crying, cooing and laughter, which are limited as communication but adequate given how few needs an infant has. Then <b>babbling</b>: a wide range of sounds corresponding to phonemes, increasingly complex and increasingly like speech, reflecting brain development and the maturing vocal apparatus. Babbling continues to around 18 months, overlapping with the first words. First word-like sounds around month twelve, sometimes ten, sometimes fourteen. The earliest words resemble the syllables babbled most often, which is why "mama", "dada" and "papa" name parents in so many languages.</td></tr>
+        <tr><td><b>One-word</b></td><td>About 12 to 18 months</td><td>Vocabulary grows slowly: typically 3 to 50 words by 18 months. <b>Receptive</b> vocabulary runs well ahead of <b>productive</b> vocabulary, so a toddler understands 50 words months before they can say 50. Early words refer to the immediate environment.</td></tr>
+        <tr><td><b>Two-word</b></td><td>End of the second year</td><td>Words combine into <b>telegraphic speech</b>: mainly content words, with articles and prepositions dropped. "Give teddy" rather than "give me my teddy". Progress is tracked with <b>mean length of utterance (MLU)</b>, the average length of a child's statements measured in morphemes.</td></tr>
+      </table></div>
+      <p class="lead">From about 18 months vocabulary accelerates hard. By six, the average child knows 8,000 to 14,000 words, which means learning five to eight new words a day. The mechanism is <b>fast mapping</b>: attaching a new word to a concept the child already has. That is Piagetian assimilation under another name.</p>
+
+      <h3 class="sec">4.3 Errors are the evidence</h3>
+      <div class="abox"><ul>
+        <li><b>Holophrases.</b> Single words doing the work of whole sentences. A child who wants a banana says "banana", not "want", because banana is the more informative word for the listener. The choice is deliberate, which is the point.</li>
+        <li><b>Over-extension.</b> Using a word for a wider set of things than it covers, such as "dog" for every four-legged animal. Appears roughly between one and two and a half years and lasts months. It happens partly because young children reason from physical appearance, especially shape, and partly because they simply lack the other words. It is <b>adaptive</b>, not a problem: it prompts adults to supply the correct word.</li>
+        <li><b>Over-regularisation.</b> Applying a grammatical rule to irregular cases: "goed", "runned", "hitted". It proves the child has extracted the rule rather than memorised each form, which is far more impressive than getting it right.</li>
+        <li><b>Metalinguistic awareness.</b> In the school years children start noticing ambiguity, such as the two readings of "visiting relatives can be boring", and begin playing with language through puns and jokes.</li>
+      </ul></div>
+      <p class="lead">The method here mirrors Piaget exactly: psycholinguists use children's <b>errors</b> to reveal the structure of the system underneath, just as Piaget used wrong answers to reveal thinking.</p>
+
+      <h3 class="sec">4.4 Why language develops</h3>
+      <p class="lead">The <b>critical period hypothesis</b>: there is a sensitive window early in life when a child is optimally ready to acquire language if the right stimulation occurs. The supporting evidence is that young children acquire language far more easily than adults, and that children suffering extreme isolation and neglect may never fully acquire their native language. Deprived of language, a seven-year-old has a far better chance of learning to speak than a fourteen-year-old, and a fourteen-year-old than an adult.</p>
+
+      <h3 class="sec">4.5 Bilingualism</h3>
+      <div class="abox"><ul>
+        <li><b>The single system theory.</b> Bilingual children start as if learning one language, developing a single system containing elements of both, and only later separate the two.</li>
+        <li><b>Evidence for it.</b> Younger bilingual children mix languages within a single utterance, and children in bilingual homes acquire both languages more slowly than monolingual peers acquire one. That delay disappears with age, and proficiency in both eventually matches monolinguals.</li>
+        <li><b>Evidence against it.</b> Infant speech perception studies show babies can already tell apart sounds and phonemes from different languages, so perceptual confusion is not the explanation. Mixing may simply be <b>over-extension</b> again: substituting a word from the other language because you do not yet know this one, or because it is easier. Parents in bilingual homes often mix languages themselves, so the child may be modelling what they hear.</li>
+        <li><b>The bottom line.</b> Bilingualism does not delay cognitive development. In some studies bilingual children are <b>ahead</b> of monolinguals in areas of thinking and problem-solving. Two languages is not an unusual burden for a young child.</li>
+      </ul></div>
+      <details class="saq"><summary>SAQ 4: Put these in developmental order</summary><div class="ans"><p>"Doggie" pointing at a dog (one word for one thing); "doggie" pointing at a cow (over-extension); "doggie run" (telegraphic); "the dogs runned away" (over-regularisation); "the dogs ran away" (correct past tense).</p></div></details>
+
+      <div class="guide-tip"><span class="lab">For Assignment 1</span>Children of 1 to 3 cover almost this whole span, from late babbling to telegraphic sentences, so language is one of the easiest things to actually hear on the video. If you catch a holophrase, a telegraphic two-word utterance or an over-extension, quote it with the timestamp. It is concrete, datable evidence, and it links straight to Piaget on symbolic thought and to Vygotsky on social speech.</div>
+
+      <details class="quiz"><summary>Quiz: chapter 4 (6 questions)</summary><div class="qz">
+        <div class="qz-q"><p class="qz-stem">1. The correct hierarchy of language structures is:</p><div class="qz-opts"><button class="qz-opt" type="button">phrase, word, phoneme, morpheme</button><button class="qz-opt" type="button">word, morpheme, phrase, phoneme</button><button class="qz-opt" type="button" data-ok>phoneme, morpheme, word, phrase</button><button class="qz-opt" type="button">morpheme, phoneme, word, phrase</button></div><div class="qz-fb">Phoneme (sound), morpheme (smallest unit of meaning), word, phrase.</div></div>
+        <div class="qz-q"><p class="qz-stem">2. A child calls every four-legged animal "dog". This is:</p><div class="qz-opts"><button class="qz-opt" type="button" data-ok>over-extension</button><button class="qz-opt" type="button">over-regularisation</button><button class="qz-opt" type="button">a holophrase</button><button class="qz-opt" type="button">fast mapping</button></div><div class="qz-fb">Over-extension: using a word for a wider set than its meaning allows. It is adaptive, because it prompts adults to supply the right word.</div></div>
+        <div class="qz-q"><p class="qz-stem">3. "I runned home" is an example of:</p><div class="qz-opts"><button class="qz-opt" type="button">telegraphic speech</button><button class="qz-opt" type="button" data-ok>over-regularisation</button><button class="qz-opt" type="button">over-extension</button><button class="qz-opt" type="button">private speech</button></div><div class="qz-fb">Over-regularisation: applying a real rule to an irregular case, which shows the rule has been learned.</div></div>
+        <div class="qz-q"><p class="qz-stem">4. Roughly how many phonemes does English have?</p><div class="qz-opts"><button class="qz-opt" type="button">26</button><button class="qz-opt" type="button" data-ok>about 36</button><button class="qz-opt" type="button">about 500</button><button class="qz-opt" type="button">about 50,000</button></div><div class="qz-fb">About 36 phonemes. 50,000 is the approximate number of morphemes in English.</div></div>
+        <div class="qz-q"><p class="qz-stem">5. Attaching a new word to a concept the child already holds is called:</p><div class="qz-opts"><button class="qz-opt" type="button">accommodation</button><button class="qz-opt" type="button" data-ok>fast mapping</button><button class="qz-opt" type="button">scaffolding</button><button class="qz-opt" type="button">centration</button></div><div class="qz-fb">Fast mapping, which is essentially Piaget's assimilation applied to vocabulary.</div></div>
+        <div class="qz-q"><p class="qz-stem">6. Current evidence on bilingual children suggests that:</p><div class="qz-opts"><button class="qz-opt" type="button">they are permanently delayed in both languages</button><button class="qz-opt" type="button">they cannot tell the two sound systems apart</button><button class="qz-opt" type="button" data-ok>early delay disappears, and they may be ahead in some thinking tasks</button><button class="qz-opt" type="button">they should be taught one language at a time</button></div><div class="qz-fb">The early lag disappears with age, proficiency catches up with monolinguals, and in some studies bilingual children are ahead in thinking and problem-solving.</div></div>
+      </div><p class="qz-score"></p></details>
+    </div>
+
+    <!-- ===== CHAPTER 5 ===== -->
+    <div class="qchap">
+      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">5. Social Development: the Self</h2>
+      <p class="lead">When a child works out that they exist, what they think of themselves, and how they learn to control themselves. For a video of toddlers, this chapter and chapter 3 are the two to mine hardest.</p>
+      <div class="note"><span class="lab">By the end you can</span>define self-image, self-esteem and the ideal self; describe the evidence for self-awareness and personal agency in infancy; explain the rouge test and what it shows; trace how self-descriptions change with cognitive stage; account for the dip in self-esteem in early adolescence; and describe the shift from external to internal control.</div>
+
+      <h3 class="sec">5.1 The self-system</h3>
+      <div class="abox"><ul>
+        <li><b>Self-image.</b> The kind of person you think you are. Descriptive. You can read it off how someone describes themselves.</li>
+        <li><b>Self-esteem.</b> A generalised evaluative attitude towards yourself, your sense of self-worth, how much you like the person you are. Evaluative, not descriptive. It is essentially an evaluation of your self-image.</li>
+        <li><b>Ideal self.</b> The kind of person you would like to be. The gap between self-image and ideal self can be narrow or very wide.</li>
+      </ul></div>
+      <p class="lead">The chapter then studies the self in three parts: <b>self-knowledge</b> (what children know about themselves), <b>self-evaluation</b> (what they think of it), and <b>self-regulation</b> (whether they can control themselves).</p>
+
+      <h3 class="sec">5.2 Discovering the self in infancy</h3>
+      <div class="abox"><ul>
+        <li><b>About four months</b> is the earliest reliable evidence of self-awareness. Infants taught to look for an object to their left keep looking left even after being turned around, and adding landmarks does not help. They are using <b>themselves</b> as the anchor point, which is a crude but real awareness of being separate from the environment. Piaget predicts exactly this: between four and ten months the infant understands the world only in relation to themselves.</li>
+        <li><b>Personal agency</b> comes with it: the understanding that you can be the <b>cause</b> of events. Babies move toys, put things in their mouths, bang blocks. The classic marker is the baby who throws a rattle out of the pram again and again so their mother returns it.</li>
+        <li><b>Where it comes from.</b> Many psychologists hold that self-knowledge, including agency, grows out of early interactions with caregivers. Individual differences in infants' self-knowledge correlate with different styles of mother-baby and father-baby interaction.</li>
+      </ul></div>
+
+      <h3 class="sec">5.3 Visual self-recognition</h3>
+      <p class="lead">Late in the second year babies start using "me" and "mine". But do they know what they look like? Three studies build the argument:</p>
+      <div class="abox"><ul>
+        <li><b>The mirror puzzle.</b> Babies smile and vocalise at their reflection in the first year. Sceptics said this is just delight at controlling an image, not recognition.</li>
+        <li><b>The two screens study.</b> Five-month-olds were shown a live video of their own moving feet on one screen and another baby's feet on the other. They looked <b>longer at the other baby's feet</b>. If controlling the image were the attraction, they should have preferred their own. So control is not the whole story.</li>
+        <li><b>The imitation study.</b> A 14-month-old with a toy sits across from two adults with identical toys. One copies whatever the baby does; the other does something different. Babies smile and look longer at the <b>imitating</b> adult, showing they can tell the difference and prefer the match.</li>
+        <li><b>The rouge test.</b> A coloured mark is secretly placed where the infant cannot see it, such as the forehead, and the infant is put in front of a mirror. Touching the mark means they understand the marked face is their own. It is not found under <b>15 months</b> and is not reliable until about <b>24 months</b>.</li>
+      </ul></div>
+      <p class="lead">The conclusion: early interest in mirrors probably is not recognition. Genuine visual self-recognition arrives around two.</p>
+
+      <h3 class="sec">5.4 How self-descriptions change</h3>
+      <div class="tscroll"><table class="tbl">
+        <tr><th>Period</th><th>Typical self-description</th><th>Matching Piagetian stage</th></tr>
+        <tr><td>By age 2</td><td>Knows basic categories: whether they are a girl or a boy, that they are a child and not an adult.</td><td>End of sensorimotor</td></tr>
+        <tr><td>Preschool</td><td>Physical features, possessions and preferences: "I live in a small house", "I have a pink coat", "I have a bunk bed". Concrete, specific, here and now.</td><td>Preoperational</td></tr>
+        <tr><td>6 to 10</td><td>Less tangible things: emotions ("sometimes I feel sad"), category membership ("I'm a soccer fan"), and <b>social comparison</b> ("I'm the fastest runner on our road", "I'm good at computer games").</td><td>Concrete operational</td></tr>
+        <tr><td>Adolescence</td><td>Abstract: attitudes ("I hate chemistry"), personality traits ("I'm an inquisitive person"), and beliefs about hypothetical situations. Willing to include negatives, though positives are still treated as more central.</td><td>Formal operational</td></tr>
+      </table></div>
+      <p class="lead">One caveat the book stresses: the answer depends on how you ask. Open-ended questions ("tell me how you get on with your friends") pull more general answers than specific ones ("tell me what you did with your friends today"). Do not conclude a young child cannot think in general terms just because a narrow question produced a narrow answer.</p>
+
+      <h3 class="sec">5.5 Self-evaluation</h3>
+      <div class="abox"><ul>
+        <li><b>Under about eight</b> children have no well-developed sense of overall self-worth. Nursery-age self-esteem is typically high, and goes with secure attachment to both parents, especially the mother, and general optimism.</li>
+        <li><b>Middle and late childhood</b> self-esteem stays broadly stable.</li>
+        <li><b>At about 11 or 12</b> it often drops, then recovers through the mid-teens. This coincides with the move from primary to secondary school and the onset of puberty.</li>
+        <li><b>The looking-glass self</b> explains the dip. We see ourselves as we imagine others see us. Formal operational thinking makes adolescents far better at taking other people's perspectives, which produces a preoccupation with how others see their appearance and behaviour, which produces harsher self-evaluation, which lowers self-esteem. The new ability is the cause of the problem.</li>
+      </ul></div>
+
+      <h3 class="sec">5.6 Self-regulation</h3>
+      <p class="lead">Every theory of self-regulation disagrees about the mechanism and agrees about the shape: behaviour starts almost entirely under <b>external</b> control, mainly caregivers, and is gradually <b>internalised</b>. The hallmark of self-regulation is internal control.</p>
+      <div class="tscroll"><table class="tbl">
+        <tr><th>Age</th><th>What it looks like</th></tr>
+        <tr><td>Early infancy</td><td>Involuntary and biological: squinting reflexively at bright light. Regulatory, but with no awareness.</td></tr>
+        <tr><td>By 2 years</td><td>Voluntary, purposeful action on the world, and the first <b>compliance</b>: following others' verbal commands or requests. Partly driven by approval and disapproval, partly because infants sometimes find complying pleasurable in itself. Monitoring and adjusting their own behaviour is still weak, and control is still largely external.</td></tr>
+        <tr><td>Third year</td><td>The first conspicuous self-control. Children resist having things done for them and insist on doing it themselves. They borrow the adult's regulating words, saying "no, no" while reaching for a forbidden object, or repeating an instruction back to themselves ("put spoon in bowl"). Control has moved from the adult to the child, but it is still out loud.</td></tr>
+        <tr><td>From 3 onwards</td><td>The final step: control goes <b>silent</b>, directed by thought rather than speech. Strategies for resisting temptation appear, and <b>delay of gratification</b>, giving up a smaller immediate reward for a larger later one. This leads directly into moral development, which is a level two module.</td></tr>
+      </table></div>
+      <p class="lead">Notice how neatly this joins Vygotsky: adult instruction becomes the child's own out-loud private speech, then becomes the silent inner voice. Two chapters, one process, described twice.</p>
+      <details class="saq"><summary>SAQ 5: What influences the development of the self?</summary><div class="ans"><p>All three: the <b>reactions of others</b>, <b>comparisons made with others</b>, and the child's <b>level of cognitive development</b>.</p></div></details>
+
+      <div class="guide-tip"><span class="lab">For Assignment 1</span>This is the chapter that pays. A room of 1 to 3 year-olds is a live demonstration of <b>personal agency</b>, the first <b>compliance</b>, the "me do it" assertion of the third year, and out-loud private speech used to steer their own behaviour. That last one is gold: if you hear a child narrating their own action, you can cite Vygotsky, this chapter and Erikson's autonomy stage off one observation. Look too for emerging self-recognition and use of "me" or "mine".</div>
+
+      <details class="quiz"><summary>Quiz: chapter 5 (6 questions)</summary><div class="qz">
+        <div class="qz-q"><p class="qz-stem">1. "The kind of person I would like to be" is:</p><div class="qz-opts"><button class="qz-opt" type="button">self-image</button><button class="qz-opt" type="button">self-esteem</button><button class="qz-opt" type="button" data-ok>the ideal self</button><button class="qz-opt" type="button">the looking-glass self</button></div><div class="qz-fb">The ideal self. Self-image is who you think you are; self-esteem is what you think of that.</div></div>
+        <div class="qz-q"><p class="qz-stem">2. A baby repeatedly throws a rattle from the pram so her mother returns it. This shows:</p><div class="qz-opts"><button class="qz-opt" type="button">concrete operational thought</button><button class="qz-opt" type="button" data-ok>personal agency</button><button class="qz-opt" type="button">self-esteem</button><button class="qz-opt" type="button">conservation</button></div><div class="qz-fb">Personal agency: the understanding that you can cause events in your environment.</div></div>
+        <div class="qz-q"><p class="qz-stem">3. In the rouge test, reliable self-recognition appears at about:</p><div class="qz-opts"><button class="qz-opt" type="button">5 months</button><button class="qz-opt" type="button">12 months</button><button class="qz-opt" type="button" data-ok>24 months</button><button class="qz-opt" type="button">4 years</button></div><div class="qz-fb">Not found under 15 months and not reliable until about 24 months.</div></div>
+        <div class="qz-q"><p class="qz-stem">4. "I'm the fastest runner on our road" is typical of which stage?</p><div class="qz-opts"><button class="qz-opt" type="button">Preoperational</button><button class="qz-opt" type="button" data-ok>Concrete operational</button><button class="qz-opt" type="button">Formal operational</button><button class="qz-opt" type="button">Sensorimotor</button></div><div class="qz-fb">Concrete operational: middle childhood brings social comparison into self-description.</div></div>
+        <div class="qz-q"><p class="qz-stem">5. Self-esteem often dips at 11 or 12. The best explanation offered is:</p><div class="qz-opts"><button class="qz-opt" type="button">loss of secure attachment</button><button class="qz-opt" type="button" data-ok>the looking-glass self, driven by new perspective-taking ability</button><button class="qz-opt" type="button">failure of conservation</button><button class="qz-opt" type="button">over-regularisation</button></div><div class="qz-fb">Formal operational thinking makes adolescents better at taking others' perspectives, which produces self-consciousness and more critical self-evaluation.</div></div>
+        <div class="qz-q"><p class="qz-stem">6. Silent, thought-directed self-control generally does not appear before:</p><div class="qz-opts"><button class="qz-opt" type="button">1 year</button><button class="qz-opt" type="button">2 years</button><button class="qz-opt" type="button" data-ok>3 years</button><button class="qz-opt" type="button">7 years</button></div><div class="qz-fb">Not before three. In the third year control is typically still out loud, using words borrowed from adults.</div></div>
+      </div><p class="qz-score"></p></details>
+    </div>
+
+    <!-- ===== CHAPTER 6 ===== -->
+    <div class="qchap">
+      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">6. Theories of Development</h2>
+      <p class="lead">Freud, Erikson and Piaget side by side, and the question of which of them can actually be tested. The comparison at the end is the most useful thing in the book for an evaluative essay.</p>
+      <div class="note"><span class="lab">By the end you can</span>say what a theory is for; define a hypothetical construct; set out Freud's structures, defence mechanisms and psychosexual stages; list Erikson's eight psychosocial stages; and explain why the three theories cannot simply be merged and which is most open to disproof.</div>
+
+      <h3 class="sec">6.1 What a theory is for</h3>
+      <div class="abox"><ul>
+        <li><b>Definition.</b> A set of statements describing the relationship between behaviour and the factors assumed to influence it.</li>
+        <li><b>Two jobs.</b> It <b>organises</b> existing research findings, and it <b>guides</b> researchers on how to plan investigations effectively. Psychologists do not just study whatever occurs to them.</li>
+        <li><b>What makes a good one.</b> Its parts are stated explicitly, the connections between them are clear and well-ordered, and it can therefore be evaluated fairly and objectively.</li>
+        <li><b>Hypothetical constructs.</b> All three theories are built from them. A hypothetical construct is something that cannot be observed directly and can only be inferred from behaviour. Personality and intelligence are both constructs: not things, but devices for making sense of facts.</li>
+      </ul></div>
+
+      <h3 class="sec">6.2 Freud</h3>
+      <p class="lead">For psychoanalytic theorists development is largely <b>unconscious</b> and heavily coloured by emotion. Behaviour is only a surface feature; you have to analyse the symbolic meaning beneath it. Early experience with parents shapes everything later.</p>
+      <div class="abox"><ul>
+        <li><b>Id.</b> The reservoir of instincts and psychic energy. Unconscious, no contact with reality, runs on the <b>pleasure principle</b>: seek pleasure, avoid pain.</li>
+        <li><b>Ego.</b> Forms as the child meets the demands and constraints of reality. The executive branch, making rational decisions, running on the <b>reality principle</b>: get pleasure, but within what reality allows.</li>
+        <li><b>Superego.</b> The moral branch. Neither id nor ego cares whether something is right or wrong; the superego does.</li>
+      </ul></div>
+      <p class="lead">Conflict between the three produces anxiety, and the ego handles it with <b>defence mechanisms</b>: unconscious methods of distorting reality to protect the person from anxiety. <b>Repression</b> is the foundational one, pushing unacceptable impulses back out of awareness; every other mechanism is working towards the same end.</p>
+      <div class="abox"><ul>
+        <li><b>Displacement.</b> Shifting unacceptable feelings from one target to a more acceptable one.</li>
+        <li><b>Projection.</b> Attributing your own faults and problems to other people.</li>
+        <li><b>Sublimation.</b> Replacing a socially distasteful course of action with a socially useful one.</li>
+        <li><b>Reaction formation.</b> Replacing an unacceptable impulse with its opposite.</li>
+        <li><b>Regression.</b> Behaving in a way typical of an earlier developmental level.</li>
+      </ul></div>
+      <p class="lead">Two points people get wrong: defence mechanisms are <b>unconscious</b>, so the person has no idea they are using them; and used in moderation they are <b>healthy</b>, a genuinely adaptive way of handling stress.</p>
+      <p class="lead">Development runs through five <b>psychosexual</b> stages, each with an <b>erogenous zone</b> that gives particular pleasure. Adult personality is set by how the conflict between those early pleasures and the demands of reality gets resolved. Unresolved conflict produces <b>fixation</b>: being stuck at a stage because needs were either under-gratified or over-gratified.</p>
+      <div class="tscroll"><table class="tbl">
+        <tr><th>Stage</th><th>Age</th><th>Focus</th></tr>
+        <tr><td><b>Oral</b></td><td>0 to 18 months</td><td>Pleasure centres on the mouth.</td></tr>
+        <tr><td><b>Anal</b></td><td>18 months to 3 years</td><td>Pleasure centres on the anus and its functions.</td></tr>
+        <tr><td><b>Phallic</b></td><td>3 to 6 years</td><td>Pleasure focuses on the genitals. Home of the <b>Oedipus complex</b>: a desire to replace the same-sex parent and have the other parent's affection. Resolved around five or six when the child, fearing punishment, <b>identifies</b> with the same-sex parent instead.</td></tr>
+        <tr><td><b>Latency</b></td><td>6 years to puberty</td><td>Interest in sexuality is repressed; energy goes into social and intellectual skills, which helps the child forget the conflicts of the phallic stage.</td></tr>
+        <tr><td><b>Genital</b></td><td>Puberty onwards</td><td>Sexual reawakening, with the source of pleasure now outside the family.</td></tr>
+      </table></div>
+
+      <h3 class="sec">6.3 Erikson</h3>
+      <p class="lead">Erikson keeps Freud's emphasis on unconscious forces but changes two things: his stages are <b>psychosocial</b> rather than psychosexual, and they run across the <b>whole life cycle</b> rather than stopping at five. The <b>epigenetic principle</b> is his engine: anything that grows has a blueprint, and each part has its own special time of ascendancy until the whole is formed. Each stage is a <b>crisis</b>, which for Erikson is not a catastrophe but a turning point of increased vulnerability and increased potential.</p>
+      <div class="tscroll"><table class="tbl">
+        <tr><th>Stage</th><th>Age</th><th>The crisis</th></tr>
+        <tr><td><b>Trust vs mistrust</b></td><td>First year</td><td>Needs physical comfort and minimal fear. Trust here sets a lifelong expectation that the world is a decent place.</td></tr>
+        <tr><td><b>Autonomy vs shame and doubt</b></td><td>1 to 3</td><td>Having learned to trust, the infant discovers the impact of their own behaviour and asserts independence. Restrain or punish that too harshly and shame and doubt follow instead.</td></tr>
+        <tr><td><b>Initiative vs guilt</b></td><td>Preschool years</td><td>A widening social world demands purposeful behaviour. Taking responsibility builds initiative; being made to feel too anxious about irresponsibility builds guilt, though Erikson thinks most guilt is quickly offset by a sense of accomplishment.</td></tr>
+        <tr><td><b>Industry vs inferiority</b></td><td>Early primary years</td><td>Energy goes into mastering cognitive skills, and children are at their most enthusiastic about learning. The danger is feeling incompetent. Teachers carry particular responsibility here.</td></tr>
+        <tr><td><b>Identity vs identity confusion</b></td><td>Adolescence</td><td>Working out who you are and where you are going. Healthy exploration of roles produces identity; an identity forced on you by parents or peers, or too little exploration, produces confusion.</td></tr>
+        <tr><td><b>Intimacy vs isolation</b></td><td>Early adulthood</td><td>Forming genuine friendships and a close intimate relationship, or failing to and becoming isolated.</td></tr>
+        <tr><td><b>Generativity vs stagnation</b></td><td>Middle adulthood</td><td>Helping the next generation to develop and lead useful lives, or feeling you have done nothing for them.</td></tr>
+        <tr><td><b>Integrity vs despair</b></td><td>Late adulthood</td><td>Looking back on a life well spent and feeling complete, or looking back with doubt, gloom and a sense of incompleteness.</td></tr>
+      </table></div>
+      <div class="guide-tip"><span class="lab">For Assignment 1</span>Your video sits squarely in <b>autonomy versus shame and doubt</b>, because the children are 1 to 3. Mention initiative versus guilt only as the stage that comes next; do not apply it. The best essay move here is to pick a specific moment where a child insists on doing something alone, describe the adult's response, and argue what Erikson predicts it builds. Then evaluate it against the modern self-regulation evidence from chapter 5.</div>
+
+      <h3 class="sec">6.4 The three compared</h3>
+      <div class="tscroll"><table class="tbl">
+        <tr><th></th><th>Freud</th><th>Erikson</th><th>Piaget</th></tr>
+        <tr><td>Primary process</td><td>Psychosexual</td><td>Psychosocial</td><td>Cognitive</td></tr>
+        <tr><td>Conscious or unconscious</td><td>Unconscious</td><td>Largely unconscious</td><td>Conscious thought</td></tr>
+        <tr><td>Span covered</td><td>Ends in early childhood</td><td>Birth to late adulthood</td><td>Birth to about 15</td></tr>
+        <tr><td>Can it be tested?</td><td>Very hard</td><td>Hard</td><td>Readily</td></tr>
+      </table></div>
+      <div class="abox"><ul>
+        <li><b>They cannot be merged.</b> It is tempting to bolt the three together into one complete theory covering sexual, social and cognitive change. It does not work, because they are built in fundamentally different ways.</li>
+        <li><b>Erikson's distinctive feature.</b> He is the only one of the three whose theory describes developmental change through the <b>adult</b> years.</li>
+        <li><b>Testability is the real dividing line.</b> Piaget's constructs can be defined in terms of precise, observable behaviour, such as the actions or words a child uses to solve a problem. Freud's and Erikson's often cannot.</li>
+        <li><b>The repression trap.</b> The book's sharpest example: if repression is working properly it should by definition be undetectable, and if you can detect it then it is not working. A claim that cannot fail is not a scientific claim.</li>
+        <li><b>Why that is a strength for Piaget.</b> Because his theory is easy to disprove, we can see which parts are wrong and build better ones. The criticisms in chapter 3 exist precisely because the theory is testable.</li>
+      </ul></div>
+      <details class="saq"><summary>SAQ 6: Which theory is most open to objective evaluation, and why?</summary><div class="ans"><p><b>Piaget's.</b> His hypothetical constructs can be defined in terms of precise, observable behaviour, so they can be measured without bias. Much of Freud's and Erikson's cannot be accurately inferred from behaviour, and some parts, such as repression, may be impossible to test at all.</p></div></details>
+
+      <details class="quiz"><summary>Quiz: chapter 6 (6 questions)</summary><div class="qz">
+        <div class="qz-q"><p class="qz-stem">1. Which Freudian structure runs on the reality principle?</p><div class="qz-opts"><button class="qz-opt" type="button">Id</button><button class="qz-opt" type="button" data-ok>Ego</button><button class="qz-opt" type="button">Superego</button><button class="qz-opt" type="button">All three</button></div><div class="qz-fb">The ego: it seeks pleasure within the boundaries of reality. The id runs on the pleasure principle; the superego is the moral branch.</div></div>
+        <div class="qz-q"><p class="qz-stem">2. Replacing an unacceptable impulse with its opposite is:</p><div class="qz-opts"><button class="qz-opt" type="button">displacement</button><button class="qz-opt" type="button">sublimation</button><button class="qz-opt" type="button" data-ok>reaction formation</button><button class="qz-opt" type="button">projection</button></div><div class="qz-fb">Reaction formation. Sublimation redirects into something socially useful; displacement shifts the feeling to a safer target.</div></div>
+        <div class="qz-q"><p class="qz-stem">3. A child of 1 to 3 is in which Freudian and which Eriksonian stage?</p><div class="qz-opts"><button class="qz-opt" type="button">Oral; trust vs mistrust</button><button class="qz-opt" type="button" data-ok>Anal; autonomy vs shame and doubt</button><button class="qz-opt" type="button">Phallic; initiative vs guilt</button><button class="qz-opt" type="button">Latency; industry vs inferiority</button></div><div class="qz-fb">Anal (18 months to 3) and autonomy versus shame and doubt (1 to 3). This is the pairing your assignment video needs.</div></div>
+        <div class="qz-q"><p class="qz-stem">4. The epigenetic principle states that:</p><div class="qz-opts"><button class="qz-opt" type="button">genes determine behaviour directly</button><button class="qz-opt" type="button" data-ok>anything that grows has a blueprint, each part having its own time of ascendancy</button><button class="qz-opt" type="button">development stops at puberty</button><button class="qz-opt" type="button">environment overrides inheritance</button></div><div class="qz-fb">Erikson's blueprint principle: each part rises in its own time until the whole forms a functioning unit.</div></div>
+        <div class="qz-q"><p class="qz-stem">5. What makes Erikson's theory distinctive among the three?</p><div class="qz-opts"><button class="qz-opt" type="button">It is the only testable one</button><button class="qz-opt" type="button">It ignores the unconscious</button><button class="qz-opt" type="button" data-ok>It is the only one describing change through adulthood</button><button class="qz-opt" type="button">It has the most stages</button></div><div class="qz-fb">Only Erikson covers the adult years. Freud's account effectively finishes in early childhood and Piaget's by about fifteen.</div></div>
+        <div class="qz-q"><p class="qz-stem">6. Why is repression so difficult to investigate scientifically?</p><div class="qz-opts"><button class="qz-opt" type="button">It happens too quickly to measure</button><button class="qz-opt" type="button" data-ok>If it works it is undetectable, and if you detect it, it is not working</button><button class="qz-opt" type="button">It only occurs in adults</button><button class="qz-opt" type="button">It was never defined by Freud</button></div><div class="qz-fb">The definition makes it untestable either way, which is the standard objection to much of psychoanalytic theory.</div></div>
+      </div><p class="qz-score"></p></details>
+    </div>
+
+  </div>
+  <div class="bnav"><button class="bbtn" id="dbPrev" type="button">Previous chapter</button><button class="bbtn" id="dbNext" type="button">Next chapter</button></div>
+</section>
+
+<!-- ============ TAB 14 : ESSAY TOOLKIT (PSY1080) ============ -->
+<section class="pane wrap" id="p14">
+  <div class="dhead">
+    <div class="kicker">Assignment 1 · due 23 November 2026</div>
+    <h2>Essay Toolkit</h2>
+    <div class="pills"><span class="pill on">evidence log</span><span class="pill">plan</span><span class="pill">checklist</span></div>
+  </div>
+  <div class="intro-card">
+    <div class="lab">How to use this</div>
+    <ul>
+      <li><b>Watch the video with the log open.</b> Every time something happens that a theory explains, add a row: the timestamp, what you actually saw, and which theory it speaks to. That log becomes your essay.</li>
+      <li><b>Then work down the plan.</b> It is the module's own writing process, applied to this specific question.</li>
+      <li><b>Tick the checklist last.</b> Everything on it is a mark you can lose for free.</li>
+      <li><b>Your log and ticks save in this browser</b>, so you can close the tab and come back. Use Copy to lift the whole log into your notes.</li>
+    </ul>
+  </div>
+
+  <h3 class="sec">1. Observation evidence log</h3>
+  <p class="lead">Half the marks in this essay come from <b>precise description of what actually happens on screen</b>. The other half come from explaining it with named theory. A vague memory of the video two weeks later will not give you either. Fill this in while you watch.</p>
+  <div class="elog" id="elog80"></div>
+
+  <h3 class="sec">2. Reading the question properly</h3>
+  <p class="lead">The task: watch the first 10 minutes of "Toddlers observing lab #2", and <b>with reference to empirical research and foundational theorists, apply, evaluate and explain</b> one or more developmental psychology approaches. Three verbs, three different jobs. Students lose marks by doing only the first.</p>
+  <div class="abox"><ul>
+    <li><b>Apply.</b> Take a named theory to a specific moment in the video. Not "Piaget says children build schemas", but "at 4:12 the child does X, which is a tertiary circular reaction because Y".</li>
+    <li><b>Explain.</b> Say why the theory accounts for what you saw, in enough detail that the marker knows you understand the mechanism, not just the label.</li>
+    <li><b>Evaluate.</b> Say where the theory fits, where it does not, and what the newer evidence adds. This is the part that separates a pass from a good mark, and the one most people skip.</li>
+    <li><b>With reference to empirical research.</b> Named studies and journal articles, not just the theorists. The four papers in your A1 readings folder exist for this.</li>
+    <li><b>One or more approaches.</b> That is permission to go deep rather than wide. Two or three lenses done properly beats six name-dropped.</li>
+  </ul></div>
+  <div class="guide-tip"><span class="lab">Pick your lenses</span>The strongest combination for toddlers aged 1 to 3 is <b>Erikson's autonomy versus shame and doubt</b> as the spine, <b>attachment</b> (secure base behaviour) for the adult interactions, and <b>Piaget</b> for the play and problem-solving. Then evaluate all three against the modern self-regulation and prosocial-behaviour evidence.</div>
+
+  <h3 class="sec">3. Planning the essay</h3>
+  <p class="lead">The module's own writing book sets out a process. Here it is applied to this question.</p>
+  <div class="abox">
+    <ul>
+      <li><b>Brainstorm before you read anything.</b> Blank page, five minutes, everything you already know about toddler development. It tells you what you know and what you need to look up, and stops you reading indiscriminately.</li>
+      <li><b>Turn the gaps into questions.</b> A list of questions makes your reading disciplined. For this essay they might be:
+        <ul>
+          <li>What exactly does Erikson predict a carer should do at this age, and what happens if they do not?</li>
+          <li>What does secure base behaviour look like from the outside, on video?</li>
+          <li>What does the recent evidence say about self-regulation and empathy in toddlers?</li>
+          <li>Which of my observations does no theory explain well?</li>
+        </ul>
+      </li>
+      <li><b>Build an outline, not a draft.</b> The book's method: Roman numerals for the main points, letters for supporting statements, numbers for specific evidence, and never an A without a B. Your plan should show the <b>sequence</b> of points, the <b>structure</b>, and the <b>relative importance</b> of each.</li>
+      <li><b>Move from general to specific throughout.</b> Assertion first, then proof.</li>
+      <li><b>Decide what to leave out.</b> You cannot cover everything, and trying produces a crowded, muddled essay. The word count is a ceiling, not a target.</li>
+    </ul>
+  </div>
+  <div class="note"><span class="lab">A structure that works for this question</span>Introduction (the video, the age group, which approaches you will use and why). Then one section per lens, each: what the theory claims, the specific moment from your log, how well it fits. Then an evaluation section weighing the theories against each other and against recent evidence. Then a conclusion that answers the question rather than restating it. Then references.</div>
+
+  <h3 class="sec">4. Writing it</h3>
+  <div class="abox"><ul>
+    <li><b>Draft fast and badly.</b> The first draft is for understanding your own topic, not for being right. Do not stop for spelling. You can fix a poor draft; you cannot do anything with a blank page.</li>
+    <li><b>Keep attributing as you go.</b> Note the source beside each point in the draft, or you will spend the last night hunting for where something came from.</li>
+    <li><b>Then leave it alone.</b> 24 hours minimum, longer if you have it. You cannot see your own errors while you are still inside the argument.</li>
+    <li><b>Write in the third person.</b> "It was found that" rather than "I found that". Avoid "I think that".</li>
+    <li><b>Prefer the active voice</b> where it reads better: "over two-thirds of the students passed" beats "the exam was passed by over two-thirds of the students". The passive is still fine in places.</li>
+    <li><b>Do not write to impress.</b> Short, concrete, familiar words. The temptation to sound academic by writing complicated sentences makes writing worse, not better.</li>
+    <li><b>Define every technical term</b> the first time you use it, then use it consistently.</li>
+    <li><b>Get someone to read it.</b> Not too early, not too late. They do not need to know any psychology; they need to tell you whether your argument is followable.</li>
+  </ul></div>
+
+  <h3 class="sec">5. Before you submit</h3>
+  <p class="lead">Every item here is a mark you can lose without writing a single wrong word.</p>
+  <div class="ckl" id="cklA1x"></div>
+
+  <h3 class="sec">6. Using the feedback afterwards</h3>
+  <div class="abox"><ul>
+    <li><b>Feedback is the point, not the mark.</b> Even strong work gets guidance on what to develop next, and it is through mistakes that most learning happens.</li>
+    <li><b>Do not take it personally.</b> Writing is personal and criticism of it can feel personal, but short comments mean a busy marker, not an annoyed one.</li>
+    <li><b>Ask specifically.</b> Telling the teaching team in advance that you know you are weak at evaluation will get you comments on evaluation.</li>
+    <li><b>Use other readers too.</b> Fellow students, people who have done the module, friends who know nothing about it. Each catches something different. Check what level of collaboration is allowed before working closely with classmates.</li>
+    <li><b>Assess yourself.</b> Keep your own checklist of the things you personally tend to get wrong, and run every assignment past it.</li>
+  </ul></div>
 </section>
 
 </div><!-- /mpane-wrap 80 -->
@@ -3172,7 +3787,7 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
 <script>
   const navs=[...document.querySelectorAll('.guide-nav-item')];
   const mods=[...document.querySelectorAll('.pn-mods button')];
-  const panes={1:p1,2:p2,3:p3,4:p4,5:p5,6:p6,7:p7,8:p8,9:p9,10:p10,11:p11,12:p12,q1:q1,q2:q2,q3:q3,q4:q4,q5:q5,q6:q6,q7:q7,q8:q8,q9:q9,q10:q10,q11:q11,q12:q12,q13:q13,q14:q14};
+  const panes={1:p1,2:p2,3:p3,4:p4,5:p5,6:p6,7:p7,8:p8,9:p9,10:p10,11:p11,12:p12,13:p13,14:p14,q1:q1,q2:q2,q3:q3,q4:q4,q5:q5,q6:q6,q7:q7,q8:q8,q9:q9,q10:q10,q11:q11,q12:q12,q13:q13,q14:q14};
   function sel(id){navs.forEach(x=>x.classList.toggle('active',x.dataset.t===id));
     Object.entries(panes).forEach(([k,el])=>el.classList.toggle('on',k===id));
     window.scrollTo({top:0,behavior:'smooth'});}
@@ -3344,6 +3959,64 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
     });
     host.innerHTML=html;
     var fill=document.getElementById('cklFill'), pct=document.getElementById('cklPct');
+    function upd(){var done=host.querySelectorAll('.ckl-item.on').length,p=Math.round(done/total*100);
+      fill.style.width=p+'%';pct.textContent=done+' of '+total+' done ('+p+'%)';}
+    host.addEventListener('click',function(e){
+      var it=e.target.closest('.ckl-item'); if(!it)return;
+      it.classList.toggle('on'); state[it.dataset.id]=it.classList.contains('on');
+      try{localStorage.setItem(KEY,JSON.stringify(state));}catch(err){}
+      upd();});
+    upd();
+  })();
+
+  // ---- A1 submission checklist (PSY1080 essay) ----
+  (function(){
+    var host=document.getElementById('cklA1x'); if(!host)return;
+    var groups=[
+      {h:'The argument', items:[
+        'Every claim about the children is tied to a specific moment with a timestamp',
+        'Each theory is named with its author, and the stage or concept is named exactly',
+        'The children are correctly placed as toddlers aged 1 to 3',
+        'Erikson is applied at autonomy versus shame and doubt, not initiative versus guilt',
+        'Two or three approaches covered in depth rather than six in passing',
+        'The essay EVALUATES, not just describes: where each theory fits and where it does not',
+        'At least one point where modern evidence updates or contradicts the older theory',
+        'One sentence acknowledging that observation cannot establish cause'
+      ]},
+      {h:'Evidence and sources', items:[
+        'Empirical research cited, not only the foundational theorists',
+        'The four DCU articles in the A1 readings folder used where they fit',
+        'Every in-text citation has a matching entry in the reference list',
+        'Every reference-list entry is actually cited in the text',
+        'APA format checked on in-text citations and the reference list'
+      ]},
+      {h:'The writing', items:[
+        'Third person throughout, no "I think that"',
+        'Every technical term defined the first time it appears',
+        'Draft was left for at least 24 hours before revising',
+        'Someone else has read it and could follow the argument',
+        'Proofread word by word, not just spellchecked',
+        'Within the word count, with the count included if required'
+      ]},
+      {h:'Submission', items:[
+        'Cover page included',
+        'Name, course and date on the first page',
+        '1.5 or double line spacing, wide margins, readable 12pt font',
+        'Pages numbered',
+        'Saved as PSY1080_A1_2026_InitialSurname.docx',
+        'Uploaded before Monday 23 November 2026, 23:58'
+      ]}
+    ];
+    var KEY='bapsy_a1_essay_checklist_v1', state={};
+    try{state=JSON.parse(localStorage.getItem(KEY)||'{}');}catch(e){}
+    var total=0, html='<div class="ckl-bar"><div class="ckl-fill"></div></div><div class="ckl-pct"></div>';
+    groups.forEach(function(g,gi){
+      html+='<div class="ckl-h">'+g.h+'</div>';
+      g.items.forEach(function(t,ii){var id=gi+'-'+ii;total++;
+        html+='<div class="ckl-item'+(state[id]?' on':'')+'" data-id="'+id+'"><div class="ckl-box">✓</div><div class="ckl-tx">'+t+'</div></div>';});
+    });
+    host.innerHTML=html;
+    var fill=host.querySelector('.ckl-fill'), pct=host.querySelector('.ckl-pct');
     function upd(){var done=host.querySelectorAll('.ckl-item.on').length,p=Math.round(done/total*100);
       fill.style.width=p+'%';pct.textContent=done+' of '+total+' done ('+p+'%)';}
     host.addEventListener('click',function(e){
@@ -4056,6 +4729,80 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
     if(prev)prev.addEventListener('click',()=>show(i-1));
     if(next)next.addEventListener('click',()=>show(i+1));
     show(i);
+  })();
+
+  // ---- developmental book (PSY1080) chapter picker ----
+  (function(){
+    const chaps=[...document.querySelectorAll('#devbook .qchap')];
+    if(!chaps.length)return;
+    const chips=[...document.querySelectorAll('#dbChips .bchip')];
+    const prev=document.getElementById('dbPrev'), next=document.getElementById('dbNext');
+    let i=0;
+    function show(n){
+      i=Math.max(0,Math.min(chaps.length-1,n));
+      chaps.forEach((c,k)=>c.classList.toggle('on',k===i));
+      chips.forEach((c,k)=>c.classList.toggle('on',k===i));
+      if(prev)prev.disabled=(i===0);
+      if(next)next.disabled=(i===chaps.length-1);
+      const pane=document.getElementById('p13');
+      if(pane&&pane.classList.contains('on'))window.scrollTo({top:0,behavior:'smooth'});
+    }
+    chips.forEach((c,k)=>c.addEventListener('click',()=>show(k)));
+    if(prev)prev.addEventListener('click',()=>show(i-1));
+    if(next)next.addEventListener('click',()=>show(i+1));
+    show(0);
+  })();
+
+  // ---- observation evidence log (PSY1080 A1) ----
+  (function(){
+    const host=document.getElementById('elog80'); if(!host)return;
+    const KEY='bapsy_a1_evidence_v1';
+    const LENSES=['Erikson: autonomy vs shame','Attachment / secure base','Piaget: sensorimotor','Piaget: symbolic play','Vygotsky: scaffolding','Vygotsky: private speech','Bandura: imitation','Language: holophrase','Language: telegraphic','Self-regulation','Prosocial behaviour','Personal agency','Motor development','Not sure yet'];
+    let rows=[];
+    try{rows=JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){rows=[];}
+    function save(){try{localStorage.setItem(KEY,JSON.stringify(rows));}catch(e){}}
+    function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+    host.innerHTML=
+      '<div class="elog-in">'+
+        '<input class="e-t" type="text" placeholder="0:00" aria-label="Timestamp">'+
+        '<input class="e-w" type="text" placeholder="What you actually saw, in plain description" aria-label="Observation">'+
+        '<select class="e-l" aria-label="Theory">'+LENSES.map(l=>'<option>'+esc(l)+'</option>').join('')+'</select>'+
+      '</div>'+
+      '<div class="elog-bar"><button class="fc-btn pri" data-a="add" type="button">Add observation</button><button class="fc-btn" data-a="copy" type="button">Copy log</button><button class="fc-btn" data-a="clear" type="button">Clear all</button><span class="fc-pos e-n"></span></div>'+
+      '<div class="e-list"></div>';
+    const tIn=host.querySelector('.e-t'), wIn=host.querySelector('.e-w'), lIn=host.querySelector('.e-l'),
+          list=host.querySelector('.e-list'), nOut=host.querySelector('.e-n');
+    function tKey(t){const m=/^(\d+):(\d+)$/.exec(t.trim());return m?(+m[1])*60+(+m[2]):1e9;}
+    function draw(){
+      rows.sort((a,b)=>tKey(a.t)-tKey(b.t));
+      list.innerHTML=rows.length?rows.map((r,i)=>
+        '<div class="elog-row"><div class="elog-t">'+esc(r.t||'--:--')+'</div><div class="elog-w">'+esc(r.w)+'</div><div class="elog-th">'+esc(r.l)+'</div><button class="elog-x" data-i="'+i+'" type="button" aria-label="Delete">&times;</button></div>'
+      ).join(''):'<div class="elog-empty">Nothing logged yet. Play the video, pause when something happens, and add it above.</div>';
+      nOut.textContent=rows.length?rows.length+(rows.length===1?' observation':' observations'):'';
+      save();
+    }
+    function add(){
+      const w=wIn.value.trim(); if(!w){wIn.focus();return;}
+      rows.push({t:tIn.value.trim(),w:w,l:lIn.value});
+      tIn.value='';wIn.value='';draw();wIn.focus();
+    }
+    host.addEventListener('click',function(e){
+      const x=e.target.closest('.elog-x');
+      if(x){rows.splice(+x.dataset.i,1);draw();return;}
+      const b=e.target.closest('.fc-btn'); if(!b)return;
+      if(b.dataset.a==='add')add();
+      else if(b.dataset.a==='clear'){if(rows.length&&confirm('Delete all '+rows.length+' logged observations?')){rows=[];draw();}}
+      else if(b.dataset.a==='copy'){
+        const txt=rows.map(r=>(r.t||'--:--')+'\t'+r.w+'\t'+r.l).join('\n');
+        if(!txt)return;
+        navigator.clipboard&&navigator.clipboard.writeText(txt).then(function(){
+          b.textContent='Copied';setTimeout(function(){b.textContent='Copy log';},1400);
+        });
+      }
+    });
+    wIn.addEventListener('keydown',function(e){if(e.key==='Enter')add();});
+    tIn.addEventListener('keydown',function(e){if(e.key==='Enter')wIn.focus();});
+    draw();
   })();
 
   // ---- quant methods book (PSY1081) chapter picker ----
