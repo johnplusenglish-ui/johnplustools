@@ -316,8 +316,10 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
 .pv-scn:hover{border-color:var(--accent);color:var(--accent)}
 .pv-scn.on{background:var(--accent);border-color:var(--accent);color:#fff}
 .pv-story{background:var(--bg);border:1px solid var(--border-soft);border-radius:var(--r-sm);padding:14px 16px;margin:0 0 14px}
-.pv-h0{display:flex;gap:9px;align-items:flex-start}
+.pv-h0,.pv-h1{display:flex;gap:9px;align-items:flex-start}
+.pv-h1{margin-top:8px}
 .pv-tag{flex:none;font-size:10px;font-weight:800;letter-spacing:.04em;background:var(--accent-light);color:var(--accent-dark);border-radius:6px;padding:3px 7px;margin-top:2px}
+.pv-tag.alt{background:#e7f6ec;color:#236b3b}
 .pv-txt{font-size:14.5px;color:var(--ink);font-weight:600}
 .pv-res{font-size:13.5px;color:var(--muted);margin:10px 0 0;padding-top:10px;border-top:1px solid var(--border-soft)}
 .pv-res b{color:var(--ink)}
@@ -3007,7 +3009,7 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
       b.addEventListener('click',function(){cur=s;[].forEach.call(pick.children,function(x){x.classList.remove('on');});b.classList.add('on');P.value=s.p;drawStory();render();});
       pick.appendChild(b);
     });
-    function drawStory(){story.innerHTML='<div class="pv-h0"><span class="pv-tag">H0</span><span class="pv-txt">'+cur.h0+'</span></div><div class="pv-res">What happened: '+cur.result+'</div>';}
+    function drawStory(){var h1=cur.effect.charAt(0).toUpperCase()+cur.effect.slice(1)+'.';story.innerHTML='<div class="pv-h0"><span class="pv-tag">H0</span><span class="pv-txt">'+cur.h0+' <span style="color:var(--muted)">(the boring "nothing is going on" one, which we test)</span></span></div><div class="pv-h1"><span class="pv-tag alt">H1</span><span class="pv-txt">'+h1+' <span style="color:var(--muted)">(the alternative, your actual hunch)</span></span></div><div class="pv-res">What happened: '+cur.result+'</div>';}
     function render(){
       var v=+P.value, pv=v/100, rej=pv<0.05;
       out.textContent=fmt(v); mk.style.left=v+'%';
