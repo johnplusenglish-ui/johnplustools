@@ -3828,7 +3828,8 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
       const total=quiz.querySelectorAll('.qz-q').length;
       const correct=quiz.querySelectorAll('.qz-q.good').length;
       const answered=quiz.querySelectorAll('.qz-q.done').length;
-      const sc=quiz.querySelector('.qz-score');
+      // .qz-score sits outside .qz, so search the enclosing <details>
+      const sc=(q.closest('details')||quiz).querySelector('.qz-score');
       if(sc)sc.textContent='Score: '+correct+' correct, '+answered+' of '+total+' answered'+(answered===total?'. All done.':'');
     }
   });
