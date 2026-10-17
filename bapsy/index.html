@@ -47,9 +47,26 @@
 .guide-nav-item .trail{margin-left:auto;flex-shrink:0;padding-left:.4rem}
 .guide-nav-item .nav-k.due{font-size:.56rem;font-weight:800;text-transform:uppercase;letter-spacing:.03em;color:var(--coral-d);background:var(--coral-tint);padding:.1rem .45rem;border-radius:20px}
 .guide-nav-item.active .nav-k.due{color:#fff;background:rgba(255,255,255,.25)}
+/* menu button + collapsible sidebar */
+.navbtn{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--border);background:var(--card);border-radius:9px;padding:6px 11px 6px 9px;margin-right:13px;font-family:var(--sans);font-size:12.5px;font-weight:700;color:var(--ink);cursor:pointer;flex-shrink:0;line-height:1}
+.navbtn:hover{border-color:var(--accent);color:var(--accent)}
+.navbtn svg{width:16px;height:16px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;flex-shrink:0}
+body.nav-closed .primary-nav{display:none}
+.navscrim{display:none}
 @media(max-width:820px){
   .app-row{flex-direction:column}
-  .primary-nav{width:100%;position:static;height:auto;border-right:0;border-bottom:1.5px solid var(--border);box-shadow:none}
+  .app-main{width:100%}
+  .navbtn .t{display:none}
+  .navbtn{padding:7px 9px;margin-right:10px}
+  .primary-nav{position:fixed;top:52px;left:0;bottom:0;width:min(84vw,310px);z-index:150;height:auto;border-right:1.5px solid var(--border);border-bottom:0;box-shadow:8px 0 28px rgba(45,48,71,.2);transform:translateX(0);transition:transform .22s ease}
+  body.nav-closed .primary-nav{display:block;transform:translateX(-103%);box-shadow:none}
+  .navscrim{display:block;position:fixed;top:52px;left:0;right:0;bottom:0;background:rgba(45,48,71,.42);z-index:140;transition:opacity .2s;opacity:1}
+  body.nav-closed .navscrim{opacity:0;pointer-events:none}
+}
+@media(max-width:560px){
+  .topnav{padding:0 .8rem}
+  .topnav .nav-logo{font-size:0;gap:.45rem;min-width:0}
+  .topnav .nav-logo .sub{font-size:.72rem;margin-left:0;max-width:56vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
@@ -291,7 +308,17 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
 .bc-for b{color:var(--ink);font-weight:600}
 .bookbar{position:sticky;top:52px;z-index:6;background:var(--bg);padding:10px 0 12px;margin:0 0 6px;border-bottom:1px solid var(--border)}
 .bookbar .blab{font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);font-weight:800;margin-bottom:8px}
-.bookchaps{display:flex;gap:6px;flex-wrap:wrap}
+.bookchaps{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+/* collapsible picker header */
+.bb-top{display:flex;align-items:center;gap:9px;width:100%;border:0;background:none;padding:0;cursor:pointer;font-family:var(--sans);text-align:left}
+.bb-lab{font-size:10px;letter-spacing:.11em;text-transform:uppercase;font-weight:800;color:var(--muted);flex-shrink:0}
+.bb-cur{font-size:12.5px;font-weight:700;color:var(--ink);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bb-top:hover .bb-cur{color:var(--accent)}
+.bb-chev{width:15px;height:15px;stroke:var(--muted);stroke-width:2.2;fill:none;stroke-linecap:round;flex-shrink:0;transition:transform .18s}
+.bb-top:hover .bb-chev{stroke:var(--accent)}
+.bookbar.bb-closed .bb-chev{transform:rotate(-90deg)}
+.bookbar.bb-closed .bookchaps{display:none}
+.bookbar.bb-closed{padding:9px 0}
 .bchip{min-width:34px;height:34px;padding:0 9px;border-radius:9px;border:1px solid var(--border);background:var(--card);font-weight:700;font-size:13px;color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:inherit}
 .bchip:hover{border-color:var(--accent);color:var(--accent)}
 .quiz{margin:18px 0;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--card);overflow:hidden}
@@ -5530,8 +5557,17 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
   const navs=[...document.querySelectorAll('.guide-nav-item')];
   const mods=[...document.querySelectorAll('.pn-mods button')];
   const panes={1:p1,2:p2,3:p3,4:p4,5:p5,6:p6,7:p7,8:p8,9:p9,10:p10,11:p11,12:p12,13:p13,14:p14,15:p15,16:p16,17:p17,18:p18,19:p19,q1:q1,q2:q2,q3:q3,q4:q4,q5:q5,q6:q6,q7:q7,q8:q8,q9:q9,q10:q10,q11:q11,q12:q12,q13:q13,q14:q14};
+  // the header subtitle names the section you are in, which matters when the menu is closed
+  function updSub(id){
+    const ns=document.getElementById('navsub'); if(!ns)return;
+    const btn=navs.find(x=>x.dataset.t===id);
+    const mod=document.querySelector('.pn-mods button.on');
+    const m=(mod&&mod.dataset.m==='81')?'PSY1081':'PSY1080';
+    ns.textContent=m+(btn?' · '+btn.querySelector('.label').textContent:'');
+  }
   function sel(id){navs.forEach(x=>x.classList.toggle('active',x.dataset.t===id));
     Object.entries(panes).forEach(([k,el])=>el.classList.toggle('on',k===id));
+    updSub(id);
     window.scrollTo({top:0,behavior:'smooth'});}
   function selMod(m){
     mods.forEach(b=>b.classList.toggle('on',b.dataset.m===m));
@@ -5539,11 +5575,85 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
     document.querySelectorAll('.mpane-wrap').forEach(w=>w.hidden=(w.dataset.m!==m));
     const first=document.querySelector('.msb[data-m="'+m+'"] .guide-nav-item');
     if(first)sel(first.dataset.t);
-    const ns=document.getElementById('navsub');
-    if(ns)ns.textContent=(m==='81'?'PSY1081':'PSY1080')+' · Map & Roadmap';
   }
   navs.forEach(n=>n.addEventListener('click',()=>sel(n.dataset.t)));
   mods.forEach(b=>b.addEventListener('click',()=>selMod(b.dataset.m)));
+  (function(){const a=navs.find(n=>n.classList.contains('active'));if(a)updSub(a.dataset.t);})();
+
+  // ---- sidebar: collapsible on desktop, slide-in drawer on mobile ----
+  (function(){
+    var KEY='bapsy_nav_open_v1';
+    function isMobile(){return window.matchMedia('(max-width:820px)').matches;}
+    var top=document.querySelector('.topnav'); if(!top)return;
+    var btn=document.createElement('button');
+    btn.type='button'; btn.className='navbtn';
+    btn.setAttribute('aria-label','Show or hide the menu');
+    btn.innerHTML='<svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span class="t">Menu</span>';
+    top.insertBefore(btn,top.firstChild);
+    var scrim=document.createElement('div'); scrim.className='navscrim'; document.body.appendChild(scrim);
+    var stored=null; try{stored=localStorage.getItem(KEY);}catch(e){}
+    // phones start closed; on desktop remember what you chose last time
+    var open=isMobile()?false:(stored===null?true:stored==='1');
+    function apply(o){document.body.classList.toggle('nav-closed',!o);btn.setAttribute('aria-expanded',o?'true':'false');}
+    function set(o,persist){
+      open=o; apply(o);
+      if(persist&&!isMobile()){try{localStorage.setItem(KEY,o?'1':'0');}catch(e){}}
+    }
+    btn.addEventListener('click',function(){set(!open,true);});
+    scrim.addEventListener('click',function(){set(false,false);});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'&&open&&isMobile())set(false,false);});
+    // choosing a section closes the drawer on a phone, but switching module keeps it open
+    document.querySelectorAll('.guide-nav-item').forEach(function(n){
+      n.addEventListener('click',function(){if(isMobile())set(false,false);});
+    });
+    apply(open);
+    var wasMobile=isMobile();
+    window.addEventListener('resize',function(){
+      var m=isMobile(); if(m===wasMobile)return; wasMobile=m;
+      if(m){set(false,false);}
+      else{var s=null;try{s=localStorage.getItem(KEY);}catch(e){} set(s===null||s==='1',false);}
+    });
+  })();
+
+  // ---- collapsible chapter and class pickers ----
+  (function(){
+    var KEY='bapsy_picker_open_v1';
+    function isMobile(){return window.matchMedia('(max-width:820px)').matches;}
+    var bars=[].slice.call(document.querySelectorAll('.bookbar'));
+    if(!bars.length)return;
+    bars.forEach(function(bar){
+      var lab=bar.querySelector('.blab'), chips=bar.querySelector('.bookchaps');
+      if(!lab||!chips)return;
+      var base=(lab.textContent||'Chapter').trim();
+      var btn=document.createElement('button');
+      btn.type='button'; btn.className='bb-top';
+      btn.innerHTML='<span class="bb-lab"></span><span class="bb-cur"></span>'+
+        '<svg class="bb-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>';
+      btn.querySelector('.bb-lab').textContent=base;
+      lab.parentNode.replaceChild(btn,lab);
+      var cur=btn.querySelector('.bb-cur');
+      function sync(){
+        var on=chips.querySelector('.bchip.on')||chips.querySelector('.bchip');
+        if(!on)return;
+        var t=on.getAttribute('title');
+        cur.textContent=on.textContent.trim()+(t?'. '+t:'');
+      }
+      if(window.MutationObserver)new MutationObserver(sync).observe(chips,{subtree:true,attributes:true,attributeFilter:['class']});
+      sync();
+      btn.addEventListener('click',function(){setAll(bar.classList.contains('bb-closed'),true);});
+      chips.addEventListener('click',function(e){
+        if(e.target.closest('.bchip')&&isMobile())setAll(false,false);
+      });
+      bar._apply=function(o){bar.classList.toggle('bb-closed',!o);};
+    });
+    function setAll(o,persist){
+      bars.forEach(function(b){if(b._apply)b._apply(o);});
+      if(persist){try{localStorage.setItem(KEY,o?'1':'0');}catch(e){}}
+    }
+    var stored=null; try{stored=localStorage.getItem(KEY);}catch(e){}
+    // phones start collapsed so the chips do not eat the screen
+    setAll(stored===null?!isMobile():stored==='1',false);
+  })();
 
   // ---- click-to-play video embeds ----
   document.querySelectorAll('.ytlite').forEach(el=>{
