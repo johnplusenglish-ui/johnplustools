@@ -291,6 +291,22 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
 .bookchaps{display:flex;gap:6px;flex-wrap:wrap}
 .bchip{min-width:34px;height:34px;padding:0 9px;border-radius:9px;border:1px solid var(--border);background:var(--card);font-weight:700;font-size:13px;color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:inherit}
 .bchip:hover{border-color:var(--accent);color:var(--accent)}
+.quiz{margin:18px 0;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--card);overflow:hidden}
+.quiz>summary{cursor:pointer;padding:13px 16px;font-weight:700;font-size:14.5px;color:var(--accent-dark);list-style:none;background:var(--accent-light)}
+.quiz>summary::-webkit-details-marker{display:none}
+.quiz>summary::before{content:"▸ ";color:var(--accent)}
+.quiz[open]>summary::before{content:"▾ "}
+.qz-q{padding:16px;border-top:1px solid var(--border-soft)}
+.qz-stem{font-weight:600;font-size:14.5px;color:var(--ink);line-height:1.5;margin:0}
+.qz-opts{display:flex;flex-direction:column;gap:8px;margin-top:11px}
+.qz-opt{text-align:left;border:1px solid var(--border);background:var(--bg);border-radius:10px;padding:10px 14px;cursor:pointer;font-family:inherit;font-size:14px;color:var(--ink);line-height:1.4;transition:border-color .12s,background .12s}
+.qz-opt:hover:not(:disabled){border-color:var(--accent);background:var(--card)}
+.qz-opt:disabled{cursor:default}
+.qz-opt.correct{background:#e7f6ec;border-color:#4aa96c;color:#216b3a;font-weight:600}
+.qz-opt.wrong{background:#fbeaea;border-color:var(--due);color:var(--due)}
+.qz-fb{display:none;margin-top:11px;font-size:13px;color:var(--muted);line-height:1.5;padding-left:2px}
+.qz-q.done .qz-fb{display:block}
+.qz-score{padding:13px 16px;border-top:1px solid var(--border);font-weight:700;font-size:14px;color:var(--ink);background:var(--bg)}
 .bchip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
 .qchap{display:none}
 .qchap.on{display:block;animation:fade .25s ease}
@@ -2269,6 +2285,93 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
         <li>Write out <b>H0 and H1 for your own Assignment 1 study</b>. If you cannot state them cleanly, the research question needs sharpening.</li>
         <li>Keep working on <b>Assignment 1</b> (due Mon 2 Nov).</li>
       </ul>
+
+      <details class="quiz">
+        <summary>Quiz: test yourself (8 questions)</summary>
+        <div class="qz">
+          <div class="qz-q">
+            <p class="qz-stem">1. The p value is the probability of...</p>
+            <div class="qz-opts">
+              <button class="qz-opt" type="button">the null hypothesis being true</button>
+              <button class="qz-opt" type="button" data-ok>your result, or a more extreme one, if the null hypothesis were true</button>
+              <button class="qz-opt" type="button">the alternative hypothesis being true</button>
+              <button class="qz-opt" type="button">the effect being large and meaningful</button>
+            </div>
+            <div class="qz-fb">p is a conditional probability about the data, assuming H0 is true. It says nothing about the probability of either hypothesis, or about effect size.</div>
+          </div>
+          <div class="qz-q">
+            <p class="qz-stem">2. A 95% confidence interval for a mean difference runs from 0.85 to 5.55. What does it tell you?</p>
+            <div class="qz-opts">
+              <button class="qz-opt" type="button">the result is not significant</button>
+              <button class="qz-opt" type="button">zero is a plausible value for the difference</button>
+              <button class="qz-opt" type="button" data-ok>the result is significant at .05, because the interval excludes zero</button>
+              <button class="qz-opt" type="button">the effect must be large</button>
+            </div>
+            <div class="qz-fb">If a 95% CI for a difference does not contain zero, "no difference" is not a plausible value, so the result is significant at the .05 level.</div>
+          </div>
+          <div class="qz-q">
+            <p class="qz-stem">3. You reject a null hypothesis that is in fact true. This is...</p>
+            <div class="qz-opts">
+              <button class="qz-opt" type="button">a Type 2 error</button>
+              <button class="qz-opt" type="button" data-ok>a Type 1 error (a false positive)</button>
+              <button class="qz-opt" type="button">a correct decision</button>
+              <button class="qz-opt" type="button">low statistical power</button>
+            </div>
+            <div class="qz-fb">Rejecting a true null is a Type 1 error (false positive); its rate is alpha. Failing to reject a false null is a Type 2 error (false negative).</div>
+          </div>
+          <div class="qz-q">
+            <p class="qz-stem">4. Which design is analysed with an independent-samples t-test?</p>
+            <div class="qz-opts">
+              <button class="qz-opt" type="button">the same people measured twice</button>
+              <button class="qz-opt" type="button" data-ok>two separate groups, each measured once</button>
+              <button class="qz-opt" type="button">one group tested in three conditions</button>
+              <button class="qz-opt" type="button">matched pairs each measured before and after</button>
+            </div>
+            <div class="qz-fb">Two independent groups (between-subjects), interval DV, give the independent-samples t-test. Same-people or matched designs use a related-samples t-test.</div>
+          </div>
+          <div class="qz-q">
+            <p class="qz-stem">5. An independent-samples t-test has 15 people in each of two groups. The degrees of freedom are...</p>
+            <div class="qz-opts">
+              <button class="qz-opt" type="button">15</button>
+              <button class="qz-opt" type="button">30</button>
+              <button class="qz-opt" type="button" data-ok>28</button>
+              <button class="qz-opt" type="button">29</button>
+            </div>
+            <div class="qz-fb">For the independent t-test, df = N - 2 = 30 - 2 = 28, reported as t(28).</div>
+          </div>
+          <div class="qz-q">
+            <p class="qz-stem">6. In an independent-groups design, the main defence against confounding variables is...</p>
+            <div class="qz-opts">
+              <button class="qz-opt" type="button">counterbalancing</button>
+              <button class="qz-opt" type="button">choosing a larger alpha</button>
+              <button class="qz-opt" type="button" data-ok>random allocation of participants to conditions</button>
+              <button class="qz-opt" type="button">reporting the median instead of the mean</button>
+            </div>
+            <div class="qz-fb">Random allocation does not guarantee equal groups, but it prevents systematic bias. Counterbalancing is the remedy for order effects in repeated-measures designs.</div>
+          </div>
+          <div class="qz-q">
+            <p class="qz-stem">7. Your analysis returns p = .32, with alpha set at .05. You...</p>
+            <div class="qz-opts">
+              <button class="qz-opt" type="button">reject the null; a possible Type 1 error</button>
+              <button class="qz-opt" type="button" data-ok>fail to reject the null; a possible Type 2 error</button>
+              <button class="qz-opt" type="button">accept the null hypothesis as true</button>
+              <button class="qz-opt" type="button">conclude you have proven there is no effect</button>
+            </div>
+            <div class="qz-fb">p is above alpha, so you fail to reject H0. If a real effect exists but you missed it (perhaps underpowered), that is a Type 2 error. You never accept or prove the null.</div>
+          </div>
+          <div class="qz-q">
+            <p class="qz-stem">8. The non-parametric alternative to the independent-samples t-test is...</p>
+            <div class="qz-opts">
+              <button class="qz-opt" type="button">the paired-samples t-test</button>
+              <button class="qz-opt" type="button">Pearson's r</button>
+              <button class="qz-opt" type="button" data-ok>the Mann-Whitney U test</button>
+              <button class="qz-opt" type="button">the chi-square test</button>
+            </div>
+            <div class="qz-fb">Mann-Whitney U ranks the scores and makes no distribution assumptions. Use it when normality fails or the DV is only ordinal.</div>
+          </div>
+          <div class="qz-score">Score: 0 correct, 0 of 8 answered</div>
+        </div>
+      </details>
     </div>
 
     <div class="qchap"><h2 style="font-size:22px;font-weight:800;margin:4px 0 2px;color:var(--ink)">Class 6: Independent-Samples t-tests (2)</h2><p class="lead">Thursday 22 October, 20:00. Almost entirely hands-on SPSS: testing normality (histograms, Q-Q plots, Kolmogorov-Smirnov), checking outliers (boxplots), Levene's test, running the t-test and writing it up in APA.</p><div class="note"><span class="lab">Upcoming</span>Not released yet. For now, the full SPSS workflow is in the <b>SPSS Guide</b> tab, and the theory in Quant Methods Book, Chapter 6.</div></div>
@@ -2320,6 +2423,27 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
       const id=el.dataset.id;
       el.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&rel=0" title="Video explainer" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>';
     });
+  });
+
+  // ---- MCQ quizzes (delegated, works for any .quiz) ----
+  document.addEventListener('click',function(e){
+    const opt=e.target.closest('.qz-opt');
+    if(!opt)return;
+    const q=opt.closest('.qz-q');
+    if(!q||q.classList.contains('done'))return;
+    q.classList.add('done');
+    const ok=opt.hasAttribute('data-ok');
+    if(ok)q.classList.add('good');
+    q.querySelectorAll('.qz-opt').forEach(o=>{o.disabled=true; if(o.hasAttribute('data-ok'))o.classList.add('correct');});
+    if(!ok)opt.classList.add('wrong');
+    const quiz=q.closest('.qz');
+    if(quiz){
+      const total=quiz.querySelectorAll('.qz-q').length;
+      const correct=quiz.querySelectorAll('.qz-q.good').length;
+      const answered=quiz.querySelectorAll('.qz-q.done').length;
+      const sc=quiz.querySelector('.qz-score');
+      if(sc)sc.textContent='Score: '+correct+' correct, '+answered+' of '+total+' answered'+(answered===total?'. All done.':'');
+    }
   });
 
   // ---- classes (PSY1081) class picker ----
