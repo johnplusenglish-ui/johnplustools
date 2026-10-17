@@ -366,6 +366,7 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
         <button class="guide-nav-item" data-t="q6"><span class="guide-nav-dot"></span><span class="label">Ethics &amp; Research Methods</span></button>
         <button class="guide-nav-item" data-t="q7"><span class="guide-nav-dot"></span><span class="label">SPSS Guide</span><span class="trail"><span class="nav-k due">A1</span></span></button>
         <button class="guide-nav-item" data-t="q8"><span class="guide-nav-dot"></span><span class="label">Quant Methods Book</span></button>
+        <button class="guide-nav-item" data-t="q9"><span class="guide-nav-dot"></span><span class="label">Classes</span><span class="trail"><span class="nav-k due">C5</span></span></button>
       </nav>
     </div>
   </aside>
@@ -2142,6 +2143,148 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
   </div>
 </section>
 
+<!-- ======== PSY1081 q9 : CLASSES ======== -->
+<section class="pane wrap" id="q9">
+  <div class="dhead">
+    <div class="kicker">Learn the content · online classes</div>
+    <h2>Classes</h2>
+    <div class="pills"><span class="pill on">reworked notes</span><span class="pill">one per class</span><span class="pill">in plain terms</span></div>
+  </div>
+  <div class="intro-card">
+    <div class="lab">How to use this</div>
+    <p>My reworking of each online class, in plainer language than the slides, so you can revise or catch up without sitting through the deck again. It follows the class, points to the matching book chapters, and keeps the worked example and breakout tasks. It is a study aid, not the slides themselves. Classes 6 to 10 appear here as they are released.</p>
+  </div>
+
+  <div class="bookbar">
+    <div class="blab">Class</div>
+    <div class="bookchaps" id="clChips">
+      <button class="bchip" type="button" data-c="0">1</button>
+      <button class="bchip" type="button" data-c="1">2</button>
+      <button class="bchip" type="button" data-c="2">3</button>
+      <button class="bchip" type="button" data-c="3">4</button>
+      <button class="bchip on" type="button" data-c="4">5</button>
+      <button class="bchip" type="button" data-c="5">6</button>
+      <button class="bchip" type="button" data-c="6">7</button>
+      <button class="bchip" type="button" data-c="7">8</button>
+      <button class="bchip" type="button" data-c="8">9</button>
+      <button class="bchip" type="button" data-c="9">10</button>
+    </div>
+  </div>
+
+  <div id="classbook">
+
+    <div class="qchap"><h2 style="font-size:22px;font-weight:800;margin:4px 0 2px;color:var(--ink)">Class 1: Orientation</h2><p class="lead">Module welcome and how to work the course.</p><div class="note"><span class="lab">Notes being added</span>I have the deck; a reworked summary is coming. For now, see the Module Map and Roadmap tabs.</div></div>
+    <div class="qchap"><h2 style="font-size:22px;font-weight:800;margin:4px 0 2px;color:var(--ink)">Class 2: Module Overview</h2><p class="lead">How the module and its assessments fit together, plus the student survey.</p><div class="note"><span class="lab">Notes being added</span>I have the deck; a reworked summary is coming.</div></div>
+    <div class="qchap"><h2 style="font-size:22px;font-weight:800;margin:4px 0 2px;color:var(--ink)">Class 3: Research Ethics &amp; Scientific Writing</h2><p class="lead">Research ethics and academic writing, with the Sinclair and Chenneville articles.</p><div class="note"><span class="lab">Notes being added</span>I have the deck; a reworked summary is coming. For now, see the Ethics &amp; Research Methods tab.</div></div>
+    <div class="qchap"><h2 style="font-size:22px;font-weight:800;margin:4px 0 2px;color:var(--ink)">Class 4: Measurement, SPSS &amp; Research Methods</h2><p class="lead">Measurement scales, describing a single set of scores, and getting started in SPSS (GAD-7 dataset).</p><div class="note"><span class="lab">Notes being added</span>I have the deck; a reworked summary is coming. For now, see Quant Methods Book, Chapter 1.</div></div>
+
+    <!-- ===== CLASS 5 (full) ===== -->
+    <div class="qchap on">
+      <h2 style="font-size:22px;font-weight:800;margin:4px 0 2px;color:var(--ink)">Class 5: Statistical Inference &amp; Independent-Samples t-tests (1)</h2>
+      <p class="lead">Saturday 17 October 2026, with Dr Eccles and Dr Ryan. The step from describing a sample (Class 4) to making claims about the population it came from. Maps to the Quant Book <b>Chapter 2</b> (inference and hypothesis testing), with a look ahead to <b>Chapter 6</b> (independent t-test) and <b>Chapter 9</b> (designs).</p>
+      <div class="note"><span class="lab">The one idea</span>Class 4 described the scores in front of you. From here on you <b>infer</b>: you never measure the whole population, you estimate it from a sample, and every number you report carries that uncertainty.</div>
+
+      <h3 class="sec">Block 1: The logic of statistical inference</h3>
+      <div class="keyterms"><span>population vs sample</span><span>parameter vs statistic</span><span>p value</span><span>confidence interval</span><span>standard error</span></div>
+      <div class="abox"><ul>
+        <li><b>Inference</b> = generalising from a sample to a population, with a calculated degree of certainty based on probability. The <b>population</b> holds the true, fixed, unknown <b>parameters</b>; the <b>sample</b> gives you <b>statistics</b> that estimate them.</li>
+        <li>Two forms: <b>parameter estimation</b> ("what is the value, and how precisely do we know it?") and <b>hypothesis testing</b> ("is the value different from what we assumed?"). The rest of the module lives inside hypothesis testing.</li>
+        <li><b>Statistic vs parameter</b>: a statistic describes a sample (55% of polled voters), a parameter describes a whole group (90% of a class who raised their hand). A reported <b>margin of error</b> is the giveaway that you are looking at a statistic.</li>
+        <li><b>Statistical significance</b>: a result is significant if, at a set level of certainty, it is unlikely to be down to random fluctuation rather than a real effect.</li>
+        <li><b>The p value</b> is the probability of your result, or a more extreme one, <b>if the null hypothesis were true</b>. Psychology's benchmark is <b>p &lt; .05</b>. It is <b>not</b> the probability the null is true, not the probability your hunch is true, and says nothing about how big the effect is.</li>
+        <li><b>Confidence interval</b>: a range that should contain the true population value a set proportion of the time (usually 95%). If a 95% CI for a difference <b>excludes zero</b>, the result is significant at .05. A narrow CI means a precise estimate; a wide one means you know little, even if p dips below .05.</li>
+        <li><b>SD vs standard error</b>: the <b>SD</b> describes spread in your sample; the <b>standard error</b> = SD ÷ √N, and measures how far the sample mean is likely to sit from the true population mean. Bigger samples shrink the standard error.</li>
+        <li><b>Representative sampling</b> is what licenses the whole inference. Random sampling keeps systematic bias out. Sampling error (sample vs population gap) is unavoidable and shrinks with sample size, but a <b>biased</b> sample does not improve with size: a large biased sample is just confidently wrong.</li>
+      </ul></div>
+
+      <h3 class="sec">Block 2: Hypotheses, and the four steps</h3>
+      <p class="lead">A hypothesis is a formal, testable, specific prediction. Hypothesis testing has four steps, and every analysis in the module follows them:</p>
+      <ol class="steps">
+        <li><div class="h">State the hypotheses</div><div class="d"><b>H0 (null)</b>: the IV has no effect on the DV in the population (the "no effect" hypothesis). <b>H1 (alternative)</b>: the IV does affect the DV. They are two sides of one coin. We <b>test the null</b>, because science falsifies rather than verifies (innocent until proven guilty), and we <b>reject</b> or <b>fail to reject</b> it, never "accept" or "prove".</div></li>
+        <li><div class="h">Set the criterion</div><div class="d">Choose <b>alpha</b> in advance: .05 by convention, or .01 to be stricter. Alpha is the Type 1 error rate you accept. Picking it after seeing p is not hypothesis testing.</div></li>
+        <li><div class="h">Compute the test statistic</div><div class="d">Pick the test from the DV's scale, the question (difference or relationship) and the design (independent or related), then let SPSS compute it.</div></li>
+        <li><div class="h">Decide</div><div class="d">Compare the result to the criterion. If <b>p &lt; alpha</b>, reject H0 and report the effect; if not, fail to reject. Report the statistic, df, exact p and effect size.</div></li>
+      </ol>
+      <div class="note"><span class="lab">Worked example (runs through the class)</span>A fictitious <b>CBT and GAD-7</b> study: 30 anxious clients randomly assigned to 10 weeks of CBT or a waiting-list control, then all complete the GAD-7 anxiety scale (0 to 21). <b>IV</b> = CBT treatment, two levels (CBT vs control). <b>DV</b> = total anxiety score, measured by the GAD-7. <b>H1</b>: CBT clients show lower anxiety than controls. <b>H0</b>: CBT clients do not differ from controls.</div>
+      <div class="tscroll"><table class="tbl">
+        <thead><tr><th>Direction</th><th>What it predicts</th><th>Example wording</th></tr></thead>
+        <tbody>
+          <tr><td><b>One-tailed</b> (directional)</td><td>Which way the effect goes</td><td>"CBT clients will show <b>reduced</b> anxiety vs controls"</td></tr>
+          <tr><td><b>Two-tailed</b> (non-directional)</td><td>Only that there is a difference</td><td>"CBT clients will show <b>different</b> anxiety vs controls"</td></tr>
+        </tbody>
+      </table></div>
+      <p class="tnote">A directional hypothesis needs a theoretical reason for the direction. It is not a trick for pushing a marginal result over the line.</p>
+
+      <h3 class="sec">Block 3: When we get it wrong, Type 1 and Type 2 errors</h3>
+      <p class="lead">Reality (an effect exists or not) and your decision (reject H0 or not) may not match. Two of the four outcomes are errors:</p>
+      <div class="tscroll"><table class="tbl">
+        <thead><tr><th></th><th>H0 actually true</th><th>H0 actually false</th></tr></thead>
+        <tbody>
+          <tr><td><b>Reject H0</b></td><td><b>Type 1 error</b> (false positive, rate = alpha)</td><td>Correct</td></tr>
+          <tr><td><b>Fail to reject H0</b></td><td>Correct</td><td><b>Type 2 error</b> (false negative, rate = beta)</td></tr>
+        </tbody>
+      </table></div>
+      <div class="abox"><ul>
+        <li><b>Type 1</b>: you claim an effect that is not real. With alpha = .05, about 1 in 20 tests will do this by chance. (In the CBT study: the groups differed only because the CBT group happened to start less anxious.)</li>
+        <li><b>Type 2</b>: you miss a real effect, usually because the study is <b>underpowered</b> (too small). (In the CBT study: CBT worked, but the groups looked similar because the CBT group started more anxious.)</li>
+        <li>Lower alpha (.01) cuts Type 1 risk but raises Type 2 risk; more <b>power</b> (mainly a bigger sample) cuts Type 2 risk. The two trade off, so decide which error is worse in your situation first.</li>
+        <li>This is why <b>replication</b> matters: one significant finding is a beginning, not a verdict.</li>
+      </ul></div>
+
+      <h3 class="sec">Block 4: Experimental design</h3>
+      <div class="tscroll"><table class="tbl">
+        <thead><tr><th></th><th>Independent groups (between-subjects)</th><th>Repeated measures (within-subjects)</th></tr></thead>
+        <tbody>
+          <tr><td>Set-up</td><td>Each person in one condition only, randomly allocated</td><td>Each person does both conditions</td></tr>
+          <tr><td>DV measured</td><td>Once per person; scores compared across groups</td><td>Twice per person; scores compared across time</td></tr>
+          <tr><td>Analysed with</td><td><b>Independent-samples t-test</b></td><td><b>Related-samples t-test</b></td></tr>
+          <tr><td>Strength</td><td>No order effects; can study fixed attributes (e.g. gender)</td><td>Fewer participants; groups cannot differ (same people)</td></tr>
+          <tr><td>Watch for</td><td>Groups may differ by chance (confounds)</td><td><b>Order effects</b> (practice, fatigue, carry-over)</td></tr>
+        </tbody>
+      </table></div>
+      <p class="lead">The CBT study, as run, is an <b>independent groups</b> design. The remedy for order effects in a repeated-measures design is <b>counterbalancing</b> (half do A then B, half do B then A). An <b>extraneous variable</b> is anything besides the IV that could sway the DV (situational, participant or nuisance). A <b>confounding variable</b> is the dangerous kind: it varies <b>systematically</b> with the IV, so you cannot tell IV from confound. In an independent-groups design, <b>random allocation</b> is the main defence.</p>
+
+      <h3 class="sec">Block 5: Introducing the independent-samples t-test</h3>
+      <p class="lead">Choosing the test comes down to three questions:</p>
+      <ol class="steps">
+        <li><div class="h">What is the DV?</div><div class="d">Nominal → chi-square. At least ordinal → go on.</div></li>
+        <li><div class="h">Difference or relationship?</div><div class="d">Relationship → correlation. Difference → go on.</div></li>
+        <li><div class="h">What is the design?</div><div class="d">Two separate groups → independent samples. Same people twice → related samples.</div></li>
+      </ol>
+      <p class="lead">Two independent groups with an interval/ratio DV gives the <b>independent-samples t-test</b> (a parametric test of the difference between two group means). It is <b>robust</b> to modest violations of its assumptions. Those assumptions: one IV with two levels, independent groups, a scale DV, each group roughly normal, no serious outliers, and roughly equal variances. When normality fails or the DV is only ordinal, use the <b>Mann-Whitney U</b> (non-parametric): it ranks the scores, makes no distribution assumptions, is never wrong, but is a blunter instrument. Every t-test is reported with its <b>degrees of freedom</b>: for the independent t-test, <b>df = N - 2</b> (so two groups of 15 give df = 28, written t(28)).</p>
+
+      <details class="saq"><summary>Breakout task (try it, then check)</summary><div class="ans">
+        <p>Using the CBT and GAD-7 study: state H0 and H1 in full; is H1 one- or two-tailed; name the IV and its levels and the DV and its measurement; what does p = .03 let you conclude, and what error might you be making; and what about p = .32? Then redesign it as repeated measures: what do you gain and what problem appears?</p>
+        <p><b>Guide:</b> H0 = CBT clients will not differ from controls in anxiety; H1 (one-tailed) = CBT clients will show lower anxiety. IV = treatment (CBT vs control); DV = GAD-7 total (interval/ratio, so a t-test is allowed). <b>p = .03</b> → reject H0, CBT reduced anxiety; possible <b>Type 1</b> error. <b>p = .32</b> → fail to reject H0, no significant difference; possible <b>Type 2</b> error (maybe underpowered). <b>Repeated measures</b> → fewer participants and the groups cannot differ, but you introduce <b>order effects</b> (and here, giving everyone CBT removes the control comparison, so you would compare pre vs post instead).</p>
+      </div></details>
+
+      <h3 class="sec">Take-homes</h3>
+      <div class="note"><span class="lab">Five lines to remember</span>Inference is the whole game (we estimate the population, never measure it). We test the null, and reject or fail to reject it. p is a probability, not a verdict. Both errors are real: a significant result can be a false positive, a non-significant one a false negative. Design decides the test before you see a single number.</div>
+
+      <h3 class="sec">Before Class 6 (Thu 22 Oct, 20:00)</h3>
+      <ul class="check">
+        <li>Read Quant Book / Loop Part 2, <b>Section 2</b> (2.1 to 2.6) and do the SAQs (answers in 2.7).</li>
+        <li>Read ahead: Part 2, <b>Section 6</b> (6.1 to 6.5), the basis of Class 6.</li>
+        <li>Have your <b>GAD-7 dataset open in SPSS</b>, and make sure SPSS is installed and working (Class 6 is almost all hands-on SPSS).</li>
+        <li>Write out <b>H0 and H1 for your own Assignment 1 study</b>. If you cannot state them cleanly, the research question needs sharpening.</li>
+        <li>Keep working on <b>Assignment 1</b> (due Mon 2 Nov).</li>
+      </ul>
+    </div>
+
+    <div class="qchap"><h2 style="font-size:22px;font-weight:800;margin:4px 0 2px;color:var(--ink)">Class 6: Independent-Samples t-tests (2)</h2><p class="lead">Thursday 22 October, 20:00. Almost entirely hands-on SPSS: testing normality (histograms, Q-Q plots, Kolmogorov-Smirnov), checking outliers (boxplots), Levene's test, running the t-test and writing it up in APA.</p><div class="note"><span class="lab">Upcoming</span>Not released yet. For now, the full SPSS workflow is in the <b>SPSS Guide</b> tab, and the theory in Quant Methods Book, Chapter 6.</div></div>
+    <div class="qchap"><h2 style="font-size:22px;font-weight:800;margin:4px 0 2px;color:var(--ink)">Class 7: Related / Paired-Samples t-tests (1)</h2><p class="lead">Repeated-measures comparisons: the paired-samples t-test.</p><div class="note"><span class="lab">Upcoming</span>Not released yet. See Quant Methods Book, Chapter 7.</div></div>
+    <div class="qchap"><h2 style="font-size:22px;font-weight:800;margin:4px 0 2px;color:var(--ink)">Class 8: Related / Paired-Samples t-tests (2)</h2><p class="lead">More paired-samples work, plus the Wilcoxon signed-ranks alternative.</p><div class="note"><span class="lab">Upcoming</span>Not released yet. See Quant Methods Book, Chapter 7.</div></div>
+    <div class="qchap"><h2 style="font-size:22px;font-weight:800;margin:4px 0 2px;color:var(--ink)">Class 9: Correlations</h2><p class="lead">Relationships between two variables: Pearson's r and Spearman's rho.</p><div class="note"><span class="lab">Upcoming</span>Not released yet. See Quant Methods Book, Chapter 4.</div></div>
+    <div class="qchap"><h2 style="font-size:22px;font-weight:800;margin:4px 0 2px;color:var(--ink)">Class 10: Semester 1 Review &amp; Assignment 2 Prep</h2><p class="lead">Pulling the semester together and preparing for Assignment 2.</p><div class="note"><span class="lab">Upcoming</span>Not released yet.</div></div>
+
+  </div>
+
+  <div class="bnav">
+    <button id="clPrev" type="button">‹ Previous class</button>
+    <button id="clNext" type="button">Next class ›</button>
+  </div>
+</section>
+
 </div><!-- /mpane-wrap 81 -->
 
 <footer class="foot wrap">
@@ -2154,7 +2297,7 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
 <script>
   const navs=[...document.querySelectorAll('.guide-nav-item')];
   const mods=[...document.querySelectorAll('.pn-mods button')];
-  const panes={1:p1,2:p2,3:p3,4:p4,5:p5,6:p6,7:p7,8:p8,9:p9,q1:q1,q2:q2,q3:q3,q4:q4,q5:q5,q6:q6,q7:q7,q8:q8};
+  const panes={1:p1,2:p2,3:p3,4:p4,5:p5,6:p6,7:p7,8:p8,9:p9,q1:q1,q2:q2,q3:q3,q4:q4,q5:q5,q6:q6,q7:q7,q8:q8,q9:q9};
   function sel(id){navs.forEach(x=>x.classList.toggle('active',x.dataset.t===id));
     Object.entries(panes).forEach(([k,el])=>el.classList.toggle('on',k===id));
     window.scrollTo({top:0,behavior:'smooth'});}
@@ -2178,6 +2321,28 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
       el.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&rel=0" title="Video explainer" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>';
     });
   });
+
+  // ---- classes (PSY1081) class picker ----
+  (function(){
+    const chaps=[...document.querySelectorAll('#classbook .qchap')];
+    if(!chaps.length)return;
+    const chips=[...document.querySelectorAll('#clChips .bchip')];
+    const prev=document.getElementById('clPrev'), next=document.getElementById('clNext');
+    let i=Math.max(0,chips.findIndex(c=>c.classList.contains('on')));
+    function show(n){
+      i=Math.max(0,Math.min(chaps.length-1,n));
+      chaps.forEach((c,k)=>c.classList.toggle('on',k===i));
+      chips.forEach((c,k)=>c.classList.toggle('on',k===i));
+      if(prev)prev.disabled=(i===0);
+      if(next)next.disabled=(i===chaps.length-1);
+      const pane=document.getElementById('q9');
+      if(pane&&pane.classList.contains('on'))window.scrollTo({top:0,behavior:'smooth'});
+    }
+    chips.forEach((c,k)=>c.addEventListener('click',()=>show(k)));
+    if(prev)prev.addEventListener('click',()=>show(i-1));
+    if(next)next.addEventListener('click',()=>show(i+1));
+    show(i);
+  })();
 
   // ---- quant methods book (PSY1081) chapter picker ----
   (function(){
