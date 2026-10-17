@@ -390,6 +390,23 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
 .ckl-item.on .ckl-box{background:var(--accent);border-color:var(--accent)}
 .ckl-tx{font-size:14px;color:var(--ink);line-height:1.45}
 .ckl-item.on .ckl-tx{color:var(--muted);text-decoration:line-through}
+.wt-crumb{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 14px;font-size:11.5px;color:var(--muted)}
+.wt-crumb span{background:var(--bg);border:1px solid var(--border);border-radius:100px;padding:3px 10px}
+.wt-q{font-size:17px;font-weight:700;color:var(--ink);margin:0 0 14px;line-height:1.4}
+.wt-opt{display:block;width:100%;text-align:left;border:1px solid var(--border);background:var(--card);border-radius:var(--r-sm);padding:13px 16px;margin:0 0 9px;cursor:pointer;font-family:inherit}
+.wt-opt:hover{border-color:var(--accent);background:var(--bg)}
+.wt-ot{font-size:15px;font-weight:600;color:var(--ink)}
+.wt-os{font-size:12.5px;color:var(--muted);margin-top:2px}
+.wt-res{border:1px solid var(--accent);border-radius:var(--r);background:var(--accent-light);padding:20px 22px}
+.wt-rl{font-size:10px;letter-spacing:.09em;text-transform:uppercase;font-weight:800;color:var(--accent-dark);margin:0 0 5px}
+.wt-rn{font-size:21px;font-weight:800;color:var(--ink);margin:0 0 4px;letter-spacing:-.01em}
+.wt-sec{margin-top:13px}
+.wt-sec .k{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:800;color:var(--accent-dark);margin-bottom:4px}
+.wt-sec ul{margin:0;padding-left:18px;font-size:13.5px;color:var(--ink);line-height:1.5}
+.wt-sec li{margin:0 0 3px}
+.wt-sec p{margin:0;font-size:13.5px;color:var(--ink);line-height:1.5}
+.wt-again{margin-top:16px;border:1px solid var(--border);background:var(--card);border-radius:9px;padding:9px 15px;font-family:inherit;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer}
+.wt-again:hover{border-color:var(--accent);color:var(--accent)}
 .bchip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
 .qchap{display:none}
 .qchap.on{display:block;animation:fade .25s ease}
@@ -467,6 +484,7 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
         <div class="pn-eyebrow">Learn the content</div>
         <button class="guide-nav-item" data-t="q6"><span class="guide-nav-dot"></span><span class="label">Ethics &amp; Research Methods</span></button>
         <button class="guide-nav-item" data-t="q7"><span class="guide-nav-dot"></span><span class="label">SPSS Guide</span><span class="trail"><span class="nav-k due">A1</span></span></button>
+        <button class="guide-nav-item" data-t="q12"><span class="guide-nav-dot"></span><span class="label">Which Test?</span></button>
         <button class="guide-nav-item" data-t="q8"><span class="guide-nav-dot"></span><span class="label">Quant Methods Book</span></button>
         <button class="guide-nav-item" data-t="q9"><span class="guide-nav-dot"></span><span class="label">Classes</span><span class="trail"><span class="nav-k due">C5</span></span></button>
       </nav>
@@ -2997,6 +3015,20 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
   <div class="note"><span class="lab">The one that fails you</span>Every piece of <b>SPSS output must be pasted into the appendices</b>. Missing output is an automatic fail on that task, no matter how good the analysis is.</div>
 </section>
 
+<!-- ======== PSY1081 q12 : WHICH TEST ======== -->
+<section class="pane wrap" id="q12">
+  <div class="dhead">
+    <div class="kicker">Learn the content · decision tool</div>
+    <h2>Which Test?</h2>
+    <div class="pills"><span class="pill on">answer 3 questions</span><span class="pill">get the test + how to report it</span></div>
+  </div>
+  <div class="intro-card">
+    <div class="lab">How to use this</div>
+    <p>Answer the questions about your study and this gives you the right test, its assumptions, the SPSS menu path, and the sentence to write it up in APA. It follows exactly the logic from Class 5: <b>the data, the question, the design</b>. Use it whenever you are setting up an analysis for an assignment.</p>
+  </div>
+  <div id="whichTest"></div>
+</section>
+
 </div><!-- /mpane-wrap 81 -->
 
 <footer class="foot wrap">
@@ -3009,7 +3041,7 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
 <script>
   const navs=[...document.querySelectorAll('.guide-nav-item')];
   const mods=[...document.querySelectorAll('.pn-mods button')];
-  const panes={1:p1,2:p2,3:p3,4:p4,5:p5,6:p6,7:p7,8:p8,9:p9,10:p10,q1:q1,q2:q2,q3:q3,q4:q4,q5:q5,q6:q6,q7:q7,q8:q8,q9:q9,q10:q10,q11:q11};
+  const panes={1:p1,2:p2,3:p3,4:p4,5:p5,6:p6,7:p7,8:p8,9:p9,10:p10,q1:q1,q2:q2,q3:q3,q4:q4,q5:q5,q6:q6,q7:q7,q8:q8,q9:q9,q10:q10,q11:q11,q12:q12};
   function sel(id){navs.forEach(x=>x.classList.toggle('active',x.dataset.t===id));
     Object.entries(panes).forEach(([k,el])=>el.classList.toggle('on',k===id));
     window.scrollTo({top:0,behavior:'smooth'});}
@@ -3189,6 +3221,118 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
       try{localStorage.setItem(KEY,JSON.stringify(state));}catch(err){}
       upd();});
     upd();
+  })();
+
+  // ---- which test? decision tool (PSY1081) ----
+  (function(){
+    var host=document.getElementById('whichTest'); if(!host)return;
+    var dv=null, crumb=[];
+    var R={
+      chi:{n:'Chi-square test of independence',
+        d:'Tests whether two categorical variables are associated, by comparing the counts you observed against the counts you would expect if they were unrelated.',
+        a:['Data are frequencies (counts), not means','Each case appears in one cell only','An expected count of 5 or more in (nearly) every cell'],
+        s:'Analyze → Descriptive Statistics → Crosstabs → Statistics → tick Chi-square',
+        r:'A chi-square test showed [a significant / no significant] association between [variable 1] and [variable 2], chi-square(df) = __, p = __. Report phi (2x2) or Cramer’s V as the effect size.',
+        w:'Quant Methods Book, chapter 5'},
+      pearson:{n:'Pearson’s r correlation',
+        d:'Measures the strength and direction of a straight-line relationship between two proper-number variables.',
+        a:['Both variables interval or ratio','The relationship is roughly a straight line','No extreme outliers; roughly normal'],
+        s:'Analyze → Correlate → Bivariate → tick Pearson',
+        r:'There was a [strong positive] correlation between [X] and [Y], r(df) = __, p = __. (df = N - 2.) Report r squared as the effect size.',
+        w:'Quant Methods Book, chapter 4'},
+      spearman:{n:'Spearman’s rho correlation',
+        d:'Asks the same question as Pearson, but works on the ranks, so it needs no assumption about the shape of the data.',
+        a:['Data at least ordinal','The relationship is monotonic (moves one way)','No assumption about distribution shape'],
+        s:'Analyze → Correlate → Bivariate → tick Spearman',
+        r:'There was a [moderate negative] relationship between [X] and [Y], rs = __, p = __.',
+        w:'Quant Methods Book, chapter 4'},
+      indt:{n:'Independent-samples t-test',
+        d:'Compares the mean scores of two separate groups of people. This is the test behind Assignment 1, Tasks 1 and 2.',
+        a:['Interval or ratio DV','Two independent groups (different people)','Roughly normal in each group, no serious outliers','Roughly equal variances (checked by Levene’s test)'],
+        s:'Analyze → Compare Means → Independent-Samples T Test (Define Groups 1 and 2)',
+        r:'An independent-samples t-test compared [DV] between [group 1] and [group 2]. There was [a / no] statistically significant difference, t(df) = __, p = __, d = __. (df = N - 2. Use Levene’s test to pick which row to read.)',
+        w:'Quant Methods Book chapter 6, plus the SPSS Guide tab'},
+      mw:{n:'Mann-Whitney U test',
+        d:'The non-parametric alternative to the independent t-test. It ranks all the scores and checks whether one group’s ranks sit higher than the other’s.',
+        a:['DV at least ordinal','Two independent groups','No assumption about distribution shape'],
+        s:'Analyze → Nonparametric Tests → Legacy Dialogs → 2 Independent Samples → Mann-Whitney U',
+        r:'A Mann-Whitney U test showed [a / no] statistically significant difference in [DV] between [group 1] and [group 2], U = __, z = __, p = __. Quote medians rather than means. Effect size r = z divided by the square root of N.',
+        w:'Quant Methods Book chapter 6, plus the SPSS Guide tab'},
+      pairt:{n:'Paired-samples t-test',
+        d:'Compares the same people measured twice (or matched pairs), by testing whether the mean of the differences is far enough from zero.',
+        a:['Interval or ratio DV','Related/paired scores (same or matched people)','The differences are roughly normal'],
+        s:'Analyze → Compare Means → Paired-Samples T Test',
+        r:'A paired-samples t-test compared [DV] at [time 1] and [time 2]. There was [a / no] statistically significant difference, t(df) = __, p = __, d = __. (df = number of pairs - 1.)',
+        w:'Quant Methods Book, chapter 7'},
+      wil:{n:'Wilcoxon signed-ranks test',
+        d:'The non-parametric alternative to the paired t-test. It ranks the sizes of the differences and checks whether the positives and negatives balance.',
+        a:['DV at least ordinal','Related/paired scores','No assumption about distribution shape'],
+        s:'Analyze → Nonparametric Tests → Legacy Dialogs → 2 Related Samples → Wilcoxon',
+        r:'A Wilcoxon signed-ranks test showed [a / no] statistically significant change in [DV], z = __, p = __. Quote medians.',
+        w:'Quant Methods Book, chapter 7'}
+    };
+    function crumbHtml(){return crumb.length?'<div class="wt-crumb">'+crumb.map(function(c){return '<span>'+c+'</span>';}).join('')+'</div>':'';}
+    function ask(q,opts){
+      host.innerHTML=crumbHtml()+'<div class="wt-q">'+q+'</div>'+opts.map(function(o,i){
+        return '<button class="wt-opt" type="button" data-i="'+i+'"><div class="wt-ot">'+o.t+'</div>'+(o.s?'<div class="wt-os">'+o.s+'</div>':'')+'</button>';
+      }).join('');
+      [].forEach.call(host.querySelectorAll('.wt-opt'),function(b){
+        b.addEventListener('click',function(){var o=opts[+b.dataset.i];crumb.push(o.c||o.t);o.go();});
+      });
+    }
+    function result(k){
+      var r=R[k];
+      host.innerHTML=crumbHtml()+'<div class="wt-res"><div class="wt-rl">Your test</div><div class="wt-rn">'+r.n+'</div>'+
+        '<div class="wt-sec"><p>'+r.d+'</p></div>'+
+        '<div class="wt-sec"><div class="k">Assumptions to check</div><ul>'+r.a.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul></div>'+
+        '<div class="wt-sec"><div class="k">In SPSS</div><p>'+r.s+'</p></div>'+
+        '<div class="wt-sec"><div class="k">How to report it (APA)</div><p>'+r.r+'</p></div>'+
+        '<div class="wt-sec"><div class="k">Read more</div><p>'+r.w+'</p></div>'+
+        '</div><button class="wt-again" type="button">Start over</button>';
+      host.querySelector('.wt-again').addEventListener('click',start);
+    }
+    function q3b(){
+      if(dv==='ordinal')return result('wil');
+      ask('Are the differences between the two scores roughly normal, with no serious outliers?',[
+        {t:'Yes, they look roughly normal',s:'Shapiro-Wilk is above .05 on the differences',c:'Differences normal',go:function(){result('pairt');}},
+        {t:'No, they are skewed or have outliers',s:'Or you are not sure',c:'Not normal',go:function(){result('wil');}}
+      ]);
+    }
+    function q3a(){
+      if(dv==='ordinal')return result('mw');
+      ask('Are the scores roughly normal in each group, with no serious outliers?',[
+        {t:'Yes, both groups look roughly normal',s:'Shapiro-Wilk is above .05 in both groups',c:'Groups normal',go:function(){result('indt');}},
+        {t:'No, they are skewed or have outliers',s:'Or you are not sure',c:'Not normal',go:function(){result('mw');}}
+      ]);
+    }
+    function q2d(){
+      ask('Who provided the two sets of scores?',[
+        {t:'Two separate groups of people',s:'Each person appears once (between-subjects)',c:'Separate groups',go:q3a},
+        {t:'The same people, measured twice',s:'Or matched pairs (within-subjects)',c:'Same people twice',go:q3b}
+      ]);
+    }
+    function q2r(){
+      if(dv==='ordinal')return result('spearman');
+      ask('Is the relationship roughly a straight line, with no extreme outliers?',[
+        {t:'Yes, it looks linear and well behaved',s:'Check the scatterplot first',c:'Linear',go:function(){result('pearson');}},
+        {t:'No, it is curved, skewed or has outliers',s:'Or you are not sure',c:'Not linear',go:function(){result('spearman');}}
+      ]);
+    }
+    function q1(){
+      ask('What are you asking about the data?',[
+        {t:'Is there a relationship between two variables?',s:'Do they move together, e.g. does anxiety rise as sleep falls?',c:'Relationship',go:q2r},
+        {t:'Is there a difference between two sets of scores?',s:'Is one group higher than the other, e.g. CBT vs control?',c:'Difference',go:q2d}
+      ]);
+    }
+    function start(){
+      dv=null;crumb=[];
+      ask('What kind of data is your dependent variable (the thing you measured)?',[
+        {t:'Categories or counts',s:'Nominal, e.g. yes/no, flavour, county of residence',c:'Nominal DV',go:function(){result('chi');}},
+        {t:'Ranked positions',s:'Ordinal, e.g. 1st to 8th place, a 1 to 5 rating',c:'Ordinal DV',go:function(){dv='ordinal';q1();}},
+        {t:'Proper numbers with equal gaps',s:'Interval or ratio, e.g. reaction time, GAD-7 total, test score',c:'Scale DV',go:function(){dv='scale';q1();}}
+      ]);
+    }
+    start();
   })();
 
   // ---- visual aids (reusable, multi-instance) ----
