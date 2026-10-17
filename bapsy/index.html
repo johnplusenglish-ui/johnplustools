@@ -5632,11 +5632,14 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
       btn.querySelector('.bb-lab').textContent=base;
       lab.parentNode.replaceChild(btn,lab);
       var cur=btn.querySelector('.bb-cur');
+      var pane=bar.closest('.pane');
       function sync(){
         var on=chips.querySelector('.bchip.on')||chips.querySelector('.bchip');
         if(!on)return;
+        // prefer the open chapter's own heading, so the collapsed bar names where you are
+        var head=pane?pane.querySelector('.qchap.on h2'):null;
         var t=on.getAttribute('title');
-        cur.textContent=on.textContent.trim()+(t?'. '+t:'');
+        cur.textContent=head?head.textContent.trim():(on.textContent.trim()+(t?'. '+t:''));
       }
       if(window.MutationObserver)new MutationObserver(sync).observe(chips,{subtree:true,attributes:true,attributeFilter:['class']});
       sync();
