@@ -367,6 +367,29 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
 .viz-help li{margin:0 0 4px}
 .viz-help li:last-child{margin-bottom:0}
 .viz-help b{color:var(--ink)}
+.ddash{margin:14px 0}
+.dd-row{display:flex;align-items:center;gap:14px;padding:14px 16px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--card);margin:0 0 10px}
+.dd-when{flex:none;text-align:center;min-width:70px}
+.dd-days{font-size:23px;font-weight:800;line-height:1;color:var(--ink)}
+.dd-dlab{font-size:9.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700;margin-top:4px}
+.dd-main{flex:1;min-width:0}
+.dd-title{font-size:15px;font-weight:700;color:var(--ink)}
+.dd-meta{font-size:12.5px;color:var(--muted);margin-top:2px}
+.dd-wt{flex:none;font-size:12px;font-weight:800;background:var(--accent-light);color:var(--accent-dark);border-radius:100px;padding:4px 11px}
+.dd-mod{flex:none;font-size:9.5px;font-weight:800;letter-spacing:.05em;color:var(--muted);border:1px solid var(--border);border-radius:5px;padding:2px 6px}
+.dd-row.soon{border-color:var(--due);background:#fdf4f3}
+.dd-row.soon .dd-days{color:var(--due)}
+.dd-row.tba{opacity:.6}
+.ckl-bar{height:8px;background:var(--border-soft);border-radius:100px;overflow:hidden;margin:16px 0 7px}
+.ckl-fill{height:100%;background:var(--accent);width:0;transition:width .25s}
+.ckl-pct{font-size:13px;color:var(--muted);font-weight:700;margin:0 0 18px}
+.ckl-h{font-size:13px;font-weight:800;color:var(--ink);margin:18px 0 8px}
+.ckl-item{display:flex;gap:11px;align-items:flex-start;padding:9px 12px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--card);margin:0 0 7px;cursor:pointer}
+.ckl-item:hover{border-color:var(--accent)}
+.ckl-box{flex:none;width:19px;height:19px;border-radius:5px;border:1.5px solid var(--border);margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;font-weight:800;background:var(--card)}
+.ckl-item.on .ckl-box{background:var(--accent);border-color:var(--accent)}
+.ckl-tx{font-size:14px;color:var(--ink);line-height:1.45}
+.ckl-item.on .ckl-tx{color:var(--muted);text-decoration:line-through}
 .bchip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
 .qchap{display:none}
 .qchap.on{display:block;animation:fade .25s ease}
@@ -421,6 +444,7 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
         <button class="guide-nav-item" data-t="3"><span class="guide-nav-dot"></span><span class="label">Assignment Briefs</span></button>
         <button class="guide-nav-item" data-t="4"><span class="guide-nav-dot"></span><span class="label">Rules &amp; Dates</span></button>
         <button class="guide-nav-item" data-t="5"><span class="guide-nav-dot"></span><span class="label">Reading List</span></button>
+        <button class="guide-nav-item" data-t="10"><span class="guide-nav-dot"></span><span class="label">Deadlines</span></button>
         <div class="pn-rule"></div>
         <div class="pn-eyebrow">Learn the content</div>
         <button class="guide-nav-item" data-t="6"><span class="guide-nav-dot"></span><span class="label">Developmental Psychology</span></button>
@@ -437,6 +461,8 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
         <button class="guide-nav-item" data-t="q3"><span class="guide-nav-dot"></span><span class="label">Assignment Briefs</span></button>
         <button class="guide-nav-item" data-t="q4"><span class="guide-nav-dot"></span><span class="label">Rules &amp; Dates</span></button>
         <button class="guide-nav-item" data-t="q5"><span class="guide-nav-dot"></span><span class="label">Reading List</span></button>
+        <button class="guide-nav-item" data-t="q10"><span class="guide-nav-dot"></span><span class="label">Deadlines</span></button>
+        <button class="guide-nav-item" data-t="q11"><span class="guide-nav-dot"></span><span class="label">A1 Checklist</span><span class="trail"><span class="nav-k due">2 Nov</span></span></button>
         <div class="pn-rule"></div>
         <div class="pn-eyebrow">Learn the content</div>
         <button class="guide-nav-item" data-t="q6"><span class="guide-nav-dot"></span><span class="label">Ethics &amp; Research Methods</span></button>
@@ -1344,6 +1370,20 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
     </table>
   </div>
   <p class="tnote">In your 700-word review, map each breach to the formal principles in the <b>PSI</b> and <b>BPS</b> codes (respect, competence, responsibility, integrity), and say what a modern ethics committee would require instead.</p>
+</section>
+
+<!-- ======== PSY1080 p10 : DEADLINES ======== -->
+<section class="pane wrap" id="p10">
+  <div class="dhead">
+    <div class="kicker">Everything due, both modules</div>
+    <h2>Deadlines</h2>
+    <div class="pills"><span class="pill on">live countdown</span><span class="pill">PSY1080 + PSY1081</span></div>
+  </div>
+  <div class="intro-card">
+    <div class="lab">How to use this</div>
+    <p>Every assignment across both modules, sorted by what is due next, with the days remaining counted from today. Anything in red is within three weeks. Always confirm dates against Loop, as they can change.</p>
+  </div>
+  <div class="ddash"></div>
 </section>
 
 </div><!-- /mpane-wrap 80 -->
@@ -2928,6 +2968,35 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
   </div>
 </section>
 
+<!-- ======== PSY1081 q10 : DEADLINES ======== -->
+<section class="pane wrap" id="q10">
+  <div class="dhead">
+    <div class="kicker">Everything due, both modules</div>
+    <h2>Deadlines</h2>
+    <div class="pills"><span class="pill on">live countdown</span><span class="pill">PSY1080 + PSY1081</span></div>
+  </div>
+  <div class="intro-card">
+    <div class="lab">How to use this</div>
+    <p>Every assignment across both modules, sorted by what is due next, with the days remaining counted from today. Anything in red is within three weeks. Always confirm dates against Loop, as they can change.</p>
+  </div>
+  <div class="ddash"></div>
+</section>
+
+<!-- ======== PSY1081 q11 : A1 CHECKLIST ======== -->
+<section class="pane wrap" id="q11">
+  <div class="dhead">
+    <div class="kicker">Assignment 1 · due Monday 2 November 2026</div>
+    <h2>A1 Progress Checklist</h2>
+    <div class="pills"><span class="pill on">tracked</span><span class="pill">saves as you go</span></div>
+  </div>
+  <div class="intro-card">
+    <div class="lab">How to use this</div>
+    <p>Tick each step as you finish it. Your progress saves in this browser, so it is still here when you come back. The three tasks follow the brief exactly, and the last block is where the easy marks get lost.</p>
+  </div>
+  <div id="cklA1"></div>
+  <div class="note"><span class="lab">The one that fails you</span>Every piece of <b>SPSS output must be pasted into the appendices</b>. Missing output is an automatic fail on that task, no matter how good the analysis is.</div>
+</section>
+
 </div><!-- /mpane-wrap 81 -->
 
 <footer class="foot wrap">
@@ -2940,7 +3009,7 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
 <script>
   const navs=[...document.querySelectorAll('.guide-nav-item')];
   const mods=[...document.querySelectorAll('.pn-mods button')];
-  const panes={1:p1,2:p2,3:p3,4:p4,5:p5,6:p6,7:p7,8:p8,9:p9,q1:q1,q2:q2,q3:q3,q4:q4,q5:q5,q6:q6,q7:q7,q8:q8,q9:q9};
+  const panes={1:p1,2:p2,3:p3,4:p4,5:p5,6:p6,7:p7,8:p8,9:p9,10:p10,q1:q1,q2:q2,q3:q3,q4:q4,q5:q5,q6:q6,q7:q7,q8:q8,q9:q9,q10:q10,q11:q11};
   function sel(id){navs.forEach(x=>x.classList.toggle('active',x.dataset.t===id));
     Object.entries(panes).forEach(([k,el])=>el.classList.toggle('on',k===id));
     window.scrollTo({top:0,behavior:'smooth'});}
@@ -3031,6 +3100,95 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
     }
     P.addEventListener('input',render);
     drawStory(); render();
+  })();
+
+  // ---- deadline dashboard (both modules) ----
+  (function(){
+    var hosts=document.querySelectorAll('.ddash'); if(!hosts.length)return;
+    var items=[
+      {m:'PSY1081',t:'Assignment 1: ethical review + two SPSS analyses',w:'20%',d:'2026-11-02',note:'23:59'},
+      {m:'PSY1080',t:'Assignment 1: developmental essay + Gibbs reflection',w:'30%',d:'2026-11-23',note:'23:58'},
+      {m:'PSY1081',t:'Assignment 2: quantitative data analysis',w:'20%',d:'2026-12-07',note:'confirm on Loop'},
+      {m:'PSY1080',t:'Assignment 2: personality test review + forum posts',w:'30%',d:'2027-02-15',note:'forum 18 Jan to 8 Feb'},
+      {m:'PSY1081',t:'Assignment 3: quantitative research report',w:'30%',d:null,note:'Semester 2, date to be posted'},
+      {m:'PSY1081',t:'Assignment 4: qualitative research methods',w:'30%',d:null,note:'Semester 2, date to be posted'},
+      {m:'PSY1080',t:'Assignment 3: academic essay + Loop Reflect',w:'40%',d:null,note:'Date to be posted'}
+    ];
+    var today=new Date(); today.setHours(0,0,0,0);
+    var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    items.forEach(function(x){x.days = x.d ? Math.round((new Date(x.d+'T00:00:00')-today)/86400000) : null;});
+    items.sort(function(a,b){if(a.days===null&&b.days===null)return 0;if(a.days===null)return 1;if(b.days===null)return -1;return a.days-b.days;});
+    var html=items.map(function(x){
+      var soon = x.days!==null && x.days<=21 && x.days>=0;
+      var when = x.days===null ? '<div class="dd-days" style="font-size:14px">TBA</div>'
+        : '<div class="dd-days">'+x.days+'</div><div class="dd-dlab">'+(x.days===1?'day left':'days left')+'</div>';
+      var dstr='Date to be posted';
+      if(x.d){var dt=new Date(x.d+'T00:00:00');dstr=dt.getDate()+' '+MON[dt.getMonth()]+' '+dt.getFullYear();}
+      return '<div class="dd-row'+(soon?' soon':'')+(x.days===null?' tba':'')+'">'+
+        '<div class="dd-when">'+when+'</div>'+
+        '<div class="dd-main"><div class="dd-title">'+x.t+'</div><div class="dd-meta"><span class="dd-mod">'+x.m+'</span> '+dstr+(x.note?' · '+x.note:'')+'</div></div>'+
+        '<div class="dd-wt">'+x.w+'</div></div>';
+    }).join('');
+    hosts.forEach(function(h){h.innerHTML=html;});
+  })();
+
+  // ---- A1 progress checklist (PSY1081) ----
+  (function(){
+    var host=document.getElementById('cklA1'); if(!host)return;
+    var groups=[
+      {h:'Task 1: mindfulness vs control (SART) · 35 marks', items:[
+        'Table 1 data entered in SPSS, variables named and Measure set',
+        '(a) Null and alternative hypotheses written, directional or not stated',
+        '(b) IV named with its two levels, and the DV stated',
+        '(c) One extraneous variable identified, with a specific way to control it',
+        '(d) Assumptions tested and reported in full (Shapiro-Wilk, boxplot, Levene’s)',
+        '(e) ONE APA table and ONE APA chart in the main report',
+        '(f) Main analysis reported in full (t, df, p, Cohen’s d, or U, z, p, r)'
+      ]},
+      {h:'Task 2: cinema phone-checking (under 30 vs over 40) · 35 marks', items:[
+        'Table 2 data entered in SPSS',
+        '(a) Null and alternative hypotheses',
+        '(b) IV with its two levels, and the DV',
+        '(c) Extraneous variable + how to control it',
+        '(d) Assumptions tested and reported in full',
+        '(e) ONE APA table and ONE APA chart',
+        '(f) Main analysis reported in full'
+      ]},
+      {h:'Task 3: ethical review · 700 words · 30 marks', items:[
+        'Scenario 1: main ethical issue identified and explained (300 words)',
+        'Scenario 1: related to the PSI / BPS / APA codes, with an ethical alternative',
+        'Scenario 2: main ethical issue identified and explained (300 words)',
+        'Scenario 2: related to the codes, with an ethical alternative',
+        'Overall conclusion written (100 words)',
+        'Codes cited properly in APA (PSI 2019, BPS 2018, APA 2017)'
+      ]},
+      {h:'Before you submit', items:[
+        'ALL SPSS output pasted into the appendices (missing output = automatic fail)',
+        'Cover page and contents page included',
+        'Each task starts on a new page',
+        'APA formatting and referencing checked throughout',
+        'Saved with the right filename (PSY1081_A1_2026_InitialSurname)',
+        'Uploaded before Monday 2 November 2026, 23:59'
+      ]}
+    ];
+    var KEY='bapsy_a1_checklist_v1', state={};
+    try{state=JSON.parse(localStorage.getItem(KEY)||'{}');}catch(e){}
+    var total=0, html='<div class="ckl-bar"><div class="ckl-fill" id="cklFill"></div></div><div class="ckl-pct" id="cklPct"></div>';
+    groups.forEach(function(g,gi){
+      html+='<div class="ckl-h">'+g.h+'</div>';
+      g.items.forEach(function(t,ii){var id=gi+'-'+ii;total++;
+        html+='<div class="ckl-item'+(state[id]?' on':'')+'" data-id="'+id+'"><div class="ckl-box">✓</div><div class="ckl-tx">'+t+'</div></div>';});
+    });
+    host.innerHTML=html;
+    var fill=document.getElementById('cklFill'), pct=document.getElementById('cklPct');
+    function upd(){var done=host.querySelectorAll('.ckl-item.on').length,p=Math.round(done/total*100);
+      fill.style.width=p+'%';pct.textContent=done+' of '+total+' done ('+p+'%)';}
+    host.addEventListener('click',function(e){
+      var it=e.target.closest('.ckl-item'); if(!it)return;
+      it.classList.toggle('on'); state[it.dataset.id]=it.classList.contains('on');
+      try{localStorage.setItem(KEY,JSON.stringify(state));}catch(err){}
+      upd();});
+    upd();
   })();
 
   // ---- visual aids (reusable, multi-instance) ----
