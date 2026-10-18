@@ -309,6 +309,33 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
 .bc-sec .k{font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:5px}
 .bc-sec p{font-size:14.5px;color:var(--ink);line-height:1.6;margin:0}
 .bc-sec p b{font-weight:600}
+    .bc-sec ul{margin:4px 0 0;padding:0;list-style:none}
+    .bc-sec ul li{position:relative;padding:7px 0 7px 18px;font-size:14px;color:var(--muted);border-top:1px solid var(--border-soft);line-height:1.55}
+    .bc-sec ul li:first-child{border-top:0}
+    .bc-sec ul li::before{content:"";position:absolute;left:0;top:14px;width:5px;height:5px;border-radius:50%;background:var(--accent)}
+    .bc-sec ul li b{color:var(--ink);font-weight:600}
+    .bc-sec.crit ul li::before{background:var(--due)}
+    .bc-for.bl .k{display:block;margin:0 0 5px}
+    .bc-for ul{margin:0;padding:0;list-style:none}
+    .bc-for ul li{position:relative;padding:5px 0 5px 16px;line-height:1.5}
+    .bc-for ul li::before{content:"";position:absolute;left:0;top:12px;width:4px;height:4px;border-radius:50%;background:var(--muted)}
+    /* assignment ordering for the people pickers */
+    .ordsw{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px}
+    .ordsw .ordlab{font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);font-weight:800;margin-right:2px}
+    .ordbtn{height:28px;padding:0 11px;border-radius:8px;border:1px solid var(--border);background:var(--card);font-family:inherit;font-weight:700;font-size:12px;color:var(--muted);cursor:pointer}
+    .ordbtn:hover{border-color:var(--accent);color:var(--accent)}
+    .ordbtn.on{background:var(--ink);border-color:var(--ink);color:#fff}
+    .bookbar.bb-closed .ordsw{display:none}
+    .bgrp{flex:0 0 100%;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:var(--muted);margin:9px 0 1px;display:flex;align-items:center;gap:7px}
+    .bgrp:first-child{margin-top:2px}
+    .bgrp::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--muted);flex:none}
+    .bgrp.g1{color:var(--due)} .bgrp.g1::before{background:var(--due)}
+    .bgrp.g2{color:var(--accent)} .bgrp.g2::before{background:var(--accent)}
+    .bgrp.g3{color:#B4530A} .bgrp.g3::before{background:#B4530A}
+    .agtag{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:var(--muted);background:var(--bg);border:1px solid var(--border);border-radius:999px;padding:4px 11px;margin:0 0 9px}
+    .agtag.g1{color:var(--due);background:var(--due-light);border-color:var(--due-light)}
+    .agtag.g2{color:var(--accent);background:var(--accent-light);border-color:var(--accent-light)}
+    .agtag.g3{color:#B4530A;background:#FBF0E4;border-color:#FBF0E4}
 .bc-sec.crit .k{color:var(--due)}
 .bc-for{margin-top:16px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px 15px;font-size:13.5px;color:var(--muted);line-height:1.55}
 .bc-for .k{font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted);margin-right:7px}
@@ -1306,105 +1333,256 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
     <article class="biocard on">
       <div class="bc-head"><div class="bc-mono">EE</div><div><div class="bc-name">Erik Erikson</div><div class="bc-meta">1902–1994 · German-American · <span class="bc-tag">Developmental · your lead lens</span></div></div></div>
       <div class="bc-sec"><div class="k">Context</div><p>A psychoanalyst trained under Anna Freud who reworked Freud's ideas into a social, lifelong model of development in <b>Childhood and Society</b> (1950).</p></div>
-      <div class="bc-sec"><div class="k">Big idea</div><p>Development continues across the <b>whole lifespan</b> through <b>eight psychosocial stages</b>. Each stage is a crisis between two outcomes, and resolving it well builds a lasting strength, or "virtue." The drivers are <b>social and relational</b>, not sexual, which is his break from Freud.</p></div>
-      <div class="bc-sec"><div class="k">The early stages</div><p>Trust vs Mistrust (0–1, hope), <b>Autonomy vs Shame/Doubt (1–3, will)</b>, Initiative vs Guilt (3–6, purpose), Industry vs Inferiority (6–12, competence). Your toddlers (1–3) are in <b>Autonomy vs Shame/Doubt</b>: they assert independence ("me do it") and test limits. Supported, they gain will and confidence; over-controlled or shamed, they feel doubt. Initiative vs Guilt is the next stage.</p></div>
+      <div class="bc-sec"><div class="k">Big idea</div><ul>
+        <li>Development runs across the <b>whole lifespan</b>, in <b>eight psychosocial stages</b>.</li>
+        <li>Each stage is a <b>crisis</b> between two outcomes. Resolve it well and you gain a lasting strength, which he called a virtue.</li>
+        <li>The drivers are <b>social and relational</b>, not sexual. That is his break from Freud.</li>
+      </ul></div>
+      <div class="bc-sec"><div class="k">The early stages</div><ul>
+        <li><b>Trust vs Mistrust</b>, 0 to 1. Virtue: hope.</li>
+        <li><b>Autonomy vs Shame/Doubt</b>, 1 to 3. Virtue: will. <b>Your toddlers are here.</b></li>
+        <li><b>Initiative vs Guilt</b>, 3 to 6. Virtue: purpose. The next stage along.</li>
+        <li><b>Industry vs Inferiority</b>, 6 to 12. Virtue: competence.</li>
+        <li><b>What it looks like.</b> The child asserts independence ("me do it") and tests limits.</li>
+        <li><b>How it resolves.</b> Supported, they gain will and confidence. Over-controlled or shamed, they feel doubt.</li>
+      </ul></div>
       <div class="bc-sec"><div class="k">Key terms to use</div><p>psychosocial stage, crisis, <b>Autonomy vs Shame/Doubt</b>, will, autonomy, shame/doubt.</p></div>
-      <div class="bc-sec crit"><div class="k">Criticisms &amp; legacy</div><p><b>Descriptive</b> rather than explanatory (strong on what happens, weak on how and why), hard to operationalise and test, loose age bands, and it reflects mid-20th-century Western assumptions. Still widely used in developmental and counselling practice.</p></div>
-      <div class="bc-for"><span class="k">A1 PSY1080</span>Your <b>primary lens</b>. These are toddlers (1–3), so look for <b>Autonomy vs Shame/Doubt</b>: a child insisting on doing something alone, resisting help, testing a limit, or being supported to try. Name one moment, say how the adult supports autonomy (or risks inducing shame), then evaluate against modern self-regulation evidence.</div>
+      <div class="bc-sec crit"><div class="k">Criticisms &amp; legacy</div><ul>
+        <li><b>Descriptive</b> rather than explanatory. Strong on what happens, weak on how and why.</li>
+        <li>Hard to operationalise and test.</li>
+        <li>Loose age bands.</li>
+        <li>Reflects mid-20th-century Western assumptions.</li>
+        <li><b>Legacy.</b> Still widely used in developmental and counselling practice.</li>
+      </ul></div>
+      <div class="bc-for bl"><span class="k">A1 PSY1080</span><ul>
+        <li>Your <b>primary lens</b>. These are toddlers, 1 to 3, so you are looking at <b>Autonomy vs Shame/Doubt</b>.</li>
+        <li><b>What to spot.</b> A child insisting on doing something alone, resisting help, testing a limit, or being supported to try.</li>
+        <li><b>How to write it.</b> Name one moment, say how the adult supports autonomy or risks inducing shame, then evaluate against modern self-regulation evidence.</li>
+      </ul></div>
     </article>
 
     <article class="biocard">
       <div class="bc-head"><div class="bc-mono">SF</div><div><div class="bc-name">Sigmund Freud</div><div class="bc-meta">1856–1939 · Austrian · <span class="bc-tag">Psychodynamic</span></div></div></div>
       <div class="bc-sec"><div class="k">Context</div><p>A Viennese neurologist who founded <b>psychoanalysis</b>, built from clinical case studies of adult patients.</p></div>
-      <div class="bc-sec"><div class="k">Big idea</div><p>Much of behaviour is driven by the <b>unconscious</b>. The mind has three parts: the <b>id</b> (instinctive drives), the <b>ego</b> (reality), and the <b>superego</b> (internalised conscience). Personality forms through five <b>psychosexual stages</b>, and unresolved conflict leads to fixation.</p></div>
+      <div class="bc-sec"><div class="k">Big idea</div><ul>
+        <li>Much of behaviour is driven by the <b>unconscious</b>.</li>
+        <li>The mind has three parts: the <b>id</b> (instinctive drives), the <b>ego</b> (reality) and the <b>superego</b> (internalised conscience).</li>
+        <li>Personality forms through five <b>psychosexual stages</b>.</li>
+        <li>Unresolved conflict at a stage leads to <b>fixation</b>.</li>
+      </ul></div>
       <div class="bc-sec"><div class="k">Why it fits early childhood</div><p>The <b>superego</b> is how children internalise rules and learn to hold back impulses out of respect for others, a process an adult can actively support.</p></div>
       <div class="bc-sec"><div class="k">Key terms to use</div><p>unconscious, id / ego / superego, psychosexual stages, fixation, defence mechanisms.</p></div>
-      <div class="bc-sec crit"><div class="k">Criticisms &amp; legacy</div><p>Largely <b>unfalsifiable</b> (Popper): it can explain any outcome after the fact. Biased small samples and weak empirical support (Eysenck; Grünbaum). Still culturally enormous and the origin of talking therapy.</p></div>
-      <div class="bc-for"><span class="k">A1 PSY1080</span>Your <b>second lens</b>. "Are you being gentle?" and "He doesn't want a hug" show the teacher building the superego and impulse control. Best used as the theory you then critically evaluate.</div>
+      <div class="bc-sec crit"><div class="k">Criticisms &amp; legacy</div><ul>
+        <li>Largely <b>unfalsifiable</b> (Popper). It can explain any outcome after the fact.</li>
+        <li>Biased, small samples and weak empirical support (Eysenck; Grünbaum).</li>
+        <li><b>Legacy.</b> Still culturally enormous, and the origin of talking therapy.</li>
+      </ul></div>
+      <div class="bc-for bl"><span class="k">A1 PSY1080</span><ul>
+        <li>Your <b>second lens</b>.</li>
+        <li><b>What to spot.</b> "Are you being gentle?" and "He doesn't want a hug" show the teacher building the superego and impulse control.</li>
+        <li><b>How to use it.</b> Best as the theory you then critically evaluate.</li>
+      </ul></div>
     </article>
 
     <article class="biocard">
       <div class="bc-head"><div class="bc-mono">JP</div><div><div class="bc-name">Jean Piaget</div><div class="bc-meta">1896–1980 · Swiss · <span class="bc-tag">Cognitive development</span></div></div></div>
       <div class="bc-sec"><div class="k">Context</div><p>A Swiss psychologist who worked out how children think by observing them closely, including his own children.</p></div>
-      <div class="bc-sec"><div class="k">Big idea</div><p>Children are <b>active builders</b> of knowledge, moving through four universal stages (sensorimotor, preoperational, concrete operational, formal operational). They use <b>schemas</b>, adjusting them by <b>assimilation</b> and <b>accommodation</b>.</p></div>
-      <div class="bc-sec"><div class="k">Key study / evidence</div><p>Object-permanence, conservation, and the "three mountains" task, each showing predictable errors at predictable ages (for example egocentrism in the preoperational stage, roughly 2–7).</p></div>
+      <div class="bc-sec"><div class="k">Big idea</div><ul>
+        <li>Children are <b>active builders</b> of knowledge, not passive receivers.</li>
+        <li>They move through four universal stages: sensorimotor, preoperational, concrete operational, formal operational.</li>
+        <li>They think using <b>schemas</b>, mental templates for how things work.</li>
+        <li>Schemas change by <b>assimilation</b> (fit the new thing into the old schema) and <b>accommodation</b> (change the schema to fit).</li>
+      </ul></div>
+      <div class="bc-sec"><div class="k">Key study / evidence</div><ul>
+        <li><b>Object permanence.</b> Whether a hidden object still exists for the child.</li>
+        <li><b>Conservation.</b> Whether amount stays the same when the shape of the container changes.</li>
+        <li><b>The three mountains task.</b> Whether the child can take another person's viewpoint.</li>
+        <li>Each one shows predictable errors at predictable ages, for example egocentrism in the preoperational stage, roughly 2 to 7.</li>
+      </ul></div>
       <div class="bc-sec"><div class="k">Key terms to use</div><p>schema, assimilation, accommodation, object permanence, egocentrism, preoperational stage.</p></div>
-      <div class="bc-sec crit"><div class="k">Criticisms &amp; legacy</div><p><b>Underestimated children</b> (Baillargeon found abilities earlier than Piaget claimed); stages are less tidy than described; he downplayed social and cultural input (Vygotsky's objection).</p></div>
-      <div class="bc-for"><span class="k">A1 PSY1080</span>Optional cognitive aside. The "do you think he'll blow the house down?" prompt invites preoperational reasoning.</div>
+      <div class="bc-sec crit"><div class="k">Criticisms &amp; legacy</div><ul>
+        <li><b>Underestimated children.</b> Baillargeon found abilities earlier than Piaget claimed.</li>
+        <li>Stages are less tidy than described.</li>
+        <li>He downplayed social and cultural input, which is Vygotsky's objection.</li>
+      </ul></div>
+      <div class="bc-for bl"><span class="k">A1 PSY1080</span><ul>
+        <li>Optional cognitive aside, not a lead lens.</li>
+        <li><b>What to spot.</b> The "do you think he'll blow the house down?" prompt invites preoperational reasoning.</li>
+      </ul></div>
     </article>
 
     <article class="biocard">
       <div class="bc-head"><div class="bc-mono">LV</div><div><div class="bc-name">Lev Vygotsky</div><div class="bc-meta">1896–1934 · Russian/Soviet · <span class="bc-tag">Sociocultural</span></div></div></div>
       <div class="bc-sec"><div class="k">Context</div><p>A Soviet psychologist whose sociocultural theory became influential in the West decades after his early death.</p></div>
-      <div class="bc-sec"><div class="k">Big idea</div><p>Cognitive development is driven by <b>social interaction</b> and culture. Learning happens in the <b>Zone of Proximal Development</b>, the gap between what a child can do alone and with help. A <b>more knowledgeable other</b> provides <b>scaffolding</b> that is gradually removed.</p></div>
+      <div class="bc-sec"><div class="k">Big idea</div><ul>
+        <li>Cognitive development is driven by <b>social interaction</b> and culture, not by solo discovery.</li>
+        <li>Learning happens in the <b>Zone of Proximal Development</b>, the gap between what a child can do alone and what they can do with help.</li>
+        <li>A <b>more knowledgeable other</b> provides <b>scaffolding</b>, support that is gradually removed as the child takes over.</li>
+      </ul></div>
       <div class="bc-sec"><div class="k">Key terms to use</div><p>Zone of Proximal Development (ZPD), scaffolding, more knowledgeable other, private speech, cultural tools.</p></div>
-      <div class="bc-sec crit"><div class="k">Criticisms &amp; legacy</div><p>Vague and hard to measure; underplays biology and individual differences. Hugely influential in education.</p></div>
-      <div class="bc-for"><span class="k">A1 PSY1080</span>Strong fit. The teacher as a "supportive guide" who prompts rather than directs is textbook scaffolding, and a clean contrast with Piaget's lone learner.</div>
+      <div class="bc-sec crit"><div class="k">Criticisms &amp; legacy</div><ul>
+        <li>Vague and hard to measure.</li>
+        <li>Underplays biology and individual differences.</li>
+        <li><b>Legacy.</b> Hugely influential in education.</li>
+      </ul></div>
+      <div class="bc-for bl"><span class="k">A1 PSY1080</span><ul>
+        <li>Strong fit, and your best partner for Erikson.</li>
+        <li><b>What to spot.</b> The teacher as a supportive guide who prompts rather than directs is textbook scaffolding.</li>
+        <li><b>The easy contrast.</b> Vygotsky's social learner against Piaget's lone learner.</li>
+      </ul></div>
     </article>
 
     <article class="biocard">
       <div class="bc-head"><div class="bc-mono">JB</div><div><div class="bc-name">John Bowlby</div><div class="bc-meta">1907–1990 · British · <span class="bc-tag">Attachment</span></div></div></div>
-      <div class="bc-sec"><div class="k">Context</div><p>A British psychiatrist who combined psychoanalysis with evolutionary theory to explain the child–caregiver bond.</p></div>
-      <div class="bc-sec"><div class="k">Big idea</div><p>Attachment is an <b>evolved survival mechanism</b>. Infants are biologically driven to form a primary bond (<b>monotropy</b>), use the caregiver as a <b>secure base</b> to explore from, and build an <b>internal working model</b> that shapes later relationships.</p></div>
-      <div class="bc-sec"><div class="k">Key study / evidence</div><p>The "44 Thieves" study linked early maternal separation to later emotional difficulties (the maternal deprivation hypothesis).</p></div>
+      <div class="bc-sec"><div class="k">Context</div><p>A British psychiatrist who combined psychoanalysis with evolutionary theory to explain the child and caregiver bond.</p></div>
+      <div class="bc-sec"><div class="k">Big idea</div><ul>
+        <li>Attachment is an <b>evolved survival mechanism</b>, not a learned habit.</li>
+        <li>Infants are biologically driven to form one primary bond, which he called <b>monotropy</b>.</li>
+        <li>The caregiver works as a <b>secure base</b> the child explores out from and returns to.</li>
+        <li>The child builds an <b>internal working model</b> of relationships that shapes later ones.</li>
+      </ul></div>
+      <div class="bc-sec"><div class="k">Key study / evidence</div><p>The "44 Thieves" study linked early maternal separation to later emotional difficulties, which became the <b>maternal deprivation hypothesis</b>.</p></div>
       <div class="bc-sec"><div class="k">Key terms to use</div><p>attachment, monotropy, secure base, internal working model, critical period, maternal deprivation.</p></div>
-      <div class="bc-sec crit"><div class="k">Criticisms &amp; legacy</div><p>Monotropy overstated (infants form multiple attachments); the 44 Thieves study was correlational and retrospective. Foundational for all later attachment research.</p></div>
-      <div class="bc-for"><span class="k">A1 PSY1080</span>Context lens. Look for proximity-seeking and a child using a trusted adult as a secure base.</div>
+      <div class="bc-sec crit"><div class="k">Criticisms &amp; legacy</div><ul>
+        <li><b>Monotropy overstated.</b> Infants form multiple attachments.</li>
+        <li>The 44 Thieves study was correlational and retrospective, so it cannot show cause.</li>
+        <li><b>Legacy.</b> Foundational for all later attachment research.</li>
+      </ul></div>
+      <div class="bc-for bl"><span class="k">A1 PSY1080</span><ul>
+        <li>Context lens rather than a lead lens.</li>
+        <li><b>What to spot.</b> Proximity-seeking, and a child using a trusted adult as a secure base before going off to explore.</li>
+      </ul></div>
     </article>
 
     <article class="biocard">
       <div class="bc-head"><div class="bc-mono">MA</div><div><div class="bc-name">Mary Ainsworth</div><div class="bc-meta">1913–1999 · American-Canadian · <span class="bc-tag">Attachment</span></div></div></div>
       <div class="bc-sec"><div class="k">Context</div><p>Bowlby's collaborator, who gave attachment theory its <b>empirical method</b>.</p></div>
-      <div class="bc-sec"><div class="k">Big idea &amp; key study</div><p>The <b>Strange Situation</b>, a controlled observation of infants' reactions to separations from and reunions with the caregiver, identified attachment types: <b>secure</b>, <b>insecure-avoidant</b>, <b>insecure-resistant</b> (Main and Solomon later added <b>disorganised</b>). Caregiver <b>sensitivity</b> predicted security.</p></div>
+      <div class="bc-sec"><div class="k">Big idea &amp; key study</div><ul>
+        <li><b>The Strange Situation.</b> A controlled observation of how infants react to separations from, and reunions with, the caregiver.</li>
+        <li><b>Secure.</b> Distressed by the separation, comforted by the reunion.</li>
+        <li><b>Insecure-avoidant.</b> Little distress, ignores the caregiver on return.</li>
+        <li><b>Insecure-resistant.</b> Very distressed, then angry and hard to settle on return.</li>
+        <li><b>Disorganised.</b> Added later by Main and Solomon, for no coherent strategy at all.</li>
+        <li><b>The finding that matters.</b> Caregiver <b>sensitivity</b> predicted security.</li>
+      </ul></div>
       <div class="bc-sec"><div class="k">Key terms to use</div><p>Strange Situation, secure / avoidant / resistant / disorganised attachment, caregiver sensitivity, the sensitivity hypothesis.</p></div>
-      <div class="bc-sec crit"><div class="k">Criticisms &amp; legacy</div><p><b>Culturally biased</b> (van IJzendoorn and Kroonenberg found cross-cultural variation in type distributions); it may measure one relationship rather than a fixed trait.</p></div>
-      <div class="bc-for"><span class="k">A1 PSY1080</span>Pair with Bowlby to give the attachment lens hard evidence and a method you can name.</div>
+      <div class="bc-sec crit"><div class="k">Criticisms &amp; legacy</div><ul>
+        <li><b>Culturally biased.</b> van IJzendoorn and Kroonenberg found the mix of types varies across cultures.</li>
+        <li>It may measure one relationship rather than a fixed trait in the child.</li>
+      </ul></div>
+      <div class="bc-for bl"><span class="k">A1 PSY1080</span><ul>
+        <li>Pair her with Bowlby. He gives you the theory, she gives you hard evidence and a method you can name.</li>
+      </ul></div>
     </article>
 
     <article class="biocard">
       <div class="bc-head"><div class="bc-mono">HH</div><div><div class="bc-name">Harry Harlow</div><div class="bc-meta">1905–1981 · American · <span class="bc-tag">Attachment</span></div></div></div>
       <div class="bc-sec"><div class="k">Context</div><p>An American psychologist who tested, in rhesus monkeys, whether attachment is really about feeding.</p></div>
-      <div class="bc-sec"><div class="k">Big idea &amp; key study</div><p>Infant monkeys separated from their mothers preferred a soft cloth "surrogate" that gave no food over a wire one that did, especially when frightened. Attachment is about <b>comfort and contact</b>, not just nourishment, overturning the behaviourist "cupboard love" view.</p></div>
+      <div class="bc-sec"><div class="k">Big idea &amp; key study</div><ul>
+        <li>Infant monkeys were separated from their mothers and given two substitute "mothers": a soft cloth one with no food, and a bare wire one that fed them.</li>
+        <li>They spent their time on the <b>cloth</b> one, and ran to it when frightened.</li>
+        <li><b>Conclusion.</b> Attachment is about <b>comfort and contact</b>, not just nourishment.</li>
+        <li>That overturned the behaviourist <b>cupboard love</b> view, which said babies love whoever feeds them.</li>
+      </ul></div>
       <div class="bc-sec"><div class="k">Key terms to use</div><p>contact comfort, surrogate mother, cupboard-love theory (refuted), privation.</p></div>
-      <div class="bc-sec crit"><div class="k">Criticisms &amp; legacy</div><p>Serious <b>animal-ethics</b> concerns, with lasting harm to the animals. Powerful experimental support for Bowlby.</p></div>
-      <div class="bc-for"><span class="k">Both modules</span>Supports the attachment lens for A1 PSY1080; also a clear <b>animal-ethics</b> case for the PSY1081 review.</div>
+      <div class="bc-sec crit"><div class="k">Criticisms &amp; legacy</div><ul>
+        <li>Serious <b>animal-ethics</b> concerns, with lasting harm to the animals.</li>
+        <li><b>Legacy.</b> Powerful experimental support for Bowlby.</li>
+      </ul></div>
+      <div class="bc-for bl"><span class="k">Both modules</span><ul>
+        <li><b>PSY1080 A1.</b> Supports the attachment lens.</li>
+        <li><b>PSY1081 A1.</b> A clear <b>animal-ethics</b> case for the review.</li>
+      </ul></div>
     </article>
 
     <article class="biocard">
       <div class="bc-head"><div class="bc-mono">AB</div><div><div class="bc-name">Albert Bandura</div><div class="bc-meta">1925–2021 · Canadian-American · <span class="bc-tag">Social learning</span></div></div></div>
       <div class="bc-sec"><div class="k">Context</div><p>A psychologist who bridged behaviourism and cognitive psychology.</p></div>
-      <div class="bc-sec"><div class="k">Big idea &amp; key study</div><p><b>Social learning theory</b>: we learn by <b>observing and imitating</b> models, not only through direct reinforcement. The <b>Bobo doll</b> experiments showed children copied adults' aggression, and more so when the adult was rewarded (<b>vicarious reinforcement</b>). Learning needs attention, retention, reproduction and motivation. Later work on self-efficacy.</p></div>
+      <div class="bc-sec"><div class="k">Big idea &amp; key study</div><ul>
+        <li><b>Social learning theory.</b> We learn by <b>observing and imitating</b> models, not only through direct reinforcement of our own behaviour.</li>
+        <li><b>The Bobo doll experiments.</b> Children who watched an adult attack an inflatable doll copied the aggression themselves.</li>
+        <li>They copied it <b>more</b> when the adult had been rewarded for it, which he called <b>vicarious reinforcement</b>.</li>
+        <li><b>Four conditions for it to work.</b> Attention, retention, reproduction, motivation.</li>
+        <li><b>Later work.</b> Self-efficacy, your belief in your own ability to carry something out.</li>
+      </ul></div>
       <div class="bc-sec"><div class="k">Key terms to use</div><p>observational learning, modelling, vicarious reinforcement, self-efficacy, reciprocal determinism.</p></div>
-      <div class="bc-sec crit"><div class="k">Criticisms &amp; legacy</div><p>Lab aggression toward a doll may not generalise to real behaviour; possible demand characteristics. A major, enduring theory.</p></div>
-      <div class="bc-for"><span class="k">A1 PSY1080</span>Use only if the clip shows clear imitation of an adult or peer.</div>
+      <div class="bc-sec crit"><div class="k">Criticisms &amp; legacy</div><ul>
+        <li>Lab aggression toward a doll may not generalise to real behaviour toward people.</li>
+        <li>Possible demand characteristics. The children may have worked out what was wanted.</li>
+        <li><b>Legacy.</b> A major, enduring theory.</li>
+      </ul></div>
+      <div class="bc-for bl"><span class="k">A1 PSY1080</span><ul>
+        <li>Use only if the clip shows clear imitation of an adult or a peer. Do not force it.</li>
+      </ul></div>
     </article>
 
     <article class="biocard">
       <div class="bc-head"><div class="bc-mono">JW</div><div><div class="bc-name">John B. Watson</div><div class="bc-meta">1878–1958 · American · <span class="bc-tag">Ethics case · behaviourism</span></div></div></div>
       <div class="bc-sec"><div class="k">Context</div><p>Founded <b>behaviourism</b>, arguing psychology should study only observable behaviour, not the mind.</p></div>
-      <div class="bc-sec"><div class="k">Big idea</div><p>All behaviour is learned through conditioning; the mind is a "black box." Famous for the claim that, given a dozen healthy infants, he could shape any of them into any kind of specialist.</p></div>
-      <div class="bc-sec"><div class="k">Key study</div><p>The <b>"Little Albert"</b> study (1920, with Rosalie Rayner): an 11-month-old was conditioned to fear a white rat by pairing it with a loud noise, and the fear <b>generalised</b> to other furry objects.</p></div>
+      <div class="bc-sec"><div class="k">Big idea</div><ul>
+        <li>All behaviour is learned through conditioning. The mind is a black box you do not need to open.</li>
+        <li>Famous for the claim that, given a dozen healthy infants, he could shape any of them into any kind of specialist.</li>
+      </ul></div>
+      <div class="bc-sec"><div class="k">Key study</div><ul>
+        <li><b>"Little Albert"</b>, 1920, with Rosalie Rayner.</li>
+        <li>An 11-month-old was taught to fear a white rat by pairing it with a loud noise behind his head.</li>
+        <li>The fear then <b>generalised</b> to other furry objects, including a rabbit and a fur coat.</li>
+      </ul></div>
       <div class="bc-sec"><div class="k">Key terms to use</div><p>behaviourism, conditioned emotional response, stimulus generalisation, tabula rasa.</p></div>
-      <div class="bc-sec crit"><div class="k">Criticisms &amp; legacy (ethics)</div><p>A textbook <b>ethics breach</b>: no meaningful informed consent, deliberate distress, no debriefing, and the child was never de-conditioned. Drove later protections for participants.</p></div>
-      <div class="bc-for"><span class="k">A1 PSY1081</span>A classic case for your ethics review: <b>consent, protection from harm, debriefing, right to withdraw</b>.</div>
+      <div class="bc-sec crit"><div class="k">Criticisms &amp; legacy (ethics)</div><ul>
+        <li>A textbook <b>ethics breach</b> on four counts at once.</li>
+        <li>No meaningful informed consent.</li>
+        <li>Deliberate distress caused to an infant.</li>
+        <li>No debriefing, and the child was never de-conditioned.</li>
+        <li><b>Legacy.</b> Drove later protections for participants.</li>
+      </ul></div>
+      <div class="bc-for bl"><span class="k">A1 PSY1081</span><ul>
+        <li>A classic case for your ethics review.</li>
+        <li><b>The four principles to name.</b> Consent, protection from harm, debriefing, right to withdraw.</li>
+      </ul></div>
     </article>
 
     <article class="biocard">
       <div class="bc-head"><div class="bc-mono">SM</div><div><div class="bc-name">Stanley Milgram</div><div class="bc-meta">1933–1984 · American · <span class="bc-tag">Ethics case · obedience</span></div></div></div>
       <div class="bc-sec"><div class="k">Context</div><p>A social psychologist prompted by the post-war question of why ordinary people obey harmful orders.</p></div>
-      <div class="bc-sec"><div class="k">Big idea &amp; key study</div><p>In the <b>obedience</b> studies (1961–63), participants were told by an authority figure to deliver what they believed were escalating, dangerous electric shocks to a "learner." About <b>65%</b> continued to the maximum 450 volts despite clear distress.</p></div>
+      <div class="bc-sec"><div class="k">Big idea &amp; key study</div><ul>
+        <li><b>The obedience studies</b>, 1961 to 1963.</li>
+        <li>An authority figure told participants to deliver what they believed were escalating, dangerous electric shocks to a "learner".</li>
+        <li>About <b>65%</b> continued all the way to the maximum 450 volts, despite hearing clear distress.</li>
+        <li><b>The point.</b> Ordinary people obey authority far further than anyone predicted.</li>
+      </ul></div>
       <div class="bc-sec"><div class="k">Key terms to use</div><p>obedience to authority, agentic state, legitimate authority, deception, debriefing.</p></div>
-      <div class="bc-sec crit"><div class="k">Criticisms &amp; legacy (ethics)</div><p>Heavy <b>deception</b>, real psychological harm, and an unclear <b>right to withdraw</b> (the scripted "prods" pressured people to continue). A landmark for social psychology and a major driver of ethics reform.</p></div>
-      <div class="bc-for"><span class="k">A1 PSY1081</span>A key ethics case: <b>deception, harm, and the right to withdraw</b>.</div>
+      <div class="bc-sec crit"><div class="k">Criticisms &amp; legacy (ethics)</div><ul>
+        <li>Heavy <b>deception</b>. Participants did not know the shocks were fake.</li>
+        <li>Real psychological harm at the time.</li>
+        <li>An unclear <b>right to withdraw</b>. The scripted prods pressured people to continue.</li>
+        <li><b>Legacy.</b> A landmark for social psychology, and a major driver of ethics reform.</li>
+      </ul></div>
+      <div class="bc-for bl"><span class="k">A1 PSY1081</span><ul>
+        <li>A key ethics case.</li>
+        <li><b>The three principles to name.</b> Deception, harm, and the right to withdraw.</li>
+      </ul></div>
     </article>
 
     <article class="biocard">
       <div class="bc-head"><div class="bc-mono">PZ</div><div><div class="bc-name">Philip Zimbardo</div><div class="bc-meta">1933–2024 · American · <span class="bc-tag">Ethics case · roles</span></div></div></div>
-      <div class="bc-sec"><div class="k">Context</div><p>A social psychologist; the study ran at Stanford in 1971.</p></div>
-      <div class="bc-sec"><div class="k">Big idea &amp; key study</div><p>The <b>Stanford Prison Experiment</b> randomly assigned students as "guards" or "prisoners." Guards became abusive and prisoners distressed so quickly that the planned two-week study was stopped after <b>six days</b>. Used to argue <b>situational</b> forces, not just personality, drive behaviour.</p></div>
+      <div class="bc-sec"><div class="k">Context</div><p>A social psychologist. The study ran at Stanford in 1971.</p></div>
+      <div class="bc-sec"><div class="k">Big idea &amp; key study</div><ul>
+        <li><b>The Stanford Prison Experiment.</b> Students were randomly assigned as guards or prisoners in a mock prison.</li>
+        <li>Guards became abusive and prisoners distressed so quickly that the planned two-week study was stopped after <b>six days</b>.</li>
+        <li><b>The claim.</b> <b>Situational</b> forces, not just personality, drive behaviour.</li>
+      </ul></div>
       <div class="bc-sec"><div class="k">Key terms to use</div><p>deindividuation, situational attribution, social roles, the power of the situation.</p></div>
-      <div class="bc-sec crit"><div class="k">Criticisms &amp; legacy (ethics)</div><p>Serious <b>ethics breaches</b> (psychological harm, no clear withdrawal, Zimbardo's conflicted dual role as researcher and "superintendent"), plus later evidence that guards were coached, which undermines the findings. Still a defining teaching case.</p></div>
-      <div class="bc-for"><span class="k">A1 PSY1081</span>A key ethics case: <b>protection from harm, lack of safeguards, and researcher role / conflict of interest</b>.</div>
+      <div class="bc-sec crit"><div class="k">Criticisms &amp; legacy (ethics)</div><ul>
+        <li>Psychological harm, with no clear route for participants to withdraw.</li>
+        <li>Zimbardo's conflicted <b>dual role</b> as both researcher and prison superintendent.</li>
+        <li>Later evidence that the guards were <b>coached</b> on how to behave, which undermines the findings themselves.</li>
+        <li><b>Legacy.</b> Still a defining teaching case, now as much for the flaws as the result.</li>
+      </ul></div>
+      <div class="bc-for bl"><span class="k">A1 PSY1081</span><ul>
+        <li>A key ethics case.</li>
+        <li><b>The three principles to name.</b> Protection from harm, lack of safeguards, and researcher role or conflict of interest.</li>
+      </ul></div>
     </article>
   </div>
 
@@ -1919,6 +2097,7 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
       <li><b>Each person gets the same five boxes.</b> The hook, the life, where the theory came from, what they gave us, and the uncomfortable bit.</li>
       <li><b>The uncomfortable bit is not gossip.</b> Several of these people did things that would never be allowed now, and a few held views you should know about. Naming that is part of studying them properly, and it is the kind of thing that earns marks in an evaluation.</li>
       <li><b>Key People is the other tab.</b> That one gives you the theory to quote. This one gives you the person to remember it by.</li>
+      <li><b>Ordered by assignment, not by date.</b> The people you need for A1 come first, then A2, then A3, then the background figures. Each profile carries a tag saying which assignment it serves. Switch to <b>Chronological</b> above the chips if you would rather read them in historical order.</li>
       <li><b>One honest note.</b> Almost everyone here is a man, and almost all are European or American. That is a fact about who was allowed into universities, not about who was capable. Mary Ainsworth's career was held back by rules that stopped universities employing the wives of staff.</li>
     </ul>
   </div>
@@ -7643,23 +7822,86 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
    ['bmChips','bmbook','bmPrev','bmNext','q16']].forEach(function(cfg){
     const chaps=[...document.querySelectorAll('#'+cfg[1]+' .qchap')];
     if(!chaps.length)return;
-    const chips=[...document.querySelectorAll('#'+cfg[0]+' .bchip')];
+    const bar=document.getElementById(cfg[0]); if(!bar)return;
+    const chips=[...bar.querySelectorAll('.bchip')];
     const prev=document.getElementById(cfg[2]), next=document.getElementById(cfg[3]);
-    let i=0;
-    function show(n){
-      i=Math.max(0,Math.min(chaps.length-1,n));
+    // order holds the sequence the chips are DISPLAYED in, so prev/next walk what you see
+    let order=chaps.map((c,k)=>k), pos=0;
+    function show(p){
+      pos=Math.max(0,Math.min(order.length-1,p));
+      const i=order[pos];
       chaps.forEach((c,k)=>c.classList.toggle('on',k===i));
       chips.forEach((c,k)=>c.classList.toggle('on',k===i));
-      if(prev)prev.disabled=(i===0);
-      if(next)next.disabled=(i===chaps.length-1);
+      if(prev)prev.disabled=(pos===0);
+      if(next)next.disabled=(pos===order.length-1);
       const pane=document.getElementById(cfg[4]);
       if(pane&&pane.classList.contains('on'))window.scrollTo({top:0,behavior:'smooth'});
     }
-    chips.forEach((c,k)=>c.addEventListener('click',()=>show(k)));
-    if(prev)prev.addEventListener('click',()=>show(i-1));
-    if(next)next.addEventListener('click',()=>show(i+1));
+    chips.forEach((c,k)=>c.addEventListener('click',()=>show(order.indexOf(k))));
+    if(prev)prev.addEventListener('click',()=>show(pos-1));
+    if(next)next.addEventListener('click',()=>show(pos+1));
     show(0);
+    bar.setOrder=function(arr){const cur=order[pos];order=arr.slice();const n=order.indexOf(cur);show(n<0?0:n);};
   });
+
+  // ---- order the people pickers by assignment instead of by chronology ----
+  (function(){
+    const SETS={
+      bhChips:{book:'bhbook',key:'bapsy_bh_order_v1',groups:[
+        {t:'A1 \u00b7 Developmental case study \u00b7 due 23 Nov',s:'A1 \u00b7 23 Nov',c:'g1',ix:[5,6,7,8,9,11,10,4]},
+        {t:'A2 \u00b7 Personality testing \u00b7 due 15 Feb',s:'A2 \u00b7 15 Feb',c:'g2',ix:[22,44,17,21,20,13,12,2,23]},
+        {t:'A3 \u00b7 Cognitive and Social \u00b7 brief to come',s:'A3 \u00b7 brief to come',c:'g3',ix:[29,30,31,32,45,36,35,33,34,14,15,16,37,38,39,40,41,42,19]},
+        {t:'Foundations \u00b7 the examined history',s:'Foundations',c:'g4',ix:[0,43,1,3,18]},
+        {t:'Biological background \u00b7 no assignment yet',s:'Background',c:'g4',ix:[24,25,26,27,28]}]},
+      bmChips:{book:'bmbook',key:'bapsy_bm_order_v1',groups:[
+        {t:'A1 \u00b7 SPSS report \u00b7 due 2 Nov',s:'A1 \u00b7 2 Nov',c:'g1',ix:[0,3,4,2,1,5,6]},
+        {t:'A2 \u00b7 qualitative analysis',s:'A2',c:'g2',ix:[7]},
+        {t:'Background \u00b7 why any of it is trusted',s:'Background',c:'g4',ix:[8]}]}
+    };
+    Object.keys(SETS).forEach(function(id){
+      const bar=document.getElementById(id); if(!bar||!bar.setOrder)return;
+      const S=SETS[id];
+      const chips=[...bar.querySelectorAll('.bchip')];
+      const chaps=[...document.querySelectorAll('#'+S.book+' .qchap')];
+      const flat=[]; S.groups.forEach(g=>g.ix.forEach(n=>flat.push(n)));
+      // if the config ever falls out of step with the content, do nothing rather than hide people
+      if(flat.length!==chips.length||new Set(flat).size!==chips.length)return;
+      // badge each profile with the assignment it serves
+      S.groups.forEach(function(g){g.ix.forEach(function(n){
+        const ch=chaps[n]; if(!ch||ch.querySelector('.agtag'))return;
+        const t=document.createElement('div'); t.className='agtag '+g.c; t.textContent=g.s;
+        ch.insertBefore(t,ch.firstChild);
+      });});
+      const sw=document.createElement('div');
+      sw.className='ordsw';
+      sw.innerHTML='<span class="ordlab">Order</span>'+
+        '<button class="ordbtn" type="button" data-o="a">By assignment</button>'+
+        '<button class="ordbtn" type="button" data-o="c">Chronological</button>';
+      bar.parentNode.insertBefore(sw,bar);
+      function apply(mode){
+        [...bar.querySelectorAll('.bgrp')].forEach(n=>n.remove());
+        if(mode==='a'){
+          S.groups.forEach(function(g){
+            const h=document.createElement('div'); h.className='bgrp '+g.c; h.textContent=g.t;
+            bar.appendChild(h);
+            g.ix.forEach(n=>bar.appendChild(chips[n]));
+          });
+          bar.setOrder(flat);
+        }else{
+          chips.forEach(c=>bar.appendChild(c));
+          bar.setOrder(chips.map((c,k)=>k));
+        }
+        sw.querySelectorAll('.ordbtn').forEach(b=>b.classList.toggle('on',b.dataset.o===mode));
+        try{localStorage.setItem(S.key,mode);}catch(e){}
+      }
+      sw.addEventListener('click',function(e){
+        const b=e.target.closest('.ordbtn'); if(b)apply(b.dataset.o);
+      });
+      let start='a';
+      try{const v=localStorage.getItem(S.key); if(v==='c')start='c';}catch(e){}
+      apply(start);
+    });
+  })();
 
   // ---- observation evidence log (PSY1080 A1) ----
   (function(){
