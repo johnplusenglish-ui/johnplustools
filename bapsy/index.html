@@ -7788,6 +7788,17 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
     R.addEventListener('input',draw);draw();
   });
 
+  // ---- picking a chapter/person should land ON the content, not at the page top ----
+  // parks the sticky picker bar at its stuck position, so the chosen item starts right below it
+  window.bookScroll=function(paneId){
+    const pane=document.getElementById(paneId);
+    if(!pane||!pane.classList.contains('on'))return;
+    const bar=pane.querySelector('.bookbar'); if(!bar)return;
+    const stick=parseFloat(getComputedStyle(bar).top)||52;
+    const y=bar.getBoundingClientRect().top+window.scrollY-stick;
+    window.scrollTo({top:Math.max(0,y),behavior:'smooth'});
+  };
+
   // ---- classes (PSY1081) class picker ----
   (function(){
     const chaps=[...document.querySelectorAll('#classbook .qchap')];
@@ -7801,8 +7812,7 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
       chips.forEach((c,k)=>c.classList.toggle('on',k===i));
       if(prev)prev.disabled=(i===0);
       if(next)next.disabled=(i===chaps.length-1);
-      const pane=document.getElementById('q9');
-      if(pane&&pane.classList.contains('on'))window.scrollTo({top:0,behavior:'smooth'});
+      window.bookScroll('q9');
     }
     chips.forEach((c,k)=>c.addEventListener('click',()=>show(k)));
     if(prev)prev.addEventListener('click',()=>show(i-1));
@@ -7834,8 +7844,7 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
       chips.forEach((c,k)=>c.classList.toggle('on',k===i));
       if(prev)prev.disabled=(pos===0);
       if(next)next.disabled=(pos===order.length-1);
-      const pane=document.getElementById(cfg[4]);
-      if(pane&&pane.classList.contains('on'))window.scrollTo({top:0,behavior:'smooth'});
+      window.bookScroll(cfg[4]);
     }
     chips.forEach((c,k)=>c.addEventListener('click',()=>show(order.indexOf(k))));
     if(prev)prev.addEventListener('click',()=>show(pos-1));
@@ -7968,8 +7977,7 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
       chips.forEach((c,k)=>c.classList.toggle('on',k===i));
       if(prev)prev.disabled=(i===0);
       if(next)next.disabled=(i===chaps.length-1);
-      const pane=document.getElementById('q8');
-      if(pane&&pane.classList.contains('on'))window.scrollTo({top:0,behavior:'smooth'});
+      window.bookScroll('q8');
     }
     chips.forEach((c,k)=>c.addEventListener('click',()=>show(k)));
     if(prev)prev.addEventListener('click',()=>show(i-1));
