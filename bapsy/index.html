@@ -5261,13 +5261,15 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
   <div class="dhead">
     <div class="kicker">Learn the content · Part 2 · full book</div>
     <h2>Quant Methods Book</h2>
-    <div class="pills"><span class="pill on">9 chapters</span><span class="pill">study version</span><span class="pill">SAQs + SPSS</span></div>
+    <div class="pills"><span class="pill on">9 chapters</span><span class="pill">45 quiz questions</span><span class="pill">SPSS steps</span></div>
   </div>
   <div class="intro-card">
     <div class="lab">How to use this</div>
     <ul class="lead-list">
       <li><b>What this is.</b> A study version of the Part 2 Loop book <b>Exploring Quantitative Research Methods</b>, rewritten in plain terms.</li>
-      <li><b>What it keeps.</b> The key concepts, the worked logic, the SPSS steps and self-check questions.</li>
+      <li><b>What it keeps.</b> The key concepts, the worked logic and the click-by-click SPSS steps.</li>
+      <li><b>Every chapter ends with a scored 5-question quiz.</b> Do it before you move on. If you score under 4, reread the chapter rather than pressing ahead.</li>
+      <li><b>Where this sits.</b> This is the <b>theory</b>. <b>Classes</b> is the same material as taught, <b>SPSS Guide</b> is the click-by-click for A1, and <b>Null &amp; p-values</b> goes deeper on significance.</li>
       <li><b>What it is not.</b> The original. The full book, its figures and the exact wording live on <b>Loop</b>.</li>
       <li><b>Write it yourself.</b> No AI.</li>
       <li>Pick a chapter below.</li>
@@ -5434,6 +5436,14 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
 
       <h3 class="sec">1.11 Review</h3>
       <div class="note"><span class="lab">In one breath</span>Pick the measurement scale that fits your variable; summarise the centre with the mean (or the median when there are outliers) and the spread with the SD (or the SIQR when there are outliers); then picture the data with a histogram, stem-and-leaf or box plot and judge its shape. The median and SIQR are resistant; the mean and SD are not.</div>
+      <details class="quiz"><summary>Quiz: test yourself (5 questions)</summary><div class="qz">
+        <div class="qz-q"><p class="qz-stem">1. Order of finish in a marathon is measured on which scale?</p><div class="qz-opts"><button class="qz-opt" type="button">Nominal</button><button class="qz-opt" type="button" data-ok>Ordinal</button><button class="qz-opt" type="button">Interval</button><button class="qz-opt" type="button">Ratio</button></div><div class="qz-fb">Ordinal. The places are ordered, but the gaps between them are not equal: first and second could be a second apart, second and third a minute.</div></div>
+        <div class="qz-q"><p class="qz-stem">2. A firm's salaries are mostly modest, but the owner earns a fortune. Which average describes the typical wage better, and why?</p><div class="qz-opts"><button class="qz-opt" type="button">The mean, because it uses every score</button><button class="qz-opt" type="button" data-ok>The median, because it is resistant to outliers</button><button class="qz-opt" type="button">The mean, because it is the balance point</button><button class="qz-opt" type="button">Neither, you must report the range</button></div><div class="qz-fb">The median. The single huge salary drags the mean upwards so it no longer describes anyone typical. The median stays among the ordinary salaries.</div></div>
+        <div class="qz-q"><p class="qz-stem">3. Which is the defining feature of a ratio scale that an interval scale lacks?</p><div class="qz-opts"><button class="qz-opt" type="button">Equal gaps between values</button><button class="qz-opt" type="button">An order to the values</button><button class="qz-opt" type="button" data-ok>A true zero meaning the absence of the thing</button><button class="qz-opt" type="button">More than two categories</button></div><div class="qz-fb">A true zero. That is what makes ratios meaningful: 20 accidents really is twice 10, whereas 4&deg;F is not twice as warm as 2&deg;F.</div></div>
+        <div class="qz-q"><p class="qz-stem">4. What does it mean to call the median "resistant"?</p><div class="qz-opts"><button class="qz-opt" type="button">It is harder to calculate</button><button class="qz-opt" type="button" data-ok>Extreme scores barely move it</button><button class="qz-opt" type="button">It can only be used on large samples</button><button class="qz-opt" type="button">It always equals the mean</button></div><div class="qz-fb">Resistant means extreme values barely shift it. The mean is non-resistant: one outlier pulls it.</div></div>
+        <div class="qz-q"><p class="qz-stem">5. The deviations of all scores above and below the mean always sum to what?</p><div class="qz-opts"><button class="qz-opt" type="button">One</button><button class="qz-opt" type="button" data-ok>Zero</button><button class="qz-opt" type="button">The standard deviation</button><button class="qz-opt" type="button">The range</button></div><div class="qz-fb">Zero. That is exactly what makes the mean the balance point of the data.</div></div>
+        <div class="qz-score">Score: 0 correct, 0 of 5 answered</div>
+      </div></details>
     </div>
 
     <!-- ===== CHAPTER 2 ===== -->
@@ -5480,7 +5490,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
         <li><b>Type II error</b>: retaining a false H0 (a miss); its probability is beta, and <b>power = 1 − beta</b> is the chance of catching a real effect.</li>
       </ul></div>
       <div class="viz viz-tt">
-        <div class="viz-cap">Try it: the Type 1 / Type 2 trade-off</div>
+        <div class="viz-cap">Try it: the Type I / Type II trade-off</div>
         <svg class="viz-svg" viewBox="0 0 320 150"></svg>
         <div class="viz-slide"><label>Decision cut-off</label><input type="range" class="viz-r" min="100" max="236" value="170"><span class="viz-out"></span></div>
         <div class="viz-note"></div>
@@ -5488,6 +5498,14 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
 
       <h3 class="sec">2.7 Review</h3>
       <div class="note"><span class="lab">In one breath</span>State H0 and H1, set alpha (usually .05, one- or two-tailed), run the test that matches your design and data, read p, then reject or retain H0, remembering that a decision can be a Type I or Type II error.</div>
+      <details class="quiz"><summary>Quiz: test yourself (5 questions)</summary><div class="qz">
+        <div class="qz-q"><p class="qz-stem">1. What does the null hypothesis state?</p><div class="qz-opts"><button class="qz-opt" type="button">That your prediction is correct</button><button class="qz-opt" type="button" data-ok>That there is no difference or relationship in the population</button><button class="qz-opt" type="button">That the sample is representative</button><button class="qz-opt" type="button">That the result is statistically significant</button></div><div class="qz-fb">H0 says there is nothing going on in the population, and any difference you see in your sample is just chance.</div></div>
+        <div class="qz-q"><p class="qz-stem">2. A researcher predicts the mindfulness group will be faster than the control group. This hypothesis is:</p><div class="qz-opts"><button class="qz-opt" type="button">Non-directional (two-tailed)</button><button class="qz-opt" type="button" data-ok>Directional (one-tailed)</button><button class="qz-opt" type="button">The null hypothesis</button><button class="qz-opt" type="button">Not testable</button></div><div class="qz-fb">Directional, so one-tailed. It names which way the difference should go. A two-tailed H1 would only say the groups differ.</div></div>
+        <div class="qz-q"><p class="qz-stem">3. A two-tailed test at alpha = .05 puts how much of the distribution in each tail?</p><div class="qz-opts"><button class="qz-opt" type="button">5% in each tail</button><button class="qz-opt" type="button" data-ok>2.5% in each tail</button><button class="qz-opt" type="button">1% in each tail</button><button class="qz-opt" type="button">All 5% in one tail</button></div><div class="qz-fb">2.5% in each tail, splitting the 5% across both ends. A one-tailed test puts the whole 5% at the predicted end.</div></div>
+        <div class="qz-q"><p class="qz-stem">4. You reject a null hypothesis that was actually true. Which error is that, and what is its probability?</p><div class="qz-opts"><button class="qz-opt" type="button">Type II error, probability beta</button><button class="qz-opt" type="button" data-ok>Type I error, probability alpha</button><button class="qz-opt" type="button">Type II error, probability alpha</button><button class="qz-opt" type="button">Type I error, probability beta</button></div><div class="qz-fb">A Type I error, the false alarm. Its probability is alpha, which is why setting alpha at .05 means accepting a 5% false-alarm rate.</div></div>
+        <div class="qz-q"><p class="qz-stem">5. What does p &gt; alpha allow you to conclude?</p><div class="qz-opts"><button class="qz-opt" type="button">The null hypothesis is proven true</button><button class="qz-opt" type="button">There is definitely no effect</button><button class="qz-opt" type="button" data-ok>There is not enough evidence to reject the null</button><button class="qz-opt" type="button">The study was badly designed</button></div><div class="qz-fb">Only that you have insufficient evidence. You retain H0, you never prove it true. The effect may be real but the study underpowered.</div></div>
+        <div class="qz-score">Score: 0 correct, 0 of 5 answered</div>
+      </div></details>
       <details class="saq"><summary>Check yourself: write the hypotheses</summary><div class="ans"><p>A study compares reaction times of a mindfulness group and a control group.</p><p><b>H0:</b> there is no difference in mean reaction time between the mindfulness and control groups. <b>H1 (non-directional):</b> the two groups differ in mean reaction time. A directional H1 would instead predict, say, that the mindfulness group is faster.</p></div></details>
     </div>
 
@@ -5540,6 +5558,14 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
 
       <h3 class="sec">3.9 Review</h3>
       <div class="note"><span class="lab">In one breath</span>A survey asks a sample questions to describe a population. Probability sampling supports generalisation and lets you estimate sampling error; non-probability sampling is convenient but risks bias. Judge any survey on its method, size, representativeness and response rate.</div>
+      <details class="quiz"><summary>Quiz: test yourself (5 questions)</summary><div class="qz">
+        <div class="qz-q"><p class="qz-stem">1. Which is a strength of questionnaires?</p><div class="qz-opts"><button class="qz-opt" type="button">They let you probe unexpected answers</button><button class="qz-opt" type="button" data-ok>They are cheap and fast and can reach large samples</button><button class="qz-opt" type="button">They guarantee a high response rate</button><button class="qz-opt" type="button">They measure real behaviour rather than self-report</button></div><div class="qz-fb">Cheap, fast and scalable, and standardised so answers are comparable. The inability to probe, and the gap between self-report and real behaviour, are the weaknesses.</div></div>
+        <div class="qz-q"><p class="qz-stem">2. A number describing the whole population is called a:</p><div class="qz-opts"><button class="qz-opt" type="button">Statistic</button><button class="qz-opt" type="button" data-ok>Parameter</button><button class="qz-opt" type="button">Coefficient</button><button class="qz-opt" type="button">Constant</button></div><div class="qz-fb">A parameter. The matching number calculated from your sample is a statistic, your best estimate of that parameter.</div></div>
+        <div class="qz-q"><p class="qz-stem">3. Which of these is a probability sampling method?</p><div class="qz-opts"><button class="qz-opt" type="button">Convenience</button><button class="qz-opt" type="button">Snowball</button><button class="qz-opt" type="button" data-ok>Stratified random</button><button class="qz-opt" type="button">Quota</button></div><div class="qz-fb">Stratified random. Every member has a known, non-zero chance of selection, which is what supports generalisation. Convenience, snowball and quota are all non-probability.</div></div>
+        <div class="qz-q"><p class="qz-stem">4. You double your sample size. What happens to sampling error, and what happens to bias?</p><div class="qz-opts"><button class="qz-opt" type="button">Both shrink</button><button class="qz-opt" type="button" data-ok>Sampling error shrinks, bias does not</button><button class="qz-opt" type="button">Bias shrinks, sampling error does not</button><button class="qz-opt" type="button">Neither changes</button></div><div class="qz-fb">Sampling error shrinks as n grows. Bias is a systematic fault in the method, so a bigger sample just gives you more of the same skewed data.</div></div>
+        <div class="qz-q"><p class="qz-stem">5. You survey the first 50 students walking past the library. The main risk is:</p><div class="qz-opts"><button class="qz-opt" type="button">The sample is too small to analyse</button><button class="qz-opt" type="button" data-ok>Library-goers may differ systematically from the wider student body</button><button class="qz-opt" type="button">You cannot calculate a mean</button><button class="qz-opt" type="button">The questions will be misunderstood</button></div><div class="qz-fb">Bias. This is convenience sampling, and people near a library at that hour may not represent all students, so the results may not generalise.</div></div>
+        <div class="qz-score">Score: 0 correct, 0 of 5 answered</div>
+      </div></details>
       <details class="saq"><summary>Check yourself: which sampling method?</summary><div class="ans"><p>You survey the first 50 students who walk past the library door. What method is this, and what is the main risk?</p><p><b>Answer:</b> <b>convenience sampling</b> (non-probability). The main risk is <b>bias</b>: library-goers may differ systematically from the wider student body, so the results may not generalise.</p></div></details>
     </div>
     <div class="qchap">
@@ -5590,6 +5616,14 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
 
       <h3 class="sec">4.11 Review</h3>
       <div class="note"><span class="lab">In one breath</span>Plot the scatter, pick Pearson (parametric) or Spearman (non-parametric), read the coefficient (-1 to +1) for direction and strength and its p-value for significance, report r² as effect size, and never read causation into a correlation.</div>
+      <details class="quiz"><summary>Quiz: test yourself (5 questions)</summary><div class="qz">
+        <div class="qz-q"><p class="qz-stem">1. A correlation coefficient of -0.85 tells you the relationship is:</p><div class="qz-opts"><button class="qz-opt" type="button">Weak and negative</button><button class="qz-opt" type="button" data-ok>Strong and negative</button><button class="qz-opt" type="button">Strong and positive</button><button class="qz-opt" type="button">Non-existent</button></div><div class="qz-fb">The sign gives direction (negative: one rises as the other falls) and the size gives strength. 0.85 is close to 1, so it is strong.</div></div>
+        <div class="qz-q"><p class="qz-stem">2. What does r&sup2; tell you?</p><div class="qz-opts"><button class="qz-opt" type="button">Whether the result is significant</button><button class="qz-opt" type="button" data-ok>The proportion of variance the two variables share</button><button class="qz-opt" type="button">The direction of the relationship</button><button class="qz-opt" type="button">The sample size needed</button></div><div class="qz-fb">Squaring r gives the proportion of variance in one variable shared with the other, which is why it is quoted as the effect size.</div></div>
+        <div class="qz-q"><p class="qz-stem">3. Your two variables are interval, but one has extreme outliers and the relationship is not a straight line. Which test?</p><div class="qz-opts"><button class="qz-opt" type="button">Pearson's r</button><button class="qz-opt" type="button" data-ok>Spearman's rho</button><button class="qz-opt" type="button">Chi-square</button><button class="qz-opt" type="button">Independent t-test</button></div><div class="qz-fb">Spearman's rho. It works on ranks rather than raw values, so outliers and a non-linear but monotonic relationship do not throw it off.</div></div>
+        <div class="qz-q"><p class="qz-stem">4. For Pearson's r, degrees of freedom are:</p><div class="qz-opts"><button class="qz-opt" type="button">N</button><button class="qz-opt" type="button">N - 1</button><button class="qz-opt" type="button" data-ok>N - 2</button><button class="qz-opt" type="button">(rows - 1)(columns - 1)</button></div><div class="qz-fb">N - 2, because two means have been estimated. You report it as, for example, r(48) = .42, p = .003.</div></div>
+        <div class="qz-q"><p class="qz-stem">5. Ice-cream sales and drowning deaths correlate strongly. The safest conclusion is:</p><div class="qz-opts"><button class="qz-opt" type="button">Ice cream causes drowning</button><button class="qz-opt" type="button" data-ok>A third variable, such as hot weather, drives both</button><button class="qz-opt" type="button">The correlation must be a calculation error</button><button class="qz-opt" type="button">Drowning causes ice-cream sales</button></div><div class="qz-fb">Correlation is not causation. A third variable (here, temperature) can drive both, and coincidence is always possible.</div></div>
+        <div class="qz-score">Score: 0 correct, 0 of 5 answered</div>
+      </div></details>
     </div>
     <div class="qchap">
       <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">5. Analysis of Nominal Data: Chi-Square</h2>
@@ -5628,6 +5662,14 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
 
       <h3 class="sec">5.8 Review</h3>
       <div class="note"><span class="lab">In one breath</span>Chi-square compares observed against expected cell counts in a contingency table to test whether two categorical variables are associated. Check the expected-count condition, report chi-square with its df and p, and give phi or Cramer's V as the effect size.</div>
+      <details class="quiz"><summary>Quiz: test yourself (5 questions)</summary><div class="qz">
+        <div class="qz-q"><p class="qz-stem">1. Chi-square is the right test when your data are:</p><div class="qz-opts"><button class="qz-opt" type="button">Means from two groups</button><button class="qz-opt" type="button" data-ok>Frequencies of cases in categories</button><button class="qz-opt" type="button">Ranked positions</button><button class="qz-opt" type="button">Percentages of a total</button></div><div class="qz-fb">Counts of cases in categories. Chi-square must be run on raw frequencies, never on means or percentages.</div></div>
+        <div class="qz-q"><p class="qz-stem">2. What is an expected frequency?</p><div class="qz-opts"><button class="qz-opt" type="button">The count you actually observed</button><button class="qz-opt" type="button" data-ok>The count you would get if the two variables were unrelated</button><button class="qz-opt" type="button">The average of the row and column totals</button><button class="qz-opt" type="button">The largest count in the table</button></div><div class="qz-fb">What would land in that cell if the two variables were completely independent. Chi-square measures how far your observed counts stray from that.</div></div>
+        <div class="qz-q"><p class="qz-stem">3. A common rule for chi-square assumptions is that all expected counts should be at least:</p><div class="qz-opts"><button class="qz-opt" type="button">1</button><button class="qz-opt" type="button" data-ok>5</button><button class="qz-opt" type="button">10</button><button class="qz-opt" type="button">30</button></div><div class="qz-fb">At least 5, and this matters especially in a 2x2 table. Too-small expected counts make the test unreliable.</div></div>
+        <div class="qz-q"><p class="qz-stem">4. For a 3 x 4 contingency table, degrees of freedom are:</p><div class="qz-opts"><button class="qz-opt" type="button">12</button><button class="qz-opt" type="button">7</button><button class="qz-opt" type="button" data-ok>6</button><button class="qz-opt" type="button">11</button></div><div class="qz-fb">df = (rows - 1)(columns - 1) = 2 x 3 = 6.</div></div>
+        <div class="qz-q"><p class="qz-stem">5. You have a significant chi-square on a 2 x 2 table. Which effect size do you report?</p><div class="qz-opts"><button class="qz-opt" type="button">Cohen's d</button><button class="qz-opt" type="button" data-ok>Phi</button><button class="qz-opt" type="button">Pearson's r</button><button class="qz-opt" type="button">Eta squared</button></div><div class="qz-fb">Phi for a 2x2 table, and Cramer's V for anything larger. Both run from 0 to 1, and both are in the Crosstabs Statistics box.</div></div>
+        <div class="qz-score">Score: 0 correct, 0 of 5 answered</div>
+      </div></details>
     </div>
     <div class="qchap">
       <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">6. Comparing Independent Samples</h2>
@@ -5677,6 +5719,14 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
 
       <h3 class="sec">6.10 Review</h3>
       <div class="note"><span class="lab">In one breath</span>Two independent groups, one continuous DV: check the assumptions, then run an independent t-test (compare means, report t, df, p, d) if they hold, or Mann-Whitney U (compare ranks, report U, z, p, medians, r) if normality fails. For the A1 tasks, follow the step-by-step in the SPSS Guide tab and put all output in the appendices.</div>
+      <details class="quiz"><summary>Quiz: test yourself (5 questions)</summary><div class="qz">
+        <div class="qz-q"><p class="qz-stem">1. Levene's test comes back with Sig. = .02. Which row of the SPSS output do you read?</p><div class="qz-opts"><button class="qz-opt" type="button">Equal variances assumed</button><button class="qz-opt" type="button" data-ok>Equal variances not assumed</button><button class="qz-opt" type="button">Either, it makes no difference</button><button class="qz-opt" type="button">Neither, you must abandon the t-test</button></div><div class="qz-fb">Sig. is at or below .05, so the groups' spreads differ and you read the "Equal variances not assumed" row.</div></div>
+        <div class="qz-q"><p class="qz-stem">2. The independent t-test compares the difference between means against what?</p><div class="qz-opts"><button class="qz-opt" type="button">The sample size</button><button class="qz-opt" type="button" data-ok>The variability in the data</button><button class="qz-opt" type="button">The median of each group</button><button class="qz-opt" type="button">The number of groups</button></div><div class="qz-fb">t = (difference between means) divided by (standard error of that difference). The same gap is more convincing when scores are tightly clustered.</div></div>
+        <div class="qz-q"><p class="qz-stem">3. Your DV is interval but badly skewed with outliers in one group. Which test?</p><div class="qz-opts"><button class="qz-opt" type="button">Independent t-test anyway</button><button class="qz-opt" type="button" data-ok>Mann-Whitney U</button><button class="qz-opt" type="button">Paired t-test</button><button class="qz-opt" type="button">Chi-square</button></div><div class="qz-fb">Mann-Whitney U. It ranks all the scores from both groups, so non-normality and outliers do not distort it.</div></div>
+        <div class="qz-q"><p class="qz-stem">4. When reporting Mann-Whitney U, which measure of centre do you quote?</p><div class="qz-opts"><button class="qz-opt" type="button">Means</button><button class="qz-opt" type="button" data-ok>Medians</button><button class="qz-opt" type="button">Modes</button><button class="qz-opt" type="button">Standard deviations</button></div><div class="qz-fb">Medians, because the test works on ranks rather than raw values. Report U, z, p, the medians, and r = z divided by the square root of N.</div></div>
+        <div class="qz-q"><p class="qz-stem">5. Which effect size accompanies a significant independent t-test?</p><div class="qz-opts"><button class="qz-opt" type="button">Phi</button><button class="qz-opt" type="button">Cramer's V</button><button class="qz-opt" type="button" data-ok>Cohen's d</button><button class="qz-opt" type="button">r squared</button></div><div class="qz-fb">Cohen's d. Report it alongside t, df, p, and both groups' means and standard deviations.</div></div>
+        <div class="qz-score">Score: 0 correct, 0 of 5 answered</div>
+      </div></details>
     </div>
     <div class="qchap">
       <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">7. Comparing Related Samples</h2>
@@ -5710,6 +5760,14 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
 
       <h3 class="sec">7.8 Review</h3>
       <div class="note"><span class="lab">In one breath</span>Related samples link the two scores (same or matched people), so you analyse the differences. Use a paired t-test when the differences are roughly normal, or Wilcoxon when they are not.</div>
+      <details class="quiz"><summary>Quiz: test yourself (5 questions)</summary><div class="qz">
+        <div class="qz-q"><p class="qz-stem">1. Which design counts as "related" samples?</p><div class="qz-opts"><button class="qz-opt" type="button">Two different groups of students</button><button class="qz-opt" type="button" data-ok>The same people measured before and after</button><button class="qz-opt" type="button">Two groups matched for nothing in particular</button><button class="qz-opt" type="button">Four separate treatment groups</button></div><div class="qz-fb">A natural link between the two scores: the same participant twice, or two people matched on key characteristics.</div></div>
+        <div class="qz-q"><p class="qz-stem">2. Why are related designs more sensitive than independent ones?</p><div class="qz-opts"><button class="qz-opt" type="button">They need a larger sample</button><button class="qz-opt" type="button" data-ok>Analysing pair-by-pair differences removes individual-difference noise</button><button class="qz-opt" type="button">They avoid order effects</button><button class="qz-opt" type="button">They always produce significant results</button></div><div class="qz-fb">Each person acts as their own comparison, so the variation between people is stripped out of the analysis.</div></div>
+        <div class="qz-q"><p class="qz-stem">3. What does the null hypothesis say in a paired t-test?</p><div class="qz-opts"><button class="qz-opt" type="button">The two groups have equal variances</button><button class="qz-opt" type="button" data-ok>The mean difference in the population is zero</button><button class="qz-opt" type="button">The correlation is zero</button><button class="qz-opt" type="button">The samples are the same size</button></div><div class="qz-fb">That the mean of the differences is zero in the population. You test whether your observed mean difference is far enough from zero to be more than chance.</div></div>
+        <div class="qz-q"><p class="qz-stem">4. Degrees of freedom for a paired t-test are:</p><div class="qz-opts"><button class="qz-opt" type="button">N - 2</button><button class="qz-opt" type="button" data-ok>Number of pairs - 1</button><button class="qz-opt" type="button">Number of pairs</button><button class="qz-opt" type="button">N</button></div><div class="qz-fb">Pairs minus one, because the analysis runs on one difference score per pair.</div></div>
+        <div class="qz-q"><p class="qz-stem">5. The differences in your repeated-measures study are badly non-normal. Which test?</p><div class="qz-opts"><button class="qz-opt" type="button">Paired t-test anyway</button><button class="qz-opt" type="button" data-ok>Wilcoxon signed-ranks</button><button class="qz-opt" type="button">Mann-Whitney U</button><button class="qz-opt" type="button">Independent t-test</button></div><div class="qz-fb">Wilcoxon signed-ranks. It ranks the sizes of the differences, ignoring pairs with no change, and checks whether positives and negatives balance. Report the statistic, z, p and medians.</div></div>
+        <div class="qz-score">Score: 0 correct, 0 of 5 answered</div>
+      </div></details>
     </div>
     <div class="qchap">
       <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">8. Experimental Design 1</h2>
@@ -5745,6 +5803,14 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
 
       <h3 class="sec">8.8 Review</h3>
       <div class="note"><span class="lab">In one breath</span>An experiment manipulates an IV, measures a DV and controls the rest so the IV can be claimed as the cause. Control extraneous variables, eliminate confounds, protect internal validity against the standard threats, and remember the trade-off with external validity.</div>
+      <details class="quiz"><summary>Quiz: test yourself (5 questions)</summary><div class="qz">
+        <div class="qz-q"><p class="qz-stem">1. What separates a true experiment from a correlational study?</p><div class="qz-opts"><button class="qz-opt" type="button">A larger sample</button><button class="qz-opt" type="button" data-ok>Manipulating the IV and controlling everything else</button><button class="qz-opt" type="button">Using SPSS</button><button class="qz-opt" type="button">Reporting a p-value</button></div><div class="qz-fb">Manipulation plus control. That is what licenses a causal claim: any change in the DV can be attributed to the IV.</div></div>
+        <div class="qz-q"><p class="qz-stem">2. An extraneous variable that changes systematically along with the IV is called a:</p><div class="qz-opts"><button class="qz-opt" type="button" data-ok>Confounding variable</button><button class="qz-opt" type="button">Dependent variable</button><button class="qz-opt" type="button">Moderating variable</button><button class="qz-opt" type="button">Control variable</button></div><div class="qz-fb">A confound. It is the dangerous kind, because you can no longer tell whether the IV or the confound produced the effect. Confounds destroy a causal conclusion.</div></div>
+        <div class="qz-q"><p class="qz-stem">3. Participants improve simply because they have taken the test once already. Which threat is this?</p><div class="qz-opts"><button class="qz-opt" type="button">History</button><button class="qz-opt" type="button">Maturation</button><button class="qz-opt" type="button" data-ok>Testing</button><button class="qz-opt" type="button">Instrumentation</button></div><div class="qz-fb">Testing. History is an outside event, maturation is natural change over time, instrumentation is the measure itself drifting.</div></div>
+        <div class="qz-q"><p class="qz-stem">4. You select the most anxious students, and on retest their scores are closer to average. The likely explanation is:</p><div class="qz-opts"><button class="qz-opt" type="button">Your treatment worked</button><button class="qz-opt" type="button" data-ok>Regression to the mean</button><button class="qz-opt" type="button">Attrition</button><button class="qz-opt" type="button">Selection</button></div><div class="qz-fb">Regression to the mean. Extreme scorers drift back toward average on retest whether or not anything was done to them.</div></div>
+        <div class="qz-q"><p class="qz-stem">5. Tightening experimental control usually has what effect on validity?</p><div class="qz-opts"><button class="qz-opt" type="button">Raises both internal and external validity</button><button class="qz-opt" type="button" data-ok>Raises internal validity, can lower external validity</button><button class="qz-opt" type="button">Lowers internal validity</button><button class="qz-opt" type="button">Has no effect on either</button></div><div class="qz-fb">That is the trade-off. Tight control makes the causal claim safer, but an artificial lab task may generalise less well to real settings.</div></div>
+        <div class="qz-score">Score: 0 correct, 0 of 5 answered</div>
+      </div></details>
     </div>
     <div class="qchap">
       <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">9. Experimental Design 2</h2>
@@ -5765,6 +5831,14 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
 
       <h3 class="sec">9.3 Review</h3>
       <div class="note"><span class="lab">In one breath</span>Independent-groups designs avoid order effects but carry individual differences; repeated-measures designs control individual differences and are economical but introduce order effects (fix by counterbalancing); matched pairs sit in between. The A1 tasks both use an <b>independent-groups</b> design.</div>
+      <details class="quiz"><summary>Quiz: test yourself (5 questions)</summary><div class="qz">
+        <div class="qz-q"><p class="qz-stem">1. Which design is the most economical with participants?</p><div class="qz-opts"><button class="qz-opt" type="button">Independent groups</button><button class="qz-opt" type="button" data-ok>Repeated measures</button><button class="qz-opt" type="button">Matched pairs</button><button class="qz-opt" type="button">They are identical</button></div><div class="qz-fb">Repeated measures. Each person serves as their own control and gives data in every condition, so you need fewer people.</div></div>
+        <div class="qz-q"><p class="qz-stem">2. What is the price of a repeated-measures design?</p><div class="qz-opts"><button class="qz-opt" type="button">Individual differences between groups</button><button class="qz-opt" type="button" data-ok>Order effects such as practice and fatigue</button><button class="qz-opt" type="button">It needs far more participants</button><button class="qz-opt" type="button">You cannot use a t-test</button></div><div class="qz-fb">Order effects. You manage them by counterbalancing, varying the order across participants so practice and fatigue cancel out.</div></div>
+        <div class="qz-q"><p class="qz-stem">3. The main weakness of an independent-groups design is:</p><div class="qz-opts"><button class="qz-opt" type="button">Order effects</button><button class="qz-opt" type="button" data-ok>Individual differences between the groups</button><button class="qz-opt" type="button">It takes longer per person</button><button class="qz-opt" type="button">It cannot be analysed statistically</button></div><div class="qz-fb">Individual differences. The groups may simply differ from the start, which you reduce with random allocation.</div></div>
+        <div class="qz-q"><p class="qz-stem">4. Matched pairs sits between the other two because it:</p><div class="qz-opts"><button class="qz-opt" type="button">Has order effects but no individual differences</button><button class="qz-opt" type="button" data-ok>Reduces individual differences without introducing order effects</button><button class="qz-opt" type="button">Needs the fewest participants</button><button class="qz-opt" type="button">Requires no statistical test</button></div><div class="qz-fb">It gets the control of individual differences without order effects. The cost is that matching well is hard and time-consuming.</div></div>
+        <div class="qz-q"><p class="qz-stem">5. Both of your A1 tasks use which design?</p><div class="qz-opts"><button class="qz-opt" type="button">Repeated measures</button><button class="qz-opt" type="button" data-ok>Independent groups</button><button class="qz-opt" type="button">Matched pairs</button><button class="qz-opt" type="button">Correlational</button></div><div class="qz-fb">Independent groups. Mindfulness versus control, and under-30 versus over-40, are both two separate sets of people compared on one continuous score.</div></div>
+        <div class="qz-score">Score: 0 correct, 0 of 5 answered</div>
+      </div></details>
     </div>
 
   </div>
@@ -6085,7 +6159,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
             <li>Divide by <b>n - 1</b> (here 29), then take the square root: SD = √(421.367 ÷ 29) = <b>3.812</b>.</li>
           </ul>
           In plain terms, the SD is roughly the <b>average distance of a score from the mean</b>: a small SD means the scores bunch near the mean, a large SD means they are spread out.</li>
-        <li><b>Quartiles and the semi-interquartile range</b>: sort the scores and chop them into four quarters. The <b>lower quartile (Q1)</b> sits a quarter of the way along, at location ¼(N+1) = ¼ × 31 = the 7.75th case → <b>9.75</b>; the <b>upper quartile (Q3)</b> three-quarters along, at ¾(N+1) = the 23.25th case → <b>15.25</b>. The <b>interquartile range</b> = Q3 - Q1 = 5.5 (the span of the middle 50% of scores), and the <b>semi-interquartile range</b> is half of that = 2.75. Like the range, but it ignores the extremes, so it is far more stable when there are outliers.</li>
+        <li><b>Quartiles and the semi-interquartile range.</b> Sort the scores and chop them into four quarters.<ul><li><b>Lower quartile (Q1).</b> A quarter of the way along, at ¼(N+1) = ¼ × 31 = the 7.75th case, so <b>9.75</b>.</li><li><b>Upper quartile (Q3).</b> Three-quarters along, at ¾(N+1) = the 23.25th case, so <b>15.25</b>.</li><li><b>Interquartile range.</b> Q3 - Q1 = 5.5, the span of the middle 50% of scores.</li><li><b>Semi-interquartile range.</b> Half of that, so 2.75.</li><li><b>Why use it.</b> Like the range, but it ignores the extremes, so it is far more stable when there are outliers.</li></ul></li>
       </ul></div>
       <p class="tnote">APA notation: Latin letters (M for mean, SD, N, n) are sample statistics (italic in a typeset report); Greek letters (mu, sigma, alpha, beta) are population parameters and error terms (not italic).</p>
 
@@ -6253,7 +6327,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
       <p class="lead"><b>The four steps.</b> Every analysis in the rest of the module follows exactly these four steps, so it is worth learning them as a routine:</p>
       <ol class="steps">
         <li><div class="h">1. State the hypotheses</div><div class="d">Write H0 (no effect) and H1 (an effect), and decide whether H1 is <b>directional</b> (predicts which way) or <b>non-directional</b> (just predicts a difference).</div></li>
-        <li><div class="h">2. Set the criterion (choose alpha)</div><div class="d">Decide <b>in advance</b> how much evidence is enough, by picking the significance level <b>alpha</b>: .05 by convention, or .01 when a false alarm would be costly. Alpha is the Type 1 error rate you are willing to live with. Choosing it <b>after</b> seeing the p value is cheating, not hypothesis testing.</div></li>
+        <li><div class="h">2. Set the criterion (choose alpha)</div><div class="d">Decide <b>in advance</b> how much evidence is enough, by picking the significance level <b>alpha</b>: .05 by convention, or .01 when a false alarm would be costly. Alpha is the Type I error rate you are willing to live with. Choosing it <b>after</b> seeing the p value is cheating, not hypothesis testing.</div></li>
         <li><div class="h">3. Compute the test statistic</div><div class="d">Pick the right test from three things, the DV's measurement scale, whether you are asking about a difference or a relationship, and the design (independent or related groups), then let SPSS calculate it and give you a p value.</div></li>
         <li><div class="h">4. Decide</div><div class="d">Compare p against alpha. If <b>p is less than alpha</b> (e.g. p &lt; .05), reject H0 and report the effect. If not, fail to reject H0. Either way, report the test statistic, its degrees of freedom, the exact p, and the effect size.</div></li>
       </ol>
@@ -6270,7 +6344,8 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
       </table></div>
       <p class="tnote">Important honesty point: a directional hypothesis needs a genuine theoretical or evidence-based reason for the direction. It is not a trick for nudging a borderline result over the significance line.</p>
 
-      <h3 class="sec">Block 3: When we get it wrong, Type 1 and Type 2 errors</h3>
+      <h3 class="sec">Block 3: When we get it wrong, Type I and Type II errors</h3>
+      <div class="note"><span class="lab">Write it this way</span>The slides write these as "Type 1" and "Type 2". APA and every stats text use <b>Roman numerals</b>, so write <b>Type I</b> and <b>Type II</b> in an assignment. This site uses the Roman form throughout.</div>
       <ul class="lead-list">
       <li><b>No test is ever 100% certain</b>, so sometimes your decision will not match reality.</li>
       <li><b>Two things can each go two ways.</b> In <b>reality</b> an effect either exists or it does not. In your <b>decision</b> you either reject H0 or you do not.</li>
@@ -6280,26 +6355,26 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
       <div class="tscroll"><table class="tbl">
         <thead><tr><th>Your decision ↓ / Reality →</th><th>H0 is actually TRUE (no real effect)</th><th>H0 is actually FALSE (a real effect exists)</th></tr></thead>
         <tbody>
-          <tr><td><b>You reject H0</b> (claim an effect)</td><td><b>Type 1 error</b> (false positive)</td><td>Correct</td></tr>
-          <tr><td><b>You fail to reject H0</b> (claim no effect)</td><td>Correct</td><td><b>Type 2 error</b> (false negative)</td></tr>
+          <tr><td><b>You reject H0</b> (claim an effect)</td><td><b>Type I error</b> (false positive)</td><td>Correct</td></tr>
+          <tr><td><b>You fail to reject H0</b> (claim no effect)</td><td>Correct</td><td><b>Type II error</b> (false negative)</td></tr>
         </tbody>
       </table></div>
-      <div class="note"><span class="lab">The fire-alarm way to remember it</span>A <b>Type 1 error</b> is the alarm going off when there is <b>no fire</b> (a false alarm, you cry wolf). A <b>Type 2 error</b> is the alarm staying silent when there <b>is</b> a fire (a dangerous miss). One raises a false alarm about an effect that is not there; the other sleeps through an effect that is.</div>
+      <div class="note"><span class="lab">The fire-alarm way to remember it</span>A <b>Type I error</b> is the alarm going off when there is <b>no fire</b> (a false alarm, you cry wolf). A <b>Type II error</b> is the alarm staying silent when there <b>is</b> a fire (a dangerous miss). One raises a false alarm about an effect that is not there; the other sleeps through an effect that is.</div>
       <div class="viz viz-tt">
-        <div class="viz-cap">Try it: the Type 1 / Type 2 trade-off</div>
+        <div class="viz-cap">Try it: the Type I / Type II trade-off</div>
         <svg class="viz-svg" viewBox="0 0 320 150"></svg>
         <div class="viz-slide"><label>Decision cut-off</label><input type="range" class="viz-r" min="100" max="236" value="170"><span class="viz-out"></span></div>
         <div class="viz-note"></div>
       </div>
 
       <div class="abox"><ul>
-        <li><b>Type 1 error (false positive):</b> you reject a null that was actually true, so you claim an effect that is not real. Its rate is <b>alpha</b>, the significance level you set.
+        <li><b>Type I error (false positive):</b> you reject a null that was actually true, so you claim an effect that is not real. Its rate is <b>alpha</b>, the significance level you set.
           <ul>
             <li>With alpha = .05, about <b>1 in 20</b> true-null tests gives a "significant" result by chance.</li>
             <li>CBT study: your test says CBT lowered anxiety, but really the CBT group just <b>started less anxious</b>.</li>
           </ul>
         </li>
-        <li><b>Type 2 error (false negative):</b> you fail to reject a null that was actually false, so you miss a real effect. Its rate is <b>beta</b>, tied to <b>power</b> (power = 1 - beta = the chance of catching a real effect).
+        <li><b>Type II error (false negative):</b> you fail to reject a null that was actually false, so you miss a real effect. Its rate is <b>beta</b>, tied to <b>power</b> (power = 1 - beta = the chance of catching a real effect).
           <ul>
             <li>Usually caused by an <b>underpowered</b> study (too small a sample).</li>
             <li>CBT study: CBT really worked, but the groups looked similar because the CBT group <b>started more anxious</b>.</li>
@@ -6308,8 +6383,8 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
         <li><b>The trade-off you cannot escape:</b> lower alpha (.01) &rarr; fewer false positives but more misses; more power (bigger sample) &rarr; fewer misses. Decide <b>which error is worse</b> in your situation first (missing a working drug vs approving a useless one).</li>
       </ul></div>
       <div class="abox"><ul>
-        <li><b>Which error is this?</b> A study finds no difference between a new therapy and the usual care, so the therapy is dropped. Five years later a large, well-powered trial shows it works. That first study made a <b>Type 2 error</b>: it failed to reject a false null, probably because it was too small.</li>
-        <li><b>Which error is this?</b> A study reports that a supplement boosts memory, p = .04. Twelve bigger replications find nothing. The original made a <b>Type 1 error</b>: a true null was rejected. With alpha at .05, roughly 1 in 20 such tests will do this by chance.</li>
+        <li><b>Which error is this?</b> A study finds no difference between a new therapy and the usual care, so the therapy is dropped. Five years later a large, well-powered trial shows it works. That first study made a <b>Type II error</b>: it failed to reject a false null, probably because it was too small.</li>
+        <li><b>Which error is this?</b> A study reports that a supplement boosts memory, p = .04. Twelve bigger replications find nothing. The original made a <b>Type I error</b>: a true null was rejected. With alpha at .05, roughly 1 in 20 such tests will do this by chance.</li>
         <li>This is exactly why <b>replication matters</b>: a single significant finding is a starting point, not a final verdict.</li>
       </ul></div>
 
@@ -6340,7 +6415,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
         </li>
         <li><b>The fix is counterbalancing:</b> half do A then B, half do B then A, so order effects cancel out across the group instead of piling up in one condition.</li>
         <li><b>Extraneous variable:</b> anything other than the IV that could affect the DV. <b>Situational</b> (room, noise, time of day) or <b>participant</b> (age, anxiety, health). Mostly just random noise.</li>
-        <li><b>Confounding variable:</b> the dangerous kind, it varies <b>systematically with the IV</b>, so you cannot tell which caused the result. (In the CBT study, if the CBT group started less anxious, "prior anxiety" is confounded with treatment, the route to a Type 1 error.)</li>
+        <li><b>Confounding variable:</b> the dangerous kind, it varies <b>systematically with the IV</b>, so you cannot tell which caused the result. (In the CBT study, if the CBT group started less anxious, "prior anxiety" is confounded with treatment, the route to a Type I error.)</li>
         <li><b>Random allocation</b> is the main defence in an independent-groups design: it does not guarantee identical groups, but it stops bias being built in on purpose.</li>
       </ul></div>
 
@@ -6387,8 +6462,8 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
       <li><b>H1, one-tailed.</b> CBT clients will show lower anxiety.</li>
       <li><b>IV.</b> Treatment, with two levels: CBT and control.</li>
       <li><b>DV.</b> GAD-7 total. Interval or ratio, which is why a t-test is allowed.</li>
-      <li><b>p = .03.</b> Reject H0. CBT reduced anxiety. The error you might be making is <b>Type 1</b>.</li>
-      <li><b>p = .32.</b> Fail to reject H0. No significant difference. The error you might be making is <b>Type 2</b>, and the study may simply be underpowered.</li>
+      <li><b>p = .03.</b> Reject H0. CBT reduced anxiety. The error you might be making is <b>Type I</b>.</li>
+      <li><b>p = .32.</b> Fail to reject H0. No significant difference. The error you might be making is <b>Type II</b>, and the study may simply be underpowered.</li>
       <li><b>Repeated measures.</b> You gain: fewer participants needed, and the groups cannot differ because they are the same people. You lose: <b>order effects</b> appear, and giving everyone CBT removes the control comparison, so you would have to compare pre versus post instead.</li>
     </ul>
       </div></details>
@@ -6431,12 +6506,12 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
           <div class="qz-q">
             <p class="qz-stem">3. You reject a null hypothesis that is in fact true. This is...</p>
             <div class="qz-opts">
-              <button class="qz-opt" type="button">a Type 2 error</button>
-              <button class="qz-opt" type="button" data-ok>a Type 1 error (a false positive)</button>
+              <button class="qz-opt" type="button">a Type II error</button>
+              <button class="qz-opt" type="button" data-ok>a Type I error (a false positive)</button>
               <button class="qz-opt" type="button">a correct decision</button>
               <button class="qz-opt" type="button">low statistical power</button>
             </div>
-            <div class="qz-fb">Rejecting a true null is a Type 1 error (false positive); its rate is alpha. Failing to reject a false null is a Type 2 error (false negative).</div>
+            <div class="qz-fb">Rejecting a true null is a Type I error (false positive); its rate is alpha. Failing to reject a false null is a Type II error (false negative).</div>
           </div>
           <div class="qz-q">
             <p class="qz-stem">4. Which design is analysed with an independent-samples t-test?</p>
@@ -6471,12 +6546,12 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
           <div class="qz-q">
             <p class="qz-stem">7. Your analysis returns p = .32, with alpha set at .05. You...</p>
             <div class="qz-opts">
-              <button class="qz-opt" type="button">reject the null; a possible Type 1 error</button>
-              <button class="qz-opt" type="button" data-ok>fail to reject the null; a possible Type 2 error</button>
+              <button class="qz-opt" type="button">reject the null; a possible Type I error</button>
+              <button class="qz-opt" type="button" data-ok>fail to reject the null; a possible Type II error</button>
               <button class="qz-opt" type="button">accept the null hypothesis as true</button>
               <button class="qz-opt" type="button">conclude you have proven there is no effect</button>
             </div>
-            <div class="qz-fb">p is above alpha, so you fail to reject H0. If a real effect exists but you missed it (perhaps underpowered), that is a Type 2 error. You never accept or prove the null.</div>
+            <div class="qz-fb">p is above alpha, so you fail to reject H0. If a real effect exists but you missed it (perhaps underpowered), that is a Type II error. You never accept or prove the null.</div>
           </div>
           <div class="qz-q">
             <p class="qz-stem">8. The non-parametric alternative to the independent-samples t-test is...</p>
@@ -6621,11 +6696,11 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
 
     <div class="qchap">
       <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Jerzy Neyman and Egon Pearson</h2>
-      <p class="lead">Type 1 and Type 2 errors come from these two, and Fisher spent decades attacking them for it.</p>
+      <p class="lead">Type I and Type II errors come from these two, and Fisher spent decades attacking them for it.</p>
       <div class="abox"><ul>
         <li><b>Their lives.</b> <b>Neyman</b> was Polish, born in what is now Moldova, and lived through war, revolution and a spell in prison before building a career in London and then California. <b>Egon Pearson</b> was Karl Pearson's son, and inherited his father's department, which cannot have been comfortable.</li>
         <li><b>Where the method came from.</b> Fisher's test told you whether a result was surprising. Neyman and Egon Pearson asked a harder question: what should you actually <b>do</b>? If you are going to make a decision from data, you will sometimes be wrong, and there are <b>two different ways</b> to be wrong. You can act as though there is an effect when there is not, or miss one that is really there. Once you name both, you can see that they trade off, and that you must choose your acceptable risk <b>in advance</b>.</li>
-        <li><b>What they gave us.</b> <b>Type 1 and Type 2 errors</b>, <b>alpha</b> set before the study, the <b>alternative hypothesis</b> as a formal thing, and <b>statistical power</b>. Essentially the whole decision framework in your Null & p-values tab.</li>
+        <li><b>What they gave us.</b> <b>Type I and Type II errors</b>, <b>alpha</b> set before the study, the <b>alternative hypothesis</b> as a formal thing, and <b>statistical power</b>. Essentially the whole decision framework in your Null & p-values tab.</li>
         <li><b>The uncomfortable bit.</b> What you are taught is a <b>mashup of two incompatible systems</b>. Fisher's p-value, as evidence to weigh, was bolted onto Neyman and Pearson's fixed-alpha decision rule, and the two men despised each other's approach. Fisher called their framework mechanical and unsuited to science. The confusion students feel about what p really means is not your failing; it is a genuine seam in the subject.</li>
         <li><b>Where you meet them.</b> Null & p-values, section 11. Quant Methods Book chapter 2.</li>
       </ul></div>
@@ -6763,8 +6838,8 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     <tr><td><b>Statistically significant</b></td><td>Under the line. Luck is a poor explanation. Nothing more than that.</td></tr>
     <tr><td><b>Reject the null</b></td><td>"I no longer believe it was just luck."</td></tr>
     <tr><td><b>Fail to reject the null</b></td><td>"I cannot rule out luck." It does NOT mean "there is no effect".</td></tr>
-    <tr><td><b>Type 1 error</b></td><td>You said it was real. It was luck. A false alarm.</td></tr>
-    <tr><td><b>Type 2 error</b></td><td>It was real and you missed it. Usually because you had too few people.</td></tr>
+    <tr><td><b>Type I error</b></td><td>You said it was real. It was luck. A false alarm.</td></tr>
+    <tr><td><b>Type II error</b></td><td>It was real and you missed it. Usually because you had too few people.</td></tr>
     <tr><td><b>Effect size</b>, or <b>Cohen's d</b></td><td>How <b>big</b> the gap is. p only tells you how surprising it is.</td></tr>
     <tr><td><b>Two-tailed</b></td><td>You did not predict which group would come out ahead.</td></tr>
     <tr><td><b>One-tailed</b></td><td>You did predict it, and you said so before you looked.</td></tr>
@@ -6860,13 +6935,13 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
   <div class="abox"><ul>
     <li><b>It is a convention, not a discovery.</b> Fisher suggested 1 in 20 as a convenient line and it stuck. There is nothing magic about it, and some fields use .01 or .001.</li>
     <li><b>What you are actually choosing.</b> Alpha is the <b>risk of a false alarm you are willing to accept</b>. Setting alpha at .05 says: I accept that, in a world where nothing is going on, I will wrongly claim an effect about 5% of the time.</li>
-    <li><b>Type 1 error, the false alarm.</b> Rejecting H0 when it was true. Its probability <b>is</b> alpha.</li>
-    <li><b>Type 2 error, the miss.</b> Failing to reject H0 when there really was an effect. Usually caused by too small a sample.</li>
+    <li><b>Type I error, the false alarm.</b> Rejecting H0 when it was true. Its probability <b>is</b> alpha.</li>
+    <li><b>Type II error, the miss.</b> Failing to reject H0 when there really was an effect. Usually caused by too small a sample.</li>
     <li><b>They trade off against each other.</b> Make alpha stricter (.01) and you get fewer false alarms but more misses. Make it looser and the reverse. You cannot reduce both at once by moving the line; <b>the only way to reduce both is a bigger sample</b>.</li>
     <li><b>Set it before you look.</b> Choosing alpha, or switching from two-tailed to one-tailed, after seeing your data is not analysis. It is choosing the finish line once you know where the runner stopped.</li>
   </ul></div>
   <div class="viz viz-tt">
-    <div class="viz-cap">Try it: the Type 1 / Type 2 trade-off</div>
+    <div class="viz-cap">Try it: the Type I / Type II trade-off</div>
     <svg class="viz-svg" viewBox="0 0 320 150"></svg>
     <div class="viz-slide"><label>Decision cut-off</label><input type="range" class="viz-r" min="100" max="236" value="170"><span class="viz-out"></span></div>
     <div class="viz-note"></div>
@@ -6909,7 +6984,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     <div class="qz-q"><p class="qz-stem">3. A very small p-value tells you the effect is:</p><div class="qz-opts"><button class="qz-opt" type="button">large</button><button class="qz-opt" type="button">important</button><button class="qz-opt" type="button" data-ok>surprising under the null, which is not the same as large</button><button class="qz-opt" type="button">certain to replicate</button></div><div class="qz-fb">Size is the job of the effect size, such as Cohen's d. A trivial difference can reach p < .001 in a big enough sample.</div></div>
     <div class="qz-q"><p class="qz-stem">4. The penalty taker scores the same percentage in 10 attempts and in 100 attempts. Why is only the second significant?</p><div class="qz-opts"><button class="qz-opt" type="button">He improved</button><button class="qz-opt" type="button">The null hypothesis changed</button><button class="qz-opt" type="button" data-ok>A larger sample makes the same gap much harder to produce by luck</button><button class="qz-opt" type="button">Alpha is different for larger samples</button></div><div class="qz-fb">The effect is identical; the evidence is not. Sample size drives how surprising a given gap is.</div></div>
     <div class="qz-q"><p class="qz-stem">5. SPSS prints "Sig. (2-tailed) = .000". You should write:</p><div class="qz-opts"><button class="qz-opt" type="button">p = .000</button><button class="qz-opt" type="button">p = 0</button><button class="qz-opt" type="button" data-ok>p &lt; .001</button><button class="qz-opt" type="button">p = .0001</button></div><div class="qz-fb">A probability is never exactly zero; SPSS has simply rounded. Report p < .001.</div></div>
-    <div class="qz-q"><p class="qz-stem">6. Making alpha stricter, from .05 to .01, means:</p><div class="qz-opts"><button class="qz-opt" type="button">fewer of both error types</button><button class="qz-opt" type="button" data-ok>fewer Type 1 errors but more Type 2 errors</button><button class="qz-opt" type="button">more Type 1 errors but fewer Type 2</button><button class="qz-opt" type="button">no change to either</button></div><div class="qz-fb">The two trade off. Only a larger sample reduces both at once.</div></div>
+    <div class="qz-q"><p class="qz-stem">6. Making alpha stricter, from .05 to .01, means:</p><div class="qz-opts"><button class="qz-opt" type="button">fewer of both error types</button><button class="qz-opt" type="button" data-ok>fewer Type I errors but more Type II errors</button><button class="qz-opt" type="button">more Type I errors but fewer Type II</button><button class="qz-opt" type="button">no change to either</button></div><div class="qz-fb">The two trade off. Only a larger sample reduces both at once.</div></div>
     <div class="qz-q"><p class="qz-stem">7. Running twenty separate tests on noise with alpha at .05, you should expect roughly:</p><div class="qz-opts"><button class="qz-opt" type="button">no significant results</button><button class="qz-opt" type="button" data-ok>about one significant result purely by chance</button><button class="qz-opt" type="button">about five significant results</button><button class="qz-opt" type="button">all twenty to be significant</button></div><div class="qz-fb">Alpha of .05 means a 1 in 20 false alarm rate by definition. This is the arithmetic behind p-hacking.</div></div>
   </div><p class="qz-score"></p></details>
 </section>
@@ -8000,14 +8075,14 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
   document.querySelectorAll('.viz-tt').forEach(function(w){
     var svg=w.querySelector('.viz-svg'),R=w.querySelector('.viz-r'),note=w.querySelector('.viz-note'),out=w.querySelector('.viz-out');
     var W=320,H=150,base=H-20,peakH=H-48,sd=32,m0=W*0.36,m1=W*0.64;
-    (function(){var cap=w.querySelector('.viz-cap'),help=document.createElement('div');help.className='viz-help';help.innerHTML='<span class="hl">How to read it</span><ul><li>The <b>blue curve is the "no effect" world (H0)</b>; the <b>green curve is the "real effect" world (H1)</b>.</li><li>The dark line is your <b>decision cut-off</b>, drag it.</li><li><b>Red</b> tail = Type 1 error (a false alarm); <b>amber</b> tail = Type 2 error (a miss). A stricter cut-off shrinks one and grows the other.</li></ul>';if(cap)cap.insertAdjacentElement('afterend',help);})();
+    (function(){var cap=w.querySelector('.viz-cap'),help=document.createElement('div');help.className='viz-help';help.innerHTML='<span class="hl">How to read it</span><ul><li>The <b>blue curve is the "no effect" world (H0)</b>; the <b>green curve is the "real effect" world (H1)</b>.</li><li>The dark line is your <b>decision cut-off</b>, drag it.</li><li><b>Red</b> tail = Type I error (a false alarm); <b>amber</b> tail = Type II error (a miss). A stricter cut-off shrinks one and grows the other.</li></ul>';if(cap)cap.insertAdjacentElement('afterend',help);})();
     function g(px,mu){var x=px-mu;return Math.exp(-(x*x)/(2*sd*sd));}
     function reg(mu,x0,x1){var s='M'+x0.toFixed(1)+','+base;for(var px=x0;px<=x1;px+=3){s+=' L'+px.toFixed(1)+','+(base-g(px,mu)*peakH).toFixed(1);}return s+' L'+x1.toFixed(1)+','+base+' Z';}
     function cv(mu){var p='';for(var px=0;px<=W;px+=3){p+=(px===0?'M':' L')+px.toFixed(1)+','+(base-g(px,mu)*peakH).toFixed(1);}return p;}
     function draw(){var c=+R.value;
       svg.innerHTML='<path d="'+reg(m0,c,W)+'" fill="#f3c9c9"/><path d="'+reg(m1,0,c)+'" fill="#f6e2b4"/><path d="'+cv(m0)+'" fill="none" stroke="#2176FF" stroke-width="2"/><path d="'+cv(m1)+'" fill="none" stroke="#2f9e63" stroke-width="2"/><line x1="'+c+'" y1="12" x2="'+c+'" y2="'+base+'" stroke="#2D3047" stroke-width="2"/><text x="'+m0+'" y="13" fill="#2176FF" font-size="10" font-weight="700" text-anchor="middle">no effect (H0)</text><text x="'+m1+'" y="13" fill="#2f9e63" font-size="10" font-weight="700" text-anchor="middle">real effect (H1)</text>';
       out.textContent='';
-      note.innerHTML='The dark line is your <b>decision cut-off</b>. The <b>red</b> tail (the no-effect curve past the line) is the <b>Type 1</b> error, false positives (alpha). The <b>amber</b> tail (the real-effect curve before the line) is the <b>Type 2</b> error, misses (beta). Slide it <b>right</b> to be stricter: the red shrinks but the amber grows. You cannot cut both at once.';}
+      note.innerHTML='The dark line is your <b>decision cut-off</b>. The <b>red</b> tail (the no-effect curve past the line) is the <b>Type I</b> error, false positives (alpha). The <b>amber</b> tail (the real-effect curve before the line) is the <b>Type II</b> error, misses (beta). Slide it <b>right</b> to be stricter: the red shrinks but the amber grows. You cannot cut both at once.';}
     R.addEventListener('input',draw);draw();
   });
   document.querySelectorAll('.viz-cr').forEach(function(w){
