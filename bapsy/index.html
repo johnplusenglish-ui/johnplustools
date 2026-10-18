@@ -7790,12 +7790,16 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
 
   // ---- picking a chapter/person should land ON the content, not at the page top ----
   // parks the sticky picker bar at its stuck position, so the chosen item starts right below it
-  window.bookScroll=function(paneId){
+  window.bookScroll=function(paneId,bookId){
     const pane=document.getElementById(paneId);
     if(!pane||!pane.classList.contains('on'))return;
-    const bar=pane.querySelector('.bookbar'); if(!bar)return;
-    const stick=parseFloat(getComputedStyle(bar).top)||52;
-    const y=bar.getBoundingClientRect().top+window.scrollY-stick;
+    const book=document.getElementById(bookId); if(!book)return;
+    // measure the BOOK, not the bar: the bar is sticky, so once it is stuck its own
+    // rect just reports the stuck position and the sum cancels out to "do not move"
+    const bar=pane.querySelector('.bookbar');
+    const stick=bar?(parseFloat(getComputedStyle(bar).top)||0):0;
+    const barH=bar?bar.offsetHeight:0;
+    const y=book.getBoundingClientRect().top+window.scrollY-stick-barH-10;
     window.scrollTo({top:Math.max(0,y),behavior:'smooth'});
   };
 
@@ -7812,7 +7816,7 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
       chips.forEach((c,k)=>c.classList.toggle('on',k===i));
       if(prev)prev.disabled=(i===0);
       if(next)next.disabled=(i===chaps.length-1);
-      window.bookScroll('q9');
+      window.bookScroll('q9','classbook');
     }
     chips.forEach((c,k)=>c.addEventListener('click',()=>show(k)));
     if(prev)prev.addEventListener('click',()=>show(i-1));
@@ -7844,7 +7848,7 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
       chips.forEach((c,k)=>c.classList.toggle('on',k===i));
       if(prev)prev.disabled=(pos===0);
       if(next)next.disabled=(pos===order.length-1);
-      window.bookScroll(cfg[4]);
+      window.bookScroll(cfg[4],cfg[1]);
     }
     chips.forEach((c,k)=>c.addEventListener('click',()=>show(order.indexOf(k))));
     if(prev)prev.addEventListener('click',()=>show(pos-1));
@@ -7977,7 +7981,7 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
       chips.forEach((c,k)=>c.classList.toggle('on',k===i));
       if(prev)prev.disabled=(i===0);
       if(next)next.disabled=(i===chaps.length-1);
-      window.bookScroll('q8');
+      window.bookScroll('q8','qbook');
     }
     chips.forEach((c,k)=>c.addEventListener('click',()=>show(k)));
     if(prev)prev.addEventListener('click',()=>show(i-1));
