@@ -6688,7 +6688,12 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
 <script>
   const navs=[...document.querySelectorAll('.guide-nav-item')];
   const mods=[...document.querySelectorAll('.pn-mods button')];
-  const panes={1:p1,2:p2,3:p3,4:p4,5:p5,6:p6,7:p7,8:p8,9:p9,10:p10,11:p11,12:p12,13:p13,14:p14,15:p15,16:p16,17:p17,18:p18,19:p19,20:p20,q1:q1,q2:q2,q3:q3,q4:q4,q5:q5,q6:q6,q7:q7,q8:q8,q9:q9,q10:q10,q11:q11,q12:q12,q13:q13,q14:q14,q15:q15,q16:q16};
+  // built from the DOM, not a hand-written list of implicit globals: removing a
+  // section used to throw a ReferenceError here and kill the whole script
+  const panes={};
+  document.querySelectorAll('section.pane[id]').forEach(function(el){
+    panes[el.id.charAt(0)==='q'?el.id:el.id.slice(1)]=el;
+  });
   // the header subtitle names the section you are in, which matters when the menu is closed
   function updSub(id){
     const ns=document.getElementById('navsub'); if(!ns)return;
