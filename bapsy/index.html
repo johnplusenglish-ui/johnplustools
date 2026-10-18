@@ -342,7 +342,7 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
 .bc-for b{color:var(--ink);font-weight:600}
 .bookbar{position:sticky;top:52px;z-index:6;background:var(--bg);padding:10px 0 12px;margin:0 0 6px;border-bottom:1px solid var(--border)}
 .bookbar .blab{font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);font-weight:800;margin-bottom:8px}
-.bookchaps{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+.bookchaps{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px;position:relative;max-height:min(34vh,300px);overflow-y:auto;overscroll-behavior:contain}
 /* collapsible picker header */
 .bb-top{display:flex;align-items:center;gap:9px;width:100%;border:0;background:none;padding:0;cursor:pointer;font-family:var(--sans);text-align:left}
 .bb-lab{font-size:10px;letter-spacing:.11em;text-transform:uppercase;font-weight:800;color:var(--muted);flex-shrink:0}
@@ -7848,6 +7848,13 @@ p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
       chips.forEach((c,k)=>c.classList.toggle('on',k===i));
       if(prev)prev.disabled=(pos===0);
       if(next)next.disabled=(pos===order.length-1);
+      // the chip bar scrolls internally once it is capped, so keep the active chip in view
+      const el=chips[i];
+      if(el&&bar.scrollHeight>bar.clientHeight+2){
+        const top=el.offsetTop, h=el.offsetHeight;
+        if(top<bar.scrollTop)bar.scrollTop=Math.max(0,top-26);
+        else if(top+h>bar.scrollTop+bar.clientHeight)bar.scrollTop=top+h-bar.clientHeight+6;
+      }
       window.bookScroll(cfg[4],cfg[1]);
     }
     chips.forEach((c,k)=>c.addEventListener('click',()=>show(order.indexOf(k))));
