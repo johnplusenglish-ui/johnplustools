@@ -162,7 +162,8 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
 
 /* ---------- phases & steps ---------- */
 .phase{display:flex;align-items:center;gap:12px;margin:40px 0 4px}
-.phase .lab{font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700;white-space:nowrap}
+.phase .lab{font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700;white-space:nowrap;min-width:0}
+@media(max-width:700px){.phase{flex-wrap:wrap;gap:8px}.phase .lab{white-space:normal}}
 .phase .due{font-size:11.5px;font-weight:700;color:var(--due);background:var(--due-light);padding:3px 11px;border-radius:100px}
 .phase .line{flex:1;height:1px;background:var(--border)}
 
