@@ -7111,6 +7111,13 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     setAll(isMobile()?false:(stored===null?true:stored==='1'),false);
   })();
 
+  // ---- any table not already wrapped gets a scroller, or it drags the page sideways on a phone ----
+  document.querySelectorAll('table.tbl').forEach(function(t){
+    if(t.parentNode&&t.parentNode.classList.contains('tscroll'))return;
+    var w=document.createElement('div'); w.className='tscroll';
+    t.parentNode.insertBefore(w,t); w.appendChild(t);
+  });
+
   // ---- click-to-play video embeds ----
   document.querySelectorAll('.ytlite').forEach(el=>{
     el.addEventListener('click',()=>{
