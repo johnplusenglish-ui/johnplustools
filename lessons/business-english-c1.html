@@ -1280,9 +1280,11 @@ var DEFAULT_WORDS = [
   {term:"a sunk cost", def:"money already spent that you can never get back, and which should not drive the next decision", example:"The money spent on the old packaging is a sunk cost, so stop letting it decide things."},
   {term:"pivot", def:"to change direction or business model, often sharply", example:"They started as a delivery app, then decided to pivot to supplying restaurants directly."},
   {term:"word of mouth", def:"customers recommending you informally to other people", example:"We have never paid for advertising: it has all come from word of mouth."},
-  {term:"repeat business", def:"sales that come from customers returning, rather than from new ones", example:"Discounts bring people in once, but only good service brings repeat business."},
-  {term:"undercut", def:"to sell more cheaply than a competitor in order to take their customers", example:"A bigger chain opened nearby and undercut us on every single line."},
-  {term:"razor-thin margins", def:"a very small amount of profit on each item sold", example:"Supermarkets live with razor-thin margins and make it up on volume."},
+  {term:"a ballpark figure", def:"a rough number given quickly, when an exact one is not possible yet", example:"I cannot quote you properly today, but a ballpark figure would be around twelve thousand."},
+  {term:"build rapport", def:"to build an easy, trusting relationship with somebody, especially a client",
+   example:"Spend the first ten minutes trying to build rapport before you go anywhere near the contract."},
+  {term:"circle back", def:"to come back to a subject, or to a person, later on",
+   example:"Let us park that one for now and circle back to it at the end of the meeting."},
   {term:"drum up business", def:"to go out and actively find new customers", example:"Every January we ring old clients and do what we can to drum up business."},
   {term:"in the black", def:"making a profit, the opposite of being in the red", example:"After eighteen difficult months, the company is finally in the black."}
 ];
@@ -2323,7 +2325,7 @@ var DEFAULT_LISTEN = [
   {
     title: 'Two Ways to Make Money',
     subtitle: 'Two owners of small businesses compare notes at a trade fair',
-    targetPhrases: ['on a shoestring','break even','a cash cow','a loss leader','a pain point','scale up','corner the market','the bottom line','a sunk cost','pivot','word of mouth','repeat business','undercut','razor-thin margins','drum up business','in the black'],
+    targetPhrases: ['on a shoestring','break even','a cash cow','a loss leader','a pain point','scale up','corner the market','the bottom line','a sunk cost','pivot','word of mouth','a ballpark figure','build rapport','circle back','drum up business','in the black'],
     audio: null,
     questions: [
       'How long did it take each business to start making money?',
@@ -2336,21 +2338,23 @@ var DEFAULT_LISTEN = [
       ln('a','Marcus',"Three years in, and we finally break even. [pause] I am not joking, I nearly cried."),
       ln('b','Orla',"That is a real milestone. We only got in the black last spring."),
       ln('a','Marcus',"What changed?"),
-      ln('b','Orla',"We stopped chasing new customers and started looking after the old ones. Repeat business is the whole game, it turns out."),
+      ln('b','Orla',"We stopped chasing new customers and started looking after the ones we already had. Half of it is just taking the time to build rapport."),
       ln('a','Marcus',"That is what everybody told me, and I ignored all of them."),
       ln('b','Orla',"Same. We spent a fortune on advertising in year one. All of it a sunk cost now."),
       ln('a','Marcus',"Ours came from word of mouth, which is free and terrifying, because you cannot control it."),
-      ln('b','Orla',"Can I ask what your margins are like?"),
-      ln('a','Marcus',"Razor-thin margins on the beans. The subscriptions carry everything else."),
+      ln('b','Orla',"Can you give me a ballpark figure for your margin on the beans?"),
+      ln('a','Marcus',"Under ten per cent, and that is on a good week. The subscriptions carry everything else."),
       ln('b','Orla',"So the subscriptions are a cash cow."),
       ln('a','Marcus',"Essentially. The shop is really a loss leader. People come in for a two-euro coffee and leave with a bag of beans and a grinder."),
       ln('b','Orla',"[pause] That is clever. We started the whole thing on a shoestring, two of us and a kitchen table."),
       ln('a','Marcus',"Are you ready to scale up?"),
       ln('b','Orla',"That is the argument we are having. My business partner wants to pivot into wholesale and sell through the supermarkets."),
       ln('a','Marcus',"And you?"),
-      ln('b','Orla',"The supermarkets will undercut us within a year and then dictate the price. I would rather stay small and profitable."),
+      ln('b','Orla',"The supermarkets will squeeze us on price within a year and then dictate the terms. I would rather stay small and profitable."),
       ln('a','Marcus',"You will never corner the market in snacks anyway. Nobody will."),
       ln('b','Orla',"No. And the bottom line is that wholesale pays us far less per box."),
+      ln('a','Marcus',"Come and find me before you decide. I would genuinely like to circle back to that with the numbers in front of us."),
+      ln('b','Orla',"I will. You can tell me I am being a coward."),
       ln('a','Marcus',"What does your accountant say?"),
       ln('b','Orla',"She says find a pain point, solve it properly and charge properly for it. Everything else is noise."),
       ln('a','Marcus',"I like her."),
@@ -2360,7 +2364,7 @@ var DEFAULT_LISTEN = [
   }
 ];
 function loadListen(){
-  try{ var raw = JSON.parse(localStorage.getItem(LISTEN_KEY)); if(Array.isArray(raw) && raw.length && JSON.stringify(raw).indexOf('razor-thin margins') > -1) return raw; }catch(e){}
+  try{ var raw = JSON.parse(localStorage.getItem(LISTEN_KEY)); if(Array.isArray(raw) && raw.length && JSON.stringify(raw).indexOf('a ballpark figure') > -1) return raw; }catch(e){}
   return JSON.parse(JSON.stringify(DEFAULT_LISTEN));
 }
 var LISTEN = loadListen();
@@ -3013,9 +3017,9 @@ var FLASHCARD_IMAGES = {
   'a sunk cost': null,
   'pivot': null,
   'word of mouth': null,
-  'repeat business': null,
-  'undercut': null,
-  'razor-thin margins': null,
+  'a ballpark figure': null,
+  'build rapport': null,
+  'circle back': null,
   'drum up business': null,
   'in the black': null
 };
