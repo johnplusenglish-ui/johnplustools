@@ -1152,7 +1152,7 @@ body.section-present .deb-instruction{font-size:1.15rem}
       <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div>
       <div>
         <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-listening" onblur="onStaticTextBlur(this)">Listening · Two-Way Chat</div>
-        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-listening" onblur="onStaticTextBlur(this)">C1 &middot; two business people talking · 15 min</div>
+        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-listening" onblur="onStaticTextBlur(this)">C1 &middot; a conversation with something at stake · 15 min</div>
       </div>
       <div class="section-header-actions">
         <button class="deb-edit-toggle" id="listenEditToggle" onclick="toggleListenEditMode()" title="Edit">
@@ -2323,48 +2323,49 @@ var LISTEN_KEY = 'jpe_business_listening';
 function ln(speaker, name, text){ return {speaker:speaker, name:name, text:text}; }
 var DEFAULT_LISTEN = [
   {
-    title: 'Two Ways to Make Money',
-    subtitle: 'A London coffee roaster and an American founder compare notes at a trade fair',
+    title: 'The Offer',
+    subtitle: 'Over a drink after a trade fair, a London business owner is offered a great deal of money for the company he built',
     targetPhrases: ['on a shoestring','break even','a cash cow','a loss leader','a pain point','scale up','corner the market','the bottom line','a sunk cost','pivot','word of mouth','a ballpark figure','build rapport','circle back','drum up business','in the black'],
     audio: null,
     questions: [
-      'How long did it take each business to start making money?',
-      'What is the argument Dana is having with her business partner, and whose side are you on?',
-      'What advice does Dana\'s accountant give her?'
+      'What does Dana want, and what is her opening figure based on?',
+      'What does Marcus think will happen to the business if he sells it?',
+      'What has Dana already done, and how does she explain it?'
     ],
     lines: [
-      ln('a','Marcus',"Dana. I did not know you were exhibiting this year."),
-      ln('b','Dana',"First time. I shared a stand with somebody to keep it cheap. How is the roastery?"),
-      ln('a','Marcus',"Three years in, and we finally break even. [pause] I am not joking, I nearly cried."),
-      ln('b','Dana',"That is a real milestone. We only got in the black last spring."),
-      ln('a','Marcus',"What changed?"),
-      ln('b','Dana',"[pause] We stopped chasing new customers and started looking after the ones we already had. Half of it is just taking the time to build rapport."),
-      ln('a','Marcus',"That is what everybody told me, and I ignored all of them."),
-      ln('b','Dana',"Same. We spent a fortune on advertising in year one. All of it a sunk cost now."),
-      ln('a','Marcus',"[pause] Ours came from word of mouth, which is free and terrifying, because you cannot control it."),
-      ln('b','Dana',"Can you give me a ballpark figure for your margin on the beans?"),
-      ln('a','Marcus',"[pause] Under ten per cent, and that is on a good week. The subscriptions carry everything else."),
-      ln('b','Dana',"So the subscriptions are a cash cow."),
-      ln('a','Marcus',"Essentially. [pause] The shop is really a loss leader. People come in for a three-pound coffee and leave with a bag of beans and a grinder."),
-      ln('b','Dana',"[pause] That is clever. We started the whole thing on a shoestring, two of us and a kitchen table."),
-      ln('a','Marcus',"Are you ready to scale up?"),
-      ln('b','Dana',"[pause] That is the argument we are having. My business partner wants to pivot into wholesale and sell through the big grocery chains."),
-      ln('a','Marcus',"And you?"),
-      ln('b','Dana',"The big chains will squeeze us on price within a year and then dictate the terms. I would rather stay small and profitable."),
-      ln('a','Marcus',"You will never corner the market in snacks anyway. Nobody will."),
-      ln('b','Dana',"No. And the bottom line is that wholesale pays us far less per box."),
-      ln('a','Marcus',"Come and find me before you decide. I would genuinely like to circle back to that with the numbers in front of us."),
-      ln('b','Dana',"I will. You can tell me I am being a coward."),
-      ln('a','Marcus',"What does your accountant say?"),
-      ln('b','Dana',"[pause] She says find a pain point, solve it properly and charge properly for it. Everything else is noise."),
-      ln('a','Marcus',"I like her."),
-      ln('b','Dana',"So January comes, it all goes quiet, and the two of us go out and drum up business like it is year one again."),
-      ln('a','Marcus',"Every single January. [pause] Right, come and see the stand. I will make you a decent coffee.")
+      ln('b','Dana',"Can I buy you a drink? There is something I want to say in person rather than in an email."),
+      ln('a','Marcus',"[pause] That is an ominous opening."),
+      ln('b','Dana',"It is a good one, I promise. I want to buy the roastery."),
+      ln('a','Marcus',"[laughs] You have known me for two trade fairs."),
+      ln('b','Dana',"Three. And I have been watching the business for about a year."),
+      ln('a','Marcus',"Why?"),
+      ln('b','Dana',"Because you built it on a shoestring and you are in the black, and almost nobody your size is."),
+      ln('a','Marcus',"[pause] We only managed to break even eighteen months ago."),
+      ln('b','Dana',"That is exactly my point. Most people in your position never get there at all."),
+      ln('a','Marcus',"So what is the number?"),
+      ln('b','Dana',"[pause] I can give you a ballpark figure tonight, but I would want my accountant to look at it properly first."),
+      ln('a','Marcus',"Give me the ballpark."),
+      ln('b','Dana',"Four times what you turned over last year. More, if the subscriptions keep growing the way they are."),
+      ln('a','Marcus',"[pause] The subscriptions are a cash cow. The shop barely pays for itself, it is really a loss leader."),
+      ln('b','Dana',"I know. That is why I want it. You solved a pain point the big roasters have ignored for twenty years."),
+      ln('a','Marcus',"And then what? You scale up, you pivot the whole thing into the supermarkets, and the reason people liked it is gone."),
+      ln('b','Dana',"That is the honest risk, and I am not going to pretend otherwise."),
+      ln('a','Marcus',"[pause] Why me, though? You could corner the market without me."),
+      ln('b','Dana',"Nobody corners this market. People buy coffee because somebody they trust told them to. Word of mouth is the entire business, and the word of mouth has your name on it."),
+      ln('a','Marcus',"I have given eleven years to this. Eleven Januaries going out in the rain to drum up business."),
+      ln('b','Dana',"I know you have. And I am not asking you to write that off as a sunk cost."),
+      ln('a','Marcus',"Have you spoken to anybody else about this?"),
+      ln('b','Dana',"[pause] I have had one conversation with your business partner."),
+      ln('a','Marcus',"Right."),
+      ln('b','Dana',"Before you say anything, he did not agree to a thing. I wanted to build rapport before I came to you, and that was the wrong order. I am sorry."),
+      ln('a','Marcus',"[pause] The bottom line is that you went round me."),
+      ln('b','Dana',"I did. [pause] Take the week. Then let us circle back, and I will bring the real numbers instead of a ballpark."),
+      ln('a','Marcus',"Bring your accountant as well.")
     ]
   }
 ];
 function loadListen(){
-  try{ var raw = JSON.parse(localStorage.getItem(LISTEN_KEY)); if(Array.isArray(raw) && raw.length && JSON.stringify(raw).indexOf('a ballpark figure') > -1 && JSON.stringify(raw).indexOf('Orla') === -1) return raw; }catch(e){}
+  try{ var raw = JSON.parse(localStorage.getItem(LISTEN_KEY)); if(Array.isArray(raw) && raw.length && JSON.stringify(raw).indexOf('I want to buy the roastery') > -1) return raw; }catch(e){}
   return JSON.parse(JSON.stringify(DEFAULT_LISTEN));
 }
 var LISTEN = loadListen();
