@@ -832,7 +832,7 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <div class="section-header">
       <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/></svg></div>
       <div>
-        <div class="section-title" id="vocabHeading">Vocabulary &middot; 16 items, C1</div>
+        <div class="section-title" id="vocabHeading">Vocabulary &middot; 12 items, C1</div>
         <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-vocab" onblur="onStaticTextBlur(this)">Business Word Bank · 20 min</div>
       </div>
       <div class="section-header-actions">
@@ -867,7 +867,7 @@ body.section-present .deb-instruction{font-size:1.15rem}
       <div class="section-card">
         <div class="flash-nav">
           <button class="flash-arrow" id="flashPrev" onclick="flashPrev()" aria-label="Previous card">&lsaquo;</button>
-          <div class="flash-progress" id="flashProgress">1 / 16</div>
+          <div class="flash-progress" id="flashProgress">1 / 12</div>
           <button class="flash-arrow" id="flashNext" onclick="flashNext()" aria-label="Next card">&rsaquo;</button>
         </div>
         <div class="flash-card" id="flashCard" onclick="flashAdvance()">
@@ -1269,15 +1269,11 @@ body.section-present .deb-instruction{font-size:1.15rem}
 <script>
 var STORAGE_KEY = 'jpe_business_c1_words';
 var DEFAULT_WORDS = [
-  {term:"on a shoestring", def:"using a very small amount of money", example:"They launched the whole thing on a shoestring, working out of a spare bedroom."},
   {term:"break even", def:"to reach the point where what you earn covers what you spend, with no profit and no loss", example:"The café took two years to break even, and the third year was the first good one."},
   {term:"a cash cow", def:"a product or part of a business that reliably produces a lot of money", example:"The repairs department is unglamorous, but it is a cash cow that pays for everything else."},
-  {term:"a loss leader", def:"something priced very cheaply, sometimes below cost, to attract customers who then buy other things", example:"The two-euro chicken is a loss leader: nobody walks out with only the chicken."},
   {term:"a pain point", def:"a specific problem that frustrates customers, and that a business can make money by solving", example:"We found a pain point nobody had solved: there were no delivery slots after six."},
   {term:"scale up", def:"to grow something so that it can handle far more customers or orders", example:"Before you scale up, make sure the thing you are doing actually works at a small size."},
-  {term:"corner the market", def:"to take control of almost all the sales of a particular product", example:"Nobody is going to corner the market in coffee beans, so stop trying."},
   {term:"the bottom line", def:"the final profit figure, or by extension the thing that really matters", example:"It is a lovely idea, but what does it do for the bottom line?"},
-  {term:"a sunk cost", def:"money already spent that you can never get back, and which should not drive the next decision", example:"The money spent on the old packaging is a sunk cost, so stop letting it decide things."},
   {term:"pivot", def:"to change direction or business model, often sharply", example:"They started as a delivery app, then decided to pivot to supplying restaurants directly."},
   {term:"word of mouth", def:"customers recommending you informally to other people", example:"We have never paid for advertising: it has all come from word of mouth."},
   {term:"a ballpark figure", def:"a rough number given quickly, when an exact one is not possible yet", example:"I cannot quote you properly today, but a ballpark figure would be around twelve thousand."},
@@ -1296,7 +1292,7 @@ var selTerm = null, selDef = null;
 function loadWords(){
   try{
     var raw = localStorage.getItem(STORAGE_KEY);
-    if(raw){ var p = JSON.parse(raw); if(Array.isArray(p) && p.length && JSON.stringify(p).indexOf('a loss leader') > -1) return p; }
+    if(raw){ var p = JSON.parse(raw); if(Array.isArray(p) && p.length && JSON.stringify(p).indexOf('a ballpark figure') > -1) return p; }
   }catch(e){}
   return JSON.parse(JSON.stringify(DEFAULT_WORDS));
 }
@@ -2325,7 +2321,7 @@ var DEFAULT_LISTEN = [
   {
     title: 'The Offer',
     subtitle: 'Over a drink after a trade fair, a London business owner is offered a great deal of money for the company he built',
-    targetPhrases: ['on a shoestring','break even','a cash cow','a loss leader','a pain point','scale up','corner the market','the bottom line','a sunk cost','pivot','word of mouth','a ballpark figure','build rapport','circle back','drum up business','in the black'],
+    targetPhrases: ['break even','a cash cow','a pain point','scale up','the bottom line','pivot','word of mouth','a ballpark figure','build rapport','circle back','drum up business','in the black'],
     audio: null,
     questions: [
       'What does Dana want, and what is her opening figure based on?',
@@ -2333,39 +2329,37 @@ var DEFAULT_LISTEN = [
       'What has Dana already done, and how does she explain it?'
     ],
     lines: [
-      ln('b','Dana',"Can I buy you a drink? There is something I want to say in person rather than in an email."),
-      ln('a','Marcus',"[pause] That is an ominous opening."),
-      ln('b','Dana',"It is a good one, I promise. I want to buy the roastery."),
+      ln('b','Dana',"Can I buy you a drink? I would rather say this in person than in an email."),
+      ln('a','Marcus',"That is an ominous opening."),
+      ln('b','Dana',"It is a good one. I want to buy the roastery."),
       ln('a','Marcus',"[laughs] You have known me for two trade fairs."),
-      ln('b','Dana',"Three. And I have been watching the business for about a year."),
-      ln('a','Marcus',"Why?"),
-      ln('b','Dana',"Because you built it on a shoestring and you are in the black, and almost nobody your size is."),
-      ln('a','Marcus',"[pause] We only managed to break even eighteen months ago."),
-      ln('b','Dana',"That is exactly my point. Most people in your position never get there at all."),
+      ln('b','Dana',"Three. And I have been watching the business for a year."),
+      ln('a','Marcus',"Why mine?"),
+      ln('b','Dana',"Because you are in the black, and almost nobody your size is."),
+      ln('a','Marcus',"We only managed to break even eighteen months ago."),
+      ln('b','Dana',"Most people in your position never get there at all."),
       ln('a','Marcus',"So what is the number?"),
-      ln('b','Dana',"[pause] I can give you a ballpark figure tonight, but I would want my accountant to look at it properly first."),
+      ln('b','Dana',"[pause] I can give you a ballpark figure tonight. My accountant would want a proper look before anything is signed."),
       ln('a','Marcus',"Give me the ballpark."),
-      ln('b','Dana',"Four times what you turned over last year. More, if the subscriptions keep growing the way they are."),
-      ln('a','Marcus',"[pause] The subscriptions are a cash cow. The shop barely pays for itself, it is really a loss leader."),
+      ln('b','Dana',"Four times what you turned over last year. More if the subscriptions keep growing."),
+      ln('a','Marcus',"The subscriptions are a cash cow. The shop barely pays for itself."),
       ln('b','Dana',"I know. That is why I want it. You solved a pain point the big roasters have ignored for twenty years."),
-      ln('a','Marcus',"And then what? You scale up, you pivot the whole thing into the supermarkets, and the reason people liked it is gone."),
-      ln('b','Dana',"That is the honest risk, and I am not going to pretend otherwise."),
-      ln('a','Marcus',"[pause] Why me, though? You could corner the market without me."),
-      ln('b','Dana',"Nobody corners this market. People buy coffee because somebody they trust told them to. Word of mouth is the entire business, and the word of mouth has your name on it."),
+      ln('a','Marcus',"And then you scale up, you pivot the whole thing into the supermarkets, and the reason people liked it is gone."),
+      ln('b','Dana',"That is the honest risk. I am not going to pretend otherwise."),
+      ln('a','Marcus',"Word of mouth is the entire business, and it has my name on it, not yours."),
+      ln('b','Dana',"Which is exactly why I am sitting here."),
       ln('a','Marcus',"I have given eleven years to this. Eleven Januaries going out in the rain to drum up business."),
-      ln('b','Dana',"I know you have. And I am not asking you to write that off as a sunk cost."),
-      ln('a','Marcus',"Have you spoken to anybody else about this?"),
-      ln('b','Dana',"[pause] I have had one conversation with your business partner."),
+      ln('b','Dana',"I know. [pause] There is one more thing. I have already had a conversation with your business partner."),
       ln('a','Marcus',"Right."),
-      ln('b','Dana',"Before you say anything, he did not agree to a thing. I wanted to build rapport before I came to you, and that was the wrong order. I am sorry."),
-      ln('a','Marcus',"[pause] The bottom line is that you went round me."),
-      ln('b','Dana',"I did. [pause] Take the week. Then let us circle back, and I will bring the real numbers instead of a ballpark."),
+      ln('b','Dana',"He agreed to nothing. I wanted to build rapport before I came to you, and that was the wrong order. I am sorry."),
+      ln('a','Marcus',"The bottom line is that you went round me."),
+      ln('b','Dana',"I did. Take the week. Then let us circle back and I will bring real numbers instead of a ballpark."),
       ln('a','Marcus',"Bring your accountant as well.")
     ]
   }
 ];
 function loadListen(){
-  try{ var raw = JSON.parse(localStorage.getItem(LISTEN_KEY)); if(Array.isArray(raw) && raw.length && JSON.stringify(raw).indexOf('I want to buy the roastery') > -1) return raw; }catch(e){}
+  try{ var raw = JSON.parse(localStorage.getItem(LISTEN_KEY)); if(Array.isArray(raw) && raw.length && JSON.stringify(raw).indexOf('Why mine?') > -1) return raw; }catch(e){}
   return JSON.parse(JSON.stringify(DEFAULT_LISTEN));
 }
 var LISTEN = loadListen();
@@ -2833,7 +2827,7 @@ var UOE_KEY = 'jpe_business_uoe_items';
    answer is 2-5 words and must include the key word unchanged */
 var DEFAULT_UOE = [
   {key:'EVEN', s1:'The business made no profit and no loss at all last year.', s2:'The business just managed to ___ last year.', answer:'break even'},
-  {key:'SHOESTRING', s1:'They set the company up with almost no money.', s2:'They set the company up ___.', answer:'on a shoestring'},
+  {key:'RAPPORT', s1:'It takes time to build a good, trusting relationship with a new client.', s2:'It takes time to ___ with a new client.', answer:'build rapport'},
   {key:'MOUTH', s1:'Nearly all our customers come to us because somebody recommended us.', s2:'Nearly all our customers come to us by ___.', answer:'word of mouth'},
   {key:'LINE', s1:'In the end, profit is the only thing the investors care about.', s2:'In the end, the investors only care about ___.', answer:'the bottom line'},
   {key:'PIVOT', s1:'The company changed direction completely after the first year.', s2:'The company decided to ___ after the first year.', answer:'pivot'},
@@ -3007,15 +3001,11 @@ function removeWarmupQ(i){
 
 /* ---------- flashcards ---------- */
 var FLASHCARD_IMAGES = {
-  'on a shoestring': null,
   'break even': null,
   'a cash cow': null,
-  'a loss leader': null,
   'a pain point': null,
   'scale up': null,
-  'corner the market': null,
   'the bottom line': null,
-  'a sunk cost': null,
   'pivot': null,
   'word of mouth': null,
   'a ballpark figure': null,
