@@ -2094,7 +2094,7 @@ var DEFAULT_RP = [
     scenario:"A supplier has to tell a client of eight years that prices are going up by twelve per cent from next month. The client has just been quoted a cheaper price by somebody else.",
     roleA:{name:'The supplier', desc:"Explain the increase without apologising for it. Defend your value, offer one concession, but do not give the whole twelve per cent back."},
     roleB:{name:'The client', desc:"You like them and you do not want to move, but you have a cheaper quote in your hand. Push hard before you accept anything."},
-    chips:["I wanted to tell you this myself rather than send a letter.","Walk me through where the increase is actually coming from.","We have absorbed these costs for two years already.","I have a quote here that is nine per cent below yours.","What could you do on the payment terms instead?","Let me come back to you with something by Friday."]
+    chips:["I wanted to tell you this myself, not send a letter.","Walk me through where the increase is actually coming from.","We've absorbed these costs for two years already.","I've got a quote here that's nine per cent below yours.","What could you do on the payment terms instead?","Let me come back to you with something by Friday."]
   },
   {
     tone:'formal',
@@ -2110,7 +2110,7 @@ var DEFAULT_RP = [
     scenario:"A customer has been waiting three weeks for an order that was promised in five days. It is now needed for an event on Saturday.",
     roleA:{name:'The customer', desc:"You have been patient twice already. Be firm and specific about what you want: the goods, a discount, or your money back."},
     roleB:{name:'The account manager', desc:"It was your supplier's fault, but that is not the customer's problem. Take responsibility, then solve it with something concrete."},
-    chips:["This is the third time I have had to chase this.","I completely understand, and I am not going to make excuses.","What I need is the order by Friday, or a full refund.","Here is exactly what I can do today.","Can I have that in writing, please?","What happens if it slips again?"]
+    chips:["This is the third time I've had to chase this.","I completely understand, and I'm not going to make excuses.","What I need is the order by Friday, or a full refund.","Here's exactly what I can do today.","Can I have that in writing, please?","What happens if it slips again?"]
   },
   {
     tone:'formal',
@@ -2118,7 +2118,7 @@ var DEFAULT_RP = [
     scenario:"A buyer and a seller are agreeing a twelve-month contract. The buyer wants a lower price and longer payment terms. The seller needs the volume but cannot go below cost.",
     roleA:{name:'The buyer', desc:"Open lower than you expect to pay. Trade something that costs you nothing: a longer contract, a testimonial, a bigger first order."},
     roleB:{name:'The seller', desc:"Know your walk-away number before you start. Never give a discount without getting something back for it."},
-    chips:["Let us start with what we both want out of this.","That is outside what I can do, but here is what I can.","If you could commit to twelve months, I could look at the price.","We would need sixty days rather than thirty.","So where does that leave us?","Shall we write down what we have agreed so far?"]
+    chips:["Let's start with what we both want out of this.","That's outside what I can do, but here's what I can.","If you could commit to twelve months, I could look at the price.","We'd need sixty days rather than thirty.","So where does that leave us?","Shall we write down what we've agreed so far?"]
   },
   {
     tone:'awkward',
@@ -2126,7 +2126,7 @@ var DEFAULT_RP = [
     scenario:"Two people started a business together four years ago. One wants to scale up fast and take outside money. The other wants to stay small, stay independent and go home at six.",
     roleA:{name:'Partner A', desc:"You believe the window is closing and that staying small is slowly dying. Make the case without making it personal."},
     roleB:{name:'Partner B', desc:"You built this to have a life, not a boardroom. Say what you are actually afraid of."},
-    chips:["Can we talk properly, not between meetings?","I think we want two different companies now.","What is the worst case if we do it your way?","It is not the money, it is the hours.","Is there a version of this we could both live with?","Let us agree one thing we will decide this month."]
+    chips:["Can we talk properly, not between meetings?","I think we want two different companies now.","What's the worst case if we do it your way?","It's not the money, it's the hours.","Is there a version of this we could both live with?","Let's agree one thing we'll decide this month."]
   }
 ];
 function loadRP(){
@@ -2329,37 +2329,37 @@ var DEFAULT_LISTEN = [
       'What has Dana already done, and how does she explain it?'
     ],
     lines: [
-      ln('b','Dana',"Can I buy you a drink? I would rather say this in person than in an email."),
-      ln('a','Marcus',"That is an ominous opening."),
-      ln('b','Dana',"It is a good one. I want to buy the roastery."),
-      ln('a','Marcus',"[laughs] You have known me for two trade fairs."),
-      ln('b','Dana',"Three. And I have been watching the business for a year."),
+      ln('b','Dana',"Can I buy you a drink? I'd rather say this in person than stick it in an email."),
+      ln('a','Marcus',"That's an ominous opening."),
+      ln('b','Dana',"It's a good one. I want to buy the roastery."),
+      ln('a','Marcus',"[laughs] You've known me for two trade fairs."),
+      ln('b','Dana',"Three. And I've been watching the business for a year."),
       ln('a','Marcus',"Why mine?"),
-      ln('b','Dana',"Because you are in the black, and almost nobody your size is."),
+      ln('b','Dana',"Because you're in the black, and almost nobody your size is."),
       ln('a','Marcus',"We only managed to break even eighteen months ago."),
       ln('b','Dana',"Most people in your position never get there at all."),
-      ln('a','Marcus',"So what is the number?"),
-      ln('b','Dana',"[pause] I can give you a ballpark figure tonight. My accountant would want a proper look before anything is signed."),
+      ln('a','Marcus',"So what's the number?"),
+      ln('b','Dana',"I can give you a ballpark figure tonight. My accountant would want a proper look before anything's signed."),
       ln('a','Marcus',"Give me the ballpark."),
       ln('b','Dana',"Four times what you turned over last year. More if the subscriptions keep growing."),
       ln('a','Marcus',"The subscriptions are a cash cow. The shop barely pays for itself."),
-      ln('b','Dana',"I know. That is why I want it. You solved a pain point the big roasters have ignored for twenty years."),
-      ln('a','Marcus',"And then you scale up, you pivot the whole thing into the supermarkets, and the reason people liked it is gone."),
-      ln('b','Dana',"That is the honest risk. I am not going to pretend otherwise."),
-      ln('a','Marcus',"Word of mouth is the entire business, and it has my name on it, not yours."),
-      ln('b','Dana',"Which is exactly why I am sitting here."),
-      ln('a','Marcus',"I have given eleven years to this. Eleven Januaries going out in the rain to drum up business."),
-      ln('b','Dana',"I know. [pause] There is one more thing. I have already had a conversation with your business partner."),
+      ln('b','Dana',"I know. That's why I want it. You've solved a pain point the big roasters have ignored for twenty years."),
+      ln('a','Marcus',"And then you scale up, you pivot it into the supermarkets, and it's not the same place any more."),
+      ln('b','Dana',"That's the honest risk. I'm not going to pretend otherwise."),
+      ln('a','Marcus',"Word of mouth is the whole business, and it's got my name on it, not yours."),
+      ln('b','Dana',"That's exactly why I'm sitting here."),
+      ln('a','Marcus',"I've given eleven years to this. Eleven Januaries out in the rain trying to drum up business."),
+      ln('b','Dana',"I know. [pause] There's one more thing. I've already spoken to your business partner."),
       ln('a','Marcus',"Right."),
-      ln('b','Dana',"He agreed to nothing. I wanted to build rapport before I came to you, and that was the wrong order. I am sorry."),
-      ln('a','Marcus',"The bottom line is that you went round me."),
-      ln('b','Dana',"I did. Take the week. Then let us circle back and I will bring real numbers instead of a ballpark."),
-      ln('a','Marcus',"Bring your accountant as well.")
+      ln('b','Dana',"He didn't agree to anything. I wanted to build rapport before I came to you, and that was the wrong way round. I'm sorry."),
+      ln('a','Marcus',"The bottom line is you went round me."),
+      ln('b','Dana',"I did. Take the week. Then let's circle back and I'll bring real numbers instead of a ballpark."),
+      ln('a','Marcus',"Bring your accountant too.")
     ]
   }
 ];
 function loadListen(){
-  try{ var raw = JSON.parse(localStorage.getItem(LISTEN_KEY)); if(Array.isArray(raw) && raw.length && JSON.stringify(raw).indexOf('Why mine?') > -1) return raw; }catch(e){}
+  try{ var raw = JSON.parse(localStorage.getItem(LISTEN_KEY)); if(Array.isArray(raw) && raw.length && JSON.stringify(raw).indexOf("stick it in an email") > -1) return raw; }catch(e){}
   return JSON.parse(JSON.stringify(DEFAULT_LISTEN));
 }
 var LISTEN = loadListen();
