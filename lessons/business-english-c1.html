@@ -683,6 +683,63 @@ body.section-present .deb-instruction{font-size:1.15rem}
 .pi-q:hover{color:var(--ink)}
 .pi-q.crossed{text-decoration:line-through;opacity:.42}
 @media(max-width:600px){.sv-row{grid-template-columns:78px minmax(0,1fr) 28px 22px}.sv-lab{font-size:.74rem}}
+
+/* ===== Breakout pitch room ===== */
+.bo-run{display:grid;gap:.5rem;margin-bottom:.4rem}
+.bo-round{display:grid;grid-template-columns:30px 1fr auto;gap:.8rem;align-items:center;
+  border:1.5px solid var(--border);border-radius:11px;padding:.65rem .9rem;background:var(--card)}
+.bo-round-n{font-family:'JetBrains Mono',monospace;font-weight:800;color:var(--mint);font-size:.95rem}
+.bo-round-t{font-size:.92rem;line-height:1.45}
+.bo-round-t b{font-weight:800}
+.bo-round-time{font-family:'JetBrains Mono',monospace;font-size:.78rem;font-weight:700;color:var(--muted);
+  border:1.5px solid var(--border);border-radius:100px;padding:.2rem .7rem;cursor:pointer;white-space:nowrap}
+.bo-round-time:hover{border-color:var(--mint);color:var(--mint)}
+.bo-round-time.on{background:var(--mint);color:#fff;border-color:var(--mint)}
+.bo-timer-row{display:flex;align-items:center;gap:.8rem;margin:1rem 0 .5rem;flex-wrap:wrap}
+.bo-disp{font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:800;min-width:76px;text-align:center}
+.bo-bar-outer{height:5px;border-radius:3px;background:color-mix(in srgb,var(--ink) 8%,transparent);overflow:hidden}
+.bo-bar{height:100%;width:100%;background:var(--mint);border-radius:3px;transition:width .95s linear}
+.bo-size{display:inline-flex;border:1.5px solid var(--border);border-radius:9px;overflow:hidden}
+.bo-size button{font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:700;padding:.32rem .8rem;border:none;
+  background:var(--card);color:var(--muted);cursor:pointer}
+.bo-size button.on{background:var(--mint);color:#fff}
+.bo-roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(248px,1fr));gap:.7rem}
+.bo-role{border:1.5px solid var(--border);border-radius:12px;padding:.9rem 1rem;background:var(--card)}
+.bo-role.inv{background:var(--mint-light);border-color:rgba(33,118,255,.25)}
+.bo-role-tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:800;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--mint);margin-bottom:.35rem}
+.bo-role-name{font-weight:800;font-size:1rem;margin-bottom:.3rem}
+.bo-role-desc{font-size:.87rem;line-height:1.5;color:var(--slate-mid)}
+.bo-brief{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin-bottom:.9rem}
+.bo-chip{font-size:.85rem;font-weight:700;padding:.4rem .85rem;border-radius:100px;
+  border:1.5px solid var(--border);background:var(--card)}
+.bo-chip.sector{border-color:var(--mint);color:var(--mint);background:var(--mint-light)}
+.bo-chip.constraint{border-color:#F59E0B;color:#B45309;background:#FEF3C7}
+.bo-field{margin-bottom:.8rem}
+.bo-field label{display:block;font-size:.8rem;font-weight:800;margin-bottom:.3rem}
+.bo-field textarea{width:100%;font-family:'Outfit',sans-serif;font-size:.92rem;line-height:1.5;padding:.6rem .75rem;
+  border:1.5px solid var(--border);border-radius:10px;resize:vertical;min-height:56px;background:var(--card);color:var(--ink)}
+.bo-field textarea:focus{outline:none;border-color:var(--mint)}
+.bo-score{display:grid;grid-template-columns:1fr auto;gap:.7rem;align-items:center;padding:.5rem 0;
+  border-bottom:1px solid var(--border)}
+.bo-score:last-of-type{border-bottom:none}
+.bo-score-q{font-size:.9rem}
+.bo-dots{display:flex;gap:.3rem}
+.bo-dot{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--border);background:var(--card);
+  font-family:'JetBrains Mono',monospace;font-size:.76rem;font-weight:700;color:var(--muted);cursor:pointer;padding:0}
+.bo-dot:hover{border-color:var(--mint);color:var(--mint)}
+.bo-dot.on{background:var(--mint);border-color:var(--mint);color:#fff}
+.bo-verdict{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem;align-items:center}
+.bo-vbtn{font-family:'Outfit',sans-serif;font-size:.84rem;font-weight:700;padding:.45rem 1rem;border-radius:9px;
+  border:1.5px solid var(--border);background:var(--card);color:var(--ink);cursor:pointer}
+.bo-vbtn:hover{border-color:var(--mint)}
+.bo-vbtn.on{background:var(--mint);border-color:var(--mint);color:#fff}
+.bo-total{font-family:'JetBrains Mono',monospace;font-size:.82rem;font-weight:800;color:var(--muted);margin-left:auto}
+.bo-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(265px,1fr));gap:.4rem 1.4rem}
+.bo-ph{font-size:.88rem;padding:.32rem .1rem;cursor:pointer;color:var(--slate-mid);border-bottom:1px dotted var(--border)}
+.bo-ph:hover{color:var(--ink)}
+.bo-ph.crossed{text-decoration:line-through;opacity:.42}
+@media(max-width:600px){.bo-round{grid-template-columns:24px 1fr;}.bo-round-time{grid-column:2;justify-self:start}}
 </style>
 </head>
 <body>
@@ -769,6 +826,11 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7V18h8v-3.3A7 7 0 0 0 12 2z"/></svg>
     <span class="snav-label">Business Ideas</span>
     <span class="snav-close" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();hideTab('pitch')" title="Remove this tab">&times;</span>
+  </button>
+  <button class="snav-btn" id="tab-breakout" onclick="onTabClick(event,this,'breakout')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    <span class="snav-label">Breakout Pitch</span>
+    <span class="snav-close" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();hideTab('breakout')" title="Remove this tab">&times;</span>
   </button>
   <button class="snav-btn" id="tab-debates" onclick="onTabClick(event,this,'debates')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
@@ -1090,6 +1152,74 @@ body.section-present .deb-instruction{font-size:1.15rem}
       <div class="deb-sidebar-label" contenteditable="true" spellcheck="false" data-sk="label-pitch-qs" onblur="onStaticTextBlur(this)">Investor questions to fire back</div>
       <p class="wb-hint" contenteditable="true" spellcheck="false" data-sk="hint-pitch-qs" onblur="onStaticTextBlur(this)">The listeners pick one each. Tap a question once it has been asked.</p>
       <div class="pi-qs" id="piQs"></div>
+    </div>
+  </section>
+
+
+  <section class="lesson-section" id="breakout">
+    <div class="section-header">
+      <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+      <div>
+        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-breakout" onblur="onStaticTextBlur(this)">Breakout Pitch</div>
+        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-breakout" onblur="onStaticTextBlur(this)">Founders v Investors &middot; 30 min</div>
+      </div>
+      <div class="section-header-actions">
+        <button class="section-fullscreen-toggle" onclick="presentSection('breakout')" title="Present full screen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></svg></button>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <p class="wb-hint" contenteditable="true" spellcheck="false" data-sk="hint-breakout" onblur="onStaticTextBlur(this)">Split the group in half: founders in one breakout room, investors in the other. The founders build an idea, the investors prepare their questions and their scorecard. Everybody comes back for the pitch. Then swap the roles and run it again with a new brief.</p>
+      <div style="display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;margin-bottom:1rem">
+        <span style="font-size:.8rem;font-weight:800">Group size</span>
+        <span class="bo-size">
+          <button id="boSize2" onclick="setBoSize(2)">Two and two</button>
+          <button id="boSize1" onclick="setBoSize(1)">One and one</button>
+        </span>
+      </div>
+      <div class="bo-run" id="boRun"></div>
+      <div class="bo-timer-row">
+        <button class="lt-timer-pill" id="boPlay" onclick="boTog()">&#9658; Start</button>
+        <span class="bo-disp" id="boDisp">10:00</span>
+        <span style="font-size:.78rem;color:var(--muted)">Tap a time above to load it</span>
+      </div>
+      <div class="bo-bar-outer"><div class="bo-bar" id="boBar"></div></div>
+    </div>
+
+    <div class="section-card">
+      <div class="deb-sidebar-label" contenteditable="true" spellcheck="false" data-sk="label-bo-roles" onblur="onStaticTextBlur(this)">Who does what</div>
+      <div class="bo-roles" id="boRoles"></div>
+    </div>
+
+    <div class="section-card">
+      <div class="deb-sidebar-label" contenteditable="true" spellcheck="false" data-sk="label-bo-brief" onblur="onStaticTextBlur(this)">The brief</div>
+      <p class="wb-hint" contenteditable="true" spellcheck="false" data-sk="hint-bo-brief" onblur="onStaticTextBlur(this)">Deal the founders a sector and a constraint, then let them fill this in during the breakout. It saves as they type, so they can read it back when they pitch.</p>
+      <div class="bo-brief">
+        <button class="read-btn primary" onclick="boDealBrief()">Deal a brief</button>
+        <span class="bo-chip sector" id="boSector">tap deal a brief</span>
+        <span class="bo-chip constraint" id="boConstraint">&nbsp;</span>
+      </div>
+      <div id="boFields"></div>
+      <button class="read-btn" onclick="boClearBrief()">Clear the brief</button>
+    </div>
+
+    <div class="section-card">
+      <div class="deb-sidebar-label" contenteditable="true" spellcheck="false" data-sk="label-bo-score" onblur="onStaticTextBlur(this)">Investor scorecard</div>
+      <p class="wb-hint" contenteditable="true" spellcheck="false" data-sk="hint-bo-score" onblur="onStaticTextBlur(this)">The investors score each pitch out of five, agree a verdict between them and have to justify it out loud. A conditional yes is the most useful answer, because they have to say what the condition is.</p>
+      <div id="boScores"></div>
+      <div class="bo-verdict">
+        <button class="bo-vbtn" id="boV0" onclick="boVerdict(0)">We're in</button>
+        <button class="bo-vbtn" id="boV1" onclick="boVerdict(1)">In, with conditions</button>
+        <button class="bo-vbtn" id="boV2" onclick="boVerdict(2)">We'll pass</button>
+        <span class="bo-total" id="boTotal"></span>
+      </div>
+      <button class="read-btn" style="margin-top:.9rem" onclick="boResetScore()">Reset the scorecard</button>
+    </div>
+
+    <div class="section-card">
+      <div class="deb-sidebar-label" contenteditable="true" spellcheck="false" data-sk="label-bo-lang" onblur="onStaticTextBlur(this)">Language for the room</div>
+      <p class="wb-hint" contenteditable="true" spellcheck="false" data-sk="hint-bo-lang" onblur="onStaticTextBlur(this)">Founders on the left, investors on the right. Tap a line once it has been used properly.</p>
+      <div class="bo-cols" id="boLang"></div>
     </div>
   </section>
 
@@ -3765,7 +3895,164 @@ function piTog(){
   piPaint();
 }
 
-var tabIds = ['warmup','vocab','main','survey','sorting','longturn','pitch','debates','roleplay','listening','uoe','write','resources'];
+
+/* ===================== BREAKOUT PITCH ROOM ===================== */
+var BO_KEY = 'jpe_business_breakout';
+var BO_ROUNDS = [
+  ['<b>Breakout.</b> Founders build the idea and fill in the brief. Investors agree their questions and their scorecard.', 600, '10:00'],
+  ['<b>Back together.</b> Each team pitches for ninety seconds. No interruptions, no slides, no reading it word for word.', 90, '1:30'],
+  ['<b>Questions.</b> The investors take the pitch apart, politely. The founders answer without waffling.', 180, '3:00'],
+  ['<b>Verdict.</b> The investors score it, decide, and say exactly why. Then swap roles and deal a new brief.', 120, '2:00']
+];
+var BO_SECTORS = ['food and drink','fitness and health','travel','education','pets','repairs and maintenance',
+  'clothing','the over-sixties','children and families','events and nightlife','getting around town','renting and housing'];
+var BO_CONSTRAINTS = ["your customers are all over seventy","you can't spend a penny on advertising",
+  "you have to break even in the first year","it has to work in a town of eight thousand people",
+  "you have one employee, and it isn't you","everything you use must be secondhand or rented",
+  "your busiest hours are between ten at night and four in the morning","you can't have premises of any kind",
+  "half your customers will never meet you","you start with three thousand euros and nothing else",
+  "a much bigger competitor opens across the road in month four","each customer can only ever buy from you once"];
+var BO_FIELDS = [
+  'The business, in one sentence',
+  'The pain point: who is annoyed, and by what?',
+  'Who pays, how much, and how often?',
+  'Why you, and not somebody else?',
+  'The first ninety days',
+  'The ask: how much money, and what would it go on?'
+];
+var BO_CRITERIA = ['Is the problem a real one?','Would you pay for this yourself?',
+  'Can these people actually do it?','Is the money they want sensible?'];
+var BO_LANG = [
+  {side:'f', text:"The idea, in one line, is ..."},
+  {side:'i', text:"Talk me through the numbers."},
+  {side:'f', text:"We're solving a problem that ..."},
+  {side:'i', text:"Who's your first paying customer?"},
+  {side:'f', text:"Our customer is ..., and they'd pay ... a month."},
+  {side:'i', text:"What's stopping somebody bigger doing this?"},
+  {side:'f', text:"What makes this different is ..."},
+  {side:'i', text:"Can you give me a ballpark figure?"},
+  {side:'f', text:"In the first ninety days we'd ..."},
+  {side:'i', text:"How do you make money the second time?"},
+  {side:'f', text:"We're asking for ..., and it'd go on ..."},
+  {side:'i', text:"Let's circle back to the price."},
+  {side:'f', text:"That's a fair question, and honestly we don't know yet."},
+  {side:'i', text:"I'm not convinced by ... Tell me why I'm wrong."}
+];
+function boDefault(){
+  return {size:2, sector:'', constraint:'', fields:['','','','','',''],
+          scores:[0,0,0,0], verdict:-1,
+          lang: BO_LANG.map(function(l){ return false; })};
+}
+function loadBo(){
+  try{
+    var r = JSON.parse(localStorage.getItem(BO_KEY));
+    if(r && Array.isArray(r.fields) && r.fields.length === BO_FIELDS.length && Array.isArray(r.scores)) return r;
+  }catch(e){}
+  return boDefault();
+}
+var BO = loadBo();
+function saveBo(){ try{ localStorage.setItem(BO_KEY, JSON.stringify(BO)); }catch(e){} }
+function setBoSize(n){ BO.size = n; saveBo(); renderBreakout(); }
+function boDealBrief(){
+  BO.sector = BO_SECTORS[Math.floor(Math.random()*BO_SECTORS.length)];
+  BO.constraint = BO_CONSTRAINTS[Math.floor(Math.random()*BO_CONSTRAINTS.length)];
+  saveBo(); renderBreakout();
+}
+function onBoField(i, el){ BO.fields[i] = el.value; saveBo(); }
+function boClearBrief(){
+  BO.fields = ['','','','','',''];
+  BO.sector = ''; BO.constraint = '';
+  saveBo(); renderBreakout();
+}
+function boScore(ci, v){ BO.scores[ci] = (BO.scores[ci] === v) ? 0 : v; saveBo(); renderBreakout(); }
+function boVerdict(v){ BO.verdict = (BO.verdict === v) ? -1 : v; saveBo(); renderBreakout(); }
+function boResetScore(){ BO.scores = [0,0,0,0]; BO.verdict = -1; saveBo(); renderBreakout(); }
+function boToggleLang(i){ BO.lang[i] = !BO.lang[i]; saveBo(); renderBreakout(); }
+function renderBreakout(){
+  var run = document.getElementById('boRun');
+  if(!run) return;
+  run.innerHTML = BO_ROUNDS.map(function(r, i){
+    return '<div class="bo-round"><span class="bo-round-n">' + (i+1) + '</span>' +
+      '<span class="bo-round-t">' + r[0] + '</span>' +
+      '<span class="bo-round-time' + (boDur === r[1] ? ' on' : '') + '" onclick="boSetTime(' + r[1] + ')">' + r[2] + '</span></div>';
+  }).join('');
+  document.getElementById('boSize2').classList.toggle('on', BO.size === 2);
+  document.getElementById('boSize1').classList.toggle('on', BO.size === 1);
+  var pair = BO.size === 2;
+  var roles = [
+    {tag:'Founder', inv:false, name:pair ? 'Founder A' : 'The founder',
+     desc:pair ? "You own the idea and you open the pitch. Give the one-line version first, then the problem you are solving. Keep to ninety seconds." : "You build the idea and pitch it alone. One line first, then the problem, then the money. Ninety seconds, no notes read out loud."},
+    {tag:'Founder', inv:false, name:'Founder B',
+     desc:"You handle the money and the first ninety days. Be ready with a ballpark figure and do not invent numbers you cannot defend."},
+    {tag:'Investor', inv:true, name:pair ? 'Investor A' : 'The investor',
+     desc:pair ? "You go first on questions. Start with the customer: who are they, and how do you know they will pay?" : "You hear the pitch, ask at least four real questions, score it, and say exactly why you are in or out."},
+    {tag:'Investor', inv:true, name:'Investor B',
+     desc:"You take the numbers and the risk. Ask what would make them walk away, and what happens when a bigger company copies it."}
+  ];
+  if(!pair) roles = [roles[0], roles[2]];
+  document.getElementById('boRoles').innerHTML = roles.map(function(r){
+    return '<div class="bo-role' + (r.inv ? ' inv' : '') + '">' +
+      '<div class="bo-role-tag">' + r.tag + '</div>' +
+      '<div class="bo-role-name">' + r.name + '</div>' +
+      '<div class="bo-role-desc">' + r.desc + '</div></div>';
+  }).join('');
+  var sec = document.getElementById('boSector'), con = document.getElementById('boConstraint');
+  sec.textContent = BO.sector ? 'Sector: ' + BO.sector : 'tap deal a brief';
+  con.textContent = BO.constraint ? 'Catch: ' + BO.constraint : '';
+  con.style.display = BO.constraint ? '' : 'none';
+  document.getElementById('boFields').innerHTML = BO_FIELDS.map(function(f, i){
+    return '<div class="bo-field"><label>' + (i+1) + '. ' + f + '</label>' +
+      '<textarea oninput="onBoField(' + i + ',this)" placeholder="...">' + esc(BO.fields[i] || '') + '</textarea></div>';
+  }).join('');
+  document.getElementById('boScores').innerHTML = BO_CRITERIA.map(function(c, ci){
+    var dots = '';
+    for(var v = 1; v <= 5; v++){
+      dots += '<button class="bo-dot' + (BO.scores[ci] === v ? ' on' : '') + '" onclick="boScore(' + ci + ',' + v + ')">' + v + '</button>';
+    }
+    return '<div class="bo-score"><span class="bo-score-q">' + c + '</span><span class="bo-dots">' + dots + '</span></div>';
+  }).join('');
+  var tot = BO.scores.reduce(function(a, b){ return a + b; }, 0);
+  document.getElementById('boTotal').textContent = tot ? tot + ' / 20' : '';
+  for(var v = 0; v < 3; v++) document.getElementById('boV' + v).classList.toggle('on', BO.verdict === v);
+  document.getElementById('boLang').innerHTML =
+    '<div>' + BO_LANG.map(function(l, i){ return l.side === 'f' ?
+      '<div class="bo-ph' + (BO.lang[i] ? ' crossed' : '') + '" onclick="boToggleLang(' + i + ')">' + esc(l.text) + '</div>' : ''; }).join('') + '</div>' +
+    '<div>' + BO_LANG.map(function(l, i){ return l.side === 'i' ?
+      '<div class="bo-ph' + (BO.lang[i] ? ' crossed' : '') + '" onclick="boToggleLang(' + i + ')">' + esc(l.text) + '</div>' : ''; }).join('') + '</div>';
+}
+var boDur = 600, boLeft = 600, boRun = false, boInt = null;
+function boFmt(x){ return Math.floor(x/60) + ':' + (x%60 < 10 ? '0' : '') + (x%60); }
+function boPaint(){
+  var d = document.getElementById('boDisp'), b = document.getElementById('boBar');
+  if(d) d.textContent = boFmt(boLeft);
+  if(b) b.style.width = (boLeft / boDur * 100) + '%';
+}
+function boSetTime(secs){
+  boDur = secs; boLeft = secs; boRun = false;
+  clearInterval(boInt);
+  var btn = document.getElementById('boPlay');
+  if(btn) btn.innerHTML = '&#9658; Start';
+  boPaint(); renderBreakout();
+}
+function boTog(){
+  var btn = document.getElementById('boPlay');
+  if(boRun){ boRun = false; clearInterval(boInt); if(btn) btn.innerHTML = '&#9658; Resume'; return; }
+  if(boLeft <= 0) boLeft = boDur;
+  boRun = true;
+  if(btn) btn.innerHTML = '&#10073;&#10073; Pause';
+  boInt = setInterval(function(){
+    boLeft--;
+    boPaint();
+    if(boLeft <= 0){
+      clearInterval(boInt); boRun = false; boLeft = boDur;
+      if(btn) btn.innerHTML = '&#9658; Start';
+      setTimeout(boPaint, 900);
+    }
+  }, 1000);
+  boPaint();
+}
+
+var tabIds = ['warmup','vocab','main','survey','sorting','longturn','pitch','breakout','debates','roleplay','listening','uoe','write','resources'];
 function showTab(id){
   tabIds.forEach(function(t){
     document.getElementById(t).classList.toggle('visible', t===id);
@@ -4320,6 +4607,8 @@ renderWarmupQs();
 renderSurvey();
 renderPitch();
 piPaint();
+renderBreakout();
+boPaint();
 renderLongTurn();
 renderWTaskPanels();
 initAnnotCanvas();
