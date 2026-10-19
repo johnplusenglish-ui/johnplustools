@@ -315,6 +315,20 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
 .bc-sec .k{font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:5px}
 .bc-sec p{font-size:14.5px;color:var(--ink);line-height:1.6;margin:0}
 .bc-sec p b{font-weight:600}
+    .credits{margin:22px 0 0;border-top:1px solid var(--border);padding-top:14px}
+    .credits summary{cursor:pointer;font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:800;color:var(--muted)}
+    .credits .lead{margin:10px 0 8px;font-size:13px}
+    .credlist{margin:0;padding:0;list-style:none}
+    .credlist li{font-size:12px;color:var(--muted);padding:4px 0;line-height:1.45}
+    .credlist li b{color:var(--ink);font-weight:600}
+    .credlist a{color:var(--accent)}
+    .pface{float:right;width:112px;height:112px;border-radius:50%;object-fit:cover;object-position:center top;
+      margin:2px 0 10px 18px;border:3px solid var(--card);box-shadow:0 3px 12px rgba(45,48,71,.18);background:var(--bg)}
+    .pfacecap{float:right;clear:right;width:112px;margin:0 0 12px 18px;text-align:center;font-size:10.5px;
+      color:var(--muted);font-weight:700;letter-spacing:.03em;line-height:1.3}
+    .bc-mono.hasimg{background:none}
+    .bcface{width:100%;height:100%;object-fit:cover;object-position:center top;border-radius:50%;display:block}
+    @media(max-width:600px){.pface{width:84px;height:84px;margin:2px 0 8px 14px}.pfacecap{width:84px}}
     .warnflag{display:inline-block;font-size:11px;font-weight:700;color:var(--due);background:var(--due-light);border-radius:999px;padding:2px 9px;margin-left:6px;white-space:normal}
     .datewarn{margin:10px 0 0;padding:10px 13px;border-radius:var(--r-sm);background:var(--due-light);color:var(--ink);font-size:13px;line-height:1.5}
     .datewarn b{font-weight:700}
@@ -1188,7 +1202,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
 
   <div id="deck80">
     <article class="biocard on">
-      <div class="bc-head"><div class="bc-mono">EE</div><div><div class="bc-name">Erik Erikson</div><div class="bc-meta">1902–1994 · German-American · <span class="bc-tag">Developmental · your lead lens</span></div></div></div>
+      <div class="bc-head"><div class="bc-mono hasimg"><img class="bcface" src="img/people/erikson.webp" alt="Portrait of Erik Erikson" title="Erik Erikson" loading="lazy" width="240" height="240"></div><div><div class="bc-name">Erik Erikson</div><div class="bc-meta">1902–1994 · German-American · <span class="bc-tag">Developmental · your lead lens</span></div></div></div>
       <div class="bc-sec"><div class="k">Context</div><p>A psychoanalyst trained under Anna Freud who reworked Freud's ideas into a social, lifelong model of development in <b>Childhood and Society</b> (1950).</p></div>
       <div class="bc-sec"><div class="k">Big idea</div><ul>
         <li>Development runs across the <b>whole lifespan</b>, in <b>eight psychosocial stages</b>.</li>
@@ -1221,7 +1235,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </article>
 
     <article class="biocard">
-      <div class="bc-head"><div class="bc-mono">SF</div><div><div class="bc-name">Sigmund Freud</div><div class="bc-meta">1856–1939 · Austrian · <span class="bc-tag">Psychodynamic</span></div></div></div>
+      <div class="bc-head"><div class="bc-mono hasimg"><img class="bcface" src="img/people/freud.webp" alt="Portrait of Sigmund Freud" title="Sigmund Freud" loading="lazy" width="240" height="240"></div><div><div class="bc-name">Sigmund Freud</div><div class="bc-meta">1856–1939 · Austrian · <span class="bc-tag">Psychodynamic</span></div></div></div>
       <div class="bc-sec"><div class="k">Context</div><p>A Viennese neurologist who founded <b>psychoanalysis</b>, built from clinical case studies of adult patients.</p></div>
       <div class="bc-sec"><div class="k">Big idea</div><ul>
         <li>Much of behaviour is driven by the <b>unconscious</b>.</li>
@@ -1246,7 +1260,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </article>
 
     <article class="biocard">
-      <div class="bc-head"><div class="bc-mono">JP</div><div><div class="bc-name">Jean Piaget</div><div class="bc-meta">1896–1980 · Swiss · <span class="bc-tag">Cognitive development</span></div></div></div>
+      <div class="bc-head"><div class="bc-mono hasimg"><img class="bcface" src="img/people/piaget.webp" alt="Portrait of Jean Piaget" title="Jean Piaget" loading="lazy" width="240" height="240"></div><div><div class="bc-name">Jean Piaget</div><div class="bc-meta">1896–1980 · Swiss · <span class="bc-tag">Cognitive development</span></div></div></div>
       <div class="bc-sec"><div class="k">Context</div><p>A Swiss psychologist who worked out how children think by observing them closely, including his own children.</p></div>
       <div class="bc-sec"><div class="k">Big idea</div><ul>
         <li>Children are <b>active builders</b> of knowledge, not passive receivers.</li>
@@ -1281,7 +1295,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </article>
 
     <article class="biocard">
-      <div class="bc-head"><div class="bc-mono">LV</div><div><div class="bc-name">Lev Vygotsky</div><div class="bc-meta">1896–1934 · Russian/Soviet · <span class="bc-tag">Sociocultural</span></div></div></div>
+      <div class="bc-head"><div class="bc-mono hasimg"><img class="bcface" src="img/people/vygotsky.webp" alt="Portrait of Lev Vygotsky" title="Lev Vygotsky" loading="lazy" width="240" height="240"></div><div><div class="bc-name">Lev Vygotsky</div><div class="bc-meta">1896–1934 · Russian/Soviet · <span class="bc-tag">Sociocultural</span></div></div></div>
       <div class="bc-sec"><div class="k">Context</div><p>A Soviet psychologist whose sociocultural theory became influential in the West decades after his early death.</p></div>
       <div class="bc-sec"><div class="k">Big idea</div><ul>
         <li>Cognitive development is driven by <b>social interaction</b> and culture, not by solo discovery.</li>
@@ -1369,7 +1383,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </article>
 
     <article class="biocard">
-      <div class="bc-head"><div class="bc-mono">AB</div><div><div class="bc-name">Albert Bandura</div><div class="bc-meta">1925–2021 · Canadian-American · <span class="bc-tag">Social learning</span></div></div></div>
+      <div class="bc-head"><div class="bc-mono hasimg"><img class="bcface" src="img/people/bandura.webp" alt="Portrait of Albert Bandura" title="Albert Bandura" loading="lazy" width="240" height="240"></div><div><div class="bc-name">Albert Bandura</div><div class="bc-meta">1925–2021 · Canadian-American · <span class="bc-tag">Social learning</span></div></div></div>
       <div class="bc-sec"><div class="k">Context</div><p>A psychologist who bridged behaviourism and cognitive psychology.</p></div>
       <div class="bc-sec"><div class="k">Big idea &amp; key study</div><ul>
         <li><b>Social learning theory.</b> We learn by <b>observing and imitating</b> models, not only through direct reinforcement of our own behaviour.</li>
@@ -1392,7 +1406,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </article>
 
         <article class="biocard">
-      <div class="bc-head"><div class="bc-mono">NC</div><div><div class="bc-name">Noam Chomsky</div><div class="bc-meta">born 1928 · American · <span class="bc-tag">Language · nativist</span></div></div></div>
+      <div class="bc-head"><div class="bc-mono hasimg"><img class="bcface" src="img/people/chomsky.webp" alt="Portrait of Noam Chomsky" title="Noam Chomsky" loading="lazy" width="240" height="240"></div><div><div class="bc-name">Noam Chomsky</div><div class="bc-meta">born 1928 · American · <span class="bc-tag">Language · nativist</span></div></div></div>
       <div class="bc-sec"><div class="k">Context</div><p>An American linguist whose 1959 demolition of Skinner's book on language is often treated as the moment behaviourism lost the argument about the mind.</p></div>
       <div class="bc-sec"><div class="k">Big idea</div><ul>
         <li>Children learn language <b>too fast, from input that is too thin and too messy</b>, for imitation and reward to explain it. That argument is called the <b>poverty of the stimulus</b>.</li>
@@ -1446,7 +1460,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </article>
 
     <article class="biocard">
-      <div class="bc-head"><div class="bc-mono">JW</div><div><div class="bc-name">John B. Watson</div><div class="bc-meta">1878–1958 · American · <span class="bc-tag">Ethics case · behaviourism</span></div></div></div>
+      <div class="bc-head"><div class="bc-mono hasimg"><img class="bcface" src="img/people/watson.webp" alt="Portrait of John B. Watson" title="John B. Watson" loading="lazy" width="240" height="240"></div><div><div class="bc-name">John B. Watson</div><div class="bc-meta">1878–1958 · American · <span class="bc-tag">Ethics case · behaviourism</span></div></div></div>
       <div class="bc-sec"><div class="k">Context</div><p>Founded <b>behaviourism</b>, arguing psychology should study only observable behaviour, not the mind.</p></div>
       <div class="bc-sec"><div class="k">Big idea</div><ul>
         <li>All behaviour is learned through conditioning. The mind is a black box you do not need to open.</li>
@@ -1472,7 +1486,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </article>
 
     <article class="biocard">
-      <div class="bc-head"><div class="bc-mono">SM</div><div><div class="bc-name">Stanley Milgram</div><div class="bc-meta">1933–1984 · American · <span class="bc-tag">Ethics case · obedience</span></div></div></div>
+      <div class="bc-head"><div class="bc-mono hasimg"><img class="bcface" src="img/people/milgram.webp" alt="Portrait of Stanley Milgram" title="Stanley Milgram" loading="lazy" width="240" height="240"></div><div><div class="bc-name">Stanley Milgram</div><div class="bc-meta">1933–1984 · American · <span class="bc-tag">Ethics case · obedience</span></div></div></div>
       <div class="bc-sec"><div class="k">Context</div><p>A social psychologist prompted by the post-war question of why ordinary people obey harmful orders.</p></div>
       <div class="bc-sec"><div class="k">Big idea &amp; key study</div><ul>
         <li><b>The obedience studies</b>, 1961 to 1963.</li>
@@ -1494,7 +1508,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </article>
 
     <article class="biocard">
-      <div class="bc-head"><div class="bc-mono">PZ</div><div><div class="bc-name">Philip Zimbardo</div><div class="bc-meta">1933–2024 · American · <span class="bc-tag">Ethics case · roles</span></div></div></div>
+      <div class="bc-head"><div class="bc-mono hasimg"><img class="bcface" src="img/people/zimbardo.webp" alt="Portrait of Philip Zimbardo" title="Philip Zimbardo" loading="lazy" width="240" height="240"></div><div><div class="bc-name">Philip Zimbardo</div><div class="bc-meta">1933–2024 · American · <span class="bc-tag">Ethics case · roles</span></div></div></div>
       <div class="bc-sec"><div class="k">Context</div><p>A social psychologist. The study ran at Stanford in 1971.</p></div>
       <div class="bc-sec"><div class="k">Big idea &amp; key study</div><ul>
         <li><b>The Stanford Prison Experiment.</b> Students were randomly assigned as guards or prisoners in a mock prison.</li>
@@ -1526,6 +1540,8 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     <li>Give one reason Freud's theory is hard to defend scientifically.</li>
     <li>For any one theory above, state a specific criticism and the evidence behind it.</li>
   </ol>
+
+  <details class="credits"><summary>Picture credits (9)</summary><p class="lead">Every portrait here is in the public domain or under a free Creative Commons licence, taken from Wikimedia Commons. Author and licence are listed for each, as those licences require. People with no freely licensed photograph keep their initials instead.</p><ul class="credlist"><li><b>Albert Bandura</b> &middot; bandura@stanford.edu &middot; CC BY-SA 4.0 &middot; <a href="https://commons.wikimedia.org/wiki/File:Albert_Bandura_Psychologist.jpg" target="_blank" rel="noopener">source</a></li><li><b>Noam Chomsky</b> &middot; Σ, retouched by Wugapodes and Jonnmann &middot; CC BY-SA 4.0 &middot; <a href="https://commons.wikimedia.org/wiki/File:Noam_Chomsky_portrait_2017_retouched.jpg" target="_blank" rel="noopener">source</a></li><li><b>Erik Erikson</b> &middot; Unknown authorUnknown author &middot; Public domain &middot; <a href="https://commons.wikimedia.org/wiki/File:Erik_Erikson.jpg" target="_blank" rel="noopener">source</a></li><li><b>Sigmund Freud</b> &middot; Max Halberstadt &middot; Public domain &middot; <a href="https://commons.wikimedia.org/wiki/File:Sigmund_Freud,_by_Max_Halberstadt_(cropped).jpg" target="_blank" rel="noopener">source</a></li><li><b>Stanley Milgram</b> &middot; Unknown authorUnknown author &middot; Public domain &middot; <a href="https://commons.wikimedia.org/wiki/File:Stanley_Milgram_1974.jpg" target="_blank" rel="noopener">source</a></li><li><b>Jean Piaget</b> &middot; Unidentified (Ensian published by University of Michigan) &middot; Public domain &middot; <a href="https://commons.wikimedia.org/wiki/File:Jean_Piaget_in_Ann_Arbor_(cropped).png" target="_blank" rel="noopener">source</a></li><li><b>Lev Vygotsky</b> &middot; Unknown authorUnknown author &middot; Public domain &middot; <a href="https://commons.wikimedia.org/wiki/File:Lev-Semyonovich-Vygotsky-1896-1934.jpg" target="_blank" rel="noopener">source</a></li><li><b>John B. Watson</b> &middot; Unknown (pre-1923 photo) Watson, per the link in the source, left John &middot; Public domain &middot; <a href="https://commons.wikimedia.org/wiki/File:John_Broadus_Watson.JPG" target="_blank" rel="noopener">source</a></li><li><b>Philip Zimbardo</b> &middot; Celina Strzelecka &middot; CC BY-SA 4.0 &middot; <a href="https://commons.wikimedia.org/wiki/File:51_Professor_Zimbardo_in_Wroc%C5%82aw_2019_(cropped).jpg" target="_blank" rel="noopener">source</a></li></ul></details>
 
   <div class="note"><span class="lab">Using names well in an essay</span>Naming a theorist is description; the marks are in <b>application and evaluation</b>. State who, state their idea in a line, tie it to evidence or an observation, then weigh it against a criticism or a rival. Confirm exact works and dates in the DCU Library before you cite.</div>
 </section>
@@ -2167,7 +2183,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
   <div id="bhbook">
 
     <div class="qchap on">
-      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Wilhelm Wundt, 1832 to 1920</h2>
+      <img class="pface" src="img/people/wundt.webp" alt="Portrait of Wilhelm Wundt" title="Wilhelm Wundt" loading="lazy" width="240" height="240"><h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Wilhelm Wundt, 1832 to 1920</h2>
       <p class="lead">The man who decided psychology should have a room of its own.</p>
       <div class="abox"><ul>
         <li><b>His life.</b> Born in Baden, in what is now Germany. A lonely only child in practice, since his older siblings were away. He trained as a <b>medical doctor</b>, not a philosopher, and he was not a success at it. He then worked for years as an assistant to the physicist and physiologist <b>Hermann von Helmholtz</b>, who was measuring how fast nerve signals travel.</li>
@@ -2179,7 +2195,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </div>
 
     <div class="qchap">
-      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">William James, 1842 to 1910</h2>
+      <img class="pface" src="img/people/james.webp" alt="Portrait of William James" title="William James" loading="lazy" width="240" height="240"><h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">William James, 1842 to 1910</h2>
       <p class="lead">He wrote the first psychology textbook, and he nearly did not live to write it.</p>
       <div class="abox"><ul>
         <li><b>His life.</b> Born into a wealthy, restless New York family. His brother was the novelist <b>Henry James</b>. He was pushed between painting, chemistry and medicine, qualified as a doctor, and never practised.</li>
@@ -2191,7 +2207,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </div>
 
     <div class="qchap">
-      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Sigmund Freud, 1856 to 1939</h2>
+      <img class="pface" src="img/people/freud.webp" alt="Portrait of Sigmund Freud" title="Sigmund Freud" loading="lazy" width="240" height="240"><h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Sigmund Freud, 1856 to 1939</h2>
       <p class="lead">A neurologist who went looking for a physical cause, could not find one, and invented a mental one instead.</p>
       <div class="abox"><ul>
         <li><b>His life.</b> Born in Moravia, raised in <b>Vienna</b>, the eldest of eight in a poor Jewish family that put everything into him. He trained in medicine and did hard laboratory science: papers on the nervous systems of fish, and an early enthusiastic paper on <b>cocaine</b>, which he recommended as a cure and which badly damaged a friend.</li>
@@ -2203,7 +2219,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </div>
 
     <div class="qchap">
-      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">John B. Watson, 1878 to 1958</h2>
+      <img class="pface" src="img/people/watson.webp" alt="Portrait of John B. Watson" title="John B. Watson" loading="lazy" width="240" height="240"><h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">John B. Watson, 1878 to 1958</h2>
       <p class="lead">He threw the mind out of psychology, then got thrown out of psychology himself.</p>
       <div class="abox"><ul>
         <li><b>His life.</b> Grew up poor in rural South Carolina. His father left when he was thirteen. He was a difficult teenager, arrested more than once, and by his own account a poor student who talked his way into university. He ended up at Johns Hopkins.</li>
@@ -2215,7 +2231,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </div>
 
     <div class="qchap">
-      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">B. F. Skinner, 1904 to 1990</h2>
+      <img class="pface" src="img/people/skinner.webp" alt="Portrait of B. F. Skinner" title="B. F. Skinner" loading="lazy" width="240" height="240"><h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">B. F. Skinner, 1904 to 1990</h2>
       <p class="lead">A failed novelist who decided to describe behaviour instead of characters.</p>
       <div class="abox"><ul>
         <li><b>His life.</b> Small-town Pennsylvania. He wanted to be a <b>writer</b>, and he had some encouragement from the poet Robert Frost. After university he moved home to write a novel and produced almost nothing. He called it his <b>dark year</b>. He concluded that he had nothing to say about people because he did not understand them.</li>
@@ -2227,7 +2243,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </div>
 
     <div class="qchap">
-      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Jean Piaget, 1896 to 1980</h2>
+      <img class="pface" src="img/people/piaget.webp" alt="Portrait of Jean Piaget" title="Jean Piaget" loading="lazy" width="240" height="240"><h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Jean Piaget, 1896 to 1980</h2>
       <p class="lead">A shellfish expert who got a boring job marking intelligence tests, and noticed the wrong answers.</p>
       <div class="abox"><ul>
         <li><b>His life.</b> Swiss, from Neuchâtel. A startling child: he published a short scientific note at about <b>ten</b>, worked in a natural history museum as a schoolboy, and took a <b>doctorate on molluscs</b> at twenty-one. He was a biologist first, and it shows in everything he later wrote.</li>
@@ -2239,7 +2255,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </div>
 
     <div class="qchap">
-      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Lev Vygotsky, 1896 to 1934</h2>
+      <img class="pface" src="img/people/vygotsky.webp" alt="Portrait of Lev Vygotsky" title="Lev Vygotsky" loading="lazy" width="240" height="240"><h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Lev Vygotsky, 1896 to 1934</h2>
       <p class="lead">He had about ten years to work, died at 37, and was then banned for twenty years.</p>
       <div class="abox"><ul>
         <li><b>His life.</b> Born in what is now Belarus, into a Jewish family under the Russian Empire, where Jewish students faced strict university quotas. He got a place at Moscow partly through a <b>lottery</b>. He trained in law and literature and wrote on <b>Hamlet</b>. He came into psychology properly only in 1924, after a lecture that stunned the room. He had tuberculosis throughout and knew he was working against the clock.</li>
@@ -2251,7 +2267,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </div>
 
     <div class="qchap">
-      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Erik Erikson, 1902 to 1994</h2>
+      <img class="pface" src="img/people/erikson.webp" alt="Portrait of Erik Erikson" title="Erik Erikson" loading="lazy" width="240" height="240"><h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Erik Erikson, 1902 to 1994</h2>
       <p class="lead">The man who gave us the identity crisis had one all his life, and solved it by inventing his own surname.</p>
       <div class="abox"><ul>
         <li><b>His life.</b> Born in Germany to a Danish mother who was <b>unmarried</b>, and he never found out who his father was. His mother later married his paediatrician, <b>Dr Homburger</b>, and the boy was raised as Erik Homburger and told the doctor was his real father. He found out he was not. He was tall, blond and blue-eyed in a Jewish family, so at the synagogue he was the outsider who looked Nordic, and at school he was the Jew. <b>He belonged nowhere.</b></li>
@@ -2299,7 +2315,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </div>
 
     <div class="qchap">
-      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Albert Bandura, 1925 to 2021</h2>
+      <img class="pface" src="img/people/bandura.webp" alt="Portrait of Albert Bandura" title="Albert Bandura" loading="lazy" width="240" height="240"><h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Albert Bandura, 1925 to 2021</h2>
       <p class="lead">He grew up in a village school with almost no teachers, so the students taught themselves. He spent his career explaining why that worked.</p>
       <div class="abox"><ul>
         <li><b>His life.</b> Born in a tiny hamlet in <b>Alberta, Canada</b>, to Polish and Ukrainian immigrant parents. The whole school had a handful of teachers and very few books, so pupils had to take charge of their own learning. He always said that taught him more than the curriculum did.</li>
@@ -2311,7 +2327,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </div>
 
     <div class="qchap">
-      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Carl Rogers, 1902 to 1987</h2>
+      <img class="pface" src="img/people/rogers.webp" alt="Portrait of Carl Rogers" title="Carl Rogers" loading="lazy" width="240" height="240"><h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Carl Rogers, 1902 to 1987</h2>
       <p class="lead">Raised to believe people need correcting, he built a therapy around accepting them exactly as they are.</p>
       <div class="abox"><ul>
         <li><b>His life.</b> A strict, religious Midwestern family. Dancing, cards and drink were out. The family moved to a farm when he was twelve, and he became seriously interested in <b>agriculture and scientific method</b>, which is where his lifelong insistence on evidence comes from.</li>
@@ -2347,7 +2363,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </div>
 
     <div class="qchap">
-      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Stanley Milgram, 1933 to 1984</h2>
+      <img class="pface" src="img/people/milgram.webp" alt="Portrait of Stanley Milgram" title="Stanley Milgram" loading="lazy" width="240" height="240"><h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Stanley Milgram, 1933 to 1984</h2>
       <p class="lead">He set out to prove that Germans were different. His own results destroyed the idea.</p>
       <div class="abox"><ul>
         <li><b>His life.</b> Born in the <b>Bronx</b> to a Jewish family from eastern Europe. Relatives came out of the camps and some stayed with the family afterwards. He once wrote that he should have been born into a European Jewish community and that he had somehow ended up in the wrong place. The Holocaust was not an academic topic for him. He studied at Harvard and worked as <b>Asch's assistant</b>.</li>
@@ -2359,7 +2375,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </div>
 
     <div class="qchap">
-      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Philip Zimbardo, 1933 to 2024</h2>
+      <img class="pface" src="img/people/zimbardo.webp" alt="Portrait of Philip Zimbardo" title="Philip Zimbardo" loading="lazy" width="240" height="240"><h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Philip Zimbardo, 1933 to 2024</h2>
       <p class="lead">He and Milgram sat in the same classroom in the Bronx, and between them produced the two most argued-about studies in psychology.</p>
       <div class="abox"><ul>
         <li><b>His life.</b> Born in the <b>Bronx</b> to a poor Sicilian-American family, often ill as a child and in and out of hospital. He went to <b>James Monroe High School</b>, where one of his classmates was <b>Stanley Milgram</b>. He said later that growing up in that neighbourhood taught him how quickly good people turn, depending on who they are standing next to.</li>
@@ -2371,7 +2387,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </div>
 
     <div class="qchap">
-      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Hans Eysenck, 1916 to 1997</h2>
+      <img class="pface" src="img/people/eysenck.webp" alt="Portrait of Hans Eysenck" title="Hans Eysenck" loading="lazy" width="240" height="240"><h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Hans Eysenck, 1916 to 1997</h2>
       <p class="lead">He fled the Nazis as a teenager, became one of the most cited psychologists alive, and had dozens of his papers declared unsafe after his death.</p>
       <div class="abox"><ul>
         <li><b>His life.</b> Born in <b>Berlin</b> to two actors, raised largely by his grandmother. In <b>1934</b> he was told that university entry required joining the Nazi party. He refused and left Germany, eventually reaching Britain, where at the start of the war he was classed as an <b>enemy alien</b>. He spent his career at the <b>Maudsley</b> hospital in London.</li>
@@ -2383,7 +2399,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </div>
 
     <div class="qchap">
-      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Max Wertheimer, 1880 to 1943</h2>
+      <img class="pface" src="img/people/wertheimer.webp" alt="Portrait of Max Wertheimer" title="Max Wertheimer" loading="lazy" width="240" height="240"><h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Max Wertheimer, 1880 to 1943</h2>
       <p class="lead">He saw flickering lights from a train window, got off at the next station, and bought a toy.</p>
       <div class="abox"><ul>
         <li><b>His life.</b> Born in Prague to a cultured Jewish family. A gifted musician who nearly chose music over psychology. He fled Nazi Germany in 1933 and spent his last decade in New York.</li>
@@ -2395,7 +2411,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </div>
 
     <div class="qchap">
-      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Abraham Maslow, 1908 to 1970</h2>
+      <img class="pface" src="img/people/maslow.webp" alt="Portrait of Abraham Maslow" title="Abraham Maslow" loading="lazy" width="240" height="240"><h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Abraham Maslow, 1908 to 1970</h2>
       <p class="lead">A desperately lonely child who built a theory about people at their best.</p>
       <div class="abox"><ul>
         <li><b>His life.</b> Brooklyn, the eldest of seven, parents Jewish immigrants from what is now Ukraine. He described a miserable childhood and was openly, lastingly hostile to his mother. He said he spent his boyhood in libraries because he had no friends.</li>
@@ -2419,7 +2435,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </div>
 
     <div class="qchap">
-      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Walter Mischel, 1930 to 2018</h2>
+      <img class="pface" src="img/people/mischel.webp" alt="Portrait of Walter Mischel" title="Walter Mischel" loading="lazy" width="240" height="240"><h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Walter Mischel, 1930 to 2018</h2>
       <p class="lead">He fled Vienna as a child, and later argued that your situation matters more than your character.</p>
       <div class="abox"><ul>
         <li><b>His life.</b> Born in Vienna, a few streets from Freud. His Jewish family <b>fled in 1938</b> after the Nazi annexation and arrived in New York with almost nothing. He grew up watching his father's confident personality collapse and his mother's anxious one strengthen once the circumstances changed.</li>
@@ -2431,7 +2447,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </div>
 
     <div class="qchap">
-      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Paul Costa and Robert McCrae</h2>
+      <img class="pface" src="img/people/costa.webp" alt="Portrait of Paul Costa" title="Paul Costa" loading="lazy" width="240" height="240"><div class="pfacecap">Paul Costa</div><h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Paul Costa and Robert McCrae</h2>
       <p class="lead">The Big Five came out of a study about growing old.</p>
       <div class="abox"><ul>
         <li><b>Their work.</b> Both worked on the <b>Baltimore Longitudinal Study of Aging</b>, a project following the same people for decades to see how they changed.</li>
@@ -2443,7 +2459,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </div>
 
     <div class="qchap">
-      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Howard Gardner, born 1943</h2>
+      <img class="pface" src="img/people/gardner.webp" alt="Portrait of Howard Gardner" title="Howard Gardner" loading="lazy" width="240" height="240"><h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Howard Gardner, born 1943</h2>
       <p class="lead">He worked with brain-damaged adults and gifted children at the same time, and noticed they were two halves of one picture.</p>
       <div class="abox"><ul>
         <li><b>His life.</b> American, born to German Jewish refugees who had fled before the war. A serious pianist as a boy. He has spent nearly all his career at Harvard.</li>
@@ -2455,7 +2471,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </div>
 
     <div class="qchap">
-      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Franz Joseph Gall, 1758 to 1828</h2>
+      <img class="pface" src="img/people/gall.webp" alt="Portrait of Franz Joseph Gall" title="Franz Joseph Gall" loading="lazy" width="240" height="240"><h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Franz Joseph Gall, 1758 to 1828</h2>
       <p class="lead">He was wrong about almost everything, and psychology still needed him.</p>
       <div class="abox"><ul>
         <li><b>His life.</b> German, trained in medicine in Vienna. He collected <b>skulls</b> obsessively, from prisons, asylums and friends who promised him theirs. He was a genuinely skilled anatomist before he was a showman.</li>
@@ -2467,7 +2483,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </div>
 
     <div class="qchap">
-      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Santiago Ramon y Cajal, 1852 to 1934</h2>
+      <img class="pface" src="img/people/cajal.webp" alt="Portrait of Santiago Ramon y Cajal" title="Santiago Ramon y Cajal" loading="lazy" width="240" height="240"><h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Santiago Ramon y Cajal, 1852 to 1934</h2>
       <p class="lead">A rebellious boy who wanted to be an artist, and ended up drawing the brain.</p>
       <div class="abox"><ul>
         <li><b>His life.</b> Spanish, and an impossible child. He wanted to be a <b>painter</b>; his father, an anatomist, refused. He was expelled from school, and at one point apprenticed to a barber and a cobbler to teach him discipline. His father eventually won him over by taking him to dig up bones and draw them.</li>
@@ -2479,7 +2495,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </div>
 
     <div class="qchap">
-      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Walter Cannon, 1871 to 1945</h2>
+      <img class="pface" src="img/people/cannon.webp" alt="Portrait of Walter Cannon" title="Walter Cannon" loading="lazy" width="240" height="240"><h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Walter Cannon, 1871 to 1945</h2>
       <p class="lead">He was watching animals digest, and noticed they stopped when they were frightened.</p>
       <div class="abox"><ul>
         <li><b>His life.</b> American, at Harvard for most of his career. As a very junior researcher he was among the first to use the newly invented <b>X-ray</b> on living animals, feeding them food laced with a heavy metal so he could watch the digestion happen.</li>
@@ -2503,7 +2519,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </div>
 
     <div class="qchap">
-      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Antonio Damasio, born 1944</h2>
+      <img class="pface" src="img/people/damasio.webp" alt="Portrait of Antonio Damasio" title="Antonio Damasio" loading="lazy" width="240" height="240"><h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Antonio Damasio, born 1944</h2>
       <p class="lead">He met a patient who could reason perfectly and could not decide anything.</p>
       <div class="abox"><ul>
         <li><b>His life.</b> Portuguese, born in Lisbon, trained in medicine there, then moved to the United States. He works with his wife and collaborator <b>Hanna Damasio</b>.</li>
@@ -2551,7 +2567,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </div>
 
     <div class="qchap">
-      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Allan Paivio, 1925 to 2016</h2>
+      <img class="pface" src="img/people/paivio.webp" alt="Portrait of Allan Paivio" title="Allan Paivio" loading="lazy" width="240" height="240"><h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Allan Paivio, 1925 to 2016</h2>
       <p class="lead">A competitive bodybuilder who brought mental images back from the dead.</p>
       <div class="abox"><ul>
         <li><b>His life.</b> Canadian, of Finnish descent, raised in a Finnish-speaking community in Ontario. He was a serious <b>competitive bodybuilder</b> in his youth and won a national title before turning to academic psychology, which is not a sentence you get to write about many researchers.</li>
@@ -2611,7 +2627,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </div>
 
     <div class="qchap">
-      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Henri Tajfel, 1919 to 1982</h2>
+      <img class="pface" src="img/people/tajfel.webp" alt="Portrait of Henri Tajfel" title="Henri Tajfel" loading="lazy" width="240" height="240"><h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Henri Tajfel, 1919 to 1982</h2>
       <p class="lead">He survived the war by hiding which group he belonged to, then spent his life on why groups matter so much.</p>
       <div class="abox"><ul>
         <li><b>His life.</b> A Polish Jew who was studying in France when war broke out. He was captured as a French soldier and spent years as a <b>prisoner of war</b>. He survived by never admitting he was a Polish Jew: had the Germans known, he would have been killed rather than held. He came home afterwards to find that <b>almost his entire family had been murdered</b>.</li>
@@ -2647,7 +2663,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </div>
 
     <div class="qchap">
-      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Robert Cialdini, born 1945</h2>
+      <img class="pface" src="img/people/cialdini.webp" alt="Portrait of Robert Cialdini" title="Robert Cialdini" loading="lazy" width="240" height="240"><h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Robert Cialdini, born 1945</h2>
       <p class="lead">He spent three years working undercover as a car salesman and a fundraiser to find out how he kept getting talked into things.</p>
       <div class="abox"><ul>
         <li><b>His life.</b> American, at Arizona State. He describes himself as a lifelong soft touch who kept buying things he did not want and signing up for things he did not care about.</li>
@@ -2671,7 +2687,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </div>
 
     <div class="qchap">
-      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Charles Cooley, Mark Snyder and Kenneth Gergen</h2>
+      <img class="pface" src="img/people/cooley.webp" alt="Portrait of Charles Cooley" title="Charles Cooley" loading="lazy" width="240" height="240"><div class="pfacecap">Charles Cooley</div><h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Charles Cooley, Mark Snyder and Kenneth Gergen</h2>
       <p class="lead">Three thinkers on the same question: how much of you is made by other people?</p>
       <div class="abox"><ul>
         <li><b>Cooley, 1864 to 1929.</b> An American <b>sociologist</b>, not a psychologist, and a shy, isolated child who was ill for much of his youth and educated largely at home. He gave us the <b>looking-glass self</b>: we see ourselves reflected in other people's reactions, and we feel about ourselves what we imagine they feel about us. Coming from someone who spent years watching others from the outside, that is not a surprising idea to have had.</li>
@@ -2683,7 +2699,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </div>
 
     <div class="qchap">
-      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Ernst Weber, 1795 to 1878, and Gustav Fechner, 1801 to 1887</h2>
+      <img class="pface" src="img/people/fechner.webp" alt="Portrait of Gustav Fechner" title="Gustav Fechner" loading="lazy" width="240" height="240"><div class="pfacecap">Gustav Fechner</div><h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Ernst Weber, 1795 to 1878, and Gustav Fechner, 1801 to 1887</h2>
       <p class="lead">Two men in Leipzig who worked out that you can put a number on a sensation. One of them nearly blinded himself getting there.</p>
       <div class="abox"><ul>
         <li><b>Their lives.</b> <b>Weber</b> was a careful, methodical physiologist studying the sense of touch. <b>Fechner</b> was stranger. He trained in medicine, switched to physics, and damaged his eyes badly by staring at the sun through coloured glass while studying afterimages. He collapsed into a breakdown, spent about <b>three years in a darkened room</b>, barely able to see or eat, and was not expected to recover. He did. He also believed plants had souls and published satire under a false name.</li>
@@ -2695,7 +2711,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </div>
 
     <div class="qchap">
-      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Gordon Allport, 1897 to 1967</h2>
+      <img class="pface" src="img/people/allport.webp" alt="Portrait of Gordon Allport" title="Gordon Allport" loading="lazy" width="240" height="240"><h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Gordon Allport, 1897 to 1967</h2>
       <p class="lead">He met Freud once, for a few minutes, and spent the rest of his career reacting against it.</p>
       <div class="abox"><ul>
         <li><b>His life.</b> American, youngest of four brothers, raised in a strict Protestant household by a doctor father who ran a surgery from the house. He spent nearly his whole career at Harvard.</li>
@@ -2719,6 +2735,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </div>
 
   </div>
+  <details class="credits"><summary>Picture credits (28)</summary><p class="lead">Every portrait here is in the public domain or under a free Creative Commons licence, taken from Wikimedia Commons. Author and licence are listed for each, as those licences require. People with no freely licensed photograph keep their initials instead.</p><ul class="credlist"><li><b>Gordon Allport</b> &middot; Dr. C. George Boeree &middot; FAL &middot; <a href="https://commons.wikimedia.org/wiki/File:Gordon_Allport.gif" target="_blank" rel="noopener">source</a></li><li><b>Albert Bandura</b> &middot; bandura@stanford.edu &middot; CC BY-SA 4.0 &middot; <a href="https://commons.wikimedia.org/wiki/File:Albert_Bandura_Psychologist.jpg" target="_blank" rel="noopener">source</a></li><li><b>Santiago Ramon y Cajal</b> &middot; Original photo is anonymous although published by Clark University in  &middot; Public domain &middot; <a href="https://commons.wikimedia.org/wiki/File:Santiago_Ram%C3%B3n_y_Cajal_(1852-1934)_portrait_(restored).jpg" target="_blank" rel="noopener">source</a></li><li><b>Walter Cannon</b> &middot; Unknown authorUnknown author &middot; CC BY 4.0 &middot; <a href="https://commons.wikimedia.org/wiki/File:Walter_Bradford_Cannon.jpg" target="_blank" rel="noopener">source</a></li><li><b>Robert Cialdini</b> &middot; Viktorbuehler &middot; CC BY-SA 3.0 &middot; <a href="https://commons.wikimedia.org/wiki/File:Robert_Cialdini.jpg" target="_blank" rel="noopener">source</a></li><li><b>Charles Cooley</b> &middot; Unknown photographer &middot; Public domain &middot; <a href="https://commons.wikimedia.org/wiki/File:Charles_Cooley.png" target="_blank" rel="noopener">source</a></li><li><b>Paul Costa</b> &middot; NIH &middot; Public domain &middot; <a href="https://commons.wikimedia.org/wiki/File:Paul_Costa_Jr.gif" target="_blank" rel="noopener">source</a></li><li><b>Antonio Damasio</b> &middot; Fronteiras do Pensamento &middot; CC BY-SA 2.0 &middot; <a href="https://commons.wikimedia.org/wiki/File:Ant%C3%B3nio_Dam%C3%A1sio_no_Fronteiras_do_Pensamento_Porto_Alegre_2013_cropped.png" target="_blank" rel="noopener">source</a></li><li><b>Erik Erikson</b> &middot; Unknown authorUnknown author &middot; Public domain &middot; <a href="https://commons.wikimedia.org/wiki/File:Erik_Erikson.jpg" target="_blank" rel="noopener">source</a></li><li><b>Hans Eysenck</b> &middot; Sirswindon &middot; CC BY 3.0 &middot; <a href="https://commons.wikimedia.org/wiki/File:Hans_Eysenck_(cropped).jpg" target="_blank" rel="noopener">source</a></li><li><b>Gustav Fechner</b> &middot; Unknown author &middot; Public domain &middot; <a href="https://commons.wikimedia.org/wiki/File:Gustav_Fechner.jpg" target="_blank" rel="noopener">source</a></li><li><b>Sigmund Freud</b> &middot; Max Halberstadt &middot; Public domain &middot; <a href="https://commons.wikimedia.org/wiki/File:Sigmund_Freud,_by_Max_Halberstadt_(cropped).jpg" target="_blank" rel="noopener">source</a></li><li><b>Franz Joseph Gall</b> &middot; Zéphirin Félix Jean Marius Belliard (1798–), engraver Delpech (Paris) &middot; Public domain &middot; <a href="https://commons.wikimedia.org/wiki/File:Franz_Josef_Gall3.jpg" target="_blank" rel="noopener">source</a></li><li><b>Howard Gardner</b> &middot; Citizen University &middot; CC BY 3.0 &middot; <a href="https://commons.wikimedia.org/wiki/File:Howard_Gardner_(2013)_(cropped).png" target="_blank" rel="noopener">source</a></li><li><b>William James</b> &middot; Notman Studios (photographer) &middot; Public domain &middot; <a href="https://commons.wikimedia.org/wiki/File:William_James_b1842c.jpg" target="_blank" rel="noopener">source</a></li><li><b>Abraham Maslow</b> &middot; William Carter &middot; Public domain &middot; <a href="https://commons.wikimedia.org/wiki/File:Photo_of_Abraham_Harold_Maslow_by_William_Carter_(cropped).jpg" target="_blank" rel="noopener">source</a></li><li><b>Stanley Milgram</b> &middot; Unknown authorUnknown author &middot; Public domain &middot; <a href="https://commons.wikimedia.org/wiki/File:Stanley_Milgram_1974.jpg" target="_blank" rel="noopener">source</a></li><li><b>Walter Mischel</b> &middot; RishitaSharma2106 &middot; CC BY-SA 4.0 &middot; <a href="https://commons.wikimedia.org/wiki/File:Walter_Mischel_Stanford_Psychologist.png" target="_blank" rel="noopener">source</a></li><li><b>Allan Paivio</b> &middot; Lanza &middot; Public domain &middot; <a href="https://commons.wikimedia.org/wiki/File:Allan_Paivio_1948.png" target="_blank" rel="noopener">source</a></li><li><b>Jean Piaget</b> &middot; Unidentified (Ensian published by University of Michigan) &middot; Public domain &middot; <a href="https://commons.wikimedia.org/wiki/File:Jean_Piaget_in_Ann_Arbor_(cropped).png" target="_blank" rel="noopener">source</a></li><li><b>Carl Rogers</b> &middot; The original uploader was Didius at Dutch Wikipedia. &middot; CC BY 2.5 &middot; <a href="https://commons.wikimedia.org/wiki/File:Carl_Ransom_Rogers.jpg" target="_blank" rel="noopener">source</a></li><li><b>B. F. Skinner</b> &middot; Silly rabbit &middot; CC BY 3.0 &middot; <a href="https://commons.wikimedia.org/wiki/File:B.F._Skinner_at_Harvard_circa_1950_(cropped).jpg" target="_blank" rel="noopener">source</a></li><li><b>Henri Tajfel</b> &middot; European Association of Social Psychologie &middot; CC BY 3.0 &middot; <a href="https://commons.wikimedia.org/wiki/File:Henri_Tajfel.jpg" target="_blank" rel="noopener">source</a></li><li><b>Lev Vygotsky</b> &middot; Unknown authorUnknown author &middot; Public domain &middot; <a href="https://commons.wikimedia.org/wiki/File:Lev-Semyonovich-Vygotsky-1896-1934.jpg" target="_blank" rel="noopener">source</a></li><li><b>John B. Watson</b> &middot; Unknown (pre-1923 photo) Watson, per the link in the source, left John &middot; Public domain &middot; <a href="https://commons.wikimedia.org/wiki/File:John_Broadus_Watson.JPG" target="_blank" rel="noopener">source</a></li><li><b>Max Wertheimer</b> &middot; AnonymousUnknown author &middot; Public domain &middot; <a href="https://commons.wikimedia.org/wiki/File:Max_Werheimer_(1880-1943).jpg" target="_blank" rel="noopener">source</a></li><li><b>Wilhelm Wundt</b> &middot; Unknown authorUnknown author &middot; Public domain &middot; <a href="https://commons.wikimedia.org/wiki/File:Wilhelm_Wundt.jpg" target="_blank" rel="noopener">source</a></li><li><b>Philip Zimbardo</b> &middot; Celina Strzelecka &middot; CC BY-SA 4.0 &middot; <a href="https://commons.wikimedia.org/wiki/File:51_Professor_Zimbardo_in_Wroc%C5%82aw_2019_(cropped).jpg" target="_blank" rel="noopener">source</a></li></ul></details>
   <div class="bnav"><button class="bbtn" id="bhPrev" type="button">Previous person</button><button class="bbtn" id="bhNext" type="button">Next person</button></div>
 </section>
 
@@ -6693,7 +6710,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
   <div id="bmbook">
 
     <div class="qchap on">
-      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Karl Popper, 1902 to 1994</h2>
+      <img class="pface" src="img/people/popper.webp" alt="Portrait of Karl Popper" title="Karl Popper" loading="lazy" width="240" height="240"><h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Karl Popper, 1902 to 1994</h2>
       <p class="lead">A philosopher who decided that a theory which explains everything explains nothing.</p>
       <div class="abox"><ul>
         <li><b>His life.</b> Born in Vienna to a Jewish family who had converted to Lutheranism. As a teenager he was briefly a committed Marxist, until a demonstration he supported ended with police shooting workers dead. He left Austria in 1937 as the Nazi threat grew, taught in New Zealand through the war, and settled at the London School of Economics.</li>
@@ -6705,7 +6722,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </div>
 
     <div class="qchap">
-      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Karl Pearson, 1857 to 1936</h2>
+      <img class="pface" src="img/people/kpearson.webp" alt="Portrait of Karl Pearson" title="Karl Pearson" loading="lazy" width="240" height="240"><h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Karl Pearson, 1857 to 1936</h2>
       <p class="lead">He gave us the correlation coefficient, and he built the maths to serve a cause that should disturb you.</p>
       <div class="abox"><ul>
         <li><b>His life.</b> English, educated at Cambridge in mathematics, then law, which he hated. He changed the spelling of his own first name from Carl to Karl, reportedly out of admiration for Karl Marx. He founded the <b>first university statistics department in the world</b>, at University College London.</li>
@@ -6717,7 +6734,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </div>
 
     <div class="qchap">
-      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">William Sealy Gosset, 1876 to 1937</h2>
+      <img class="pface" src="img/people/gosset.webp" alt="Portrait of William Sealy Gosset" title="William Sealy Gosset" loading="lazy" width="240" height="240"><h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">William Sealy Gosset, 1876 to 1937</h2>
       <p class="lead">The t-test was invented in a Dublin brewery by a man who was not allowed to publish under his own name.</p>
       <div class="abox"><ul>
         <li><b>His life.</b> English, trained in chemistry and maths at Oxford, and in 1899 he took a job as a brewer at <b>Guinness in Dublin</b>. He spent his whole career there and eventually became head brewer. He was by all accounts a modest and generous man who got on with everybody, including Fisher and Pearson, who could not stand each other.</li>
@@ -6729,7 +6746,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </div>
 
     <div class="qchap">
-      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Ronald Fisher, 1890 to 1962</h2>
+      <img class="pface" src="img/people/fisher.webp" alt="Portrait of Ronald Fisher" title="Ronald Fisher" loading="lazy" width="240" height="240"><h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Ronald Fisher, 1890 to 1962</h2>
       <p class="lead">The .05 line comes from this man, and so does an argument about a cup of tea.</p>
       <div class="abox"><ul>
         <li><b>His life.</b> English, with eyesight so poor he was taught mathematics without paper, which is said to have given him an extraordinary ability to think geometrically in his head. He spent fourteen years at <b>Rothamsted</b>, an agricultural research station, working out which fertiliser made crops grow better.</li>
@@ -6741,7 +6758,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </div>
 
     <div class="qchap">
-      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Jerzy Neyman and Egon Pearson</h2>
+      <img class="pface" src="img/people/neyman.webp" alt="Portrait of Jerzy Neyman" title="Jerzy Neyman" loading="lazy" width="240" height="240"><div class="pfacecap">Jerzy Neyman</div><h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Jerzy Neyman and Egon Pearson</h2>
       <p class="lead">Type I and Type II errors come from these two, and Fisher spent decades attacking them for it.</p>
       <div class="abox"><ul>
         <li><b>Their lives.</b> <b>Neyman</b> was Polish, born in what is now Moldova, and lived through war, revolution and a spell in prison before building a career in London and then California. <b>Egon Pearson</b> was Karl Pearson's son, and inherited his father's department, which cannot have been comfortable.</li>
@@ -6792,7 +6809,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </div>
 
     <div class="qchap">
-      <h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Brian Nosek, born 1973, and the replication crisis</h2>
+      <img class="pface" src="img/people/nosek.webp" alt="Portrait of Brian Nosek" title="Brian Nosek" loading="lazy" width="240" height="240"><h2 style="font-size:23px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px;color:var(--ink)">Brian Nosek, born 1973, and the replication crisis</h2>
       <p class="lead">He organised hundreds of researchers to check whether psychology's findings were true. The answer was uncomfortable.</p>
       <div class="abox"><ul>
         <li><b>His life.</b> American, at the University of Virginia. He co-founded the <b>Center for Open Science</b> in 2013. He is the nearest thing this page has to a current figure, and the events described here happened while you were an adult.</li>
@@ -6805,6 +6822,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </div>
 
   </div>
+  <details class="credits"><summary>Picture credits (6)</summary><p class="lead">Every portrait here is in the public domain or under a free Creative Commons licence, taken from Wikimedia Commons. Author and licence are listed for each, as those licences require. People with no freely licensed photograph keep their initials instead.</p><ul class="credlist"><li><b>Ronald Fisher</b> &middot; Unknown authorUnknown author &middot; Public domain &middot; <a href="https://commons.wikimedia.org/wiki/File:Youngronaldfisher2.JPG" target="_blank" rel="noopener">source</a></li><li><b>William Sealy Gosset</b> &middot; User Wujaszek on pl.wikipedia &middot; Public domain &middot; <a href="https://commons.wikimedia.org/wiki/File:William_Sealy_Gosset.jpg" target="_blank" rel="noopener">source</a></li><li><b>Karl Pearson</b> &middot; Unknown authorUnknown author &middot; Public domain &middot; <a href="https://commons.wikimedia.org/wiki/File:Karl_Pearson,_1910_(cropped).jpg" target="_blank" rel="noopener">source</a></li><li><b>Jerzy Neyman</b> &middot; Konrad Jacobs, Erlangen, Copyright is MFO &middot; CC BY-SA 2.0 de &middot; <a href="https://commons.wikimedia.org/wiki/File:Jerzy_Neyman2.jpg" target="_blank" rel="noopener">source</a></li><li><b>Brian Nosek</b> &middot; Brian Nosek &middot; CC0 &middot; <a href="https://commons.wikimedia.org/wiki/File:Brian_Nosek_Headshot_2022.jpg" target="_blank" rel="noopener">source</a></li><li><b>Karl Popper</b> &middot; Franz Barta &middot; No restrictions &middot; <a href="https://commons.wikimedia.org/wiki/File:Karl_Popper.jpg" target="_blank" rel="noopener">source</a></li></ul></details>
   <div class="bnav"><button class="bbtn" id="bmPrev" type="button">Previous person</button><button class="bbtn" id="bmNext" type="button">Next person</button></div>
 </section>
 
