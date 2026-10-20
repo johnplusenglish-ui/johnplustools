@@ -315,6 +315,13 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
 .bc-sec .k{font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:5px}
 .bc-sec p{font-size:14.5px;color:var(--ink);line-height:1.6;margin:0}
 .bc-sec p b{font-weight:600}
+    .dataset{border:1px solid var(--border);border-radius:var(--r-sm);margin:14px 0;overflow:hidden;background:var(--card)}
+    .ds-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:11px 14px;background:var(--bg);border-bottom:1px solid var(--border);font-size:13px;color:var(--ink)}
+    .ds-h span{color:var(--muted);font-size:12px;flex:1;min-width:0}
+    .ds-copy{height:28px;padding:0 13px;border-radius:8px;border:1px solid var(--accent);background:var(--accent);color:#fff;font-family:inherit;font-weight:700;font-size:12px;cursor:pointer;flex:none}
+    .ds-copy:hover{background:var(--accent-dark);border-color:var(--accent-dark)}
+    .ds-copy.done{background:#2f9e63;border-color:#2f9e63}
+    .ds-pre{margin:0;padding:12px 14px;max-height:230px;overflow:auto;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;line-height:1.5;color:var(--ink);white-space:pre;tab-size:10}
     .credits{margin:22px 0 0;border-top:1px solid var(--border);padding-top:14px}
     .credits summary{cursor:pointer;font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:800;color:var(--muted)}
     .credits .lead{margin:10px 0 8px;font-size:13px}
@@ -5253,6 +5260,107 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     </ul>
   </div>
 
+  <div class="phase"><span class="lab">Step 0 &middot; The data</span><span class="line"></span></div>
+  <ul class="lead-list">
+    <li><b>Both tables are printed inside the brief</b>, <b>PSY1081_A1_2026-2027.docx</b>, under their own task. They are not a separate download, and the Assignment Resources folder only holds Assignment 3 material.</li>
+    <li><b>The brief prints them one row per participant already</b>, which is the layout SPSS wants. Do not retype them as two side-by-side columns of scores.</li>
+    <li><b>Each task has 40 participants</b>, 20 in each group, so you should end up with <b>40 rows</b>, not 20.</li>
+    <li><b>Copy a block below and paste straight into Data View</b> with the cursor in row 1, column 1. Set the variables up first, as in Step 1.</li>
+    <li><b>Check it after pasting.</b> 40 rows, no blank row at the bottom, and the group column only ever contains 1 or 2.</li>
+  </ul>
+
+  <div class="dataset">
+    <div class="ds-h"><b>Task 1 &middot; SART reaction times</b><span>Condition: 1 = Mindfulness, 2 = Control &middot; RT_ms in milliseconds</span>
+      <button class="ds-copy" type="button" data-t="t1">Copy 40 rows</button></div>
+    <pre id="t1" class="ds-pre">1	1	667
+2	1	621
+3	1	690
+4	1	648
+5	1	674
+6	1	636
+7	1	602
+8	1	659
+9	1	627
+10	1	681
+11	1	643
+12	1	615
+13	1	652
+14	1	668
+15	1	630
+16	1	656
+17	1	609
+18	1	645
+19	1	679
+20	1	624
+21	2	651
+22	2	674
+23	2	628
+24	2	699
+25	2	645
+26	2	682
+27	2	663
+28	2	711
+29	2	637
+30	2	672
+31	2	656
+32	2	691
+33	2	620
+34	2	679
+35	2	648
+36	2	705
+37	2	660
+38	2	633
+39	2	687
+40	2	646</pre>
+  </div>
+
+  <div class="dataset">
+    <div class="ds-h"><b>Task 2 &middot; Cinema phone checking</b><span>AgeGroup: 1 = under 30, 2 = over 40 &middot; Views is a count</span>
+      <button class="ds-copy" type="button" data-t="t2">Copy 40 rows</button></div>
+    <pre id="t2" class="ds-pre">1	1	17
+2	1	16
+3	1	6
+4	1	15
+5	1	24
+6	1	16
+7	1	14
+8	1	17
+9	1	15
+10	1	17
+11	1	18
+12	1	8
+13	1	13
+14	1	15
+15	1	14
+16	1	16
+17	1	13
+18	1	14
+19	1	5
+20	1	13
+21	2	6
+22	2	2
+23	2	3
+24	2	11
+25	2	4
+26	2	5
+27	2	1
+28	2	6
+29	2	3
+30	2	2
+31	2	1
+32	2	6
+33	2	3
+34	2	3
+35	2	4
+36	2	3
+37	2	1
+38	2	11
+39	2	5
+40	2	3</pre>
+  </div>
+
+  <div class="note"><span class="lab">Sense-check your output against these</span>If your descriptives do not match these, the data went in wrong. <b>Task 1:</b> Mindfulness M = 646.30, SD = 25.51; Control M = 664.35, SD = 26.35. <b>Task 2:</b> under 30 M = 14.30, SD = 4.23, Mdn = 15; over 40 M = 4.15, SD = 2.83, Mdn = 3. These are descriptive statistics only, so you still run every assumption test and the main analysis yourself and write your own interpretation.</div>
+
   <div class="phase"><span class="lab">Step 1 · Set up the data</span><span class="line"></span></div>
   <ol class="steps">
     <li><div class="h">Create the variables (Variable View)</div><div class="d">Make a <b>grouping</b> variable (e.g. "Condition", Measure = <b>Nominal</b>) and add Value labels (e.g. 1 = Mindfulness, 2 = Control). Make a <b>score</b> variable (e.g. "RT_ms", Measure = <b>Scale</b>).</div></li>
@@ -7257,6 +7365,18 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
     if(t.parentNode&&t.parentNode.classList.contains('tscroll'))return;
     var w=document.createElement('div'); w.className='tscroll';
     t.parentNode.insertBefore(w,t); w.appendChild(t);
+  });
+
+  // ---- copy a dataset straight into SPSS Data View ----
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('.ds-copy'); if(!b)return;
+    var pre=document.getElementById(b.dataset.t); if(!pre)return;
+    var txt=pre.textContent;
+    var done=function(){var o=b.textContent;b.textContent='Copied';b.classList.add('done');
+      setTimeout(function(){b.textContent=o;b.classList.remove('done');},1400);};
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,function(){});}
+    else{var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();
+      try{document.execCommand('copy');done();}catch(err){}ta.remove();}
   });
 
   // ---- click-to-play video embeds ----
