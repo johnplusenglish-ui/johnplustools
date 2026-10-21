@@ -6035,7 +6035,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
   <div class="dhead">
     <div class="kicker">Learn the content · online classes</div>
     <h2>Classes</h2>
-    <div class="pills"><span class="pill on">classes 1 to 5 written up</span><span class="pill">31 quiz questions</span><span class="pill">6 to 10 on release</span></div>
+    <div class="pills"><span class="pill on">classes 1 to 6 written up</span><span class="pill">31 quiz questions</span><span class="pill">7 to 10 on release</span></div>
   </div>
   <div class="intro-card">
     <div class="lab">How to use this</div>
@@ -6043,7 +6043,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
       <li><b>What this is.</b> My reworking of each online class in plainer language than the slides, so you can revise or catch up without sitting through the deck again.</li>
       <li><b>What it keeps.</b> The order of the class, pointers to the matching book chapters, the worked example and the breakout tasks.</li>
       <li><b>What it is not.</b> The slides themselves.</li>
-      <li><b>Classes 6 to 10</b> appear here as they are released.</li>
+      <li><b>Classes 7 to 10</b> appear here as they are released.</li>
       <li><b>Where this sits.</b> This is the material <b>as taught</b>, in lecture order. <b>Quant Methods Book</b> is the same content organised as theory, <b>SPSS Guide</b> is the click-by-click for A1, and <b>Null &amp; p-values</b> goes deeper on significance in plain English.</li>
     </ul>
   </div>
@@ -6750,8 +6750,87 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
       </details>
     </div>
 
-    <div class="qchap"><h2 style="font-size:22px;font-weight:800;margin:4px 0 2px;color:var(--ink)">Class 6: Independent-Samples t-tests (2)</h2><p class="lead">Thursday 22 October, 20:00. Almost entirely hands-on SPSS: testing normality (histograms, Q-Q plots, Kolmogorov-Smirnov), checking outliers (boxplots), Levene's test, running the t-test and writing it up in APA.</p><div class="note"><span class="lab">Upcoming</span>Not released yet. For now, the full SPSS workflow is in the <b>SPSS Guide</b> tab, and the theory in Quant Methods Book, Chapter 6.</div></div>
-    <div class="qchap"><h2 style="font-size:22px;font-weight:800;margin:4px 0 2px;color:var(--ink)">Class 7: Related / Paired-Samples t-tests (1)</h2><p class="lead">Repeated-measures comparisons: the paired-samples t-test.</p><div class="note"><span class="lab">Upcoming</span>Not released yet. See Quant Methods Book, Chapter 7.</div></div>
+    <div class="qchap">
+      <h2 style="font-size:22px;font-weight:800;margin:4px 0 2px;color:var(--ink)">Class 6: Independent-Samples t-tests (2)</h2>
+      <p class="lead">Thursday 22 October 2026, 20:00 to 22:00, with Dr Eccles and Dr Ryan. Class 5 built the logic on paper. This is the class where it becomes an actual result in SPSS. Maps to Quant Book <b>Chapter 6</b>, Comparing Independent Samples.</p>
+      <div class="note"><span class="lab">Why this is the class that matters for A1</span>Both of your Assignment 1 tasks are exactly this test, start to finish. Two worked examples were run in class: one where the assumptions held and the t-test was used, and one where they failed and Mann-Whitney U was used instead. <b>Your Task 1 and Task 2 are one of each.</b></div>
+
+      <h3 class="sec">1. The logic, in one line</h3>
+      <ul class="lead-list">
+        <li><b>The question.</b> Is the difference between two group means bigger than chance would produce?</li>
+        <li><b>Why the difference alone is not enough.</b> It has to be put in context, and the context is <b>variability</b>. A three-point gap between two tightly clustered groups is striking. The same gap between two widely scattered groups is unremarkable.</li>
+        <li><b>So t is</b> the difference between the means divided by the standard error of that difference.</li>
+        <li><b>The bigger t is</b>, the less plausible it becomes that the null produced your result.</li>
+      </ul>
+
+      <h3 class="sec">2. The assumptions, and which ones you actually test</h3>
+      <ul class="lead-list">
+        <li><b>From the design, you just state these.</b> One IV with two levels, an independent-groups design, and a DV measured at least at interval level.</li>
+        <li><b>From the data, you test these three.</b> Normality within each group, absence of outliers, and homogeneity of variance.</li>
+        <li><b>Three assumptions, three pieces of output, three sentences</b> in the write-up. That was the class's own summary.</li>
+      </ul>
+      <div class="note"><span class="lab">The rule that catches people out</span>For assumption checks, <b>non-significant is good news</b>. A non-significant Shapiro-Wilk and a non-significant Levene's test are what allow you to run the parametric test. That is the reverse of how you read your main analysis, where significant is the interesting result.</div>
+
+      <h3 class="sec">3. Testing the assumptions in SPSS</h3>
+      <ul class="lead-list">
+        <li><b>Analyze, Descriptive Statistics, Explore.</b> DV into Dependent List, IV into Factor List.</li>
+        <li><b>Normality.</b> SPSS prints Kolmogorov-Smirnov and Shapiro-Wilk. <b>Read Shapiro-Wilk</b> unless the sample is very large, around n above 200. Read it <b>per group</b>, not for the whole sample.</li>
+        <li><b>Outliers.</b> Read the boxplots. Little circles are outliers. No circles means the assumption is satisfied, and you say so.</li>
+        <li><b>Homogeneity of variance.</b> Levene's test is <b>not</b> in Explore. It arrives with the t-test output itself.</li>
+        <li><b>Round everything to two decimal places</b> when reporting.</li>
+      </ul>
+
+      <h3 class="sec">4. Worked example one: assumptions held</h3>
+      <ul class="lead-list">
+        <li><b>The study.</b> Teachers on a weekend classroom-management course versus a control group, measured on the General Self-Efficacy scale.</li>
+        <li><b>Normality.</b> Shapiro-Wilk gave 1.000 and .436, both above .05, so normality held in both groups.</li>
+        <li><b>Outliers.</b> None on the boxplots.</li>
+        <li><b>Levene's.</b> F(1, 28) = 0.22, p = .65, so variances were equal and the <b>Equal variances assumed</b> row is the one to read.</li>
+        <li><b>The test.</b> Analyze, Compare Means and Proportions, Independent Samples T Test. DV into Test Variable, IV into Grouping Variable, then Define Groups.</li>
+        <li><b>The result.</b> Control M = 27.60, SD = 7.22; training M = 24.33, SD = 7.56; t(28) = 1.21, p = .236. Not significant.</li>
+        <li><b>Effect size.</b> Cohen's d = 0.44, from the Independent Samples Effect Sizes table. Conventions: .20 small, .50 medium, .80 large.</li>
+      </ul>
+
+      <h3 class="sec">5. Worked example two: assumptions failed</h3>
+      <ul class="lead-list">
+        <li><b>The study.</b> Wistar rats exposed to social stress during adolescence versus controls, measured on social avoidance in seconds.</li>
+        <li><b>What went wrong.</b> The control group was not normally distributed, there was a low-scoring outlier in the control group, and Levene's gave p = .002, so the variances were unequal too.</li>
+        <li><b>The decision.</b> Any one of those would rule out the t-test. All three together make it straightforward.</li>
+        <li><b>The test.</b> Analyze, Nonparametric Tests, Legacy Dialogs, 2 Independent Samples. DV into Test Variable List, IV as Grouping Variable, Mann-Whitney U ticked.</li>
+        <li><b>The result.</b> U = 125.5, z = -0.09, p = .925. Read the p from the second-last line of the Test Statistics box.</li>
+        <li><b>Effect size.</b> <b>Not Cohen's d.</b> That is parametric and assumes the normality you just lost. Report <b>r = Z divided by the square root of N</b> instead.</li>
+      </ul>
+
+      <h3 class="sec">6. What a full write-up has to contain</h3>
+      <ul class="lead-list">
+        <li><b>Why you ran that particular test</b>, naming the assumptions that held or failed.</li>
+        <li><b>What the IV and DV were</b>, stated plainly.</li>
+        <li><b>The assumption results</b>, in full, with their statistics and p values.</li>
+        <li><b>The main result</b>: t, df and p with both means and SDs, or U, z and p with both medians.</li>
+        <li><b>The effect size</b>, and what it means in words.</li>
+        <li><b>A plain-English conclusion</b> in the direction the data actually went.</li>
+      </ul>
+
+      <h3 class="sec">7. The practice exercise, and what is next</h3>
+      <ul class="lead-list">
+        <li><b>There is a take-home exercise</b> set in this class, using the <b>Social Stress Rats</b> dataset from the Online Classes folder on Loop. Five tasks: the two hypotheses, the IV with its levels, the DV, all the assumption tests reported in full, then the main analysis in full.</li>
+        <li><b>That is Assignment 1 in miniature</b>, which is exactly why it is worth doing before you start the real thing.</li>
+        <li><b>Before Class 7.</b> Read Part 2, Section 6, subsections 6.1 to 6.9, and do the SAQs. The answers are in 6.10.</li>
+      </ul>
+      <div class="note b"><span class="lab">Note the schedule change</span><b>Class 7 is now APA Tables and Figures, plus Assignment 1 preparation</b>, not paired-samples t-tests as the original schedule had it. That is part (e) of both your tasks, and it lands shortly before the <b>2 November</b> deadline, so it is one to attend live if you possibly can.</div>
+
+      <details class="quiz"><summary>Quiz: test yourself (7 questions)</summary><div class="qz">
+        <div class="qz-q"><p class="qz-stem">1. SPSS prints both Kolmogorov-Smirnov and Shapiro-Wilk. Which do you read?</p><div class="qz-opts"><button class="qz-opt" type="button">Kolmogorov-Smirnov always</button><button class="qz-opt" type="button" data-ok>Shapiro-Wilk, unless the sample is very large</button><button class="qz-opt" type="button">Whichever gives the result you want</button><button class="qz-opt" type="button">Both, and average them</button></div><div class="qz-fb">Read Shapiro-Wilk unless n is very large, around 200 or more. Both your A1 groups are n = 20, so Shapiro-Wilk is the one to quote.</div></div>
+        <div class="qz-q"><p class="qz-stem">2. For the assumption checks, which result is the good news?</p><div class="qz-opts"><button class="qz-opt" type="button">A significant result, p below .05</button><button class="qz-opt" type="button" data-ok>A non-significant result, p above .05</button><button class="qz-opt" type="button">It makes no difference</button><button class="qz-opt" type="button">Only the histogram matters</button></div><div class="qz-fb">Non-significant is good news here. A non-significant normality test and a non-significant Levene's test are what permit the parametric test. That is the opposite of how you read your main analysis.</div></div>
+        <div class="qz-q"><p class="qz-stem">3. Levene's test comes back F(1, 28) = 0.22, p = .65. Which row of the t-test output do you read?</p><div class="qz-opts"><button class="qz-opt" type="button">Equal variances not assumed</button><button class="qz-opt" type="button" data-ok>Equal variances assumed</button><button class="qz-opt" type="button">Either row</button><button class="qz-opt" type="button">Neither, run Mann-Whitney</button></div><div class="qz-fb">p is well above .05, so the variances are equal and you read the pooled row, labelled Equal variances assumed. This was the teacher self-efficacy example in class.</div></div>
+        <div class="qz-q"><p class="qz-stem">4. In the rats example, Levene's gave p = .002, the control group was not normal, and there was an outlier. What follows?</p><div class="qz-opts"><button class="qz-opt" type="button">Run the t-test anyway and note the problem</button><button class="qz-opt" type="button" data-ok>Run the Mann-Whitney U test</button><button class="qz-opt" type="button">Delete the outlier and rerun</button><button class="qz-opt" type="button">Report no result is possible</button></div><div class="qz-fb">Either violation alone would rule out the t-test. The class ran Mann-Whitney U instead, and reported U = 125.5, z = -0.09, p = .925.</div></div>
+        <div class="qz-q"><p class="qz-stem">5. Why does a Mann-Whitney U write-up not report Cohen's d?</p><div class="qz-opts"><button class="qz-opt" type="button">SPSS does not calculate it</button><button class="qz-opt" type="button" data-ok>Cohen's d is parametric and assumes the normality that was just violated</button><button class="qz-opt" type="button">It is optional for all tests</button><button class="qz-opt" type="button">Because the result was non-significant</button></div><div class="qz-fb">Cohen's d assumes normal, interval or ratio data, which is exactly what failed. Report r instead, where r = Z divided by the square root of N.</div></div>
+        <div class="qz-q"><p class="qz-stem">6. How many decimal places should you round to when reporting?</p><div class="qz-opts"><button class="qz-opt" type="button">One</button><button class="qz-opt" type="button" data-ok>Two</button><button class="qz-opt" type="button">Three</button><button class="qz-opt" type="button">Leave the SPSS default</button></div><div class="qz-fb">Two decimal places throughout, which the class said explicitly for both the Shapiro-Wilk and Levene's write-ups.</div></div>
+        <div class="qz-q"><p class="qz-stem">7. What is Class 7 actually about?</p><div class="qz-opts"><button class="qz-opt" type="button">Paired-samples t-tests</button><button class="qz-opt" type="button" data-ok>APA tables and figures, plus Assignment 1 preparation</button><button class="qz-opt" type="button">Correlation</button><button class="qz-opt" type="button">Semester review</button></div><div class="qz-fb">The schedule changed. Class 7 is APA Tables and Figures and Assignment 1 preparation, which lands four days before the deadline and covers exactly what part (e) asks for.</div></div>
+        <div class="qz-score">Score: 0 correct, 0 of 7 answered</div>
+      </div></details>
+    </div>
+    <div class="qchap"><h2 style="font-size:22px;font-weight:800;margin:4px 0 2px;color:var(--ink)">Class 7: APA Tables and Figures, and Assignment 1 Prep</h2><p class="lead">The Class 6 slides list this as APA tables and figures plus Assignment 1 preparation, which replaces the paired-samples t-test originally scheduled here. It covers part (e) of both A1 tasks and falls shortly before the 2 November deadline.</p><div class="note"><span class="lab">Upcoming</span>Not released yet. Attend this one live if you can. Until then, Step 4 of the <b>SPSS Guide</b> covers the APA table and chart, and paired-samples work is in Quant Methods Book, Chapter 7.</div></div>
     <div class="qchap"><h2 style="font-size:22px;font-weight:800;margin:4px 0 2px;color:var(--ink)">Class 8: Related / Paired-Samples t-tests (2)</h2><p class="lead">More paired-samples work, plus the Wilcoxon signed-ranks alternative.</p><div class="note"><span class="lab">Upcoming</span>Not released yet. See Quant Methods Book, Chapter 7.</div></div>
     <div class="qchap"><h2 style="font-size:22px;font-weight:800;margin:4px 0 2px;color:var(--ink)">Class 9: Correlations</h2><p class="lead">Relationships between two variables: Pearson's r and Spearman's rho.</p><div class="note"><span class="lab">Upcoming</span>Not released yet. See Quant Methods Book, Chapter 4.</div></div>
     <div class="qchap"><h2 style="font-size:22px;font-weight:800;margin:4px 0 2px;color:var(--ink)">Class 10: Semester 1 Review &amp; Assignment 2 Prep</h2><p class="lead">Pulling the semester together and preparing for Assignment 2.</p><div class="note"><span class="lab">Upcoming</span>Not released yet.</div></div>
