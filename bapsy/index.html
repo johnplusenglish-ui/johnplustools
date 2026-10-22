@@ -9167,6 +9167,351 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
       pts:['Not released yet.','Pulling the semester together and preparing for Assignment 2.'],k:'Assignment 2 is due the following Monday, 7 December 2026.'}
   };
 
+  // PSY1080 is book-based, so the unit here is a book chapter, the equivalent of one class.
+  // n is the chapter number as the Loop book itself numbers it.
+  const BOOKS={
+    p15:{b:'Introducing Psychology and Study Skills',ch:[
+      {n:1,t:'Course Introduction',pts:[
+        'The module is a foundation, not a survey. It gives an overview of the six areas you meet again in later years.',
+        'Study skills are treated as content, not padding. The book\u2019s own line is that learning to do psychology is part of the subject.',
+        'It is built for distance learners, and the orientation videos are two graduates of online programmes talking about how they coped.'],
+      k:'Study skills are examinable content on this module, not a warm-up you can skip.'},
+      {n:2,t:'A Short History of Psychology',pts:[
+        'Psychology is young: about 120 years old as a discipline, against centuries for physics and biology.',
+        'Three parents: medicine, philosophy, and the experimental methods of the physical sciences.',
+        'Hippocrates (460 to 377 BC) argued health and illness are natural processes rather than divine punishment. Galen (130 to 200 AD) extended that to temperament, and the four humours survive in the phrase "a sense of humour".',
+        'The philosophical split underneath it all: monism says reality has a single nature, dualism says mind and matter are separate substances. The mind-brain debate is the same argument, still running.',
+        'Determinism and empiricism: Roger Bacon (1214 to 1292) argued that observation, not authority, settles questions.',
+        'Measurement arrived from physics. Weber worked on hand-held weights and showed a difference has to change by a proportion to be noticed. Fechner then showed sensation could be studied with instruments.',
+        'In 1879 Wundt opened the first laboratory: a group of people using experimental techniques to investigate thought, consciousness and emotion.'],
+      k:'Psychology became a science the moment sensation could be measured with instruments instead of argued about.'},
+      {n:3,t:'Getting Organised: Learning Skills',pts:[
+        'What predicts success is not cleverness. It is the desire to learn, and the image you hold of yourself as a learner.',
+        'The exercise worth doing: list ten things you have learned since leaving school, from cooking to driving. Most people underrate themselves badly.',
+        'A study place: quiet, tools to hand, and somewhere your materials can be stored safely.',
+        'Time: estimate how much you need, decide how you will free it up, then build an actual schedule for the module.',
+        'Active learning is the recurring theme of the entire book. Reading and listening passively achieves nothing.',
+        'The module assumes you can produce documents in Word and build spreadsheets and charts in Excel.'],
+      k:'Passive reading achieves nothing. Every technique in this book is a way of making your attention do work.'},
+      {n:4,t:'Approaches to Learning',pts:[
+        'Kolb’s cycle has four steps: have an experience, reflect on it, come to a conclusion, then act on that conclusion.',
+        'The lesson from going round it twice: we learn well from our mistakes, and we will not implement something we have not concluded for ourselves.',
+        'Honey and Mumford turned the cycle into four learning styles, one for each stage.',
+        'Gardner’s multiple intelligences: linguistic, logical and mathematical, musical, spatial, bodily and kinaesthetic, naturalistic, interpersonal, intrapersonal.',
+        'Nutrition, exercise and sleep are treated as study skills. Variety and oily fish for brain function, and no fad diets.',
+        'Too much caffeine makes you jittery and unable to concentrate. Dehydration makes the brain sluggish, and tea, coffee and alcohol all dehydrate you.',
+        'Timing: a heavy lunch makes the afternoon useless, and eating right before bed stops you sleeping.'],
+      k:'Experience on its own teaches nothing. The learning happens at the reflecting and concluding steps, which are the two people skip.'},
+      {n:5,t:'Gathering and Recording Information',pts:[
+        'Active listening: motivate yourself before it starts by deciding what you want to know by the end, and prepare so you can follow.',
+        'Write key points, not everything. Writing is itself a mental process, and trying to catch every word stops you understanding any of them.',
+        'Listen hardest in the middle. Attention is naturally high at the start and at the summary, and drifts in between.',
+        'Do not let your prejudices filter it. We pay more attention to what already fits our views, so hear the whole argument before concluding.',
+        'SQ3R: Survey, Question, Read, Review, Recite. Question is the crucial stage, because writing your questions first turns reading into searching.',
+        'Several quick passes beat one slow painstaking one, because the ideas get reinforced each time. Skimming gets the gist, scanning hunts one specific figure.',
+        'Judging a source: who owns the site, and what the address says. Wikipedia points you somewhere rather than settling anything.'],
+      k:'SQ3R works for one reason: you write your questions before you read, so you are hunting for answers instead of absorbing text.'},
+      {n:6,t:'Preparing for Presentations',pts:[
+        'Research it like written work, same sources and same breadth, then filter hard.',
+        'An essay carries detail so others can check your work. A talk exists only to communicate.',
+        'Pitch it low to start. The biggest risk is pitching too high, because the audience has no time to mull anything over before you move on.',
+        'Never write out what you will say word for word, but do keep brief, clearly laid out speaker’s notes.',
+        'Introduction: greet them, smile, say who you are and the title, and speak slowly and loudly.',
+        'Main body: one idea at a time, in a logical order, without bombarding them. Conclusion: summarise and show the main points again.'],
+      k:'You need far more background than you will actually say, because the questions are where a talk is really tested.'},
+      {n:7,t:'Learning in Groups',pts:[
+        'As a distance learner you can largely opt out, skipping online classes and posting the minimum in forums. The book acknowledges that, then argues against it.',
+        'What you lose by opting out: interaction stimulates thought, ideas and, the book stresses, enthusiasm.',
+        'Participate fully rather than as a spectator. That phrase is the chapter in one line.',
+        'The skills transfer. Communication, listening, contributing ideas and encouraging others are the same skills employers want.',
+        'What makes a group work: a clear purpose every member shares, knowing your own contribution, and listening as much as speaking.',
+        'Prepare beforehand. An online class is worth far more if you have read the material and arrive with questions.',
+        'Study groups give you a safe place to test an interpretation before you commit it to an assignment.'],
+      k:'Interaction is not an optional extra on a distance course. Opting out costs you the enthusiasm that keeps you going.'}]},
+
+    p13:{b:'Developmental Psychology',ch:[
+      {n:1,t:'Introduction to Developmental Psychology',pts:[
+        'Three processes change together: biological, meaning the body and brain; cognitive, meaning thought, language and problem-solving; and social, meaning relationships, emotions and personality.',
+        'Development is more than change. Differentiation moves from the general to the particular and the simple to the complex.',
+        'Growth is getting bigger, but also getting more. Physical growth tails off in early adulthood while other growth continues.',
+        'Orderly progression: the sequence is strikingly similar across children and across cultures.',
+        'Six periods: prenatal, infancy to about 24 months, early childhood about 2 to 5 or 6, middle and late childhood about 6 to 11, adolescence about 11 to 18, then adulthood.',
+        'The debates that never go away start with nature versus nurture and continuity versus discontinuity.',
+        'Three research methods, two ways to study change over time, and the particular ethics of working with children.'],
+      k:'Development is not just change. It is ordered, and the order repeats across cultures, which is what makes it studiable at all.'},
+      {n:2,t:'Biological Processes',pts:[
+        'Chromosomes are thread-like structures in the nucleus of every human cell: 46, arranged in 23 pairs. A gene is a short segment of the DNA they contain.',
+        'Genotype is your genetic inheritance. Phenotype is how it actually shows up. One genotype can produce different phenotypes.',
+        'Teratology: the same substance that harms a human foetus may not harm a rabbit or a rat, so genetic make-up matters.',
+        'Timing matters enormously. Rubella affects up to 50% of babies if the mother is infected in the first month, far less later.',
+        'Effects are specific. Thalidomide produces gross limb defects; rubella mainly hits the sensory and internal organs. Dose matters too.',
+        'DeCasper and Spence (1986): sixteen pregnant women read one of two stories aloud twice a day for the last six weeks of pregnancy.',
+        'After birth the babies could choose which recording they heard by changing how fast they sucked, and they systematically chose the story they had heard in the womb.'],
+      k:'The sucking study is the one to remember. It proves foetal learning, and it shows how infant research works: use a behaviour the baby already has.'},
+      {n:3,t:'Cognitive Development',pts:[
+        'Piaget trained as a zoologist and came to intelligence through the question of how animals adapt. What caught his attention was children’s wrong answers.',
+        'He believed the errors were systematic rather than random, so they revealed the structure of a child’s thinking.',
+        'Intelligence is a process, not a thing. A scheme is the basic unit, a mental pattern of behaviour or thought.',
+        'Adaptation has two halves: assimilation takes new information into an existing scheme, accommodation changes the scheme to fit.',
+        'Equilibration is the engine. The child meets something that does not fit, feels cognitive conflict, and reorganises.',
+        'The four stages: sensorimotor to about 2, preoperational about 2 to 7, concrete operational about 7 to 11, formal operational about 11 to 15.',
+        'Object permanence is the sensorimotor headline. Preoperational thought is marked by egocentrism and animism.',
+        'Four criticisms of Piaget, then Vygotsky’s alternative, where thinking is social before it is individual.'],
+      k:'Piaget’s real innovation was taking children’s mistakes seriously as evidence, rather than marking them wrong.'},
+      {n:4,t:'Language Development',pts:[
+        'Four components: phonology, the sound system, with about 36 phonemes in English; morphology, the smallest units of meaning; semantics, what words mean; syntax, how they combine.',
+        'Holophrases: single words doing the work of whole sentences. A child who wants a banana just says "banana".',
+        'Over-extension: using "dog" for every four-legged animal.',
+        'Over-regularisation is the important one: "goed", "runned", "hitted". The child has never heard these, so it proves they have extracted a rule rather than copied speech.',
+        'The critical period hypothesis: a sensitive window early in life when a child is optimally ready to acquire language.',
+        'The evidence: young children acquire language far more easily than adults, and children who suffer extreme isolation may never fully acquire their native language.',
+        'Bilingualism does not delay cognitive development. In some studies bilingual children do better.'],
+      k:'Errors are the evidence. "Goed" is not a mistake to correct, it is proof that the child has worked out the rule.'},
+      {n:5,t:'Social Development: the Self',pts:[
+        'The self-system has three parts: self-image, the kind of person you think you are; self-esteem, how much you value yourself; and the ideal self, who you would like to be.',
+        'The gap between self-image and ideal self is where trouble lives.',
+        'About four months is the earliest reliable evidence of self-awareness, along with personal agency, the understanding that you can cause events.',
+        'The mirror puzzle: babies smile at their reflection in the first year, but sceptics said that is just a response to another baby.',
+        'The two screens study settled part of it, and the rouge test is the classic: a mark is placed where the infant cannot see it, and touching your own face means you know it is you.',
+        'How you ask changes the answer. Open questions pull general answers, specific questions pull narrow ones, so do not conclude a child cannot think generally from a narrow question.',
+        'Under about eight, children have no well-developed sense of overall self-worth.'],
+      k:'The caveat matters more than the findings: a lot of developmental results are artefacts of how the question was worded.'},
+      {n:6,t:'Theories of Development',pts:[
+        'A theory is a set of statements describing the relationship between behaviour and the factors assumed to explain it.',
+        'It does two jobs: it organises existing findings, and it tells researchers what to investigate next.',
+        'All three major theories are built from hypothetical constructs, things that cannot be observed directly, only inferred.',
+        'Freud’s structure: the id is instinct and psychic energy, unconscious and with no contact with reality. The ego is the executive branch, formed as the child meets reality. The superego is the moral branch.',
+        'The defence mechanisms: displacement, projection, sublimation, reaction formation and regression.',
+        'Erikson reworked Freud into psychosocial stages that run across the whole lifespan rather than stopping in adolescence.',
+        'The three theories compared side by side, which is the part that actually gets examined.'],
+      k:'A good theory states its parts explicitly and tells you what to look for next. That is the test to apply to Freud.'}]},
+
+    p16:{b:'Personality Psychology',ch:[
+      {n:1,t:'Introduction to Individual Differences',pts:[
+        'The premise is obviously true and widely ignored: most of psychology proceeds as though people were much alike.',
+        'Scientific laws detect regularities. A chemist can predict exactly what two solutions will do. Psychological laws cannot do that.',
+        'They predict that most four-year-olds will fail a problem, not what this four-year-old will do.',
+        'Why: people arrive with different genes, upbringings, values, experiences and histories.',
+        'The illustration: a behaviour therapist can predict roughly how many aversive trials break a habit. Add a personality measure and the prediction sharpens, because Eysenck found introverts learn from punishment faster.',
+        'Two ways to study it: build a full picture of one person, or pick a dimension and measure everyone on it.',
+        'Why introspection will not do: different words may mean the same thing, the same word may mean different things, and it yields only nominal data.'],
+      k:'A general law tells you what most people do. Individual differences are what let you predict this person.'},
+      {n:2,t:'Personality Through Introspection: Kelly and Rogers',pts:[
+        'Kelly’s core idea: people behave like scientists, constantly trying to understand and predict their world.',
+        'The art gallery analogy: someone who knows nothing about art has very few dimensions to judge paintings on, so everything looks alike.',
+        'A personal construct is one of those dimensions. It is bipolar, described by two opposed words, and constructs come in bundles.',
+        'When a prediction fails you feel anxious, because your model of the world has turned out to be flawed.',
+        'The Repertory Grid: name a real person for each role in your life, take three at random, and ask how one differs from the other two.',
+        'Two rules for constructs: they must be psychological rather than physical, and they must be your own words.',
+        'Rate every element on every construct, usually one to five, then correlate the rows to find the structure.',
+        'Then five criticisms of Kelly, and Rogers on the self-concept.'],
+      k:'Kelly’s claim is testable: know someone’s constructs and how they relate, and you can predict what they will do.'},
+      {n:3,t:'The Psychoanalytic Model of Freud',pts:[
+        'Freud trained as a scientist: a medical doctor working in physiological and neurological research.',
+        'Psychiatry was the Cinderella of medicine. Disorders with no obvious physical cause were dismissed as impossible.',
+        'Free association was his method: the patient reclines in a quiet darkened room and says whatever comes.',
+        'The telling sign was difficulty producing an association, since the patient had been urged to say anything at all.',
+        'Patients recalled painful childhood events, long forgotten, attached to strong emotion.',
+        'Screen memories: many patients reported childhood seduction by their fathers, and what Freud made of that is still argued about.',
+        'Defence mechanisms keep painful material out of consciousness, but a repressed wish does not cease to exist, it keeps trying to return.',
+        'Dreams are the royal road to the unconscious: during sleep the defences relax.'],
+      k:'The chapter ends on the question that matters: can any of it be tested? Hold that thought going into the next chapter.'},
+      {n:4,t:'Psychological Tests',pts:[
+        'This chapter turns the testability question on Freud and Rogers, and it is where the module gets serious.',
+        'The problem: there is no agreed way to measure defence mechanisms, superego strength or self-actualisation.',
+        'Without measures you cannot establish whether either theory describes anything real.',
+        'Reliability: test-retest means giving the same test to the same people twice and correlating the results.',
+        'Validity: a test is valid if it measures what it claims to and its scores are actually useful.',
+        'The crucial difference: validity is not a fixed property of the test. It depends on what you are using it for.',
+        'A test that identifies promising nurses may be useless for predicting who will stay. A test that works when people cooperate may fail in selection, where applicants have reason to shade their answers.',
+        'Then norms, and the ethics of testing.'],
+      k:'Measurement decides everything. A theory you cannot measure is not wrong, it is untestable, which is worse.'},
+      {n:5,t:'The Psychometric Model',pts:[
+        'A trait is a relatively stable characteristic describing how someone behaves across situations. A state is changeable and situation-driven.',
+        'The test to apply: "hungry" is not a trait, because you will not be hungry after your next meal.',
+        'Mischel’s challenge: he argued there are no real consistencies in behaviour across situations, which is the attack the whole model has to answer.',
+        'Behaviour depends on five things: abilities and skills, traits, moods, motives, and the situation as you perceive it.',
+        'The worked example is an exam. Abilities give you the reading and arithmetic. Traits decide whether you practised. Moods decide whether you panic.',
+        'Drives decide whether you need to appear intelligent, and the perceived situation covers whether the invigilator pacing about unsettles you.',
+        'Then factor analysis, explained without the maths.'],
+      k:'The exam example is the chapter. Five different things produce one mark, and only one of them is ability.'},
+      {n:6,t:'The Psychometric Model Applied to Abilities',pts:[
+        'Attainment tests how well you mastered material you were taught. Ability is about reasoning and unfamiliar problems.',
+        'Three possible structures: all abilities unrelated, all correlated so one factor explains everything, or groups of skills clustering together.',
+        'Spearman found the correlations and argued for general intelligence.',
+        'IQ follows a normal distribution with a mean of 100 and a standard deviation of 15.',
+        'The beauty of that is comparability regardless of which test you took.',
+        'The headline trap: a newspaper announcing half the nation’s children have IQs below 100 has announced the definition, not a crisis.',
+        'Sternberg and Carroll break a problem such as "dog is to puppy as cow is to..." into elementary cognitive operations.',
+        'Is intelligence biological? Twin studies, and early claims from brain electrical activity by Hendrickson and Hendrickson (1980).'],
+      k:'Half of all children scoring under 100 is arithmetic, not decline. Knowing that is the whole point of learning the distribution.'},
+      {n:7,t:'The Psychometric Model Applied to Personality',pts:[
+        'Cattell’s logic: if a personality trait exists, some word in the language must describe it.',
+        'The method: he took Allport and Odbert’s 1936 list of 4,500 trait names and reduced it.',
+        'The result was 36 traits, plus about ten more from psychiatry, giving roughly 46.',
+        'The problem is fatal. When independent researchers factor analyse his items, they do not recover his factors.',
+        'Eysenck took the opposite route, deciding in advance what to measure and starting from the clinic rather than the dictionary.',
+        'Neuroticism came first, in the early 1950s, followed by extraversion and later psychoticism.',
+        'Then the Big Five, which is where the field settled, and the biology of personality.'],
+      k:'Two opposite methods, dictionary and clinic, and the one that could not be replicated is the one that sampled everything.'}]},
+
+    p17:{b:'Biological Bases of Behaviour',ch:[
+      {n:1,t:'Brains: The Basics',pts:[
+        'The Brain Hypothesis: the brain, rather than the heart, guides human behaviour. Some ancient thinkers credited the heart.',
+        'Phrenology: Gall claimed personality could be read from the bumps of the skull. Wrong, but it located function in the brain.',
+        'The mind-body problem: monists hold the brain is part of the body with no separate soul; dualists hold there is a separate, non-physical mind.',
+        'Descartes divided humans into physical components open to scientific method and spiritual ones that were not.',
+        'Biopsychology is monist by nature, and the charge of reductionism has been made against it from the start.',
+        'Then four developments that changed everything, the evolution of the brain, the nervous system and the neuron, and cortical function.'],
+      k:'Biopsychology is monist by construction. That is a philosophical commitment it starts from, not something it discovered.'},
+      {n:2,t:'The Sensorimotor System',pts:[
+        'Sensation is any information arriving in the brain from outside. Perception is interpreting it against remembered patterns. Transduction is the conversion step between them.',
+        'The tomato example: red, round and sweet are sensations handled by separate systems. Becoming "a tomato" is perception.',
+        'Template matching fails, because you would need a stored template for every object at every angle.',
+        'Gregory: we use prior knowledge to make an educated guess. Gibson: the opposite, perception is direct from the sensory information available.',
+        'Biederman breaks objects into geons, basic geometric shapes. Marr treats it as a computational process.',
+        'Much of what feels like high-level processing happens before conscious perception.',
+        'Seeing lips move helps you hear, worth roughly 10dB of extra speech volume, and the superior temporal sulcus is where senses are integrated.'],
+      k:'Perception is not recording, it is inference. The debate is only about how much of the work is guesswork.'},
+      {n:3,t:'Biological Bases of Behaviour',pts:[
+        'The restoration theory of sleep is weak: if sleep restored energy we would sleep far longer after physically demanding days.',
+        'Sleep is an active process. The leading candidates are consolidating new memories and clearing waste.',
+        'It is not a loss of consciousness but a change of state, and it is near universal despite costing time and making the animal vulnerable.',
+        'Five stages, with stage 3 slow wave sleep and stage 4 deeper still. Everyone dreams every night, not everyone remembers.',
+        'Circadian rhythms are 24-hour cycles maintained with help from external cues such as light.',
+        'Emotion is several things at once: the subjective feeling, the facial expression, the vocal tone and the posture.',
+        'Darwin’s functional account: expressions send messages to others of our species. James: the experience follows the bodily expression. Schachter: arousal is similar across emotions and the interpretation decides which one it is. Damasio: emotions guide decisions.'],
+      k:'That sleep is near universal despite being costly and dangerous is the strongest argument that it does something essential.'},
+      {n:4,t:'The Ageing Brain',pts:[
+        'It starts early. Three weeks after conception a tube is visible that will become the nervous system.',
+        'Neurogenesis creates cells that become neurons, which then migrate to their destination.',
+        'Children’s brains are immature because the networks are incomplete, and they stay that way until early adulthood.',
+        'The trade-off: a sophisticated brain takes a long time to mature, which is why humans are helpless for so long.',
+        'Neuroplasticity is the brain’s ability to change in response to experience, highest in childhood because the infant brain has far more synapses, which are then pruned.',
+        'Learning is physical change: a new connection forms between neurons. Neurogenesis does not stop at adulthood.',
+        'Four responses to injury: degeneration, regeneration, and recovery is more common in younger patients. The case of Genie, found at 13 after a life without communication, is the deprivation example.'],
+      k:'Learning is not a metaphor for physical change, it is physical change. A new connection forms.'},
+      {n:5,t:'Clinical Neuropsychology',pts:[
+        'The 10% myth is dead. Every area has a dedicated job and often belongs to several circuits.',
+        'EEG in the clinic diagnoses epilepsy and some sleep conditions. In research, mismatch negativity is the signature of detecting something unexpected.',
+        'Imaging is not enough: two people with near-identical scans can have very different functional outcomes.',
+        'Three steps in order: take a history, conduct the assessment, then interpret. The third is where the skill is.',
+        'Assessment covers memory, language, attention and executive function, and patterns across domains give the diagnosis.',
+        'What predicts recovery: younger age at the time of damage, social support, cognitive reserve, and access to rehabilitation.',
+        'Treatments include ECT, bright light therapy for seasonal affective disorder, and deep brain stimulation, mostly in Parkinson’s.'],
+      k:'A scan is not a diagnosis. Two identical-looking brains can function completely differently.'},
+      {n:6,t:'Chemical Bases of Behaviour',pts:[
+        'At the synapse, electrical stimulation releases neurotransmitter from sacs in the presynaptic membrane.',
+        'Receptors are selective: each receives only one particular substance. That single fact is the entire basis of pharmacology.',
+        'Two possible effects: inhibitory reduces the chance the next neuron fires, excitatory increases it.',
+        'The central fact: every drug acting on the nervous system must mimic a messenger the body already makes.',
+        'Agonists increase the effectiveness of their target neurotransmitter, antagonists block it.',
+        'Tolerance is the body changing its metabolic response. The compensatory response is subtler: the body learns to expect a drug in particular surroundings and prepares for it.',
+        'That has a lethal consequence. Most heroin overdoses happen in unfamiliar environments, where the body never prepared.',
+        'Addiction: the withdrawal theory and the pleasure theory are both unsupported, since most addicts report no longer getting pleasure from the drug.'],
+      k:'The overdose finding is the one to carry. The same dose in a new room can kill, because tolerance is partly learned from context.'}]},
+
+    p18:{b:'Cognitive Psychology',ch:[
+      {n:1,t:'Introduction to Human Cognition',pts:[
+        'Cognitive psychology is the scientific study of human mental processes: perceiving, remembering, thinking about, understanding and speaking about the world.',
+        'The opening move: a Martian scientist looking at people, animals, plants and machines would notice that only animals and people move of their own volition and sense their surroundings.',
+        'On top of that, people and higher mammals can represent and think about the world. Bits of the universe reflecting on other bits of the universe.',
+        'Six working assumptions. Minds and brains are natural systems, so they can be studied scientifically.',
+        'Systems need not be things: the transport system is more than cars and roads.',
+        'The mind is process, not substance. There is no such thing as digestion, only digesting.',
+        'If the brain is the hardware, the mind is the software, defined by the instructions it executes.',
+        'It is more than behaviourism: the same observable stimuli and responses, but inferences about what happens in between.'],
+      k:'The mind is process, not substance. There is no such thing as digestion, only digesting.'},
+      {n:2,t:'Perception and Action',pts:[
+        'Vision does two jobs: object perception tells you what is there, spatial processing tells you where it is and how it moves.',
+        'The brain reflects the split, and injury can damage one while sparing the other.',
+        'Brightness differences start the job in the retina. Gestalt grouping principles from the 1920s and 30s finish it.',
+        'Features such as shape, colour and orientation are processed in parallel. Conjunctions are not: finding a red T among green Ts and red Ss needs two features combined, so it takes longer.',
+        'Perceptual constancies: seeing an object as the same despite changes in lighting, position and orientation.',
+        'Recognition, knowing what it is, and naming it are separate steps. In optic aphasia patients lose the naming but keep the recognising.',
+        'Bottom-up is data-driven, top-down is concept-driven. The honest answer is a mix, with bottom-up dominating in good viewing conditions.'],
+      k:'Perceiving is not picturing. The split between what and where is why one can fail while the other works perfectly.'},
+      {n:3,t:'Memory',pts:[
+        'Retrospective is remembering the past, prospective is remembering to do things. Prospective failures are what people actually complain about.',
+        'Declarative is knowing that, and splits into episodic for events and semantic for facts. Procedural is knowing how.',
+        'Semantic memory is more fundamental than it looks: it supports understanding every word you read.',
+        'The two interact constantly. All semantic knowledge was once acquired in a particular episode.',
+        'Until the mid-1980s the systems were drawn as a tree, which implies functional independence.',
+        'Tulving (1985) proposed a pyramid instead: procedural at the base, semantic in the middle, episodic at the top, each level depending on the one below.',
+        'Four arguments for the pyramid: the order memory develops in infants, the order it evolved, the pattern of brain injury, and levels of awareness.'],
+      k:'Tree or pyramid is the question. A pyramid says episodic memory is built on the other two, which matches how it fails.'},
+      {n:4,t:'Mental Representation and Thinking',pts:[
+        'The underlying idea: thinking is internal modelling.',
+        'The analogy: aircraft designers do not build a full replica before testing, they build a model that captures what matters.',
+        'Models need not be exact, and can be highly abstract.',
+        'Galton began the study of imagery by surveying his friends and finding, to his surprise, that scientists reported weak imagery.',
+        'Then it vanished for sixty years, from about 1900 to 1960, because behaviourism ruled internal events out of science.',
+        'Paivio (1971) rehabilitated it. Kosslyn showed images behave like objects: they can be scanned, and longer scans take longer.',
+        'Concepts group similar entities, Rosch showed membership is graded around prototypes, propositions combine concepts, and Schank’s scripts describe habitual sequences of actions.'],
+      k:'Imagery disappeared from psychology for sixty years because a theory said it could not be studied, not because evidence said so.'},
+      {n:5,t:'Cognition in Action',pts:[
+        'Skilled reading involves recognising words and letters, sounding out new ones, and moving the eyes.',
+        'Recognising a word is separate from knowing its meaning: most people can tell a real word from a non-word faster than they can define it.',
+        'Two routes from print to word: a direct visual route, and a phonic route where the word is internally pronounced.',
+        'Eyes move in rapid jerks called saccades, each about a fortieth of a second, separated by fixations.',
+        'Rumelhart and McClelland (1982) built one of the most successful models of letter and word recognition.',
+        'Driving is the skill example, in three phases, and the ecological approach frames cognition as acting in a real environment.',
+        'Everyday memory: autobiographical memory, age-related retention in people over 70, and flashbulb memories of hearing surprising news.',
+        'Expertise interacts with content: expert chess players massively outperform novices at remembering real positions, but not random ones.'],
+      k:'The chess finding is the test for any expertise claim. Experts store meaningful patterns, not raw detail.'}]},
+
+    p19:{b:'Social and Organisational Psychology',ch:[
+      {n:1,t:'The Social Context of Experience and Behaviour',pts:[
+        'Social psychology (Allport, 1985): an attempt to understand and explain how the thought, feeling and behaviour of individuals are influenced by others.',
+        'An organisation (Huczynski and Buchanan, 1985): the social arrangements made for the controlled performance of collective goals.',
+        'Both fields study how the presence of others affects the individual, sharing topics such as leadership, group formation, interpersonal perception and attitudes.',
+        'A caution worth citing: it would be inappropriate to judge a not-for-profit by the standards of a commercial company.',
+        'Until the late 1960s social psychology followed the physical sciences and assumed the thing being studied was unaffected by studying it.',
+        'That works for a chemical in a test tube. It does not work for a person who knows they are being observed.',
+        'Three sources of what we believe a situation to be: our own past experience organised into schemas, the experience of others, and the momentary situation.',
+        'The bystander effect is the momentary-situation example: the larger the group, the less likely any individual acts.'],
+      k:'Psychological research is itself a social situation, and participants react to being studied. The early field missed that entirely.'},
+      {n:2,t:'The Self and Others',pts:[
+        'James (1890): the self-concept includes your perceptions of your body and mind, and even your clothes and possessions.',
+        'Brown’s distinction: the self-concept is how you characteristically think about yourself.',
+        'The self-schema (Markus, 1977): cognitive generalisations about the self, derived from past experience.',
+        'The self is multifaceted. We hold multiple selves reflecting different relationships and roles.',
+        'Where the information comes from: the looking-glass self, Cooley’s term for seeing ourselves reflected in how others react.',
+        'Social comparison (Festinger, 1954): uncertain people look to others to decide what is true and how they measure up.',
+        'Objective self-awareness (Wicklund): observing yourself as an object, and noticing how well you live up to your own standards.',
+        'Private versus public self-consciousness matters: people high on public self-consciousness go along with group standards more. Then Snyder on self-monitoring.'],
+      k:'Almost everything you know about yourself arrived through other people. That is the looking-glass self.'},
+      {n:3,t:'Social Perception',pts:[
+        'Attribution: internal and personal versus external and situational. Blame the traffic and the apology is accepted easily.',
+        'Stable versus temporary: ability is stable, a one-off is temporary.',
+        'Three questions decide which attribution you make: consensus, do others behave this way; consistency, does the person do it over time; distinctiveness, do they do it in other contexts too.',
+        'The two attribution errors are the examinable part. The fundamental attribution error overweights personality and underweights the situation.',
+        'The self-serving bias: our successes are us, our failures are circumstances.',
+        'Impression formation and its errors, including halo effects and first impressions that will not shift.',
+        'What this does at work: appraisal, selection and promotion are all attribution exercises.'],
+      k:'We explain our own behaviour by the situation and everyone else’s by their character. That asymmetry is the whole chapter.'},
+      {n:4,t:'Social Influence',pts:[
+        'Social norms are collective guidelines for acceptable behaviour, some formal and some entirely unwritten.',
+        'Two reasons for conforming: normative, about being liked and fitting in, and informational, because you believe the group knows better.',
+        'Asch’s task was trivially easy: say which of three lines matches a standard, in groups of six to eight where only one person was real.',
+        'The numbers: 76% conformed at least once, and some genuinely doubted their own eyes afterwards.',
+        'The variation that matters: when answers were written rather than spoken, conformity dropped sharply, which separates normative from informational influence.',
+        'Milgram was testing the "Germans are different" hypothesis. He asked 40 psychiatrists to predict the outcome and they were badly wrong.',
+        'In the remote-victim condition every teacher went to at least 300 volts, and the 16 variations are where the real findings are.',
+        'Criticisms include entrapment (Gilbert, 1981), where participants were drawn in by graduated demands. Then Zimbardo and the Lucifer Effect.'],
+      k:'Asch written versus spoken is the cleanest result here: conformity collapsed when nobody was watching, so most of it was about being liked.'},
+      {n:5,t:'Groups in Organisations',pts:[
+        'Four defining characteristics: two or more people who interact, share common goals, share a structure, and see themselves as a group.',
+        'Formal groups are created deliberately by the organisation. Informal ones form anyway.',
+        'The granfalloon (Tajfel, 1981): strangers assigned to groups by a coin toss, who knew it was a coin toss, still favoured their own group.',
+        'Five dimensions of structure: roles, norms, status, cohesiveness, and communication pattern.',
+        'The wheel, where everything flows through a central hub, belongs to less effective groups.',
+        'Managing the life cycle: decide whether a group is even the right vehicle, arrange resources, recruit for specific skills, then provide ongoing support.',
+        'The task type decides whether a group beats an individual. On a disjunctive task with one right answer, the group is only as good as its best member.',
+        'Preventing groupthink: moderate over-identification and over-cohesion.'],
+      k:'The granfalloon is the uncomfortable one. People favour their own group even knowing it was decided by a coin toss.'}]}
+  };
+
   const W=1000, PAD=64, SC=2; // SC: draw at 2x so it stays crisp zoomed in on a phone
   const INK='#2D3047', MUT='#696C7C', ACC='#2176FF', ACCD='#1559c7', ACCL='#E8EEFF', LINE='#E8E5DF';
 
@@ -9180,8 +9525,8 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
     return lines;
   }
 
-  async function render(n){
-    const s=SUM[n]; if(!s) return null;
+  async function render(s){
+    if(!s) return null;
     try{ await document.fonts.load('700 58px Outfit'); await document.fonts.load('400 37px Outfit'); await document.fonts.ready; }catch(e){}
     const c=document.createElement('canvas'); const ctx=c.getContext('2d');
     const inner=W-PAD*2, bulletX=PAD+38, bulletW=inner-38;
@@ -9214,7 +9559,7 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
 
     let yy=PAD+14;
     ctx.fillStyle=ACCD; ctx.font='700 23px Outfit, sans-serif';
-    ctx.fillText('PSY1081  ·  CLASS '+n,PAD,yy+20); yy+=34;
+    ctx.fillText(s.kick,PAD,yy+20); yy+=34;
 
     ctx.fillStyle=INK; ctx.font='700 58px Outfit, sans-serif';
     titleLines.forEach(l=>{ yy+=58; ctx.fillText(l,PAD,yy); yy+=10; });
@@ -9250,41 +9595,72 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
     return c;
   }
 
-  async function download(n){
-    const c=await render(n); if(!c) return;
+  function slug(x){ return x.replace(/[^A-Za-z0-9]+/g,'-').replace(/^-|-$/g,''); }
+  function classSpec(n){
+    const s=SUM[n]; if(!s) return null;
+    return {kick:'PSY1081  ·  CLASS '+n,t:s.t,d:s.d,pts:s.pts,k:s.k,
+            file:'PSY1081-Class-'+n+'-summary.png'};
+  }
+  function bookSpec(pane,num){
+    const b=BOOKS[pane]; if(!b) return null;
+    const c=b.ch.find(function(x){return x.n===num;}); if(!c) return null;
+    return {kick:'PSY1080  ·  '+b.b.toUpperCase(),t:c.t,d:b.b+'  ·  chapter '+c.n,pts:c.pts,k:c.k,
+            file:'PSY1080-'+slug(b.b)+'-ch'+c.n+'-summary.png'};
+  }
+
+  async function download(spec){
+    const c=await render(spec); if(!c) return;
     c.toBlob(function(blob){
       const url=URL.createObjectURL(blob);
       const a=document.createElement('a');
-      a.href=url; a.download='PSY1081-Class-'+n+'-summary.png';
+      a.href=url; a.download=spec.file;
       document.body.appendChild(a); a.click(); a.remove();
       setTimeout(()=>URL.revokeObjectURL(url),4000);
     },'image/png');
   }
 
   // ---- inject a button at the end of every class chapter ----
+  function attach(ch,spec,label,noun){
+    if(!spec || ch.querySelector('.sumdl')) return;
+    const row=document.createElement('div');
+    row.className='sumdl';
+    row.innerHTML='<div class="sd-t">Summary card</div>'+
+      '<p class="sd-d">The key points and the one takeaway from this '+noun+', as a picture you can keep on your phone.</p>'+
+      '<button type="button" class="sd-b">Download '+label+' summary</button>';
+    row.querySelector('.sd-b').addEventListener('click',function(){
+      const b=this; const old=b.textContent; b.textContent='Building...'; b.disabled=true;
+      download(spec).then(()=>{ b.textContent='Saved. Download again'; b.disabled=false; })
+                    .catch(()=>{ b.textContent=old; b.disabled=false; });
+    });
+    ch.appendChild(row);
+  }
+
   function init(){
-    const pane=document.getElementById('q9'); if(!pane) return;
-    pane.querySelectorAll('.qchap').forEach(function(ch){
-      if(ch.querySelector('.sumdl')) return;
+    // PSY1081: one card per online class
+    const q9=document.getElementById('q9');
+    if(q9) q9.querySelectorAll('.qchap').forEach(function(ch){
       const h=ch.querySelector('h2'); if(!h) return;
       const m=h.textContent.match(/Class\s+(\d+)/); if(!m) return;
-      const n=+m[1]; if(!SUM[n]) return;
-      const row=document.createElement('div');
-      row.className='sumdl';
-      row.innerHTML='<div class="sd-t">Summary card</div>'+
-        '<p class="sd-d">The key points and the one takeaway from this class, as a picture you can keep on your phone.</p>'+
-        '<button type="button" class="sd-b">Download Class '+n+' summary</button>';
-      row.querySelector('.sd-b').addEventListener('click',function(){
-        const b=this; const old=b.textContent; b.textContent='Building...'; b.disabled=true;
-        download(n).then(()=>{ b.textContent='Saved. Download again'; b.disabled=false; })
-                   .catch(()=>{ b.textContent=old; b.disabled=false; });
+      attach(ch,classSpec(+m[1]),'Class '+m[1],'class');
+    });
+    // PSY1080: one card per book chapter, which is the same size of unit
+    Object.keys(BOOKS).forEach(function(pane){
+      const el=document.getElementById(pane); if(!el) return;
+      el.querySelectorAll('.qchap').forEach(function(ch){
+        const h=ch.querySelector('h2'); if(!h) return;
+        const m=h.textContent.trim().match(/^(\d+)\./); if(!m) return;
+        const num=+m[1];
+        const spec=bookSpec(pane,num); if(!spec) return;
+        attach(ch,spec,'chapter '+num,'chapter');
       });
-      ch.appendChild(row);
     });
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
   window.bapsySummaryCard=download;
   window.bapsyRenderCard=render;
+  window.bapsyClassSpec=classSpec;
+  window.bapsyBookSpec=bookSpec;
+  window.bapsyBooks=BOOKS;
 })();
 
 </script>
