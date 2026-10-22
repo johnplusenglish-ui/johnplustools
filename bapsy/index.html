@@ -181,6 +181,13 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
 .note{background:var(--accent-light);border:1px solid #d6e2ff;border-radius:var(--r-sm);padding:16px 20px;margin:20px 0;font-size:14.5px;color:var(--ink);line-height:1.55}
 .note b{color:var(--ink);font-weight:600}
 .note .lab{display:block;font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;font-weight:700;margin-bottom:7px;color:var(--accent-dark)}
+.mans{background:var(--hover);border:1px solid var(--border);border-radius:var(--r-sm);padding:17px 21px;margin:18px 0;font-size:14.5px;color:var(--muted);line-height:1.6}
+.mans .lab{display:block;font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;font-weight:700;margin-bottom:9px;color:var(--ink)}
+.mans b{color:var(--ink);font-weight:600}
+.mans p{margin:0 0 11px}
+.mans p:last-child{margin-bottom:0}
+h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);letter-spacing:-.005em;line-height:1.3}
+.slideref{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.04em;color:var(--accent-dark);background:var(--accent-light);border-radius:999px;padding:3px 9px;margin-left:7px;vertical-align:middle;white-space:nowrap}
 
 /* ---------- assignment boxes ---------- */
 .abox{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:26px 28px;margin:16px 0;box-shadow:var(--sh-sm)}
@@ -657,7 +664,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
         <button class="guide-nav-item" data-t="q4"><span class="guide-nav-dot"></span><span class="label">Rules &amp; Dates</span></button>
         <div class="pn-rule"></div>
         <div class="pn-eyebrow">Learn the content</div>
-        <button class="guide-nav-item" data-t="q9"><span class="guide-nav-dot"></span><span class="label">Classes</span><span class="trail"><span class="nav-k due">C5</span></span></button>
+        <button class="guide-nav-item" data-t="q9"><span class="guide-nav-dot"></span><span class="label">Classes</span><span class="trail"><span class="nav-k due">C7</span></span></button>
         <button class="guide-nav-item" data-t="q6"><span class="guide-nav-dot"></span><span class="label">Ethics &amp; Research Methods</span></button>
         <button class="guide-nav-item" data-t="q8"><span class="guide-nav-dot"></span><span class="label">Quant Methods Book</span></button>
         <button class="guide-nav-item" data-t="q16"><span class="guide-nav-dot"></span><span class="label">Behind the Method</span></button>
@@ -6082,7 +6089,7 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
   <div class="dhead">
     <div class="kicker">Learn the content · online classes</div>
     <h2>Classes</h2>
-    <div class="pills"><span class="pill on">classes 1 to 6 written up</span><span class="pill">38 quiz questions</span><span class="pill">7 to 10 on release</span></div>
+    <div class="pills"><span class="pill on">classes 1 to 6 written up</span><span class="pill">43 quiz questions</span><span class="pill">7 to 10 on release</span></div>
   </div>
   <div class="intro-card">
     <div class="lab">How to use this</div>
@@ -6799,85 +6806,240 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
 
     <div class="qchap">
       <h2 style="font-size:22px;font-weight:800;margin:4px 0 2px;color:var(--ink)">Class 6: Independent-Samples t-tests (2)</h2>
-      <p class="lead">Thursday 22 October 2026, 20:00 to 22:00, with Dr Eccles and Dr Ryan. Class 5 built the logic on paper. This is the class where it becomes an actual result in SPSS. Maps to Quant Book <b>Chapter 6</b>, Comparing Independent Samples.</p>
-      <div class="note"><span class="lab">Why this is the class that matters for A1</span>Both of your Assignment 1 tasks are exactly this test, start to finish. Two worked examples were run in class: one where the assumptions held and the t-test was used, and one where they failed and Mann-Whitney U was used instead. <b>Your Task 1 and Task 2 are one of each.</b></div>
+      <p class="lead">Thursday 22 October 2026, 20:00 to 22:00, with Dr Sinead Eccles and Dr Margo Ryan. Seventy-one slides in four blocks. Class 5 built the logic on paper. This is the class where it becomes an actual result in SPSS. Maps to Quant Book <b>Chapter 6</b>, Comparing Independent Samples.</p>
+      <div class="note"><span class="lab">Why this is the class that matters for A1</span>Both of your Assignment 1 tasks are exactly this test, start to finish. The class ran <b>two full worked examples</b>: one where the assumptions held and the t-test was used, and one where they failed and Mann-Whitney U was used instead. <b>Your Task 1 and Task 2 are one of each.</b> Every model answer below is the lecturers' own wording on their studies, not yours, which is what makes it safe and useful to copy the shape of.</div>
 
-      <h3 class="sec">1. The logic, in one line</h3>
+      <h3 class="sec">1. Where this class sits, and how the night ran</h3>
       <ul class="lead-list">
-        <li><b>The question.</b> Is the difference between two group means bigger than chance would produce?</li>
+        <li><b>Class 5</b>, Saturday 17 October, was Statistical Inference and Independent Samples t-tests part 1, covering Part 2 Section 2 of the learning materials. <b>On Saturday we built the logic. Tonight we run the test.</b></li>
+        <li><b>Class 6</b>, tonight, covers Part 2 <b>Section 6</b>, Comparing Independent Samples.</li>
+        <li><b>Class 7</b> is APA Tables and Figures, plus Assignment 1 preparation.</li>
+        <li><b>The four blocks.</b> 20:05 recap, from design to test and the assumptions. 20:20 testing the assumptions in SPSS. 21:00 running the t-test, reading the output, reporting it. 21:35 when the assumptions are violated, the Mann-Whitney U test.</li>
+      </ul>
+
+      <h3 class="sec">2. The logic of the test, in one line</h3>
+      <ul class="lead-list">
+        <li><b>The four steps of hypothesis testing</b>, from Saturday: state the hypotheses, set the criterion, compute the test statistic, decide whether to reject the null.</li>
+        <li><b>The test follows from three questions.</b> What is the DV? Is the question about a difference or a relationship? Is the design independent or related?</li>
+        <li><b>An interval or ratio DV, a question about a difference, and two separate groups of people</b> gives the independent samples t-test.</li>
         <li><b>Why the difference alone is not enough.</b> It has to be put in context, and the context is <b>variability</b>. A three-point gap between two tightly clustered groups is striking. The same gap between two widely scattered groups is unremarkable.</li>
-        <li><b>So t is</b> the difference between the means divided by the standard error of that difference.</li>
-        <li><b>The bigger t is</b>, the less plausible it becomes that the null produced your result.</li>
+        <li><b>So t is</b> the difference between the means divided by the standard error of that difference. The bigger t is, the less plausible it becomes that the null produced your result.</li>
       </ul>
 
-      <h3 class="sec">2. The assumptions, and which ones you actually test</h3>
+      <h3 class="sec">3. The assumptions, and which ones you actually test</h3>
       <ul class="lead-list">
-        <li><b>From the design, you just state these.</b> One IV with two levels, an independent-groups design, and a DV measured at least at interval level.</li>
-        <li><b>From the data, you test these three.</b> Normality within each group, absence of outliers, and homogeneity of variance.</li>
-        <li><b>Three assumptions, three pieces of output, three sentences</b> in the write-up. That was the class's own summary.</li>
+        <li><b>Known from the design and the dataset, so you simply state them.</b> One independent variable. With two levels. An independent-groups design. Data at least interval scaled for the DV. Two groups of scores from two distinct groups of people.</li>
+        <li><b>Tested in SPSS.</b> Data in each group normally distributed. No outliers. Roughly equal variability in each group, which is homogeneity of variance.</li>
+        <li><b>The t-test is robust.</b> Minor violations are tolerable. Extreme ones are not.</li>
       </ul>
-      <div class="note"><span class="lab">The rule that catches people out</span>For assumption checks, <b>non-significant is good news</b>. A non-significant Shapiro-Wilk and a non-significant Levene's test are what allow you to run the parametric test. That is the reverse of how you read your main analysis, where significant is the interesting result.</div>
+      <div class="note"><span class="lab">The rule that catches people out</span>For assumption checks, <b>non-significant is good news</b>. A non-significant normality test and a non-significant Levene's test are what allow you to run the parametric test. That is the reverse of how you read your main analysis, where significant is the interesting result.</div>
 
-      <h3 class="sec">3. Testing the assumptions in SPSS</h3>
+      <h3 class="sec">4. Worked example one: the teacher self-efficacy study</h3>
       <ul class="lead-list">
-        <li><b>Analyze, Descriptive Statistics, Explore.</b> DV into Dependent List, IV into Factor List.</li>
-        <li><b>Normality.</b> SPSS prints Kolmogorov-Smirnov and Shapiro-Wilk. <b>Read Shapiro-Wilk</b> unless the sample is very large, around n above 200. Read it <b>per group</b>, not for the whole sample.</li>
+        <li><b>The scenario.</b> An educational psychologist predicted that secondary school teachers who complete a weekend classroom management skills training course would show higher self-efficacy than teachers who receive no training. Thirty teachers, randomly assigned, 15 per group. The dataset is <b>Class 5 GES SPSS Data File</b> in the Online Classes folder.</li>
+        <li><b>The five tasks</b>, worked through together in class, and the same five you are given for the practice exercise: 1 generate a null and alternative hypothesis, 2 name the IV and its levels, 3 name the DV, 4 conduct all relevant tests of assumptions and report in full, 5 conduct the main analysis and report in full.</li>
+      </ul>
+      <div class="note b"><span class="lab">These are parts (a), (b) and (d), (f) of your assignment</span>Tasks 1 to 5 here map almost exactly onto the six parts of each A1 task. The deck is effectively a worked A1, on a study that is not yours. Parts (c) and (e) of your assignment, the extraneous variable and the APA table and chart, are the two the class did not cover; (e) is Class 7.</div>
+
+      <h4 class="qsub">Q1. Generate a null and alternative hypothesis <span class="slideref">Slide 12</span></h4>
+      <div class="mans"><span class="lab">The lecturers' model answer</span>
+        <p><b>H0:</b> It is hypothesised that secondary school teachers who complete the classroom management skills training will not demonstrate significantly higher self-efficacy scores than teachers who receive no training.</p>
+        <p><b>H1:</b> It is hypothesised that secondary school teachers who complete the classroom management skills training will demonstrate significantly higher self-efficacy scores than teachers who receive no training.</p>
+      </div>
+      <ul class="lead-list">
+        <li><b>Note the shape.</b> Both sentences open with the same clause, name the population, name both levels of the IV, and name the DV. The only thing that changes between them is "will not" and "will".</li>
+        <li><b>The class flagged this as directional.</b> H1 here is <b>one-tailed</b>, because the psychologist predicted <b>higher</b> scores, not merely different ones.</li>
+      </ul>
+      <div class="note"><span class="lab">Carry this across to your own work with care</span>Directional or non-directional is a choice you make <b>before</b> you look at the output, and it decides which significance value you are entitled to quote. Whichever you choose in part (a), part (f) has to match it.</div>
+
+      <h4 class="qsub">Q2. What is the independent variable, and what are its levels? <span class="slideref">Slide 13</span></h4>
+      <div class="mans"><span class="lab">The lecturers' model answer</span>
+        <p>The independent variable is <b>skills training condition</b>.</p>
+        <p>It has two levels: the skills training (experimental) group and the "no training" control group.</p>
+      </div>
+      <p class="lead" style="font-size:14.5px">Two sentences. One names the variable, the other names both levels and labels which is experimental and which is control. An IV named without its levels is the standard way to lose the mark.</p>
+
+      <h4 class="qsub">Q3. What is the dependent variable, and how is it measured? <span class="slideref">Slide 14</span></h4>
+      <div class="mans"><span class="lab">The lecturers' model answer</span>
+        <p>The dependent variable is <b>self-efficacy</b>.</p>
+        <p>It is measured as the total score on the General Self-Efficacy Scale (GSE; Schwarzer &amp; Jerusalem, 1995), with a range from 10 to 40, with higher scores indicating greater self-efficacy.</p>
+        <p>The GSE total is a <b>scale</b> variable, which is what entitles us to consider using a parametric test.</p>
+      </div>
+      <ul class="lead-list">
+        <li><b>Four moves in one answer.</b> Name the variable, name the instrument with its citation, give the range, say which direction is high.</li>
+        <li><b>Then the fifth move.</b> State the level of measurement and connect it to the choice of test. That sentence is doing real work: it is the bridge from part (b) into part (d).</li>
+      </ul>
+
+      <h4 class="qsub">Q4. Conduct all relevant tests of assumptions, and report in full <span class="slideref">Slides 15 to 25</span></h4>
+      <ul class="lead-list">
+        <li><b>The SPSS route.</b> Analyze, Descriptive Statistics, Explore. Move the DV into <b>Dependent List</b> and the IV into <b>Factor List</b>. That second move is the one that splits the output by group, and normality is assessed <b>within each group</b>, not across the sample as a whole.</li>
+        <li><b>Click Plots.</b> Under Descriptive tick <b>Histogram</b>. Tick <b>Normality plots with tests</b>. Choose the Power estimation option. Continue, then OK.</li>
+        <li><b>For the rats example the class used a fuller version of the same route</b>: Statistics, then tick Descriptives and <b>Outliers</b>; Plots, Boxplots set to <b>Factor levels together</b>, Descriptive Histogram, Normality plots with tests, and Spread vs Level with Levene Test set to <b>Untransformed</b>.</li>
+      </ul>
+      <div class="note"><span class="lab">Normality is not one piece of evidence, it is four</span>The class checked the <b>histogram</b>, the <b>Normal Q-Q plot</b>, the <b>skewness and kurtosis</b> values from the Descriptives table, and then the <b>formal normality test</b>. The model answer reports all four. If you report only the formal test, you are reporting a quarter of what the model answer contains.</div>
+      <ul class="lead-list">
+        <li><b>The two questions asked of every histogram and Q-Q plot.</b> Would we say this is approaching a normal distribution? Are the data points reasonably straight on the Q-Q plot?</li>
+        <li><b>The skewness and kurtosis rule of thumb</b>, given later in the same class: values <b>between 1 and -1</b> generally indicate that the data are normal.</li>
+        <li><b>The formal test.</b> SPSS prints both Kolmogorov-Smirnov and Shapiro-Wilk. <b>Read Shapiro-Wilk</b> unless the sample is very large, around n above 200.</li>
         <li><b>Outliers.</b> Read the boxplots. Little circles are outliers. No circles means the assumption is satisfied, and you say so.</li>
-        <li><b>Homogeneity of variance.</b> Levene's test is <b>not</b> in Explore. It arrives with the t-test output itself.</li>
+        <li><b>Homogeneity of variance.</b> Levene's test is <b>not</b> in Explore. It arrives with the t-test output itself. Read the <b>Based on Mean</b> row, the first line. Occasionally SPSS cannot produce Levene's at the Explore stage, which the class said not to worry about, because it comes with the t-test anyway.</li>
         <li><b>Round everything to two decimal places</b> when reporting.</li>
       </ul>
+      <div class="mans"><span class="lab">The lecturers' model answer, all three assumptions in full</span>
+        <p><b>Normality.</b> The histogram for the control group approximated the normal distribution; kurtosis -0.37 and skewness -0.08. Data were arranged in a reasonably straight line on the Normal Q-Q plot. The histogram for the skills training group approximated the normal distribution; there was evidence of slight negative kurtosis -0.99 and skewness -0.35. Data were arranged in a reasonably straight line on the Normal Q-Q plot. The control group participants' GSE scores, D(15) = .08, p = .20, and the skills training group participants' GSE scores, D(15) = .17, p = .20, were normally distributed.</p>
+        <p><b>Absence of outliers.</b> There were no outliers, as indicated on the box plots.</p>
+        <p><b>Variance.</b> The variances for the GSE scores were equal for the control group and skills training group participants, F(1, 28) = 0.22, p = .65.</p>
+        <p><b>The decision.</b> Normality and absence of outliers are satisfied, and the variances are equal, so the independent samples t-test may be conducted, using the pooled "equal variances assumed" row.</p>
+      </div>
+      <div class="note b"><span class="lab">The deck reports this normality test two different ways</span>Slide 21 gives the same two statistics with <b>p = 1.00 and p = .44</b>, which are the Shapiro-Wilk significance values named on slide 20. Slide 25, above, gives <b>p = .20 and p = .20</b>, which is what SPSS prints for Kolmogorov-Smirnov. The symbol <b>D</b> belongs to Kolmogorov-Smirnov; Shapiro-Wilk's statistic is <b>W</b>. See section 7 below before you decide which to write.</div>
 
-      <h3 class="sec">4. Worked example one: assumptions held</h3>
+      <h4 class="qsub">Q5. Conduct the main analysis, and report in full <span class="slideref">Slides 27 to 33</span></h4>
       <ul class="lead-list">
-        <li><b>The study.</b> Teachers on a weekend classroom-management course versus a control group, measured on the General Self-Efficacy scale.</li>
-        <li><b>Normality.</b> Shapiro-Wilk gave 1.000 and .436, both above .05, so normality held in both groups.</li>
-        <li><b>Outliers.</b> None on the boxplots.</li>
-        <li><b>Levene's.</b> F(1, 28) = 0.22, p = .65, so variances were equal and the <b>Equal variances assumed</b> row is the one to read.</li>
-        <li><b>The test.</b> Analyze, Compare Means and Proportions, Independent Samples T Test. DV into Test Variable, IV into Grouping Variable, then Define Groups.</li>
-        <li><b>The result.</b> Control M = 27.60, SD = 7.22; training M = 24.33, SD = 7.56; t(28) = 1.21, p = .236. Not significant.</li>
-        <li><b>Effect size.</b> Cohen's d = 0.44, from the Independent Samples Effect Sizes table. Conventions: .20 small, .50 medium, .80 large.</li>
+        <li><b>The SPSS route.</b> Analyze, Compare Means and Proportions, Independent Samples T Test. DV into <b>Test Variable</b>, IV into <b>Grouping Variable</b>, then Define Groups.</li>
+        <li><b>The trap the class named explicitly.</b> SPSS offers <b>1 and 2</b> in Define Groups. Change them to match how your IV is actually coded, which in this dataset was <b>0 and 1</b>. Getting the group codes wrong is the most common error here, and <b>SPSS will not warn you</b>.</li>
+        <li><b>Group Statistics</b> gives the means and SDs you must report: control M = 27.60, SD = 7.22; skills training M = 24.33, SD = 7.56.</li>
+        <li><b>Levene's</b>, F(1, 28) = 0.22, p = .65, is non-significant, so read the <b>Equal variances assumed</b> row.</li>
+        <li><b>The result.</b> t(28) = 1.21, p = .236. The mean difference is <b>3.27</b>, with a 95% confidence interval of <b>[-2.26, 8.79]</b>.</li>
+        <li><b>The confidence interval contains zero</b>, which is another way of seeing the same conclusion the p value gives you. Worth saying, because it shows you understand what the interval is.</li>
       </ul>
-
-      <h3 class="sec">5. Worked example two: assumptions failed</h3>
+      <div class="note"><span class="lab">What a non-significant result actually means</span>.236 is greater than .05, so we are unable to reject the null. In plain terms, this study found <b>no evidence</b> that the training increased self-efficacy. It does <b>not</b> show that the training does not work. Absence of evidence is not evidence of absence. With 15 per group the study may simply lack the power to detect a real effect, which is to say we may be making a <b>Type II error</b>.</div>
       <ul class="lead-list">
-        <li><b>The study.</b> Wistar rats exposed to social stress during adolescence versus controls, measured on social avoidance in seconds.</li>
-        <li><b>What went wrong.</b> The control group was not normally distributed, there was a low-scoring outlier in the control group, and Levene's gave p = .002, so the variances were unequal too.</li>
-        <li><b>The decision.</b> Any one of those would rule out the t-test. All three together make it straightforward.</li>
-        <li><b>The test.</b> Analyze, Nonparametric Tests, Legacy Dialogs, 2 Independent Samples. DV into Test Variable List, IV as Grouping Variable, Mann-Whitney U ticked.</li>
-        <li><b>The result.</b> U = 125.5, z = -0.09, p = .925. Read the p from the second-last line of the Test Statistics box.</li>
-        <li><b>Effect size.</b> <b>Not Cohen's d.</b> That is parametric and assumes the normality you just lost. Report <b>r = Z divided by the square root of N</b> instead.</li>
+        <li><b>Effect size.</b> SPSS reports Cohen's d in the Independent Samples Effect Sizes table. Here d = 0.44. Conventions: .20 small, .50 moderate, .80 large.</li>
+        <li><b>So the observed difference is moderate in size but not statistically significant</b>, a pattern that very often indicates an underpowered study rather than a null effect.</li>
+        <li><b>The lecturers' instruction on when to report it.</b> Report the effect size <b>only when the t-test is significant</b>. Where it is not, the mean difference and its confidence interval carry the information.</li>
       </ul>
+      <div class="mans"><span class="lab">The lecturers' model write-up, the whole thing</span>
+        <p>An independent samples t-test was carried out to determine whether teachers who received a weekend training course designed to improve classroom management skills (n = 15) would display increased self-efficacy, as measured on the General Self-Efficacy Scale (GSE; Schwarzer &amp; Jerusalem, 1995), in comparison to teachers who did not receive the training (n = 15).</p>
+        <p>The assumptions of normality, absence of outliers and homogeneity of variance were satisfied.</p>
+        <p>There was no statistically significant difference in GSE scores between teachers in the skills training group (M = 24.33, SD = 7.56) and those in the control group (M = 27.60, SD = 7.22), t(28) = 1.21, p = .24, mean difference = 3.27, 95% CI [-2.26, 8.79].</p>
+        <p>Therefore, the null hypothesis cannot be rejected. There was no statistically significant effect of training in this sample.</p>
+      </div>
+      <div class="note"><span class="lab">Read that model write-up as a four-move shape</span><b>Why the test was run</b>, with both group sizes and the instrument. <b>Which assumptions held</b>, in one sentence. <b>The result</b>, with both means and SDs, t, df, p, the mean difference and the CI. <b>The verdict on the null</b>, then what it means in plain words. That is the shape to reuse.</div>
 
-      <h3 class="sec">6. What a full write-up has to contain</h3>
+      <h3 class="sec">5. Worked example two: the social stress rats</h3>
       <ul class="lead-list">
-        <li><b>Why you ran that particular test</b>, naming the assumptions that held or failed.</li>
-        <li><b>What the IV and DV were</b>, stated plainly.</li>
-        <li><b>The assumption results</b>, in full, with their statistics and p values.</li>
-        <li><b>The main result</b>: t, df and p with both means and SDs, or U, z and p with both medians.</li>
-        <li><b>The effect size</b>, and what it means in words.</li>
-        <li><b>A plain-English conclusion</b> in the direction the data actually went.</li>
+        <li><b>Parametric tests</b> make assumptions about the parameters of the population the sample is drawn from, most often that the population data are normally distributed. <b>Non-parametric tests</b> are distribution free, so they can be used where the data are not normally distributed.</li>
+        <li><b>When you can go straight to Mann-Whitney.</b> If the DV is <b>ordinal</b>, you can run it immediately. If the DV is interval or ratio, you must first test the assumptions to decide between the t-test and Mann-Whitney.</li>
+        <li><b>It still has to be an independent-groups design.</b> That assumption does not go away.</li>
+        <li><b>The scenario.</b> Wistar rats subjected to social stress on five occasions during adolescence versus a no-stress control, 16 per group, measured on social avoidance as the average number of seconds in a five-minute period. The dataset is <b>Class 6 Social Stress Rats Dataset</b> in the Online Classes folder.</li>
       </ul>
-
-      <h3 class="sec">7. The practice exercise, and what is next</h3>
+      <div class="mans"><span class="lab">The lecturers' model answers, tasks 1 to 3</span>
+        <p><b>H0:</b> It is hypothesised that rats in the social stress / experimental condition will not demonstrate significantly different social avoidance than those rats in the control condition.</p>
+        <p><b>H1:</b> It is hypothesised that rats in the social stress / experimental condition will demonstrate significantly more social avoidance than those rats in the control condition.</p>
+        <p><b>IV:</b> the social stress intervention. Two levels: social stress group (experimental) and control group.</p>
+        <p><b>DV:</b> social avoidance measured as time, that is, average number of seconds in a five-minute period.</p>
+      </div>
       <ul class="lead-list">
-        <li><b>There is a take-home exercise</b> set in this class, using the <b>Social Stress Rats</b> dataset from the Online Classes folder on Loop. Five tasks: the two hypotheses, the IV with its levels, the DV, all the assumption tests reported in full, then the main analysis in full.</li>
+        <li><b>What the assumption checks found.</b> The control group histogram did not approximate normal, with positive kurtosis 2.94 and negative skewness -1.64, plus gaps in the distribution, and the Q-Q points were not in a straight line. The social stress group did not approximate normal either, with kurtosis -1.65 and evidence of a <b>bimodal</b> distribution.</li>
+        <li><b>The formal test.</b> Control D(16) = .82, p &lt; .01; social stress D(16) = .81, p &lt; .01. Both significant, so both groups violate normality.</li>
+        <li><b>Outliers.</b> A low-scoring outlier in the control group, case number 4. Assumption violated.</li>
+        <li><b>Variance.</b> F(1, 30) = 10.97, p &lt; .01, the significance value being .002. Assumption violated.</li>
+      </ul>
+      <div class="note b"><span class="lab">The nuance on slide 55, and it is a real one</span>Non-normality <b>or</b> the outlier alone would each rule out the t-test. <b>Unequal variance on its own would not.</b> That alone would only call for <b>Welch's correction</b>, which is the "equal variances not assumed" row, not a move to a non-parametric test. So it is the normality failure that drives the decision here, not Levene's.</div>
+      <ul class="lead-list">
+        <li><b>The SPSS route.</b> Analyze, Nonparametric Tests, Legacy Dialogs, 2 Independent Samples. DV into Test Variable List, IV into Grouping Variable, Define Groups as 0 and 1, Mann-Whitney U ticked under Test Type, which is the default.</li>
+        <li><b>The output.</b> The Test Statistics table gives U = 125.5. SPSS also converts this to a z score, -.094, which generates the p value. <b>Read the p from the second-last line</b> of that box: p = .925, which is greater than .05, so the result is non-significant.</li>
+        <li><b>Medians, not means.</b> Found in the descriptives box. Intervention Md = 213.50, control Md = 219.50.</li>
+        <li><b>Effect size is r, not Cohen's d.</b> Cohen's d is parametric and assumes the normal, interval or ratio data that has just been violated. Report <b>r = Z divided by the square root of N</b>, using the Z and N already in the output. Benchmarks: around .10 small, .30 medium, .50 or above large (Cohen, 1988).</li>
+      </ul>
+      <div class="mans"><span class="lab">The lecturers' model write-up</span>
+        <p>A Mann-Whitney U test was carried out to determine if Wistar rats subjected to social stress on five occasions during adolescence (n = 16) would demonstrate more social avoidance (that is, average number of seconds in a five-minute period) than those Wistar rats in the control condition (n = 16).</p>
+        <p>This non-parametric test was carried out as the assumptions of normality, homogeneity of variance and absence of outliers were violated.</p>
+        <p>The result showed that there was no statistically significant difference in social avoidance scores between Wistar rats in the intervention group (Md = 213.50) and those in the control group (Md = 219.50), U = 125.5, z = -.09, p = .93. The deck notes it is also acceptable to report p &gt; .05.</p>
+        <p>Therefore, the null hypothesis is accepted. Social stress did not increase social avoidance in this group.</p>
+      </div>
+      <div class="note b"><span class="lab">Do not copy that last sentence</span>The slide writes "the null hypothesis is accepted". You never accept a null hypothesis, you <b>fail to reject</b> it, which is exactly how the same deck words it on slides 30 and 33. Section 7 below lists this with the other slips.</div>
+
+      <h3 class="sec">6. The two reporting checklists, side by side</h3>
+      <div class="tscroll"><table class="tbl">
+        <thead><tr><th>Element</th><th>Independent samples t-test <span style="font-weight:400">(slide 32)</span></th><th>Mann-Whitney U <span style="font-weight:400">(slide 59)</span></th></tr></thead>
+        <tbody>
+          <tr><td><b>Why</b></td><td>Why the t-test was run</td><td>Why the Mann-Whitney U test was run</td></tr>
+          <tr><td><b>Variables</b></td><td>Clearly communicate what the IV and DV were</td><td>Clearly communicate what the IV and DV were</td></tr>
+          <tr><td><b>Assumptions</b></td><td>Refer to the assumptions being satisfied</td><td>Refer to the assumptions that were violated</td></tr>
+          <tr><td><b>Main result</b></td><td>df, t value and p value</td><td>U, z and p value</td></tr>
+          <tr><td><b>Descriptives</b></td><td>Means and standard deviations for each group</td><td>Medians for each group</td></tr>
+          <tr><td><b>Extras</b></td><td>Mean difference, 95% CI, and Cohen's d, the last only when the t-test is significant</td><td>Effect size r</td></tr>
+          <tr><td><b>Verdict</b></td><td>Whether the null can be rejected, and if rejected what that means for H1</td><td>Whether the null can be rejected</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3 class="sec">7. Where the slides contradict themselves</h3>
+      <p class="lead" style="font-size:14.5px">Four genuine inconsistencies in this deck. None of them changes the statistics, but each one is a place where copying a slide verbatim would cost you a mark, so decide once and stay consistent.</p>
+      <div class="tscroll"><table class="tbl">
+        <thead><tr><th>The clash</th><th>What the deck says</th><th>The safe choice</th></tr></thead>
+        <tbody>
+          <tr><td><b>Which normality test</b></td><td>Slide 20 says read Shapiro-Wilk. Slide 66's take-home says "a non-significant K-S test".</td><td>Follow slide 20 and read Shapiro-Wilk, which is also what the Quant Book and Pallant say for samples this size.</td></tr>
+          <tr><td><b>Which symbol</b></td><td>Slides 21, 25 and 52 write <b>D</b>, which is the Kolmogorov-Smirnov statistic. Shapiro-Wilk's statistic is <b>W</b>.</td><td>If you quote Shapiro-Wilk, call it W. Naming the test in words in the same sentence removes any doubt about which you ran.</td></tr>
+          <tr><td><b>Which p value</b></td><td>Slide 21 gives p = 1.00 and p = .44 (the Shapiro-Wilk values from slide 20). Slide 25 gives p = .20 and p = .20 (the K-S values) for the same two statistics.</td><td>Quote the pair that belongs to the test you name. Do not mix a statistic from one test with a p from the other.</td></tr>
+          <tr><td><b>The effect size arithmetic</b></td><td>Slide 60 computes r = Z / root N as ".094 divided by the square root of 32 = 5.66", then writes r = 5.66.</td><td>5.66 is the <b>denominator</b>, not the answer. .094 / 5.66 = <b>.02</b>. And r cannot exceed 1, which the slide's own .10 / .30 / .50 benchmarks make obvious.</td></tr>
+          <tr><td><b>Accepting the null</b></td><td>Slide 61 writes "the null hypothesis is accepted". Slides 30 and 33 correctly write "unable to reject" and "cannot be rejected".</td><td>Always fail to reject. Never accept.</td></tr>
+        </tbody>
+      </table></div>
+      <div class="note"><span class="lab">If in doubt, ask</span>The normality symbol and p value clash is the one worth a forum post, because the model answer you would most naturally copy for part (d) is the one that contains it. You will not be the only person who noticed.</div>
+
+      <h3 class="sec">8. The practice exercise</h3>
+      <ul class="lead-list">
+        <li><b>Set to be completed before Class 7</b>, with questions to be posted on Loop.</li>
+        <li><b>Five tasks, the same five as in class</b>: the two hypotheses, the IV with its levels, the DV, all the assumption tests reported in full, then the main analysis in full. Slide 65 names the main analysis as <b>the independent samples t-test</b>.</li>
+        <li><b>Work through it exactly as the class did.</b> The deck's own instruction: if you get stuck, the sequence in this deck is your worked answer.</li>
         <li><b>That is Assignment 1 in miniature</b>, which is exactly why it is worth doing before you start the real thing.</li>
-        <li><b>Before Class 7.</b> Read Part 2, Section 6, subsections 6.1 to 6.9, and do the SAQs. The answers are in 6.10.</li>
       </ul>
-      <div class="note b"><span class="lab">Note the schedule change</span><b>Class 7 is now APA Tables and Figures, plus Assignment 1 preparation</b>, not paired-samples t-tests as the original schedule had it. That is part (e) of both your tasks, and it lands shortly before the <b>2 November</b> deadline, so it is one to attend live if you possibly can.</div>
+      <div class="note b"><span class="lab">A snag in the deck worth knowing before you sit down to it</span>Slides 63 and 64, which present the practice scenario and the practice dataset, use the <b>same two image files</b> as slides 9 and 10, which presented tonight's teacher self-efficacy scenario and dataset. So the deck does not actually show a new practice scenario. The Online Classes folder holds two data files, <b>Class 5 GES SPSS Data File</b> (the teacher study) and <b>Class 6 Social Stress Rats Dataset</b> (the Mann-Whitney study), and no third one. Since slide 65 asks for an independent samples t-test, the rats data would not fit it. This is one to raise on the forum.</div>
 
-      <details class="quiz"><summary>Quiz: test yourself (7 questions)</summary><div class="qz">
+      <h3 class="sec">9. Take-homes, and what to do before Class 7</h3>
+      <ul class="lead-list">
+        <li><b>Assumptions come before the analysis.</b> Three of them, three pieces of SPSS output, three sentences in the write-up, and you check them before you look at t.</li>
+        <li><b>For assumptions, non-significant is good news.</b></li>
+        <li><b>Read the right row.</b> Levene's result decides whether you read Equal variances assumed or not assumed.</li>
+        <li><b>Non-significant does not mean no effect.</b> It means insufficient evidence. Say so precisely, and consider power.</li>
+        <li><b>The write-up has a fixed shape.</b> Why, assumptions, result with all the numbers, conclusion about the null hypothesis.</li>
+      </ul>
+      <ul class="lead-list">
+        <li><b>Read</b> Part 2 Section 6, subsections 6.1 to 6.9, and answer the SAQs. The answers are in 6.10.</li>
+        <li><b>Practise.</b> Complete the practice exercise in full, including the write-up, before Class 7. Bring your output if anything did not work.</li>
+        <li><b>Read ahead.</b> Pallant (2020) Chapter 17 on t-tests, and the APA Style guidance on tables and figures.</li>
+        <li><b>Submit.</b> Assignment 1, due Monday 2 November 2026.</li>
+        <li><b>If anything needs clarification</b>, post in the module forum. The deck's own line: you will not be the only one.</li>
+      </ul>
+      <div class="note b"><span class="lab">Class 7 date, from slide 67</span><b>Tuesday 27 October, 20:00 to 22:00</b>: presenting results in APA tables and figures, and questions on the assignments. That is <b>part (e) of both your A1 tasks</b>, six days before the deadline. Attend this one live if you possibly can.</div>
+
+      <h3 class="sec">10. Appendix: the whole procedure in four steps</h3>
+      <ul class="lead-list">
+        <li><b>1. Assumptions.</b> Analyze, Descriptive Statistics, Explore. DV into Dependent List, IV into Factor List. Plots, then Histogram and Normality plots with tests. This gives you histograms, Q-Q plots, skewness and kurtosis, the normality tests and box plots, which is normality and outliers covered.</li>
+        <li><b>2. The test.</b> Analyze, Compare Means and Proportions, Independent Samples T Test. DV into Test Variable, IV into Grouping Variable, Define Groups as 0 and 1. This gives you Group Statistics, Levene's test, t, df, p, the mean difference, the confidence interval and Cohen's d.</li>
+        <li><b>3. Read Levene's first.</b> Non-significant, p above .05, read the Equal variances assumed row. Significant, read Equal variances not assumed.</li>
+        <li><b>4. Report in the fixed order.</b> Why, assumptions, result with all numbers, conclusion about the null hypothesis.</li>
+      </ul>
+
+      <h3 class="sec">11. Resources and references cited in this class</h3>
+      <ul class="lead-list">
+        <li><b>Module Learning Materials, Part 2</b>, Section 6 Comparing Independent Samples (6.1 to 6.10), plus Section 1.3 Types of Scale, 1.9 Graphical Representations of Distributions and 1.10 Shapes of Distribution.</li>
+        <li><b>Pallant, J. (2020).</b> SPSS survival manual (7th ed.). Routledge. Chapter 17 on t-tests is the required reading.</li>
+        <li><b>Cohen, J. (1988).</b> Statistical power analysis for the behavioral sciences (2nd ed.). Lawrence Erlbaum Associates.</li>
+        <li><b>Schwarzer, R., &amp; Jerusalem, M. (1995).</b> Generalized Self-Efficacy Scale. In J. Weinman, S. Wright &amp; M. Johnston (Eds.), Measures in health psychology: A user's portfolio. Causal and control beliefs (pp. 35 to 37). NFER-Nelson.</li>
+        <li><b>American Psychological Association. (2020).</b> Publication manual of the APA (7th ed.).</li>
+        <li><b>Levene (1960)</b> is cited on the Levene's test slide as the source of the standard check.</li>
+        <li><b>SPSS</b> is free to DCU students through Information Systems Services.</li>
+      </ul>
+
+      <details class="quiz"><summary>Quiz: test yourself (12 questions)</summary><div class="qz">
         <div class="qz-q"><p class="qz-stem">1. SPSS prints both Kolmogorov-Smirnov and Shapiro-Wilk. Which do you read?</p><div class="qz-opts"><button class="qz-opt" type="button">Kolmogorov-Smirnov always</button><button class="qz-opt" type="button" data-ok>Shapiro-Wilk, unless the sample is very large</button><button class="qz-opt" type="button">Whichever gives the result you want</button><button class="qz-opt" type="button">Both, and average them</button></div><div class="qz-fb">Read Shapiro-Wilk unless n is very large, around 200 or more. Both your A1 groups are n = 20, so Shapiro-Wilk is the one to quote.</div></div>
         <div class="qz-q"><p class="qz-stem">2. For the assumption checks, which result is the good news?</p><div class="qz-opts"><button class="qz-opt" type="button">A significant result, p below .05</button><button class="qz-opt" type="button" data-ok>A non-significant result, p above .05</button><button class="qz-opt" type="button">It makes no difference</button><button class="qz-opt" type="button">Only the histogram matters</button></div><div class="qz-fb">Non-significant is good news here. A non-significant normality test and a non-significant Levene's test are what permit the parametric test. That is the opposite of how you read your main analysis.</div></div>
-        <div class="qz-q"><p class="qz-stem">3. Levene's test comes back F(1, 28) = 0.22, p = .65. Which row of the t-test output do you read?</p><div class="qz-opts"><button class="qz-opt" type="button">Equal variances not assumed</button><button class="qz-opt" type="button" data-ok>Equal variances assumed</button><button class="qz-opt" type="button">Either row</button><button class="qz-opt" type="button">Neither, run Mann-Whitney</button></div><div class="qz-fb">p is well above .05, so the variances are equal and you read the pooled row, labelled Equal variances assumed. This was the teacher self-efficacy example in class.</div></div>
-        <div class="qz-q"><p class="qz-stem">4. In the rats example, Levene's gave p = .002, the control group was not normal, and there was an outlier. What follows?</p><div class="qz-opts"><button class="qz-opt" type="button">Run the t-test anyway and note the problem</button><button class="qz-opt" type="button" data-ok>Run the Mann-Whitney U test</button><button class="qz-opt" type="button">Delete the outlier and rerun</button><button class="qz-opt" type="button">Report no result is possible</button></div><div class="qz-fb">Either violation alone would rule out the t-test. The class ran Mann-Whitney U instead, and reported U = 125.5, z = -0.09, p = .925.</div></div>
-        <div class="qz-q"><p class="qz-stem">5. Why does a Mann-Whitney U write-up not report Cohen's d?</p><div class="qz-opts"><button class="qz-opt" type="button">SPSS does not calculate it</button><button class="qz-opt" type="button" data-ok>Cohen's d is parametric and assumes the normality that was just violated</button><button class="qz-opt" type="button">It is optional for all tests</button><button class="qz-opt" type="button">Because the result was non-significant</button></div><div class="qz-fb">Cohen's d assumes normal, interval or ratio data, which is exactly what failed. Report r instead, where r = Z divided by the square root of N.</div></div>
-        <div class="qz-q"><p class="qz-stem">6. How many decimal places should you round to when reporting?</p><div class="qz-opts"><button class="qz-opt" type="button">One</button><button class="qz-opt" type="button" data-ok>Two</button><button class="qz-opt" type="button">Three</button><button class="qz-opt" type="button">Leave the SPSS default</button></div><div class="qz-fb">Two decimal places throughout, which the class said explicitly for both the Shapiro-Wilk and Levene's write-ups.</div></div>
-        <div class="qz-q"><p class="qz-stem">7. What is Class 7 actually about?</p><div class="qz-opts"><button class="qz-opt" type="button">Paired-samples t-tests</button><button class="qz-opt" type="button" data-ok>APA tables and figures, plus Assignment 1 preparation</button><button class="qz-opt" type="button">Correlation</button><button class="qz-opt" type="button">Semester review</button></div><div class="qz-fb">The schedule changed. Class 7 is APA Tables and Figures and Assignment 1 preparation, which lands four days before the deadline and covers exactly what part (e) asks for.</div></div>
-        <div class="qz-score">Score: 0 correct, 0 of 7 answered</div>
+        <div class="qz-q"><p class="qz-stem">3. Besides the formal normality test, what else did the model answer report as evidence of normality?</p><div class="qz-opts"><button class="qz-opt" type="button">Nothing, the test is enough</button><button class="qz-opt" type="button" data-ok>The histogram, the Q-Q plot, and skewness and kurtosis</button><button class="qz-opt" type="button">The means and standard deviations</button><button class="qz-opt" type="button">The confidence interval</button></div><div class="qz-fb">Four pieces of evidence, not one: histogram shape, Q-Q plot straightness, skewness and kurtosis values, then the formal test. Slide 25 reports all four.</div></div>
+        <div class="qz-q"><p class="qz-stem">4. What range of skewness and kurtosis values generally indicates normal data?</p><div class="qz-opts"><button class="qz-opt" type="button">Between 2 and -2</button><button class="qz-opt" type="button" data-ok>Between 1 and -1</button><button class="qz-opt" type="button">Between .05 and -.05</button><button class="qz-opt" type="button">Any positive value</button></div><div class="qz-fb">Between 1 and -1. The teacher study's values were -0.37, -0.08, -0.99 and -0.35, all inside that band. The rats' were 2.94, -1.64 and -1.65, all outside it.</div></div>
+        <div class="qz-q"><p class="qz-stem">5. Levene's test comes back F(1, 28) = 0.22, p = .65. Which row of the t-test output do you read?</p><div class="qz-opts"><button class="qz-opt" type="button">Equal variances not assumed</button><button class="qz-opt" type="button" data-ok>Equal variances assumed</button><button class="qz-opt" type="button">Either row</button><button class="qz-opt" type="button">Neither, run Mann-Whitney</button></div><div class="qz-fb">p is well above .05, so the variances are equal and you read the pooled row, labelled Equal variances assumed. This was the teacher self-efficacy example in class.</div></div>
+        <div class="qz-q"><p class="qz-stem">6. In Define Groups, SPSS offers 1 and 2. What should you do?</p><div class="qz-opts"><button class="qz-opt" type="button">Accept them, SPSS knows the coding</button><button class="qz-opt" type="button" data-ok>Change them to match how your IV is actually coded</button><button class="qz-opt" type="button">Leave the boxes empty</button><button class="qz-opt" type="button">Enter the group sizes</button></div><div class="qz-fb">The class dataset was coded 0 and 1, so the defaults had to be changed. This was named as the most common error at this step, and SPSS does not warn you.</div></div>
+        <div class="qz-q"><p class="qz-stem">7. The t-test result was t(28) = 1.21, p = .236, with a 95% CI of [-2.26, 8.79]. What does the interval containing zero tell you?</p><div class="qz-opts"><button class="qz-opt" type="button">The data were entered incorrectly</button><button class="qz-opt" type="button" data-ok>The same thing the p value does, that the difference is not significant</button><button class="qz-opt" type="button">The effect size is large</button><button class="qz-opt" type="button">Variances were unequal</button></div><div class="qz-fb">A CI containing zero is another way of seeing the non-significant result. The class made the point explicitly, and it is worth a sentence in a write-up.</div></div>
+        <div class="qz-q"><p class="qz-stem">8. When did the lecturers say to report the effect size for a t-test?</p><div class="qz-opts"><button class="qz-opt" type="button">Always, without exception</button><button class="qz-opt" type="button" data-ok>Only when the t-test is significant</button><button class="qz-opt" type="button">Only when it is non-significant</button><button class="qz-opt" type="button">Only if your supervisor asks</button></div><div class="qz-fb">Slide 31: report the effect size only when the t-test is significant. Where it is not, the mean difference and its confidence interval carry the information. Both of your A1 results are significant, so you report an effect size for each.</div></div>
+        <div class="qz-q"><p class="qz-stem">9. Levene's test is significant but the data are normal with no outliers. What does that call for?</p><div class="qz-opts"><button class="qz-opt" type="button">Mann-Whitney U</button><button class="qz-opt" type="button" data-ok>Welch's correction, the equal variances not assumed row</button><button class="qz-opt" type="button">Deleting a group</button><button class="qz-opt" type="button">Nothing, ignore it</button></div><div class="qz-fb">Slide 55 makes this precise. Unequal variance alone calls for Welch's correction, not a non-parametric test. It is the normality failure or an outlier that forces the move to Mann-Whitney.</div></div>
+        <div class="qz-q"><p class="qz-stem">10. Why does a Mann-Whitney U write-up not report Cohen's d?</p><div class="qz-opts"><button class="qz-opt" type="button">SPSS does not calculate it</button><button class="qz-opt" type="button" data-ok>Cohen's d is parametric and assumes the normality that was just violated</button><button class="qz-opt" type="button">It is optional for all tests</button><button class="qz-opt" type="button">Because the result was non-significant</button></div><div class="qz-fb">Cohen's d assumes normal, interval or ratio data, which is exactly what failed. Report r instead, where r = Z divided by the square root of N.</div></div>
+        <div class="qz-q"><p class="qz-stem">11. Slide 60 works out r from z = .094 and N = 32 and prints r = 5.66. What is wrong?</p><div class="qz-opts"><button class="qz-opt" type="button">Nothing, 5.66 is correct</button><button class="qz-opt" type="button" data-ok>5.66 is the square root of 32, the denominator, so r is really about .02</button><button class="qz-opt" type="button">N should have been 16</button><button class="qz-opt" type="button">z should have been squared first</button></div><div class="qz-fb">The slide printed the denominator as the answer. .094 divided by 5.66 is about .02. The slide's own benchmarks of .10, .30 and .50 make it clear r cannot be 5.66.</div></div>
+        <div class="qz-q"><p class="qz-stem">12. Slide 61 ends "the null hypothesis is accepted". What should it say?</p><div class="qz-opts"><button class="qz-opt" type="button">The null hypothesis is proven</button><button class="qz-opt" type="button" data-ok>We fail to reject the null hypothesis</button><button class="qz-opt" type="button">The alternative hypothesis is accepted</button><button class="qz-opt" type="button">The result is inconclusive, so nothing is reported</button></div><div class="qz-fb">You never accept a null. The same deck gets it right on slides 30 and 33, with "unable to reject" and "cannot be rejected". Use that wording.</div></div>
+        <div class="qz-score">Score: 0 correct, 0 of 12 answered</div>
       </div></details>
     </div>
-    <div class="qchap"><h2 style="font-size:22px;font-weight:800;margin:4px 0 2px;color:var(--ink)">Class 7: APA Tables and Figures, and Assignment 1 Prep</h2><p class="lead">The Class 6 slides list this as APA tables and figures plus Assignment 1 preparation, which replaces the paired-samples t-test originally scheduled here. It covers part (e) of both A1 tasks and falls shortly before the 2 November deadline.</p><div class="note"><span class="lab">Upcoming</span>Not released yet. Attend this one live if you can. Until then, Step 4 of the <b>SPSS Guide</b> covers the APA table and chart, and paired-samples work is in Quant Methods Book, Chapter 7.</div></div>
+    <div class="qchap"><h2 style="font-size:22px;font-weight:800;margin:4px 0 2px;color:var(--ink)">Class 7: APA Tables and Figures, and Assignment 1 Prep</h2><p class="lead"><b>Tuesday 27 October 2026, 20:00 to 22:00</b>, confirmed on slide 67 of the Class 6 deck. The topic is presenting results in APA tables and figures, plus questions on the assignments, which replaces the paired-samples t-test originally scheduled here. It covers <b>part (e) of both A1 tasks</b> and falls six days before the 2 November deadline.</p><div class="note"><span class="lab">Upcoming</span>Not released yet. Attend this one live if you can. Until then, Step 4 of the <b>SPSS Guide</b> covers the APA table and chart, and paired-samples work is in Quant Methods Book, Chapter 7.</div></div>
     <div class="qchap"><h2 style="font-size:22px;font-weight:800;margin:4px 0 2px;color:var(--ink)">Class 8: Related / Paired-Samples t-tests (2)</h2><p class="lead">More paired-samples work, plus the Wilcoxon signed-ranks alternative.</p><div class="note"><span class="lab">Upcoming</span>Not released yet. See Quant Methods Book, Chapter 7.</div></div>
     <div class="qchap"><h2 style="font-size:22px;font-weight:800;margin:4px 0 2px;color:var(--ink)">Class 9: Correlations</h2><p class="lead">Relationships between two variables: Pearson's r and Spearman's rho.</p><div class="note"><span class="lab">Upcoming</span>Not released yet. See Quant Methods Book, Chapter 4.</div></div>
     <div class="qchap"><h2 style="font-size:22px;font-weight:800;margin:4px 0 2px;color:var(--ink)">Class 10: Semester 1 Review &amp; Assignment 2 Prep</h2><p class="lead">Pulling the semester together and preparing for Assignment 2.</p><div class="note"><span class="lab">Upcoming</span>Not released yet.</div></div>
