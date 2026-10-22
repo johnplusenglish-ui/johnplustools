@@ -9,8 +9,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#F7F6F3; --card:#FFFFFF; --ink:#2D3047; --muted:#7A7D8E;
+  --bg:#F7F6F3; --card:#FFFFFF; --ink:#2D3047; --muted:#696C7C;
   --accent:#2176FF; --accent-light:#E8EEFF; --accent-dark:#1559c7;
+  /* was #7A7D8E, which failed WCAG AA on both the card and the cream background */
   --due:#D6453F; --due-light:#FDECEC;
   --border:#E8E5DF; --border-soft:#F0EEE8; --hover:#FBFAF7;
   --sans:'Outfit',system-ui,-apple-system,sans-serif;
@@ -188,6 +189,22 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
 .mans p:last-child{margin-bottom:0}
 h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);letter-spacing:-.005em;line-height:1.3}
 .slideref{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.04em;color:var(--accent-dark);background:var(--accent-light);border-radius:999px;padding:3px 9px;margin-left:7px;vertical-align:middle;white-space:nowrap}
+.fast{background:var(--accent-light);border:1px solid #cfdcff;border-radius:var(--r);padding:22px 24px;margin:18px 0 26px}
+.fast .ft{font-size:11px;letter-spacing:.11em;text-transform:uppercase;font-weight:700;color:var(--accent-dark);margin-bottom:12px}
+.fast .fq{font-size:19px;font-weight:700;color:var(--ink);line-height:1.35;margin:0 0 14px;letter-spacing:-.01em}
+.fast dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:9px 16px;align-items:baseline}
+.fast dt{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--accent-dark);white-space:nowrap;padding-top:2px}
+.fast dd{margin:0;font-size:14.5px;color:var(--ink);line-height:1.55;min-width:0}
+.fast dd b{font-weight:700}
+@media(max-width:640px){.fast{padding:18px 17px}.fast .fq{font-size:17px}.fast dl{grid-template-columns:1fr;gap:3px 0}.fast dt{padding-top:9px}}
+/* reading text was a touch small on phones, and most body copy here is .lead / .lead-list */
+@media(max-width:640px){
+  p.lead{font-size:16px;line-height:1.6}
+  ul.lead-list li{font-size:15.5px;line-height:1.6}
+  .note{font-size:15.5px;line-height:1.6}
+  .abox ul li{font-size:15px;line-height:1.58}
+  .mans{font-size:15.5px;line-height:1.62}
+}
 
 /* ---------- assignment boxes ---------- */
 .abox{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:26px 28px;margin:16px 0;box-shadow:var(--sh-sm)}
@@ -7443,6 +7460,17 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
     <h2>The Null and the p-value</h2>
     <div class="pills"><span class="pill on">plain English</span><span class="pill">worked examples</span><span class="pill">why it matters</span></div>
   </div>
+  <div class="fast">
+    <div class="ft">The five-minute version</div>
+    <p class="fq">A p-value is how often pure luck would hand you a gap as big as the one you found.</p>
+    <dl>
+      <dt>Analogy</dt><dd>Take forty strangers, split them into two piles at random, do nothing to either, and measure them. The piles still differ slightly. They always do. p asks whether your gap is bigger than that everyday wobble.</dd>
+      <dt>Example</dt><dd>A made-up revision-app study returns <b>p = .021</b>. Read it as: if the app did nothing at all, a gap this big would turn up about <b>2 times in 100</b>. Rare, so you stop believing "the app does nothing".</dd>
+      <dt>The line</dt><dd><b>.05</b>, which is 5 times in 100. Under it you reject the null. Over it you cannot rule out luck.</dd>
+      <dt>Big mistake</dt><dd>Saying "p = .02 means there is a 98% chance my effect is real". It does not. p is the chance of <b>your data if nothing were going on</b>, not the chance that nothing is going on.</dd>
+      <dt>Check</dt><dd>Levene's test comes back p = .65. Is that good news or bad news? <b>Good.</b> On assumption checks a big p means nothing is wrong, which is the opposite of how you read your main test.</dd>
+    </dl>
+  </div>
   <div class="intro-card">
     <div class="lab">How to use this</div>
     <ul>
@@ -7496,8 +7524,8 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
   <h3 class="sec">4. Where the line is</h3>
   <div class="abox"><ul>
     <li>Psychology draws its line at <b>5 times in 100</b>. That is written as <b>.05</b>.</li>
-    <li><b>Under the line</b> you say the gap is probably real.</li>
-    <li><b>Over the line</b> you say you cannot rule out luck.</li>
+    <li><b>Under the line</b> you reject the null. Careful with the words: this means the data would be <b>surprising if nothing were going on</b>, not that there is a 95% chance your effect is real. Section 9 below explains why that difference matters.</li>
+    <li><b>Over the line</b> you fail to reject the null. You cannot rule out luck, which is not the same as showing there is no effect.</li>
     <li>There is nothing magic about 5 in 100. Someone chose it a long time ago and it stuck.</li>
   </ul></div>
   <div class="note"><span class="lab">You now understand it</span>Assume it was luck. Work out how often luck would do this. If the answer is under 5 in 100, stop blaming luck. <b>Everything from here on is names and detail.</b></div>
@@ -8634,7 +8662,7 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
       T('Alternative hypothesis (H1)','Stats','The statement that there IS a difference or relationship. You never prove it, you only reject H0 or fail to.'),
       T('p-value','Stats','The probability of getting a result at least this extreme IF the null hypothesis were true. Small p means the data are surprising under H0, so you reject H0.'),
       T('Alpha (.05)','Stats','The cut-off you set in advance for calling a result significant, and your accepted risk of a false alarm: 5 per cent.'),
-      T('Statistically significant','Stats','Shorthand for "p is below alpha, so we reject the null". It says the effect is probably real, not that it is large or important.'),
+      T('Statistically significant','Stats','Shorthand for "p is below alpha, so we reject the null". It says the data would be surprising if the null were true. It does not say the effect is large, important, or probably real.'),
       T('Type I error','Stats','A false alarm: rejecting a null hypothesis that was actually true.'),
       T('Type II error','Stats','A miss: failing to reject a null hypothesis that was actually false, usually because the sample was too small.'),
       T('Statistical power','Stats','The probability of detecting a real effect if one exists. Rises with sample size and effect size.'),
