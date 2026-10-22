@@ -190,6 +190,13 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
 h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);letter-spacing:-.005em;line-height:1.3}
 .slideref{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.04em;color:var(--accent-dark);background:var(--accent-light);border-radius:999px;padding:3px 9px;margin-left:7px;vertical-align:middle;white-space:nowrap}
 .fast{background:var(--accent-light);border:1px solid #cfdcff;border-radius:var(--r);padding:22px 24px;margin:18px 0 26px}
+.sumdl{margin:40px 0 4px;padding:22px 24px;border:1px solid var(--border);border-radius:var(--r);background:var(--hover)}
+.sumdl .sd-t{font-size:11px;letter-spacing:.11em;text-transform:uppercase;font-weight:700;color:var(--accent-dark);margin-bottom:8px}
+.sumdl .sd-d{margin:0 0 14px;font-size:14.5px;color:var(--muted);line-height:1.55}
+.sumdl .sd-b{font-family:var(--sans);font-size:14.5px;font-weight:600;color:#fff;background:var(--accent);border:0;border-radius:var(--r-sm);padding:12px 20px;cursor:pointer;transition:background .15s}
+.sumdl .sd-b:hover{background:var(--accent-dark)}
+.sumdl .sd-b:disabled{opacity:.6;cursor:default}
+@media(max-width:640px){.sumdl{padding:18px 17px}.sumdl .sd-b{width:100%;padding:14px 18px;font-size:15.5px}}
 .fast .ft{font-size:11px;letter-spacing:.11em;text-transform:uppercase;font-weight:700;color:var(--accent-dark);margin-bottom:12px}
 .fast .fq{font-size:19px;font-weight:700;color:var(--ink);line-height:1.35;margin:0 0 14px;letter-spacing:-.01em}
 .fast dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:9px 16px;align-items:baseline}
@@ -9093,6 +9100,193 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
     if(inp){inp.addEventListener('keydown',e=>{if(e.key==='Enter')unlock();});
       inp.addEventListener('input',()=>err.classList.remove('on'));}
   })();
+
+/* ===== Class summary cards: one phone-readable PNG per class =====
+   Content lives here rather than being scraped from the pane, because a key
+   takeaway is a judgement, not the first bullet of section 1. */
+(function(){
+  const SUM={
+    1:{t:'Orientation',d:'Thursday 10 September 2026',
+      pts:['The teaching team, and how the module actually runs: a community of learners, built on the Community of Inquiry model.',
+           'More online classes than most modules, so attendance and preparation carry real weight.',
+           'The objectives, the structure, and the four assessments.',
+           'The DIKW ladder. Data is raw facts with no meaning. Information is data given context. Knowledge is information given meaning. Wisdom is knowing what to do with it.',
+           'The module is about climbing that ladder deliberately, and always knowing which rung you are on.',
+           'After Nate Silver: numbers do not speak for themselves, we speak for them.'],
+      k:'A precise number from a poor design is still not trustworthy. Method comes before maths.'},
+    2:{t:'Module Overview',d:'Saturday 19 September 2026, 09:00 to 13:00',
+      pts:['Their own orientation survey analysed live, as a worked example: population versus sample, and what a sample is for.',
+           'Mean, median and mode, and what each one is actually good for.',
+           'The logic of an experiment: hypothesis, operational definition, then the IV and the DV.',
+           'Why you need a control condition at all.',
+           'Extraneous variables versus confounding variables, which is the distinction part (c) of your assignment is testing.',
+           'Types of study design, then qualitative and mixed methods, and what qualitative research is for.'],
+      k:'An experiment is a comparison you have controlled. With no control condition there is nothing to compare against.'},
+    3:{t:'Ethics and Academic Writing',d:'Tuesday 29 September 2026, 20:00 to 22:00',
+      pts:['Why ethics at all: what harm looks like, including the less obvious cases where nobody is visibly hurt.',
+           'The PSI Code of Professional Ethics. This is the code you cite for Assignment 1.',
+           'Which version to use, how the code is built, and how to study it rather than just read it.',
+           'A worked vignette, taken apart step by step.',
+           'That vignette is deliberately the same shape as your A1 Task 3 answer.',
+           'Academic writing: how to make a point and support it.'],
+      k:'Task 3 wants a named issue, the specific code clause it breaches, and an alternative that still achieves the research aim.'},
+    4:{t:'Measurement, SPSS and Research Methods',d:'Tuesday 13 October 2026',
+      pts:['Classify your measurement first, always. There are four types and they build on each other.',
+           'SPSS forces the issue, because you have to declare the measure when you set the variable up.',
+           'Get it wrong and everything downstream is wrong with it.',
+           'Summary statistics worked through in full on the GAD-7 data: mean, median, mode, range and standard deviation.',
+           'Quartiles, the interquartile range and the semi-interquartile range.',
+           'Entering and exploring data in SPSS, then graphs and the shape of a distribution.'],
+      k:'Decide the level of measurement before anything else. It decides which statistics you are even allowed to use.'},
+    5:{t:'Statistical Inference and Independent-Samples t-tests (1)',d:'Saturday 17 October 2026',
+      pts:['The logic of statistical inference, and where the .05 line comes from.',
+           'Hypotheses, and the four steps: state the hypotheses, set the criterion, compute the statistic, decide about the null.',
+           'You set the criterion before you see the result, not after.',
+           'Type I and Type II errors: a false alarm versus a missed effect.',
+           'Experimental design.',
+           'First look at the independent-samples t-test, on paper rather than in SPSS.'],
+      k:'Hypothesis testing is four steps in a fixed order. Class 5 built the logic, Class 6 runs it in SPSS.'},
+    6:{t:'Independent-Samples t-tests (2)',d:'Thursday 22 October 2026, 20:00 to 22:00',
+      pts:['Two full worked examples: one where the assumptions held and the t-test was used, one where they failed and Mann-Whitney U was used.',
+           'Three assumptions are tested in SPSS: normality within each group, absence of outliers, and equal variances.',
+           'On assumption checks, non-significant is the good news. That is the reverse of your main analysis.',
+           'Normality is four pieces of evidence, not one: the histogram, the Q-Q plot, skewness and kurtosis, then Shapiro-Wilk.',
+           'Skewness and kurtosis between 1 and -1 generally indicate normal data.',
+           'In Define Groups SPSS offers 1 and 2. The class data was coded 0 and 1, and SPSS does not warn you.',
+           'Report the mean difference and the 95% confidence interval. Report the effect size only when the result is significant.',
+           'Mann-Whitney reports medians and r, never Cohen’s d, because d assumes the normality you just lost.'],
+      k:'Your Task 1 and Task 2 are one of each. Check the assumptions separately and never assume both tasks use the same test.'},
+    7:{t:'APA Tables and Figures, and Assignment 1 Prep',d:'Tuesday 27 October 2026, 20:00 to 22:00',
+      pts:['Not released yet. This replaces the paired-samples t-test originally scheduled here.','It covers part (e) of both A1 tasks, the one APA table and one APA chart.','It lands six days before the deadline, so attend it live if you possibly can.'],
+      k:'Part (e) is 7 marks per task and this is the only class that teaches it.'},
+    8:{t:'Related / Paired-Samples t-tests (2)',d:'Saturday 14 November 2026',
+      pts:['Not released yet.','More paired-samples work, plus the Wilcoxon signed-ranks alternative.'],k:'After Assignment 1. Nothing here is needed for A1.'},
+    9:{t:'Correlations',d:'Tuesday 24 November 2026',
+      pts:['Not released yet.','Relationships between two variables: Pearson’s r and Spearman’s rho.'],k:'After Assignment 1. Nothing here is needed for A1.'},
+    10:{t:'Semester 1 Review and Assignment 2 Prep',d:'Thursday 3 December 2026',
+      pts:['Not released yet.','Pulling the semester together and preparing for Assignment 2.'],k:'Assignment 2 is due the following Monday, 7 December 2026.'}
+  };
+
+  const W=1000, PAD=64, SC=2; // SC: draw at 2x so it stays crisp zoomed in on a phone
+  const INK='#2D3047', MUT='#696C7C', ACC='#2176FF', ACCD='#1559c7', ACCL='#E8EEFF', LINE='#E8E5DF';
+
+  function wrap(ctx,text,maxW){
+    const words=text.split(' '); const lines=[]; let cur='';
+    for(const w of words){
+      const test=cur?cur+' '+w:w;
+      if(ctx.measureText(test).width>maxW && cur){ lines.push(cur); cur=w; } else cur=test;
+    }
+    if(cur) lines.push(cur);
+    return lines;
+  }
+
+  async function render(n){
+    const s=SUM[n]; if(!s) return null;
+    try{ await document.fonts.load('700 58px Outfit'); await document.fonts.load('400 37px Outfit'); await document.fonts.ready; }catch(e){}
+    const c=document.createElement('canvas'); const ctx=c.getContext('2d');
+    const inner=W-PAD*2, bulletX=PAD+38, bulletW=inner-38;
+
+    // ---- measure first, so the canvas is exactly as tall as the content ----
+    ctx.font='700 58px Outfit, sans-serif';
+    const titleLines=wrap(ctx,s.t,inner);
+    ctx.font='400 37px Outfit, sans-serif';
+    const ptLines=s.pts.map(p=>wrap(ctx,p,bulletW));
+    ctx.font='600 34px Outfit, sans-serif';
+    const keyLines=wrap(ctx,s.k,inner-56);
+
+    let y=PAD+14;
+    y+=34;                                   // kicker
+    y+=titleLines.length*68+10;              // title
+    y+=38;                                   // date
+    y+=46;                                   // rule + gap
+    ptLines.forEach(l=>{ y+=l.length*54+22; });
+    y+=18;
+    const keyBoxTop=y;
+    const keyBoxH=34+keyLines.length*48+44;
+    y=keyBoxTop+keyBoxH+40;
+    const H=y+26;
+
+    c.width=W*SC; c.height=H*SC; ctx.scale(SC,SC);
+    ctx.textBaseline='alphabetic';
+
+    ctx.fillStyle='#FFFFFF'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle=ACC; ctx.fillRect(0,0,W,10);
+
+    let yy=PAD+14;
+    ctx.fillStyle=ACCD; ctx.font='700 23px Outfit, sans-serif';
+    ctx.fillText('PSY1081  ·  CLASS '+n,PAD,yy+20); yy+=34;
+
+    ctx.fillStyle=INK; ctx.font='700 58px Outfit, sans-serif';
+    titleLines.forEach(l=>{ yy+=58; ctx.fillText(l,PAD,yy); yy+=10; });
+    yy+=0;
+
+    ctx.fillStyle=MUT; ctx.font='400 28px Outfit, sans-serif';
+    yy+=30; ctx.fillText(s.d,PAD,yy); yy+=8;
+
+    yy+=24; ctx.strokeStyle=LINE; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(PAD,yy); ctx.lineTo(W-PAD,yy); ctx.stroke(); yy+=22;
+
+    ctx.font='400 37px Outfit, sans-serif';
+    ptLines.forEach(lines=>{
+      ctx.fillStyle=ACC;
+      ctx.beginPath(); ctx.arc(PAD+9,yy+22,7,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle=INK;
+      lines.forEach(l=>{ yy+=34; ctx.fillText(l,bulletX,yy); yy+=20; });
+      yy+=22;
+    });
+
+    yy+=18;
+    ctx.fillStyle=ACCL;
+    if(ctx.roundRect){ ctx.beginPath(); ctx.roundRect(PAD,yy,inner,keyBoxH,16); ctx.fill(); }
+    else ctx.fillRect(PAD,yy,inner,keyBoxH);
+    ctx.fillStyle=ACCD; ctx.font='700 21px Outfit, sans-serif';
+    ctx.fillText('THE KEY TAKEAWAY',PAD+28,yy+36);
+    ctx.fillStyle=INK; ctx.font='600 34px Outfit, sans-serif';
+    let ky=yy+36;
+    keyLines.forEach(l=>{ ky+=44; ctx.fillText(l,PAD+28,ky); });
+
+    ctx.fillStyle=MUT; ctx.font='400 21px Outfit, sans-serif';
+    ctx.fillText('johnplustools.com/bapsy',PAD,H-28);
+    return c;
+  }
+
+  async function download(n){
+    const c=await render(n); if(!c) return;
+    c.toBlob(function(blob){
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');
+      a.href=url; a.download='PSY1081-Class-'+n+'-summary.png';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url),4000);
+    },'image/png');
+  }
+
+  // ---- inject a button at the end of every class chapter ----
+  function init(){
+    const pane=document.getElementById('q9'); if(!pane) return;
+    pane.querySelectorAll('.qchap').forEach(function(ch){
+      if(ch.querySelector('.sumdl')) return;
+      const h=ch.querySelector('h2'); if(!h) return;
+      const m=h.textContent.match(/Class\s+(\d+)/); if(!m) return;
+      const n=+m[1]; if(!SUM[n]) return;
+      const row=document.createElement('div');
+      row.className='sumdl';
+      row.innerHTML='<div class="sd-t">Summary card</div>'+
+        '<p class="sd-d">The key points and the one takeaway from this class, as a picture you can keep on your phone.</p>'+
+        '<button type="button" class="sd-b">Download Class '+n+' summary</button>';
+      row.querySelector('.sd-b').addEventListener('click',function(){
+        const b=this; const old=b.textContent; b.textContent='Building...'; b.disabled=true;
+        download(n).then(()=>{ b.textContent='Saved. Download again'; b.disabled=false; })
+                   .catch(()=>{ b.textContent=old; b.disabled=false; });
+      });
+      ch.appendChild(row);
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+  window.bapsySummaryCard=download;
+  window.bapsyRenderCard=render;
+})();
+
 </script>
 </body>
 </html>
