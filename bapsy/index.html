@@ -731,14 +731,15 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
     <div class="msb" data-m="80">
       <div class="pn-eyebrow">Start here</div>
       <nav class="sect-nav">
-        <button class="guide-nav-item active" data-t="1"><span class="guide-nav-dot"></span><span class="label">Module Map</span></button>
+        <button class="guide-nav-item active gl-keep" data-t="1"><span class="guide-nav-dot"></span><span class="label">Module Map</span></button>
         <button class="guide-nav-item" data-t="11"><span class="guide-nav-dot"></span><span class="label">Mind Map</span></button>
+        <button class="guide-nav-item gl-keep" data-t="21"><span class="guide-nav-dot"></span><span class="label">Continue</span><span class="trail"><span class="nav-k gl-navk"></span></span></button>
         <button class="guide-nav-item" data-t="2"><span class="guide-nav-dot"></span><span class="label">Step-by-step Roadmap</span><span class="trail"><span class="nav-k due">23 Nov</span></span></button>
         <div class="pn-rule"></div>
         <div class="pn-eyebrow">Assessment</div>
         <button class="guide-nav-item" data-t="3"><span class="guide-nav-dot"></span><span class="label">Assignment Briefs</span></button>
-        <button class="guide-nav-item" data-t="14"><span class="guide-nav-dot"></span><span class="label">Essay Toolkit</span><span class="trail"><span class="nav-k due">23 Nov</span></span></button>
-        <button class="guide-nav-item" data-t="10"><span class="guide-nav-dot"></span><span class="label">Deadlines</span><span class="trail"><span class="nav-k due">23 Nov</span></span></button>
+        <button class="guide-nav-item gl-keep" data-t="14"><span class="guide-nav-dot"></span><span class="label">Essay Toolkit</span><span class="trail"><span class="nav-k due">23 Nov</span></span></button>
+        <button class="guide-nav-item gl-keep" data-t="10"><span class="guide-nav-dot"></span><span class="label">Deadlines</span><span class="trail"><span class="nav-k due">23 Nov</span></span></button>
         <button class="guide-nav-item" data-t="4"><span class="guide-nav-dot"></span><span class="label">Rules &amp; Dates</span></button>
         <div class="pn-rule"></div>
         <div class="pn-eyebrow">The module books</div>
@@ -756,7 +757,7 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
         <button class="guide-nav-item" data-t="9"><span class="guide-nav-dot"></span><span class="label">Comparison Tables</span></button>
         <div class="pn-rule"></div>
         <div class="pn-eyebrow">Revise</div>
-        <button class="guide-nav-item" data-t="12"><span class="guide-nav-dot"></span><span class="label">Glossary &amp; Flashcards</span></button>
+        <button class="guide-nav-item gl-keep" data-t="12"><span class="guide-nav-dot"></span><span class="label">Glossary &amp; Flashcards</span></button>
         <button class="guide-nav-item" data-t="5"><span class="guide-nav-dot"></span><span class="label">Reading List</span></button>
       </nav>
     </div>
@@ -4982,6 +4983,25 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
     <li><b>Use other readers too.</b> Fellow students, people who have done the module, friends who know nothing about it. Each catches something different. Check what level of collaboration is allowed before working closely with classmates.</li>
     <li><b>Assess yourself.</b> Keep your own checklist of the things you personally tend to get wrong, and run every assignment past it.</li>
   </ul></div>
+</section>
+
+<!-- ======== PSY1080 p21 : GUIDED PATH ======== -->
+<section class="pane wrap" id="p21">
+  <div class="dhead">
+    <div class="kicker">Guided learning</div>
+    <h2>Learn PSY1080 step by step</h2>
+    <div class="pills"><span class="pill on gl-prog">Step 1 of 7</span><span class="pill">one thing at a time</span><span class="pill">about 6 hours in total</span></div>
+  </div>
+  <div class="intro-card">
+    <div class="lab">How to use this</div>
+    <ul>
+      <li><b>The order is the module's own order.</b> Part 1 first, then Part 2, then Part 3, because each book assumes the one before it.</li>
+      <li><b>Assignment 1 sits where Part 1 puts it</b>, not at the end. It is due 23 November and it is entirely developmental, so there is no reason to read the Personality, Biological, Cognitive or Social books first.</li>
+      <li><b>Tick a step when you are done with it.</b> The ticks save in this browser, and the Module Map shows you the next one.</li>
+      <li><b>Nothing here is a new page.</b> Every step opens a tab that already exists. Switch to Full reference in the sidebar to see all of them at once.</li>
+    </ul>
+  </div>
+  <div class="gl-steps"></div>
 </section>
 
 </div><!-- /mpane-wrap 80 -->
@@ -9958,41 +9978,85 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
 })();
 
 
-/* ===== Guided learning layer for PSY1081 =====
-   Adds a second, calmer way through the same content. Nothing is duplicated:
-   the path points at the existing panes, and the Null pane is grouped into
-   lessons at runtime rather than being rewritten. */
+/* ===== Guided learning layer =====
+   A second, calmer way through the same content, for both modules. Nothing is
+   duplicated: each path points at panes that already exist, and the PSY1081
+   Null pane is grouped into lessons at runtime rather than being rewritten.
+   One factory builds both modules. PSY1081 additionally passes the lesson,
+   micro-question and inline-definition config; PSY1080 has no single pane long
+   enough to need splitting, so it passes none and that whole branch sits out. */
 (function(){
-  const LS_MODE='bapsy_mode_v1', LS_DONE='bapsy_path_v1', LS_LESSON='bapsy_nulllesson_v1';
+  const LS_MODE='bapsy_mode_v1';
 
-  const STEPS=[
-    {t:'What research is trying to find out',mins:12,pane:'q6',
+  function get(k,d){ try{ const v=localStorage.getItem(k); return v===null?d:v; }catch(e){ return d; } }
+  function set(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+  function mode(){ return get(LS_MODE,'guided')==='full'?'full':'guided'; }
+  function guided(){ return mode()==='guided'; }
+
+  let toastT=null;
+  function toast(msg){
+    let el=document.querySelector('.gl-toast');
+    if(!el){ el=document.createElement('div'); el.className='gl-toast'; document.body.appendChild(el); }
+    el.textContent=msg; el.classList.add('on');
+    clearTimeout(toastT); toastT=setTimeout(function(){ el.classList.remove('on'); },3200);
+  }
+  function goPane(id){
+    const b=document.querySelector('.guide-nav-item[data-t="'+id+'"]');
+    if(b) b.click();
+  }
+
+  /* ---------- the eight steps of each path ---------- */
+
+  const STEPS81=[
+    {t:'What research is trying to find out',mins:12,pane:'q6',tag:'Essential for A1',
      why:'Why psychology bothers with all this machinery, and what a hypothesis is actually for.'},
-    {t:'Variables, groups and measurements',mins:15,pane:'q8',
+    {t:'Variables, groups and measurements',mins:15,pane:'q8',tag:'Essential for A1',
      why:'The IV, the DV, and the levels of measurement. This decides which tests you are even allowed to run.'},
-    {t:'Difference versus relationship',mins:8,pane:'q12',
+    {t:'Difference versus relationship',mins:8,pane:'q12',tag:'Essential for A1',
      why:'The first fork in the decision tree. Are you comparing groups, or looking for a link between two things?'},
-    {t:'The null hypothesis and the p-value',mins:20,pane:'q15',
+    {t:'The null hypothesis and the p-value',mins:20,pane:'q15',tag:'Essential for A1',
      why:'The idea everything else rests on, now broken into four short lessons instead of one long page.'},
-    {t:'How to choose a statistical test',mins:10,pane:'q12',
+    {t:'How to choose a statistical test',mins:10,pane:'q12',tag:'Essential for A1',
      why:'The whole decision tree, ending in the exact test to run and the sentence to write.'},
-    {t:'How to read the important parts of SPSS',mins:20,pane:'q7',
+    {t:'How to read the important parts of SPSS',mins:20,pane:'q7',tag:'Essential for A1',
      why:'Which numbers in the output matter, and which rows to walk straight past.'},
-    {t:'How to write the result in ordinary English',mins:15,pane:'q15',lesson:2,
+    {t:'How to write the result in ordinary English',mins:15,pane:'q15',lesson:2,tag:'Essential for A1',
      why:'The fixed shape of a results sentence, and the APA format for each statistic.'},
-    {t:'How to complete A1 safely',mins:25,pane:'q11',
+    {t:'How to complete A1 safely',mins:25,pane:'q11',tag:'Essential for A1',
      why:'Part by part, with the marks each one carries and the usual ways people lose them.'}
   ];
 
+  // PSY1080 is book-based, so the path walks the module's own books in the order
+  // Loop teaches them, with the Assignment 1 machinery sitting where Part 1 puts
+  // it rather than after Parts 2 and 3. A1 is due 23 November and is purely
+  // developmental, so burying it behind the Personality, Biological, Cognitive
+  // and Social books would have you reading four irrelevant books first.
+  const STEPS80=[
+    {t:'How this module works, and how to study it',mins:40,pane:'15',tag:'Start here',
+     why:'Part 1 opens with the history of psychology and the study skills the whole degree assumes you have: reading, note-taking, time management, referencing.'},
+    {t:'How humans develop, across the whole lifespan',mins:75,pane:'13',tag:'Essential for A1',
+     why:'The entire content of Assignment 1 lives here. Six chapters: nature and nurture, biological processes, Piaget and Vygotsky, language, the social self, and the big theories.'},
+    {t:'The theorists whose names go in your essay',mins:25,pane:'7',tag:'Essential for A1',
+     why:'Thirteen cards giving the core idea, the key study, the criticisms and the exact terms to use. A marker wants named theory, not paraphrase.'},
+    {t:'How an academic essay is actually built',mins:35,pane:'14',tag:'Essential for A1',
+     why:'The Writing Skills book applied to this question: reading the three verbs properly, planning, drafting, and the things that cost marks for free.'},
+    {t:'Observe, plan, write and submit Assignment 1',mins:30,pane:'14',tag:'Essential for A1',
+     why:'The evidence log, the structure, the Gibbs reflection and the submission checklist. Budget several sittings for the writing itself.'},
+    {t:'Personality, testing and the biology underneath',mins:95,pane:'16',tag:'For A2',
+     why:'Part 2. Start with the Personality book, which carries Assignment 2, then the Biological Bases book in the tab below it.'},
+    {t:'Cognition, social behaviour and the review',mins:85,pane:'18',tag:'For A3',
+     why:'Part 3. The Cognitive book, then Social and Organisational in the tab below it. Assignment 3 draws on both.'}
+  ];
+
   // The Null pane is 14 sections. These are the four lessons, by section number.
-  const LESSONS=[
+  const LESSONS81=[
     {t:'What a p-value is',secs:[1,2,3,4]},
     {t:'The difficult words in normal English',secs:[5,6]},
     {t:'Using it in A1 and SPSS',secs:[7,12,13]},
     {t:'Deeper understanding',secs:[8,9,10,11,14],opt:true}
   ];
 
-  const MICRO=[
+  const MICRO81=[
     {q:'A study reports p = .21. What does that mean?',
      o:['Luck could easily produce a gap this big, so you cannot rule it out',
         'There is a 21% chance the effect is real',
@@ -10013,7 +10077,7 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
      ok:1,fb:'Significance and importance are different questions. A trivial difference becomes significant if the sample is big enough, which is why effect size is reported alongside.'}
   ];
 
-  const TERMS={
+  const TERMS81={
     'null hypothesis':'The boring possibility: that nothing is going on.',
     'p-value':'How often luck alone would produce a gap as big as the one you found.',
     'statistically significant':'p came out below .05, so luck is an unlikely explanation.',
@@ -10024,313 +10088,346 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
     'alpha':'The line you set in advance, almost always .05.'
   };
 
-  let toastT=null;
-  function toast(msg){
-    let el=document.querySelector('.gl-toast');
-    if(!el){ el=document.createElement('div'); el.className='gl-toast'; document.body.appendChild(el); }
-    el.textContent=msg; el.classList.add('on');
-    clearTimeout(toastT); toastT=setTimeout(function(){ el.classList.remove('on'); },3200);
-  }
+  /* ---------- one module's worth of guided layer ---------- */
+  function makeModule(cfg){
+    const sel='.msb[data-m="'+cfg.m+'"]';
+    const STEPS=cfg.steps, LESSONS=cfg.lessons||[], MICRO=cfg.micro||[], TERMS=cfg.terms||null;
+    const M={m:cfg.m,STEPS:STEPS,LESSONS:LESSONS};
 
-  function get(k,d){ try{ const v=localStorage.getItem(k); return v===null?d:v; }catch(e){ return d; } }
-  function set(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
-  function doneSet(){ try{ return new Set(JSON.parse(get(LS_DONE,'[]'))); }catch(e){ return new Set(); } }
-  function saveDone(s){ set(LS_DONE,JSON.stringify([...s])); }
-  function mode(){ return get(LS_MODE,'guided')==='full'?'full':'guided'; }
-  function guided(){ return mode()==='guided'; }
-
-  function nextIdx(){
-    const d=doneSet();
-    for(let i=0;i<STEPS.length;i++) if(!d.has(String(i))) return i;
-    return STEPS.length-1;
-  }
-  function goPane(id){
-    const b=document.querySelector('.guide-nav-item[data-t="'+id+'"]');
-    if(b) b.click();
-  }
-
-  /* ---------- the mode switch, at the top of the PSY1081 sidebar ---------- */
-  function buildSwitch(){
-    const sb=document.querySelector('.msb[data-m="81"]'); if(!sb||sb.querySelector('.gl-switch')) return;
-    const w=document.createElement('div');
-    w.className='gl-switch';
-    w.innerHTML='<button type="button" data-md="guided">Guided</button><button type="button" data-md="full">Full reference</button>';
-    w.querySelectorAll('button').forEach(b=>b.addEventListener('click',function(){
-      const m=this.dataset.md;
-      if(m===mode()) { toast(m==='guided'?'Already in guided learning':'Already in full reference'); return; }
-      set(LS_MODE,m);
-      if(m==='guided') sb.classList.remove('gl-open');   // otherwise nothing visibly changes
-      apply();
-      toast(m==='guided'
-        ? 'Guided learning on. Five places to go, and the long pages are split into lessons.'
-        : 'Full reference on. Every page and every section, exactly as before.');
-    }));
-    sb.insertBefore(w,sb.firstChild);
-  }
-
-  /* ---------- sidebar: five destinations, the rest behind All resources ---------- */
-  function buildAllRes(){
-    const sb=document.querySelector('.msb[data-m="81"]'); if(!sb||sb.querySelector('.gl-allres')) return;
-    const b=document.createElement('button');
-    b.type='button'; b.className='gl-allres';
-    b.addEventListener('click',function(){ sb.classList.toggle('gl-open'); applySidebar(); });
-    sb.appendChild(b);
-  }
-  function applySidebar(){
-    const sb=document.querySelector('.msb[data-m="81"]'); if(!sb) return;
-    const open=sb.classList.contains('gl-open'), g=guided();
-    // the items live inside nav.sect-nav, but the first eyebrow sits outside it
-    const nav=sb.querySelector('nav.sect-nav');
-    const kids=[...sb.children].filter(function(e){
-      return e.classList.contains('pn-eyebrow')||e.classList.contains('pn-rule');
-    }).concat(nav?[...nav.children]:[]);
-    kids.forEach(function(el){
-      if(el.classList.contains('gl-switch')||el.classList.contains('gl-allres')) return;
-      if(el.classList.contains('guide-nav-item')){
-        el.hidden = g && !open && !el.classList.contains('gl-keep');
-      }
-    });
-    // an eyebrow or rule disappears when every item it heads is hidden
-    let group=[], head=[];
-    const flush=function(){
-      if(!head.length) return;
-      const anyVisible=group.some(x=>!x.hidden);
-      head.forEach(h=>h.hidden=!anyVisible);
-    };
-    head=[]; group=[];
-    kids.forEach(function(el){
-      if(el.classList.contains('pn-eyebrow')){ flush(); head=[el]; group=[]; return; }
-      if(el.classList.contains('pn-rule')){ if(head.length) head.push(el); return; }
-      if(el.classList.contains('guide-nav-item')) group.push(el);
-    });
-    flush();
-    const btn=sb.querySelector('.gl-allres');
-    if(btn){ btn.hidden=!g; btn.textContent=open?'Show less':'All resources'; btn.setAttribute('aria-expanded',open?'true':'false'); }
-  }
-
-  /* ---------- Continue learning, inside the existing Module Map ---------- */
-  function buildContinue(){
-    const pane=document.getElementById('q1'); if(!pane) return;
-    let c=pane.querySelector('.gl-cont');
-    if(!c){
-      c=document.createElement('div'); c.className='gl-cont';
-      const head=pane.querySelector('.dhead');
-      head?head.insertAdjacentElement('afterend',c):pane.insertBefore(c,pane.firstChild);
+    function sb(){ return document.querySelector(sel); }
+    function doneSet(){ try{ return new Set(JSON.parse(get(cfg.doneKey,'[]'))); }catch(e){ return new Set(); } }
+    function saveDone(s){ set(cfg.doneKey,JSON.stringify([...s])); }
+    function nextIdx(){
+      const d=doneSet();
+      for(let i=0;i<STEPS.length;i++) if(!d.has(String(i))) return i;
+      return STEPS.length-1;
     }
-    const i=nextIdx(), s=STEPS[i], d=doneSet();
-    const allDone=d.size>=STEPS.length;
-    c.innerHTML=
-      '<div class="gl-cont-l">'+(allDone?'You have finished the path':'Step '+(i+1)+' of '+STEPS.length)+'</div>'+
-      '<div class="gl-cont-t">'+(allDone?'Go back to anything you want to revisit':s.t)+'</div>'+
-      '<div class="gl-cont-w">'+(allDone?'Everything below is still here whenever you need it.':s.why)+'</div>'+
-      '<div class="gl-cont-r">'+
-        '<button type="button" class="gl-go">'+(allDone?'Open the path':'Continue')+'</button>'+
-        '<span class="gl-cont-m">about '+s.mins+' min</span>'+
-        '<span class="gl-cont-d">Assignment 1 is due Monday 2 November</span>'+
-      '</div>'+
-      '<div class="gl-cont-n">You can ignore everything else on this page for now. It is reference, not homework.</div>';
-    c.querySelector('.gl-go').addEventListener('click',function(){
-      if(allDone){ goPane('q17'); return; }
-      if(s.lesson!=null) set(LS_LESSON,String(s.lesson));
+    M.doneSet=doneSet; M.nextIdx=nextIdx;
+    M.openNext=function(){
+      const s=STEPS[nextIdx()];
+      if(cfg.lessonKey&&s.lesson!=null) set(cfg.lessonKey,String(s.lesson));
       goPane(s.pane);
-    });
-    c.hidden=!guided();
-  }
+    };
 
-  /* ---------- the eight-step path ---------- */
-  function buildSteps(){
-    const wrap=document.querySelector('#q17 .gl-steps'); if(!wrap) return;
-    const d=doneSet(), nx=nextIdx();
-    wrap.innerHTML='';
-    STEPS.forEach(function(s,i){
-      const done=d.has(String(i)), cur=(i===nx&&!done);
-      const el=document.createElement('div');
-      el.className='gl-step'+(done?' is-done':'')+(cur?' is-cur':'');
-      el.innerHTML=
-        '<div class="gl-n">'+(done?'&#10003;':(i+1))+'</div>'+
-        '<div class="gl-b">'+
-          '<div class="gl-h">'+s.t+'</div>'+
-          '<div class="gl-w">'+s.why+'</div>'+
-          '<div class="gl-m"><span class="gl-chip">about '+s.mins+' min</span><span class="gl-chip gl-ess">Essential for A1</span>'+(cur?'<span class="gl-chip gl-now">Start here</span>':'')+'</div>'+
+    /* the mode switch, at the top of this module's sidebar */
+    function buildSwitch(){
+      const b=sb(); if(!b||b.querySelector('.gl-switch')) return;
+      const w=document.createElement('div');
+      w.className='gl-switch';
+      w.innerHTML='<button type="button" data-md="guided">Guided</button><button type="button" data-md="full">Full reference</button>';
+      w.querySelectorAll('button').forEach(x=>x.addEventListener('click',function(){
+        const m=this.dataset.md;
+        if(m===mode()){ toast(m==='guided'?'Already in guided learning':'Already in full reference'); return; }
+        set(LS_MODE,m);
+        if(m==='guided') b.classList.remove('gl-open');   // otherwise nothing visibly changes
+        applyAll();
+        toast(m==='guided'?cfg.toastGuided:cfg.toastFull);
+      }));
+      b.insertBefore(w,b.firstChild);
+    }
+
+    /* sidebar: a handful of destinations, the rest behind All resources */
+    function buildAllRes(){
+      const b=sb(); if(!b||b.querySelector('.gl-allres')) return;
+      const x=document.createElement('button');
+      x.type='button'; x.className='gl-allres';
+      x.addEventListener('click',function(){ b.classList.toggle('gl-open'); applySidebar(); });
+      b.appendChild(x);
+    }
+    function applySidebar(){
+      const b=sb(); if(!b) return;
+      const open=b.classList.contains('gl-open'), g=guided();
+      // the items live inside nav.sect-nav, but the first eyebrow sits outside it
+      const nav=b.querySelector('nav.sect-nav');
+      const kids=[...b.children].filter(function(e){
+        return e.classList.contains('pn-eyebrow')||e.classList.contains('pn-rule');
+      }).concat(nav?[...nav.children]:[]);
+      kids.forEach(function(el){
+        if(el.classList.contains('gl-switch')||el.classList.contains('gl-allres')) return;
+        if(el.classList.contains('guide-nav-item')){
+          el.hidden = g && !open && !el.classList.contains('gl-keep');
+        }
+      });
+      // an eyebrow or rule disappears when every item it heads is hidden
+      let group=[], head=[];
+      const flush=function(){
+        if(!head.length) return;
+        const anyVisible=group.some(x=>!x.hidden);
+        head.forEach(h=>h.hidden=!anyVisible);
+      };
+      head=[]; group=[];
+      kids.forEach(function(el){
+        if(el.classList.contains('pn-eyebrow')){ flush(); head=[el]; group=[]; return; }
+        if(el.classList.contains('pn-rule')){ if(head.length) head.push(el); return; }
+        if(el.classList.contains('guide-nav-item')) group.push(el);
+      });
+      flush();
+      const btn=b.querySelector('.gl-allres');
+      if(btn){ btn.hidden=!g; btn.textContent=open?'Show less':'All resources'; btn.setAttribute('aria-expanded',open?'true':'false'); }
+    }
+
+    /* Continue learning, inside the existing Module Map */
+    function buildContinue(){
+      const pane=document.getElementById(cfg.mapPane); if(!pane) return;
+      let c=pane.querySelector('.gl-cont');
+      if(!c){
+        c=document.createElement('div'); c.className='gl-cont';
+        const head=pane.querySelector('.dhead');
+        head?head.insertAdjacentElement('afterend',c):pane.insertBefore(c,pane.firstChild);
+      }
+      const i=nextIdx(), s=STEPS[i], d=doneSet();
+      const allDone=d.size>=STEPS.length;
+      c.innerHTML=
+        '<div class="gl-cont-l">'+(allDone?'You have finished the path':'Step '+(i+1)+' of '+STEPS.length)+'</div>'+
+        '<div class="gl-cont-t">'+(allDone?'Go back to anything you want to revisit':s.t)+'</div>'+
+        '<div class="gl-cont-w">'+(allDone?'Everything below is still here whenever you need it.':s.why)+'</div>'+
+        '<div class="gl-cont-r">'+
+          '<button type="button" class="gl-go">'+(allDone?'Open the path':'Continue')+'</button>'+
+          '<span class="gl-cont-m">about '+s.mins+' min</span>'+
+          '<span class="gl-cont-d">'+cfg.deadline+'</span>'+
         '</div>'+
-        '<div class="gl-a"><button type="button" class="gl-open-b">'+(done?'Open again':'Start')+'</button>'+
-        '<label class="gl-done"><input type="checkbox"'+(done?' checked':'')+'> done</label></div>';
-      el.querySelector('.gl-open-b').addEventListener('click',function(){
-        if(s.lesson!=null) set(LS_LESSON,String(s.lesson));
+        '<div class="gl-cont-n">You can ignore everything else on this page for now. It is reference, not homework.</div>';
+      c.querySelector('.gl-go').addEventListener('click',function(){
+        if(allDone){ goPane(cfg.pathNav); return; }
+        if(cfg.lessonKey&&s.lesson!=null) set(cfg.lessonKey,String(s.lesson));
         goPane(s.pane);
       });
-      el.querySelector('input').addEventListener('change',function(){
-        const set2=doneSet();
-        this.checked?set2.add(String(i)):set2.delete(String(i));
-        saveDone(set2); render();
-      });
-      wrap.appendChild(el);
-    });
-    const p=document.querySelector('#q17 .gl-prog');
-    if(p) p.textContent=d.size>=STEPS.length?'All 8 done':'Step '+(nx+1)+' of '+STEPS.length;
-    const navk=document.querySelector('.guide-nav-item[data-t="q17"] .gl-navk');
-    if(navk) navk.textContent=d.size>=STEPS.length?'done':(nx+1)+'/'+STEPS.length;
-  }
-
-  /* ---------- group the Null pane into four lessons, without rewriting it ---------- */
-  function wrapLessons(){
-    const pane=document.getElementById('q15'); if(!pane||pane.querySelector('.gl-sec')) return;
-    const kids=[...pane.children];
-    let n=0, cur=null;
-    kids.forEach(function(el){
-      if(el.tagName==='H3'&&el.classList.contains('sec')){
-        n++;
-        cur=document.createElement('div');
-        cur.className='gl-sec'; cur.dataset.sec=String(n);
-        el.parentNode.insertBefore(cur,el);
-        cur.appendChild(el);
-        return;
-      }
-      if(cur) cur.appendChild(el);
-    });
-    // tag every section with the lesson it belongs to
-    LESSONS.forEach(function(L,li){
-      L.secs.forEach(function(sn){
-        const s=pane.querySelector('.gl-sec[data-sec="'+sn+'"]');
-        if(s) s.dataset.lesson=String(li);
-      });
-    });
-    // lesson bar + micro-question + prev/next, all built once
-    const bar=document.createElement('div'); bar.className='gl-lbar';
-    LESSONS.forEach(function(L,li){
-      const b=document.createElement('button');
-      b.type='button'; b.dataset.l=String(li);
-      b.innerHTML='<span class="gl-lnum">'+(li+1)+'</span>'+L.t+(L.opt?'<span class="gl-opt">optional</span>':'');
-      b.addEventListener('click',function(){ set(LS_LESSON,String(li)); applyLessons(); });
-      bar.appendChild(b);
-    });
-    const first=pane.querySelector('.gl-sec');
-    if(first) first.parentNode.insertBefore(bar,first);
-
-    const foot=document.createElement('div'); foot.className='gl-lfoot';
-    foot.innerHTML='<div class="gl-micro"></div><div class="gl-lnav"><button type="button" class="gl-prev">Previous</button><button type="button" class="gl-next"></button></div>';
-    pane.appendChild(foot);
-    foot.querySelector('.gl-prev').addEventListener('click',function(){
-      const l=+get(LS_LESSON,'0'); if(l>0){ set(LS_LESSON,String(l-1)); applyLessons(); window.scrollTo({top:0,behavior:'smooth'}); }
-    });
-    foot.querySelector('.gl-next').addEventListener('click',function(){
-      const l=+get(LS_LESSON,'0');
-      if(l<LESSONS.length-1){ set(LS_LESSON,String(l+1)); applyLessons(); window.scrollTo({top:0,behavior:'smooth'}); }
-      else { const s=doneSet(); s.add('3'); saveDone(s); render(); goPane('q17'); }
-    });
-  }
-
-  function applyLessons(){
-    const pane=document.getElementById('q15'); if(!pane) return;
-    const g=guided(), L=Math.max(0,Math.min(LESSONS.length-1,+get(LS_LESSON,'0')));
-    pane.querySelectorAll('.gl-sec').forEach(function(s){
-      s.hidden = g && s.dataset.lesson!==String(L);
-    });
-    const bar=pane.querySelector('.gl-lbar'), foot=pane.querySelector('.gl-lfoot');
-    if(bar){ bar.hidden=!g; bar.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.l===String(L))); }
-    if(foot){
-      foot.hidden=!g;
-      const nb=foot.querySelector('.gl-next');
-      nb.textContent = L<LESSONS.length-1 ? 'Next: '+LESSONS[L+1].t : 'Finish and go back to the path';
-      foot.querySelector('.gl-prev').disabled = L===0;
-      buildMicro(foot.querySelector('.gl-micro'),L);
+      c.hidden=!guided();
     }
-    const fast=pane.querySelector('.fast');
-    if(fast) fast.hidden = g && L!==0;
-  }
 
-  function buildMicro(host,L){
-    const m=MICRO[L]; if(!host) return;
-    if(host.dataset.l===String(L)) return;
-    host.dataset.l=String(L);
-    host.innerHTML='<div class="gl-micro-t">One quick check</div><p class="gl-micro-q">'+m.q+'</p>'+
-      '<div class="gl-micro-o">'+m.o.map((x,i)=>'<button type="button" data-i="'+i+'">'+x+'</button>').join('')+'</div>'+
-      '<div class="gl-micro-f" hidden>'+m.fb+'</div>';
-    host.querySelectorAll('.gl-micro-o button').forEach(function(b){
-      b.addEventListener('click',function(){
-        const right=+this.dataset.i===m.ok;
-        host.querySelectorAll('.gl-micro-o button').forEach(function(x){
-          x.classList.toggle('ok',+x.dataset.i===m.ok);
-          x.classList.toggle('no',x===b&&!right);
+    /* the step path */
+    function buildSteps(){
+      const wrap=document.querySelector('#'+cfg.pathPane+' .gl-steps'); if(!wrap) return;
+      const d=doneSet(), nx=nextIdx();
+      wrap.innerHTML='';
+      STEPS.forEach(function(s,i){
+        const done=d.has(String(i)), cur=(i===nx&&!done);
+        const el=document.createElement('div');
+        el.className='gl-step'+(done?' is-done':'')+(cur?' is-cur':'');
+        const tag=s.tag||'Essential for A1';
+        el.innerHTML=
+          '<div class="gl-n">'+(done?'&#10003;':(i+1))+'</div>'+
+          '<div class="gl-b">'+
+            '<div class="gl-h">'+s.t+'</div>'+
+            '<div class="gl-w">'+s.why+'</div>'+
+            '<div class="gl-m"><span class="gl-chip">about '+s.mins+' min</span><span class="gl-chip'+(/^Essential/.test(tag)?' gl-ess':'')+'">'+tag+'</span>'+(cur?'<span class="gl-chip gl-now">Start here</span>':'')+'</div>'+
+          '</div>'+
+          '<div class="gl-a"><button type="button" class="gl-open-b">'+(done?'Open again':'Start')+'</button>'+
+          '<label class="gl-done"><input type="checkbox"'+(done?' checked':'')+'> done</label></div>';
+        el.querySelector('.gl-open-b').addEventListener('click',function(){
+          if(cfg.lessonKey&&s.lesson!=null) set(cfg.lessonKey,String(s.lesson));
+          goPane(s.pane);
         });
-        host.querySelector('.gl-micro-f').hidden=false;
+        el.querySelector('input').addEventListener('change',function(){
+          const s2=doneSet();
+          this.checked?s2.add(String(i)):s2.delete(String(i));
+          saveDone(s2); render();
+        });
+        wrap.appendChild(el);
       });
-    });
-  }
+      const p=document.querySelector('#'+cfg.pathPane+' .gl-prog');
+      if(p) p.textContent=d.size>=STEPS.length?('All '+STEPS.length+' done'):('Step '+(nx+1)+' of '+STEPS.length);
+      const navk=document.querySelector('.guide-nav-item[data-t="'+cfg.pathNav+'"] .gl-navk');
+      if(navk) navk.textContent=d.size>=STEPS.length?'done':(nx+1)+'/'+STEPS.length;
+    }
 
-  /* ---------- inline definitions, first mention only, inside the Null pane ---------- */
-  function inlineTerms(){
-    const pane=document.getElementById('q15'); if(!pane||pane.dataset.glTerms) return;
-    pane.dataset.glTerms='1';
-    const keys=Object.keys(TERMS).sort((a,b)=>b.length-a.length);
-    const used={};
-    const walker=document.createTreeWalker(pane,NodeFilter.SHOW_TEXT,{acceptNode:function(n){
-      if(!n.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
-      const p=n.parentElement;
-      if(!p||p.closest('button,h2,h3,.gl-lbar,.gl-micro,.dfn,.gl-dfn,.fast,table')) return NodeFilter.FILTER_REJECT;
-      return NodeFilter.FILTER_ACCEPT;
-    }});
-    const nodes=[]; let x; while((x=walker.nextNode())) nodes.push(x);
-    nodes.forEach(function(node){
-      for(const k of keys){
-        if(used[k]) continue;
-        const i=node.nodeValue.toLowerCase().indexOf(k.toLowerCase());
-        if(i<0) continue;
-        const after=node.splitText(i);
-        after.splitText(k.length);
-        const span=document.createElement('span');
-        span.className='gl-dfn'; span.tabIndex=0;
-        span.setAttribute('data-def',TERMS[k]);
-        span.textContent=after.nodeValue;
-        after.parentNode.replaceChild(span,after);
-        used[k]=1;
-        return;
+    /* group a long pane into lessons, without rewriting it (PSY1081 only) */
+    function wrapLessons(){
+      if(!cfg.lessonPane) return;
+      const pane=document.getElementById(cfg.lessonPane); if(!pane||pane.querySelector('.gl-sec')) return;
+      const kids=[...pane.children];
+      let n=0, cur=null;
+      kids.forEach(function(el){
+        if(el.tagName==='H3'&&el.classList.contains('sec')){
+          n++;
+          cur=document.createElement('div');
+          cur.className='gl-sec'; cur.dataset.sec=String(n);
+          el.parentNode.insertBefore(cur,el);
+          cur.appendChild(el);
+          return;
+        }
+        if(cur) cur.appendChild(el);
+      });
+      LESSONS.forEach(function(L,li){
+        L.secs.forEach(function(sn){
+          const s=pane.querySelector('.gl-sec[data-sec="'+sn+'"]');
+          if(s) s.dataset.lesson=String(li);
+        });
+      });
+      const bar=document.createElement('div'); bar.className='gl-lbar';
+      LESSONS.forEach(function(L,li){
+        const b=document.createElement('button');
+        b.type='button'; b.dataset.l=String(li);
+        b.innerHTML='<span class="gl-lnum">'+(li+1)+'</span>'+L.t+(L.opt?'<span class="gl-opt">optional</span>':'');
+        b.addEventListener('click',function(){ set(cfg.lessonKey,String(li)); applyLessons(); });
+        bar.appendChild(b);
+      });
+      const first=pane.querySelector('.gl-sec');
+      if(first) first.parentNode.insertBefore(bar,first);
+
+      const foot=document.createElement('div'); foot.className='gl-lfoot';
+      foot.innerHTML='<div class="gl-micro"></div><div class="gl-lnav"><button type="button" class="gl-prev">Previous</button><button type="button" class="gl-next"></button></div>';
+      pane.appendChild(foot);
+      foot.querySelector('.gl-prev').addEventListener('click',function(){
+        const l=+get(cfg.lessonKey,'0'); if(l>0){ set(cfg.lessonKey,String(l-1)); applyLessons(); window.scrollTo({top:0,behavior:'smooth'}); }
+      });
+      foot.querySelector('.gl-next').addEventListener('click',function(){
+        const l=+get(cfg.lessonKey,'0');
+        if(l<LESSONS.length-1){ set(cfg.lessonKey,String(l+1)); applyLessons(); window.scrollTo({top:0,behavior:'smooth'}); }
+        else { const s=doneSet(); s.add(String(cfg.lessonStep)); saveDone(s); render(); goPane(cfg.pathNav); }
+      });
+    }
+
+    function applyLessons(){
+      if(!cfg.lessonPane) return;
+      const pane=document.getElementById(cfg.lessonPane); if(!pane) return;
+      const g=guided(), L=Math.max(0,Math.min(LESSONS.length-1,+get(cfg.lessonKey,'0')));
+      pane.querySelectorAll('.gl-sec').forEach(function(s){
+        s.hidden = g && s.dataset.lesson!==String(L);
+      });
+      const bar=pane.querySelector('.gl-lbar'), foot=pane.querySelector('.gl-lfoot');
+      if(bar){ bar.hidden=!g; bar.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.l===String(L))); }
+      if(foot){
+        foot.hidden=!g;
+        const nb=foot.querySelector('.gl-next');
+        nb.textContent = L<LESSONS.length-1 ? 'Next: '+LESSONS[L+1].t : 'Finish and go back to the path';
+        foot.querySelector('.gl-prev').disabled = L===0;
+        buildMicro(foot.querySelector('.gl-micro'),L);
       }
-    });
+      const fast=pane.querySelector('.fast');
+      if(fast) fast.hidden = g && L!==0;
+    }
+
+    function buildMicro(host,L){
+      const m=MICRO[L]; if(!host||!m) return;
+      if(host.dataset.l===String(L)) return;
+      host.dataset.l=String(L);
+      host.innerHTML='<div class="gl-micro-t">One quick check</div><p class="gl-micro-q">'+m.q+'</p>'+
+        '<div class="gl-micro-o">'+m.o.map((x,i)=>'<button type="button" data-i="'+i+'">'+x+'</button>').join('')+'</div>'+
+        '<div class="gl-micro-f" hidden>'+m.fb+'</div>';
+      host.querySelectorAll('.gl-micro-o button').forEach(function(b){
+        b.addEventListener('click',function(){
+          const right=+this.dataset.i===m.ok;
+          host.querySelectorAll('.gl-micro-o button').forEach(function(x){
+            x.classList.toggle('ok',+x.dataset.i===m.ok);
+            x.classList.toggle('no',x===b&&!right);
+          });
+          host.querySelector('.gl-micro-f').hidden=false;
+        });
+      });
+    }
+
+    /* inline definitions, first mention only (PSY1081 only) */
+    function inlineTerms(){
+      if(!TERMS||!cfg.lessonPane) return;
+      const pane=document.getElementById(cfg.lessonPane); if(!pane||pane.dataset.glTerms) return;
+      pane.dataset.glTerms='1';
+      const keys=Object.keys(TERMS).sort((a,b)=>b.length-a.length);
+      const used={};
+      const walker=document.createTreeWalker(pane,NodeFilter.SHOW_TEXT,{acceptNode:function(n){
+        if(!n.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        const p=n.parentElement;
+        if(!p||p.closest('button,h2,h3,.gl-lbar,.gl-micro,.dfn,.gl-dfn,.fast,table')) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }});
+      const nodes=[]; let x; while((x=walker.nextNode())) nodes.push(x);
+      nodes.forEach(function(node){
+        for(const k of keys){
+          if(used[k]) continue;
+          const i=node.nodeValue.toLowerCase().indexOf(k.toLowerCase());
+          if(i<0) continue;
+          const after=node.splitText(i);
+          after.splitText(k.length);
+          const span=document.createElement('span');
+          span.className='gl-dfn'; span.tabIndex=0;
+          span.setAttribute('data-def',TERMS[k]);
+          span.textContent=after.nodeValue;
+          after.parentNode.replaceChild(span,after);
+          used[k]=1;
+          return;
+        }
+      });
+    }
+
+    function apply(){
+      sb()&&sb().querySelectorAll('.gl-switch button').forEach(b=>b.classList.toggle('on',b.dataset.md===mode()));
+      applySidebar(); applyLessons();
+      const c=document.querySelector('#'+cfg.mapPane+' .gl-cont'); if(c) c.hidden=!guided();
+    }
+    function render(){ buildContinue(); buildSteps(); applyAll(); }
+    M.apply=apply; M.render=render;
+    M.init=function(){
+      if(!sb()) return false;
+      buildSwitch(); buildAllRes(); wrapLessons(); inlineTerms();
+      buildContinue(); buildSteps();
+      return true;
+    };
+    M.reset=function(){ set(cfg.doneKey,'[]'); if(cfg.lessonKey) set(cfg.lessonKey,'0'); render(); };
+    return M;
   }
 
-  /* ---------- mobile: one fixed action ---------- */
+  const MODS=[];
+  function activeMod(){
+    const on=document.querySelector('.pn-mods button.on');
+    const m=on?on.dataset.m:'80';
+    return MODS.find(x=>x.m===m)||null;
+  }
+  function applyAll(){
+    document.body.dataset.glmode=mode();
+    MODS.forEach(function(m){ m.apply(); });
+    applyBar();
+  }
+
+  /* ---------- mobile: one fixed action, following whichever module is open ---------- */
   function buildBar(){
     if(document.querySelector('.gl-bottom')) return;
     const b=document.createElement('button');
     b.type='button'; b.className='gl-bottom';
-    b.addEventListener('click',function(){
-      const i=nextIdx(), s=STEPS[i];
-      if(s.lesson!=null) set(LS_LESSON,String(s.lesson));
-      goPane(s.pane);
-    });
+    b.addEventListener('click',function(){ const m=activeMod(); if(m) m.openNext(); });
     document.body.appendChild(b);
   }
   function applyBar(){
     const b=document.querySelector('.gl-bottom'); if(!b) return;
-    const on81=document.querySelector('.pn-mods button[data-m="81"].on');
-    const q17on=document.getElementById('q17')&&document.getElementById('q17').classList.contains('on');
-    const q1on=document.getElementById('q1')&&document.getElementById('q1').classList.contains('on');
-    const show=guided()&&on81&&(q17on||q1on)&&doneSet().size<STEPS.length;
+    const m=activeMod();
+    if(!m){ b.hidden=true; return; }
+    const on=function(id){ const e=document.getElementById(id); return !!e&&e.classList.contains('on'); };
+    const show=guided()&&(on(m.cfgMapPane)||on(m.cfgPathPane))&&m.doneSet().size<m.STEPS.length;
     b.hidden=!show;
-    if(show){ const s=STEPS[nextIdx()]; b.textContent='Next: '+s.t; }
+    if(show) b.textContent='Next: '+m.STEPS[m.nextIdx()].t;
   }
-
-  function apply(){
-    document.body.dataset.glmode=mode();
-    document.querySelectorAll('.gl-switch button').forEach(b=>b.classList.toggle('on',b.dataset.md===mode()));
-    applySidebar(); applyLessons(); applyBar();
-    const c=document.querySelector('#q1 .gl-cont'); if(c) c.hidden=!guided();
-  }
-  function render(){ buildContinue(); buildSteps(); apply(); }
 
   function init(){
-    if(!document.querySelector('.msb[data-m="81"]')) return;
-    buildSwitch(); buildAllRes(); wrapLessons(); inlineTerms(); buildBar();
-    render();
+    const defs=[
+      {m:'81',mapPane:'q1',pathPane:'q17',pathNav:'q17',doneKey:'bapsy_path_v1',steps:STEPS81,
+       lessonPane:'q15',lessonKey:'bapsy_nulllesson_v1',lessonStep:3,
+       lessons:LESSONS81,micro:MICRO81,terms:TERMS81,
+       deadline:'Assignment 1 is due Monday 2 November',
+       toastGuided:'Guided learning on. A short list of places to go, and the long pages are split into lessons.',
+       toastFull:'Full reference on. Every page and every section, exactly as before.'},
+      {m:'80',mapPane:'p1',pathPane:'p21',pathNav:'21',doneKey:'bapsy_path80_v1',steps:STEPS80,
+       deadline:'Assignment 1 is due Monday 23 November',
+       toastGuided:'Guided learning on. A short list of places to go, in the order the module teaches them.',
+       toastFull:'Full reference on. Every book and every tab, exactly as before.'}
+    ];
+    defs.forEach(function(d){
+      const mod=makeModule(d);
+      mod.cfgMapPane=d.mapPane; mod.cfgPathPane=d.pathPane;
+      if(mod.init()) MODS.push(mod);
+    });
+    if(!MODS.length) return;
+    buildBar();
+    applyAll();
     document.querySelectorAll('.guide-nav-item, .pn-mods button').forEach(function(n){
       n.addEventListener('click',function(){ setTimeout(applyBar,0); });
     });
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
-  window.bapsyGuided={render:render,apply:apply,STEPS:STEPS,LESSONS:LESSONS,mode:mode,
-    setMode:function(m){ set(LS_MODE,m); apply(); },
-    reset:function(){ set(LS_DONE,'[]'); set(LS_LESSON,'0'); render(); }};
+  window.bapsyGuided={
+    mods:MODS, apply:applyAll, mode:mode,
+    get:function(m){ return MODS.find(x=>x.m===String(m))||null; },
+    setMode:function(m){ set(LS_MODE,m); applyAll(); },
+    reset:function(){ MODS.forEach(x=>x.reset()); }
+  };
 })();
 
 </script>
