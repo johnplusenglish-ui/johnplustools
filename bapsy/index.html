@@ -197,6 +197,9 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
 .sumdl .sd-b:hover{background:var(--accent-dark)}
 .sumdl .sd-b:disabled{opacity:.6;cursor:default}
 /* ---------- guided learning layer ---------- */
+.gl-toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(10px);z-index:120;max-width:min(460px,92vw);background:var(--ink);color:#fff;font-size:14px;line-height:1.5;padding:13px 19px;border-radius:var(--r-sm);box-shadow:var(--shadow-md);opacity:0;visibility:hidden;transition:opacity .18s,transform .18s}
+.gl-toast.on{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+@media(max-width:760px){.gl-toast{bottom:84px}}
 /* .guide-nav-item sets display, which beats the UA [hidden] rule, so say it explicitly */
 .guide-nav-item[hidden],.pn-eyebrow[hidden],.pn-rule[hidden],.gl-cont[hidden],.gl-sec[hidden],.gl-lbar[hidden],.gl-lfoot[hidden]{display:none !important}
 .gl-switch{display:flex;gap:4px;background:var(--bg);border:1px solid var(--border);border-radius:999px;padding:3px;margin:0 0 16px}
@@ -767,6 +770,7 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
         <div class="pn-rule"></div>
         <div class="pn-eyebrow">Assessment</div>
         <button class="guide-nav-item" data-t="q3"><span class="guide-nav-dot"></span><span class="label">Assignment Briefs</span></button>
+        <button class="guide-nav-item gl-keep" data-t="q18"><span class="guide-nav-dot"></span><span class="label">Worked A1</span><span class="trail"><span class="nav-k due">model</span></span></button>
         <button class="guide-nav-item gl-keep" data-t="q11"><span class="guide-nav-dot"></span><span class="label">A1 Walkthrough</span><span class="trail"><span class="nav-k due">2 Nov</span></span></button>
         <button class="guide-nav-item gl-keep" data-t="q10"><span class="guide-nav-dot"></span><span class="label">Deadlines</span><span class="trail"><span class="nav-k due">2 Nov</span></span></button>
         <button class="guide-nav-item" data-t="q4"><span class="guide-nav-dot"></span><span class="label">Rules &amp; Dates</span></button>
@@ -7545,6 +7549,202 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
 </section>
 
 <!-- ======== PSY1081 q15 : NULL & P-VALUES ======== -->
+<!-- ======== PSY1081 q18 : WORKED A1 ======== -->
+<section class="pane wrap" id="q18">
+  <div class="dhead">
+    <div class="kicker">Assessment · a model to work from</div>
+    <h2>A worked Assignment 1, on other studies</h2>
+    <div class="pills"><span class="pill on">all three tasks</span><span class="pill">every part, a to f</span><span class="pill">real statistics, invented studies</span></div>
+  </div>
+
+  <div class="note b"><span class="lab">Read this bit first</span>Everything below is worked on <b>two invented studies that have nothing to do with your assignment</b>, and two ethics scenarios whose issues are different from yours. It shows you the <b>shape</b> of each answer: what goes in it, in what order, and in what wording. <b>None of it is your answer</b>, and copying a sentence of it into your submission would be both wrong and obvious, because your variables, your numbers and your ethical issues are all different. Use it the way you would use a worked example in a maths textbook.</div>
+
+  <div class="note"><span class="lab">The numbers here are real</span>The two datasets were generated and then analysed properly, so every statistic below is internally consistent and was checked against the same calculations that reproduce your own SPSS output exactly. If you work through the example yourself you will get these numbers.</div>
+
+  <h3 class="sec">The two studies</h3>
+  <div class="tscroll"><table class="tbl">
+    <thead><tr><th></th><th>Study A, for Task 1</th><th>Study B, for Task 2</th></tr></thead>
+    <tbody>
+      <tr><td><b>Question</b></td><td>Does taking lecture notes by hand produce better recall than typing them?</td><td>Do people interrupt more in in-person meetings than in online ones?</td></tr>
+      <tr><td><b>Design</b></td><td>36 students randomly assigned, 18 per group, same lecture, same recall test a week later</td><td>36 meetings observed, 18 online and 18 in person, interruptions counted across 30 minutes</td></tr>
+      <tr><td><b>DV</b></td><td>Recall score out of 50</td><td>Number of interruptions</td></tr>
+      <tr><td><b>What happens</b></td><td>All assumptions hold, so it is an <b>independent samples t-test</b></td><td>Normality fails and there is an outlier, so it is <b>Mann-Whitney U</b></td></tr>
+    </tbody>
+  </table></div>
+  <p class="lead" style="font-size:14.5px">That is deliberate: it mirrors the fact that one of your two tasks is parametric and the other is not. Which one is which in your assignment is for your own assumption checks to tell you.</p>
+
+  <h3 class="sec">Task 1, worked on Study A</h3>
+
+  <h4 class="qsub">(a) The hypotheses <span class="slideref">4 marks</span></h4>
+  <div class="mans"><span class="lab">The answer</span>
+    <p><b>H0:</b> It is hypothesised that students who take lecture notes by hand will not recall significantly more of the lecture content than students who type their notes.</p>
+    <p><b>H1:</b> It is hypothesised that students who take lecture notes by hand will recall significantly more of the lecture content than students who type their notes.</p>
+    <p>This H1 is <b>directional</b>, because the researcher predicted handwriting would be better, not merely different.</p>
+  </div>
+  <ul class="lead-list">
+    <li><b>What earns the marks.</b> Both sentences name the population, both levels of the IV and the DV, and they differ only in "will not" and "will".</li>
+    <li><b>What loses them.</b> Writing about the sample rather than the population, and leaving the direction unstated when you have in fact chosen one.</li>
+  </ul>
+
+  <h4 class="qsub">(b) The IV and the DV <span class="slideref">4 marks</span></h4>
+  <div class="mans"><span class="lab">The answer</span>
+    <p>The independent variable is <b>note-taking method</b>. It has two levels: handwritten notes and typed notes.</p>
+    <p>The dependent variable is <b>recall of lecture content</b>, measured as the total score on a 50-item recall test administered one week later, with a range from 0 to 50 and higher scores indicating better recall.</p>
+    <p>The recall total is a <b>scale</b> variable, which is what permits a parametric test to be considered.</p>
+  </div>
+  <p class="lead" style="font-size:14.5px">Five moves: name the IV, name both levels, name the DV, say how it is measured with its range and direction, then state the level of measurement and connect it to the choice of test.</p>
+
+  <h4 class="qsub">(c) An extraneous variable and how to control it <span class="slideref">5 marks</span></h4>
+  <div class="mans"><span class="lab">The answer</span>
+    <p>One extraneous variable is <b>prior knowledge of the lecture topic</b>. Students who already knew something about the subject would score higher on the recall test regardless of how they took their notes, which would inflate the scores of whichever group happened to contain more of them.</p>
+    <p>This could be controlled by administering a short topic-knowledge pre-test before the lecture and using it to <b>match participants across the two conditions</b>, so that the groups begin with equivalent prior knowledge. An acceptable alternative would be to retain the pre-test score as a covariate.</p>
+  </div>
+  <ul class="lead-list">
+    <li><b>The mark is in the second paragraph.</b> Naming a variable is easy. The marks are for a <b>specific, workable procedure</b>, described in enough detail that someone could actually do it.</li>
+    <li><b>"They could control for it" earns almost nothing.</b> Say what would be done, when, and to whom.</li>
+  </ul>
+
+  <h4 class="qsub">(d) The assumptions, reported in full <span class="slideref">7 marks</span></h4>
+  <div class="mans"><span class="lab">The answer</span>
+    <p><b>Level of measurement and independence.</b> Recall score is measured on a scale with a range of 0 to 50 and is therefore continuous. Each participant was randomly assigned to one condition and completed the recall test once, so the assumption of independence of observations is satisfied.</p>
+    <p><b>Normality.</b> The histogram for the handwritten group approximated the normal distribution, with skewness 0.24 and kurtosis -0.33, and the data were arranged in a reasonably straight line on the Normal Q-Q plot. The histogram for the typed group also approximated the normal distribution, with skewness -0.05 and kurtosis -0.43, and the data again fell in a reasonably straight line on the Normal Q-Q plot. The Shapiro-Wilk test was non-significant for the handwritten group, W(18) = .97, p = .872, and for the typed group, W(18) = .97, p = .848. The data therefore satisfy the assumption of normality.</p>
+    <p><b>Absence of outliers.</b> Inspection of the boxplots revealed no outliers in either group, so the assumption is satisfied.</p>
+    <p><b>Homogeneity of variance.</b> Levene's test indicated that the variances were equal for the handwritten and typed groups, F(1, 34) = 0.52, p = .477.</p>
+    <p><b>The decision.</b> As normality and absence of outliers were satisfied and the variances were equal, an independent samples t-test was conducted, reading the pooled "equal variances assumed" row.</p>
+  </div>
+  <ul class="lead-list">
+    <li><b>Count the evidence for normality.</b> Histogram, Q-Q plot, skewness and kurtosis, and the formal test, <b>for each group separately</b>. That is four things twice, not one thing once.</li>
+    <li><b>Skewness and kurtosis between 1 and -1</b> is the rule of thumb the class gave for calling a distribution normal. All four values here are comfortably inside it.</li>
+    <li><b>Every assumption ends with a verdict</b>, and the part ends with the test you are therefore entitled to run. Without that last sentence, part (f) looks unearned.</li>
+  </ul>
+
+  <h4 class="qsub">(e) One APA table and one APA chart <span class="slideref">7 marks</span></h4>
+  <p class="lead" style="font-size:14.5px">Both go in the <b>main report</b>, not the appendix. The raw SPSS output goes in the appendix. An APA table is typed out by you, with no vertical lines, a numbered italic-free title above it, and horizontal rules only at the top, under the headings and at the bottom.</p>
+  <div class="mans"><span class="lab">The table</span>
+    <p><b>Table 1</b><br>Mean Recall Scores for Handwritten and Typed Note-Taking</p>
+    <div class="tscroll"><table class="tbl">
+      <thead><tr><th>Note-taking method</th><th>n</th><th>M</th><th>SD</th></tr></thead>
+      <tbody>
+        <tr><td>Handwritten</td><td>18</td><td>32.89</td><td>4.73</td></tr>
+        <tr><td>Typed</td><td>18</td><td>28.33</td><td>5.62</td></tr>
+      </tbody>
+    </table></div>
+    <p><b>Note.</b> Recall measured out of 50. Higher scores indicate better recall.</p>
+  </div>
+  <ul class="lead-list">
+    <li><b>The chart.</b> A bar chart of the two means with <b>error bars</b>, axes labelled in words, and a caption reading "Figure 1" followed by a descriptive title. For a Mann-Whitney task you would chart medians, or use a boxplot.</li>
+    <li><b>The commonest mistake is pasting the SPSS output table</b> and calling it an APA table. It is not one. You retype it.</li>
+    <li><b>Second commonest:</b> a table and a chart that show the same thing twice with no added value. They should complement each other.</li>
+  </ul>
+
+  <h4 class="qsub">(f) The analysis, reported in full <span class="slideref">8 marks</span></h4>
+  <div class="mans"><span class="lab">The answer</span>
+    <p>An independent samples t-test was conducted to determine whether students who took lecture notes by hand (n = 18) would recall more lecture content, measured as a score out of 50 on a recall test one week later, than students who typed their notes (n = 18).</p>
+    <p>The assumptions of normality, absence of outliers and homogeneity of variance were satisfied.</p>
+    <p>There was a statistically significant difference in recall scores between students who took notes by hand (M = 32.89, SD = 4.73) and those who typed them (M = 28.33, SD = 5.62), t(34) = 2.63, p = .013, mean difference = 4.56, 95% CI [1.04, 8.07], d = 0.88.</p>
+    <p>The null hypothesis is therefore rejected. Taking notes by hand was associated with significantly better recall of lecture content, and by Cohen's conventions the effect was large.</p>
+  </div>
+  <ul class="lead-list">
+    <li><b>Four moves.</b> Why the test was run with both group sizes and the measure; which assumptions held; the result with every number; then the verdict on the null in plain English.</li>
+    <li><b>Every number the checklist asks for is in there:</b> both means and SDs, t, df, exact p, the mean difference, the confidence interval and the effect size.</li>
+    <li><b>The effect size is reported here because the result is significant.</b> The class said to report it only in that case, and to let the mean difference and confidence interval carry the information otherwise.</li>
+    <li><b>Note the CI does not contain zero</b>, which agrees with the significant p. Saying so shows you know what the interval means.</li>
+  </ul>
+
+  <h3 class="sec">Task 2, worked on Study B</h3>
+  <p class="lead">Same six parts. Only (d) and (f) change in kind, because the assumptions fail and the test changes with them. (a) to (c) are written exactly as before, so they are given in brief here.</p>
+
+  <h4 class="qsub">(a) to (c), in brief</h4>
+  <div class="mans"><span class="lab">The answer</span>
+    <p><b>H0:</b> It is hypothesised that meetings held in person will not involve significantly more interruptions than meetings held online.<br>
+    <b>H1:</b> It is hypothesised that meetings held in person will involve significantly more interruptions than meetings held online.</p>
+    <p><b>IV:</b> meeting format, with two levels, in person and online. <b>DV:</b> the number of interruptions, counted by an observer across a 30-minute meeting.</p>
+    <p><b>Extraneous variable:</b> the number of people present, since a larger meeting offers more opportunities to interrupt. This could be controlled by observing only meetings with between five and seven attendees, holding group size approximately constant across both conditions.</p>
+  </div>
+
+  <h4 class="qsub">(d) The assumptions, where they fail <span class="slideref">7 marks</span></h4>
+  <div class="mans"><span class="lab">The answer</span>
+    <p><b>Level of measurement and independence.</b> The number of interruptions is a count and is therefore at least interval scaled. Each meeting was observed once and contributed to one condition only, satisfying independence of observations.</p>
+    <p><b>Normality.</b> The histogram for the online group did not approximate the normal distribution, with skewness 0.98 and kurtosis 0.67 and a pronounced floor effect, and the points departed from the line on the Normal Q-Q plot. The histogram for the in-person group was also non-normal, with skewness 1.41 and kurtosis 3.23. The Shapiro-Wilk test was significant for the online group, W(18) = .87, p = .015, and for the in-person group, W(18) = .87, p = .017. The assumption of normality is therefore violated in both groups.</p>
+    <p><b>Absence of outliers.</b> Inspection of the boxplots revealed one high outlier in the in-person group, a meeting with 13 interruptions. The assumption is violated.</p>
+    <p><b>Homogeneity of variance.</b> Levene's test was non-significant, F(1, 34) = 0.00, p = .946, so the variances were equal.</p>
+    <p><b>The decision.</b> Although the variances were equal, normality was violated in both groups and an outlier was present, either of which rules out the independent samples t-test. A Mann-Whitney U test was therefore conducted.</p>
+  </div>
+  <div class="note b"><span class="lab">The sentence that earns the mark here</span>Notice that Levene's was fine and the test still changed. <b>Unequal variance on its own would only call for Welch's correction</b>, the "equal variances not assumed" row. It is the <b>normality failure or an outlier</b> that forces a move to a non-parametric test. Getting that the right way round is exactly what part (d) is testing.</div>
+
+  <h4 class="qsub">(e) Table and chart, for a non-parametric result</h4>
+  <div class="mans"><span class="lab">The table</span>
+    <p><b>Table 1</b><br>Interruptions per 30-Minute Meeting by Meeting Format</p>
+    <div class="tscroll"><table class="tbl">
+      <thead><tr><th>Meeting format</th><th>n</th><th>Mdn</th><th>Range</th></tr></thead>
+      <tbody>
+        <tr><td>In person</td><td>18</td><td>7.00</td><td>5 to 13</td></tr>
+        <tr><td>Online</td><td>18</td><td>1.00</td><td>0 to 6</td></tr>
+      </tbody>
+    </table></div>
+    <p><b>Note.</b> Interruptions counted by a single observer across 30 minutes.</p>
+  </div>
+  <ul class="lead-list">
+    <li><b>Medians, not means.</b> Once you have moved to Mann-Whitney, a table of means contradicts the text, and that inconsistency is a noted mark-loser.</li>
+    <li><b>A boxplot is the natural chart here</b>, because it shows the medians, the spread and the outlier you just reported.</li>
+  </ul>
+
+  <h4 class="qsub">(f) The analysis, reported in full <span class="slideref">8 marks</span></h4>
+  <div class="mans"><span class="lab">The answer</span>
+    <p>A Mann-Whitney U test was conducted to determine whether meetings held in person (n = 18) would involve more interruptions than meetings held online (n = 18).</p>
+    <p>This non-parametric test was used because the assumption of normality was violated in both groups and an outlier was present in the in-person group.</p>
+    <p>There was a statistically significant difference in the number of interruptions between meetings held in person (Mdn = 7.00) and meetings held online (Mdn = 1.00), U = 4.50, z = -5.02, p &lt; .001, r = .84.</p>
+    <p>The null hypothesis is therefore rejected. Meetings held in person involved significantly more interruptions than meetings held online, and the effect was large.</p>
+  </div>
+  <ul class="lead-list">
+    <li><b>U, z and p, then the medians.</b> Never Cohen's d, because d assumes the normality that has just been lost. The effect size is <b>r = Z divided by the square root of N</b>, where N is the total, here 36.</li>
+    <li><b>p &lt; .001, never p = .000.</b> SPSS prints .000 and it is always wrong to copy it.</li>
+    <li><b>Benchmarks for r:</b> about .10 small, .30 medium, .50 and above large.</li>
+  </ul>
+
+  <h3 class="sec">Task 3, worked on two different ethical issues</h3>
+  <div class="note"><span class="lab">Your two scenarios raise different issues from these</span>The brief tells you the main issue differs between your two scenarios, and it differs again from the two below. What transfers is the <b>four-move structure</b>, not the content. 300 words per scenario plus a 100-word conclusion.</div>
+
+  <h4 class="qsub">Scenario A, worked</h4>
+  <p class="lead" style="font-size:14.5px"><b>The scenario:</b> a researcher interviews the nine members of a primary school staff room about bullying between colleagues, and plans to publish direct quotes alongside each speaker's role and years of service.</p>
+  <div class="mans"><span class="lab">The four moves</span>
+    <p><b>1. Name the issue.</b> The main ethical issue is a failure of <b>confidentiality and anonymity</b>. It is not consent: the participants agreed to take part.</p>
+    <p><b>2. Say why it is problematic.</b> In a staff room of nine, a direct quote attributed to "the deputy principal, 14 years in post" identifies one person exactly. Participants disclosing experiences of bullying by named colleagues could face retaliation, damaged working relationships or loss of employment. The harm is produced by the publication, not by the interview, and it is not reversible once in print.</p>
+    <p><b>3. Tie it to the codes.</b> This engages the PSI Code's provisions on respect for the dignity and privacy of the person, and its requirement that identifying information is not disclosed without consent. The BPS and APA codes carry equivalent confidentiality provisions, and all three distinguish consenting to participate from consenting to be identifiable.</p>
+    <p><b>4. Propose an alternative that still achieves the aim.</b> The research aim is to understand how workplace bullying is experienced, which does not require identifying anyone. The researcher should remove all role and service descriptors, aggregate quotes under neutral participant numbers, and where a quote remains identifiable by its content, paraphrase it or omit it. Participants should be offered sight of their quotes before publication with a right to withdraw them. The thematic findings survive all of this intact.</p>
+  </div>
+
+  <h4 class="qsub">Scenario B, worked</h4>
+  <p class="lead" style="font-size:14.5px"><b>The scenario:</b> a study screens 200 fifteen-year-olds for low mood using a validated depression questionnaire. The protocol describes recruitment and analysis but says nothing about what happens if a participant scores in the clinical range.</p>
+  <div class="mans"><span class="lab">The four moves</span>
+    <p><b>1. Name the issue.</b> The main issue is the <b>absence of a protection-from-harm and duty-of-care protocol</b>, compounded by the participants being minors. It is a different problem from Scenario A: nobody is being identified, and the issue is what the researcher does with what they find.</p>
+    <p><b>2. Say why it is problematic.</b> Screening will, by design, identify adolescents who are currently distressed. Collecting that information and taking no action treats a vulnerable participant as a data source rather than a person, and the research procedure itself may raise distress by directing attention to it. Researchers also risk acting beyond their competence if they respond informally rather than through a planned route.</p>
+    <p><b>3. Tie it to the codes.</b> This engages the principle of beneficence and non-maleficence and the requirement to work within the limits of one's competence, present in the PSI, BPS and APA codes, together with the provisions on consent and assent where participants are minors.</p>
+    <p><b>4. Propose an alternative that still achieves the aim.</b> The aim is to estimate the prevalence of low mood, which needs scores, not silence about them. The protocol should set a pre-agreed threshold, a named clinically qualified person to whom any participant above it is referred, parental or guardian consent alongside the young person's assent, a signposting sheet given to every participant regardless of score, and a debrief naming sources of support. None of this changes the data collected, so the research question is unaffected.</p>
+  </div>
+
+  <h4 class="qsub">The conclusion, about 100 words</h4>
+  <div class="mans"><span class="lab">The answer</span>
+    <p>Both scenarios show that ethical failure is rarely a matter of bad intentions. In each case the research question was legitimate and the harm arose from a procedural omission: what would be published in the first, and what would be done with a worrying result in the second. Both were correctable without weakening the design, which is the test a proposed alternative has to pass. Ethical review is therefore best understood not as an obstacle placed in front of research but as the stage at which foreseeable harm is designed out of it while the research aim is preserved.</p>
+  </div>
+
+  <h3 class="sec">Now do yours</h3>
+  <p class="lead">What you take from the example, and what has to come from you.</p>
+  <div class="tscroll"><table class="tbl">
+    <thead><tr><th>Part</th><th>Take the shape</th><th>Supply yourself</th></tr></thead>
+    <tbody>
+      <tr><td><b>(a)</b></td><td>Two sentences differing only in "will not" and "will"; population named; direction stated</td><td>Your variables, and whether yours is directional</td></tr>
+      <tr><td><b>(b)</b></td><td>IV, both levels, DV, how measured with range and direction, level of measurement</td><td>Your instrument and its actual range</td></tr>
+      <tr><td><b>(c)</b></td><td>Name a variable, explain how it would distort the result, then a concrete control procedure</td><td>A variable that genuinely threatens <b>your</b> design</td></tr>
+      <tr><td><b>(d)</b></td><td>Measurement and independence, then normality in four parts per group, outliers, Levene, decision</td><td>Your W, p, skewness, kurtosis, and what your own plots look like</td></tr>
+      <tr><td><b>(e)</b></td><td>A retyped APA table, a labelled chart, both in the main report</td><td>Your descriptives, and medians instead of means if you went non-parametric</td></tr>
+      <tr><td><b>(f)</b></td><td>Why, assumptions, result with every number, verdict on the null in English</td><td>Your statistics, and an effect size only where significant</td></tr>
+      <tr><td><b>Task 3</b></td><td>Name the issue, explain the harm, cite the code, propose an alternative that still achieves the aim</td><td>Your two issues, which differ from each other and from these</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note b"><span class="lab">The honest warning</span>The fastest way to fail this assignment is to let a sentence from this page reach your document. Your study is about different variables, so a borrowed sentence will not even make sense, and the brief treats AI-produced content as academic misconduct with a viva to defend the work. Read the shape, close the page, write yours.</div>
+</section>
+
 <!-- ======== PSY1081 q17 : GUIDED PATH ======== -->
 <section class="pane wrap" id="q17">
   <div class="dhead">
@@ -9824,6 +10024,14 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
     'alpha':'The line you set in advance, almost always .05.'
   };
 
+  let toastT=null;
+  function toast(msg){
+    let el=document.querySelector('.gl-toast');
+    if(!el){ el=document.createElement('div'); el.className='gl-toast'; document.body.appendChild(el); }
+    el.textContent=msg; el.classList.add('on');
+    clearTimeout(toastT); toastT=setTimeout(function(){ el.classList.remove('on'); },3200);
+  }
+
   function get(k,d){ try{ const v=localStorage.getItem(k); return v===null?d:v; }catch(e){ return d; } }
   function set(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
   function doneSet(){ try{ return new Set(JSON.parse(get(LS_DONE,'[]'))); }catch(e){ return new Set(); } }
@@ -9848,7 +10056,14 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
     w.className='gl-switch';
     w.innerHTML='<button type="button" data-md="guided">Guided</button><button type="button" data-md="full">Full reference</button>';
     w.querySelectorAll('button').forEach(b=>b.addEventListener('click',function(){
-      set(LS_MODE,this.dataset.md); apply();
+      const m=this.dataset.md;
+      if(m===mode()) { toast(m==='guided'?'Already in guided learning':'Already in full reference'); return; }
+      set(LS_MODE,m);
+      if(m==='guided') sb.classList.remove('gl-open');   // otherwise nothing visibly changes
+      apply();
+      toast(m==='guided'
+        ? 'Guided learning on. Five places to go, and the long pages are split into lessons.'
+        : 'Full reference on. Every page and every section, exactly as before.');
     }));
     sb.insertBefore(w,sb.firstChild);
   }
