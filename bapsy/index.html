@@ -196,6 +196,89 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
 .sumdl .sd-b{font-family:var(--sans);font-size:14.5px;font-weight:600;color:#fff;background:var(--accent);border:0;border-radius:var(--r-sm);padding:12px 20px;cursor:pointer;transition:background .15s}
 .sumdl .sd-b:hover{background:var(--accent-dark)}
 .sumdl .sd-b:disabled{opacity:.6;cursor:default}
+/* ---------- guided learning layer ---------- */
+/* .guide-nav-item sets display, which beats the UA [hidden] rule, so say it explicitly */
+.guide-nav-item[hidden],.pn-eyebrow[hidden],.pn-rule[hidden],.gl-cont[hidden],.gl-sec[hidden],.gl-lbar[hidden],.gl-lfoot[hidden]{display:none !important}
+.gl-switch{display:flex;gap:4px;background:var(--bg);border:1px solid var(--border);border-radius:999px;padding:3px;margin:0 0 16px}
+.gl-switch button{flex:1;min-width:0;font-family:var(--sans);font-size:12.5px;font-weight:600;color:var(--muted);background:none;border:0;border-radius:999px;padding:7px 6px;cursor:pointer;white-space:nowrap}
+.gl-switch button.on{background:var(--accent);color:#fff}
+.gl-allres{display:block;width:100%;margin:10px 0 0;font-family:var(--sans);font-size:12.5px;font-weight:600;color:var(--accent-dark);background:var(--accent-light);border:0;border-radius:var(--r-sm);padding:9px 12px;cursor:pointer;text-align:left}
+.gl-allres[hidden]{display:none}
+
+.gl-cont{background:var(--accent);border-radius:var(--r);padding:24px 26px;margin:0 0 26px;color:#fff}
+.gl-cont[hidden]{display:none}
+.gl-cont-l{font-size:11px;letter-spacing:.11em;text-transform:uppercase;font-weight:700;opacity:.82;margin-bottom:9px}
+.gl-cont-t{font-size:23px;font-weight:700;line-height:1.25;letter-spacing:-.01em;margin-bottom:8px}
+.gl-cont-w{font-size:14.5px;line-height:1.55;opacity:.92;margin-bottom:18px;max-width:62ch}
+.gl-cont-r{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.gl-go{font-family:var(--sans);font-size:15px;font-weight:700;color:var(--accent-dark);background:#fff;border:0;border-radius:var(--r-sm);padding:12px 24px;cursor:pointer}
+.gl-cont-m{font-size:13.5px;opacity:.9;font-weight:600}
+.gl-cont-d{font-size:13px;opacity:.78}
+.gl-cont-n{margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.22);font-size:13px;opacity:.82;line-height:1.5}
+
+.gl-steps{display:flex;flex-direction:column;gap:12px}
+.gl-step{display:flex;gap:16px;align-items:flex-start;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px}
+.gl-step.is-cur{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-light)}
+.gl-step.is-done{background:var(--hover)}
+.gl-n{flex:0 0 34px;height:34px;border-radius:50%;background:var(--bg);color:var(--muted);font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center}
+.gl-step.is-cur .gl-n{background:var(--accent);color:#fff}
+.gl-step.is-done .gl-n{background:#DCF0DF;color:#2F7A3C}
+.gl-b{flex:1;min-width:0}
+.gl-h{font-size:17px;font-weight:700;color:var(--ink);line-height:1.3;margin-bottom:5px}
+.gl-w{font-size:14px;color:var(--muted);line-height:1.55;margin-bottom:10px}
+.gl-m{display:flex;gap:7px;flex-wrap:wrap}
+.gl-chip{font-size:11px;font-weight:700;letter-spacing:.03em;color:var(--muted);background:var(--bg);border-radius:999px;padding:4px 10px}
+.gl-chip.gl-ess{color:var(--accent-dark);background:var(--accent-light)}
+.gl-chip.gl-now{color:#fff;background:var(--accent)}
+.gl-a{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-end;gap:9px}
+.gl-open-b{font-family:var(--sans);font-size:13.5px;font-weight:600;color:#fff;background:var(--accent);border:0;border-radius:var(--r-sm);padding:9px 18px;cursor:pointer}
+.gl-step.is-done .gl-open-b{color:var(--accent-dark);background:var(--accent-light)}
+.gl-done{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted);cursor:pointer}
+
+.gl-lbar{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 24px}
+.gl-lbar[hidden]{display:none}
+.gl-lbar button{display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:13px;font-weight:600;color:var(--muted);background:var(--card);border:1px solid var(--border);border-radius:999px;padding:8px 15px 8px 8px;cursor:pointer}
+.gl-lbar button.on{color:#fff;background:var(--accent);border-color:var(--accent)}
+.gl-lnum{width:21px;height:21px;border-radius:50%;background:var(--bg);color:var(--muted);font-weight:800;font-size:11.5px;display:flex;align-items:center;justify-content:center}
+.gl-lbar button.on .gl-lnum{background:rgba(255,255,255,.25);color:#fff}
+.gl-opt{font-size:10.5px;font-weight:700;opacity:.7;text-transform:uppercase;letter-spacing:.06em}
+.gl-sec[hidden]{display:none}
+
+.gl-lfoot{margin-top:36px}
+.gl-lfoot[hidden]{display:none}
+.gl-micro{background:var(--hover);border:1px solid var(--border);border-radius:var(--r);padding:20px 22px;margin-bottom:18px}
+.gl-micro-t{font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;font-weight:700;color:var(--accent-dark);margin-bottom:9px}
+.gl-micro-q{margin:0 0 14px;font-size:15.5px;font-weight:600;color:var(--ink);line-height:1.45}
+.gl-micro-o{display:flex;flex-direction:column;gap:8px}
+.gl-micro-o button{font-family:var(--sans);font-size:14px;color:var(--ink);background:var(--card);border:1px solid var(--border);border-radius:var(--r-sm);padding:11px 15px;cursor:pointer;text-align:left;line-height:1.45}
+.gl-micro-o button:hover{border-color:var(--accent)}
+.gl-micro-o button.ok{border-color:#2F7A3C;background:#F0F8F1;color:#1F5B2A;font-weight:600}
+.gl-micro-o button.no{border-color:var(--due);background:var(--due-light);color:var(--due)}
+.gl-micro-f{margin-top:13px;font-size:14px;color:var(--muted);line-height:1.6}
+.gl-lnav{display:flex;gap:10px;justify-content:space-between}
+.gl-lnav button{font-family:var(--sans);font-size:14px;font-weight:600;border-radius:var(--r-sm);padding:12px 20px;cursor:pointer;border:1px solid var(--border);background:var(--card);color:var(--ink)}
+.gl-next{border-color:var(--accent) !important;background:var(--accent) !important;color:#fff !important;flex:1;max-width:60%}
+.gl-prev:disabled{opacity:.4;cursor:default}
+
+.gl-dfn{border-bottom:1.5px dotted var(--accent);cursor:help;position:relative;outline:none}
+.gl-dfn::after{content:attr(data-def);position:absolute;left:0;top:calc(100% + 7px);width:min(290px,78vw);background:var(--ink);color:#fff;font-size:13px;font-weight:400;line-height:1.5;padding:10px 13px;border-radius:var(--r-sm);opacity:0;visibility:hidden;transition:opacity .13s;z-index:40;pointer-events:none;box-shadow:var(--shadow-md)}
+.gl-dfn:hover::after,.gl-dfn:focus::after{opacity:1;visibility:visible}
+
+.gl-bottom{display:none}
+@media(max-width:760px){
+  .gl-bottom{display:block;position:fixed;left:12px;right:12px;bottom:12px;z-index:60;font-family:var(--sans);font-size:15.5px;font-weight:700;color:#fff;background:var(--accent);border:0;border-radius:var(--r);padding:16px 18px;cursor:pointer;box-shadow:0 6px 22px rgba(33,118,255,.35);text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .gl-bottom[hidden]{display:none}
+  .gl-step{flex-wrap:wrap}
+  .gl-a{flex:1 0 100%;flex-direction:row;align-items:center;justify-content:space-between;margin-top:4px}
+  .gl-cont{padding:20px 18px}
+  .gl-cont-t{font-size:20px}
+  .gl-go{width:100%;padding:14px 20px}
+  .gl-cont-r{gap:10px}
+  .gl-next{max-width:none}
+  .gl-lnav{flex-direction:column-reverse}
+  .gl-lnav button{width:100%}
+}
+
 @media(max-width:640px){.sumdl{padding:18px 17px}.sumdl .sd-b{width:100%;padding:14px 18px;font-size:15.5px}}
 .fast .ft{font-size:11px;letter-spacing:.11em;text-transform:uppercase;font-weight:700;color:var(--accent-dark);margin-bottom:12px}
 .fast .fq{font-size:19px;font-weight:700;color:var(--ink);line-height:1.35;margin:0 0 14px;letter-spacing:-.01em}
@@ -677,14 +760,15 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
     <div class="msb" data-m="81" hidden>
       <div class="pn-eyebrow">Start here</div>
       <nav class="sect-nav">
-        <button class="guide-nav-item active" data-t="q1"><span class="guide-nav-dot"></span><span class="label">Module Map</span></button>
+        <button class="guide-nav-item active gl-keep" data-t="q1"><span class="guide-nav-dot"></span><span class="label">Module Map</span></button>
         <button class="guide-nav-item" data-t="q13"><span class="guide-nav-dot"></span><span class="label">Mind Map</span></button>
+        <button class="guide-nav-item gl-keep" data-t="q17"><span class="guide-nav-dot"></span><span class="label">Continue</span><span class="trail"><span class="nav-k gl-navk"></span></span></button>
         <button class="guide-nav-item" data-t="q2"><span class="guide-nav-dot"></span><span class="label">Step-by-step Roadmap</span><span class="trail"><span class="nav-k due">2 Nov</span></span></button>
         <div class="pn-rule"></div>
         <div class="pn-eyebrow">Assessment</div>
         <button class="guide-nav-item" data-t="q3"><span class="guide-nav-dot"></span><span class="label">Assignment Briefs</span></button>
-        <button class="guide-nav-item" data-t="q11"><span class="guide-nav-dot"></span><span class="label">A1 Walkthrough</span><span class="trail"><span class="nav-k due">2 Nov</span></span></button>
-        <button class="guide-nav-item" data-t="q10"><span class="guide-nav-dot"></span><span class="label">Deadlines</span><span class="trail"><span class="nav-k due">2 Nov</span></span></button>
+        <button class="guide-nav-item gl-keep" data-t="q11"><span class="guide-nav-dot"></span><span class="label">A1 Walkthrough</span><span class="trail"><span class="nav-k due">2 Nov</span></span></button>
+        <button class="guide-nav-item gl-keep" data-t="q10"><span class="guide-nav-dot"></span><span class="label">Deadlines</span><span class="trail"><span class="nav-k due">2 Nov</span></span></button>
         <button class="guide-nav-item" data-t="q4"><span class="guide-nav-dot"></span><span class="label">Rules &amp; Dates</span></button>
         <div class="pn-rule"></div>
         <div class="pn-eyebrow">Learn the content</div>
@@ -699,7 +783,7 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
         <button class="guide-nav-item" data-t="q7"><span class="guide-nav-dot"></span><span class="label">SPSS Guide</span><span class="trail"><span class="nav-k due">A1</span></span></button>
         <div class="pn-rule"></div>
         <div class="pn-eyebrow">Revise</div>
-        <button class="guide-nav-item" data-t="q14"><span class="guide-nav-dot"></span><span class="label">Glossary &amp; Flashcards</span></button>
+        <button class="guide-nav-item gl-keep" data-t="q14"><span class="guide-nav-dot"></span><span class="label">Glossary &amp; Flashcards</span></button>
         <button class="guide-nav-item" data-t="q5"><span class="guide-nav-dot"></span><span class="label">Reading List</span></button>
       </nav>
     </div>
@@ -7461,6 +7545,16 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
 </section>
 
 <!-- ======== PSY1081 q15 : NULL & P-VALUES ======== -->
+<!-- ======== PSY1081 q17 : GUIDED PATH ======== -->
+<section class="pane wrap" id="q17">
+  <div class="dhead">
+    <div class="kicker">Guided learning</div>
+    <h2>Learn PSY1081 step by step</h2>
+    <div class="pills"><span class="pill on gl-prog">Step 1 of 8</span><span class="pill">one thing at a time</span><span class="pill">about 3 hours in total</span></div>
+  </div>
+  <div class="gl-steps"></div>
+</section>
+
 <section class="pane wrap" id="q15">
   <div class="dhead">
     <div class="kicker">Do the analysis · the idea everything rests on</div>
@@ -9661,6 +9755,367 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
   window.bapsyClassSpec=classSpec;
   window.bapsyBookSpec=bookSpec;
   window.bapsyBooks=BOOKS;
+})();
+
+
+/* ===== Guided learning layer for PSY1081 =====
+   Adds a second, calmer way through the same content. Nothing is duplicated:
+   the path points at the existing panes, and the Null pane is grouped into
+   lessons at runtime rather than being rewritten. */
+(function(){
+  const LS_MODE='bapsy_mode_v1', LS_DONE='bapsy_path_v1', LS_LESSON='bapsy_nulllesson_v1';
+
+  const STEPS=[
+    {t:'What research is trying to find out',mins:12,pane:'q6',
+     why:'Why psychology bothers with all this machinery, and what a hypothesis is actually for.'},
+    {t:'Variables, groups and measurements',mins:15,pane:'q8',
+     why:'The IV, the DV, and the levels of measurement. This decides which tests you are even allowed to run.'},
+    {t:'Difference versus relationship',mins:8,pane:'q12',
+     why:'The first fork in the decision tree. Are you comparing groups, or looking for a link between two things?'},
+    {t:'The null hypothesis and the p-value',mins:20,pane:'q15',
+     why:'The idea everything else rests on, now broken into four short lessons instead of one long page.'},
+    {t:'How to choose a statistical test',mins:10,pane:'q12',
+     why:'The whole decision tree, ending in the exact test to run and the sentence to write.'},
+    {t:'How to read the important parts of SPSS',mins:20,pane:'q7',
+     why:'Which numbers in the output matter, and which rows to walk straight past.'},
+    {t:'How to write the result in ordinary English',mins:15,pane:'q15',lesson:2,
+     why:'The fixed shape of a results sentence, and the APA format for each statistic.'},
+    {t:'How to complete A1 safely',mins:25,pane:'q11',
+     why:'Part by part, with the marks each one carries and the usual ways people lose them.'}
+  ];
+
+  // The Null pane is 14 sections. These are the four lessons, by section number.
+  const LESSONS=[
+    {t:'What a p-value is',secs:[1,2,3,4]},
+    {t:'The difficult words in normal English',secs:[5,6]},
+    {t:'Using it in A1 and SPSS',secs:[7,12,13]},
+    {t:'Deeper understanding',secs:[8,9,10,11,14],opt:true}
+  ];
+
+  const MICRO=[
+    {q:'A study reports p = .21. What does that mean?',
+     o:['Luck could easily produce a gap this big, so you cannot rule it out',
+        'There is a 21% chance the effect is real',
+        'The effect is small but real'],
+     ok:0,fb:'p is the chance of your data if nothing were going on. .21 is over the .05 line, so luck remains a comfortable explanation. It is not the chance that the effect is real.'},
+    {q:'Which sentence would a marker accept?',
+     o:['We accept the null hypothesis.',
+        'We fail to reject the null hypothesis.',
+        'The null hypothesis is proven.'],
+     ok:1,fb:'You never accept or prove a null. You either reject it or fail to reject it. The Class 6 slides get this wrong once, on slide 61.'},
+    {q:'Your Shapiro-Wilk comes back p = .84. Good news or bad?',
+     o:['Good news, the data are normally distributed',
+        'Bad news, an assumption has failed'],
+     ok:0,fb:'Good news. On assumption checks a big p means nothing is wrong, which is the reverse of how you read your main analysis.'},
+    {q:'Why is a result with p = .04 and a tiny effect size still worth reporting carefully?',
+     o:['Because p below .05 always means the finding matters',
+        'Because significance says the effect is probably not luck, not that it is big enough to care about'],
+     ok:1,fb:'Significance and importance are different questions. A trivial difference becomes significant if the sample is big enough, which is why effect size is reported alongside.'}
+  ];
+
+  const TERMS={
+    'null hypothesis':'The boring possibility: that nothing is going on.',
+    'p-value':'How often luck alone would produce a gap as big as the one you found.',
+    'statistically significant':'p came out below .05, so luck is an unlikely explanation.',
+    'effect size':'How big the difference is, as opposed to whether it is real.',
+    'Type I error':'A false alarm: saying there is an effect when there is not.',
+    'Type II error':'A miss: failing to detect an effect that is really there.',
+    'Shapiro-Wilk':'The test that checks whether a group’s scores are normally distributed.',
+    'alpha':'The line you set in advance, almost always .05.'
+  };
+
+  function get(k,d){ try{ const v=localStorage.getItem(k); return v===null?d:v; }catch(e){ return d; } }
+  function set(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+  function doneSet(){ try{ return new Set(JSON.parse(get(LS_DONE,'[]'))); }catch(e){ return new Set(); } }
+  function saveDone(s){ set(LS_DONE,JSON.stringify([...s])); }
+  function mode(){ return get(LS_MODE,'guided')==='full'?'full':'guided'; }
+  function guided(){ return mode()==='guided'; }
+
+  function nextIdx(){
+    const d=doneSet();
+    for(let i=0;i<STEPS.length;i++) if(!d.has(String(i))) return i;
+    return STEPS.length-1;
+  }
+  function goPane(id){
+    const b=document.querySelector('.guide-nav-item[data-t="'+id+'"]');
+    if(b) b.click();
+  }
+
+  /* ---------- the mode switch, at the top of the PSY1081 sidebar ---------- */
+  function buildSwitch(){
+    const sb=document.querySelector('.msb[data-m="81"]'); if(!sb||sb.querySelector('.gl-switch')) return;
+    const w=document.createElement('div');
+    w.className='gl-switch';
+    w.innerHTML='<button type="button" data-md="guided">Guided</button><button type="button" data-md="full">Full reference</button>';
+    w.querySelectorAll('button').forEach(b=>b.addEventListener('click',function(){
+      set(LS_MODE,this.dataset.md); apply();
+    }));
+    sb.insertBefore(w,sb.firstChild);
+  }
+
+  /* ---------- sidebar: five destinations, the rest behind All resources ---------- */
+  function buildAllRes(){
+    const sb=document.querySelector('.msb[data-m="81"]'); if(!sb||sb.querySelector('.gl-allres')) return;
+    const b=document.createElement('button');
+    b.type='button'; b.className='gl-allres';
+    b.addEventListener('click',function(){ sb.classList.toggle('gl-open'); applySidebar(); });
+    sb.appendChild(b);
+  }
+  function applySidebar(){
+    const sb=document.querySelector('.msb[data-m="81"]'); if(!sb) return;
+    const open=sb.classList.contains('gl-open'), g=guided();
+    // the items live inside nav.sect-nav, but the first eyebrow sits outside it
+    const nav=sb.querySelector('nav.sect-nav');
+    const kids=[...sb.children].filter(function(e){
+      return e.classList.contains('pn-eyebrow')||e.classList.contains('pn-rule');
+    }).concat(nav?[...nav.children]:[]);
+    kids.forEach(function(el){
+      if(el.classList.contains('gl-switch')||el.classList.contains('gl-allres')) return;
+      if(el.classList.contains('guide-nav-item')){
+        el.hidden = g && !open && !el.classList.contains('gl-keep');
+      }
+    });
+    // an eyebrow or rule disappears when every item it heads is hidden
+    let group=[], head=[];
+    const flush=function(){
+      if(!head.length) return;
+      const anyVisible=group.some(x=>!x.hidden);
+      head.forEach(h=>h.hidden=!anyVisible);
+    };
+    head=[]; group=[];
+    kids.forEach(function(el){
+      if(el.classList.contains('pn-eyebrow')){ flush(); head=[el]; group=[]; return; }
+      if(el.classList.contains('pn-rule')){ if(head.length) head.push(el); return; }
+      if(el.classList.contains('guide-nav-item')) group.push(el);
+    });
+    flush();
+    const btn=sb.querySelector('.gl-allres');
+    if(btn){ btn.hidden=!g; btn.textContent=open?'Show less':'All resources'; btn.setAttribute('aria-expanded',open?'true':'false'); }
+  }
+
+  /* ---------- Continue learning, inside the existing Module Map ---------- */
+  function buildContinue(){
+    const pane=document.getElementById('q1'); if(!pane) return;
+    let c=pane.querySelector('.gl-cont');
+    if(!c){
+      c=document.createElement('div'); c.className='gl-cont';
+      const head=pane.querySelector('.dhead');
+      head?head.insertAdjacentElement('afterend',c):pane.insertBefore(c,pane.firstChild);
+    }
+    const i=nextIdx(), s=STEPS[i], d=doneSet();
+    const allDone=d.size>=STEPS.length;
+    c.innerHTML=
+      '<div class="gl-cont-l">'+(allDone?'You have finished the path':'Step '+(i+1)+' of '+STEPS.length)+'</div>'+
+      '<div class="gl-cont-t">'+(allDone?'Go back to anything you want to revisit':s.t)+'</div>'+
+      '<div class="gl-cont-w">'+(allDone?'Everything below is still here whenever you need it.':s.why)+'</div>'+
+      '<div class="gl-cont-r">'+
+        '<button type="button" class="gl-go">'+(allDone?'Open the path':'Continue')+'</button>'+
+        '<span class="gl-cont-m">about '+s.mins+' min</span>'+
+        '<span class="gl-cont-d">Assignment 1 is due Monday 2 November</span>'+
+      '</div>'+
+      '<div class="gl-cont-n">You can ignore everything else on this page for now. It is reference, not homework.</div>';
+    c.querySelector('.gl-go').addEventListener('click',function(){
+      if(allDone){ goPane('q17'); return; }
+      if(s.lesson!=null) set(LS_LESSON,String(s.lesson));
+      goPane(s.pane);
+    });
+    c.hidden=!guided();
+  }
+
+  /* ---------- the eight-step path ---------- */
+  function buildSteps(){
+    const wrap=document.querySelector('#q17 .gl-steps'); if(!wrap) return;
+    const d=doneSet(), nx=nextIdx();
+    wrap.innerHTML='';
+    STEPS.forEach(function(s,i){
+      const done=d.has(String(i)), cur=(i===nx&&!done);
+      const el=document.createElement('div');
+      el.className='gl-step'+(done?' is-done':'')+(cur?' is-cur':'');
+      el.innerHTML=
+        '<div class="gl-n">'+(done?'&#10003;':(i+1))+'</div>'+
+        '<div class="gl-b">'+
+          '<div class="gl-h">'+s.t+'</div>'+
+          '<div class="gl-w">'+s.why+'</div>'+
+          '<div class="gl-m"><span class="gl-chip">about '+s.mins+' min</span><span class="gl-chip gl-ess">Essential for A1</span>'+(cur?'<span class="gl-chip gl-now">Start here</span>':'')+'</div>'+
+        '</div>'+
+        '<div class="gl-a"><button type="button" class="gl-open-b">'+(done?'Open again':'Start')+'</button>'+
+        '<label class="gl-done"><input type="checkbox"'+(done?' checked':'')+'> done</label></div>';
+      el.querySelector('.gl-open-b').addEventListener('click',function(){
+        if(s.lesson!=null) set(LS_LESSON,String(s.lesson));
+        goPane(s.pane);
+      });
+      el.querySelector('input').addEventListener('change',function(){
+        const set2=doneSet();
+        this.checked?set2.add(String(i)):set2.delete(String(i));
+        saveDone(set2); render();
+      });
+      wrap.appendChild(el);
+    });
+    const p=document.querySelector('#q17 .gl-prog');
+    if(p) p.textContent=d.size>=STEPS.length?'All 8 done':'Step '+(nx+1)+' of '+STEPS.length;
+    const navk=document.querySelector('.guide-nav-item[data-t="q17"] .gl-navk');
+    if(navk) navk.textContent=d.size>=STEPS.length?'done':(nx+1)+'/'+STEPS.length;
+  }
+
+  /* ---------- group the Null pane into four lessons, without rewriting it ---------- */
+  function wrapLessons(){
+    const pane=document.getElementById('q15'); if(!pane||pane.querySelector('.gl-sec')) return;
+    const kids=[...pane.children];
+    let n=0, cur=null;
+    kids.forEach(function(el){
+      if(el.tagName==='H3'&&el.classList.contains('sec')){
+        n++;
+        cur=document.createElement('div');
+        cur.className='gl-sec'; cur.dataset.sec=String(n);
+        el.parentNode.insertBefore(cur,el);
+        cur.appendChild(el);
+        return;
+      }
+      if(cur) cur.appendChild(el);
+    });
+    // tag every section with the lesson it belongs to
+    LESSONS.forEach(function(L,li){
+      L.secs.forEach(function(sn){
+        const s=pane.querySelector('.gl-sec[data-sec="'+sn+'"]');
+        if(s) s.dataset.lesson=String(li);
+      });
+    });
+    // lesson bar + micro-question + prev/next, all built once
+    const bar=document.createElement('div'); bar.className='gl-lbar';
+    LESSONS.forEach(function(L,li){
+      const b=document.createElement('button');
+      b.type='button'; b.dataset.l=String(li);
+      b.innerHTML='<span class="gl-lnum">'+(li+1)+'</span>'+L.t+(L.opt?'<span class="gl-opt">optional</span>':'');
+      b.addEventListener('click',function(){ set(LS_LESSON,String(li)); applyLessons(); });
+      bar.appendChild(b);
+    });
+    const first=pane.querySelector('.gl-sec');
+    if(first) first.parentNode.insertBefore(bar,first);
+
+    const foot=document.createElement('div'); foot.className='gl-lfoot';
+    foot.innerHTML='<div class="gl-micro"></div><div class="gl-lnav"><button type="button" class="gl-prev">Previous</button><button type="button" class="gl-next"></button></div>';
+    pane.appendChild(foot);
+    foot.querySelector('.gl-prev').addEventListener('click',function(){
+      const l=+get(LS_LESSON,'0'); if(l>0){ set(LS_LESSON,String(l-1)); applyLessons(); window.scrollTo({top:0,behavior:'smooth'}); }
+    });
+    foot.querySelector('.gl-next').addEventListener('click',function(){
+      const l=+get(LS_LESSON,'0');
+      if(l<LESSONS.length-1){ set(LS_LESSON,String(l+1)); applyLessons(); window.scrollTo({top:0,behavior:'smooth'}); }
+      else { const s=doneSet(); s.add('3'); saveDone(s); render(); goPane('q17'); }
+    });
+  }
+
+  function applyLessons(){
+    const pane=document.getElementById('q15'); if(!pane) return;
+    const g=guided(), L=Math.max(0,Math.min(LESSONS.length-1,+get(LS_LESSON,'0')));
+    pane.querySelectorAll('.gl-sec').forEach(function(s){
+      s.hidden = g && s.dataset.lesson!==String(L);
+    });
+    const bar=pane.querySelector('.gl-lbar'), foot=pane.querySelector('.gl-lfoot');
+    if(bar){ bar.hidden=!g; bar.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.l===String(L))); }
+    if(foot){
+      foot.hidden=!g;
+      const nb=foot.querySelector('.gl-next');
+      nb.textContent = L<LESSONS.length-1 ? 'Next: '+LESSONS[L+1].t : 'Finish and go back to the path';
+      foot.querySelector('.gl-prev').disabled = L===0;
+      buildMicro(foot.querySelector('.gl-micro'),L);
+    }
+    const fast=pane.querySelector('.fast');
+    if(fast) fast.hidden = g && L!==0;
+  }
+
+  function buildMicro(host,L){
+    const m=MICRO[L]; if(!host) return;
+    if(host.dataset.l===String(L)) return;
+    host.dataset.l=String(L);
+    host.innerHTML='<div class="gl-micro-t">One quick check</div><p class="gl-micro-q">'+m.q+'</p>'+
+      '<div class="gl-micro-o">'+m.o.map((x,i)=>'<button type="button" data-i="'+i+'">'+x+'</button>').join('')+'</div>'+
+      '<div class="gl-micro-f" hidden>'+m.fb+'</div>';
+    host.querySelectorAll('.gl-micro-o button').forEach(function(b){
+      b.addEventListener('click',function(){
+        const right=+this.dataset.i===m.ok;
+        host.querySelectorAll('.gl-micro-o button').forEach(function(x){
+          x.classList.toggle('ok',+x.dataset.i===m.ok);
+          x.classList.toggle('no',x===b&&!right);
+        });
+        host.querySelector('.gl-micro-f').hidden=false;
+      });
+    });
+  }
+
+  /* ---------- inline definitions, first mention only, inside the Null pane ---------- */
+  function inlineTerms(){
+    const pane=document.getElementById('q15'); if(!pane||pane.dataset.glTerms) return;
+    pane.dataset.glTerms='1';
+    const keys=Object.keys(TERMS).sort((a,b)=>b.length-a.length);
+    const used={};
+    const walker=document.createTreeWalker(pane,NodeFilter.SHOW_TEXT,{acceptNode:function(n){
+      if(!n.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+      const p=n.parentElement;
+      if(!p||p.closest('button,h2,h3,.gl-lbar,.gl-micro,.dfn,.gl-dfn,.fast,table')) return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }});
+    const nodes=[]; let x; while((x=walker.nextNode())) nodes.push(x);
+    nodes.forEach(function(node){
+      for(const k of keys){
+        if(used[k]) continue;
+        const i=node.nodeValue.toLowerCase().indexOf(k.toLowerCase());
+        if(i<0) continue;
+        const after=node.splitText(i);
+        after.splitText(k.length);
+        const span=document.createElement('span');
+        span.className='gl-dfn'; span.tabIndex=0;
+        span.setAttribute('data-def',TERMS[k]);
+        span.textContent=after.nodeValue;
+        after.parentNode.replaceChild(span,after);
+        used[k]=1;
+        return;
+      }
+    });
+  }
+
+  /* ---------- mobile: one fixed action ---------- */
+  function buildBar(){
+    if(document.querySelector('.gl-bottom')) return;
+    const b=document.createElement('button');
+    b.type='button'; b.className='gl-bottom';
+    b.addEventListener('click',function(){
+      const i=nextIdx(), s=STEPS[i];
+      if(s.lesson!=null) set(LS_LESSON,String(s.lesson));
+      goPane(s.pane);
+    });
+    document.body.appendChild(b);
+  }
+  function applyBar(){
+    const b=document.querySelector('.gl-bottom'); if(!b) return;
+    const on81=document.querySelector('.pn-mods button[data-m="81"].on');
+    const q17on=document.getElementById('q17')&&document.getElementById('q17').classList.contains('on');
+    const q1on=document.getElementById('q1')&&document.getElementById('q1').classList.contains('on');
+    const show=guided()&&on81&&(q17on||q1on)&&doneSet().size<STEPS.length;
+    b.hidden=!show;
+    if(show){ const s=STEPS[nextIdx()]; b.textContent='Next: '+s.t; }
+  }
+
+  function apply(){
+    document.body.dataset.glmode=mode();
+    document.querySelectorAll('.gl-switch button').forEach(b=>b.classList.toggle('on',b.dataset.md===mode()));
+    applySidebar(); applyLessons(); applyBar();
+    const c=document.querySelector('#q1 .gl-cont'); if(c) c.hidden=!guided();
+  }
+  function render(){ buildContinue(); buildSteps(); apply(); }
+
+  function init(){
+    if(!document.querySelector('.msb[data-m="81"]')) return;
+    buildSwitch(); buildAllRes(); wrapLessons(); inlineTerms(); buildBar();
+    render();
+    document.querySelectorAll('.guide-nav-item, .pn-mods button').forEach(function(n){
+      n.addEventListener('click',function(){ setTimeout(applyBar,0); });
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+  window.bapsyGuided={render:render,apply:apply,STEPS:STEPS,LESSONS:LESSONS,mode:mode,
+    setMode:function(m){ set(LS_MODE,m); apply(); },
+    reset:function(){ set(LS_DONE,'[]'); set(LS_LESSON,'0'); render(); }};
 })();
 
 </script>
