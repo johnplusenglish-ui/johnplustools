@@ -9,17 +9,20 @@
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#F7F6F3; --card:#FFFFFF; --ink:#2D3047; --muted:#696C7C;
-  --accent:#2176FF; --accent-light:#E8EEFF; --accent-dark:#1559c7;
-  /* was #7A7D8E, which failed WCAG AA on both the card and the cream background */
-  --due:#D6453F; --due-light:#FDECEC;
-  --border:#E8E5DF; --border-soft:#F0EEE8; --hover:#FBFAF7;
+  --bg:#F7F6F3; --card:#FFFFFF; --ink:#1C2433; --muted:#5D6874;
+  /* navy accent system: the old #2176FF was too vivid for long reading */
+  --accent:#355474; --accent-light:#EAF0F5; --accent-dark:#23395B; --link:#426788;
+  /* amber is a genuine caution, green is correct or complete, red stays for dated deadlines */
+  --warn:#FFF3E2; --warn-accent:#A36A27; --warn-ink:#79501F;
+  --ok:#EDF5F0; --ok-accent:#2F624A;
+  --due:#B0463F; --due-light:#FBECEA;
+  --border:#E0E2E2; --border-soft:#ECEDED; --hover:#F8F8F7;
   --sans:'Outfit',system-ui,-apple-system,sans-serif;
   --r:14px; --r-sm:10px; --r-xs:8px;
-  --sh-sm:0 1px 3px rgba(45,48,71,.05); --sh:0 4px 16px -6px rgba(45,48,71,.12);
+  --sh-sm:0 1px 3px rgba(28,36,51,.05); --sh:0 4px 16px -6px rgba(28,36,51,.12);
   --gut:24px; --wrap:860px;
-  --cream:#F7F6F3; --mod-accent:#2176FF; --coral-d:#D6453F; --coral-tint:#FDECEC;
-  --accent-shadow:rgba(33,118,255,.32); --radius:14px; --shadow-md:0 8px 26px rgba(45,48,71,.11);
+  --cream:#F7F6F3; --mod-accent:#355474; --coral-d:#B0463F; --coral-tint:#FBECEA;
+  --accent-shadow:rgba(53,84,116,.30); --radius:14px; --shadow-md:0 8px 26px rgba(28,36,51,.11);
 }
 /* ---------- hub frame ---------- */
 .topnav{position:fixed;top:0;left:0;right:0;z-index:200;background:#fff;border-bottom:1.5px solid var(--border);height:52px;padding:0 1.3rem;display:flex;align-items:center}
@@ -73,7 +76,7 @@ body.nav-closed .primary-nav{display:none}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:400;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
 .wrap{max-width:var(--wrap);margin:0 auto;padding-left:var(--gut);padding-right:var(--gut)}
-a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+a{color:var(--link);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}a:hover{color:var(--accent-dark);text-decoration-thickness:2px}
 
 /* ---------- masthead ---------- */
 .masthead{padding:60px 0 0}
@@ -181,6 +184,10 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
 /* ---------- note ---------- */
 .note{background:var(--accent-light);border:1px solid #d6e2ff;border-radius:var(--r-sm);padding:16px 20px;margin:20px 0;font-size:14.5px;color:var(--ink);line-height:1.55}
 .note b{color:var(--ink);font-weight:600}
+/* class="note b" is a caution, not an ordinary note: amber surface and label */
+.note.b{background:var(--warn);border-color:#F0DCBE}
+.note.b .lab{color:var(--warn-ink)}
+.note.b b{color:var(--warn-ink)}
 .note .lab{display:block;font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;font-weight:700;margin-bottom:7px;color:var(--accent-dark)}
 .mans{background:var(--hover);border:1px solid var(--border);border-radius:var(--r-sm);padding:17px 21px;margin:18px 0;font-size:14.5px;color:var(--muted);line-height:1.6}
 .mans .lab{display:block;font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;font-weight:700;margin-bottom:9px;color:var(--ink)}
@@ -225,7 +232,7 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
 .gl-step.is-done{background:var(--hover)}
 .gl-n{flex:0 0 34px;height:34px;border-radius:50%;background:var(--bg);color:var(--muted);font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center}
 .gl-step.is-cur .gl-n{background:var(--accent);color:#fff}
-.gl-step.is-done .gl-n{background:#DCF0DF;color:#2F7A3C}
+.gl-step.is-done .gl-n{background:var(--ok);color:var(--ok-accent)}
 .gl-b{flex:1;min-width:0}
 .gl-h{font-size:17px;font-weight:700;color:var(--ink);line-height:1.3;margin-bottom:5px}
 .gl-w{font-size:14px;color:var(--muted);line-height:1.55;margin-bottom:10px}
@@ -255,8 +262,8 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
 .gl-micro-o{display:flex;flex-direction:column;gap:8px}
 .gl-micro-o button{font-family:var(--sans);font-size:14px;color:var(--ink);background:var(--card);border:1px solid var(--border);border-radius:var(--r-sm);padding:11px 15px;cursor:pointer;text-align:left;line-height:1.45}
 .gl-micro-o button:hover{border-color:var(--accent)}
-.gl-micro-o button.ok{border-color:#2F7A3C;background:#F0F8F1;color:#1F5B2A;font-weight:600}
-.gl-micro-o button.no{border-color:var(--due);background:var(--due-light);color:var(--due)}
+.gl-micro-o button.ok{border-color:var(--ok-accent);background:var(--ok);color:var(--ok-accent);font-weight:600}
+.gl-micro-o button.no{border-color:var(--warn-accent);background:var(--warn);color:var(--warn-ink)}
 .gl-micro-f{margin-top:13px;font-size:14px;color:var(--muted);line-height:1.6}
 .gl-lnav{display:flex;gap:10px;justify-content:space-between}
 .gl-lnav button{font-family:var(--sans);font-size:14px;font-weight:600;border-radius:var(--r-sm);padding:12px 20px;cursor:pointer;border:1px solid var(--border);background:var(--card);color:var(--ink)}
@@ -524,8 +531,8 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
 .qz-opt{text-align:left;border:1px solid var(--border);background:var(--bg);border-radius:10px;padding:10px 14px;cursor:pointer;font-family:inherit;font-size:14px;color:var(--ink);line-height:1.4;transition:border-color .12s,background .12s}
 .qz-opt:hover:not(:disabled){border-color:var(--accent);background:var(--card)}
 .qz-opt:disabled{cursor:default}
-.qz-opt.correct{background:#e7f6ec;border-color:#4aa96c;color:#216b3a;font-weight:600}
-.qz-opt.wrong{background:#fbeaea;border-color:var(--due);color:var(--due)}
+.qz-opt.correct{background:var(--ok);border-color:var(--ok-accent);color:var(--ok-accent);font-weight:600}
+.qz-opt.wrong{background:var(--warn);border-color:var(--warn-accent);color:var(--warn-ink)}
 .qz-fb{display:none;margin-top:11px;font-size:13px;color:var(--muted);line-height:1.5;padding-left:2px}
 .qz-q.done .qz-fb{display:block}
 .qz-score{padding:13px 16px;border-top:1px solid var(--border);font-weight:700;font-size:14px;color:var(--ink);background:var(--bg)}
@@ -9019,7 +9026,7 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
       {x:496,w:264,ch:35,fs:12.5,fw:500}
     ];
     var LH=16, GAP=10, GGAP=20, PAD=14;
-    var PAL=['#2176FF','#0E9488','#B4530A','#7A3FBF','#C2185B','#2E7D32','#0B6E99','#8D6E00','#455A64','#5B4FC4'];
+    var PAL=['#355474','#0E9488','#B4530A','#7A3FBF','#C2185B','#2E7D32','#0B6E99','#8D6E00','#455A64','#5B4FC4'];
 
     function mix(hex,t){
       var n=parseInt(hex.slice(1),16),r=n>>16&255,g=n>>8&255,b=n&255;
@@ -9067,7 +9074,7 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
           if(d===1)cursor+=GGAP-GAP;
         }
         flat.push(n);
-      })(root,0,'#2D3047');
+      })(root,0,'#1C2433');
       return {flat:flat,edges:edges,H:Math.max(cursor+PAD,140),W:LV[2].x+LV[2].w+14};
     }
 
@@ -9087,9 +9094,9 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
         var lv=LV[Math.min(n.d,2)], top=n.y-n.h/2, fill, stroke, tx;
         // branches with a toggle badge nudge their text left so it never crowds the circle
         var cx=(n.d===1&&n.children&&n.children.length)?lv.x+(lv.w-18)/2:lv.x+lv.w/2;
-        if(n.d===0){fill='#2D3047';stroke='#2D3047';tx='#ffffff';}
+        if(n.d===0){fill='#1C2433';stroke='#1C2433';tx='#ffffff';}
         else if(n.d===1){fill=n.col;stroke=n.col;tx='#ffffff';}
-        else{fill=mix(n.col,.93);stroke=mix(n.col,.6);tx='#2D3047';}
+        else{fill=mix(n.col,.93);stroke=mix(n.col,.6);tx='#1C2433';}
         parts.push('<g class="mm-node" data-i="'+i+'">');
         parts.push('<rect x="'+lv.x+'" y="'+top.toFixed(1)+'" width="'+lv.w+'" height="'+n.h+'" rx="'+(n.d===2?8:11)+'" fill="'+fill+'" stroke="'+stroke+'" stroke-width="1.2"/>');
         var ty=top+(n.h-n.lines.length*LH)/2+LH-4.5;
@@ -9402,7 +9409,7 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
     (function(){var cap=w.querySelector('.viz-cap'),help=document.createElement('div');help.className='viz-help';help.innerHTML='<span class="hl">How to read it</span><ul><li>The curve is the <b>bell</b>: most scores sit in the middle, fewer at the edges.</li><li>Drag the slider to change the <b>spread (SD)</b>: bigger = wider and flatter, smaller = tall and narrow.</li><li>The shaded bands are the <b>68 / 95 rule</b>: about 68% of scores fall within 1 SD of the mean, 95% within 2 SD.</li></ul>';if(cap)cap.insertAdjacentElement('afterend',help);})();
     function area(sd,x0,x1){var s='M'+x0.toFixed(1)+','+base;for(var px=x0;px<=x1;px+=3){var x=px-cx;s+=' L'+px.toFixed(1)+','+(base-Math.exp(-(x*x)/(2*sd*sd))*peakH).toFixed(1);}return s+' L'+x1.toFixed(1)+','+base+' Z';}
     function draw(){var sd=+R.value;var p='';for(var px=0;px<=W;px+=3){var x=px-cx;p+=(px===0?'M':' L')+px.toFixed(1)+','+(base-Math.exp(-(x*x)/(2*sd*sd))*peakH).toFixed(1);}
-      svg.innerHTML='<path d="'+area(sd,Math.max(0,cx-2*sd),Math.min(W,cx+2*sd))+'" fill="#e8eeff"/><path d="'+area(sd,Math.max(0,cx-sd),Math.min(W,cx+sd))+'" fill="#bcd3ff"/><path d="'+p+'" fill="none" stroke="#2176FF" stroke-width="2.5"/><line x1="'+cx+'" y1="20" x2="'+cx+'" y2="'+base+'" stroke="#2D3047" stroke-width="1" stroke-dasharray="3 3" opacity=".4"/><line x1="0" y1="'+base+'" x2="'+W+'" y2="'+base+'" stroke="#E8E5DF" stroke-width="1.5"/>';
+      svg.innerHTML='<path d="'+area(sd,Math.max(0,cx-2*sd),Math.min(W,cx+2*sd))+'" fill="#EAF0F5"/><path d="'+area(sd,Math.max(0,cx-sd),Math.min(W,cx+sd))+'" fill="#bcd3ff"/><path d="'+p+'" fill="none" stroke="#2176FF" stroke-width="2.5"/><line x1="'+cx+'" y1="20" x2="'+cx+'" y2="'+base+'" stroke="#2D3047" stroke-width="1" stroke-dasharray="3 3" opacity=".4"/><line x1="0" y1="'+base+'" x2="'+W+'" y2="'+base+'" stroke="#E0E2E2" stroke-width="1.5"/>';
       out.textContent='SD '+(sd/8).toFixed(1);
       note.innerHTML='About <b>68%</b> of scores sit within <b>1 SD</b> of the mean (darker band) and about <b>95%</b> within <b>2 SD</b> (lighter band). A bigger SD makes the bell <b>wider and flatter</b>, a smaller SD makes it <b>tall and narrow</b>, but the 68 and 95 always hold.';}
     R.addEventListener('input',draw);draw();
@@ -9414,7 +9421,7 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
     function sx(v){return pad+(v/100)*(W-2*pad);}
     function draw(){var o=+R.value,d=fixed.concat([o]),mean=d.reduce(function(a,b){return a+b;},0)/d.length,s=d.slice().sort(function(a,b){return a-b;}),med=(s[3]+s[4])/2;
       var dots=d.map(function(v,i){var O=i===fixed.length;return '<circle cx="'+sx(v).toFixed(1)+'" cy="'+y+'" r="'+(O?6:5)+'" fill="'+(O?'#D6453F':'#9db4d6')+'"/>';}).join('');
-      svg.innerHTML='<line x1="'+pad+'" y1="'+y+'" x2="'+(W-pad)+'" y2="'+y+'" stroke="#E8E5DF" stroke-width="2"/>'+dots+'<line x1="'+sx(mean).toFixed(1)+'" y1="18" x2="'+sx(mean).toFixed(1)+'" y2="'+(y+13)+'" stroke="#2176FF" stroke-width="2.5"/><text x="'+sx(mean).toFixed(1)+'" y="14" fill="#2176FF" font-size="11" font-weight="700" text-anchor="middle">mean</text><line x1="'+sx(med).toFixed(1)+'" y1="'+(y-13)+'" x2="'+sx(med).toFixed(1)+'" y2="'+(H-10)+'" stroke="#2f9e63" stroke-width="2.5"/><text x="'+sx(med).toFixed(1)+'" y="'+(H-1)+'" fill="#2f9e63" font-size="11" font-weight="700" text-anchor="middle">median</text>';
+      svg.innerHTML='<line x1="'+pad+'" y1="'+y+'" x2="'+(W-pad)+'" y2="'+y+'" stroke="#E0E2E2" stroke-width="2"/>'+dots+'<line x1="'+sx(mean).toFixed(1)+'" y1="18" x2="'+sx(mean).toFixed(1)+'" y2="'+(y+13)+'" stroke="#2176FF" stroke-width="2.5"/><text x="'+sx(mean).toFixed(1)+'" y="14" fill="#2176FF" font-size="11" font-weight="700" text-anchor="middle">mean</text><line x1="'+sx(med).toFixed(1)+'" y1="'+(y-13)+'" x2="'+sx(med).toFixed(1)+'" y2="'+(H-10)+'" stroke="#2f9e63" stroke-width="2.5"/><text x="'+sx(med).toFixed(1)+'" y="'+(H-1)+'" fill="#2f9e63" font-size="11" font-weight="700" text-anchor="middle">median</text>';
       out.textContent='= '+o;
       note.innerHTML='The red dot is an <b>outlier</b>. Slide it right and the <b>mean</b> (blue) chases after it, while the <b>median</b> (green) barely moves. That is exactly why the mean is <b>non-resistant</b> and the median is <b>resistant</b> to outliers. Mean = '+mean.toFixed(1)+', median = '+med.toFixed(1)+'.';}
     R.addEventListener('input',draw);draw();
@@ -9441,7 +9448,7 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
     for(var i=0;i<n;i++){xs.push(gs());zs.push(gs());}
     function draw(){var r=+R.value/100,pts='';
       for(var i=0;i<n;i++){var x=xs[i],yv=r*x+Math.sqrt(Math.max(0,1-r*r))*zs[i];var px=pad+((x+3)/6)*(W-2*pad),py=(H-pad)-((yv+3)/6)*(H-2*pad);px=Math.max(pad,Math.min(W-pad,px));py=Math.max(pad,Math.min(H-pad,py));pts+='<circle cx="'+px.toFixed(1)+'" cy="'+py.toFixed(1)+'" r="3.2" fill="#2176FF" opacity=".72"/>';}
-      svg.innerHTML='<rect x="'+pad+'" y="'+pad+'" width="'+(W-2*pad)+'" height="'+(H-2*pad)+'" fill="none" stroke="#E8E5DF" stroke-width="1.5"/>'+pts;
+      svg.innerHTML='<rect x="'+pad+'" y="'+pad+'" width="'+(W-2*pad)+'" height="'+(H-2*pad)+'" fill="none" stroke="#E0E2E2" stroke-width="1.5"/>'+pts;
       var a=Math.abs(r),str=a<0.1?'no':a<0.4?'weak':a<0.7?'moderate':'strong',dir=r<0?'negative':'positive';
       out.textContent='r = '+(r>=0?'+':'')+r.toFixed(2);
       note.innerHTML='<b>r = '+(r>=0?'+':'')+r.toFixed(2)+'</b>: a <b>'+(a<0.1?'flat, no':str+' '+dir)+'</b> relationship. The <b>sign</b> gives the direction (both rise together, or one rises as the other falls) and the <b>size</b> gives the strength: near 0 the cloud is shapeless, near '+(r<0?'-1':'+1')+' it tightens toward a line. Remember, correlation is not causation.';}
@@ -10118,7 +10125,7 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
   };
 
   const W=1000, PAD=64, SC=2; // SC: draw at 2x so it stays crisp zoomed in on a phone
-  const INK='#2D3047', MUT='#696C7C', ACC='#2176FF', ACCD='#1559c7', ACCL='#E8EEFF', LINE='#E8E5DF';
+  const INK='#1C2433', MUT='#5D6874', ACC='#355474', ACCD='#23395B', ACCL='#EAF0F5', LINE='#E0E2E2';
 
   function wrap(ctx,text,maxW){
     const words=text.split(' '); const lines=[]; let cur='';
