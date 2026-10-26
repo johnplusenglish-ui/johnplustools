@@ -537,6 +537,7 @@ body.section-present .deb-instruction{font-size:1.15rem}
   border-top:1.5px dashed var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;
   gap:.4rem;cursor:pointer;transition:background-color .15s,border-color .15s}
 .hero-image-slot.filled{border-top-style:solid}
+.hero-image-slot.collapsed{display:none}
 .hero-image-slot.drag-over{border-color:var(--mint);background-color:var(--mint-light)}
 .hero-image-plus{font-size:1.8rem;color:var(--muted);line-height:1}
 .hero-image-hint{font-size:.8rem;color:var(--muted);text-align:center;padding:0 1rem}
@@ -658,31 +659,107 @@ body.section-present .deb-instruction{font-size:1.15rem}
 .sv-ph.crossed{text-decoration:line-through;opacity:.42}
 
 /* ===== Business ideas / pitch ===== */
-.pi-stage{display:flex;flex-wrap:wrap;align-items:center;gap:.9rem;margin-bottom:1rem}
-.pi-current{flex:1;min-width:0;font-size:1.15rem;font-weight:800;letter-spacing:-.01em;line-height:1.3;
-  border:1.5px dashed var(--border);border-radius:12px;padding:.85rem 1rem;color:var(--ink);background:var(--cream)}
-.pi-current.empty{color:var(--muted);font-weight:600;font-size:.95rem}
-.pi-timer-row{display:flex;align-items:center;gap:.7rem}
-.pi-disp{font-family:'JetBrains Mono',monospace;font-size:1.35rem;font-weight:800;min-width:62px;text-align:center}
-.pi-bar-outer{height:5px;border-radius:3px;background:color-mix(in srgb,var(--ink) 8%,transparent);overflow:hidden;margin-bottom:1.1rem}
+.sv-modebar{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-bottom:1rem}
+.sv-modebar .sv-mode-label{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-right:.2rem}
+.sv-use-note{font-family:'JetBrains Mono',monospace;font-size:.74rem;font-weight:700;color:var(--muted);margin-left:auto}
+.sv-head{display:flex;align-items:flex-start;gap:.6rem}
+.sv-head .sv-q{flex:1;min-width:0}
+.sv-skip,.sv-use{font-family:'Outfit',sans-serif;font-size:.72rem;font-weight:700;padding:.2rem .6rem;border:1.5px solid var(--border);
+  border-radius:100px;background:var(--card);color:var(--muted);cursor:pointer;flex-shrink:0;white-space:nowrap}
+.sv-skip:hover,.sv-use:hover{border-color:var(--mint);color:var(--mint)}
+.sv-item.off{display:flex;align-items:center;gap:.6rem;padding:.55rem 1.1rem;background:transparent;border-style:dashed}
+.sv-item.off .sv-off-text{flex:1;min-width:0;font-size:.86rem;color:var(--muted);text-decoration:line-through;overflow-wrap:anywhere}
+.sv-bank2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.3rem 1.6rem}
+.sv-col-label{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--mint);margin-bottom:.4rem}
+
+.pi-top{margin-bottom:1rem}
+.pi-flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.7rem;margin:0 0 1rem;padding:0;list-style:none}
+.pi-step{border:1.5px solid var(--border);border-radius:12px;padding:.85rem .95rem;background:var(--card);cursor:pointer;transition:border-color .15s,background-color .15s;min-width:0}
+.pi-step:hover{border-color:var(--mint)}
+.pi-step.on{border-color:var(--mint);background:var(--mint-light)}
+.pi-step-head{display:flex;align-items:baseline;gap:.5rem;margin-bottom:.3rem;flex-wrap:wrap}
+.pi-step-n{font-family:'JetBrains Mono',monospace;font-weight:800;color:var(--mint);font-size:.95rem}
+.pi-step-name{font-weight:800;font-size:1.02rem}
+.pi-step-time{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:700;color:var(--muted);white-space:nowrap}
+.pi-step-desc{font-size:.84rem;line-height:1.45;color:var(--slate-mid)}
+.pi-timerbar{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;margin-bottom:.6rem}
+.pi-presets{display:inline-flex;border:1.5px solid var(--border);border-radius:9px;overflow:hidden}
+.pi-presets button{font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:700;padding:.4rem .9rem;border:none;background:var(--card);color:var(--muted);cursor:pointer}
+.pi-presets button.on{background:var(--mint);color:#fff}
+.pi-disp{font-family:'JetBrains Mono',monospace;font-size:1.7rem;font-weight:800;min-width:86px;text-align:center}
+.pi-bar-outer{height:5px;border-radius:3px;background:color-mix(in srgb,var(--ink) 8%,transparent);overflow:hidden;margin-bottom:.8rem}
 .pi-bar{height:100%;width:100%;background:var(--mint);border-radius:3px;transition:width .95s linear}
-.pi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(228px,1fr));gap:.7rem}
-.pi-card{border:1.5px solid var(--border);border-radius:12px;padding:.85rem .95rem;font-size:.9rem;font-weight:600;line-height:1.4;
-  background:var(--card);cursor:pointer;transition:all .15s;user-select:none}
+.pi-table{border:1.5px dashed var(--border);border-radius:12px;padding:.65rem 1rem;background:var(--cream);font-size:1.02rem;line-height:1.4;overflow-wrap:anywhere}
+.pi-table.empty{color:var(--muted);font-weight:600;font-size:.92rem}
+.pi-table b{font-weight:800}
+.pi-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
+.pi-card{border:1.5px solid var(--border);border-radius:14px;padding:1.2rem 1.3rem;background:var(--card);cursor:pointer;
+  transition:all .15s;user-select:none;min-height:128px;display:flex;flex-direction:column;justify-content:center;gap:.35rem;min-width:0}
 .pi-card:hover{border-color:var(--mint);transform:translateY(-1px)}
-.pi-card.on{border-color:var(--mint);background:var(--mint-light);color:var(--mint-dark);font-weight:700}
-.pi-card.ruled{opacity:.4;text-decoration:line-through;border-style:dashed}
-.pi-steps{counter-reset:pistep;margin:0;padding:0;list-style:none}
-.pi-step{display:grid;grid-template-columns:30px 1fr;gap:.75rem;padding:.55rem 0;border-bottom:1px solid var(--border);align-items:start}
-.pi-step:last-child{border-bottom:none}
-.pi-step-n{font-family:'JetBrains Mono',monospace;font-size:1rem;font-weight:800;color:var(--mint)}
-.pi-step-t{font-size:.93rem;line-height:1.5}
-.pi-step-t b{font-weight:800}
+.pi-card.on{border-color:var(--mint);background:var(--mint-light)}
+.pi-card-title{font-size:1.4rem;font-weight:800;letter-spacing:-.02em;line-height:1.2;overflow-wrap:anywhere}
+.pi-card-desc{font-size:1.02rem;line-height:1.45;color:var(--slate-mid);overflow-wrap:anywhere}
+.pi-card.on .pi-card-title{color:var(--mint-dark)}
+.pi-edit-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr) 34px;gap:.5rem;align-items:center;margin-bottom:.6rem}
+.pi-edit-row input,.pi-edit-q input{font-family:'Outfit',sans-serif;font-size:.92rem;padding:.5rem .7rem;border:1.5px solid var(--border);border-radius:9px;width:100%;min-width:0}
+.pi-edit-q{display:grid;grid-template-columns:minmax(0,1fr) 34px;gap:.5rem;align-items:center;margin-bottom:.5rem}
+.pi-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.6rem}
+.pi-beats{margin:0;padding:0;list-style:none}
+.pi-beat{display:grid;grid-template-columns:28px minmax(0,1fr);gap:.7rem;padding:.55rem 0;border-bottom:1px solid var(--border);align-items:start}
+.pi-beat:last-child{border-bottom:none}
+.pi-beat-n{font-family:'JetBrains Mono',monospace;font-size:1rem;font-weight:800;color:var(--mint)}
+.pi-beat-t{font-size:.94rem;line-height:1.5}
+.pi-beat-t b{font-weight:800}
 .pi-qs{display:grid;gap:.3rem}
-.pi-q{font-size:.9rem;padding:.35rem .1rem;cursor:pointer;color:var(--slate-mid);border-bottom:1px dotted var(--border)}
+.pi-q{font-size:.95rem;padding:.4rem .1rem;cursor:pointer;color:var(--slate-mid);border-bottom:1px dotted var(--border)}
 .pi-q:hover{color:var(--ink)}
 .pi-q.crossed{text-decoration:line-through;opacity:.42}
-@media(max-width:600px){.sv-row{grid-template-columns:78px minmax(0,1fr) 28px 22px}.sv-lab{font-size:.74rem}}
+.pi-vote{display:flex;gap:.8rem;align-items:center;flex-wrap:wrap}
+.pi-vbtn{font-family:'Outfit',sans-serif;font-size:1.05rem;font-weight:800;padding:.7rem 1.6rem;border-radius:12px;border:2px solid var(--border);
+  background:var(--card);color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:.7rem;transition:all .15s}
+.pi-vbtn:hover{border-color:var(--mint)}
+.pi-vbtn .pi-vcount{font-family:'JetBrains Mono',monospace;font-size:1.15rem;min-width:1.4em;text-align:center;color:var(--mint)}
+.pi-vbtn.pass .pi-vcount{color:var(--red)}
+body.section-present #pitch.present-active .pi-top{position:sticky;top:0;z-index:6;background:var(--cream);padding-bottom:.4rem}
+body.section-present #pitch.present-active .pi-disp{font-size:2.6rem}
+body.section-present #pitch.present-active .pi-step-name{font-size:1.2rem}
+body.section-present #pitch.present-active .pi-step-desc{font-size:1rem}
+body.section-present #pitch.present-active .pi-table{font-size:1.3rem}
+body.section-present #pitch.present-active .pi-card{min-height:170px}
+body.section-present #pitch.present-active .pi-card-title{font-size:1.95rem}
+body.section-present #pitch.present-active .pi-card-desc{font-size:1.25rem}
+@media(max-width:1000px){.pi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.pi-flow{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.pi-cols{grid-template-columns:1fr}.sv-bank2{grid-template-columns:1fr}}
+@media(max-width:620px){
+  .pi-grid{grid-template-columns:1fr}.pi-flow{grid-template-columns:1fr}
+  .pi-card{min-height:104px}.pi-card-title{font-size:1.25rem}
+  .pi-edit-row{grid-template-columns:minmax(0,1fr) 34px}.pi-edit-row input:nth-child(2){grid-column:1 / 2}
+  .sv-row{grid-template-columns:78px minmax(0,1fr) 28px 22px}.sv-lab{font-size:.74rem}
+  .pi-disp{font-size:1.5rem;min-width:70px}
+}
+
+/* ===== Teacher notes ===== */
+.teacher-notes{margin-top:1.6rem;border:1.5px solid var(--border);border-radius:var(--radius-lg);background:var(--card);box-shadow:var(--shadow-sm)}
+.teacher-notes>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:.9rem;flex-wrap:wrap;padding:.9rem 1.3rem}
+.teacher-notes>summary::-webkit-details-marker{display:none}
+.teacher-notes>summary:before{content:'+';font-family:'JetBrains Mono',monospace;font-weight:800;color:var(--mint);width:1rem}
+.teacher-notes[open]>summary:before{content:'\2212'}
+.tn-title{font-weight:800;font-size:.98rem}
+.tn-sub{font-size:.78rem;color:var(--muted)}
+.tn-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.6rem;padding:.2rem 1.3rem 1.3rem}
+.tn-label{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--mint);margin:0 0 .5rem}
+.tn-list{margin:0 0 1.1rem;padding:0;list-style:none}
+.tn-list li{font-size:.88rem;line-height:1.5;padding:.32rem 0;border-bottom:1px solid var(--border)}
+.tn-list li:last-child{border-bottom:none}
+.tn-list b{font-weight:800}
+.tn-p{font-size:.88rem;line-height:1.55;color:var(--slate-mid);margin:0 0 .6rem}
+.tn-gloss{margin:0;display:grid;gap:0}
+.tn-gloss div{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:.8rem;padding:.32rem 0;border-bottom:1px solid var(--border);font-size:.88rem;line-height:1.45}
+.tn-gloss div:last-child{border-bottom:none}
+.tn-gloss dt{font-weight:800}
+.tn-gloss dd{margin:0;color:var(--slate-mid)}
+body.section-present .teacher-notes{display:none}
+@media(max-width:760px){.tn-grid{grid-template-columns:1fr}}
 
 /* ===== Breakout pitch room ===== */
 .bo-run{display:grid;gap:.5rem;margin-bottom:.4rem}
@@ -758,6 +835,7 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <button class="nav-btn" onclick="loadFromCloud()" title="Load the version saved to the cloud, replacing what's on this device">Cloud Load</button>
     <button class="nav-btn" onclick="exportLessonBackup()" title="Download everything you've edited as a backup file">Backup</button>
     <button class="nav-btn" onclick="triggerRestoreBackup()" title="Load a previously downloaded backup file">Restore</button>
+    <button class="nav-btn" onclick="openTeacherNotes()" title="Teacher notes and language support, below the activity">Teacher notes</button>
     <button class="nav-btn" id="annotToggleBtn" onclick="toggleAnnotate()">Annotate</button>
     <button class="nav-btn" onclick="toggleFullscreen()">Fullscreen</button>
   </div>
@@ -773,11 +851,11 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <div class="hero-text">
       <div class="hero-title-row">
         <div class="hero-topic-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M2 13h20"/></svg></div>
-        <h2 id="heroTitle" contenteditable="false" spellcheck="false" onblur="saveHeroText()"><span style="color:#2176FF">Business</span></h2>
+        <h2 id="heroTitle" contenteditable="false" spellcheck="false" onblur="saveHeroText()"><span style="color:#2176FF">Business English in Action</span></h2>
       </div>
-      <p id="heroSub" contenteditable="false" spellcheck="false" onblur="saveHeroText()">How businesses actually make their money, how to survey a room properly, and how to pitch an idea in ninety seconds.</p>
+      <p id="heroSub" contenteditable="false" spellcheck="false" onblur="saveHeroText()">No business background needed. Share customer stories, pitch a small idea, debate choices, handle tricky meetings, and use natural business expressions.</p>
     </div>
-    <div class="hero-image-slot locked" id="heroImageSlot"
+    <div class="hero-image-slot locked collapsed" id="heroImageSlot"
       ondragover="event.preventDefault();this.classList.add('drag-over')"
       ondragleave="this.classList.remove('drag-over')"
       ondrop="handleHeroDrop(event)">
@@ -802,11 +880,6 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <span class="snav-label">Survey</span>
     <span class="snav-close" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();hideTab('survey')" title="Remove this tab">&times;</span>
   </button>
-  <button class="snav-btn" id="tab-sorting" onclick="onTabClick(event,this,'sorting')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-    <span class="snav-label">Sorting</span>
-    <span class="snav-close" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();hideTab('sorting')" title="Remove this tab">&times;</span>
-  </button>
   <button class="snav-btn" id="tab-longturn" onclick="onTabClick(event,this,'longturn')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
     <span class="snav-label">Long Turn</span>
@@ -816,11 +889,6 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7V18h8v-3.3A7 7 0 0 0 12 2z"/></svg>
     <span class="snav-label">Business Ideas</span>
     <span class="snav-close" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();hideTab('pitch')" title="Remove this tab">&times;</span>
-  </button>
-  <button class="snav-btn" id="tab-breakout" onclick="onTabClick(event,this,'breakout')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-    <span class="snav-label">Breakout Pitch</span>
-    <span class="snav-close" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();hideTab('breakout')" title="Remove this tab">&times;</span>
   </button>
   <button class="snav-btn" id="tab-debates" onclick="onTabClick(event,this,'debates')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
@@ -837,6 +905,16 @@ body.section-present .deb-instruction{font-size:1.15rem}
     <span class="snav-label">Listening</span>
     <span class="snav-close" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();hideTab('listening')" title="Remove this tab">&times;</span>
   </button>
+  <button class="snav-btn" id="tab-sorting" onclick="onTabClick(event,this,'sorting')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+    <span class="snav-label">Sorting</span>
+    <span class="snav-close" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();hideTab('sorting')" title="Remove this tab">&times;</span>
+  </button>
+  <button class="snav-btn" id="tab-breakout" onclick="onTabClick(event,this,'breakout')" title="Drag to reorder · Double-click: minimise · Triple-click: move to end">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    <span class="snav-label">Breakout Pitch</span>
+    <span class="snav-close" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();hideTab('breakout')" title="Remove this tab">&times;</span>
+  </button>
 </div>
 
 <div class="snav-restore-wrap">
@@ -845,13 +923,12 @@ body.section-present .deb-instruction{font-size:1.15rem}
 </div>
 
 <main class="lesson-main">
-
   <section class="lesson-section visible" id="warmup">
     <div class="section-header">
       <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></div>
       <div>
         <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-warmup" onblur="onStaticTextBlur(this)">Warm-Up</div>
-        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-warmup" onblur="onStaticTextBlur(this)">Discussion Starter · 5 min</div>
+        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-warmup" onblur="onStaticTextBlur(this)">Pair Prompts · 5 minutes</div>
       </div>
       <div class="section-header-actions">
         <button class="deb-edit-toggle" id="warmupEditToggle" onclick="toggleWarmupEditMode()" title="Edit">
@@ -865,32 +942,12 @@ body.section-present .deb-instruction{font-size:1.15rem}
     </div>
   </section>
 
-
-  <input type="file" id="galleryFileInput" accept="image/*" style="display:none">
-
-  <div class="lb-overlay" id="lbOverlay">
-    <div class="lb-box">
-      <button class="lb-close" onclick="closeLightbox()" aria-label="Close">&times;</button>
-      <img id="lbImg" src="" alt="">
-      <div class="lb-caption" id="lbCaption" contenteditable="true" spellcheck="false"
-        onblur="saveCaptionFromLightbox(this)"
-        onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"></div>
-      <textarea class="lb-vocab" id="lbVocab" placeholder="Add a word or two: each line becomes a small bullet…"></textarea>
-      <div class="lb-actions">
-        <button class="read-btn" onclick="replaceFromLightbox()">Replace</button>
-        <button class="read-btn" onclick="removeFromLightbox()">Remove</button>
-        <button class="read-btn primary" onclick="downloadLightboxPNG()">Download PNG</button>
-      </div>
-    </div>
-  </div>
-
-
   <section class="lesson-section" id="survey">
     <div class="section-header">
       <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg></div>
       <div>
         <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-survey" onblur="onStaticTextBlur(this)">Class Survey</div>
-        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-survey" onblur="onStaticTextBlur(this)">Ask, Tally, Report Back &middot; 15 min</div>
+        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-survey" onblur="onStaticTextBlur(this)">Ask, Tally, Report Back &middot; 15 minutes</div>
       </div>
       <div class="section-header-actions">
         <button class="section-fullscreen-toggle" onclick="presentSection('survey')" title="Present full screen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></svg></button>
@@ -899,6 +956,12 @@ body.section-present .deb-instruction{font-size:1.15rem}
     </div>
     <div class="section-card">
       <p class="wb-hint" contenteditable="true" spellcheck="false" data-sk="hint-survey" onblur="onStaticTextBlur(this)">Students ask each other the statements, not the teacher. Tap a row each time somebody votes and the bars fill as you go. Then close the laptop and make them report the results back to the room in full sentences, using the language underneath.</p>
+      <div class="sv-modebar">
+        <span class="sv-mode-label">Short on time?</span>
+        <button class="read-btn" onclick="svShort()">Use 3 statements</button>
+        <button class="read-btn" onclick="svAll()">Use all 6</button>
+        <span class="sv-use-note" id="svUseNote"></span>
+      </div>
       <div id="svList"></div>
       <div style="display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;margin-top:1rem">
         <button class="read-btn" id="addSvBtn" style="display:none" onclick="addSvItem()">+ Add statement</button>
@@ -908,30 +971,8 @@ body.section-present .deb-instruction{font-size:1.15rem}
     </div>
     <div class="section-card">
       <div class="deb-sidebar-label" contenteditable="true" spellcheck="false" data-sk="label-survey-lang" onblur="onStaticTextBlur(this)">Asking and reporting</div>
-      <p class="wb-hint" contenteditable="true" spellcheck="false" data-sk="hint-survey-lang" onblur="onStaticTextBlur(this)">Tap a phrase once it has been used well. The left column is for asking, the right for reporting back.</p>
-      <div class="sv-bank" id="svBank"></div>
-    </div>
-  </section>
-
-  <section class="lesson-section" id="sorting">
-    <div class="section-header">
-      <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
-      <div>
-        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-sorting" onblur="onStaticTextBlur(this)">Sorting</div>
-        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-sorting" onblur="onStaticTextBlur(this)">Sort the Business Adjectives · 10 min</div>
-      </div>
-    </div>
-    <div class="section-card">
-      <p class="wb-hint" contenteditable="true" spellcheck="false" data-sk="hint-sorting" onblur="onStaticTextBlur(this)">Drag each adjective into the right column: a healthy business or a business in trouble. A wrong drop bounces back, so just try again.</p>
-      <div class="adj-bank" id="adjBank"></div>
-      <div class="adj-columns">
-        <div class="adj-col" data-col="positive" id="adjColPositive"><div class="adj-col-title">A healthy business</div><div class="adj-col-body" id="adjBodyPositive"></div></div>
-        <div class="adj-col" data-col="negative" id="adjColNegative"><div class="adj-col-title">A business in trouble</div><div class="adj-col-body" id="adjBodyNegative"></div></div>
-      </div>
-      <div class="rank-actions" style="display:flex;align-items:center;gap:12px">
-        <button class="read-btn" id="adjResetBtn" onclick="resetAdjSort()">Reset</button>
-        <span class="rank-status" id="adjStatus" style="font-size:.85rem;color:var(--muted)">0 / 20 sorted</span>
-      </div>
+      <p class="wb-hint" contenteditable="true" spellcheck="false" data-sk="hint-survey-lang" onblur="onStaticTextBlur(this)">Use the left column while you ask, the right column when you report back. Tap a phrase once it has been used well.</p>
+      <div id="svBank"></div>
     </div>
   </section>
 
@@ -964,44 +1005,153 @@ body.section-present .deb-instruction{font-size:1.15rem}
     </div>
   </section>
 
-
   <section class="lesson-section" id="pitch">
     <div class="section-header">
       <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7V18h8v-3.3A7 7 0 0 0 12 2z"/></svg></div>
       <div>
         <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-pitch" onblur="onStaticTextBlur(this)">Business Ideas</div>
-        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-pitch" onblur="onStaticTextBlur(this)">Pitch It in Ninety Seconds &middot; 20 min</div>
+        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-pitch" onblur="onStaticTextBlur(this)">Speaking Game &middot; Pitch to Investors</div>
       </div>
       <div class="section-header-actions">
         <button class="section-fullscreen-toggle" onclick="presentSection('pitch')" title="Present full screen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></svg></button>
         <button class="deb-edit-toggle" id="piEditToggle" onclick="togglePiEditMode()" title="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button>
       </div>
     </div>
-    <div class="section-card">
-      <p class="wb-hint" contenteditable="true" spellcheck="false" data-sk="hint-pitch" onblur="onStaticTextBlur(this)">None of these are the usual ideas, and that is the point. Deal one out, give the student ninety seconds to sell it to the room, then let the others ask the investor questions below. Tap a card to put it on the table, double-tap to rule it out.</p>
-      <div class="pi-stage">
-        <div class="pi-current empty" id="piCurrent">Nothing on the table yet. Tap a card below, or deal one at random.</div>
-        <div class="pi-timer-row">
-          <button class="read-btn" onclick="piDeal()">Deal me one</button>
-          <button class="lt-timer-pill" id="piPlay" onclick="piTog()">&#9658; 90s</button>
-          <span class="pi-disp" id="piDisp">1:30</span>
+    <div class="section-card pi-top">
+      <ol class="pi-flow" id="piFlow"></ol>
+      <div class="pi-timerbar">
+        <div class="pi-presets">
+          <button id="piPreP" onclick="piPreset(60)">Prepare 1:00</button>
+          <button id="piPreQ" onclick="piPreset(90)">Pitch 1:30</button>
         </div>
+        <button class="lt-timer-pill" id="piPlay" onclick="piTog()">&#9658; Start</button>
+        <span class="pi-disp" id="piDisp">1:30</span>
+        <button class="read-btn" onclick="piDeal()">Deal me one</button>
       </div>
       <div class="pi-bar-outer"><div class="pi-bar" id="piBar"></div></div>
+      <div class="pi-table empty" id="piCurrent"></div>
+    </div>
+    <div class="section-card">
       <div class="pi-grid" id="piGrid"></div>
+      <div id="piEditWrap" style="display:none"></div>
       <button class="read-btn" id="addPiBtn" style="display:none;margin-top:.9rem" onclick="addPiIdea()">+ Add an idea</button>
     </div>
     <div class="section-card">
-      <div class="deb-sidebar-label" contenteditable="true" spellcheck="false" data-sk="label-pitch-steps" onblur="onStaticTextBlur(this)">The ninety-second structure</div>
-      <ul class="pi-steps" id="piSteps"></ul>
+      <div class="pi-cols">
+        <div>
+          <div class="deb-sidebar-label" contenteditable="true" spellcheck="false" data-sk="label-pitch-beats" onblur="onStaticTextBlur(this)">Your pitch in four beats</div>
+          <ol class="pi-beats" id="piBeats"></ol>
+        </div>
+        <div id="piQsCard">
+          <div class="deb-sidebar-label" contenteditable="true" spellcheck="false" data-sk="label-pitch-qs" onblur="onStaticTextBlur(this)">Questions for the investors</div>
+          <p class="wb-hint" contenteditable="true" spellcheck="false" data-sk="hint-pitch-qs" onblur="onStaticTextBlur(this)">Two listeners each pick one. Tap a question once it has been asked.</p>
+          <div class="pi-qs" id="piQs"></div>
+        </div>
+      </div>
     </div>
-    <div class="section-card">
-      <div class="deb-sidebar-label" contenteditable="true" spellcheck="false" data-sk="label-pitch-qs" onblur="onStaticTextBlur(this)">Investor questions to fire back</div>
-      <p class="wb-hint" contenteditable="true" spellcheck="false" data-sk="hint-pitch-qs" onblur="onStaticTextBlur(this)">The listeners pick one each. Tap a question once it has been asked.</p>
-      <div class="pi-qs" id="piQs"></div>
+    <div class="section-card" id="piVoteCard">
+      <div class="deb-sidebar-label" contenteditable="true" spellcheck="false" data-sk="label-pitch-vote" onblur="onStaticTextBlur(this)">Class vote</div>
+      <p class="wb-hint" contenteditable="true" spellcheck="false" data-sk="hint-pitch-vote" onblur="onStaticTextBlur(this)">Everyone says &ldquo;invest&rdquo; or &ldquo;pass&rdquo; and gives one reason. Tap to count each vote.</p>
+      <div class="pi-vote">
+        <button class="pi-vbtn" onclick="piVote('invest')">Invest <span class="pi-vcount" id="piVInvest">0</span></button>
+        <button class="pi-vbtn pass" onclick="piVote('pass')">Pass <span class="pi-vcount" id="piVPass">0</span></button>
+        <button class="read-btn" onclick="piVoteReset()">New vote</button>
+      </div>
     </div>
   </section>
 
+  <section class="lesson-section" id="debates">
+    <div class="section-header">
+      <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
+      <div>
+        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-debates" onblur="onStaticTextBlur(this)">Debates</div>
+        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-debates" onblur="onStaticTextBlur(this)">Discussion &amp; Persuasion · 15 min</div>
+      </div>
+      <div class="section-header-actions">
+        <button class="section-fullscreen-toggle" onclick="presentSection('debates')" title="Present full screen">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+        </button>
+        <button class="deb-edit-toggle" id="debEditToggle" onclick="toggleDebEditMode()" title="Edit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="deb-shell-outer">
+      <div class="deb-shell">
+        <div class="deb-sidebar">
+          <div class="deb-sidebar-label" contenteditable="true" spellcheck="false" data-sk="label-useful-phrases" onblur="onStaticTextBlur(this)">Useful Phrases</div>
+          <div id="debPhraseList"></div>
+          <button class="deb-add-phrase" id="debAddPhraseBtn" onclick="addDebPhrase()" style="display:none">+ Add phrase</button>
+        </div>
+        <div class="deb-main">
+          <div class="deb-topic-tabs" id="debTopicTabs"></div>
+          <div id="debTopicBody"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lesson-section" id="roleplay">
+    <div class="section-header">
+      <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+      <div>
+        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-roleplay" onblur="onStaticTextBlur(this)">Meetings</div>
+        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-roleplay" onblur="onStaticTextBlur(this)">Pairwork Role Plays · 20 min</div>
+      </div>
+      <div class="section-header-actions">
+        <button class="deb-edit-toggle" id="rpEditToggle" onclick="toggleRpEditMode()" title="Edit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="rp-shell">
+      <div class="rp-tabs" id="rpTabs"></div>
+      <div id="rpBody"></div>
+    </div>
+  </section>
+
+  <section class="lesson-section" id="listening">
+    <div class="section-header">
+      <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div>
+      <div>
+        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-listening" onblur="onStaticTextBlur(this)">Listening · Two-Way Chat</div>
+        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-listening" onblur="onStaticTextBlur(this)">C1 &middot; a conversation with something at stake · 15 min</div>
+      </div>
+      <div class="section-header-actions">
+        <button class="deb-edit-toggle" id="listenEditToggle" onclick="toggleListenEditMode()" title="Edit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="deb-shell listen-shell">
+      <div class="deb-main" style="width:100%">
+        <div class="deb-topic-tabs" id="listenTabs"></div>
+        <div id="listenBody"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lesson-section" id="sorting">
+    <div class="section-header">
+      <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+      <div>
+        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-sorting" onblur="onStaticTextBlur(this)">Sorting</div>
+        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-sorting" onblur="onStaticTextBlur(this)">Sort the Business Adjectives · 10 min</div>
+      </div>
+    </div>
+    <div class="section-card">
+      <p class="wb-hint" contenteditable="true" spellcheck="false" data-sk="hint-sorting" onblur="onStaticTextBlur(this)">Drag each adjective into the right column: a healthy business or a business in trouble. A wrong drop bounces back, so just try again.</p>
+      <div class="adj-bank" id="adjBank"></div>
+      <div class="adj-columns">
+        <div class="adj-col" data-col="positive" id="adjColPositive"><div class="adj-col-title">A healthy business</div><div class="adj-col-body" id="adjBodyPositive"></div></div>
+        <div class="adj-col" data-col="negative" id="adjColNegative"><div class="adj-col-title">A business in trouble</div><div class="adj-col-body" id="adjBodyNegative"></div></div>
+      </div>
+      <div class="rank-actions" style="display:flex;align-items:center;gap:12px">
+        <button class="read-btn" id="adjResetBtn" onclick="resetAdjSort()">Reset</button>
+        <span class="rank-status" id="adjStatus" style="font-size:.85rem;color:var(--muted)">0 / 20 sorted</span>
+      </div>
+    </div>
+  </section>
 
   <section class="lesson-section" id="breakout">
     <div class="section-header">
@@ -1070,84 +1220,82 @@ body.section-present .deb-instruction{font-size:1.15rem}
     </div>
   </section>
 
-  <section class="lesson-section" id="debates">
-    <div class="section-header">
-      <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
-      <div>
-        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-debates" onblur="onStaticTextBlur(this)">Debates</div>
-        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-debates" onblur="onStaticTextBlur(this)">Discussion &amp; Persuasion · 15 min</div>
-      </div>
-      <div class="section-header-actions">
-        <button class="section-fullscreen-toggle" onclick="presentSection('debates')" title="Present full screen">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
-        </button>
-        <button class="deb-edit-toggle" id="debEditToggle" onclick="toggleDebEditMode()" title="Edit">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
-        </button>
-      </div>
-    </div>
-    <div class="deb-shell-outer">
-      <div class="deb-shell">
-        <div class="deb-sidebar">
-          <div class="deb-sidebar-label" contenteditable="true" spellcheck="false" data-sk="label-useful-phrases" onblur="onStaticTextBlur(this)">Useful Phrases</div>
-          <div id="debPhraseList"></div>
-          <button class="deb-add-phrase" id="debAddPhraseBtn" onclick="addDebPhrase()" style="display:none">+ Add phrase</button>
-        </div>
-        <div class="deb-main">
-          <div class="deb-topic-tabs" id="debTopicTabs"></div>
-          <div id="debTopicBody"></div>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <section class="lesson-section" id="roleplay">
-    <div class="section-header">
-      <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-      <div>
-        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-roleplay" onblur="onStaticTextBlur(this)">Meetings</div>
-        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-roleplay" onblur="onStaticTextBlur(this)">Pairwork Role Plays · 20 min</div>
-      </div>
-      <div class="section-header-actions">
-        <button class="deb-edit-toggle" id="rpEditToggle" onclick="toggleRpEditMode()" title="Edit">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
-        </button>
+
+
+  <input type="file" id="galleryFileInput" accept="image/*" style="display:none">
+
+  <div class="lb-overlay" id="lbOverlay">
+    <div class="lb-box">
+      <button class="lb-close" onclick="closeLightbox()" aria-label="Close">&times;</button>
+      <img id="lbImg" src="" alt="">
+      <div class="lb-caption" id="lbCaption" contenteditable="true" spellcheck="false"
+        onblur="saveCaptionFromLightbox(this)"
+        onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"></div>
+      <textarea class="lb-vocab" id="lbVocab" placeholder="Add a word or two: each line becomes a small bullet…"></textarea>
+      <div class="lb-actions">
+        <button class="read-btn" onclick="replaceFromLightbox()">Replace</button>
+        <button class="read-btn" onclick="removeFromLightbox()">Remove</button>
+        <button class="read-btn primary" onclick="downloadLightboxPNG()">Download PNG</button>
       </div>
     </div>
-    <div class="rp-shell">
-      <div class="rp-tabs" id="rpTabs"></div>
-      <div id="rpBody"></div>
-    </div>
-  </section>
+  </div>
+
+
+
+
+
+
+
+
+
+
   <input type="file" id="rpImageInput" accept="image/*" style="display:none">
   <input type="file" id="flashImageInput" accept="image/*" style="display:none">
   <input type="file" id="listenAudioInput" accept="audio/*" style="display:none">
   <input type="file" id="articleAudioInput" accept="audio/*" style="display:none">
 
-  <section class="lesson-section" id="listening">
-    <div class="section-header">
-      <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div>
+
+
+
+
+
+  <details class="teacher-notes" id="teacherNotes">
+    <summary><span class="tn-title">Teacher notes and language support</span><span class="tn-sub">Teacher only. It sits below the activity, so open it only when you need it.</span></summary>
+    <div class="tn-grid">
       <div>
-        <div class="section-title" contenteditable="true" spellcheck="false" data-sk="title-listening" onblur="onStaticTextBlur(this)">Listening · Two-Way Chat</div>
-        <div class="section-label-mono" contenteditable="true" spellcheck="false" data-sk="label-listening" onblur="onStaticTextBlur(this)">C1 &middot; a conversation with something at stake · 15 min</div>
+        <div class="tn-label">Running the lesson</div>
+        <ul class="tn-list">
+          <li><b>Warm-Up (5 min).</b> Pairs do both prompts. Ask one follow-up before swapping.</li>
+          <li><b>Survey (15 min).</b> Choose 3 of the 6 statements if time is short. Students report the results in full sentences.</li>
+          <li><b>Business Ideas.</b> 1 minute to prepare, 90 seconds to pitch, then two investor questions and a class vote.</li>
+          <li><b>Listening, question 2.</b> In the black = profitable. Breaks even = no profit or loss. A ballpark figure = a rough estimate. A cash cow = a reliable source of income.</li>
+          <li><b>Two-minute challenge.</b> Reuse any three expressions in a new business idea or meeting.</li>
+        </ul>
+        <div class="tn-label">Break even, explained</div>
+        <p class="tn-p">A business breaks even when it earns exactly what it spends: no profit and no loss. Example: a caf&eacute; costs &euro;3,000 a month to run, and each coffee leaves &euro;2 after the beans and milk. At 1,500 coffees a month it breaks even. Coffee number 1,501 is the first one that makes a profit.</p>
+        <p class="tn-p">For the investor question &ldquo;When would it break even?&rdquo;, give students the frame: <b>We&rsquo;d break even after about ... customers a month.</b></p>
       </div>
-      <div class="section-header-actions">
-        <button class="deb-edit-toggle" id="listenEditToggle" onclick="toggleListenEditMode()" title="Edit">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
-        </button>
+      <div>
+        <div class="tn-label">Language support</div>
+        <dl class="tn-gloss">
+          <div><dt>pain point</dt><dd>a customer problem</dd></div>
+          <div><dt>margin</dt><dd>selling price minus cost</dd></div>
+          <div><dt>break even</dt><dd>cover costs, with no profit or loss</dd></div>
+          <div><dt>in the black</dt><dd>profitable</dd></div>
+          <div><dt>ballpark figure</dt><dd>rough estimate</dd></div>
+          <div><dt>cash cow</dt><dd>steady source of profit</dd></div>
+          <div><dt>word of mouth</dt><dd>recommendations</dd></div>
+          <div><dt>drum up business</dt><dd>attract customers</dd></div>
+          <div><dt>build rapport</dt><dd>build an easy, trusting relationship</dd></div>
+          <div><dt>circle back</dt><dd>return to a topic later</dd></div>
+          <div><dt>the bottom line</dt><dd>the main point</dd></div>
+          <div><dt>think it over</dt><dd>consider it</dd></div>
+          <div><dt>on the same page</dt><dd>in agreement</dd></div>
+        </dl>
       </div>
     </div>
-    <div class="deb-shell listen-shell">
-      <div class="deb-main" style="width:100%">
-        <div class="deb-topic-tabs" id="listenTabs"></div>
-        <div id="listenBody"></div>
-      </div>
-    </div>
-  </section>
-
-
-
-
+  </details>
 </main>
 
 <button class="np-toggle" id="notesToggleBtn" onclick="toggleNotes()">Notes &#9998;</button>
@@ -1178,6 +1326,27 @@ body.section-present .deb-instruction{font-size:1.15rem}
 </div>
 
 <script>
+/* ---------- content version: the shipped defaults always win over saved state from an older build ----------
+   Bump CONTENT_VERSION whenever the baked-in lesson content changes. On the first load of a new version this
+   clears this lesson's saved keys (except KEEP_ON_UPGRADE), so a stale localStorage copy or a stale cloud row
+   can never hide the new defaults. Cloud rows without the matching version are ignored, never applied. */
+var CONTENT_VERSION = '2026-10-26-brief-v1';
+var OWN_PREFIX = 'jpe_business_';
+var VERSION_KEY = OWN_PREFIX + 'content_v';
+var KEEP_ON_UPGRADE = ['hero_image','hero_image_pos','longturn','longturn_notes','longturn_phrases','notes_text','annotations']
+  .map(function(k){ return OWN_PREFIX + k; });
+(function(){
+  try{
+    if(localStorage.getItem(VERSION_KEY) === CONTENT_VERSION) return;
+    var doomed = [];
+    for(var i=0;i<localStorage.length;i++){
+      var k = localStorage.key(i);
+      if(k.indexOf(OWN_PREFIX) === 0 && KEEP_ON_UPGRADE.indexOf(k) === -1) doomed.push(k);
+    }
+    doomed.forEach(function(k){ localStorage.removeItem(k); });
+    localStorage.setItem(VERSION_KEY, CONTENT_VERSION);
+  }catch(e){}
+})();
 var STORAGE_KEY = 'jpe_business_c1_words';
 var DEFAULT_WORDS = [
   {term:"break even", def:"to reach the point where what you earn covers what you spend, with no profit and no loss", example:"The café took two years to break even, and the third year was the first good one."},
@@ -1214,7 +1383,7 @@ function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,
 var HIDDEN_TABS_KEY = 'jpe_business_hidden_tabs';
 function loadHiddenTabs(){
   try{ var raw = JSON.parse(localStorage.getItem(HIDDEN_TABS_KEY)); if(Array.isArray(raw)) return raw; }catch(e){}
-  return [];
+  return ['sorting','breakout'];   /* repeat / distract from the speaking focus; recoverable from the Hidden menu */
 }
 function saveHiddenTabs(list){ try{ localStorage.setItem(HIDDEN_TABS_KEY, JSON.stringify(list)); }catch(e){} }
 function hideTab(id){
@@ -1814,46 +1983,38 @@ document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeLigh
 /* ---------- Debates: editable phrase bank + click/dblclick bubble states ---------- */
 var DEB_KEY = 'jpe_business_debates';
 var DEFAULT_DEB_PHRASES = [
-  {text:'Shall I go first?', italic:true, crossed:false},
-  {text:'The strongest argument here is …', italic:false, crossed:false},
-  {text:'Do you agree?', italic:true, crossed:false},
-  {text:'I completely agree with that.', italic:false, crossed:false},
-  {text:"I'm not sure I agree.", italic:true, crossed:false},
-  {text:"That's true, but on the other hand …", italic:false, crossed:false},
-  {text:'For instance, …', italic:true, crossed:false},
-  {text:'If you look at the numbers, …', italic:false, crossed:false},
-  {text:'This goes hand in hand with …', italic:true, crossed:false},
-  {text:"And don't forget that …", italic:false, crossed:false},
-  {text:"Hmm, I'm not sure about that one.", italic:true, crossed:false},
+  {text:"Shall I start with the strongest option?", italic:true, crossed:false},
+  {text:"What it comes down to is …", italic:false, crossed:false},
+  {text:"Can you back that up with an example?", italic:true, crossed:false},
+  {text:"Let's weigh up the pros and cons.", italic:false, crossed:false},
+  {text:"I'd rule out … because …", italic:true, crossed:false},
+  {text:"We could cut back on … without …", italic:false, crossed:false},
+  {text:"That's a fair point, but …", italic:true, crossed:false},
   {text:"Where do you stand on …?", italic:false, crossed:false},
-  {text:'Shall we move on?', italic:true, crossed:false},
-  {text:'I think we can rule out …', italic:false, crossed:false},
-  {text:"Let's narrow it down.", italic:true, crossed:false},
-  {text:"If I had to choose, I'd say …", italic:false, crossed:false},
-  {text:'So, to sum up, …', italic:true, crossed:false},
-  {text:'In the end, we both think …', italic:false, crossed:false}
+  {text:"Let's narrow it down to two.", italic:true, crossed:false},
+  {text:"If I had to choose, I'd go with …", italic:false, crossed:false}
 ];
 var DEFAULT_DEB_TOPICS = [
   {
-    title: "What actually makes a small business succeed?",
-    instruction: 'Rank them, then agree on the one that matters most.',
+    title: "Two friends are opening a shop in your town. They can only get one thing right at first. What should they prioritise?",
+    instruction: 'Rank the five. Defend your top choice with a real example.',
     items: [
-      {text:'A product nobody else has', state:'idle'},
-      {text:'Being the cheapest', state:'idle'},
-      {text:'Word of mouth', state:'idle'},
-      {text:'Being in the right place', state:'idle'},
-      {text:'Knowing your numbers', state:'idle'}
+      {text:'A product nobody else offers', state:'idle'},
+      {text:'The lowest prices', state:'idle'},
+      {text:'Recommendations from customers', state:'idle'},
+      {text:'A great location', state:'idle'},
+      {text:'Keeping costs under control', state:'idle'}
     ]
   },
   {
-    title: "You have money to invest in the business. Where does it go first?",
-    instruction: 'Rule out two, then defend your choice.',
+    title: "A popular local café has €10,000 to invest. Where should it spend the money to survive the next year?",
+    instruction: 'Choose one, rule out two, and explain the trade-off.',
     items: [
-      {text:'Better pay for the staff', state:'idle'},
-      {text:'Marketing', state:'idle'},
-      {text:'Nicer premises', state:'idle'},
-      {text:'New equipment', state:'idle'},
-      {text:'Paying off the debt', state:'idle'}
+      {text:'Raise staff pay to keep experienced employees', state:'idle'},
+      {text:'Run a local marketing campaign', state:'idle'},
+      {text:'Make the café more comfortable', state:'idle'},
+      {text:'Buy faster equipment to cut waiting times', state:'idle'},
+      {text:'Pay off part of its loan', state:'idle'}
     ]
   }
 ];
@@ -2005,42 +2166,42 @@ var DEFAULT_RP = [
   {
     tone:'formal',
     title:'The Price Increase',
-    scenario:"A supplier has to tell a client of eight years that prices are going up by twelve per cent from next month. The client has just been quoted a cheaper price by somebody else.",
+    scenario:"A supplier tells a long-standing client that prices will rise by twelve per cent next month. The client has a cheaper quote. Agree on a price, a concession, or a clear next step.",
     roleA:{name:'The supplier', desc:"Explain the increase without apologising for it. Defend your value, offer one concession, but do not give the whole twelve per cent back."},
-    roleB:{name:'The client', desc:"You like them and you do not want to move, but you have a cheaper quote in your hand. Push hard before you accept anything."},
-    chips:["I wanted to tell you this myself, not send a letter.","Walk me through where the increase is actually coming from.","We've absorbed these costs for two years already.","I've got a quote here that's nine per cent below yours.","What could you do on the payment terms instead?","Let me come back to you with something by Friday."]
+    roleB:{name:'The client', desc:"You like them and do not want to move, but you have a cheaper quote. Push hard before accepting anything."},
+    chips:["I wanted to tell you this myself, not send a letter.","Walk me through where the increase is coming from.","We've absorbed these costs for two years already.","I've got a quote that's nine per cent below yours.","What could you do on the payment terms instead?","Let me come back to you by Friday."]
   },
   {
-    tone:'formal',
-    title:'The Pitch Meeting',
-    scenario:"A founder has fifteen minutes with an investor. The idea is good, the numbers are thin.",
-    roleA:{name:'The founder', desc:"Pitch in ninety seconds, then answer questions. Never guess a number: say what you know and what you would need to test."},
-    roleB:{name:'The investor', desc:"Be polite and relentless. Ask who pays, how much, how often, and what stops a bigger company copying it tomorrow."},
-    chips:["Give me the whole thing in one sentence.","Who is your first paying customer, by name?","What are your margins at that price?","How do you make money on the second sale, not the first?","What would make you walk away from this?","What do you need the money for, specifically?"]
+    tone:'casual',
+    title:'The Launch Plan',
+    scenario:"A local bakery has created a new snack. It can afford one launch idea: a free tasting event or paid social-media ads. Agree on a plan and a way to measure whether it worked.",
+    roleA:{name:'The owner', desc:"You favour a tasting event: people can try the product and talk to you. Your team has little spare time."},
+    roleB:{name:'The marketing colleague', desc:"You favour social-media ads: they reach more people. Your budget is small, so every euro must count."},
+    chips:["Who are we trying to reach?","Could we try out both on a small scale?","What's the upside of a tasting event?","We need to stay within budget.","How will we know if it pays off?","Let's go with ... and review the results in a month."]
   },
   {
     tone:'awkward',
     title:'The Order That Never Arrived',
-    scenario:"A customer has been waiting three weeks for an order that was promised in five days. It is now needed for an event on Saturday.",
+    scenario:"An order promised in five days is three weeks late. The customer needs it for Saturday. Agree on one realistic remedy and an exact deadline.",
     roleA:{name:'The customer', desc:"You have been patient twice already. Be firm and specific about what you want: the goods, a discount, or your money back."},
-    roleB:{name:'The account manager', desc:"It was your supplier's fault, but that is not the customer's problem. Take responsibility, then solve it with something concrete."},
-    chips:["This is the third time I've had to chase this.","I completely understand, and I'm not going to make excuses.","What I need is the order by Friday, or a full refund.","Here's exactly what I can do today.","Can I have that in writing, please?","What happens if it slips again?"]
+    roleB:{name:'The account manager', desc:"It was your supplier's fault, but that is not the customer's problem. Take responsibility and offer a concrete solution."},
+    chips:["I'm following up on the order I placed.","Can you look into where it went wrong?","We let you down, and I'll sort it out.","It must arrive by Friday, or I need a refund.","Can you put that in writing?","What will you do if the plan falls through?"]
   },
   {
     tone:'formal',
-    title:'The Negotiation',
-    scenario:"A buyer and a seller are agreeing a twelve-month contract. The buyer wants a lower price and longer payment terms. The seller needs the volume but cannot go below cost.",
-    roleA:{name:'The buyer', desc:"Open lower than you expect to pay. Trade something that costs you nothing: a longer contract, a testimonial, a bigger first order."},
-    roleB:{name:'The seller', desc:"Know your walk-away number before you start. Never give a discount without getting something back for it."},
-    chips:["Let's start with what we both want out of this.","That's outside what I can do, but here's what I can.","If you could commit to twelve months, I could look at the price.","We'd need sixty days rather than thirty.","So where does that leave us?","Shall we write down what we've agreed so far?"]
+    title:'The Four-Day Week Trial',
+    scenario:"A small company wants to try a four-day week for three months, but customers still need support on Fridays. Agree on a schedule and two ways to judge whether the trial works.",
+    roleA:{name:'The team manager', desc:"You need customer cover all week and cannot let deadlines slip. Suggest a schedule and define success."},
+    roleB:{name:'The employee representative', desc:"You want full pay and no hidden overtime. Suggest safeguards and be ready to compromise on the rota."},
+    chips:["Could we try it out for three months?","How would we cover Fridays?","I'm worried the workload will pile up.","Let's set a clear target before we start.","Could we check in after six weeks?","That works for me if we put it in writing."]
   },
   {
     tone:'awkward',
-    title:'The Co-Founder Conversation',
-    scenario:"Two people started a business together four years ago. One wants to scale up fast and take outside money. The other wants to stay small, stay independent and go home at six.",
-    roleA:{name:'Partner A', desc:"You believe the window is closing and that staying small is slowly dying. Make the case without making it personal."},
-    roleB:{name:'Partner B', desc:"You built this to have a life, not a boardroom. Say what you are actually afraid of."},
-    chips:["Can we talk properly, not between meetings?","I think we want two different companies now.","What's the worst case if we do it your way?","It's not the money, it's the hours.","Is there a version of this we could both live with?","Let's agree one thing we'll decide this month."]
+    title:'The Growth Decision',
+    scenario:"Two friends run a small business. One wants to scale up with outside investment; the other wants to stay independent. Agree on one realistic plan for the next year.",
+    roleA:{name:'Partner A', desc:"You want to grow while the opportunity is there. Explain the benefit, but name one limit you could accept."},
+    roleB:{name:'Partner B', desc:"You value independence and work-life balance. Explain the risk, but offer one growth step you could accept."},
+    chips:["Could we scale up without giving up control?","I'd rather hold off on outside funding.","What would you be willing to give up?","Let's meet halfway on the timetable.","Where do we draw the line?","Can we agree on one step to try first?"]
   }
 ];
 function loadRP(){
@@ -2234,46 +2395,47 @@ function ln(speaker, name, text){ return {speaker:speaker, name:name, text:text}
 var DEFAULT_LISTEN = [
   {
     title: 'The Offer',
-    subtitle: 'Over a drink after a trade fair, a London business owner is offered a great deal of money for the company he built',
-    targetPhrases: ['break even','a cash cow','a pain point','scale up','the bottom line','pivot','word of mouth','a ballpark figure','build rapport','circle back','drum up business','in the black'],
+    subtitle: 'A roastery owner considers selling his business. The offer sounds generous, but the buyer has crossed a line.',
+    targetPhrases: ['break even','cash cow','a pain point','scale up','the bottom line','pivot','word of mouth','a ballpark figure','build rapport','circle back','drum up business','in the black'],
     audio: null,
     questions: [
-      'What does Dana want, and what is her opening figure based on?',
-      'What does Marcus think will happen to the business if he sells it?',
-      'What has Dana already done, and how does she explain it?'
+      'What is Dana offering, and why does she value the subscriptions?',
+      'Find four expressions meaning: profitable; no profit or loss; a rough estimate; a reliable source of income.',
+      'Why is Marcus angry, and how does Dana try to repair the situation?',
+      'Would you sell a business you built? Use "think it over", "the bottom line", or "on the same page" in your answer.'
     ],
     lines: [
-      ln('b','Dana',"Can I buy you a drink? I'd rather say this in person than stick it in an email."),
-      ln('a','Marcus',"That's an ominous opening."),
-      ln('b','Dana',"It's a good one. I want to buy the roastery."),
-      ln('a','Marcus',"[laughs] You've known me for two trade fairs."),
-      ln('b','Dana',"Three. And I've been watching the business for a year."),
-      ln('a','Marcus',"Why mine?"),
-      ln('b','Dana',"Because you're in the black, and almost nobody your size is."),
-      ln('a','Marcus',"We only managed to break even eighteen months ago."),
-      ln('b','Dana',"Most people in your position never get there at all."),
-      ln('a','Marcus',"So what's the number?"),
-      ln('b','Dana',"I can give you a ballpark figure tonight. My accountant would want a proper look before anything's signed."),
-      ln('a','Marcus',"Give me the ballpark."),
-      ln('b','Dana',"Four times what you turned over last year. More if the subscriptions keep growing."),
-      ln('a','Marcus',"The subscriptions are a cash cow. The shop barely pays for itself."),
-      ln('b','Dana',"I know. That's why I want it. You've solved a pain point the big roasters have ignored for twenty years."),
-      ln('a','Marcus',"And then you scale up, you pivot it into the supermarkets, and it's not the same place any more."),
-      ln('b','Dana',"That's the honest risk. I'm not going to pretend otherwise."),
-      ln('a','Marcus',"Word of mouth is the whole business, and it's got my name on it, not yours."),
-      ln('b','Dana',"That's exactly why I'm sitting here."),
-      ln('a','Marcus',"I've given eleven years to this. Eleven Januaries out in the rain trying to drum up business."),
-      ln('b','Dana',"I know. [pause] There's one more thing. I've already spoken to your business partner."),
-      ln('a','Marcus',"Right."),
-      ln('b','Dana',"He didn't agree to anything. I wanted to build rapport before I came to you, and that was the wrong way round. I'm sorry."),
-      ln('a','Marcus',"The bottom line is you went round me."),
-      ln('b','Dana',"I did. Take the week. Then let's circle back and I'll bring real numbers instead of a ballpark."),
-      ln('a','Marcus',"Bring your accountant too.")
+      ln('a','Dana',"Can I buy you a drink? I'd rather bring this up in person than put it in an email."),
+      ln('b','Marcus',"That's an ominous opening."),
+      ln('a','Dana',"I want to make you an offer for the roastery."),
+      ln('b','Marcus',"[laughs] You've known me for two trade fairs."),
+      ln('a','Dana',"Three. I've been following your business for a year."),
+      ln('b','Marcus',"Why mine?"),
+      ln('a','Dana',"Because you're in the black now, and few roasters your size can say that."),
+      ln('b','Marcus',"We only started making a profit eighteen months ago."),
+      ln('a','Dana',"Which is why this is the right time to talk."),
+      ln('b','Marcus',"So what's the number?"),
+      ln('a','Dana',"I can give you a ballpark figure. We'd need to look closely at the accounts before signing anything."),
+      ln('b','Marcus',"Give me the ballpark."),
+      ln('a','Dana',"Around a million euros, subject to due diligence. The subscriptions are the main reason."),
+      ln('b','Marcus',"The subscriptions are our cash cow. The shop itself barely breaks even."),
+      ln('a','Dana',"I know. You've solved a pain point the big roasters have ignored."),
+      ln('b','Marcus',"And then you scale up, you pivot it into the supermarkets, and it's not the same place any more."),
+      ln('a','Dana',"That's a risk. I'm not going to pretend otherwise."),
+      ln('b','Marcus',"Word of mouth built this business. And my name's on it, not yours."),
+      ln('a','Dana',"That's exactly why I'm sitting here."),
+      ln('b','Marcus',"I've spent eleven years on this. Eleven winters in the rain trying to drum up business."),
+      ln('a','Dana',"I know. [pause] There's one more thing. I've already spoken to your business partner."),
+      ln('b','Marcus',"Right."),
+      ln('a','Dana',"He didn't agree to anything. I wanted to build rapport before I came to you. I got that wrong. I'm sorry."),
+      ln('b','Marcus',"The bottom line is, you went behind my back."),
+      ln('a','Dana',"I did. Take a week to think it over. Then let's circle back with the accounts in front of us and see whether we're on the same page."),
+      ln('b','Marcus',"Bring your accountant. And my partner.")
     ]
   }
 ];
 function loadListen(){
-  try{ var raw = JSON.parse(localStorage.getItem(LISTEN_KEY)); if(Array.isArray(raw) && raw.length && JSON.stringify(raw).indexOf("stick it in an email") > -1) return raw; }catch(e){}
+  try{ var raw = JSON.parse(localStorage.getItem(LISTEN_KEY)); if(Array.isArray(raw) && raw.length && raw[0] && Array.isArray(raw[0].lines)) return raw; }catch(e){}
   return JSON.parse(JSON.stringify(DEFAULT_LISTEN));
 }
 var LISTEN = loadListen();
@@ -2868,10 +3030,8 @@ function updateWCount(id){
 /* ---------- warm-up questions ---------- */
 var WARMUP_KEY = 'jpe_business_warmup_qs';
 var DEFAULT_WARMUP = [
-  {text:"What is the best or the worst business you have ever been a customer of?", prompt:'Give each other at least 90 seconds before you swap.'},
-  {text:"If somebody handed you ten thousand euros to start something tomorrow, what would you do with it?", prompt:'Say what you would spend the first thousand on.'},
-  {text:"Which business in your town would you buy, if you could? What would you change first?", prompt:'Ask a follow-up question before moving on.'},
-  {text:"Have you ever been talked into buying something you did not need? How did they do it?", prompt:'Work out the trick together.'}
+  {text:"Think of a business you love or avoid as a customer. What happened, and would you go back?", prompt:'Tell one specific story. Your partner asks one follow-up question.'},
+  {text:"If you had €10,000 to start a small business, what would you offer, and who would buy it first?", prompt:'Your partner names one risk. Answer it in one sentence.'}
 ];
 function loadWarmupQs(){
   try{ var s = JSON.parse(localStorage.getItem(WARMUP_KEY)); if(Array.isArray(s) && s.length) return s; }catch(e){}
@@ -3300,6 +3460,7 @@ function renderHeroImage(){
   var slot = document.getElementById('heroImageSlot');
   if(!slot) return;
   slot.classList.toggle('filled', !!heroImage);
+  slot.classList.toggle('collapsed', !heroImage && !heroEditMode);   /* no image: no blank band above the activities */
   slot.style.backgroundImage = heroImage ? "url('"+heroImage.replace(/'/g,'%27')+"')" : '';
   slot.style.backgroundPosition = heroPos.x+'% '+heroPos.y+'%';
 }
@@ -3319,6 +3480,7 @@ function toggleHeroEditMode(){
   document.getElementById('navLevel').setAttribute('contenteditable', heroEditMode ? 'true' : 'false');
   document.getElementById('navTopic').setAttribute('contenteditable', heroEditMode ? 'true' : 'false');
   document.getElementById('heroImageSlot').classList.toggle('locked', !heroEditMode);
+  renderHeroImage();
 }
 document.getElementById('heroFileInput').addEventListener('change', function(){
   var f = this.files && this.files[0];
@@ -3418,39 +3580,46 @@ var SV_KEY = 'jpe_business_survey';
 var SV_PH_KEY = 'jpe_business_survey_phrases';
 var SV_LABELS = ['Agree', 'It depends', 'Disagree'];
 var SV_FILLS = ['var(--mint)', '#F59E0B', '#EF233C'];
+var SV_SHORT_PICKS = [0, 3, 5];   /* statements 1, 4 and 6 when time is short */
 var DEFAULT_SV = [
-  {text:'I would rather run my own business than work for somebody else.', votes:[0,0,0]},
-  {text:'A company has a duty to the country it operates in, not only to its owners.', votes:[0,0,0]},
-  {text:'I look at the price before I look at the quality.', votes:[0,0,0]},
-  {text:'I have stopped buying from a company because of the way it behaved.', votes:[0,0,0]},
-  {text:'Advertising has never once persuaded me to buy anything.', votes:[0,0,0]},
-  {text:'A four-day week would make me more productive, not less.', votes:[0,0,0]},
-  {text:'I would take twenty per cent less money to work entirely from home.', votes:[0,0,0]},
-  {text:'Most of what I own, I did not really need.', votes:[0,0,0]},
-  {text:'Small shops deserve protection from the big chains.', votes:[0,0,0]},
-  {text:'In twenty years, most of us will be working for ourselves.', votes:[0,0,0]}
+  {text:'I would pay more for a product made by a small local business.', votes:[0,0,0], on:true},
+  {text:'A four-day working week would make most people more productive.', votes:[0,0,0], on:true},
+  {text:'I trust recommendations from friends more than online reviews.', votes:[0,0,0], on:true},
+  {text:'A company should admit a mistake publicly, even if it loses customers.', votes:[0,0,0], on:true},
+  {text:'I would switch brands if a company raised its prices by twenty per cent.', votes:[0,0,0], on:true},
+  {text:'A business can grow without losing what made it special.', votes:[0,0,0], on:true}
 ];
 var DEFAULT_SV_PH = [
-  {text:'Would you say that ...?', crossed:false},
-  {text:'The vast majority of us said ...', crossed:false},
-  {text:'On a scale of one to five, how strongly ...?', crossed:false},
-  {text:'Opinion was split down the middle.', crossed:false},
-  {text:'Roughly what proportion of you ...?', crossed:false},
-  {text:'Two out of three of us agreed that ...', crossed:false},
-  {text:'Can I put you down as a yes?', crossed:false},
-  {text:'Only a small minority felt that ...', crossed:false},
-  {text:'Where would you sit on that one?', crossed:false},
-  {text:'Nobody at all picked ...', crossed:false},
-  {text:'And what makes you say that?', crossed:false},
-  {text:'The result surprised me, because ...', crossed:false}
+  {kind:'ask', text:'Would you say that ...?', crossed:false},
+  {kind:'ask', text:'On a scale of one to five, how strongly ...?', crossed:false},
+  {kind:'ask', text:'Roughly what proportion of you ...?', crossed:false},
+  {kind:'ask', text:'Can I put you down as a yes?', crossed:false},
+  {kind:'ask', text:'Where would you sit on that one?', crossed:false},
+  {kind:'ask', text:'And what makes you say that?', crossed:false},
+  {kind:'report', text:'The vast majority of us said ...', crossed:false},
+  {kind:'report', text:'Opinion was split down the middle.', crossed:false},
+  {kind:'report', text:'Two out of three of us agreed that ...', crossed:false},
+  {kind:'report', text:'Only a small minority felt that ...', crossed:false},
+  {kind:'report', text:'Nobody at all picked ...', crossed:false},
+  {kind:'report', text:'The result surprised me, because ...', crossed:false}
 ];
+function svClone(x){ return JSON.parse(JSON.stringify(x)); }
 function loadSv(){
-  try{ var r = JSON.parse(localStorage.getItem(SV_KEY)); if(Array.isArray(r) && r.length && r[0] && r[0].votes) return r; }catch(e){}
-  return JSON.parse(JSON.stringify(DEFAULT_SV));
+  try{
+    var r = JSON.parse(localStorage.getItem(SV_KEY));
+    if(Array.isArray(r) && r.length && r[0] && Array.isArray(r[0].votes)){
+      r.forEach(function(it){ if(it.on === undefined) it.on = true; });
+      return r;
+    }
+  }catch(e){}
+  return svClone(DEFAULT_SV);
 }
 function loadSvPh(){
-  try{ var r = JSON.parse(localStorage.getItem(SV_PH_KEY)); if(Array.isArray(r) && r.length && r[0] && r[0].text!==undefined) return r; }catch(e){}
-  return JSON.parse(JSON.stringify(DEFAULT_SV_PH));
+  try{
+    var r = JSON.parse(localStorage.getItem(SV_PH_KEY));
+    if(Array.isArray(r) && r.length && r[0] && r[0].text !== undefined && r[0].kind) return r;
+  }catch(e){}
+  return svClone(DEFAULT_SV_PH);
 }
 var SV = loadSv();
 var SV_PH = loadSvPh();
@@ -3473,8 +3642,14 @@ function svReset(){
   SV.forEach(function(it){ it.votes = [0,0,0]; });
   saveSv(); renderSurvey();
 }
+function svToggleUse(i){ SV[i].on = !SV[i].on; saveSv(); renderSurvey(); }
+function svShort(){
+  SV.forEach(function(it, i){ it.on = SV_SHORT_PICKS.indexOf(i) > -1; });
+  saveSv(); renderSurvey();
+}
+function svAll(){ SV.forEach(function(it){ it.on = true; }); saveSv(); renderSurvey(); }
 function onSvEdit(i, el){ SV[i].text = el.value; saveSv(); }
-function addSvItem(){ SV.push({text:'', votes:[0,0,0]}); saveSv(); renderSurvey(); }
+function addSvItem(){ SV.push({text:'', votes:[0,0,0], on:true}); saveSv(); renderSurvey(); }
 function removeSvItem(i){ SV.splice(i,1); saveSv(); renderSurvey(); }
 function toggleSvPh(i){ SV_PH[i].crossed = !SV_PH[i].crossed; saveSvPh(); renderSvBank(); }
 function renderSurvey(){
@@ -3489,6 +3664,11 @@ function renderSurvey(){
     }).join('');
   } else {
     wrap.innerHTML = SV.map(function(it, i){
+      if(!it.on){
+        return '<div class="sv-item off"><span class="sv-num">' + (i+1) + '.</span>' +
+          '<span class="sv-off-text">' + esc(it.text) + '</span>' +
+          '<button class="sv-use" onclick="svToggleUse(' + i + ')">Use this one</button></div>';
+      }
       var tot = it.votes[0] + it.votes[1] + it.votes[2];
       var rows = SV_LABELS.map(function(lab, o){
         var pct = tot ? Math.round(it.votes[o] / tot * 100) : 0;
@@ -3500,7 +3680,8 @@ function renderSurvey(){
         '</div>';
       }).join('');
       return '<div class="sv-item">' +
-        '<div class="sv-q"><span class="sv-num">' + (i+1) + '.</span><span>' + esc(it.text) + '</span></div>' +
+        '<div class="sv-head"><div class="sv-q"><span class="sv-num">' + (i+1) + '.</span><span>' + esc(it.text) + '</span></div>' +
+          '<button class="sv-skip" onclick="svToggleUse(' + i + ')" title="Leave this one out">Skip</button></div>' +
         rows +
         '<div class="sv-tot">' + (tot ? tot + (tot === 1 ? ' vote' : ' votes') : 'no votes yet') + '</div>' +
       '</div>';
@@ -3508,59 +3689,66 @@ function renderSurvey(){
   }
   var all = SV.reduce(function(a, it){ return a + it.votes[0] + it.votes[1] + it.votes[2]; }, 0);
   var tEl = document.getElementById('svTotal');
-  if(tEl) tEl.textContent = all ? all + ' votes recorded across ' + SV.length + ' statements' : '';
+  if(tEl) tEl.textContent = all ? all + ' votes recorded' : '';
+  var used = SV.filter(function(it){ return it.on; }).length;
+  var uEl = document.getElementById('svUseNote');
+  if(uEl) uEl.textContent = 'Using ' + used + ' of ' + SV.length + ' statements';
   renderSvBank();
 }
 function renderSvBank(){
   var b = document.getElementById('svBank');
   if(!b) return;
-  b.innerHTML = SV_PH.map(function(p, i){
-    return '<div class="sv-ph' + (p.crossed ? ' crossed' : '') + '" onclick="toggleSvPh(' + i + ')">' + esc(p.text) + '</div>';
-  }).join('');
+  function col(kind, label){
+    return '<div><div class="sv-col-label">' + label + '</div>' + SV_PH.map(function(p, i){
+      return p.kind === kind ? '<div class="sv-ph' + (p.crossed ? ' crossed' : '') + '" onclick="toggleSvPh(' + i + ')">' + esc(p.text) + '</div>' : '';
+    }).join('') + '</div>';
+  }
+  b.innerHTML = '<div class="sv-bank2">' + col('ask', 'Asking') + col('report', 'Reporting back') + '</div>';
 }
 
 /* ===================== BUSINESS IDEAS / PITCH ===================== */
 var PI_KEY = 'jpe_business_pitch';
 var DEFAULT_PI_IDEAS = [
-  'A laundrette that is also a bar',
-  'A repair café: bring anything broken, pay by the hour',
-  'Hire a hen for the summer, coop included',
-  'A shop that sells one product only, changed every month',
-  'A bakery that opens when the bread is ready, announced on a group chat',
-  'A gym with no mirrors, no music and no phones',
-  'A supermarket of food a day from its date, at seventy per cent off',
-  'A dog walker who also brings your shopping back',
-  'Office plants, rented, watered and replaced every month',
-  'A tool library: one yearly fee, borrow anything',
-  'A hotel room priced by how well you slept',
-  'A quiet café with no music, no laptops and no meetings'
+  {title:'Repair café', desc:'Fix broken items while customers wait'},
+  {title:'Quiet café', desc:'No calls, music or laptops'},
+  {title:'Tool library', desc:'Borrow equipment for a monthly fee'},
+  {title:'Refill shop', desc:'Buy household products by weight'},
+  {title:'Lunch delivery', desc:'For people working from home'},
+  {title:'Office plants', desc:'Rent them with care included'}
 ];
 var DEFAULT_PI_QS = [
-  'What is stopping a much bigger company doing this next week?',
-  'Who is your very first paying customer, by name?',
-  'How do you make money on the second sale, not the first?',
-  'What are your margins at that price?',
-  'Where does the first ten thousand go?',
-  'What would make you walk away from this?',
-  'Why has nobody done this already?',
-  'How many do you need to sell just to break even?'
+  'Who would buy it first?',
+  'What would they pay?',
+  'What makes it different?',
+  'What could go wrong?',
+  'How would you test it cheaply?',
+  'When would it break even?'
 ];
-var DEFAULT_PI_STEPS = [
-  ['The pain point', 'Who is annoyed, and by what? One sentence, no jargon.'],
-  ['The idea', 'What you actually do, in one line a stranger would understand.'],
-  ['Who pays', 'Name the customer, the price and how often they pay it.'],
-  ['Why you', 'Why this is not obvious, and why you can do it well.'],
-  ['The first ninety days', 'What you would do first, and what would tell you it is working.']
+var PI_STEPS = [
+  ['Prepare', '1 minute', 'Choose or deal one idea.'],
+  ['Pitch', '90 seconds', 'Say who has the problem, what you offer, who pays, and how you would test the idea.'],
+  ['Questions', '2 listeners', 'Two listeners each ask one question.'],
+  ['Vote', 'invest or pass', 'The class says "invest" or "pass" and gives a reason.']
+];
+var PI_BEATS = [
+  ['Problem', 'Who has it, and why does it matter?'],
+  ['Solution', 'What you offer, in one sentence.'],
+  ['Customer and price', 'Who pays, and how much?'],
+  ['First test', 'How you would try it cheaply.']
 ];
 function loadPi(){
   try{
     var r = JSON.parse(localStorage.getItem(PI_KEY));
-    if(r && Array.isArray(r.ideas) && r.ideas.length && Array.isArray(r.qs)) return r;
+    if(r && Array.isArray(r.ideas) && r.ideas.length && r.ideas[0] && typeof r.ideas[0].title === 'string' && Array.isArray(r.qs)){
+      if(!r.vote) r.vote = {invest:0, pass:0};
+      return r;
+    }
   }catch(e){}
   return {
-    ideas: DEFAULT_PI_IDEAS.map(function(t){ return {text:t, ruled:false}; }),
+    ideas: svClone(DEFAULT_PI_IDEAS),
     qs: DEFAULT_PI_QS.map(function(t){ return {text:t, crossed:false}; }),
-    cur: -1
+    cur: -1,
+    vote: {invest:0, pass:0}
   };
 }
 var PI = loadPi();
@@ -3572,89 +3760,106 @@ function togglePiEditMode(){
   document.getElementById('addPiBtn').style.display = piEditMode ? '' : 'none';
   renderPitch();
 }
-var piClickTimer = null;
-function piCardClick(i){
-  if(piClickTimer){ clearTimeout(piClickTimer); piClickTimer = null; return; }
-  piClickTimer = setTimeout(function(){
-    piClickTimer = null;
-    PI.cur = (PI.cur === i) ? -1 : i;
-    savePi(); renderPitch();
-  }, 230);
-}
-function piCardDbl(i){
-  if(piClickTimer){ clearTimeout(piClickTimer); piClickTimer = null; }
-  PI.ideas[i].ruled = !PI.ideas[i].ruled;
-  if(PI.ideas[i].ruled && PI.cur === i) PI.cur = -1;
-  savePi(); renderPitch();
-}
+function piSelect(i){ PI.cur = (PI.cur === i) ? -1 : i; savePi(); renderPitch(); }
 function piDeal(){
-  var live = [];
-  for(var i=0;i<PI.ideas.length;i++) if(!PI.ideas[i].ruled && i !== PI.cur) live.push(i);
-  if(!live.length) return;
-  PI.cur = live[Math.floor(Math.random()*live.length)];
+  var pool = [];
+  for(var i=0;i<PI.ideas.length;i++) if(i !== PI.cur) pool.push(i);
+  if(!pool.length) return;
+  PI.cur = pool[Math.floor(Math.random()*pool.length)];
   savePi(); renderPitch();
 }
-function onPiEdit(i, el){ PI.ideas[i].text = el.value; savePi(); }
-function addPiIdea(){ PI.ideas.push({text:'', ruled:false}); savePi(); renderPitch(); }
+function onPiIdea(i, field, el){ PI.ideas[i][field] = el.value; savePi(); }
+function addPiIdea(){ PI.ideas.push({title:'', desc:''}); savePi(); renderPitch(); }
 function removePiIdea(i){
   PI.ideas.splice(i,1);
   if(PI.cur >= PI.ideas.length) PI.cur = -1;
   savePi(); renderPitch();
 }
+function onPiQ(i, el){ PI.qs[i].text = el.value; savePi(); }
+function addPiQ(){ PI.qs.push({text:'', crossed:false}); savePi(); renderPitch(); }
+function removePiQ(i){ PI.qs.splice(i,1); savePi(); renderPitch(); }
 function togglePiQ(i){ PI.qs[i].crossed = !PI.qs[i].crossed; savePi(); renderPitch(); }
+function piVote(kind){ PI.vote[kind]++; savePi(); renderPitch(); }
+function piVoteReset(){ PI.vote = {invest:0, pass:0}; savePi(); renderPitch(); }
+function piStepClick(n){
+  if(n === 0) piPreset(60);
+  else if(n === 1) piPreset(90);
+  else {
+    var el = document.getElementById(n === 2 ? 'piQsCard' : 'piVoteCard');
+    if(el) el.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+}
 function renderPitch(){
   var g = document.getElementById('piGrid');
   if(!g) return;
+  document.getElementById('piFlow').innerHTML = PI_STEPS.map(function(st, i){
+    var on = (i === 0 && piDur === 60) || (i === 1 && piDur === 90);
+    return '<li class="pi-step' + (on ? ' on' : '') + '" onclick="piStepClick(' + i + ')">' +
+      '<div class="pi-step-head"><span class="pi-step-n">' + (i+1) + '</span><span class="pi-step-name">' + st[0] + '</span>' +
+      '<span class="pi-step-time">' + st[1] + '</span></div>' +
+      '<div class="pi-step-desc">' + esc(st[2]) + '</div></li>';
+  }).join('');
+  var ew = document.getElementById('piEditWrap');
   if(piEditMode){
     g.style.display = 'none';
-    var ed = document.getElementById('piEditList');
-    if(!ed){
-      ed = document.createElement('div');
-      ed.id = 'piEditList';
-      g.parentNode.insertBefore(ed, g);
-    }
-    ed.style.display = '';
-    ed.innerHTML = PI.ideas.map(function(it, i){
-      return '<div class="sv-edit-row">' +
-        '<input value="' + esc(it.text) + '" oninput="onPiEdit(' + i + ',this)" placeholder="Business idea">' +
-        '<button class="wb-rm" onclick="removePiIdea(' + i + ')" aria-label="Remove">&times;</button>' +
-      '</div>';
+    ew.style.display = '';
+    ew.innerHTML = PI.ideas.map(function(it, i){
+      return '<div class="pi-edit-row">' +
+        '<input value="' + esc(it.title) + '" oninput="onPiIdea(' + i + ',\'title\',this)" placeholder="Idea name">' +
+        '<input value="' + esc(it.desc) + '" oninput="onPiIdea(' + i + ',\'desc\',this)" placeholder="One short line">' +
+        '<button class="wb-rm" onclick="removePiIdea(' + i + ')" aria-label="Remove">&times;</button></div>';
     }).join('');
   } else {
-    var ed2 = document.getElementById('piEditList');
-    if(ed2) ed2.style.display = 'none';
+    ew.style.display = 'none';
     g.style.display = '';
     g.innerHTML = PI.ideas.map(function(it, i){
-      var cls = 'pi-card' + (PI.cur === i ? ' on' : '') + (it.ruled ? ' ruled' : '');
-      return '<div class="' + cls + '" onclick="piCardClick(' + i + ')" ondblclick="piCardDbl(' + i + ')">' + esc(it.text) + '</div>';
+      return '<div class="pi-card' + (PI.cur === i ? ' on' : '') + '" onclick="piSelect(' + i + ')">' +
+        '<div class="pi-card-title">' + esc(it.title) + '</div>' +
+        '<div class="pi-card-desc">' + esc(it.desc) + '</div></div>';
     }).join('');
   }
   var cur = document.getElementById('piCurrent');
-  if(cur){
-    if(PI.cur > -1 && PI.ideas[PI.cur]){
-      cur.className = 'pi-current';
-      cur.textContent = PI.ideas[PI.cur].text;
-    } else {
-      cur.className = 'pi-current empty';
-      cur.textContent = 'Nothing on the table yet. Tap a card below, or deal one at random.';
-    }
+  if(PI.cur > -1 && PI.ideas[PI.cur]){
+    var ci = PI.ideas[PI.cur];
+    cur.className = 'pi-table';
+    cur.innerHTML = '<b>On the table:</b> ' + esc(ci.title) + (ci.desc ? ', ' + esc(ci.desc.charAt(0).toLowerCase() + ci.desc.slice(1)) : '');
+  } else {
+    cur.className = 'pi-table empty';
+    cur.textContent = 'Nothing on the table yet. Tap an idea below, or press Deal me one.';
   }
-  var st = document.getElementById('piSteps');
-  if(st) st.innerHTML = DEFAULT_PI_STEPS.map(function(p, i){
-    return '<li class="pi-step"><span class="pi-step-n">' + (i+1) + '</span>' +
-      '<span class="pi-step-t"><b>' + p[0] + '.</b> ' + p[1] + '</span></li>';
+  document.getElementById('piBeats').innerHTML = PI_BEATS.map(function(b, i){
+    return '<li class="pi-beat"><span class="pi-beat-n">' + (i+1) + '</span>' +
+      '<span class="pi-beat-t"><b>' + b[0] + '.</b> ' + esc(b[1]) + '</span></li>';
   }).join('');
   var qs = document.getElementById('piQs');
-  if(qs) qs.innerHTML = PI.qs.map(function(q, i){
-    return '<div class="pi-q' + (q.crossed ? ' crossed' : '') + '" onclick="togglePiQ(' + i + ')">' + esc(q.text) + '</div>';
-  }).join('');
+  if(piEditMode){
+    qs.innerHTML = PI.qs.map(function(q, i){
+      return '<div class="pi-edit-q"><input value="' + esc(q.text) + '" oninput="onPiQ(' + i + ',this)" placeholder="Investor question">' +
+        '<button class="wb-rm" onclick="removePiQ(' + i + ')" aria-label="Remove">&times;</button></div>';
+    }).join('') + '<button class="read-btn" onclick="addPiQ()" style="justify-self:start;margin-top:.3rem">+ Add a question</button>';
+  } else {
+    qs.innerHTML = PI.qs.map(function(q, i){
+      return '<div class="pi-q' + (q.crossed ? ' crossed' : '') + '" onclick="togglePiQ(' + i + ')">' + esc(q.text) + '</div>';
+    }).join('');
+  }
+  document.getElementById('piVInvest').textContent = PI.vote.invest;
+  document.getElementById('piVPass').textContent = PI.vote.pass;
+  document.getElementById('piPreP').classList.toggle('on', piDur === 60);
+  document.getElementById('piPreQ').classList.toggle('on', piDur === 90);
 }
 var piDur = 90, piLeft = 90, piRun = false, piInt = null;
-function piFmt(s){ return Math.floor(s/60) + ':' + (s%60 < 10 ? '0' : '') + (s%60); }
+function piFmt(x){ return Math.floor(x/60) + ':' + (x%60 < 10 ? '0' : '') + (x%60); }
 function piPaint(){
   var d = document.getElementById('piDisp'), b = document.getElementById('piBar');
   if(d) d.textContent = piFmt(piLeft);
   if(b) b.style.width = (piLeft / piDur * 100) + '%';
+}
+function piPreset(secs){
+  piDur = secs; piLeft = secs; piRun = false;
+  clearInterval(piInt);
+  var btn = document.getElementById('piPlay');
+  if(btn) btn.innerHTML = '&#9658; Start';
+  piPaint(); renderPitch();
 }
 function piTog(){
   var btn = document.getElementById('piPlay');
@@ -3670,15 +3875,13 @@ function piTog(){
     piLeft--;
     piPaint();
     if(piLeft <= 0){
-      clearInterval(piInt); piRun = false; piLeft = 0;
-      if(btn) btn.innerHTML = '&#9658; 90s';
-      piLeft = piDur;
-      setTimeout(piPaint, 900);
+      clearInterval(piInt); piRun = false;
+      if(btn) btn.innerHTML = '&#9658; Start';
+      setTimeout(function(){ piLeft = piDur; piPaint(); }, 1200);
     }
   }, 1000);
   piPaint();
 }
-
 
 /* ===================== BREAKOUT PITCH ROOM ===================== */
 var BO_KEY = 'jpe_business_breakout';
@@ -3836,7 +4039,7 @@ function boTog(){
   boPaint();
 }
 
-var tabIds = ['warmup','survey','sorting','longturn','pitch','breakout','debates','roleplay','listening'];
+var tabIds = ['warmup','survey','longturn','pitch','debates','roleplay','listening','sorting','breakout'];
 function showTab(id){
   tabIds.forEach(function(t){
     document.getElementById(t).classList.toggle('visible', t===id);
@@ -3990,6 +4193,12 @@ function initTabDrag(){
   nav.addEventListener('pointercancel', endDrag);
 }
 
+function openTeacherNotes(){
+  var d = document.getElementById('teacherNotes');
+  if(!d) return;
+  d.open = true;
+  d.scrollIntoView({behavior:'smooth', block:'start'});
+}
 function toggleFullscreen(){
   if(!document.fullscreenElement) document.documentElement.requestFullscreen();
   else document.exitFullscreen();
@@ -3997,16 +4206,20 @@ function toggleFullscreen(){
 
 /* ---------- lesson backup / restore: generic, reads whatever this page has stored ---------- */
 function gatherLocalStorageData(){
+  /* only this lesson's own keys: the whole-origin dump used to drag every other lesson's data into this row */
   var data = {};
   for(var i=0;i<localStorage.length;i++){
     var k = localStorage.key(i);
-    data[k] = localStorage.getItem(k);
+    if(k.indexOf(OWN_PREFIX) === 0) data[k] = localStorage.getItem(k);
   }
   return data;
 }
 function applyLocalStorageData(data){
-  Object.keys(data).forEach(function(k){ localStorage.setItem(k, data[k]); });
+  Object.keys(data || {}).forEach(function(k){
+    if(k.indexOf(OWN_PREFIX) === 0) localStorage.setItem(k, data[k]);
+  });
 }
+function isCurrentVersion(data){ return !!data && data[VERSION_KEY] === CONTENT_VERSION; }
 function exportLessonBackup(){
   var payload = {
     savedAt: new Date().toISOString(),
@@ -4031,8 +4244,9 @@ document.getElementById('restoreBackupInput').addEventListener('change', functio
     try{ payload = JSON.parse(e.target.result); }catch(err){ alert('That file is not a valid backup.'); return; }
     var data = payload && payload.data;
     if(!data){ alert('That file is not a valid backup.'); return; }
+    if(!isCurrentVersion(data)){ alert('That backup was made from an older version of this lesson, so it cannot be restored here.'); return; }
     if(!confirm('This will replace everything currently on this page with the backup from '+(payload.savedAt||'an earlier save')+'. Continue?')) return;
-    applyLocalStorageData(data);
+    try{ applyLocalStorageData(data); }catch(err){ alert('Restore failed: this browser could not store the data ('+err.message+').'); return; }
     location.reload();
   };
   reader.readAsText(f);
@@ -4058,10 +4272,9 @@ var supabaseClient = (typeof window.supabase !== 'undefined')
   if(sessionStorage.getItem(flagKey)) return;
   supabaseClient.from('lessons').select('data, updated_at').eq('id', LESSON_ID).maybeSingle().then(function(res){
     try{ sessionStorage.setItem(flagKey, '1'); }catch(e){}
-    if(!res.error && res.data){
-      applyLocalStorageData(res.data.data);
-      location.reload();
-    }
+    if(res.error || !res.data || !isCurrentVersion(res.data.data)) return;   /* stale or missing cloud copy: keep the shipped defaults */
+    try{ applyLocalStorageData(res.data.data); }catch(e){ return; }
+    location.reload();
   });
 })();
 function setCloudStatus(text){
@@ -4086,8 +4299,9 @@ function loadFromCloud(){
   supabaseClient.from('lessons').select('data, updated_at').eq('id', LESSON_ID).maybeSingle().then(function(res){
     if(res.error){ setCloudStatus(''); alert('Cloud load failed: '+res.error.message); return; }
     if(!res.data){ setCloudStatus(''); alert('Nothing has been saved to the cloud for this lesson yet.'); return; }
+    if(!isCurrentVersion(res.data.data)){ setCloudStatus(''); alert('The cloud copy was saved from an older version of this lesson, so it has not been loaded. Press Cloud Save on this page to replace it with the current version.'); return; }
     if(!confirm('This will replace everything currently on this device with the cloud version, last saved '+new Date(res.data.updated_at).toLocaleString()+'. Continue?')){ setCloudStatus(''); return; }
-    applyLocalStorageData(res.data.data);
+    try{ applyLocalStorageData(res.data.data); }catch(e){ setCloudStatus(''); alert('Cloud load failed: this browser could not store the data ('+e.message+').'); return; }
     location.reload();
   });
 }
