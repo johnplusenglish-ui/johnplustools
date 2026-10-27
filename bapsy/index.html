@@ -20,7 +20,7 @@
   --sans:'Outfit',system-ui,-apple-system,sans-serif;
   --r:14px; --r-sm:10px; --r-xs:8px;
   --sh-sm:0 1px 3px rgba(28,36,51,.05); --sh:0 4px 16px -6px rgba(28,36,51,.12);
-  --gut:24px; --wrap:860px;
+  --gut:24px; --wrap:860px; --prose:620px;
   --cream:#F7F6F3; --mod-accent:#355474; --coral-d:#B0463F; --coral-tint:#FBECEA;
   --accent-shadow:rgba(53,84,116,.30); --radius:14px; --shadow-md:0 8px 26px rgba(28,36,51,.11);
 }
@@ -126,11 +126,11 @@ a{color:var(--link);text-decoration:underline;text-underline-offset:2px;text-dec
 
 /* ---------- section titles ---------- */
 .sec{font-weight:700;font-size:21px;letter-spacing:-.01em;margin:44px 0 14px;line-height:1.2;padding-bottom:11px;border-bottom:1px solid var(--border);color:var(--ink)}
-p.lead{color:var(--muted);font-size:15px;margin:0 0 16px;line-height:1.55}
+p.lead{color:var(--muted);font-size:16px;margin:0 0 18px;line-height:1.65;max-width:var(--prose)}
 ul.lead-list{margin:0 0 16px;padding:0;list-style:none}
-ul.lead-list li{position:relative;padding:6px 0 6px 18px;font-size:14.5px;color:var(--muted);line-height:1.55;border-top:1px solid var(--border-soft)}
+ul.lead-list li{position:relative;padding:0 0 0 22px;margin:0 0 15px;font-size:16px;color:var(--muted);line-height:1.65;max-width:var(--prose)}
 ul.lead-list li:first-child{border-top:0}
-ul.lead-list li::before{content:"";position:absolute;left:0;top:13px;width:5px;height:5px;border-radius:50%;background:var(--accent)}
+ul.lead-list li::before{content:"";position:absolute;left:2px;top:9px;width:5px;height:5px;border-radius:50%;background:var(--accent)}
 ul.lead-list li b{color:var(--ink);font-weight:600}
 
 /* ---------- cards ---------- */
@@ -182,14 +182,14 @@ ul.lead-list li b{color:var(--ink);font-weight:600}
 .due-in{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;color:var(--due);background:var(--due-light);border:1px solid #f4d4d2;padding:4px 12px;border-radius:100px;margin-top:9px}
 
 /* ---------- note ---------- */
-.note{background:var(--accent-light);border:1px solid #d6e2ff;border-radius:var(--r-sm);padding:16px 20px;margin:20px 0;font-size:14.5px;color:var(--ink);line-height:1.55}
+.note{background:var(--accent-light);border:1px solid #d6e2ff;border-radius:var(--r-sm);padding:17px 21px;margin:22px 0;font-size:15.5px;color:var(--ink);line-height:1.62;max-width:var(--prose)}
 .note b{color:var(--ink);font-weight:600}
 /* class="note b" is a caution, not an ordinary note: amber surface and label */
 .note.b{background:var(--warn);border-color:#F0DCBE}
 .note.b .lab{color:var(--warn-ink)}
 .note.b b{color:var(--warn-ink)}
 .note .lab{display:block;font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;font-weight:700;margin-bottom:7px;color:var(--accent-dark)}
-.mans{background:var(--hover);border:1px solid var(--border);border-radius:var(--r-sm);padding:17px 21px;margin:18px 0;font-size:14.5px;color:var(--muted);line-height:1.6}
+.mans{background:var(--hover);border:1px solid var(--border);border-radius:var(--r-sm);padding:18px 22px;margin:20px 0;font-size:15.5px;color:var(--muted);line-height:1.65;max-width:var(--prose)}
 .mans .lab{display:block;font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;font-weight:700;margin-bottom:9px;color:var(--ink)}
 .mans b{color:var(--ink);font-weight:600}
 .mans p{margin:0 0 11px}
@@ -203,6 +203,52 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
 .sumdl .sd-b{font-family:var(--sans);font-size:14.5px;font-weight:600;color:#fff;background:var(--accent);border:0;border-radius:var(--r-sm);padding:12px 20px;cursor:pointer;transition:background .15s}
 .sumdl .sd-b:hover{background:var(--accent-dark)}
 .sumdl .sd-b:disabled{opacity:.6;cursor:default}
+/* ---------- reading-layout pass ---------- */
+/* a long bold lead-in becomes a label on its own line; the explanation reads at normal weight.
+   no words move, only the display of the <b> that already begins the item. */
+li.has-lead > b:first-child{display:block;font-weight:600;color:var(--ink);margin-bottom:3px}
+ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
+
+/* the first segment of an assignment meta line is the due date, and was 12.5px grey */
+.abox .meta .meta-key{display:block}
+
+/* tables: a two-column term/explanation table stacks into labelled rows on a phone,
+   wider comparisons keep real columns and say so */
+.tscroll{position:relative}
+.tscroll.has-scroll::after{content:"Scroll sideways to see every column";display:block;font-size:12.5px;color:var(--muted);padding:7px 2px 0;letter-spacing:.01em}
+
+@media(max-width:640px){
+  /* P0.3: 28px of side padding left about 237px of text inside a 342px box */
+  .abox{padding:18px 16px}
+  .note{padding:15px 16px}
+  .mans{padding:16px 16px}
+  .intro-card{padding:16px 17px}
+  .intro-card.ic-closed{padding:11px 14px}
+  ul.lead-list li{padding-left:20px}
+  .abox ul li{padding-left:19px}
+  .abox ul ul li{padding-left:16px}
+  /* keep reading text at reading size on a phone */
+  p.lead,ul.lead-list li{font-size:16px;line-height:1.65}
+  .note,.mans{font-size:15.5px;line-height:1.62}
+  .abox ul li{font-size:15.5px}
+  .abox .meta{font-size:14px}
+  .abox .meta .meta-key{font-size:15.5px}
+
+  .tbl-stack thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .tbl-stack,.tbl-stack tbody,.tbl-stack tr,.tbl-stack td{display:block;width:auto}
+  .tbl-stack{border:0;background:none}
+  .tbl-stack tr{background:var(--card);border:1px solid var(--border);border-radius:var(--r-sm);padding:13px 15px;margin:0 0 10px}
+  .tbl-stack tr:hover td{background:none}
+  .tbl-stack td{border:0;padding:0;font-size:15px;line-height:1.6}
+  .tbl-stack td + td{margin-top:5px}
+  .tbl-stack td::before{content:attr(data-th);display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;color:var(--accent-dark);margin-bottom:3px}
+  .tbl-stack td:first-child{color:var(--ink);font-weight:600}
+  .tscroll:has(.tbl-stack){overflow-x:visible}
+  .tscroll:has(.tbl-stack).has-scroll::after{display:none}
+  .tscroll .tbl{min-width:560px}
+  .tscroll:has(.tbl-stack) .tbl{min-width:0}
+}
+
 /* ---------- guided learning layer ---------- */
 .gl-toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(10px);z-index:120;max-width:min(460px,92vw);background:var(--ink);color:#fff;font-size:14px;line-height:1.5;padding:13px 19px;border-radius:var(--r-sm);box-shadow:var(--shadow-md);opacity:0;visibility:hidden;transition:opacity .18s,transform .18s}
 .gl-toast.on{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
@@ -311,22 +357,23 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
 .abox .ah{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap}
 .abox h3{font-weight:700;font-size:21px;margin:0;color:var(--ink);line-height:1.15;letter-spacing:-.01em}
 .abox .wt{font-weight:800;font-size:26px;color:var(--accent);line-height:1}
-.abox .meta{font-size:12.5px;color:var(--muted);margin:9px 0 18px;padding-bottom:16px;border-bottom:1px solid var(--border);line-height:1.5}
+.abox .meta{font-size:14px;color:var(--muted);margin:10px 0 18px;padding-bottom:16px;border-bottom:1px solid var(--border);line-height:1.6;max-width:var(--prose)}
+.abox .meta .meta-key{display:block;font-size:16px;font-weight:700;color:var(--ink);margin-bottom:4px}
 .abox .lead2{font-size:14.5px;color:var(--ink);margin:0 0 4px;line-height:1.55}
 .abox h4{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:700;margin:20px 0 8px}
 .abox ul{margin:4px 0 0;padding:0;list-style:none}
-.abox ul li{position:relative;padding:7px 0 7px 18px;font-size:14px;color:var(--muted);border-top:1px solid var(--border-soft);line-height:1.5}
+.abox ul li{position:relative;padding:0 0 0 20px;margin:0 0 13px;font-size:15.5px;color:var(--muted);line-height:1.62;max-width:var(--prose)}
 .abox ul li:first-child{border-top:0}
-.abox ul li::before{content:"";position:absolute;left:0;top:14px;width:5px;height:5px;border-radius:50%;background:var(--accent)}
+.abox ul li::before{content:"";position:absolute;left:1px;top:9px;width:5px;height:5px;border-radius:50%;background:var(--accent)}
 .abox ul li b{color:var(--ink);font-weight:600}
 .abox ul ul{margin:7px 0 2px;padding:0;list-style:none}
-.abox ul ul li{border-top:0;padding:3px 0 3px 16px;font-size:13.5px}
-.abox ul ul li::before{top:11px;width:4px;height:4px;background:var(--muted)}
+.abox ul ul li{padding:0 0 0 17px;margin:7px 0 0;font-size:14.5px;line-height:1.6}
+.abox ul ul li::before{top:8px;width:4px;height:4px;background:var(--muted)}
 
 /* ---------- tables ---------- */
 .tbl{width:100%;border-collapse:separate;border-spacing:0;margin:16px 0;font-size:14px;background:var(--card);border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden}
-.tbl thead th{background:var(--bg);font-weight:700;color:var(--ink);font-size:11px;letter-spacing:.04em;text-transform:uppercase;text-align:left;padding:12px 15px;border-bottom:1px solid var(--border)}
-.tbl td{padding:12px 15px;text-align:left;border-bottom:1px solid var(--border-soft);vertical-align:top;color:var(--muted);line-height:1.5}
+.tbl thead th{background:var(--bg);font-weight:700;color:var(--ink);font-size:12.5px;letter-spacing:.03em;text-transform:uppercase;text-align:left;padding:12px 15px;border-bottom:1px solid var(--border)}
+.tbl td{padding:13px 15px;font-size:14.5px;text-align:left;border-bottom:1px solid var(--border-soft);vertical-align:top;color:var(--muted);line-height:1.55}
 .tbl tbody tr:last-child td{border-bottom:0}
 .tbl tbody tr:hover td{background:var(--hover)}
 .tbl td b{color:var(--ink);font-weight:600}
@@ -10728,6 +10775,65 @@ h4.qsub{font-weight:700;font-size:16.5px;margin:30px 0 10px;color:var(--ink);let
     setMode:function(m){ set(LS_MODE,m); applyAll(); },
     reset:function(){ MODS.forEach(x=>x.reset()); }
   };
+})();
+
+
+/* ===== reading-layout pass: no words are added, removed or reordered ===== */
+(function(){
+  // 1. a long bold lead-in gets its own line, so a four-point guide stops reading as a wall of bold
+  document.querySelectorAll('ul.lead-list > li, .abox ul > li').forEach(function(li){
+    var b=li.firstElementChild;
+    if(!b||b.tagName!=='B') return;
+    if(b!==li.childNodes[0] && (li.childNodes[0].nodeType!==3 || li.childNodes[0].nodeValue.trim())) return;
+    var lead=b.textContent.trim();
+    if(lead.length<28) return;                    // short labels stay inline
+    var rest=(li.textContent||'').trim().slice(lead.length).trim();
+    if(rest.length<20) return;                    // nothing meaningful follows
+    li.classList.add('has-lead');
+  });
+
+  // 2. the due date in an assignment meta line is not metadata
+  document.querySelectorAll('.abox .meta').forEach(function(m){
+    if(m.querySelector('.meta-key')) return;
+    var n=m.firstChild;
+    if(!n||n.nodeType!==3) return;
+    var i=n.nodeValue.indexOf(' · ');
+    if(i<1) return;
+    var key=n.splitText(0);
+    key.splitText(i);                             // leaves " · ..." in place, nothing is dropped
+    var span=document.createElement('span');
+    span.className='meta-key';
+    span.textContent=key.nodeValue;
+    key.parentNode.replaceChild(span,key);
+  });
+
+  // 3. two-column tables stack into labelled rows on a phone; wider ones keep columns and say so
+  document.querySelectorAll('table.tbl').forEach(function(tb){
+    // many tables here put their th cells in a bare first row, with no thead
+    var headRow=tb.querySelector('thead tr') || tb.querySelector('tr');
+    var heads=headRow?[].map.call(headRow.querySelectorAll('th'),function(th){return th.textContent.trim();}):[];
+    var rows=tb.querySelectorAll('tr');
+    if(heads.length===2){
+      tb.classList.add('tbl-stack');
+      rows.forEach(function(tr){
+        [].forEach.call(tr.children,function(td,i){
+          if(td.tagName==='TD'&&heads[i]) td.setAttribute('data-th',heads[i]);
+        });
+      });
+    }
+  });
+
+  // 4. a horizontal scroller that actually scrolls says so
+  function cues(){
+    document.querySelectorAll('.tscroll').forEach(function(s){
+      s.classList.toggle('has-scroll', s.scrollWidth>s.clientWidth+2);
+    });
+  }
+  cues();
+  window.addEventListener('resize',cues);
+  document.querySelectorAll('.guide-nav-item,.pn-mods button,.bchip,.bbtn').forEach(function(b){
+    b.addEventListener('click',function(){setTimeout(cues,60);});
+  });
 })();
 
 </script>
