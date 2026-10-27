@@ -274,6 +274,18 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
 .guide-nav-item.gl-new{animation:glnew 2.2s ease-out}
 @keyframes glnew{0%,40%{background:var(--accent-light)}100%{background:transparent}}
 @media(prefers-reduced-motion:reduce){.guide-nav-item.gl-new{animation:none;background:var(--accent-light)}}
+/* ---------- guided reading: one section at a time ---------- */
+.gs-sec[hidden],.gs-bar[hidden],.gs-foot[hidden],.gs-jump[hidden],.gs-track[hidden]{display:none !important}
+.gs-bar{background:var(--card);border:1px solid var(--border);border-radius:var(--r-sm);padding:13px 15px 14px;margin:20px 0 6px;scroll-margin-top:68px}
+.gs-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:9px}
+.gs-pos{font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--accent-dark)}
+.gs-all{font-family:var(--sans);font-size:13px;font-weight:600;color:var(--link);background:none;border:0;cursor:pointer;text-decoration:underline;text-underline-offset:2px;padding:4px 0}
+.gs-jump{display:block;width:100%;font-family:var(--sans);font-size:14.5px;font-weight:500;color:var(--ink);background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 11px}
+.gs-track{height:4px;background:var(--border);border-radius:99px;overflow:hidden;margin-top:11px}
+.gs-track i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .2s}
+.gs-foot{margin:26px 0 8px}
+@media(prefers-reduced-motion:reduce){.gs-track i{transition:none}}
+.gl-next:disabled{opacity:.45;cursor:default}
 .gl-allres[hidden]{display:none}
 
 .gl-cont{background:var(--accent);border-radius:var(--r);padding:24px 26px;margin:0 0 26px;color:#fff}
@@ -11008,6 +11020,7 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
     document.body.dataset.glmode=mode();
     MODS.forEach(function(m){ m.apply(); });
     applyBar();
+    document.dispatchEvent(new Event('bapsy:mode'));
   }
 
   /* ---------- mobile: one fixed action, following whichever module is open ---------- */
@@ -11034,11 +11047,11 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
        lessonPane:'q15',lessonKey:'bapsy_nulllesson_v1',lessonStep:3,
        lessons:LESSONS81,micro:MICRO81,terms:TERMS81,
        deadline:'Assignment 1 is due Monday 2 November',
-       toastGuided:'Guided learning on. A short list of places to go, and the long pages are split into lessons.',
+       toastGuided:'Guided learning on. Long pages open one section at a time, with a Next button.',
        toastFull:'Full reference on. Every page and every section, exactly as before.'},
       {m:'80',mapPane:'p1',pathPane:'p21',pathNav:'21',doneKey:'bapsy_path80_v1',steps:STEPS80,
        deadline:'Assignment 1 is due Monday 23 November',
-       toastGuided:'Guided learning on. A short list of places to go, in the order the module teaches them.',
+       toastGuided:'Guided learning on. Long pages open one section at a time, with a Next button.',
        toastFull:'Full reference on. Every book and every tab, exactly as before.'}
     ];
     defs.forEach(function(d){
@@ -11122,6 +11135,107 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
   document.querySelectorAll('.guide-nav-item,.pn-mods button,.bchip,.bbtn').forEach(function(b){
     b.addEventListener('click',function(){setTimeout(cues,60);});
   });
+})();
+
+
+/* ===== Guided reading: one section at a time =====
+   This is what makes Guided mode different from Full reference. In Guided, every long page
+   and every chapter opens on its first section, with a position marker, a jump menu and
+   Previous / Next. In Full reference nothing is hidden and no controls appear.
+   Sections are wrapped in place, never copied, edited or reordered. */
+(function(){
+  // reference pages, where seeing everything at once is the point
+  const SKIP={p4:1,p5:1,p9:1,q4:1,q5:1,q15:1};
+  // things that belong to the page or chapter rather than to a section, so they stay put
+  const CHROME='.sumdl,.bnav,.credits,.bookbar,.gs-bar,.gs-foot';
+  const MIN=3;
+  const hosts=[];
+
+  function isGuided(){ try{ return localStorage.getItem('bapsy_mode_v1')!=='full'; }catch(e){ return true; } }
+  function txt(el){ return el.textContent.replace(/\s+/g,' ').trim(); }
+  function short(s,n){ return s.length>n ? s.slice(0,n-1).replace(/\s+\S*$/,'')+'…' : s; }
+  function isSec(e){ return e.tagName==='H3' && e.classList.contains('sec'); }
+
+  function build(host){
+    const kids=[...host.children];
+    const first=kids.findIndex(isSec);
+    if(first<0 || kids.filter(isSec).length<MIN) return;
+
+    const secs=[]; let cur=null;
+    for(let i=first;i<kids.length;i++){
+      const el=kids[i];
+      if(isSec(el)){
+        cur=document.createElement('div'); cur.className='gs-sec';
+        host.insertBefore(cur,el); cur.appendChild(el); secs.push(cur); continue;
+      }
+      if(el.matches(CHROME)){ cur=null; continue; }
+      if(cur) cur.appendChild(el);
+    }
+    if(secs.length<MIN) return;
+
+    const titles=secs.map(function(s){ return txt(s.firstElementChild); });
+    const bar=document.createElement('div'); bar.className='gs-bar';
+    bar.innerHTML='<div class="gs-top"><span class="gs-pos"></span><button type="button" class="gs-all"></button></div>'+
+                  '<select class="gs-jump" aria-label="Jump to a section"></select>'+
+                  '<div class="gs-track"><i></i></div>';
+    const sel=bar.querySelector('select');
+    titles.forEach(function(t,i){ const o=document.createElement('option'); o.value=String(i); o.textContent=t; sel.appendChild(o); });
+    host.insertBefore(bar,secs[0]);
+
+    const foot=document.createElement('div'); foot.className='gs-foot gl-lnav';
+    foot.innerHTML='<button type="button" class="gl-prev">Previous</button><button type="button" class="gl-next"></button>';
+    host.insertBefore(foot,secs[secs.length-1].nextSibling);
+
+    const H={host:host,secs:secs,titles:titles,bar:bar,foot:foot,sel:sel,i:0,all:false};
+    hosts.push(H);
+
+    sel.addEventListener('change',function(){ go(H,+sel.value); });
+    bar.querySelector('.gs-all').addEventListener('click',function(){ H.all=!H.all; render(H); if(!H.all) top(H); });
+    foot.querySelector('.gl-prev').addEventListener('click',function(){ go(H,H.i-1); });
+    foot.querySelector('.gl-next').addEventListener('click',function(){ go(H,H.i+1); });
+    render(H);
+  }
+
+  function top(H){
+    try{ H.bar.scrollIntoView({behavior:'smooth',block:'start'}); }catch(e){}
+    window.dispatchEvent(new Event('resize'));   // lets the table scroll cues recompute
+  }
+  function go(H,i){
+    H.i=Math.max(0,Math.min(H.secs.length-1,i));
+    render(H); top(H);
+  }
+
+  function render(H){
+    const g=isGuided(), step=g && !H.all, n=H.secs.length;
+    H.secs.forEach(function(s,k){ s.hidden = step && k!==H.i; });
+    H.bar.hidden=!g;
+    H.foot.hidden=!step;
+    H.bar.classList.toggle('gs-whole',g && H.all);
+    H.bar.querySelector('.gs-pos').textContent = H.all ? 'Whole page, '+n+' sections' : 'Section '+(H.i+1)+' of '+n;
+    H.bar.querySelector('.gs-all').textContent = H.all ? 'Back to one section at a time' : 'Show the whole page';
+    H.sel.hidden=H.all; H.sel.value=String(H.i);
+    const tr=H.bar.querySelector('.gs-track'); tr.hidden=H.all;
+    tr.firstElementChild.style.width=((H.i+1)/n*100)+'%';
+    const prev=H.foot.querySelector('.gl-prev'), next=H.foot.querySelector('.gl-next');
+    prev.disabled = H.i===0;
+    if(H.i<n-1){ next.disabled=false; next.textContent='Next: '+short(H.titles[H.i+1],46); }
+    else { next.disabled=true; next.textContent='End of this page'; }
+  }
+
+  function applyAll(){ hosts.forEach(render); }
+
+  function init(){
+    document.querySelectorAll('section.pane[id]').forEach(function(pane){
+      if(SKIP[pane.id]) return;
+      const chaps=pane.querySelectorAll('.qchap');
+      if(chaps.length){ chaps.forEach(build); }      // chaptered pages: step through each chapter
+      else build(pane);
+    });
+    document.addEventListener('bapsy:mode',applyAll);
+    applyAll();
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+  window.bapsyReader={hosts:hosts,apply:applyAll};
 })();
 
 </script>
