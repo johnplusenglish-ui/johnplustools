@@ -122,7 +122,12 @@ a{color:var(--link);text-decoration:underline;text-underline-offset:2px;text-dec
 .intro-card.ic-closed .ic-body{display:none}
 .intro-card.ic-closed{padding:12px 18px}
 .ic-body{margin-top:9px}
-.intro-card p{margin:0;font-size:16px;color:var(--ink);line-height:1.55}
+.intro-card p{margin:0;font-size:16px;color:var(--ink);line-height:1.6;max-width:var(--prose)}
+.intro-card ul{margin:2px 0 0;padding:0;list-style:none;max-width:var(--prose)}
+.intro-card ul li{position:relative;padding:0 0 0 22px;margin:0 0 13px;font-size:16px;color:var(--ink);line-height:1.65}
+.intro-card ul li:last-child{margin-bottom:0}
+.intro-card ul li::before{content:"";position:absolute;left:2px;top:9px;width:5px;height:5px;border-radius:50%;background:var(--accent)}
+.intro-card ul li b{color:var(--ink);font-weight:600}
 
 /* ---------- section titles ---------- */
 .sec{font-weight:700;font-size:21px;letter-spacing:-.01em;margin:44px 0 14px;line-height:1.2;padding-bottom:11px;border-bottom:1px solid var(--border);color:var(--ink)}
@@ -226,6 +231,9 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
   .intro-card.ic-closed{padding:11px 14px}
   ul.lead-list li{padding-left:20px}
   .abox ul li{padding-left:19px}
+  .intro-card ul li{padding-left:20px;font-size:16px}
+  .bc-sec ul li{padding-left:19px;font-size:15.5px}
+  .bc-for ul li{padding-left:17px;font-size:15px}
   .abox ul ul li{padding-left:16px}
   /* keep reading text at reading size on a phone */
   p.lead,ul.lead-list li{font-size:16px;line-height:1.65}
@@ -484,7 +492,7 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
 .bc-tag{display:inline-block;font-size:10.5px;font-weight:700;color:var(--accent-dark);background:var(--accent-light);border-radius:100px;padding:2px 10px;margin-top:7px;letter-spacing:.03em}
 .bc-sec{margin-top:15px}
 .bc-sec .k{font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:5px}
-.bc-sec p{font-size:14.5px;color:var(--ink);line-height:1.6;margin:0}
+.bc-sec p{font-size:15.5px;color:var(--ink);line-height:1.62;margin:0;max-width:var(--prose)}
 .bc-sec p b{font-weight:600}
     .sess{border:1px solid var(--border);border-radius:var(--r-sm);background:var(--card);margin:12px 0;overflow:hidden}
     .sess-h{display:flex;align-items:center;gap:11px;padding:11px 15px;background:var(--bg);border-bottom:1px solid var(--border)}
@@ -521,15 +529,16 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
     .warnflag{display:inline-block;font-size:11px;font-weight:700;color:var(--due);background:var(--due-light);border-radius:999px;padding:2px 9px;margin-left:6px;white-space:normal}
     .datewarn{margin:10px 0 0;padding:10px 13px;border-radius:var(--r-sm);background:var(--due-light);color:var(--ink);font-size:13px;line-height:1.5}
     .datewarn b{font-weight:700}
-    .bc-sec ul{margin:4px 0 0;padding:0;list-style:none}
-    .bc-sec ul li{position:relative;padding:7px 0 7px 18px;font-size:14px;color:var(--muted);border-top:1px solid var(--border-soft);line-height:1.55}
-    .bc-sec ul li:first-child{border-top:0}
-    .bc-sec ul li::before{content:"";position:absolute;left:0;top:14px;width:5px;height:5px;border-radius:50%;background:var(--accent)}
+    .bc-sec ul{margin:3px 0 0;padding:0;list-style:none;max-width:var(--prose)}
+    .bc-sec ul li{position:relative;padding:0 0 0 20px;margin:0 0 13px;font-size:15.5px;color:var(--muted);line-height:1.62}
+    .bc-sec ul li:last-child{margin-bottom:0}
+    .bc-sec ul li::before{content:"";position:absolute;left:1px;top:9px;width:5px;height:5px;border-radius:50%;background:var(--accent)}
     .bc-sec ul li b{color:var(--ink);font-weight:600}
     .bc-sec.crit ul li::before{background:var(--due)}
     .bc-for.bl .k{display:block;margin:0 0 5px}
     .bc-for ul{margin:0;padding:0;list-style:none}
-    .bc-for ul li{position:relative;padding:5px 0 5px 16px;line-height:1.5}
+    .bc-for ul li{position:relative;padding:0 0 0 18px;margin:0 0 11px;font-size:15px;line-height:1.6}
+    .bc-for ul li:last-child{margin-bottom:0}
     .bc-for ul li::before{content:"";position:absolute;left:0;top:12px;width:4px;height:4px;border-radius:50%;background:var(--muted)}
     /* assignment ordering for the people pickers */
     .ordsw{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px}
@@ -10781,12 +10790,15 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
 /* ===== reading-layout pass: no words are added, removed or reordered ===== */
 (function(){
   // 1. a long bold lead-in gets its own line, so a four-point guide stops reading as a wall of bold
-  document.querySelectorAll('ul.lead-list > li, .abox ul > li').forEach(function(li){
+  document.querySelectorAll('ul.lead-list > li, .abox ul > li, .intro-card ul > li, .bc-sec ul > li, .bc-for ul > li').forEach(function(li){
     var b=li.firstElementChild;
     if(!b||b.tagName!=='B') return;
     if(b!==li.childNodes[0] && (li.childNodes[0].nodeType!==3 || li.childNodes[0].nodeValue.trim())) return;
     var lead=b.textContent.trim();
     if(lead.length<28) return;                    // short labels stay inline
+    // only break the line when the bold is a complete lead-in. "...on this site</b>, each with"
+    // would otherwise start the next line with an orphan comma.
+    if(!/[.:!?]$/.test(lead)) return;
     var rest=(li.textContent||'').trim().slice(lead.length).trim();
     if(rest.length<20) return;                    // nothing meaningful follows
     li.classList.add('has-lead');
