@@ -258,7 +258,7 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
 }
 
 /* ---------- guided learning layer ---------- */
-.gl-toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(10px);z-index:120;max-width:min(460px,92vw);background:var(--ink);color:#fff;font-size:14px;line-height:1.5;padding:13px 19px;border-radius:var(--r-sm);box-shadow:var(--shadow-md);opacity:0;visibility:hidden;transition:opacity .18s,transform .18s}
+.gl-toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(10px);z-index:200;max-width:min(460px,92vw);background:var(--ink);color:#fff;font-size:14px;line-height:1.5;padding:13px 19px;border-radius:var(--r-sm);box-shadow:var(--shadow-md);opacity:0;visibility:hidden;transition:opacity .18s,transform .18s}
 .gl-toast.on{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
 @media(max-width:760px){.gl-toast{bottom:84px}}
 /* .guide-nav-item sets display, which beats the UA [hidden] rule, so say it explicitly */
@@ -266,7 +266,14 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
 .gl-switch{display:flex;gap:4px;background:var(--bg);border:1px solid var(--border);border-radius:999px;padding:3px;margin:0 0 16px}
 .gl-switch button{flex:1;min-width:0;font-family:var(--sans);font-size:12.5px;font-weight:600;color:var(--muted);background:none;border:0;border-radius:999px;padding:7px 6px;cursor:pointer;white-space:nowrap}
 .gl-switch button.on{background:var(--accent);color:#fff}
-.gl-allres{display:block;width:100%;margin:10px 0 0;font-family:var(--sans);font-size:12.5px;font-weight:600;color:var(--accent-dark);background:var(--accent-light);border:0;border-radius:var(--r-sm);padding:9px 12px;cursor:pointer;text-align:left}
+.gl-allres{display:block;width:100%;margin:10px 0 0;font-family:var(--sans);font-size:13.5px;font-weight:600;color:var(--accent-dark);background:var(--accent-light);border:1px solid #d3dfea;border-radius:var(--r-sm);padding:11px 14px;cursor:pointer;text-align:left;
+  /* pinned to the bottom of the scrolling sidebar: its scrollbar is hidden, so on a laptop the
+     button used to sit below the fold with nothing to say it was there */
+  position:sticky;bottom:10px;z-index:4;box-shadow:0 0 0 10px var(--card)}
+.gl-allres:hover{background:#dfe8f0}
+.guide-nav-item.gl-new{animation:glnew 2.2s ease-out}
+@keyframes glnew{0%,40%{background:var(--accent-light)}100%{background:transparent}}
+@media(prefers-reduced-motion:reduce){.guide-nav-item.gl-new{animation:none;background:var(--accent-light)}}
 .gl-allres[hidden]{display:none}
 
 .gl-cont{background:var(--accent);border-radius:var(--r);padding:24px 26px;margin:0 0 26px;color:#fff}
@@ -10510,7 +10517,17 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
       const b=sb(); if(!b||b.querySelector('.gl-allres')) return;
       const x=document.createElement('button');
       x.type='button'; x.className='gl-allres';
-      x.addEventListener('click',function(){ b.classList.toggle('gl-open'); applySidebar(); });
+      x.addEventListener('click',function(){
+        b.classList.toggle('gl-open'); applySidebar();
+        const extras=[...b.querySelectorAll('.guide-nav-item')].filter(function(e){return !e.classList.contains('gl-keep');});
+        if(b.classList.contains('gl-open')){
+          extras.forEach(function(e){ e.classList.remove('gl-new'); void e.offsetWidth; e.classList.add('gl-new'); });
+          setTimeout(function(){ extras.forEach(function(e){ e.classList.remove('gl-new'); }); },2400);
+          toast('Showing '+extras.length+' more pages. The new ones are highlighted.');
+        } else {
+          toast('Back to the short list.');
+        }
+      });
       b.appendChild(x);
     }
     function applySidebar(){
@@ -10542,7 +10559,12 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
       });
       flush();
       const btn=b.querySelector('.gl-allres');
-      if(btn){ btn.hidden=!g; btn.textContent=open?'Show less':'All resources'; btn.setAttribute('aria-expanded',open?'true':'false'); }
+      if(btn){
+        const n=[...b.querySelectorAll('.guide-nav-item')].filter(function(e){return !e.classList.contains('gl-keep');}).length;
+        btn.hidden=!g;
+        btn.textContent=open?'Show fewer pages':'All resources ('+n+' more pages)';
+        btn.setAttribute('aria-expanded',open?'true':'false');
+      }
     }
 
     /* Continue learning, inside the existing Module Map */
