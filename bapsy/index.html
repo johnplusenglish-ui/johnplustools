@@ -5808,12 +5808,12 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
     <div class="lh"><h3>Testing a difference between two groups</h3><span class="ap">SPSS</span></div>
     <div class="lblk"><div class="k">The method</div>
       <ul>
-        <li><b>Check assumptions first:</b> level of measurement, independence, <b>normality</b> (Shapiro-Wilk), and <b>homogeneity of variance</b> (Levene's test).</li>
-        <li><b>If met:</b> an <b>independent-samples t-test</b>. <b>If normality is violated:</b> the non-parametric <b>Mann-Whitney U</b> test.</li>
-        <li><b>Report in APA:</b> group means and SDs, the test statistic, degrees of freedom, the p-value, and an effect size.</li>
+        <li><b>Check assumptions first</b>, and separately for each dataset: level of measurement, independence, <b>normality within each group</b> (histogram, Q-Q plot, skewness, kurtosis and Shapiro-Wilk), outliers from the boxplot, and <b>homogeneity of variance</b> (Levene's, Based on Mean).</li>
+        <li><b>If met:</b> an <b>independent-samples t-test</b>. <b>Unequal variance alone:</b> the t-test still, read from the Welch row. <b>If normality clearly fails or an outlier is problematic:</b> the non-parametric <b>Mann-Whitney U</b> test.</li>
+        <li><b>Report in APA:</b> for a t-test, group means and SDs, t, df, exact p, the mean difference and 95% CI, with Cohen's d only when significant. For Mann-Whitney, medians, U, z, exact p and r.</li>
       </ul></div>
     <div class="lblk"><div class="k">Presenting it</div>
-      <p>Put <b>ONE</b> APA-formatted table and <b>ONE</b> APA chart (e.g. a bar chart with error bars) in the main report. Every piece of SPSS output goes in the <b>appendices</b>, missing output fails the task.</p></div>
+      <p>Put <b>ONE</b> APA-formatted table and <b>ONE</b> APA figure in the main report, both retyped rather than pasted, and matched to the test you ran: <b>n, M and SD</b> with an optional mean-based figure after a t-test, <b>n and Mdn</b> with a <b>boxplot</b> after Mann-Whitney. Every piece of SPSS output goes in the <b>appendices</b>, missing output fails the task.</p></div>
     <div class="apply"><span class="k">A1 Tasks 1 &amp; 2</span>In SPSS: enter a grouping variable + the score, run Explore for the assumption checks, then Independent-Samples T Test (or Mann-Whitney U), and build the figure in Chart Builder. Answer exactly what each sub-question asks, concisely.</div>
   </div>
 
@@ -5948,20 +5948,25 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
 40	2	3</pre>
   </div>
 
-  <div class="note"><span class="lab">Sense-check your output against these</span>If your descriptives do not match these, the data went in wrong. <b>Task 1:</b> Mindfulness M = 646.30, SD = 25.51; Control M = 664.35, SD = 26.35. <b>Task 2:</b> under 30 M = 14.30, SD = 4.23, Mdn = 15; over 40 M = 4.15, SD = 2.83, Mdn = 3. These are descriptive statistics only, so you still run every assumption test and the main analysis yourself and write your own interpretation.</div>
+  <div class="note"><span class="lab">Sense-check your output against these</span>If your descriptives do not match these, the data went in wrong. <b>Task 1:</b> Mindfulness M = 646.30, SD = 25.51; Control M = 664.35, SD = 26.35. <b>Task 2:</b> under 30 M = 14.30, SD = 4.23, Mdn = 15; over 40 M = 4.15, SD = 2.83, Mdn = 3. Each file must hold <b>40 rows</b>, 20 per group, with no blank row and no group code other than 1 or 2. These are <b>transcription checks only</b>, so you still run every assumption test and the main analysis yourself and write your own interpretation.</div>
 
   <div class="phase"><span class="lab">Step 1 · Set up the data</span><span class="line"></span></div>
   <ol class="steps">
-    <li><div class="h">Create the variables (Variable View)</div><div class="d">Make a <b>grouping</b> variable (e.g. "Condition", Measure = <b>Nominal</b>) and add Value labels (e.g. 1 = Mindfulness, 2 = Control). Make a <b>score</b> variable (e.g. "RT_ms", Measure = <b>Scale</b>).</div></li>
+    <li><div class="h">Task 1 variables (Variable View)</div><div class="d"><b>Condition</b>, Measure = <b>Nominal</b>, Value labels <b>1 = Mindfulness</b> and <b>2 = Control</b>. <b>RT_ms</b>, Measure = <b>Scale</b>. Remember that a <b>lower</b> reaction time means <b>faster</b> responding, which matters when you word the result.</div></li>
+    <li><div class="h">Task 2 variables (Variable View)</div><div class="d"><b>AgeGroup</b>, Measure = <b>Nominal</b>, Value labels <b>1 = under 30</b> and <b>2 = over 40</b>. <b>Views</b> is a <b>count</b>, entered as <b>Scale</b> for this analysis.</div></li>
     <li><div class="h">Enter the data (Data View)</div><div class="d">One row per participant: their group code and their score. Each person appears once (independent groups).</div></li>
+    <li><div class="h">Save two separate .sav files</div><div class="d">One per task. Do not try to hold both studies in one file, and never work in an unsaved file.</div></li>
   </ol>
 
   <div class="phase"><span class="lab">Step 2 · Check the assumptions</span><span class="line"></span></div>
-  <div class="note"><span class="lab">The independent t-test's assumptions</span>Continuous DV · two independent groups · independence of observations · no significant outliers · <b>normality</b> of the DV in each group · <b>homogeneity of variance</b>. The first three come from the study design; you test the last three in SPSS.</div>
+  <div class="note"><span class="lab">The independent t-test's assumptions</span>Continuous DV · two independent groups · independence of observations · no significant outliers · <b>normality</b> of the DV in each group · <b>homogeneity of variance</b>. The first three come from the study design and you state them; you test the last three in SPSS. Check them <b>separately for each dataset</b>, because Task 1 and Task 2 can land on different tests.</div>
   <ol class="steps">
-    <li><div class="h">Run Explore for outliers &amp; normality</div><div class="d"><b>Analyze → Descriptive Statistics → Explore.</b> Put the score in <b>Dependent List</b> and the grouping variable in <b>Factor List</b>. Under <b>Plots</b>, tick <b>Normality plots with tests</b> and <b>Histogram</b>, and set Boxplots to <b>Factor levels together</b>. Continue → OK.</div></li>
-    <li><div class="h">Read it</div><div class="d"><b>Shapiro-Wilk</b> (use it when each group n &lt; 50): if Sig. is <b>above .05 for both groups</b>, normality is met. The <b>boxplots</b> show outliers (points beyond the whiskers).</div></li>
-    <li><div class="h">Decide which test</div><div class="d">Assumptions met → <b>independent-samples t-test</b> (Step 3a). Normality clearly violated, or problematic outliers → <b>Mann-Whitney U</b> (Step 3b). Homogeneity of variance is checked by Levene's test, which appears inside the t-test output itself.</div></li>
+    <li><div class="h">State the design assumptions first</div><div class="d">Three of them you do not test, you state: the DV is <b>continuous</b> (Measure set to Scale), there are <b>two independent groups</b>, and <b>observations are independent</b> (each person appears once and does not influence anyone else).</div></li>
+    <li><div class="h">Run Explore, with the full Class 6 option set</div><div class="d"><b>Analyze → Descriptive Statistics → Explore.</b> Put the score in <b>Dependent List</b> and the grouping variable in <b>Factor List</b>, which is the move that splits the output by group. Under <b>Statistics</b> tick <b>Descriptives</b> and <b>Outliers</b>. Under <b>Plots</b> set Boxplots to <b>Factor levels together</b>, tick <b>Histogram</b>, tick <b>Normality plots with tests</b>, and under <b>Spread vs Level with Levene Test</b> choose <b>Untransformed</b>. Continue → OK.</div></li>
+    <li><div class="h">Judge normality on five pieces of evidence, per group</div><div class="d">The <b>histogram</b> (does it approach a normal shape?), the <b>Normal Q-Q plot</b> (are the points reasonably straight?), <b>skewness</b> and <b>kurtosis</b> from the Descriptives table (between 1 and -1 is the class rule of thumb), and then the formal test. Read <b>Shapiro-Wilk</b>, not Kolmogorov-Smirnov, unless the group sample is very large (approximately over 200). Do not decide from one p-value alone.</div></li>
+    <li><div class="h">Inspect the boxplot for outliers</div><div class="d">Little circles beyond the whiskers are outliers. No circles means the assumption is satisfied, and you say so explicitly rather than staying silent.</div></li>
+    <li><div class="h">Report Levene's test from the Based on Mean line</div><div class="d">Use the <b>Based on Mean</b> row, the first line of the Test of Homogeneity of Variance table. If you go on to run the t-test, the same decision can also be read from the Levene result printed inside the Independent Samples Test output.</div></li>
+    <li><div class="h">End with an explicit decision</div><div class="d">Normality and outliers acceptable → <b>independent-samples t-test</b> (Step 3a). <b>Unequal variance on its own</b> → still the t-test, but read the <b>Equal variances not assumed</b> (Welch) row; do not switch to Mann-Whitney for this. <b>Clear non-normality or a problematic outlier</b> → <b>Mann-Whitney U</b> (Step 3b), justified from your own output.</div></li>
   </ol>
   <div class="viz viz-nd">
     <div class="viz-cap">Reminder: what a normal distribution looks like</div>
@@ -5974,7 +5979,7 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
   <ol class="steps">
     <li><div class="h">Run the test</div><div class="d"><b>Analyze → Compare Means → Independent-Samples T Test.</b> Score → <b>Test Variable(s)</b>; grouping variable → <b>Grouping Variable</b> → <b>Define Groups</b> (1 and 2). OK.</div></li>
     <li><div class="h">Pick the right row using Levene's test</div><div class="d">If Levene's Sig. is <b>above .05</b>, read the <b>"Equal variances assumed"</b> row. If it is <b>.05 or below</b>, read the <b>"Equal variances not assumed"</b> row.</div></li>
-    <li><div class="h">Report from that row</div><div class="d"><b>t</b>, <b>df</b>, <b>Sig. (2-tailed)</b> = your p-value, the mean difference and its 95% CI. SPSS (v27+) also reports <b>Cohen's d</b> for effect size.</div></li>
+    <li><div class="h">Report from that row</div><div class="d"><b>t</b>, <b>df</b>, <b>Sig. (2-tailed)</b> = your p-value, both group means and SDs, the mean difference and its 95% CI. SPSS (v27+) also prints <b>Cohen's d</b>, but the Class 6 instruction is to report it <b>only when the t-test is statistically significant</b>; when it is not, the mean difference and CI carry the size and precision.</div></li>
   </ol>
 
   <div class="phase"><span class="lab">Step 3b · Mann-Whitney U (if normality is violated)</span><span class="line"></span></div>
@@ -5984,12 +5989,16 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
   </ol>
 
   <div class="phase"><span class="lab">Step 4 · The APA chart &amp; table</span><span class="line"></span></div>
+  <div class="note"><span class="lab">Which recipe you use depends on which test you ran</span>There is no single chart that suits both outcomes. Part (e) is <b>one APA table and one APA figure in the main report</b> either way, both retyped by you rather than pasted from SPSS, and both referred to by number in the text. Which descriptives and which figure they carry follows from Step 2's decision.</div>
   <ol class="steps">
-    <li><div class="h">One chart, in the main report</div><div class="d"><b>Graphs → Chart Builder → Bar → Simple.</b> Drag the grouping variable to the X-axis and the score to the Y-axis. In <b>Element Properties</b> set Statistic = <b>Mean</b> and tick <b>Display error bars</b> (Confidence intervals, 95%). OK, then tidy the axis titles to APA style. The title goes <b>above</b> the chart, the vertical axis should <b>start at zero</b>, and a note must say these error bars are 95% confidence intervals.</div></li>
-    <li><div class="h">One table, in the main report</div><div class="d">Do not paste raw SPSS output, build a clean <b>APA table</b> (group Ns, means, SDs). The full SPSS output belongs in the <b>appendices</b>. Class 7 on the Classes tab shows the exact layout.</div></li>
+    <li><div class="h">If you ran the t-test</div><div class="d"><b>Table:</b> a retyped APA table of group <b>n</b>, <b>M</b> and <b>SD</b>. <b>Figure:</b> a mean-based figure is acceptable where it adds something useful. <b>Graphs → Chart Builder → Bar → Simple</b>, grouping variable on the X-axis and the score on the Y-axis, then in <b>Element Properties</b> set Statistic = <b>Mean</b> and tick <b>Display error bars</b> (Confidence intervals, 95%). Start the vertical axis at <b>zero</b>, and say in a note that the error bars are 95% confidence intervals. Error bars that are shown but not explained are a listed error.</div></li>
+    <li><div class="h">If you ran Mann-Whitney U</div><div class="d"><b>Table:</b> a retyped APA table centred on <b>n</b> and <b>Mdn</b> with an appropriate spread measure, such as the range or interquartile range. <b>Figure:</b> prefer a <b>boxplot</b>, because it shows the median, the distribution and any outliers, which is exactly what justified the test. <b>Graphs → Chart Builder → Boxplot → Simple</b>. Do not graph group means with 95% CIs just because that is the other recipe on this page; a mean bar chart contradicts a result you reported in medians.</div></li>
+    <li><div class="h">Either way, format it to the Class 7 rules</div><div class="d">Number above the item, <b>bold</b> and left aligned, on its own line. Title below the number, <b>in italics</b>, Title Case, left aligned. Tables: no vertical lines, horizontal rules at the top, below the headings and at the bottom, stub entries left aligned and other entries centred, notes beneath as needed. Figures: title above, axes and units labelled, and no unnecessary legend, gridlines, shading or 3-D effects. The <b>Classes</b> tab, Class 7, has the full checklist.</div></li>
   </ol>
 
-  <div class="note"><span class="lab">APA write-up, the shape of the sentence</span>Report it in this form, filled with your own numbers: "A [independent-samples t-test / Mann-Whitney U test] compared [score] between the [group 1] and [group 2]. [State whether the assumptions were met.] There was [a / no] statistically significant difference, t(df) = __, p = __, d = __." Round p to three decimals; report exact p unless SPSS shows .000 (then p &lt; .001).</div>
+  <div class="note"><span class="lab">APA write-up, if you ran the t-test</span>Fill this with your own numbers: "An independent samples t-test was conducted to determine whether [group 1] (n = __) would [predicted direction] than [group 2] (n = __), measured as [DV]. [State which assumptions were met and which were not.] There was [a / no] statistically significant difference in [DV] between [group 1] (M = __, SD = __) and [group 2] (M = __, SD = __), t(df) = __, p = __, mean difference = __, 95% CI [__, __]. The null hypothesis is therefore [rejected / not rejected]." Add <b>Cohen's d</b> only when the result <b>is</b> statistically significant; the class said to let the mean difference and CI carry the size and precision when it is not. Round p to three decimals, and write <b>p &lt; .001</b> rather than p = .000.</div>
+
+  <div class="note"><span class="lab">APA write-up, if you ran Mann-Whitney U</span>A different template, not the one above: "A Mann-Whitney U test was conducted to determine whether [group 1] (n = __) would [predicted direction] than [group 2] (n = __). This non-parametric test was used because [the specific assumption that failed, from your own output]. There was [a / no] statistically significant difference in [DV] between [group 1] (Mdn = __) and [group 2] (Mdn = __), U = __, z = __, p = __, r = __. The null hypothesis is therefore [rejected / not rejected]." Effect size is <b>r = z ÷ √N</b>, N being all 40. <b>Never Cohen's d here</b>, because d assumes the normality you have just lost. Benchmarks for r: about .10 small, .30 medium, .50 and above large.</div>
 
   <div class="note b"><span class="lab">Follow the full Laerd walkthroughs</span>You have Laerd Premium, these have the screen-by-screen procedure, assumption checks and reporting:
     <br>· <a href="https://statistics.laerd.com/spss-tutorials/independent-t-test-using-spss-statistics.php" target="_blank" rel="noopener">Independent-samples t-test</a>
@@ -6004,10 +6013,10 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
     <li><b>(a)</b> Null and alternative hypotheses written (and stated as directional or non-directional).</li>
     <li><b>(b)</b> IV named with its two levels, and the DV stated.</li>
     <li><b>(c)</b> One extraneous variable identified, with a specific way to control it.</li>
-    <li><b>(d)</b> Assumptions tested and reported in full, normality (Shapiro-Wilk), outliers (boxplot), homogeneity of variance (Levene's).</li>
-    <li><b>Correct test chosen</b>, independent t-test if assumptions hold, Mann-Whitney U if normality is violated.</li>
-    <li><b>(e)</b> ONE APA table and ONE APA chart (bar chart with error bars) in the main report.</li>
-    <li><b>(f)</b> Main analysis run and reported in full, t, df, p, Cohen's d (or U, z, p, r).</li>
+    <li><b>(d)</b> Design assumptions stated, then normality judged per group on histogram, Q-Q plot, skewness, kurtosis and Shapiro-Wilk, outliers from the boxplot, and Levene's from the Based on Mean line. Reported in full, with an explicit decision about the test.</li>
+    <li><b>Correct test chosen</b>, independent t-test if normality and outliers are acceptable (Welch row if variances are unequal), Mann-Whitney U if normality clearly fails or a problematic outlier is present.</li>
+    <li><b>(e)</b> ONE APA table and ONE APA figure in the main report, retyped not pasted, and matching the test: n/M/SD with an optional mean figure for a t-test, n/Mdn with a boxplot for Mann-Whitney.</li>
+    <li><b>(f)</b> Main analysis run and reported in full. t-test: t, df, exact p, both means and SDs, mean difference and 95% CI, plus Cohen's d only if significant. Mann-Whitney: U, z, exact p, both medians and r.</li>
     <li><b>All SPSS output pasted into the appendices</b> (missing output = automatic fail).</li>
     <li><b>APA formatting and referencing checked</b>; answers concise and directly on the question.</li>
   </ul>
@@ -6456,7 +6465,7 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
       <div class="abox"><ul>
         <li><b>Continuous DV</b>, measured on an interval or ratio scale.</li>
         <li><b>Independence</b>: the two groups are different people, and observations do not influence each other.</li>
-        <li><b>Normality</b>: the DV is roughly normal in each group (check with <b>Shapiro-Wilk</b> when n &lt; 50, and boxplots for outliers).</li>
+        <li><b>Normality</b>: the DV is roughly normal <b>within each group</b>. SPSS reports both Kolmogorov-Smirnov and Shapiro-Wilk; follow the Class 6 instruction and read <b>Shapiro-Wilk</b> unless the group sample is very large (approximately over 200). Interpret the formal test alongside the <b>histogram</b>, <b>Q-Q plot</b>, <b>skewness</b>, <b>kurtosis</b> and <b>boxplot</b> rather than from one p-value alone.</li>
         <li><b>Homogeneity of variance</b>: the groups have similar spread (checked by <b>Levene's test</b>, which appears in the t-test output itself).</li>
       </ul></div>
 
@@ -6464,7 +6473,7 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
       <ol class="steps">
         <li><div class="h">Analyze → Compare Means → Independent-Samples T Test</div><div class="d">Score into Test Variable(s); grouping variable into Grouping Variable, then Define Groups (1 and 2).</div></li>
         <li><div class="h">Use Levene's test to pick the row</div><div class="d">If Levene's Sig. &gt; .05, read "Equal variances assumed"; if ≤ .05, read "Equal variances not assumed".</div></li>
-        <li><div class="h">Report</div><div class="d"><b>t</b>, <b>df</b>, <b>Sig. (2-tailed)</b> = p, the two means and SDs, and <b>Cohen's d</b> as the effect size.</div></li>
+        <li><div class="h">Report</div><div class="d"><b>t</b>, <b>df</b>, <b>Sig. (2-tailed)</b> = p, the two means and SDs, the mean difference and its 95% CI. Add <b>Cohen's d</b> only when the result is statistically significant.</div></li>
       </ol>
 
       <h3 class="sec">6.6 to 6.7 Mann-Whitney U and its rationale</h3>
@@ -6477,7 +6486,7 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
       </ol>
 
       <h3 class="sec">6.10 Review</h3>
-      <div class="note"><span class="lab">In one breath</span>Two independent groups, one continuous DV: check the assumptions, then run an independent t-test (compare means, report t, df, p, d) if they hold, or Mann-Whitney U (compare ranks, report U, z, p, medians, r) if normality fails. For the A1 tasks, follow the step-by-step in the SPSS Guide tab and put all output in the appendices.</div>
+      <div class="note"><span class="lab">In one breath</span>Two independent groups, one continuous DV: check the assumptions <b>separately for each dataset</b>, then run an independent t-test (compare means, report t, df, p, both means and SDs, mean difference and CI, plus d only if significant) if normality and outliers are acceptable, or Mann-Whitney U (compare ranks, report U, z, p, medians, r) if normality clearly fails or a problematic outlier is present. Unequal variance on its own only means reading the Welch row, not changing test. Your table and figure follow the test you ran: n/M/SD for the t-test, n/Mdn and a boxplot for Mann-Whitney. For the A1 tasks, follow the step-by-step in the SPSS Guide tab and put all output in the appendices.</div>
       <details class="quiz"><summary>Quiz: test yourself (5 questions)</summary><div class="qz">
         <div class="qz-q"><p class="qz-stem">1. Levene's test comes back with Sig. = .02. Which row of the SPSS output do you read?</p><div class="qz-opts"><button class="qz-opt" type="button">Equal variances assumed</button><button class="qz-opt" type="button" data-ok>Equal variances not assumed</button><button class="qz-opt" type="button">Either, it makes no difference</button><button class="qz-opt" type="button">Neither, you must abandon the t-test</button></div><div class="qz-fb">Sig. is at or below .05, so the groups' spreads differ and you read the "Equal variances not assumed" row.</div></div>
         <div class="qz-q"><p class="qz-stem">2. The independent t-test compares the difference between means against what?</p><div class="qz-opts"><button class="qz-opt" type="button">The sample size</button><button class="qz-opt" type="button" data-ok>The variability in the data</button><button class="qz-opt" type="button">The median of each group</button><button class="qz-opt" type="button">The number of groups</button></div><div class="qz-fb">t = (difference between means) divided by (standard error of that difference). The same gap is more convincing when scores are tightly clustered.</div></div>
@@ -6994,7 +7003,7 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
       <p class="lead"><b>The p value (the one everyone trips on):</b> picture a pretend world where there is truly no effect. The <b>p value is the chance of getting a result at least as extreme as yours if that no-effect world were real.</b></p>
       <div class="abox"><ul>
         <li><b>Small p</b> = a gap this big would almost never happen by luck &rarr; the no-effect story is hard to believe, so you reject it.</li>
-        <li>Psychology's line is <b>p &lt; .05</b>: below it = significant (reject the null); at or above = not significant (keep it).</li>
+        <li>Psychology's line is <b>p &lt; .05</b>: below it = statistically significant, so you <b>reject H0</b>; at or above = not statistically significant, so you <b>fail to reject H0</b>. Never write that the null is kept, accepted or proved.</li>
       </ul></div>
       <div class="note"><span class="lab">Reading p = .03, and three traps</span>"If CBT truly did nothing, a difference this big would turn up only about 3 times in 100 studies." Rare enough (under the 5% line) to reject the no-effect idea. The three traps: p is <b>not</b> the chance the null is true; <b>not</b> the chance your hunch is true; and says <b>nothing</b> about how big the effect is (that is effect size, in Class 6).</div>
 
@@ -7203,7 +7212,7 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
           </ul>
         </li>
         <li><b>Robust:</b> the t-test still gives trustworthy answers when the assumptions are only mildly broken.</li>
-        <li><b>The backup, Mann-Whitney U:</b> for when normality clearly fails or the DV is only ordinal. It works on the <b>ranks</b> (1st, 2nd, 3rd), so it makes no assumption about the distribution shape. Never wrong to use, but blunter (ranking loses information).</li>
+        <li><b>The backup, Mann-Whitney U:</b> a rank-based alternative for two independent groups, for when normality clearly fails or the DV is only ordinal. It requires independent observations and an ordinal or continuous DV. It does <b>not</b> require normally distributed scores, but comparable distribution shapes still matter if you read the result as a difference in group location or medians. It is <b>not</b> automatically the safer test: ranking discards information, and it can answer a different question from an independent samples t-test.</li>
         <li><b>Degrees of freedom (df):</b> reported in brackets after t. For the independent t-test, <b>df = N - 2</b> (two groups of 15 &rarr; df = 28, written t(28)). SPSS gives it; you still report it.</li>
       </ul></div>
 
@@ -7410,12 +7419,12 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
         <li><b>Round everything to two decimal places</b> when reporting.</li>
       </ul>
       <div class="mans"><span class="lab">The lecturers' model answer, all three assumptions in full</span>
-        <p><b>Normality.</b> The histogram for the control group approximated the normal distribution; kurtosis -0.37 and skewness -0.08. Data were arranged in a reasonably straight line on the Normal Q-Q plot. The histogram for the skills training group approximated the normal distribution; there was evidence of slight negative kurtosis -0.99 and skewness -0.35. Data were arranged in a reasonably straight line on the Normal Q-Q plot. The control group participants' GSE scores, D(15) = .08, p = .20, and the skills training group participants' GSE scores, D(15) = .17, p = .20, were normally distributed.</p>
+        <p><b>Normality.</b> The histogram for the control group approximated the normal distribution; kurtosis -0.37 and skewness -0.08. Data were arranged in a reasonably straight line on the Normal Q-Q plot. The histogram for the skills training group approximated the normal distribution; there was evidence of slight negative kurtosis -0.99 and skewness -0.35. Data were arranged in a reasonably straight line on the Normal Q-Q plot. The control group participants' GSE scores, W(15) = .08, p = .20, and the skills training group participants' GSE scores, W(15) = .17, p = .20, were normally distributed.</p>
         <p><b>Absence of outliers.</b> There were no outliers, as indicated on the box plots.</p>
         <p><b>Variance.</b> The variances for the GSE scores were equal for the control group and skills training group participants, F(1, 28) = 0.22, p = .65.</p>
         <p><b>The decision.</b> Normality and absence of outliers are satisfied, and the variances are equal, so the independent samples t-test may be conducted, using the pooled "equal variances assumed" row.</p>
       </div>
-      <div class="note b"><span class="lab">The deck reports this normality test two different ways</span>Slide 21 gives the same two statistics with <b>p = 1.00 and p = .44</b>, which are the Shapiro-Wilk significance values named on slide 20. Slide 25, above, gives <b>p = .20 and p = .20</b>, which is what SPSS prints for Kolmogorov-Smirnov. The symbol <b>D</b> belongs to Kolmogorov-Smirnov; Shapiro-Wilk's statistic is <b>W</b>. See section 7 below before you decide which to write.</div>
+      <div class="note b"><span class="lab">The worked example still mixes the two normality columns</span>The <b>23 October deck</b> correctly identifies the Shapiro-Wilk statistic with <b>W</b>, on slides 21, 25 and 52. But its worked numerical example still appears to mix values from the two normality-test columns: slide 21 reports <b>W(15) = .08, p = 1.00</b> and <b>W(15) = .17, p = .44</b>, while slide 25 above gives the same two statistics with <b>p = .20 and p = .20</b>. The giveaway is the statistic itself. A Shapiro-Wilk W sits near 1 for normal data, which is why slide 52's genuine values are <b>W(16) = .82</b> and <b>W(16) = .81</b>; .08 and .17 are the size of a Kolmogorov-Smirnov D. In your assignment, <b>name the test and copy both the statistic and the p value from that same row</b> of your own SPSS output. Do not combine a Kolmogorov-Smirnov statistic with a Shapiro-Wilk p value.</div>
 
       <h4 class="qsub">Q5. Conduct the main analysis, and report in full <span class="slideref">Slides 27 to 33</span></h4>
       <ul class="lead-list">
@@ -7489,18 +7498,19 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
       </table></div>
 
       <h3 class="sec">7. Where the slides contradict themselves</h3>
-      <p class="lead" style="font-size:14.5px">Four genuine inconsistencies in this deck. None of them changes the statistics, but each one is a place where copying a slide verbatim would cost you a mark, so decide once and stay consistent.</p>
+      <p class="lead" style="font-size:14.5px">Five genuine inconsistencies in this deck, read against the <b>Updated 23.10.2026</b> version. None of them changes the statistics, but each one is a place where copying a slide verbatim would cost you a mark, so decide once and stay consistent.</p>
       <div class="tscroll"><table class="tbl">
         <thead><tr><th>The clash</th><th>What the deck says</th><th>The safe choice</th></tr></thead>
         <tbody>
-          <tr><td><b>Which normality test</b></td><td>Slide 20 says read Shapiro-Wilk. Slide 66's take-home says "a non-significant K-S test".</td><td>Follow slide 20 and read Shapiro-Wilk, which is also what the Quant Book and Pallant say for samples this size.</td></tr>
-          <tr><td><b>Which symbol</b></td><td>Slides 21, 25 and 52 write <b>D</b>, which is the Kolmogorov-Smirnov statistic. Shapiro-Wilk's statistic is <b>W</b>.</td><td>If you quote Shapiro-Wilk, call it W. Naming the test in words in the same sentence removes any doubt about which you ran.</td></tr>
-          <tr><td><b>Which p value</b></td><td>Slide 21 gives p = 1.00 and p = .44 (the Shapiro-Wilk values from slide 20). Slide 25 gives p = .20 and p = .20 (the K-S values) for the same two statistics.</td><td>Quote the pair that belongs to the test you name. Do not mix a statistic from one test with a p from the other.</td></tr>
+          <tr><td><b>Which normality test</b></td><td>Slide 20 says read Shapiro-Wilk. Slide 66's take-home still says "a non-significant K-S test".</td><td>Follow slide 20 and read Shapiro-Wilk, which is also what the Quant Book and Pallant say for samples this size.</td></tr>
+          <tr><td><b>Which symbol</b></td><td>The 23 October update <b>fixed this</b>. Slides 21, 25 and 52 now all write <b>W</b>, the Shapiro-Wilk statistic. The older 22 October deck wrote <b>D</b>, which belongs to Kolmogorov-Smirnov.</td><td>Write W, and name the test in words in the same sentence so there is no doubt which you ran. If you have the older file open, use the 23 October one instead.</td></tr>
+          <tr><td><b>Which statistic value</b></td><td>Slides 21 and 25 label the statistics <b>W</b> but report <b>.08</b> and <b>.17</b>. A Shapiro-Wilk W sits near 1 for normal data, as slide 52's own <b>W(16) = .82</b> and <b>W(16) = .81</b> show. Values that small are the size of a K-S D.</td><td>Do not treat slides 21 and 25 as a numerical model. Copy the statistic and its p from the <b>same row</b> of your own Tests of Normality table, under the Shapiro-Wilk heading.</td></tr>
+          <tr><td><b>Which p value</b></td><td>Slide 21 gives p = 1.00 and p = .44 (the Shapiro-Wilk sig values shown on slide 20). Slide 25 gives p = .20 and p = .20 (the K-S values) for the same two statistics.</td><td>Quote the pair that belongs to the test you name. Never combine a Kolmogorov-Smirnov statistic with a Shapiro-Wilk p value.</td></tr>
           <tr><td><b>The effect size arithmetic</b></td><td>Slide 60 computes r = Z / root N as ".094 divided by the square root of 32 = 5.66", then writes r = 5.66.</td><td>5.66 is the <b>denominator</b>, not the answer. .094 / 5.66 = <b>.02</b>. And r cannot exceed 1, which the slide's own .10 / .30 / .50 benchmarks make obvious.</td></tr>
           <tr><td><b>Accepting the null</b></td><td>Slide 61 writes "the null hypothesis is accepted". Slides 30 and 33 correctly write "unable to reject" and "cannot be rejected".</td><td>Always fail to reject. Never accept.</td></tr>
         </tbody>
       </table></div>
-      <div class="note"><span class="lab">If in doubt, ask</span>The normality symbol and p value clash is the one worth a forum post, because the model answer you would most naturally copy for part (d) is the one that contains it. You will not be the only person who noticed.</div>
+      <div class="note"><span class="lab">If in doubt, ask</span>The statistic-and-p-value clash is the one worth a forum post, because the model answer you would most naturally copy for part (d) is the one that contains it. You will not be the only person who noticed. Either way it costs you nothing in A1, since you report your own numbers from your own output.</div>
 
       <h3 class="sec">8. The practice exercise</h3>
       <ul class="lead-list">
@@ -7843,13 +7853,13 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
       <li><b>Or use Google Docs</b>, then <b>File, Download, Microsoft Word</b>. Best of the three for the contents page, and it saves as you go.</li>
       <li><b>Or install LibreOffice</b>, which is free and is the only one of these that can save the older <b>.doc</b> as well as .docx.</li>
       <li><b>About .doc versus .docx.</b> The brief's example ends <b>.doc</b>, but Pages and Google Docs only export <b>.docx</b>. A .docx is a Word file and is the current standard, so it is normally accepted. If you want to match the brief exactly, LibreOffice or real Word can save .doc. If in doubt, ask on the module forum, it is a one-line question.</li>
-      <li><b>Get the SPSS output in the clean way.</b> Do not screenshot it. In SPSS use <b>File, Export</b> and choose <b>Word/RTF</b>. That writes every table and chart into a document you can then paste into your Appendices with the formatting intact. This matters, because missing or unreadable output fails the task.</li>
-      <li><b>Make the contents page properly.</b> In Pages or Docs, apply a real <b>Heading</b> style to "Task 1", "Task 2", "Task 3" and "Appendices", then insert the table of contents. If you just make the text big and bold, the contents page will come out empty.</li>
+      <li><b>Get the SPSS output in the clean way.</b> Do not screenshot it. The class method is to select everything in the SPSS <b>Output Viewer</b> with <b>Cmd+A</b>, copy, and paste into your document, using <b>AutoFit</b> on anything too wide. <b>File, Export, Word/RTF</b> is a fine alternative. This matters, because missing or unreadable output fails the task.</li>
+      <li><b>Make the contents page properly.</b> In Pages or Docs, apply a real <b>Heading</b> style to "Task 1", "Task 2", "Task 3", "References", "Appendix A" and "Appendix B", then insert the table of contents. If you just make the text big and bold, the contents page will come out empty.</li>
       <li><b>Each task on a new page</b> means an actual page break, not pressing Return until it moves. Pages and Docs both have Insert, Page Break.</li>
     </ul>
   </div>
 
-  <div class="sess"><div class="sess-h"><span class="sess-n">1</span><span class="sess-t">Set up, before any statistics</span><span class="sess-m">45 min</span></div><ul class="sess-l"><li><b>Make the file now, named correctly.</b> One Word document, named <b>PSY1081_A1_2026_</b> then your first initial and surname, for example PSY1081_A1_2026_JBloggs.doc. Add a cover page, a contents page, then four empty pages headed Task 1, Task 2, Task 3, Appendices. Every task has to start on a new page, so build that in now rather than fixing it at midnight. <b>On a Mac without Word, see the box below first.</b></li><li><b>Get both datasets into SPSS.</b> Open the <b>SPSS Guide</b> tab, Step 0, and copy each block. Or open the two CSVs straight from your Downloads folder with File, Open, Data.</li><li><b>Set the variables up properly</b> before you paste: a grouping variable with value labels (1 and 2) and Measure set to Nominal, a score variable set to Scale. SPSS Guide Step 1 has the exact settings.</li><li><b>Save two .sav files</b>, one per task. Never work in an unsaved file.</li><li><b>Done when:</b> both files show <b>40 rows</b>, and Analyze, Descriptive Statistics, Explore gives you the means in the sense-check box. If they do not match, the data went in wrong and nothing after this will be right.</li></ul></div><div class="sess"><div class="sess-h"><span class="sess-n">2</span><span class="sess-t">Task 1, parts a to c. Writing, no SPSS</span><span class="sess-m">60 min</span></div><ul class="sess-l"><li><b>Reread the Task 1 scenario in the brief</b>, slowly. Everything you need for a, b and c is in the wording, not in the data.</li><li><b>(a) 4 marks.</b> Write the null and the research hypothesis. Decide and state whether yours is directional, and make sure it matches what the researchers said they wanted to find out.</li><li><b>(b) 4 marks.</b> Name the IV and <b>both of its levels</b>, then the DV. The marks are for naming the levels, so do not just write "the activity".</li><li><b>(c) 5 marks.</b> One extraneous variable, plus <b>a specific way to control it</b>. A vague "they could control for it" earns little. Say what the researchers would actually do.</li><li><b>Done when:</b> 13 of the 35 marks are drafted and you have not opened SPSS once.</li></ul></div><div class="sess"><div class="sess-h"><span class="sess-n">3</span><span class="sess-t">Task 1, part d. The assumptions</span><span class="sess-m">60 min</span></div><ul class="sess-l"><li><b>SPSS Guide Step 2</b> is the click path. Analyze, Descriptive Statistics, Explore, with the score in Dependent List and the group in Factor List.</li><li><b>Tick Normality plots with tests</b> and set Boxplots to Factor levels together.</li><li><b>Read Shapiro-Wilk</b> for each group separately, and look at the boxplots for outliers. Both groups have n = 20, so Shapiro-Wilk is the right test to quote.</li><li><b>Report it in full</b>, with the statistic, df and p for each group, not just "normality was met".</li><li><b>Done when:</b> you can say out loud which test you are running and the numbers that justify it. 7 marks.</li></ul></div><div class="sess"><div class="sess-h"><span class="sess-n">4</span><span class="sess-t">Task 1, parts e and f. The analysis</span><span class="sess-m">75 min</span></div><ul class="sess-l"><li><b>Run the test</b> your assumptions pointed to. SPSS Guide Step 3a for the t-test, 3b for Mann-Whitney.</li><li><b>If you ran the t-test, Levene's decides which row you read.</b> That one choice is a mark, and it is easy to get wrong.</li><li><b>(e) 7 marks.</b> Build <b>ONE APA table and ONE APA chart</b>, and put them <b>in the main report</b>, not the appendix. Step 4 has the formatting.</li><li><b>(f) 8 marks.</b> Report the result in full. For a t-test: t, df, p, the two means and SDs, and Cohen's d. For Mann-Whitney: U, z, p, medians and r.</li><li><b>Paste every piece of SPSS output into the Appendices now</b>, while you still know which output is which.</li><li><b>Done when:</b> Task 1 is finished and its output is in the appendix. That is 35 of 100 marks.</li></ul></div><div class="sess"><div class="sess-h"><span class="sess-n">5</span><span class="sess-t">Task 2, the whole task</span><span class="sess-m">2 hours</span></div><ul class="sess-l"><li><b>Same six parts, same order.</b> You now know the workflow, so this sitting is faster.</li><li><b>Expect the assumptions step to actually bite.</b> Task 2 is count data, the two groups look very different in spread, and the over-40 scores bunch up near the bottom. Do not assume you are running the same test you ran for Task 1.</li><li><b>Let Shapiro-Wilk and the boxplots decide</b>, then follow Step 3a or 3b accordingly. If you switch to Mann-Whitney, remember you quote <b>medians</b>, not means.</li><li><b>Output into the Appendices</b> as you go.</li><li><b>Done when:</b> Task 2 is finished. 70 of 100 marks are now done.</li></ul></div><div class="sess"><div class="sess-h"><span class="sess-n">6</span><span class="sess-t">Task 3, the reading and the decision</span><span class="sess-m">60 min</span></div><ul class="sess-l"><li><b>Download and read the codes:</b> PSI (2025) and BPS (2021), and review APA (2017). The Reading List tab has the links. You cite <b>one</b> in Task 3, led by PSI.</li><li><b>Reread both scenarios looking only at how participants were recruited and what they were told.</b> That is where the problem is in each one.</li><li><b>The brief says the main issue differs between the two scenarios</b>, so if you find yourself writing the same argument twice, you have taken the wrong one for one of them.</li><li><b>For each scenario, find the actual clause</b> in PSI, BPS or APA that it breaches. Note the principle and the wording. This is what separates a strong answer from a general one.</li><li><b>Done when:</b> you have, for each scenario, one named issue and one specific code reference. Not written up yet, just decided.</li></ul></div><div class="sess"><div class="sess-h"><span class="sess-n">7</span><span class="sess-t">Task 3, the writing. 700 words</span><span class="sess-m">2 hours</span></div><ul class="sess-l"><li><b>Scenario 1, 300 words.</b> Identify the issue, explain why it is ethically problematic, tie it to the code, then propose an alternative plan <b>that still achieves the research aim</b>. That last part is easy to forget and it is explicitly asked for.</li><li><b>Scenario 2, 300 words.</b> Same four moves, different issue.</li><li><b>Conclusion, 100 words.</b></li><li><b>Cite the codes properly in APA</b> and add them to a reference list.</li><li><b>Done when:</b> 700 words plus or minus 10%, and both alternatives would genuinely still answer the original research question. 30 marks.</li></ul></div><div class="sess"><div class="sess-h"><span class="sess-n">8</span><span class="sess-t">Assembly and submission</span><span class="sess-m">45 min</span></div><ul class="sess-l"><li><b>Work the A1 Checklist below, every line.</b> This is where free marks get lost.</li><li><b>Check every piece of SPSS output is in the Appendices.</b> Missing output is an automatic fail on that task, whatever the analysis is worth.</li><li><b>Check each task starts on a new page</b>, and the contents page matches.</li><li><b>Check the filename</b> and that it is one single Word file.</li><li><b>Submit with time to spare.</b> Resubmission is not permitted, so the first upload is the one that gets marked.</li><li><b>Done when:</b> submitted before <b>Monday 2 November, 23:59</b>.</li></ul></div>
+  <div class="sess"><div class="sess-h"><span class="sess-n">1</span><span class="sess-t">Set up, before any statistics</span><span class="sess-m">45 min</span></div><ul class="sess-l"><li><b>Make the file now, named correctly.</b> One Word document, named <b>PSY1081_A1_2026_</b> then your first initial and surname, for example PSY1081_A1_2026_JBloggs.doc. Add a cover page, a contents page, then pages headed Task 1, Task 2, Task 3, References, Appendix A (Task 1 SPSS output) and Appendix B (Task 2 SPSS output). Use a <b>real page break</b> before each, not a run of blank paragraphs, and give Task 1 and Task 2 visible (a) to (f) subheadings. Build that in now rather than fixing it at midnight. <b>On a Mac without Word, see the box below first.</b></li><li><b>Get both datasets into SPSS.</b> Open the <b>SPSS Guide</b> tab, Step 0, and copy each block. Or open the two CSVs straight from your Downloads folder with File, Open, Data.</li><li><b>Set the variables up properly</b> before you paste: a grouping variable with value labels (1 and 2) and Measure set to Nominal, a score variable set to Scale. SPSS Guide Step 1 has the exact settings.</li><li><b>Save two .sav files</b>, one per task. Never work in an unsaved file.</li><li><b>Done when:</b> both files show <b>40 rows</b>, and Analyze, Descriptive Statistics, Explore gives you the means in the sense-check box. If they do not match, the data went in wrong and nothing after this will be right.</li></ul></div><div class="sess"><div class="sess-h"><span class="sess-n">2</span><span class="sess-t">Task 1, parts a to c. Writing, no SPSS</span><span class="sess-m">60 min</span></div><ul class="sess-l"><li><b>Reread the Task 1 scenario in the brief</b>, slowly. Everything you need for a, b and c is in the wording, not in the data.</li><li><b>(a) 4 marks.</b> Write the null and the research hypothesis. Decide and state whether yours is directional, and make sure it matches what the researchers said they wanted to find out.</li><li><b>(b) 4 marks.</b> Name the IV and <b>both of its levels</b>, then the DV. The marks are for naming the levels, so do not just write "the activity".</li><li><b>(c) 5 marks.</b> One extraneous variable, plus <b>a specific way to control it</b>. A vague "they could control for it" earns little. Say what the researchers would actually do.</li><li><b>Done when:</b> 13 of the 35 marks are drafted and you have not opened SPSS once.</li></ul></div><div class="sess"><div class="sess-h"><span class="sess-n">3</span><span class="sess-t">Task 1, part d. The assumptions</span><span class="sess-m">60 min</span></div><ul class="sess-l"><li><b>SPSS Guide Step 2</b> is the click path. Analyze, Descriptive Statistics, Explore, with the score in Dependent List and the group in Factor List.</li><li><b>Statistics:</b> tick Descriptives and Outliers. <b>Plots:</b> Boxplots to Factor levels together, Histogram, Normality plots with tests, and Spread vs Level with Levene Test set to Untransformed.</li><li><b>Judge normality per group on five things:</b> histogram, Q-Q plot, skewness, kurtosis, then Shapiro-Wilk. Both groups have n = 20, so Shapiro-Wilk is the one to quote. Not one p-value on its own.</li><li><b>Then outliers from the boxplot</b>, and <b>Levene's from the Based on Mean line</b>.</li><li><b>Report it in full</b>, with the statistic, df and p for each group, not just "normality was met".</li><li><b>Done when:</b> you can say out loud which test you are running and the numbers that justify it. 7 marks.</li></ul></div><div class="sess"><div class="sess-h"><span class="sess-n">4</span><span class="sess-t">Task 1, parts e and f. The analysis</span><span class="sess-m">75 min</span></div><ul class="sess-l"><li><b>Run the test</b> your assumptions pointed to. SPSS Guide Step 3a for the t-test, 3b for Mann-Whitney.</li><li><b>If you ran the t-test, Levene's decides which row you read.</b> That one choice is a mark, and it is easy to get wrong.</li><li><b>(e) 7 marks.</b> Build <b>ONE APA table and ONE APA figure</b>, retyped by you, and put them <b>in the main report</b>, not the appendix. Match them to the test: n/M/SD with an optional mean figure for a t-test, n/Mdn with a boxplot for Mann-Whitney. Step 4 has the formatting.</li><li><b>(f) 8 marks.</b> Report the result in full. For a t-test: both means and SDs, t, df, exact p, the mean difference and 95% CI, plus Cohen's d <b>only if significant</b>. For Mann-Whitney: medians, U, z, exact p and r.</li><li><b>Paste every piece of SPSS output into Appendix A now</b>, while you still know which output is which.</li><li><b>Done when:</b> Task 1 is finished and its output is in the appendix. That is 35 of 100 marks.</li></ul></div><div class="sess"><div class="sess-h"><span class="sess-n">5</span><span class="sess-t">Task 2, the whole task</span><span class="sess-m">2 hours</span></div><ul class="sess-l"><li><b>Same six parts, same order.</b> You now know the workflow, so this sitting is faster.</li><li><b>Expect the assumptions step to actually bite.</b> Task 2 is count data, the two groups look very different in spread, and the over-40 scores bunch up near the bottom. Do not assume you are running the same test you ran for Task 1.</li><li><b>Let the full evidence set decide</b>, histogram, Q-Q plot, skewness, kurtosis, Shapiro-Wilk, boxplot and Levene's, then follow Step 3a or 3b accordingly. If you switch to Mann-Whitney, your table quotes <b>medians</b>, not means, and a boxplot is the natural figure.</li><li><b>Output into Appendix B</b> as you go.</li><li><b>Done when:</b> Task 2 is finished. 70 of 100 marks are now done.</li></ul></div><div class="sess"><div class="sess-h"><span class="sess-n">6</span><span class="sess-t">Task 3, the reading and the decision</span><span class="sess-m">60 min</span></div><ul class="sess-l"><li><b>Download and read the codes:</b> PSI (2025) and BPS (2021), and review APA (2017). The Reading List tab has the links. You cite <b>one</b> in Task 3, led by PSI.</li><li><b>Reread both scenarios looking only at how participants were recruited and what they were told.</b> That is where the problem is in each one.</li><li><b>The brief says the main issue differs between the two scenarios</b>, so if you find yourself writing the same argument twice, you have taken the wrong one for one of them.</li><li><b>For each scenario, find the actual clause</b> in PSI, BPS or APA that it breaches. Note the principle and the wording. This is what separates a strong answer from a general one.</li><li><b>Done when:</b> you have, for each scenario, one named issue and one specific code reference. Not written up yet, just decided.</li></ul></div><div class="sess"><div class="sess-h"><span class="sess-n">7</span><span class="sess-t">Task 3, the writing. 700 words</span><span class="sess-m">2 hours</span></div><ul class="sess-l"><li><b>Scenario 1, 300 words.</b> Identify the issue, explain why it is ethically problematic, tie it to the code, then propose an alternative plan <b>that still achieves the research aim</b>. That last part is easy to forget and it is explicitly asked for.</li><li><b>Scenario 2, 300 words.</b> Same four moves, different issue.</li><li><b>Conclusion, 100 words.</b></li><li><b>Cite the one code properly in APA</b> and add it to the References page. Third person throughout, paraphrased rather than quoted at length.</li><li><b>Done when:</b> 700 words plus or minus 10%, and both alternatives would genuinely still answer the original research question. 30 marks.</li></ul></div><div class="sess"><div class="sess-h"><span class="sess-n">8</span><span class="sess-t">Assembly and submission</span><span class="sess-m">45 min</span></div><ul class="sess-l"><li><b>Work the A1 Checklist below, every line.</b> This is where free marks get lost.</li><li><b>Check every piece of SPSS output is in the Appendices</b>, Task 1 in Appendix A and Task 2 in Appendix B. Missing output is an automatic fail on that task, whatever the analysis is worth.</li><li><b>Check the References page is there</b>, before the appendices, with the ethics code you cited in Task 3.</li><li><b>Check each task starts on a new page</b>, and the contents page matches.</li><li><b>Check the filename</b> and that it is one single Word file.</li><li><b>Submit with time to spare.</b> Resubmission is not permitted, so the first upload is the one that gets marked.</li><li><b>Done when:</b> submitted before <b>Monday 2 November, 23:59</b>.</li></ul></div>
   <div class="note"><span class="lab">If you only have one evening before the deadline</span>Do sitting 1, then Task 1 end to end (sittings 2 to 4). A complete Task 1 with its output in the appendix is worth far more than three half-finished tasks, because the marks are allocated per part and an unanswered part scores zero.</div>
 
   <h3 class="sec">The walkthrough, part by part</h3>
@@ -7877,8 +7887,23 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
   <h3 class="sec">Build the document first</h3>
   <ul class="lead-list">
     <li><b>One file, correctly named.</b> <b>PSY1081_A1_2026_</b> then your initial and surname. On a Mac, see the box further up this page before you start.</li>
-    <li><b>Put the skeleton in now.</b> Cover page, contents page, then Task 1, Task 2, Task 3 and Appendices, each starting on its own page break.</li>
-    <li><b>Use real Heading styles</b> on those four titles, or your contents page will insert empty.</li>
+    <li><b>Put the whole skeleton in now</b>, in this order, each numbered item starting on a <b>real page break</b> rather than a run of blank paragraphs.</li>
+  </ul>
+  <div class="tscroll"><table class="tbl">
+    <thead><tr><th>Section</th><th>What goes in it</th></tr></thead>
+    <tbody>
+      <tr><td><b>Cover page</b></td><td>The brief requires a cover but does not prescribe a design. Ordinary identifying information only, nothing invented.</td></tr>
+      <tr><td><b>Contents page</b></td><td>Task 1, Task 2, Task 3, References, Appendix A and Appendix B, with page numbers. Hyperlinks are <b>not</b> required, the lecturer confirmed that on the forum. Heading styles let Word generate it for you.</td></tr>
+      <tr><td><b>Task 1</b></td><td>Visible subheadings <b>(a)</b> to <b>(f)</b> matching the brief. The APA table and figure sit under <b>(e)</b>.</td></tr>
+      <tr><td><b>Task 2</b></td><td>The same <b>(a)</b> to <b>(f)</b> structure.</td></tr>
+      <tr><td><b>Task 3</b></td><td>Headings for <b>Scenario 1</b>, <b>Scenario 2</b> and <b>Overall Conclusion</b>. Roughly 300 + 300 + 100 words, total within 700 ±10%.</td></tr>
+      <tr><td><b>References</b></td><td>On a new page. Tasks 1 and 2 need no references for parts (a) to (f), confirmed on the forum. Task 3 <b>does</b> need the ethics code and anything else you actually used, in APA 7.</td></tr>
+      <tr><td><b>Appendix A</b></td><td>Task 1 SPSS output, on a new page.</td></tr>
+      <tr><td><b>Appendix B</b></td><td>Task 2 SPSS output, on a new page.</td></tr>
+    </tbody>
+  </table></div>
+  <ul class="lead-list">
+    <li><b>Use real Heading styles</b> on every one of those section titles, or your contents page will insert empty.</li>
   </ul>
   <h3 class="sec">Get both datasets in</h3>
   <ul class="lead-list">
@@ -7887,7 +7912,7 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
     <li><b>Task 2 variables.</b> <b>AgeGroup</b>, Measure Nominal, values 1 = under 30 and 2 = over 40. <b>Views</b>, Measure Scale, a count.</li>
     <li><b>Save two separate .sav files.</b> Do not try to hold both studies in one file.</li>
   </ul>
-  <div class="note"><span class="lab">Prove it before you go further</span>Run Analyze, Descriptive Statistics, Explore on each file. Task 1 should give Mindfulness <b>M = 646.30, SD = 25.51</b> and Control <b>M = 664.35, SD = 26.35</b>. Task 2 should give under 30 <b>M = 14.30, Mdn = 15</b> and over 40 <b>M = 4.15, Mdn = 3</b>. If those do not match, stop and fix the data now.</div>
+  <div class="note"><span class="lab">Prove it before you go further</span>Run Analyze, Descriptive Statistics, Explore on each file. Task 1 should give Mindfulness <b>M = 646.30, SD = 25.51</b> and Control <b>M = 664.35, SD = 26.35</b>. Task 2 should give under 30 <b>M = 14.30, SD = 4.23, Mdn = 15</b> and over 40 <b>M = 4.15, SD = 2.83, Mdn = 3</b>. Each file must hold <b>40 rows</b>, 20 per group, with no blank row and no group code other than 1 or 2. These are <b>transcription checks only</b>, not a substitute for your own assumption tests or main analysis. If they do not match, stop and fix the data now.</div>
   <div class="note b"><span class="lab">What you are being marked on</span><b>Task 1 = 35</b>, <b>Task 2 = 35</b>, <b>Task 3 = 30</b>. Tasks 1 and 2 are the same six parts, worth 4, 4, 5, 7, 7 and 8 marks in order. Every part is marked separately, so a part left blank is a guaranteed zero while a rough attempt usually is not.</div>
 </div>
     <div class="qchap"><h2 style="font-size:22px;font-weight:800;margin:4px 0 2px;color:var(--ink)">2. Task 1, parts a to c</h2><p class="lead">13 marks, and you can do all three without opening SPSS. Everything you need is in the scenario wording.</p>
@@ -7921,34 +7946,51 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
   </ul>
   <h3 class="sec">The clicks, with this task's variables</h3>
   <ul class="lead-list">
-    <li><b>Analyze, Descriptive Statistics, Explore.</b> Put <b>RT_ms</b> in Dependent List and <b>Condition</b> in Factor List.</li>
-    <li><b>Plots:</b> tick <b>Normality plots with tests</b>, and set <b>Boxplots</b> to Factor levels together.</li>
-    <li><b>Read Shapiro-Wilk, not Kolmogorov-Smirnov.</b> Each group is n = 20, which is well under 50, so Shapiro-Wilk is the one to quote.</li>
+    <li><b>Analyze, Descriptive Statistics, Explore.</b> Put <b>RT_ms</b> in Dependent List and <b>Condition</b> in Factor List. That second move is what splits the output by group.</li>
+    <li><b>Statistics:</b> tick <b>Descriptives</b> and <b>Outliers</b>.</li>
+    <li><b>Plots:</b> set <b>Boxplots</b> to <b>Factor levels together</b>, tick <b>Histogram</b>, tick <b>Normality plots with tests</b>, and under <b>Spread vs Level with Levene Test</b> choose <b>Untransformed</b>.</li>
+    <li><b>Read Shapiro-Wilk, not Kolmogorov-Smirnov.</b> Class 6's instruction is to read Shapiro-Wilk unless the group sample is very large, approximately over 200. Both your groups are n = 20.</li>
     <li><b>Read it per group</b>, not for the whole sample.</li>
-    <li><b>Levene's test is not here.</b> It comes out with the t-test itself in the next step, so report it there.</li>
   </ul>
+  <div class="note b"><span class="lab">Normality is five pieces of evidence, not one</span>The class model answer reports the <b>histogram</b>, the <b>Normal Q-Q plot</b>, <b>skewness</b> and <b>kurtosis</b> from the Descriptives table, and then the <b>Shapiro-Wilk</b> result, for <b>each group separately</b>. Between 1 and -1 is the class rule of thumb for skewness and kurtosis. If you report only the formal test you are handing in a fifth of what the model answer contains, and that is where these 7 marks go.</div>
   <h3 class="sec">Reporting it "in full"</h3>
   <ul class="lead-list">
-    <li><b>Give the numbers.</b> For each group, the Shapiro-Wilk statistic, its df and its p. "Normality was met" with no figures is the single most common way to lose these marks.</li>
-    <li><b>Say what the boxplots showed</b> about outliers, and if there are any, say what you decided to do and why.</li>
-    <li><b>Finish with the decision.</b> One sentence naming the test you are therefore running, and the assumption evidence that justifies it.</li>
+    <li><b>Start with the design assumptions.</b> The DV is continuous, the two groups are independent, and observations are independent. One sentence, stated not tested.</li>
+    <li><b>Normality, per group, in five parts.</b> What the histogram looked like, what the Q-Q plot looked like, the skewness and kurtosis values, then the Shapiro-Wilk statistic with its df and exact p. "Normality was met" with no figures is the single most common way to lose these marks.</li>
+    <li><b>Outliers.</b> Say what the boxplots showed. No circles means the assumption is satisfied and you say so. If there are any, say what you decided to do and why.</li>
+    <li><b>Levene's test.</b> Report it from the <b>Based on Mean</b> line, the first row of the Test of Homogeneity of Variance table. If you go on to run the t-test, the same decision also appears inside the Independent Samples Test output.</li>
+    <li><b>Finish with an explicit decision.</b> One sentence naming the test you are therefore running, and the assumption evidence that justifies it.</li>
+    <li><b>Round to two decimal places</b>, as the class instructed.</li>
   </ul>
-  <div class="note"><span class="lab">The decision rule</span>Shapiro-Wilk <b>above .05 in both groups</b> and no serious outliers, go to the <b>independent-samples t-test</b>. Clearly violated, go to <b>Mann-Whitney U</b>. If you are unsure, the <b>Which Test?</b> tab walks the same logic and gives you the write-up line.</div>
+  <div class="note"><span class="lab">The decision rule, the right way round</span><b>Normality and outliers acceptable</b> → the <b>independent samples t-test</b>. <b>Unequal variance on its own</b> → still the t-test, but read the <b>Equal variances not assumed</b> (Welch) row; this is <b>not</b> a reason to switch to Mann-Whitney. <b>Clear non-normality or a problematic outlier</b> → <b>Mann-Whitney U</b>, justified from your own output. Getting that distinction the right way round is exactly what part (d) is testing. The <b>Which Test?</b> tab walks the same logic.</div>
 </div>
     <div class="qchap"><h2 style="font-size:22px;font-weight:800;margin:4px 0 2px;color:var(--ink)">4. Task 1, parts e and f</h2><p class="lead">15 marks, and the biggest single chunk in the task. Part e is presentation, part f is the result itself.</p>
   <h3 class="sec">(e) One table and one chart &middot; 7 marks</h3>
   <ul class="lead-list">
     <li><b>Both go in the main report</b>, not the appendices. The appendices are for raw SPSS output.</li>
-    <li><b>ONE of each.</b> Adding three tables does not earn more marks and can cost you presentation marks.</li>
-    <li><b>The table</b> should carry the descriptives your reader needs: group, n, and the centre and spread you are going to quote in part f. APA wants a bold table number, then an italic title on its own line beneath it, then horizontal lines only and no vertical gridlines. The <b>Classes</b> tab, Class 7, has the lecturers' checklist.</li>
-    <li><b>The chart</b> should show the same comparison visually, with both axes labelled, units on the DV axis, and error bars if you are showing means. Make sure the title says what it shows, <b>put it above the chart</b>, start the vertical axis at zero, and say in a note what any error bars represent.</li>
-    <li><b>Do not paste a raw SPSS table as your APA table.</b> Rebuild it in your document. SPSS output goes in the appendix instead.</li>
+    <li><b>ONE of each.</b> Adding three tables does not earn more marks and can cost you presentation marks. Refer to both by number in your text.</li>
+    <li><b>Do not paste a raw SPSS table as your APA table.</b> Retype it in your document. SPSS output goes in the appendix instead.</li>
+    <li><b>Which table and which figure depends on the test you ran in part (d).</b> There is no one recipe that fits both.</li>
+  </ul>
+  <div class="tscroll"><table class="tbl">
+    <thead><tr><th>If part (d) sent you to</th><th>The table carries</th><th>The figure</th></tr></thead>
+    <tbody>
+      <tr><td><b>Independent samples t-test</b></td><td>Group, <b>n</b>, <b>M</b> and <b>SD</b></td><td>A mean-based figure is acceptable where it adds something useful. Error bars must be clearly identified in a note.</td></tr>
+      <tr><td><b>Mann-Whitney U</b></td><td>Group, <b>n</b>, <b>Mdn</b> and a spread measure such as the range or IQR</td><td>Prefer a <b>boxplot</b>, because it shows the median, the distribution and any outliers. Do not graph group means with 95% CIs after choosing Mann-Whitney.</td></tr>
+    </tbody>
+  </table></div>
+  <ul class="lead-list">
+    <li><b>Formatting, from Class 7.</b> Number above the item, <b>bold</b> and left aligned, on its own line. Title below it, <b>in italics</b>, Title Case, left aligned.</li>
+    <li><b>Tables:</b> no vertical lines; horizontal rules at the top, below the headings and at the bottom; stub entries left aligned and other entries centred; notes beneath as needed.</li>
+    <li><b>Figures:</b> title above, axes and units labelled, no unnecessary legend, gridlines, shading or 3-D effects. A bar chart's axis starts at zero, and any error bars are explained in a note.</li>
+    <li><b>The Classes tab, Class 7</b>, has the lecturers' full checklist.</li>
   </ul>
   <h3 class="sec">(f) The main analysis &middot; 8 marks</h3>
   <ul class="lead-list">
     <li><b>Run it.</b> Analyze, Compare Means, Independent-Samples T Test. <b>RT_ms</b> as the test variable, <b>Condition</b> as the grouping variable, then Define Groups as 1 and 2.</li>
     <li><b>Levene's decides which row you read.</b> If its Sig. is <b>above .05</b> read "Equal variances assumed". If it is <b>.05 or below</b> read "Equal variances not assumed". Reading the wrong row is a quiet, costly error.</li>
-    <li><b>Report, for a t-test:</b> t with its df, the exact p, both group means and SDs, and <b>Cohen's d</b>. For Mann-Whitney: U, z, the exact p, both <b>medians</b>, and r.</li>
+    <li><b>Report, for a t-test:</b> why the test was run, which assumptions held, both group means and SDs, t with its df, the exact p, the <b>mean difference</b> and its <b>95% CI</b>. Add <b>Cohen's d only if the result is statistically significant</b>; when it is not, the class said to let the mean difference and CI carry the size and precision.</li>
+    <li><b>Report, for Mann-Whitney:</b> why the non-parametric test was used and which assumption failed, both <b>medians</b>, U, z, the exact p, and <b>r = z ÷ √N</b> with N = 40. <b>Never Cohen's d here</b>, because d assumes the normality you have just lost.</li>
     <li><b>Never write p = .000.</b> SPSS rounds. Write <b>p &lt; .001</b>.</li>
     <li><b>Finish with a plain-English sentence</b> saying what it means for the original question, in the direction the data actually went.</li>
     <li><b>Paste all the output into the Appendices now</b>, while you still know which output belongs to which step.</li>
@@ -7996,21 +8038,31 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
     <li><b>Then go to the code and find the actual clause.</b> One code is enough: <b>lead with PSI</b> (the August 2025 version, linked on the Reading List), and use a different standard for each scenario. Note the principle and its wording before you write.</li>
   </ul>
   <div class="lblk"><div class="k">Where to find the clause in PSI</div><div class="tscroll"><table class="tbl"><thead><tr><th>If the breach is about</th><th>Where it lives in PSI</th></tr></thead><tbody><tr><td>Consent not obtained, or too little information given</td><td>Principle 1 &middot; Informed Consent and Freedom of Consent</td></tr><tr><td>Covert recording, identifiable data, privacy</td><td>Principle 1 &middot; Privacy and Confidentiality</td></tr><tr><td>Participants not free to withdraw</td><td>Principle 1 &middot; Self-determination</td></tr><tr><td>Vulnerable or reduced-capacity participants</td><td>Principle 1 &middot; Informed Consent</td></tr><tr><td>Harm, welfare, or acting beyond your competence</td><td>Principle 2 Competence, and Principle 3 Responsibility</td></tr></tbody></table></div></div>
-  <div class="note"><span class="lab">Citing the codes</span>You only need the <b>one code you used</b>, cited in APA in the text and in your reference list. Cite the version you read: <b>PSI (2025)</b>, not the 2019 the brief names. The <b>Ethics &amp; Research Methods</b> tab has the full map of which PSI standard covers which kind of breach.</div>
+  <h3 class="sec">How it has to be written</h3>
+  <ul class="lead-list">
+    <li><b>Third person throughout.</b> "The researcher should", not "I would". This is the Class 3 academic-writing standard.</li>
+    <li><b>Paraphrase rather than quote at length.</b> A code's wording can be quoted briefly where the exact phrase matters, but an answer built out of quotations does not show you can apply the principle.</li>
+    <li><b>Accurate APA 7 citations in the text and a matching reference</b> on the References page.</li>
+  </ul>
+  <div class="note"><span class="lab">Citing the codes</span>You only need the <b>one code you used</b>, cited in APA in the text and in your reference list, which goes on its own <b>References page</b> before the appendices. Cite the version you read: <b>PSI (2025)</b>, not the 2019 the brief names. Parts (a) to (f) of Tasks 1 and 2 need no references, confirmed on the forum. The <b>Ethics &amp; Research Methods</b> tab has the full map of which PSI standard covers which kind of breach.</div>
 </div>
     <div class="qchap"><h2 style="font-size:22px;font-weight:800;margin:4px 0 2px;color:var(--ink)">7. Assemble and submit</h2><p class="lead">Free marks live here, and so does the one rule that can fail an otherwise good task.</p>
   <h3 class="sec">Getting the SPSS output in</h3>
   <ul class="lead-list">
-    <li><b>Do not screenshot it.</b> In SPSS use <b>File, Export</b> and choose <b>Word/RTF</b>. That writes every table and chart out cleanly.</li>
+    <li><b>Do not screenshot it.</b> Use the method the released Word guide shows: in the SPSS <b>Output Viewer</b> press <b>Cmd+A</b> (or Ctrl+A on Windows), copy, then paste into Word. If a table comes in too wide, use <b>AutoFit</b>.</li>
+    <li><b>Or, as an alternative</b>, <b>File, Export</b> and choose <b>Word/RTF</b>, which writes every table and chart out in one go. Either is fine; the copy-and-paste route is the one taught in class.</li>
+    <li><b>Two separate appendices.</b> <b>Appendix A</b> for Task 1, <b>Appendix B</b> for Task 2, each starting on a new page.</li>
+    <li><b>Keep each task's output together and in a recognisable order:</b> descriptives and case processing, then the normality tables and plots, then boxplots and outlier evidence, then the Levene output, then the complete main-test output, then the chart output.</li>
     <li><b>Every piece of output goes in the Appendices.</b> The brief makes missing output a fail on that task regardless of how good the analysis is.</li>
-    <li><b>Label the appendices</b> so a marker can tell which output belongs to which task and which step.</li>
+    <li><b>The clean APA table and figure stay in the main report.</b> Their raw SPSS counterparts also appear in the appendix, because the brief requires all output. That is not a duplication problem.</li>
   </ul>
   <h3 class="sec">The document checks</h3>
   <ul class="lead-list">
-    <li><b>Cover page and contents page</b> both present, and the contents actually generated from Heading styles.</li>
-    <li><b>Each task starts on a new page</b>, using a real page break.</li>
-    <li><b>APA formatting and referencing</b> consistent throughout, including the three ethics codes.</li>
-    <li><b>Task 3 word count</b> within 700 plus or minus 10%.</li>
+    <li><b>Cover page and contents page</b> both present, and the contents actually generated from Heading styles. Hyperlinks are not required.</li>
+    <li><b>Each task starts on a new page</b>, using a real page break, with visible <b>(a)</b> to <b>(f)</b> subheadings.</li>
+    <li><b>A References page</b> before the appendices. Task 3's ethics code belongs in it; parts (a) to (f) need no references.</li>
+    <li><b>APA formatting and referencing</b> consistent throughout, including the <b>one</b> ethics code you used.</li>
+    <li><b>Task 3 word count</b> within 700 plus or minus 10%, written in the <b>third person</b>, paraphrasing rather than quoting at length.</li>
     <li><b>One single file</b>, named <b>PSY1081_A1_2026_</b> plus your initial and surname.</li>
   </ul>
   <h3 class="sec">Submitting</h3>
@@ -8377,7 +8429,7 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
       <tr><td><b>Task 3</b></td><td>Name the issue, explain the harm, cite the code, propose an alternative that still achieves the aim</td><td>Your two issues, which differ from each other and from these</td></tr>
     </tbody>
   </table></div>
-  <div class="note b"><span class="lab">The honest warning</span>The fastest way to fail this assignment is to let a sentence from this page reach your document. Your study is about different variables, so a borrowed sentence will not even make sense, and the brief treats AI-produced content as academic misconduct with a viva to defend the work. Read the shape, close the page, write yours.</div>
+  <div class="note b"><span class="lab">The honest warning</span>The fastest way to fail this assignment is to let a sentence from this page reach your document. Your study is about different variables, so a borrowed sentence will not even make sense. The brief states that unauthorised GenAI-generated material must not be included in the submitted assessment. Use this page only to understand the structure; write and analyse the assignment independently. Read the shape, close the page, write yours.</div>
 </section>
 
 <!-- ======== PSY1081 q17 : GUIDED PATH ======== -->
@@ -8982,34 +9034,36 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
         '(a) Null and alternative hypotheses written, directional or not stated',
         '(b) IV named with its two levels, and the DV stated',
         '(c) One extraneous variable identified, with a specific way to control it',
-        '(d) Assumptions tested and reported in full (Shapiro-Wilk, boxplot, Levene’s)',
-        '(e) ONE APA table and ONE APA chart in the main report',
-        '(f) Main analysis reported in full (t, df, p, Cohen’s d, or U, z, p, r)'
+        '(d) Design assumptions stated, then normality per group from histogram, Q-Q plot, skewness, kurtosis and Shapiro-Wilk, outliers from the boxplot, Levene’s from Based on Mean, and an explicit test decision',
+        '(e) ONE APA table and ONE APA figure in the main report, retyped and matched to the test (n/M/SD for a t-test, n/Mdn plus a boxplot for Mann-Whitney)',
+        '(f) Main analysis reported in full (t-test: t, df, p, means, SDs, mean difference, 95% CI, and d only if significant. Mann-Whitney: U, z, p, medians, r)'
       ]},
       {h:'Task 2: cinema phone-checking (under 30 vs over 40) · 35 marks', items:[
         'Table 2 data entered in SPSS',
         '(a) Null and alternative hypotheses',
         '(b) IV with its two levels, and the DV',
         '(c) Extraneous variable + how to control it',
-        '(d) Assumptions tested and reported in full',
-        '(e) ONE APA table and ONE APA chart',
-        '(f) Main analysis reported in full'
+        '(d) Assumptions tested separately for this dataset and reported in full, with its own test decision',
+        '(e) ONE APA table and ONE APA figure, matched to whichever test this task landed on',
+        '(f) Main analysis reported in full, using the template for the test you actually ran'
       ]},
       {h:'Task 3: ethical review · 700 words · 30 marks', items:[
         'Scenario 1: main ethical issue identified and explained (300 words)',
-        'Scenario 1: related to the PSI / BPS / APA codes, with an ethical alternative',
+        'Scenario 1: related to one appropriate professional ethics code, with an ethical alternative that still meets the research aim',
         'Scenario 2: main ethical issue identified and explained (300 words)',
-        'Scenario 2: related to the codes, with an ethical alternative',
+        'Scenario 2: related to the same code, with an ethical alternative that still meets the research aim',
         'Overall conclusion written (100 words)',
-        'The one code you used is cited properly in APA (PSI 2025, or the version you read)'
+        'The one code you used is cited properly in APA (PSI 2025, or the version you read)',
+        'Written in the third person, paraphrased rather than quoted at length, citations and references accurate (Class 3)'
       ]},
       {h:'Before you submit', items:[
-        'ALL SPSS output pasted into the appendices (missing output = automatic fail)',
+        'ALL SPSS output pasted in, Task 1 in Appendix A and Task 2 in Appendix B (missing output = automatic fail)',
         'Cover page and contents page included',
-        'Each task starts on a new page',
+        'Each task starts on a real page break, with visible (a) to (f) subheadings',
         'APA formatting and referencing checked throughout',
         'Saved with the right filename (PSY1081_A1_2026_InitialSurname)',
-        'Uploaded before Monday 2 November 2026, 23:59'
+        'Uploaded before Monday 2 November 2026, 23:59',
+        'A References page sits before the appendices, with the Task 3 ethics code in APA 7'
       ]}
     ];
     var KEY='bapsy_a1_checklist_v1', state={};
@@ -9125,7 +9179,7 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
         w:'Quant Methods Book chapter 6, plus the SPSS Guide tab'},
       mw:{n:'Mann-Whitney U test',
         d:'The non-parametric alternative to the independent t-test. It ranks all the scores and checks whether one group’s ranks sit higher than the other’s.',
-        a:['DV at least ordinal','Two independent groups','No assumption about distribution shape'],
+        a:['DV ordinal or continuous','Two independent groups, independent observations','Normally distributed scores are not required','Comparable distribution shapes still matter if you read it as a difference in medians'],
         s:'Analyze → Nonparametric Tests → Legacy Dialogs → 2 Independent Samples → Mann-Whitney U',
         r:'A Mann-Whitney U test showed [a / no] statistically significant difference in [DV] between [group 1] and [group 2], U = __, z = __, p = __. Quote medians rather than means. Effect size r = z divided by the square root of N.',
         w:'Quant Methods Book chapter 6, plus the SPSS Guide tab'},
