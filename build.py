@@ -145,8 +145,6 @@ LESSON_ICON = (f'<svg viewBox="0 0 24 24" {I} stroke-width="1.9">'
 # (staged as-is, not spliced into the shared shell). Listed in the brand
 # dropdown only, per John: "show them in the tools dropdown".
 LESSON_LINKS = [
-    {'href': '/lessons/pedro-writing-competency.html', 'name': 'Pedro: Writing Competency',
-     'tagline': 'Exam training for Pedro: eight writing tasks, an error clinic, model essays and speaking practice.'},
     {'href': '/lessons/pino-time-management.html', 'name': 'Pino: Time Management',
      'tagline': 'B2 lesson for Giuseppe on time management in sales and business development.'},
     {'href': '/lessons/manuel-ai-at-work.html', 'name': 'Manuel: AI at Work',
