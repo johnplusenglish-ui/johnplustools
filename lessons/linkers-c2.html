@@ -20,6 +20,45 @@
   --red:#d5342f;
   --redbg:#fdeceb;
 }
+/* ---- function colour code: one colour per job, used everywhere ---- */
+[data-f="contrast"]  {--fi:#A16207;--ft:#FBF0D5;--fb:#EAB308}
+[data-f="concession"]{--fi:#7C3AED;--ft:#F1EAFE;--fb:#A78BFA}
+[data-f="cause"]     {--fi:#0F766E;--ft:#D5F2EE;--fb:#2DD4BF}
+[data-f="result"]    {--fi:#15803D;--ft:#E1F5E7;--fb:#4ADE80}
+[data-f="addition"]  {--fi:#BE185D;--ft:#FCE3EE;--fb:#F472B6}
+[data-f="purpose"]   {--fi:#0369A1;--ft:#DEF1FD;--fb:#38BDF8}
+[data-f="condition"] {--fi:#475569;--ft:#EAEEF4;--fb:#94A3B8}
+[data-f="time"]      {--fi:#9A3412;--ft:#FCE8DE;--fb:#FB923C}
+.tag{display:inline-block;font-size:.7rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;
+  padding:2px 10px;border-radius:999px;background:var(--ft);color:var(--fi);border:1px solid var(--fb);
+  vertical-align:middle;white-space:nowrap}
+
+.legend{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:20px}
+.legend .lt{font-size:.76rem;letter-spacing:.09em;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:9px}
+.legend .keys{display:flex;flex-wrap:wrap;gap:7px}
+.legend .note{margin-top:11px;font-size:.88rem;color:var(--muted)}
+.legend .note b{color:var(--ink)}
+
+.bucket[data-f] .bh{background:var(--ft);color:var(--fi);border-bottom:1px solid var(--fb)}
+.bucket[data-f] .bh span{color:var(--fi);opacity:.8}
+.bucket[data-f]{border-color:var(--fb)}
+.chip.showfn::after{content:" " attr(data-fn);font-size:.68rem;font-weight:800;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--fi);margin-left:7px;padding-left:7px;border-left:1px solid currentColor}
+.slot .ftag{display:none;position:absolute;left:50%;transform:translateX(-50%);bottom:-20px;
+  font-size:.62rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--fi);
+  white-space:nowrap;background:var(--ft);border-radius:999px;padding:0 7px;line-height:1.6}
+.slot.marked .ftag{display:block}
+.q .tag,.rep .tag,.mcq .tag{margin-right:7px}
+.mcq[data-f] .why{background:var(--ft);border-left-color:var(--fb)}
+.tr[data-f] .key{background:var(--fi)}
+.ref-f{white-space:nowrap}
+
+/* register is formality, not function: a grey ramp on purpose */
+.bucket[data-r] .bh{border-bottom:1px solid #cbd3e0}
+.bucket[data-r="formal"] .bh{background:#dfe4ed;color:#1f2937}
+.bucket[data-r="neutral"] .bh{background:#eceff5;color:#374151}
+.bucket[data-r="informal"] .bh{background:#f6f8fb;color:#4b5563}
+.bucket[data-r] .bh span{color:#5b6170}
 *{box-sizing:border-box}
 body{margin:0;font-family:'Outfit',system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
 .wrap{max-width:940px;margin:0 auto;padding:0 20px 90px}
@@ -87,12 +126,12 @@ td:first-child{font-weight:700;white-space:nowrap;width:1%}
 .bucket .bd{padding:12px;display:flex;flex-wrap:wrap;gap:7px;min-height:92px;align-content:flex-start}
 .bucket .bd.over{background:#eef2ff}
 
-.gaptext{font-size:1.06rem;line-height:2.4}
+.gaptext{font-size:1.06rem;line-height:3}
 .gaptext p{margin:0 0 14px}
 .gaptext .tt{font-weight:800;font-size:1.15rem;line-height:1.4;margin-bottom:12px}
 .slot{display:inline-block;min-width:130px;height:34px;border-bottom:2px solid var(--cobalt);background:var(--yellow);border-radius:5px 5px 0 0;vertical-align:middle;text-align:center;position:relative;padding:0 4px}
 .slot.over{background:#eef2ff;box-shadow:0 2px 0 var(--cobalt)}
-.slot .chip{box-shadow:none;padding:3px 11px;font-size:.9rem;position:relative;top:-3px}
+.slot .chip{box-shadow:none;padding:3px 11px;font-size:.9rem;line-height:1.5;position:relative;top:-3px}
 .slot .n{position:absolute;left:4px;top:-13px;font-size:.68rem;font-weight:700;color:var(--cobalt);opacity:.85}
 .slot.filled{background:transparent;border-bottom-color:var(--line)}
 .slot.ok{border-bottom-color:var(--green)}
@@ -193,6 +232,7 @@ footer{text-align:center;color:var(--muted);font-size:.9rem;margin-top:36px}
   .card{box-shadow:none;border:none;padding:0}
   body{background:#fff}
   input.gap,.slot{background:#fff;border-bottom:1px solid #000}
+  .tag{border:1px solid #999;background:#fff}
   .model{display:block}
 }
 </style>
@@ -228,6 +268,21 @@ footer{text-align:center;color:var(--muted);font-size:.9rem;margin-top:36px}
   <button class="tab" data-p="p0">Reference</button>
 </div>
 
+<div class="legend">
+  <div class="lt">The colour code: what the linker is doing</div>
+  <div class="keys">
+    <span class="tag" data-f="contrast">Contrast</span>
+    <span class="tag" data-f="concession">Concession</span>
+    <span class="tag" data-f="cause">Cause</span>
+    <span class="tag" data-f="result">Result</span>
+    <span class="tag" data-f="addition">Addition</span>
+    <span class="tag" data-f="purpose">Purpose</span>
+    <span class="tag" data-f="condition">Condition</span>
+    <span class="tag" data-f="time">Time</span>
+  </div>
+  <p class="note">The colour always means the same thing, in every exercise, so the job of a linker becomes something you recognise before you can explain it. <b>In parts 1 and 2 the colour only appears when you check</b>, because there the job is the answer. Everywhere else it is given to you from the start. Part 7 is deliberately grey: formality is a different question from function.</p>
+</div>
+
 <!-- ============ PART 1 : SORT ============ -->
 <section class="panel active" id="p1">
   <div class="card">
@@ -235,12 +290,12 @@ footer{text-align:center;color:var(--muted);font-size:.9rem;margin-top:36px}
     <p class="instruct">Drag each linker into the right box, or tap a linker and then tap a box. Four in each box. The contrast box is for two things set side by side. The concession box is for admitting a point and pushing on anyway.</p>
     <div class="bank" id="bank1"></div>
     <div class="buckets" id="buckets1">
-      <div class="bucket"><div class="bh">Contrast<span>two things side by side</span></div><div class="bd drop" data-k="contrast"></div></div>
-      <div class="bucket"><div class="bh">Concession<span>admit it, then push on</span></div><div class="bd drop" data-k="concession"></div></div>
-      <div class="bucket"><div class="bh">Result<span>this is the outcome</span></div><div class="bd drop" data-k="result"></div></div>
-      <div class="bucket"><div class="bh">Cause<span>this is the reason</span></div><div class="bd drop" data-k="cause"></div></div>
-      <div class="bucket"><div class="bh">Addition<span>one more point</span></div><div class="bd drop" data-k="addition"></div></div>
-      <div class="bucket"><div class="bh">Purpose<span>the goal you had</span></div><div class="bd drop" data-k="purpose"></div></div>
+      <div class="bucket" data-f="contrast"><div class="bh">Contrast<span>two things side by side</span></div><div class="bd drop" data-k="contrast"></div></div>
+      <div class="bucket" data-f="concession"><div class="bh">Concession<span>admit it, then push on</span></div><div class="bd drop" data-k="concession"></div></div>
+      <div class="bucket" data-f="result"><div class="bh">Result<span>this is the outcome</span></div><div class="bd drop" data-k="result"></div></div>
+      <div class="bucket" data-f="cause"><div class="bh">Cause<span>this is the reason</span></div><div class="bd drop" data-k="cause"></div></div>
+      <div class="bucket" data-f="addition"><div class="bh">Addition<span>one more point</span></div><div class="bd drop" data-k="addition"></div></div>
+      <div class="bucket" data-f="purpose"><div class="bh">Purpose<span>the goal you had</span></div><div class="bd drop" data-k="purpose"></div></div>
     </div>
     <div class="scorebar" id="s1"></div>
     <div class="controls">
@@ -255,14 +310,15 @@ footer{text-align:center;color:var(--muted);font-size:.9rem;margin-top:36px}
 <section class="panel" id="p2">
   <div class="card">
     <div class="part-head"><span class="part-num">Part 2</span><h2>Drag the linkers into the text</h2></div>
-    <p class="instruct">Twelve gaps, fourteen linkers. Two are not needed. Grammar decides most of them: one gap takes a noun phrase, two are followed by inversion, one is followed by a clause of result.</p>
+    <p class="instruct">Twelve gaps, fourteen linkers. Two are not needed. Grammar decides most of them: one gap takes a noun phrase, two are followed by inversion, one takes an -ing form. The colours stay hidden until you check, then each gap tells you what job it was doing.</p>
     <div class="bank" id="bank2"></div>
     <div class="gaptext" id="text2">
-      <p class="tt">Letting the land go</p>
-      <p>For a century, conservation in Britain meant holding landscapes exactly where they were. <span class="slot drop" data-a="conversely"><span class="n">1</span></span>, a growing number of estates now do the opposite: they take down the fences, release grazing animals and wait. <span class="slot drop" data-a="for all"><span class="n">2</span></span> the scale of the change, the movement has met remarkably little public resistance.</p>
-      <p>The argument rests on an uncomfortable fact. Most of the species we are trying to save evolved alongside large herbivores, <span class="slot drop" data-a="with the result that"><span class="n">3</span></span> our tidiest reserves are, ecologically speaking, impoverished. <span class="slot drop" data-a="added to this"><span class="n">4</span></span>, the cost of mowing, cutting and spraying has risen to a point many trusts can no longer meet; <span class="slot drop" data-a="accordingly"><span class="n">5</span></span>, doing less has begun to look like good management rather than neglect.</p>
-      <p>Critics are unpersuaded. <span class="slot drop" data-a="compelling though"><span class="n">6</span></span> the ecological case may be, rewilding changes who the countryside is for. Tenant farmers lose their grazing, paths close while the scrub thickens, and <span class="slot drop" data-a="insofar as"><span class="n">7</span></span> new jobs do appear, they are seasonal and few. <span class="slot drop" data-a="so strong"><span class="n">8</span></span> were the objections in one Welsh valley that the scheme there was abandoned inside a year.</p>
-      <p><span class="slot drop" data-a="in essence"><span class="n">9</span></span>, the two sides want different things from the same hectare. <span class="slot drop" data-a="given"><span class="n">10</span></span> this, the question will not be settled by ecology alone. The sensible course may be to treat rewilding as one tool among several, to be reached for <span class="slot drop" data-a="as and when"><span class="n">11</span></span> the land and the people on it allow, <span class="slot drop" data-a="rather than"><span class="n">12</span></span> as a doctrine to be applied everywhere.</p>
+      <p class="tt">Nobody goes out any more</p>
+      <p>There was a time when a Friday needed no planning. You turned up, and so did everyone else. <span class="slot drop" data-a="conversely" data-f="contrast"><span class="n">1</span><span class="ftag">Contrast</span></span>, a night out now takes three weeks of negotiation in a group chat and still falls apart the day before. <span class="slot drop" data-a="for all" data-f="concession"><span class="n">2</span><span class="ftag">Concession</span></span> the apps designed to bring us together, getting six people into the same room has never been harder.</p>
+      <p>The usual explanation is money, and it is not wrong. A round now costs what a meal used to, <span class="slot drop" data-a="with the result that" data-f="result"><span class="n">3</span><span class="ftag">Result</span></span> most of us do the sums before we answer. <span class="slot drop" data-a="that said" data-f="concession"><span class="n">4</span><span class="ftag">Concession</span></span>, the maths is not the whole story. Plenty of people cancel on nights they have already paid for.</p>
+      <p>The honest answer is that staying in got better. Streaming, delivery and a decent sofa have raised the standard of doing nothing, <span class="slot drop" data-a="thereby" data-f="result"><span class="n">5</span><span class="ftag">Result</span></span> raising the bar for anything that asks you to put shoes on. <span class="slot drop" data-a="strong though" data-f="concession"><span class="n">6</span><span class="ftag">Concession</span></span> the pull of the sofa may be, nobody has ever come home from a night in with a story.</p>
+      <p>The cost lands unevenly. People with partners and small children lose an evening. People living alone lose most of their week, <span class="slot drop" data-a="given that" data-f="cause"><span class="n">7</span><span class="ftag">Cause</span></span> the invitations quietly stop once you have turned down three in a row. <span class="slot drop" data-a="so strong" data-f="result"><span class="n">8</span><span class="ftag">Result</span></span> is the pull of the default that a whole evening can disappear without anyone deciding anything.</p>
+      <p><span class="slot drop" data-a="although" data-f="concession"><span class="n">9</span><span class="ftag">Concession</span></span> the problem is partly a matter of prices and timetables, it is also just a habit, and habits can be interrupted. <span class="slot drop" data-a="accordingly" data-f="result"><span class="n">10</span><span class="ftag">Result</span></span>, the fix is not a better app but a lower bar: one person naming a day and a place, <span class="slot drop" data-a="rather than" data-f="contrast"><span class="n">11</span><span class="ftag">Contrast</span></span> waiting for the group to agree. Say yes before you have time to talk yourself out of it, <span class="slot drop" data-a="otherwise" data-f="condition"><span class="n">12</span><span class="ftag">Condition</span></span> the evening quietly becomes another one at home.</p>
     </div>
     <div class="scorebar" id="s2"></div>
     <div class="controls">
@@ -279,21 +335,21 @@ footer{text-align:center;color:var(--muted);font-size:.9rem;margin-top:36px}
     <div class="part-head"><span class="part-num">Part 3</span><h2>Type the linker</h2></div>
     <p class="instruct">One to five words in each gap. The job is in brackets and the first letter is given. More than one answer is sometimes possible.</p>
     <div id="typed">
-      <div class="q"><span class="qn">1</span><span class="s">The data were thin;<input class="gap" data-a="nevertheless|nonetheless" placeholder="n..."><span class="fix"></span>, the policy went ahead unchanged.</span><span class="hint">concession, one word, begins with <b>n</b></span></div>
-      <div class="q"><span class="qn">2</span><span class="s"><input class="gap" data-a="notwithstanding" placeholder="N..."><span class="fix"></span> the obvious risks, the board approved the merger.</span><span class="hint">concession before a noun phrase, formal, one word, begins with <b>n</b></span></div>
-      <div class="q"><span class="qn">3</span><span class="s">Funding was withdrawn in March, <input class="gap" data-a="thereby|thus" placeholder="t..."><span class="fix"></span> forcing two wings of the museum to close.</span><span class="hint">result before an -ing form, one word, begins with <b>t</b></span></div>
-      <div class="q"><span class="qn">4</span><span class="s">He accepted the post, <input class="gap" data-a="albeit" placeholder="a..."><span class="fix"></span> with visible reluctance.</span><span class="hint">concession before a phrase, never before a clause, one word, begins with <b>a</b></span></div>
-      <div class="q"><span class="qn">5</span><span class="s"><input class="gap" data-a="much as" placeholder="M..."><span class="fix"></span> I admire her earlier work, I cannot defend this decision.</span><span class="hint">concession, two words, begins with <b>m</b></span></div>
-      <div class="q"><span class="qn">6</span><span class="s">The scheme proved popular, <input class="gap" data-a="so much so" placeholder="s..."><span class="fix"></span> that the council extended it twice.</span><span class="hint">result, three words before "that", begins with <b>s</b></span></div>
-      <div class="q"><span class="qn">7</span><span class="s">Membership is open to anyone <input class="gap" data-a="provided|providing|assuming" placeholder="p..."><span class="fix"></span> they pay the annual fee.</span><span class="hint">condition, one word, begins with <b>p</b></span></div>
-      <div class="q"><span class="qn">8</span><span class="s"><input class="gap" data-a="given" placeholder="G..."><span class="fix"></span> the scale of the flooding, the response was impressively quick.</span><span class="hint">cause before a noun phrase, one word, begins with <b>g</b></span></div>
-      <div class="q"><span class="qn">9</span><span class="s">The town has kept its market, <input class="gap" data-a="whereas|while|whilst" placeholder="w..."><span class="fix"></span> most of its neighbours have lost theirs.</span><span class="hint">contrast between two different subjects, one word, begins with <b>w</b></span></div>
-      <div class="q"><span class="qn">10</span><span class="s"><input class="gap" data-a="no sooner" placeholder="N..."><span class="fix"></span> had the ink dried on the contract than the price rose again.</span><span class="hint">time and inversion, two words, begins with <b>n</b></span></div>
-      <div class="q"><span class="qn">11</span><span class="s">We kept every receipt <input class="gap" data-a="lest" placeholder="l..."><span class="fix"></span> we be asked to justify the spending.</span><span class="hint">negative purpose, very formal, one word, begins with <b>l</b></span></div>
-      <div class="q"><span class="qn">12</span><span class="s">The report was rushed and, <input class="gap" data-a="consequently|accordingly" placeholder="c..."><span class="fix"></span>, riddled with errors.</span><span class="hint">result, one word, begins with <b>c</b></span></div>
-      <div class="q"><span class="qn">13</span><span class="s"><input class="gap" data-a="were" placeholder="W..."><span class="fix"></span> it not for the strike, the deal would have gone through.</span><span class="hint">inverted conditional, one word, begins with <b>w</b></span></div>
-      <div class="q"><span class="qn">14</span><span class="s">The figures are disputed. <input class="gap" data-a="be that as it may" placeholder="B..."><span class="fix"></span>, the direction of travel is clear.</span><span class="hint">concession, five words, begins with <b>b</b></span></div>
-      <div class="q"><span class="qn">15</span><span class="s">The council wants fewer cars in the centre. <input class="gap" data-a="to that end" placeholder="T..."><span class="fix"></span>, it has tripled parking charges.</span><span class="hint">purpose, three words, begins with <b>t</b></span></div>
+      <div class="q" data-f="concession"><span class="qn">1</span><span class="s">The flat was miles from anywhere; <input class="gap" data-a="nevertheless|nonetheless" placeholder="n..."><span class="fix"></span>, we took it, because everything closer had gone in a day.</span><span class="hint"><span class="tag">Concession</span>one word, begins with <b>n</b></span></div>
+      <div class="q" data-f="concession"><span class="qn">2</span><span class="s"><input class="gap" data-a="notwithstanding" placeholder="N..."><span class="fix"></span> the reviews, we booked the place anyway and regretted it by the second night.</span><span class="hint"><span class="tag">Concession</span>before a noun phrase, formal, one word, begins with <b>n</b></span></div>
+      <div class="q" data-f="result"><span class="qn">3</span><span class="s">He left the group chat on mute for a month, <input class="gap" data-a="thereby|thus" placeholder="t..."><span class="fix"></span> missing both the wedding and the leaving do.</span><span class="hint"><span class="tag">Result</span>before an -ing form, one word, begins with <b>t</b></span></div>
+      <div class="q" data-f="concession"><span class="qn">4</span><span class="s">She signed up for the gym in January, <input class="gap" data-a="albeit" placeholder="a..."><span class="fix"></span> with no real intention of going.</span><span class="hint"><span class="tag">Concession</span>before a phrase, never before a clause, one word, begins with <b>a</b></span></div>
+      <div class="q" data-f="concession"><span class="qn">5</span><span class="s"><input class="gap" data-a="much as" placeholder="M..."><span class="fix"></span> I love my flatmates, I would not go on holiday with them.</span><span class="hint"><span class="tag">Concession</span>two words, begins with <b>m</b></span></div>
+      <div class="q" data-f="result"><span class="qn">6</span><span class="s">The caf&eacute; got popular, <input class="gap" data-a="so much so" placeholder="s..."><span class="fix"></span> that you now queue twenty minutes for a table you used to walk into.</span><span class="hint"><span class="tag">Result</span>three words before "that", begins with <b>s</b></span></div>
+      <div class="q" data-f="condition"><span class="qn">7</span><span class="s">You can borrow the car <input class="gap" data-a="provided|providing|assuming" placeholder="p..."><span class="fix"></span> you bring it back with a full tank.</span><span class="hint"><span class="tag">Condition</span>one word, begins with <b>p</b></span></div>
+      <div class="q" data-f="cause"><span class="qn">8</span><span class="s"><input class="gap" data-a="given" placeholder="G..."><span class="fix"></span> the price of everything this year, nobody blamed him for staying in.</span><span class="hint"><span class="tag">Cause</span>before a noun phrase, one word, begins with <b>g</b></span></div>
+      <div class="q" data-f="contrast"><span class="qn">9</span><span class="s">My brother remembers every birthday, <input class="gap" data-a="whereas|while|whilst" placeholder="w..."><span class="fix"></span> I need three reminders and still send it late.</span><span class="hint"><span class="tag">Contrast</span>two different subjects, one word, begins with <b>w</b></span></div>
+      <div class="q" data-f="time"><span class="qn">10</span><span class="s"><input class="gap" data-a="no sooner" placeholder="N..."><span class="fix"></span> had I sat down with a coffee than the baby woke up.</span><span class="hint"><span class="tag">Time</span>with inversion, two words, begins with <b>n</b></span></div>
+      <div class="q" data-f="purpose"><span class="qn">11</span><span class="s">I keep a screenshot of every booking <input class="gap" data-a="lest" placeholder="l..."><span class="fix"></span> the airline claim I never paid.</span><span class="hint"><span class="tag">Purpose</span>negative, very formal, one word, begins with <b>l</b></span></div>
+      <div class="q" data-f="result"><span class="qn">12</span><span class="s">The message was typed at two in the morning and, <input class="gap" data-a="consequently|accordingly" placeholder="c..."><span class="fix"></span>, made no sense at all.</span><span class="hint"><span class="tag">Result</span>one word, begins with <b>c</b></span></div>
+      <div class="q" data-f="condition"><span class="qn">13</span><span class="s"><input class="gap" data-a="were" placeholder="W..."><span class="fix"></span> it not for my sister, I would have missed the flight entirely.</span><span class="hint"><span class="tag">Condition</span>inverted, one word, begins with <b>w</b></span></div>
+      <div class="q" data-f="concession"><span class="qn">14</span><span class="s">You did warn me. <input class="gap" data-a="be that as it may" placeholder="B..."><span class="fix"></span>, I would still rather have found out for myself.</span><span class="hint"><span class="tag">Concession</span>five words, begins with <b>b</b></span></div>
+      <div class="q" data-f="purpose"><span class="qn">15</span><span class="s">He wants to be in bed by eleven. <input class="gap" data-a="to that end" placeholder="T..."><span class="fix"></span>, the phone now charges in the kitchen.</span><span class="hint"><span class="tag">Purpose</span>three words, begins with <b>t</b></span></div>
     </div>
     <div class="scorebar" id="s3"></div>
     <div class="controls">
@@ -325,14 +381,14 @@ footer{text-align:center;color:var(--muted);font-size:.9rem;margin-top:36px}
     <div class="part-head"><span class="part-num">Part 5</span><h2>Repair the linker</h2></div>
     <p class="instruct">Every sentence below is wrong, and the fault is always the linker. Type the words that should replace the crossed-out part. Keep the rest of the sentence as it is.</p>
     <div id="repair">
-      <div class="rep"><div class="src"><span class="n">1</span>Despite of the delay at customs, we arrived on time.</div><div class="rl">Replace <b class="bad">Despite of</b> with <input class="gap" data-a="despite|in spite of"><span class="fix"></span></div></div>
-      <div class="rep"><div class="src"><span class="n">2</span>Although the heavy traffic on the ring road, we were early.</div><div class="rl">Replace <b class="bad">Although</b> with <input class="gap" data-a="despite|in spite of|notwithstanding"><span class="fix"></span></div></div>
-      <div class="rep"><div class="src"><span class="n">3</span>The train was late, however we got to the meeting on time.</div><div class="rl">Replace <b class="bad">however</b> with <input class="gap" data-a="but|yet"><span class="fix"></span></div></div>
-      <div class="rep"><div class="src"><span class="n">4</span>She has twenty years behind her, on the contrary he has just started.</div><div class="rl">Replace <b class="bad">on the contrary</b> with <input class="gap" data-a="whereas|while|whilst"><span class="fix"></span></div></div>
-      <div class="rep"><div class="src"><span class="n">5</span>The flight was cancelled because of the strike began at midnight.</div><div class="rl">Replace <b class="bad">because of</b> with <input class="gap" data-a="because|since|as"><span class="fix"></span></div></div>
-      <div class="rep"><div class="src"><span class="n">6</span>We left at dawn for not to miss the connection in Madrid.</div><div class="rl">Replace <b class="bad">for not to</b> with <input class="gap" data-a="so as not to|in order not to"><span class="fix"></span></div></div>
-      <div class="rep"><div class="src"><span class="n">7</span>Notwithstanding of the warnings, the expedition went ahead.</div><div class="rl">Replace <b class="bad">Notwithstanding of</b> with <input class="gap" data-a="notwithstanding|despite|in spite of"><span class="fix"></span></div></div>
-      <div class="rep"><div class="src"><span class="n">8</span>No sooner we had sat down when the fire alarm went off.</div><div class="rl">Replace <b class="bad">we had sat down when</b> with <input class="gap" data-a="had we sat down than"><span class="fix"></span></div></div>
+      <div class="rep" data-f="concession"><div class="src"><span class="n">1</span><span class="tag">Concession</span>Despite of the queue outside, we waited forty minutes for a table.</div><div class="rl">Replace <b class="bad">Despite of</b> with <input class="gap" data-a="despite|in spite of"><span class="fix"></span></div></div>
+      <div class="rep" data-f="concession"><div class="src"><span class="n">2</span><span class="tag">Concession</span>Although the terrible reviews, we booked the place anyway.</div><div class="rl">Replace <b class="bad">Although</b> with <input class="gap" data-a="despite|in spite of|notwithstanding"><span class="fix"></span></div></div>
+      <div class="rep" data-f="contrast"><div class="src"><span class="n">3</span><span class="tag">Contrast</span>The bus was late, however I still got to work on time.</div><div class="rl">Replace <b class="bad">however</b> with <input class="gap" data-a="but|yet"><span class="fix"></span></div></div>
+      <div class="rep" data-f="contrast"><div class="src"><span class="n">4</span><span class="tag">Contrast</span>My brother remembers every birthday, on the contrary I need three reminders.</div><div class="rl">Replace <b class="bad">on the contrary</b> with <input class="gap" data-a="whereas|while|whilst"><span class="fix"></span></div></div>
+      <div class="rep" data-f="cause"><div class="src"><span class="n">5</span><span class="tag">Cause</span>The match was called off because of the rain started an hour before.</div><div class="rl">Replace <b class="bad">because of</b> with <input class="gap" data-a="because|since|as"><span class="fix"></span></div></div>
+      <div class="rep" data-f="purpose"><div class="src"><span class="n">6</span><span class="tag">Purpose</span>We set two alarms for not to miss the early flight.</div><div class="rl">Replace <b class="bad">for not to</b> with <input class="gap" data-a="so as not to|in order not to"><span class="fix"></span></div></div>
+      <div class="rep" data-f="concession"><div class="src"><span class="n">7</span><span class="tag">Concession</span>Notwithstanding of the warnings from my flatmates, I adopted the cat.</div><div class="rl">Replace <b class="bad">Notwithstanding of</b> with <input class="gap" data-a="notwithstanding|despite|in spite of"><span class="fix"></span></div></div>
+      <div class="rep" data-f="time"><div class="src"><span class="n">8</span><span class="tag">Time</span>No sooner we had sat down when the baby started crying.</div><div class="rl">Replace <b class="bad">we had sat down when</b> with <input class="gap" data-a="had we sat down than"><span class="fix"></span></div></div>
     </div>
     <div class="scorebar" id="s7"></div>
     <div class="controls">
@@ -362,12 +418,12 @@ footer{text-align:center;color:var(--muted);font-size:.9rem;margin-top:36px}
 <section class="panel" id="p7">
   <div class="card">
     <div class="part-head"><span class="part-num">Part 7</span><h2>How formal is it</h2></div>
-    <p class="instruct">All fifteen are correct English. The question is where you would use them. Five in each box.</p>
+    <p class="instruct">All fifteen are correct English. The question is where you would use them. Five in each box. There are no function colours here on purpose: formality is a different question from job, and mixing the two codes would teach you the wrong habit.</p>
     <div class="bank" id="bank6"></div>
     <div class="buckets" id="buckets6">
-      <div class="bucket"><div class="bh">Formal writing<span>reports, essays, legal and academic prose</span></div><div class="bd drop" data-k="formal"></div></div>
-      <div class="bucket"><div class="bh">Neutral<span>safe almost anywhere</span></div><div class="bd drop" data-k="neutral"></div></div>
-      <div class="bucket"><div class="bh">Spoken and informal<span>conversation, messages, emails to friends</span></div><div class="bd drop" data-k="informal"></div></div>
+      <div class="bucket" data-r="formal"><div class="bh">Formal writing<span>reports, essays, legal and academic prose</span></div><div class="bd drop" data-k="formal"></div></div>
+      <div class="bucket" data-r="neutral"><div class="bh">Neutral<span>safe almost anywhere</span></div><div class="bd drop" data-k="neutral"></div></div>
+      <div class="bucket" data-r="informal"><div class="bh">Spoken and informal<span>conversation, messages, emails to friends</span></div><div class="bd drop" data-k="informal"></div></div>
     </div>
     <div class="scorebar" id="s6"></div>
     <div class="controls">
@@ -424,6 +480,7 @@ footer{text-align:center;color:var(--muted);font-size:.9rem;margin-top:36px}
 const $=(s,r=document)=>r.querySelector(s);
 const $$=(s,r=document)=>Array.prototype.slice.call(r.querySelectorAll(s));
 const scores={};
+var FN={contrast:'Contrast',concession:'Concession',cause:'Cause',result:'Result',addition:'Addition',purpose:'Purpose',condition:'Condition',time:'Time'};
 
 $$('.tab').forEach(function(t){
   t.onclick=function(){
@@ -546,7 +603,9 @@ function checkSort(){
   $$('#buckets1 .bd').forEach(function(z){
     $$('.chip',z).forEach(function(c){
       c.classList.remove('correct','wrong');
-      if(c.dataset.k===z.dataset.k){c.classList.add('correct');ok++;}else{c.classList.add('wrong');}
+      c.classList.remove('showfn');c.removeAttribute('data-f');
+      if(c.dataset.k===z.dataset.k){c.classList.add('correct');ok++;}
+      else{c.classList.add('wrong');c.setAttribute('data-f',c.dataset.k);c.dataset.fn=FN[c.dataset.k];c.classList.add('showfn');}
     });
   });
   showScore('s1',ok,SORT.length,'c1');
@@ -559,12 +618,12 @@ function solveSort(){
   showScore('s1',SORT.length,SORT.length,'c1');
 }
 function resetSort(){
-  $$('#buckets1 .chip').forEach(function(c){$('#bank1').appendChild(c);c.classList.remove('correct','wrong','sel');});
+  $$('#buckets1 .chip').forEach(function(c){$('#bank1').appendChild(c);c.classList.remove('correct','wrong','sel','showfn');c.removeAttribute('data-f');});
   $('#s1').className='scorebar';
 }
 
 /* ---------- PART 2 : gapped text ---------- */
-var BANK2=['Conversely','For all','with the result that','Added to this','accordingly','Compelling though','insofar as','So strong','In essence','Given','as and when','rather than','lest','no sooner'];
+var BANK2=['Conversely','For all','with the result that','That said','thereby','Strong though','given that','So strong','Although','Accordingly','rather than','otherwise','no sooner','in order to'];
 function buildText(){var b=$('#bank2');b.innerHTML='';shuffle(BANK2.slice()).forEach(function(w){b.appendChild(makeChip(w,'bank2'));});}
 function checkText(){
   var ok=0,slots=$$('#text2 .slot');
@@ -575,6 +634,7 @@ function checkText(){
     c.classList.remove('correct','wrong');
     if(c.dataset.v===z.dataset.a){c.classList.add('correct');z.classList.add('ok');ok++;}
     else{c.classList.add('wrong');z.classList.add('no');}
+    z.classList.add('marked');
   });
   showScore('s2',ok,slots.length,'c2');
 }
@@ -582,7 +642,7 @@ function solveText(){
   resetText();
   $$('#text2 .slot').forEach(function(z){
     var c=$$('#bank2 .chip').filter(function(x){return x.dataset.v===z.dataset.a;})[0];
-    if(c){z.appendChild(c);z.classList.add('filled','ok');c.classList.add('correct');}
+    if(c){z.appendChild(c);z.classList.add('filled','ok','marked');c.classList.add('correct');}
   });
   showScore('s2',12,12,'c2');
 }
@@ -590,7 +650,7 @@ function resetText(){
   $$('#text2 .slot').forEach(function(z){
     var c=z.querySelector('.chip');
     if(c){$('#bank2').appendChild(c);c.classList.remove('correct','wrong','sel');}
-    z.classList.remove('filled','ok','no');
+    z.classList.remove('filled','ok','no','marked');
   });
   $('#s2').className='scorebar';
 }
@@ -607,16 +667,16 @@ function resetRep(){gapReset('repair','s7');}
 
 /* ---------- PART 4 : mcq ---------- */
 var MCQ=[
-  ['___ the obvious risks, the board approved the merger.',['Although','Notwithstanding','However'],1,'"Notwithstanding" takes a noun phrase straight after it. "Although" needs a clause, and "However" needs a sentence of its own. There is no "notwithstanding of".'],
-  ['___ as I admire her earlier work, I cannot defend this decision.',['Much','Even','Despite'],0,'"Much as" plus a clause is a formal concession, close in meaning to "although I very much admire". "Even as" means "at the same time as", which is not the meaning here.'],
-  ['___ had the ink dried on the contract ___ the price rose again.',['No sooner / than','Hardly / than','Scarcely / that'],0,'"No sooner" pairs with "than". "Hardly" and "scarcely" pair with "when", and all three invert the auxiliary.'],
-  ['___ it not for the strike, the deal would have gone through.',['Was','Were','Had'],1,'An inverted second conditional: "Were it not for X" replaces "If it were not for X". "Had it not been for the strike" would also work, but not "Had it not for".'],
-  ['The scheme proved popular, ___ that the council extended it twice.',['so much','such much','so much so'],2,'The fixed phrase is "so much so that". "Such" would need a noun: "such was its popularity that".'],
-  ['Funding was withdrawn, ___ forcing two wings to close.',['therefore','thereby','whereby'],1,'"Thereby" plus an -ing form shows the result of the action just described. "Therefore" cannot be followed by an -ing form, and "whereby" means "by means of which".'],
-  ['The exemption applies ___ the property is used for business.',['insofar as','in so much','inasmuch'],0,'"Insofar as" means "to the extent that". "Inasmuch as" exists but needs "as", and it leans towards cause rather than extent.'],
-  ['The figures are disputed. ___ , the direction of travel is clear.',['Be that as it may','Be as that may','That being as it may'],0,'"Be that as it may" is a fixed concessive phrase. The word order never changes.'],
-  ['___ the committee approve the budget, work will begin in May.',['Should','Would','Will'],0,'An inverted first conditional: "Should the committee approve" replaces "If the committee should approve". Formal, and common in written proposals.'],
-  ['Costs rose ___ the point where the project had to be abandoned.',['to','at','by'],0,'The fixed phrase is "to the point where" or "to the point of". It shows a result reached by degrees.']
+  ['___ the terrible reviews, we booked the place anyway.',['Although','Notwithstanding','However'],1,'"Notwithstanding" takes a noun phrase straight after it. "Although" needs a clause, and "However" needs a sentence of its own. There is no "notwithstanding of".','concession'],
+  ['___ as I love my flatmates, I would not go on holiday with them.',['Much','Even','Despite'],0,'"Much as" plus a clause is a formal concession, close to "although I love them very much". "Even as" means "at the same time as", which is not the meaning here.','concession'],
+  ['___ had I sat down with a coffee ___ the baby woke up.',['No sooner / than','Hardly / than','Scarcely / that'],0,'"No sooner" pairs with "than". "Hardly" and "scarcely" pair with "when", and all three invert the auxiliary.','time'],
+  ['___ it not for my sister, I would have missed the flight.',['Was','Were','Had'],1,'An inverted second conditional: "Were it not for X" replaces "If it were not for X". "Had it not been for my sister" works too, but not "Had it not for".','condition'],
+  ['The caf&eacute; got popular, ___ that you now queue for a table.',['so much','such much','so much so'],2,'The fixed phrase is "so much so that". "Such" would need a noun: "such was its popularity that".','result'],
+  ['He left the chat on mute, ___ missing the wedding and the leaving do.',['therefore','thereby','whereby'],1,'"Thereby" plus an -ing form shows the result of what was just described. "Therefore" cannot take an -ing form, and "whereby" means "by means of which".','result'],
+  ['The guarantee still applies ___ you have kept the receipt.',['insofar as','in so much','inasmuch'],0,'"Insofar as" means "to the extent that". "Inasmuch as" exists but needs "as", and it leans towards cause rather than extent.','condition'],
+  ['You did warn me. ___ , I would still rather have found out for myself.',['Be that as it may','Be as that may','That being as it may'],0,'"Be that as it may" is a fixed concessive phrase. The word order never changes.','concession'],
+  ['___ the flat fall through, we are back to square one.',['Should','Would','Will'],0,'An inverted first conditional: "Should the flat fall through" replaces "If the flat should fall through". Formal, and common in writing.','condition'],
+  ['Going out got expensive ___ the point where we mostly stopped.',['to','at','by'],0,'The fixed phrase is "to the point where" or "to the point of". It marks a result reached by degrees.','result']
 ];
 function buildMcq(){
   var w=$('#mcqs');w.innerHTML='';
@@ -624,7 +684,8 @@ function buildMcq(){
     var d=document.createElement('div');d.className='mcq';
     var stem=m[0].replace(/___/g,'<span class="gapline"></span>');
     var opts=m[1].map(function(o,j){return '<button class="opt" data-i="'+j+'">'+o+'</button>';}).join('');
-    d.innerHTML='<div class="stem"><span class="n">'+(i+1)+'</span>'+stem+'</div><div class="opts" data-c="'+m[2]+'">'+opts+'</div><div class="why"><b>Why.</b> '+m[3]+'</div>';
+    d.setAttribute('data-f',m[4]);
+    d.innerHTML='<div class="stem"><span class="n">'+(i+1)+'</span><span class="tag">'+FN[m[4]]+'</span>'+stem+'</div><div class="opts" data-c="'+m[2]+'">'+opts+'</div><div class="why"><b>Why.</b> '+m[3]+'</div>';
     w.appendChild(d);
   });
   $$('#mcqs .opt').forEach(function(b){
@@ -665,22 +726,23 @@ function resetMcq(){
 
 /* ---------- PART 6 : transformations ---------- */
 var TRANS=[
-  ['He agreed to help, though not very willingly.','ALBEIT',['albeit'],'He agreed to help, albeit reluctantly.'],
-  ['Although I admire her earlier work, I cannot defend this decision.','MUCH',['much as','admire'],'Much as I admire her earlier work, I cannot defend this decision.'],
-  ['The contract was signed and the price immediately rose.','SOONER',['no sooner','than'],'No sooner had the contract been signed than the price rose.'],
-  ['If there had not been a strike, the deal would have gone through.','WERE',['were it not for','strike'],'Were it not for the strike, the deal would have gone through.'],
-  ['The scheme was so popular that the council extended it twice.','SO',['so much so that','extended'],'The scheme was popular, so much so that the council extended it twice.'],
-  ['Despite the obvious risks, the board approved the merger.','NOTWITHSTANDING',['notwithstanding the obvious risks'],'Notwithstanding the obvious risks, the board approved the merger.'],
-  ['The funding was withdrawn and this forced two wings to close.','THEREBY',['thereby forcing'],'The funding was withdrawn, thereby forcing two wings to close.'],
-  ['The figures are disputed, but the direction of travel is clear.','MAY',['be that as it may'],'The figures are disputed. Be that as it may, the direction of travel is clear.'],
-  ['We kept the receipts because we might be asked to justify the spending.','LEST',['lest'],'We kept the receipts lest we be asked to justify the spending.'],
-  ['The council wants fewer cars, so it has tripled parking charges.','END',['to that end','tripled'],'The council wants fewer cars. To that end, it has tripled parking charges.']
+  ['She agreed to come to the wedding, though not very happily.','ALBEIT',['albeit'],'She agreed to come to the wedding, albeit reluctantly.','concession'],
+  ['Although I love my flatmates, I would not go on holiday with them.','MUCH',['much as','love'],'Much as I love my flatmates, I would not go on holiday with them.','concession'],
+  ['I sat down with a coffee and the baby immediately woke up.','SOONER',['no sooner','than'],'No sooner had I sat down with a coffee than the baby woke up.','time'],
+  ['If it had not been for my sister, I would have missed the flight.','WERE',['were it not for','sister'],'Were it not for my sister, I would have missed the flight.','condition'],
+  ['The caf&eacute; got so popular that you now queue for a table.','SO',['so much so that','queue'],'The caf&eacute; got popular, so much so that you now queue for a table.','result'],
+  ['Despite the warnings from my flatmates, I adopted the cat.','NOTWITHSTANDING',['notwithstanding the warnings'],'Notwithstanding the warnings from my flatmates, I adopted the cat.','concession'],
+  ['He left the group chat on mute and this meant he missed the wedding.','THEREBY',['thereby missing'],'He left the group chat on mute, thereby missing the wedding.','result'],
+  ['You did warn me, but I would still rather have found out for myself.','MAY',['be that as it may'],'You did warn me. Be that as it may, I would still rather have found out for myself.','concession'],
+  ['I keep every booking screenshot because the airline might claim I never paid.','LEST',['lest'],'I keep every booking screenshot lest the airline claim I never paid.','purpose'],
+  ['He wants to be in bed by eleven, so the phone now charges in the kitchen.','END',['to that end','kitchen'],'He wants to be in bed by eleven. To that end, the phone now charges in the kitchen.','purpose']
 ];
 function buildTrans(){
   var w=$('#trans');w.innerHTML='';
   TRANS.forEach(function(t,i){
     var d=document.createElement('div');d.className='tr';
-    d.innerHTML='<div class="src"><span class="n">'+(i+1)+'</span>'+t[0]+'</div><div class="key">'+t[1]+'</div>'+
+    d.setAttribute('data-f',t[4]);
+    d.innerHTML='<div class="src"><span class="n">'+(i+1)+'</span>'+t[0]+'</div><div class="key">'+t[1]+'</div> <span class="tag">'+FN[t[4]]+'</span>'+
       '<input class="long" data-must="'+t[2].join('|')+'" placeholder="Write the whole sentence">'+
       '<div class="model"><span>Model answer</span>'+t[3]+'</div>';
     w.appendChild(d);
