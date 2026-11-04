@@ -181,6 +181,8 @@ LESSON_LINKS = [
      'tagline': 'C1 lesson on nostalgia, the nineties revival and looking back at the good old days.'},
     {'href': '/lessons/business-english-c1.html', 'name': 'Business English',
      'tagline': 'C1 lesson on how businesses make money, with a class survey and a ninety-second pitch.'},
+    {'href': '/lessons/linkers-c2.html', 'name': 'Linkers & Connectors',
+     'tagline': 'C2 grammar practice: seven exercises on contrast, concession, result, cause and purpose.'},
 ]
 
 FAVICON = ("<link rel=\"icon\" href=\"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' "
