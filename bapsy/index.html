@@ -855,6 +855,8 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
         <div class="pn-rule"></div>
         <div class="pn-eyebrow">Assessment</div>
         <button class="guide-nav-item gl-keep" data-t="q3"><span class="guide-nav-dot"></span><span class="label">Assignment Briefs</span></button>
+        <button class="guide-nav-item gl-keep" data-t="q19"><span class="guide-nav-dot"></span><span class="label">Worked A2</span><span class="trail"><span class="nav-k due">model</span></span></button>
+        <button class="guide-nav-item gl-keep" data-t="q20"><span class="guide-nav-dot"></span><span class="label">A2 Walkthrough</span><span class="trail"><span class="nav-k due">7 Dec</span></span></button>
         <button class="guide-nav-item gl-keep" data-t="q18"><span class="guide-nav-dot"></span><span class="label">Worked A1</span><span class="trail"><span class="nav-k due">model</span></span></button>
         <button class="guide-nav-item gl-keep" data-t="q11"><span class="guide-nav-dot"></span><span class="label">A1 Walkthrough</span><span class="trail"><span class="nav-k due">2 Nov</span></span></button>
         <button class="guide-nav-item gl-keep" data-t="q10"><span class="guide-nav-dot"></span><span class="label">Deadlines</span><span class="trail"><span class="nav-k due">7 Dec</span></span></button>
@@ -8754,6 +8756,331 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
 </section>
 
 <!-- ======== PSY1081 q15 : NULL & P-VALUES ======== -->
+<!-- ======== PSY1081 q19 : WORKED A2 ======== -->
+<section class="pane wrap" id="q19">
+  <div class="dhead">
+    <div class="kicker">Assessment &middot; a model to work from</div>
+    <h2>A worked Assignment 2, on other studies</h2>
+    <div class="pills"><span class="pill on">all three tasks</span><span class="pill">every part, a to g</span><span class="pill">real statistics, invented studies</span></div>
+  </div>
+
+  <div class="note b"><span class="lab">Read this bit first</span>Everything below is worked on <b>three invented studies that have nothing to do with your assignment</b>. It shows you the <b>shape</b> of each answer: what goes in it, in what order, and in what wording. <b>None of it is your answer</b>, and copying a sentence of it into your submission would be both wrong and obvious, because your variables, your numbers and your ethical issues are all different. Use it the way you would use a worked example in a maths textbook.</div>
+
+  <div class="note"><span class="lab">The numbers here are real</span>The three datasets were generated and then analysed properly. Every statistic below, including each Shapiro-Wilk W, was produced by calculations that were first checked against your own A1 SPSS output and reproduced it exactly, to three decimal places. If you enter these datasets yourself you will get these numbers.</div>
+
+  <h3 class="sec">The three studies</h3>
+  <div class="tscroll"><table class="tbl">
+    <thead><tr><th></th><th>Study A, for Task 1</th><th>Study B, for Task 2</th><th>Study C, for Task 3</th></tr></thead>
+    <tbody>
+      <tr><td><b>Question</b></td><td>Does a short walk before a memory test change how many words people recall?</td><td>Does a media-literacy workshop change how long people spend reading news on their phone?</td><td>Does using a study-planner app change students' time-management scores?</td></tr>
+      <tr><td><b>Design</b></td><td>24 adults, <b>each tested twice</b>: once after sitting quietly, once after a 10-minute walk. Order counterbalanced, different word list each time</td><td>28 adults, phone minutes recorded <b>before and after</b> a workshop</td><td>36 students <b>randomly assigned</b>, 18 given the app for four weeks, 18 not</td></tr>
+      <tr><td><b>DV</b></td><td>Words recalled out of 40</td><td>Minutes spent reading news in one day</td><td>Time-management scale score, 0 to 60</td></tr>
+      <tr><td><b>Design type</b></td><td>Repeated measures</td><td>Repeated measures</td><td>Independent groups</td></tr>
+      <tr><td><b>What happens</b></td><td>Assumptions hold, so it is a <b>paired-samples t-test</b></td><td>Normality of the differences fails badly, so it is a <b>Wilcoxon signed-rank test</b></td><td>Assumptions hold, so it is an <b>independent-samples t-test</b></td></tr>
+    </tbody>
+  </table></div>
+  <p class="lead" style="font-size:14.5px">That spread is deliberate. It gives you one worked parametric repeated-measures test, one worked non-parametric repeated-measures test, and one worked independent-groups test, which between them cover every branch your own three tasks can take.</p>
+
+  <h3 class="sec">Task 1, worked on Study A</h3>
+
+  <h4 class="qsub">(a) The hypotheses <span class="slideref">4 marks</span></h4>
+  <div class="mans"><span class="lab">The answer</span>
+    <p><b>H0:</b> It is hypothesised that adults who complete a memory test after a 10-minute walk will not recall a significantly different number of words from adults who complete the test after sitting quietly.</p>
+    <p><b>H1:</b> It is hypothesised that adults who complete a memory test after a 10-minute walk will recall a significantly different number of words from adults who complete the test after sitting quietly.</p>
+    <p>This H1 is <b>non-directional</b>, and therefore two-tailed, because the researchers asked only whether the two conditions differed.</p>
+  </div>
+  <ul class="lead-list">
+    <li><b>What earns the marks.</b> Both sentences name the population, both levels of the IV and the DV, and they differ only in "will not" and "will".</li>
+    <li><b>What loses them.</b> Writing "the participants" instead of naming the population, or quietly slipping a direction into H1 when the scenario never predicted one.</li>
+    <li><b>The repeated-measures trap.</b> Do not write "adults who walked" against "adults who sat", as though they were two sets of people. They are the same people in two conditions. Name the <b>conditions</b>, not two groups.</li>
+  </ul>
+
+  <h4 class="qsub">(b) IV, levels and DV <span class="slideref">2 marks</span></h4>
+  <div class="mans"><span class="lab">The answer</span>
+    <p>The independent variable is pre-test activity. It has two levels: a 10-minute walk and 10 minutes of sitting quietly. The dependent variable is recall, measured as the number of words correctly recalled out of 40, with higher scores indicating better recall. It is a ratio variable, Scale in SPSS.</p>
+  </div>
+  <ul class="lead-list"><li><b>Two marks, so two things.</b> One sentence for the IV with its levels, one for the DV with its unit and direction. Say which way "good" runs; it costs a clause and protects every later sentence.</li></ul>
+
+  <h4 class="qsub">(c) An extraneous variable and its impact <span class="slideref">4 marks</span></h4>
+  <div class="mans"><span class="lab">The answer</span>
+    <p>One extraneous variable is the difficulty of the two word lists. Although a different list was used in each condition, the lists may not have been equally easy to learn, because word length, familiarity and imageability all affect recall. If the list used in the walking condition happened to contain more familiar words, recall would be higher in that condition for a reason unconnected to the walk, and the apparent effect of activity would be inflated. Because every participant completed both conditions, a difference in list difficulty would push all participants in the same direction and so would not cancel out across the sample.</p>
+  </div>
+  <ul class="lead-list">
+    <li><b>Four marks means two jobs.</b> Name the variable, then <b>discuss the impact</b>. The discussion is where most of the marks are, and it has to say which way the results would be pushed, not merely that they would be affected.</li>
+    <li><b>The good move here.</b> The last sentence connects the problem back to the repeated-measures design. That is the kind of sentence that separates a 3 from a 4.</li>
+  </ul>
+
+  <h4 class="qsub">(d) An ethical issue, its control and its impact <span class="slideref">5 marks</span></h4>
+  <div class="mans"><span class="lab">The answer</span>
+    <p>An ethical issue is that participants were asked to undertake physical exercise without any report of health screening. A 10-minute walk is mild, but it is not risk-free for someone with a cardiac, respiratory or mobility condition, and the scenario does not say that anyone was asked.</p>
+    <p>This could have been controlled at recruitment by means of a short health screening questionnaire, by stating in the information sheet that the study involved walking so that people could judge for themselves before consenting, and by offering a seated alternative to anyone who preferred it.</p>
+    <p>The possible impact on participants is twofold. A participant with an undisclosed condition could have experienced physical discomfort or harm. A participant who felt unable to complete the walk but had already consented could have felt pressured into continuing, or embarrassed in front of the researcher, which is a harm to their dignity even where no physical harm occurs.</p>
+  </div>
+  <ul class="lead-list">
+    <li><b>Five marks, three jobs.</b> Identify the issue, say <b>how it may have been controlled for</b>, and say <b>what the impact on the participants</b> would be. Answer all three in separate paragraphs so the marker can see each one.</li>
+    <li><b>This is new in A2.</b> A1 asked you to relate the issue to a code in a separate essay. Here the question does not ask for a code citation, it asks for control and impact. Citing PSI is not wrong, but it earns nothing if you have left out the impact.</li>
+    <li><b>What loses marks.</b> Naming consent or confidentiality as a generic issue without tying it to something that actually happened in this scenario.</li>
+  </ul>
+
+  <h4 class="qsub">(e) Tests of assumptions, reported in full <span class="slideref">6 marks</span></h4>
+  <div class="mans"><span class="lab">The answer</span>
+    <p>The design meets the structural assumptions of the paired-samples t-test. The IV has two related conditions, the DV is measured on a ratio scale, and each participant contributes one score to each condition, so the pairs are matched by design.</p>
+    <p><b>Normality of the difference scores.</b> A difference score was computed for each participant by subtracting their seated score from their walking score. The distribution of these differences was approximately symmetrical, with skewness of 0.00 and kurtosis of -0.15, both well inside the range of 1 to -1. The histogram was roughly symmetrical and the Q-Q plot followed the diagonal closely. The Shapiro-Wilk test was not significant, W(24) = .982, p = .925, indicating no evidence against normality.</p>
+    <p><b>Outliers.</b> The boxplot of the difference scores showed no outliers, with the whiskers extending to the smallest and largest differences of -2 and 8 words.</p>
+    <p><b>Decision.</b> As the difference scores showed no evidence against normality and no outliers were present, the assumptions of the paired-samples t-test were met and the test was appropriate. The full output is in Appendix A.</p>
+  </div>
+  <div class="note b"><span class="lab">The single most common mistake in this part</span>For a paired-samples t-test, normality is assessed on <b>the difference scores</b>, not on the two sets of raw scores, and <b>Levene's test does not apply at all</b> because there are no independent groups whose variances could be compared. If you report Shapiro-Wilk separately for the walking scores and the seated scores and then add a Levene's test, you have described an independent-samples design and you will lose most of this part. In SPSS you have to <b>compute the difference variable yourself</b> (Transform, Compute Variable) and then run Explore on it.</div>
+  <ul class="lead-list"><li><b>"In full" means the statistic, the df and the p.</b> W(24) = .982, p = .925. Not "normality was fine".</li></ul>
+
+  <h4 class="qsub">(f) APA table of descriptive statistics and APA chart <span class="slideref">6 marks</span></h4>
+  <div class="mans"><span class="lab">The answer</span>
+    <p><b>Table 1</b><br>Words Recalled by Pre-Test Activity</p>
+    <div class="tscroll"><table class="tbl">
+      <thead><tr><th>Condition</th><th>n</th><th>M</th><th>SD</th></tr></thead>
+      <tbody>
+        <tr><td>Seated</td><td>24</td><td>22.92</td><td>3.93</td></tr>
+        <tr><td>Walk</td><td>24</td><td>25.92</td><td>4.99</td></tr>
+      </tbody>
+    </table></div>
+    <p>Note. Recall was measured as the number of words correctly recalled from a 40-item list, with higher scores indicating better recall. The same 24 participants completed both conditions. n = number of participants. M = mean. SD = standard deviation.</p>
+    <p><b>Figure 1</b><br>Mean Words Recalled by Pre-Test Activity With 95% Confidence Intervals</p>
+    <p>A bar chart with the two conditions on the x-axis, mean words recalled on the y-axis, and error bars showing 95% confidence intervals.</p>
+    <p>Note. Bars show the mean number of words recalled. Error bars show 95% confidence intervals.</p>
+  </div>
+  <ul class="lead-list">
+    <li><b>The table number and title sit above the table</b>, the number on its own line in bold, the title under it in italics, and the note underneath beginning "Note."</li>
+    <li><b>A2 specifies descriptive statistics</b>, so n, M and SD are the minimum. A1 left the table type open; this one does not.</li>
+    <li><b>No vertical gridlines</b>, and horizontal rules only above the header, below the header and at the foot. That alone is worth a mark.</li>
+  </ul>
+
+  <h4 class="qsub">(g) The main analysis, reported in full <span class="slideref">7 marks</span></h4>
+  <div class="mans"><span class="lab">The answer</span>
+    <p>A paired-samples t-test was conducted to compare the number of words recalled after a 10-minute walk with the number recalled after sitting quietly (see Table 1 and Appendix A). The assumptions of normality of the difference scores and absence of outliers were satisfied. There was a significant difference in recall between the walking condition (M = 25.92, SD = 4.99) and the seated condition (M = 22.92, SD = 3.93), t(23) = 5.96, p &lt; .001, two-tailed. Participants recalled on average 3.00 more words after walking (mean difference = 3.00 words, 95% CI [1.96, 4.04]), with Cohen's d = 1.22, a large effect. The null hypothesis was therefore rejected and the research hypothesis supported.</p>
+  </div>
+  <ul class="lead-list">
+    <li><b>Seven marks, so every element has to be there.</b> The test named, the comparison stated, both descriptives, the test statistic with its df, the exact p, the tail, the direction of the difference in plain words, the effect size with a verdict, and the decision about the hypothesis.</li>
+    <li><b>df for a paired test is n - 1</b>, so 23 with 24 participants. Writing 46 means you ran the wrong test.</li>
+    <li><b>Report p &lt; .001 rather than p = .000.</b> SPSS prints .000 and it is never literally zero.</li>
+  </ul>
+
+  <h3 class="sec">Task 2, worked on Study B</h3>
+  <p class="lead" style="font-size:14.5px">Parts (a) to (d) take the same shape as Task 1, so they are not repeated here. What follows is the part that changes when the assumptions fail.</p>
+
+  <h4 class="qsub">(e) Tests of assumptions, reported in full <span class="slideref">6 marks</span></h4>
+  <div class="mans"><span class="lab">The answer</span>
+    <p>A difference score was computed for each participant by subtracting their pre-workshop minutes from their post-workshop minutes.</p>
+    <p><b>Normality of the difference scores.</b> The distribution of the differences was strongly negatively skewed, with skewness of -2.00 and kurtosis of 4.62, both far outside the range of 1 to -1. The histogram showed a cluster of small reductions with a long tail of much larger ones, and the Q-Q plot departed markedly from the diagonal at the lower end. The Shapiro-Wilk test was significant, W(28) = .752, p &lt; .001, indicating that the difference scores departed significantly from a normal distribution.</p>
+    <p><b>Outliers.</b> The boxplot of the difference scores showed five outliers: three large reductions of 33, 24 and 24 minutes, belonging to the three participants whose reading time was highest before the workshop, and two small increases of 3 and 4 minutes, which stand out because almost everyone else reduced.</p>
+    <p><b>Decision.</b> As the difference scores were not normally distributed and outliers were present, the assumptions of the paired-samples t-test were not met, and therefore a Wilcoxon signed-rank test was appropriate. The full output is in Appendix B.</p>
+  </div>
+
+  <h4 class="qsub">(f) APA table of descriptive statistics and APA chart <span class="slideref">6 marks</span></h4>
+  <div class="mans"><span class="lab">The answer</span>
+    <p><b>Table 2</b><br>Daily News Reading Time Before and After the Workshop</p>
+    <div class="tscroll"><table class="tbl">
+      <thead><tr><th>Time point</th><th>n</th><th>Mdn</th><th>IQR</th></tr></thead>
+      <tbody>
+        <tr><td>Before</td><td>28</td><td>45.50</td><td>11.50</td></tr>
+        <tr><td>After</td><td>28</td><td>40.50</td><td>8.25</td></tr>
+      </tbody>
+    </table></div>
+    <p>Note. Times are in minutes spent reading news on a phone in a single day. n = number of participants. Mdn = median. IQR = interquartile range, calculated from the 25th and 75th percentiles.</p>
+    <p><b>Figure 2</b><br>Distribution of Daily News Reading Time Before and After the Workshop</p>
+    <p>A boxplot with the two time points on the x-axis and minutes on the y-axis, showing the median, the quartiles and the outliers.</p>
+  </div>
+  <div class="note"><span class="lab">Why the table changes with the test</span>When the main analysis is non-parametric the descriptives that belong beside it are the <b>median and interquartile range</b>, not the mean and standard deviation, because the whole reason you abandoned the t-test is that the mean is not describing this distribution well. Reporting M and SD above a Wilcoxon result is internally inconsistent and markers notice. The same logic produces a <b>boxplot</b> rather than a bar chart with error bars.</div>
+
+  <h4 class="qsub">(g) The main analysis, reported in full <span class="slideref">7 marks</span></h4>
+  <div class="mans"><span class="lab">The answer</span>
+    <p>A Wilcoxon signed-rank test was conducted to compare daily news reading time before and after the workshop (see Table 2 and Appendix B). This non-parametric test was used because the difference scores were not normally distributed and outliers were present. Of the 28 participants, 25 reported a reduction, 2 reported an increase and 1 reported no change. There was a significant reduction in reading time from before the workshop (Mdn = 45.50 minutes) to after it (Mdn = 40.50 minutes), with a mean rank of 14.66 for negative ranks and 5.75 for positive ranks, z = -4.28, p &lt; .001, two-tailed. The effect size was r = .57, which is large. The null hypothesis was therefore rejected and the research hypothesis supported.</p>
+  </div>
+  <ul class="lead-list">
+    <li><b>Report the counts.</b> Negative ranks, positive ranks and ties come straight off the SPSS Ranks table and they are part of reporting a Wilcoxon "in full".</li>
+    <li><b>Effect size for a Wilcoxon is r = |z| divided by the square root of N</b>, where N is the total number of observations, which is 2 times 28 here because each participant was measured twice. 4.28 divided by the square root of 56 gives .57.</li>
+    <li><b>Medians, not means</b>, in the sentence that states the result, to match the table.</li>
+  </ul>
+
+  <h3 class="sec">Task 3, worked on Study C</h3>
+  <p class="lead" style="font-size:14.5px">Task 3 is lettered differently: there is no ethics question, part (c) is worth 3 rather than 4, and it ends on interpretation. Parts (a) and (b) take the same shape as Task 1.</p>
+
+  <h4 class="qsub">(c) An extraneous variable and how to control it in future research <span class="slideref">3 marks</span></h4>
+  <div class="mans"><span class="lab">The answer</span>
+    <p>One extraneous variable is participants' existing workload during the four-week period. A student with fewer assignment deadlines has more scope to plan their time well regardless of whether they used the app, so workload could raise time-management scores for a reason unconnected to the intervention. In future research this could be controlled by recording each participant's assessment load at the start of the study and either matching the two groups on it or including it as a covariate in the analysis.</p>
+  </div>
+  <ul class="lead-list"><li><b>Three marks, and the question says "in future research".</b> So the control is a change to a <b>later</b> study, not something the researchers should have done here. Write it in the future conditional and you have answered the question that was asked.</li></ul>
+
+  <h4 class="qsub">(d) Tests of assumptions, reported in full <span class="slideref">6 marks</span></h4>
+  <div class="mans"><span class="lab">The answer</span>
+    <p>Three assumptions are met by the design. The IV has two independent groups, the DV is measured on a ratio scale, and the observations are independent because no participant appeared in both groups.</p>
+    <p><b>Planner group.</b> Skewness was 0.06 and kurtosis was -0.98, both inside the range of 1 to -1. The Shapiro-Wilk test was not significant, W(18) = .970, p = .796, indicating no evidence against normality.</p>
+    <p><b>Control group.</b> Skewness was -0.20 and kurtosis was -0.96, both inside the range. The Shapiro-Wilk test was not significant, W(18) = .967, p = .731, indicating no evidence against normality.</p>
+    <p><b>Outliers.</b> The boxplot showed no outliers in either group.</p>
+    <p><b>Homogeneity of variance.</b> Levene's test (Based on Mean) was not significant, F(1, 34) = 0.27, p = .605, indicating that equal variances can be assumed.</p>
+    <p><b>Decision.</b> As there was no evidence against normality in either group, no outliers were present and Levene's test was not significant, all assumptions were met and the independent-samples t-test was appropriate. The full output is in Appendix C.</p>
+  </div>
+  <div class="note"><span class="lab">Notice what came back</span>This is the A1 checklist again, and it is the right one <b>here</b> because this task has two separate groups. Normality is checked <b>within each group</b> on the raw scores, and Levene's test <b>does</b> apply. Running your Task 1 and Task 2 procedure on this task, or this one on those, is the single easiest way to lose six marks three times over.</div>
+
+  <h4 class="qsub">(e) APA table of descriptive statistics and APA chart <span class="slideref">6 marks</span></h4>
+  <div class="mans"><span class="lab">The answer</span>
+    <p><b>Table 3</b><br>Time-Management Scores by Study-Planner Condition</p>
+    <div class="tscroll"><table class="tbl">
+      <thead><tr><th>Condition</th><th>n</th><th>M</th><th>SD</th></tr></thead>
+      <tbody>
+        <tr><td>Planner app</td><td>18</td><td>40.28</td><td>3.25</td></tr>
+        <tr><td>Control</td><td>18</td><td>36.33</td><td>2.95</td></tr>
+      </tbody>
+    </table></div>
+    <p>Note. Scores are from a time-management scale ranging from 0 to 60, with higher scores indicating better time management. n = number of participants. M = mean. SD = standard deviation.</p>
+  </div>
+
+  <h4 class="qsub">(f) The main analysis, reported in full <span class="slideref">7 marks</span></h4>
+  <div class="mans"><span class="lab">The answer</span>
+    <p>An independent-samples t-test was conducted to compare time-management scores between students who used the study-planner app and students who did not (see Table 3 and Appendix C). The assumptions of normality, absence of outliers and homogeneity of variance were satisfied. There was a significant difference in time-management scores between the planner condition (M = 40.28, SD = 3.25, n = 18) and the control condition (M = 36.33, SD = 2.95, n = 18), t(34) = 3.81, p &lt; .001, two-tailed. Students who used the app scored on average 3.94 points higher (mean difference = 3.94, 95% CI [1.84, 6.05]), with Cohen's d = 1.27, a large effect. The null hypothesis was therefore rejected and the research hypothesis supported.</p>
+  </div>
+
+  <h4 class="qsub">(g) Interpret the findings and their implications <span class="slideref">4 marks</span></h4>
+  <div class="mans"><span class="lab">The answer</span>
+    <p>Students who used the study-planner app for four weeks reported better time management than students who did not, and the size of the effect was large, so the difference is of practical as well as statistical interest. Because participants were randomly assigned, the design supports a causal reading: the app, rather than any pre-existing difference between the students, is the most plausible explanation for the gap.</p>
+    <p>Three limits qualify that. The outcome was a self-report scale completed after the students knew which condition they were in, so expectancy may have inflated the difference. The sample was small and drawn from one institution, which limits generalisation. And the follow-up was immediate, so the study shows nothing about whether the benefit lasts once the four weeks end. A larger study with a behavioural measure of planning and a follow-up some months later would address all three.</p>
+  </div>
+  <ul class="lead-list">
+    <li><b>Four marks, and only here.</b> This part has no equivalent in Tasks 1 and 2 and none in A1, so it is easy to under-write. Give it two paragraphs: what the result means, then what qualifies it.</li>
+    <li><b>Say what the design does and does not license.</b> Random assignment buys you causal language; a self-report measure and one institution take some of it back. Showing you know which is which is what the marks are for.</li>
+    <li><b>Do not introduce new statistics here.</b> Interpretation, not more analysis.</li>
+  </ul>
+
+  <h3 class="sec">Now do yours</h3>
+  <ul class="lead-list">
+    <li><b>Work out the design for each of your three tasks first.</b> Same people twice, or two different sets of people? Everything else follows from that answer, and the Assignment Briefs tab has the table.</li>
+    <li><b>Do not assume your results match these.</b> These three came out significant because invented data was built that way. Yours may not, and a non-significant result reported properly earns full marks.</li>
+    <li><b>Keep the wording, change every noun.</b> The sentence frames above are the shape markers expect. The content inside them has to be yours.</li>
+  </ul>
+</section>
+
+<!-- ======== PSY1081 q20 : A2 WALKTHROUGH ======== -->
+<section class="pane wrap" id="q20">
+  <div class="dhead">
+    <div class="kicker">Assignment 2 &middot; due Monday 7 December 2026</div>
+    <h2>A2 Walkthrough</h2>
+    <div class="pills"><span class="pill on">3 tasks, every part</span><span class="pill">the SPSS clicks</span><span class="pill">then tick it off</span></div>
+  </div>
+
+  <div class="intro-card">
+    <div class="lab">How to use this</div>
+    <p>Start with the <b>running order</b>, which sitting does what. Then work the <b>walkthrough</b>, which takes each part in turn: what the marks are for, the exact SPSS route, and where marks get lost. The bottom half is the <b>checklist</b>, which ticks and saves in this browser. The model wording lives in <b>Worked A2</b>; the exact requirements live in <b>Assignment Briefs</b>.</p>
+  </div>
+
+  <div class="note b"><span class="lab">The one thing that makes A2 different from A1</span>In A1 both analyses compared <b>two separate groups of people</b>. In A2, Tasks 1 and 2 measure <b>the same people twice</b> and only Task 3 has separate groups. That changes how you type the data in, which assumptions you test, which test you run and which chart you build. Carrying your A1 habits across is the main way to lose marks here, and it will cost you in three places at once: part (e), part (f) and part (g).</div>
+
+  <h3 class="sec">The order to do it in</h3>
+  <div class="tscroll"><table class="tbl">
+    <thead><tr><th>Sitting</th><th>What you do</th><th>Done when</th></tr></thead>
+    <tbody>
+      <tr><td><b>1</b></td><td>Read your A1 feedback. Build the Word file: cover page, contents page, three task headings each starting on a new page, References, Appendix A, B and C.</td><td>The empty document exists with every heading in it</td></tr>
+      <tr><td><b>2</b></td><td>Type all three datasets into SPSS as three separate files. Tasks 1 and 2 go in as <b>two columns of scores</b>; Task 3 goes in as <b>one score column plus a group column</b>.</td><td>Three .sav files, variables named, Measure set</td></tr>
+      <tr><td><b>3</b></td><td>Task 1 parts (a) to (d): hypotheses, IV and DV, extraneous variable, ethical issue. No SPSS needed.</td><td>Four answers written</td></tr>
+      <tr><td><b>4</b></td><td>Task 1 parts (e) to (g): compute the difference variable, run Explore on it, run the paired-samples t-test, build the table and chart.</td><td>Task 1 finished, output in Appendix A</td></tr>
+      <tr><td><b>5</b></td><td>Task 2, all seven parts. Same shape as Task 1, different data and a different ethical issue.</td><td>Task 2 finished, output in Appendix B</td></tr>
+      <tr><td><b>6</b></td><td>Task 3, all seven parts. This is the A1 procedure again, plus the interpretation in (g).</td><td>Task 3 finished, output in Appendix C</td></tr>
+      <tr><td><b>7</b></td><td>Paste in every piece of SPSS output. Check the contents page numbers. Run the checklist below.</td><td>Ready to upload</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note"><span class="lab">Where sitting 2 usually goes wrong</span>Tasks 1 and 2 are repeated measures, so there is <b>one row per participant and two score columns</b>. There is no grouping variable, and no participant appears twice. If you find yourself typing a column of 1s and 2s for Task 1, stop: you are building the A1 layout and every analysis after it will be wrong. Task 3 <b>is</b> the A1 layout, with a grouping variable.</div>
+
+  <h3 class="sec">The walkthrough, part by part</h3>
+  <p class="lead" style="font-size:14.5px">Tasks 1 and 2 share the lettering (a) to (g). Task 3 drops the ethics question, so its letters shift: its (c) is worth 3 marks, its (d) is the assumptions, its (e) is the table and chart, its (f) is the analysis and its (g) is the interpretation.</p>
+
+  <h4 class="qsub">(a) The hypotheses <span class="slideref">4 marks, every task</span></h4>
+  <ul class="lead-list">
+    <li><b>Two sentences, identical except for "will not" and "will".</b> Each names the population, both levels of the IV and the DV.</li>
+    <li><b>Then say whether H1 is directional</b>, and therefore one-tailed, or non-directional and two-tailed. Take it from the scenario's own wording, not from what you expect to find.</li>
+    <li><b>For Tasks 1 and 2, write about conditions or time points</b>, not about two groups of people. "Participants will recall more after X than after Y", not "participants who did X will recall more than participants who did Y".</li>
+  </ul>
+
+  <h4 class="qsub">(b) IV, levels and DV <span class="slideref">2 marks, every task</span></h4>
+  <ul class="lead-list">
+    <li>One sentence for the IV naming both levels, one for the DV with its unit and its direction. Two marks, two sentences.</li>
+    <li><b>State which way "good" runs.</b> In Task 2 of your assignment a higher score means a weaker perception, which is the reverse of what anyone assumes, so saying it here protects parts (f) and (g).</li>
+  </ul>
+
+  <h4 class="qsub">(c) The extraneous variable <span class="slideref">4 marks in Tasks 1 and 2, 3 marks in Task 3</span></h4>
+  <ul class="lead-list">
+    <li><b>Tasks 1 and 2 ask you to "discuss the possible impact on the results".</b> So: name it, explain the mechanism, and say <b>which way</b> it would push the results. Naming alone is one mark of four.</li>
+    <li><b>Task 3 asks instead how researchers "may control for it in future research".</b> Different question, so write the control in the future conditional. A control they should have used at the time does not answer it.</li>
+  </ul>
+
+  <h4 class="qsub">(d) The ethical issue <span class="slideref">5 marks, Tasks 1 and 2 only</span></h4>
+  <ul class="lead-list">
+    <li><b>Three jobs, so three paragraphs.</b> Identify the issue. Say how it <b>may have been controlled for</b>. Say what the <b>possible impact on the participants</b> is. Markers tick the three separately, so separate them on the page.</li>
+    <li><b>Anchor it in this scenario.</b> "Informed consent was not obtained" is generic. Point at the fact in the scenario that creates the problem.</li>
+    <li><b>You do not have to cite a code here</b>, and the marks are not for citation. If you cite one, the current PSI code is 2025 even though the brief's Sources list says 2019.</li>
+  </ul>
+
+  <h4 class="qsub">(e) Tests of assumptions <span class="slideref">6 marks &middot; Task 3's (d)</span></h4>
+  <div class="note b"><span class="lab">This part splits in two, and the split is the whole point</span>Which checklist you run depends entirely on the design, and running the wrong one is a six-mark error.</div>
+  <div class="tscroll"><table class="tbl">
+    <thead><tr><th></th><th>Tasks 1 and 2 (repeated measures)</th><th>Task 3 (independent groups)</th></tr></thead>
+    <tbody>
+      <tr><td><b>What must be normal</b></td><td>The <b>difference scores</b>, one per participant</td><td>The raw scores, <b>within each group</b></td></tr>
+      <tr><td><b>Levene's test</b></td><td><b>Does not apply.</b> There are no independent groups to compare variances between</td><td>Applies. Report F, both df and p, Based on Mean</td></tr>
+      <tr><td><b>Outliers</b></td><td>Boxplot of the <b>difference</b> variable</td><td>Boxplot by group</td></tr>
+      <tr><td><b>If it fails</b></td><td>Wilcoxon signed-rank test</td><td>Mann-Whitney U test</td></tr>
+    </tbody>
+  </table></div>
+  <p class="lead" style="font-size:14.5px;margin-top:14px"><b>The clicks, Tasks 1 and 2</b></p>
+  <ul class="lead-list">
+    <li><b>First compute the difference.</b> Transform, Compute Variable. Give it a target name such as <b>diff</b>, and build the expression as one condition minus the other, for example <b>music - silence</b>. Keep the order consistent and say in your write-up which way round you did it, because it decides the sign of everything that follows.</li>
+    <li><b>Then run Explore on the difference variable only.</b> Analyze, Descriptive Statistics, Explore. Put <b>diff</b> in Dependent List and leave Factor List empty. Under Plots tick <b>Histogram</b> and <b>Normality plots with tests</b>. Under Statistics tick <b>Descriptives</b>.</li>
+    <li><b>Read off:</b> skewness and kurtosis from Descriptives, Shapiro-Wilk W and Sig from Tests of Normality, outliers from the boxplot, shape from the histogram and the Q-Q plot.</li>
+  </ul>
+  <p class="lead" style="font-size:14.5px;margin-top:14px"><b>The clicks, Task 3</b></p>
+  <ul class="lead-list">
+    <li>Analyze, Descriptive Statistics, Explore. Score in Dependent List, group in <b>Factor List</b>. Plots: Histogram, Normality plots with tests, and under Spread vs Level select <b>Untransformed</b> to get Levene's test.</li>
+    <li>This is exactly the A1 procedure. If you still have your A1 notes, use them here and nowhere else.</li>
+  </ul>
+  <div class="note"><span class="lab">"Reported in full" means the numbers</span>W(24) = .982, p = .925. F(1, 34) = 0.27, p = .605. A sentence saying the data were normal, with no statistic attached, earns almost nothing. And always finish with an explicit <b>decision</b> sentence naming the test you are therefore going to run.</div>
+
+  <h4 class="qsub">(f) APA table and chart <span class="slideref">6 marks &middot; Task 3's (e)</span></h4>
+  <ul class="lead-list">
+    <li><b>Match the descriptives to the test.</b> If you are running a t-test, the table is n, M and SD and the chart is a bar chart with 95% confidence interval error bars. If you are running Wilcoxon or Mann-Whitney, the table is n, Mdn and IQR and the chart is a boxplot. Reporting a mean above a non-parametric result contradicts your own assumption testing.</li>
+    <li><b>The brief specifies "an APA table of descriptive statistics"</b>, so this is not a free choice of table as it was in A1.</li>
+    <li><b>Retype the table.</b> A screenshot of SPSS output is not an APA table. Number in bold on its own line, title beneath it in italics, no vertical rules, horizontal rules only above the headings, below the headings and at the foot, then a note beginning "Note." defining every abbreviation.</li>
+    <li><b>Charts for repeated measures use a different route.</b> Graphs, Legacy Dialogs, Bar (or Boxplot), Simple, and then choose <b>Summaries of separate variables</b>, because your two conditions are two variables rather than two groups of cases. Choosing "Summaries for groups of cases" is the repeated-measures trap in chart form.</li>
+    <li>Both the table and the chart go in the <b>main report</b>. The raw SPSS output goes in the appendix as well.</li>
+  </ul>
+
+  <h4 class="qsub">(g) The main analysis <span class="slideref">7 marks &middot; Task 3's (f)</span></h4>
+  <p class="lead" style="font-size:14.5px;margin-top:14px"><b>Paired-samples t-test</b></p>
+  <ul class="lead-list">
+    <li>Analyze, Compare Means, <b>Paired-Samples T Test</b>. Move your two condition variables across as Variable1 and Variable2 of a single pair. In newer SPSS the menu reads Compare Means and Proportions.</li>
+    <li>Report: the test, the comparison, both means and SDs, <b>t with df = n - 1</b>, the exact p, the tail, the mean difference with its 95% CI, Cohen's d with a verdict, and the decision about H0.</li>
+    <li><b>df is n - 1, not 2n - 2.</b> Twenty-four participants gives t(23). If your df looks like the A1 ones you have run an independent test by mistake.</li>
+  </ul>
+  <p class="lead" style="font-size:14.5px;margin-top:14px"><b>Wilcoxon signed-rank test</b></p>
+  <ul class="lead-list">
+    <li>Analyze, Nonparametric Tests, Legacy Dialogs, <b>2 Related Samples</b>, with Wilcoxon ticked. The newer route is Nonparametric Tests, Related Samples.</li>
+    <li>Report: how many negative ranks, positive ranks and ties, both <b>medians</b>, the <b>mean ranks</b>, z, the exact p, the tail, and the effect size.</li>
+    <li><b>Effect size is r = |z| divided by the square root of N</b>, where N is the total number of observations, which is twice the number of participants because each was measured twice.</li>
+  </ul>
+  <p class="lead" style="font-size:14.5px;margin-top:14px"><b>Independent-samples t-test or Mann-Whitney</b></p>
+  <ul class="lead-list">
+    <li>Analyze, Compare Means, Independent-Samples T Test, with the grouping variable defined. Or Nonparametric Tests, Legacy Dialogs, 2 Independent Samples for Mann-Whitney.</li>
+    <li>This is the A1 reporting template unchanged. Use the row of the Independent Samples Test table that matches your Levene's result.</li>
+  </ul>
+
+  <h4 class="qsub">(g) Interpret the findings <span class="slideref">4 marks, Task 3 only</span></h4>
+  <ul class="lead-list">
+    <li><b>Two paragraphs.</b> What the result means in the study's own terms and whether the effect is large enough to matter, then what limits that reading.</li>
+    <li><b>Say what the design licenses.</b> Random assignment supports causal language; a self-report outcome, one institution and no follow-up take some of it back.</li>
+    <li><b>No new statistics here.</b> This part is prose.</li>
+  </ul>
+
+  <h3 class="sec">Before you submit</h3>
+  <div class="note b"><span class="lab">The rule that fails a whole task on its own</span>Every piece of SPSS output you produced has to be in the appendices. Not a selection, not the significant ones. If you ran it, paste it. Appendix A for Task 1, Appendix B for Task 2, Appendix C for Task 3.</div>
+  <div class="note"><span class="lab">And the filename</span>The brief's example reads PSY1082_A2_2026_JBloggs.doc. Your module is <b>PSY1081</b>, so that is a typo in the brief. Check the wording on the submission page before you upload, and ask on the forum if the two still disagree.</div>
+  <div id="cklA2"></div>
+</section>
+
 <!-- ======== PSY1081 q18 : WORKED A1 ======== -->
 <section class="pane wrap" id="q18">
   <div class="dhead">
@@ -9595,6 +9922,70 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
     });
     host.innerHTML=html;
     var fill=document.getElementById('cklFill'), pct=document.getElementById('cklPct');
+    function upd(){var done=host.querySelectorAll('.ckl-item.on').length,p=Math.round(done/total*100);
+      fill.style.width=p+'%';pct.textContent=done+' of '+total+' done ('+p+'%)';}
+    host.addEventListener('click',function(e){
+      var it=e.target.closest('.ckl-item'); if(!it)return;
+      it.classList.toggle('on'); state[it.dataset.id]=it.classList.contains('on');
+      try{localStorage.setItem(KEY,JSON.stringify(state));}catch(err){}
+      upd();});
+    upd();
+  })();
+
+  // ---- A2 progress checklist (PSY1081) ----
+  (function(){
+    var host=document.getElementById('cklA2'); if(!host)return;
+    var groups=[
+      {h:'Task 1: instrumental music vs silence \u00b7 34 marks', items:[
+        'Table 1 entered as TWO score columns, one row per participant, no grouping variable',
+        '(a) Hypotheses written about conditions, not two groups, and the tail stated',
+        '(b) IV with its two levels, DV with its unit and which way "good" runs',
+        '(c) Extraneous variable named AND its possible impact on the results discussed',
+        '(d) Ethical issue: named, how it may have been controlled for, impact on participants (three paragraphs)',
+        '(e) Difference variable computed, Explore run on it, normality of the DIFFERENCES reported in full, no Levene\u2019s test, outliers from the difference boxplot, explicit test decision',
+        '(f) APA descriptives table retyped + chart, both matched to the test that assumption testing chose',
+        '(g) Main analysis in full: test, both descriptives, statistic with df = n-1, exact p, tail, mean difference with 95% CI, effect size, decision on H0'
+      ]},
+      {h:'Task 2: climate change perceptions, pre and post \u00b7 34 marks', items:[
+        'Table 2 entered as TWO score columns, pre and post',
+        '(a) Hypotheses, remembering a HIGHER score means a WEAKER perception',
+        '(b) IV with its two time points, DV with its 25 to 125 range and its direction',
+        '(c) Extraneous variable + impact (a whole term passed between the two measurements)',
+        '(d) Ethical issue + control + impact (the participants are 15-year-olds)',
+        '(e) Assumptions on the difference scores, reported in full, with a test decision',
+        '(f) APA table and chart matched to the test',
+        '(g) Main analysis in full, with the direction stated in terms of perceptions, not just scores'
+      ]},
+      {h:'Task 3: social connection vs control \u00b7 32 marks', items:[
+        'Table 3 entered as ONE score column plus a group column (this one IS the A1 layout)',
+        '(a) Hypotheses',
+        '(b) IV with its two levels, DV with its direction',
+        '(c) Extraneous variable + how to control it IN FUTURE RESEARCH (3 marks, not 4)',
+        '(d) Assumptions: normality within each group, outliers by group, Levene\u2019s test, explicit decision',
+        '(e) APA table and chart',
+        '(f) Main analysis reported in full',
+        '(g) Interpretation and implications, two paragraphs, no new statistics (4 marks)'
+      ]},
+      {h:'Before you submit', items:[
+        'ALL SPSS output pasted in: Appendix A for Task 1, B for Task 2, C for Task 3 (missing output = automatic fail on that task)',
+        'Cover page and contents page included, contents page numbers checked last',
+        'Each task starts on a real page break, with visible (a) to (g) subheadings',
+        'Every table retyped in APA form, not screenshotted, with a Note defining each abbreviation',
+        'Answers concise and directly on the question (there is no word count this time)',
+        'Filename uses PSY1081, not the PSY1082 typo in the brief, and matches the submission page wording',
+        'Uploaded before Monday 7 December 2026, 23:59'
+      ]}
+    ];
+    var KEY='bapsy_a2_checklist_v1', state={};
+    try{state=JSON.parse(localStorage.getItem(KEY)||'{}');}catch(e){}
+    var total=0, html='<div class="ckl-bar"><div class="ckl-fill" id="cklFillA2"></div></div><div class="ckl-pct" id="cklPctA2"></div>';
+    groups.forEach(function(g,gi){
+      html+='<div class="ckl-h">'+g.h+'</div>';
+      g.items.forEach(function(t,ii){var id=gi+'-'+ii;total++;
+        html+='<div class="ckl-item'+(state[id]?' on':'')+'" data-id="'+id+'"><div class="ckl-box">\u2713</div><div class="ckl-tx">'+t+'</div></div>';});
+    });
+    host.innerHTML=html;
+    var fill=document.getElementById('cklFillA2'), pct=document.getElementById('cklPctA2');
     function upd(){var done=host.querySelectorAll('.ckl-item.on').length,p=Math.round(done/total*100);
       fill.style.width=p+'%';pct.textContent=done+' of '+total+' done ('+p+'%)';}
     host.addEventListener('click',function(e){
