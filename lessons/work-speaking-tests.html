@@ -108,6 +108,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .phact button{background:transparent;border:1px solid var(--line-2);border-radius:var(--r-s);padding:3px 9px;
   font:500 .72rem var(--mono);color:var(--muted)}
 .phact button:hover{border-color:var(--ink);color:var(--ink)}
+.phact button.warn{border-color:#ad271f;color:#ad271f}
 .phact .st{margin-left:auto;align-self:center;font:500 .7rem var(--mono);color:#b3b1ac}
 .phact .st.ok{color:var(--accent-ink)}
 .phact .st.err{color:#ad271f}
@@ -609,6 +610,8 @@ function photoBlock(side){
       '<button type="button" onclick="pickPhoto(\'' + side + '\')">Load</button>' +
       '<button type="button" onclick="showPrompt(\'' + side + '\')">Prompt</button>' +
       '<button type="button" onclick="popPhoto(\'' + side + '\')">Present</button>' +
+      (S.photos[side] ? '<button type="button" class="' + (pendingClear === side ? "warn" : "") +
+        '" onclick="clearPhoto(\'' + side + '\')">' + (pendingClear === side ? "Sure?" : "Clear") + '</button>' : "") +
       '<span class="st' + (S.photos[side] ? " ok" : "") + '" id="st-' + side + '">' +
       (S.photos[side] ? "saved" : "") + '</span>' +
     '</div>' +
@@ -712,6 +715,23 @@ function shrink(dataUrl, done){
   };
   img.onerror = function(){ done(dataUrl); };
   img.src = dataUrl;
+}
+var pendingClear = null, clearTimer = null;
+function clearPhoto(side){
+  if(pendingClear !== side){
+    pendingClear = side; renderMain();
+    clearTimeout(clearTimer);
+    clearTimer = setTimeout(function(){ pendingClear = null; renderMain(); }, 4000);
+    return;
+  }
+  clearTimeout(clearTimer); pendingClear = null;
+  delete S.photos[side]; save(); renderMain();
+  setStatus(side, "", "clearing");
+  fetch(SB_URL, {method:"POST",
+    headers:sbHeaders({Prefer:"resolution=merge-duplicates,return=minimal"}),
+    body:JSON.stringify({id:rowId(cur,side), data:{src:""}, updated_at:new Date().toISOString()})})
+    .then(function(r){ if(!r.ok) throw new Error(r.status); setStatus(side, "", ""); })
+    .catch(function(){ setStatus(side, "err", "not cleared"); });
 }
 function popPhoto(side){
   var t = TESTS[cur], ph = t.p2[side], src = S.photos[side] || ph.src;
