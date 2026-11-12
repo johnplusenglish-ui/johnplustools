@@ -193,6 +193,29 @@ body.collapsed .main{margin:0 auto;max-width:calc(var(--col) + 68px);padding:40p
   border-radius:var(--r);padding:6px 12px;font:500 .78rem var(--mono);color:var(--muted)}
 .pop .x:hover,.pres .x:hover{border-color:var(--ink);color:var(--ink)}
 
+/* all photos panel */
+.pan{position:fixed;inset:0;background:#fff;z-index:68;display:flex;flex-direction:column}
+.pan>header{display:flex;align-items:center;gap:12px;padding:14px 22px;border-bottom:1px solid var(--line);flex:0 0 auto}
+.pan>header b{font-size:.98rem}
+.pan>header .mono{font:500 .72rem var(--mono);color:var(--faint)}
+.pan .pbody{flex:1;overflow:auto;padding:22px 22px 70px;width:100%;max-width:1060px;margin:0 auto}
+.pgrp{margin:0 0 26px}
+.pglab{display:flex;align-items:baseline;gap:9px;font:500 .68rem var(--mono);letter-spacing:.09em;
+  text-transform:uppercase;color:var(--faint);margin:0 0 9px;padding-bottom:7px;border-bottom:1px solid var(--line)}
+.pglab b{color:var(--ink-2);font-weight:600;letter-spacing:0;text-transform:none;font-size:.86rem;font-family:var(--sans)}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.slot{border:1px solid var(--line);border-radius:var(--r);padding:12px}
+.slot .sh{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+.slot .sh b{font-size:.88rem;font-weight:600}
+.slot .sh .who{width:21px;height:21px;border-radius:50%;background:var(--accent-soft);border:1px solid var(--accent-line);
+  color:var(--accent-ink);font:600 .7rem/19px var(--mono);text-align:center}
+.slot .sh .st{margin-left:auto;font:500 .7rem var(--mono);color:#b3b1ac}
+.slot .sh .st.ok{color:var(--accent-ink)}
+.slot .sh .st.err{color:#ad271f}
+.slot.over .ph{border-color:var(--accent);background:var(--accent-soft)}
+.slot .ph .empty{font-size:.7rem}
+@media (max-width:760px){ .pgrid{grid-template-columns:1fr} .pan .pbody{padding:16px 16px 60px} }
+
 /* prompt modal */
 .scrim{position:fixed;inset:0;background:rgba(15,15,15,.28);z-index:70;display:grid;place-items:center;padding:26px}
 .modal{background:#fff;border-radius:var(--r-l);box-shadow:var(--pop);width:min(780px,100%);max-height:84vh;
@@ -263,6 +286,11 @@ body.collapsed .main{margin:0 auto;max-width:calc(var(--col) + 68px);padding:40p
     <a href="#part2">Photographs<span class="n">2:00</span></a>
     <a href="#part3">Long turn<span class="n">4:00</span></a>
     <a href="#part4">Discussion<span class="n">4:00</span></a>
+  </nav>
+
+  <div class="glab">Photos</div>
+  <nav class="snav">
+    <button type="button" id="panelb">All photographs<span class="n" id="panelcount"></span></button>
   </nav>
 
   <div class="glab">Timer</div>
@@ -559,9 +587,9 @@ function sbHeaders(extra){
   return h;
 }
 function rowId(i, side){ return "work-speaking-t" + TESTS[i].n + side; }
-function setStatus(side, kind, txt){
-  var el = document.getElementById("st-" + side);
-  if(el){ el.className = "st " + kind; el.textContent = txt; }
+function setStatus(i, side, kind, txt){
+  var els = document.querySelectorAll('[data-st="' + i + side + '"]');
+  for(var k = 0; k < els.length; k++){ els[k].className = "st " + kind; els[k].textContent = txt; }
 }
 var pulled = {};
 function cloudPull(i){
@@ -579,16 +607,17 @@ function cloudPull(i){
         });
       });
       if(touched && i === cur) renderMain();
+      renderPanel();
     })
     .catch(function(){ pulled[i] = false; });
 }
-function cloudPush(side, src){
-  setStatus(side, "", "saving");
+function cloudPush(i, side, src){
+  setStatus(i, side, "", "saving");
   return fetch(SB_URL, {method:"POST",
     headers:sbHeaders({Prefer:"resolution=merge-duplicates,return=minimal"}),
-    body:JSON.stringify({id:rowId(cur,side), data:{src:src}, updated_at:new Date().toISOString()})})
-    .then(function(r){ if(!r.ok) throw new Error(r.status); setStatus(side, "ok", "saved"); })
-    .catch(function(){ setStatus(side, "err", "this device only"); });
+    body:JSON.stringify({id:rowId(i,side), data:{src:src}, updated_at:new Date().toISOString()})})
+    .then(function(r){ if(!r.ok) throw new Error(r.status); setStatus(i, side, "ok", "saved"); })
+    .catch(function(){ setStatus(i, side, "err", "this device only"); });
 }
 
 /* ===== render ===== */
@@ -607,12 +636,12 @@ function photoBlock(side){
       '<div class="empty" hidden>no photo yet<br>' + esc(ph.src) + '</div>' +
     '</div>' +
     '<div class="phact">' +
-      '<button type="button" onclick="pickPhoto(\'' + side + '\')">Load</button>' +
-      '<button type="button" onclick="showPrompt(\'' + side + '\')">Prompt</button>' +
-      '<button type="button" onclick="popPhoto(\'' + side + '\')">Present</button>' +
-      (S.photos[side] ? '<button type="button" class="' + (pendingClear === side ? "warn" : "") +
-        '" onclick="clearPhoto(\'' + side + '\')">' + (pendingClear === side ? "Sure?" : "Clear") + '</button>' : "") +
-      '<span class="st' + (S.photos[side] ? " ok" : "") + '" id="st-' + side + '">' +
+      '<button type="button" onclick="pickPhoto(' + cur + ',\'' + side + '\')">Load</button>' +
+      '<button type="button" onclick="showPrompt(' + cur + ',\'' + side + '\')">Prompt</button>' +
+      '<button type="button" onclick="popPhoto(' + cur + ',\'' + side + '\')">Present</button>' +
+      (S.photos[side] ? '<button type="button" class="' + (pendingClear === cur + side ? "warn" : "") +
+        '" onclick="clearPhoto(' + cur + ',\'' + side + '\')">' + (pendingClear === cur + side ? "Sure?" : "Clear") + '</button>' : "") +
+      '<span class="st' + (S.photos[side] ? " ok" : "") + '" data-st="' + cur + side + '">' +
       (S.photos[side] ? "saved" : "") + '</span>' +
     '</div>' +
     '<ul class="tasks">' + ph.tasks.map(function(x){ return "<li>" + esc(x) + "</li>"; }).join("") + '</ul>';
@@ -683,7 +712,7 @@ function renderMain(){
       }).join("") + '</div></div></div></section>';
 }
 
-function render(){ renderSide(); renderMain(); }
+function render(){ renderSide(); renderMain(); renderPanel(); }
 function go(i){ cur = i; S = ALL.t[cur]; document.body.classList.remove("bankedit"); render(); closeSide(); window.scrollTo(0,0); cloudPull(i); }
 
 /* ===== part 2 ===== */
@@ -691,19 +720,27 @@ function reveal(side){
   S.reveal = (S.reveal === side) ? null : side;
   save(); renderMain();
 }
-function pickPhoto(side){
+function pickPhoto(i, side){
   var inp = document.createElement("input");
   inp.type = "file"; inp.accept = "image/*";
-  inp.onchange = function(){
-    var f = inp.files && inp.files[0]; if(!f) return;
-    var r = new FileReader();
-    r.onload = function(){ shrink(r.result, function(data){
-      S.photos[side] = data; save(); renderMain(); cloudPush(side, data);
-    }); };
-    r.readAsDataURL(f);
-  };
+  inp.onchange = function(){ var f = inp.files && inp.files[0]; if(f) takeFile(f, i, side); };
   inp.click();
 }
+function takeFile(file, i, side){
+  if(!file || !/^image\//.test(file.type)) return;
+  var r = new FileReader();
+  r.onload = function(){ shrink(r.result, function(data){
+    ALL.t[i].photos[side] = data; save(); refresh(); cloudPush(i, side, data);
+  }); };
+  r.readAsDataURL(file);
+}
+function dropPhoto(e, i, side){
+  e.preventDefault();
+  var el = e.currentTarget; if(el) el.classList.remove("over");
+  var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+  if(f) takeFile(f, i, side);
+}
+function refresh(){ renderMain(); if(document.querySelector(".pan")) renderPanel(); }
 function shrink(dataUrl, done){
   var img = new Image();
   img.onload = function(){
@@ -717,36 +754,38 @@ function shrink(dataUrl, done){
   img.src = dataUrl;
 }
 var pendingClear = null, clearTimer = null;
-function clearPhoto(side){
-  if(pendingClear !== side){
-    pendingClear = side; renderMain();
+function clearPhoto(i, side){
+  var key = i + side;
+  if(pendingClear !== key){
+    pendingClear = key; refresh();
     clearTimeout(clearTimer);
-    clearTimer = setTimeout(function(){ pendingClear = null; renderMain(); }, 4000);
+    clearTimer = setTimeout(function(){ pendingClear = null; refresh(); }, 4000);
     return;
   }
   clearTimeout(clearTimer); pendingClear = null;
-  delete S.photos[side]; save(); renderMain();
-  setStatus(side, "", "clearing");
+  delete ALL.t[i].photos[side]; save(); refresh();
+  setStatus(i, side, "", "clearing");
   fetch(SB_URL, {method:"POST",
     headers:sbHeaders({Prefer:"resolution=merge-duplicates,return=minimal"}),
-    body:JSON.stringify({id:rowId(cur,side), data:{src:""}, updated_at:new Date().toISOString()})})
-    .then(function(r){ if(!r.ok) throw new Error(r.status); setStatus(side, "", ""); })
-    .catch(function(){ setStatus(side, "err", "not cleared"); });
+    body:JSON.stringify({id:rowId(i,side), data:{src:""}, updated_at:new Date().toISOString()})})
+    .then(function(r){ if(!r.ok) throw new Error(r.status); setStatus(i, side, "", ""); })
+    .catch(function(){ setStatus(i, side, "err", "not cleared"); });
 }
-function popPhoto(side){
-  var t = TESTS[cur], ph = t.p2[side], src = S.photos[side] || ph.src;
+function popPhoto(i, side){
+  var ph = TESTS[i].p2[side], src = ALL.t[i].photos[side] || ph.src;
   layer('<div class="pop"><button type="button" class="x" onclick="closeLayer()">Close</button>' +
     '<img src="' + esc(src) + '" alt="" onerror="this.style.display=\'none\'">' +
     '<div class="ptx">' + ph.tasks.map(function(x){ return "<div>" + esc(x) + "</div>"; }).join("") + '</div></div>');
 }
-function showPrompt(side){
-  var ph = TESTS[cur].p2[side];
+function showPrompt(i, side, back){
+  var ph = TESTS[i].p2[side];
   var txt = buildPrompt(ph);
-  layer('<div class="scrim" onclick="if(event.target===this)closeLayer()"><div class="modal">' +
-    '<header><b>Photo prompt</b><span class="mono">Test ' + TESTS[cur].n + ' &#183; Candidate ' + side.toUpperCase() + '</span></header>' +
+  var shut = back ? "openPanel()" : "closeLayer()";
+  layer('<div class="scrim" onclick="if(event.target===this)' + shut + '"><div class="modal">' +
+    '<header><b>Photo prompt</b><span class="mono">Test ' + TESTS[i].n + ' &#183; Candidate ' + side.toUpperCase() + '</span></header>' +
     '<pre id="ptext">' + esc(txt) + '</pre>' +
     '<footer><button type="button" class="btn" onclick="copyPrompt(this)">Copy</button>' +
-    '<button type="button" class="btn alt" onclick="closeLayer()">Close</button></footer></div></div>');
+    '<button type="button" class="btn alt" onclick="' + shut + '">' + (back ? "Back" : "Close") + '</button></footer></div></div>');
 }
 function copyPrompt(b){
   var t = document.getElementById("ptext").textContent;
@@ -769,6 +808,47 @@ function presentDeb(){
       var st = S.bub[i], cls = "bub" + (st===1?" lit":"") + (st===2?" out":"");
       return '<div class="' + cls + '" onclick="bubClick(' + i + ')" ondblclick="bubOut(' + i + ')">' + esc(it) + '</div>';
     }).join("") + '</div></div>');
+}
+function photoCount(){
+  var n = 0;
+  for(var i = 0; i < TESTS.length; i++){ if(ALL.t[i].photos.a) n++; if(ALL.t[i].photos.b) n++; }
+  return n;
+}
+function slotCard(i, side){
+  var ph = TESTS[i].p2[side], got = ALL.t[i].photos[side], src = got || ph.src;
+  var L = side.toUpperCase();
+  return '<div class="slot" ondragover="event.preventDefault();this.classList.add(\'over\')"' +
+      ' ondragleave="this.classList.remove(\'over\')" ondrop="dropPhoto(event,' + i + ',\'' + side + '\')">' +
+    '<div class="sh"><span class="who">' + L + '</span><b>Candidate ' + L + '</b>' +
+      '<span class="st' + (got ? " ok" : "") + '" data-st="' + i + side + '">' + (got ? "saved" : "") + '</span></div>' +
+    '<div class="ph">' +
+      '<img src="' + esc(src) + '" alt="" onerror="this.style.display=\'none\';this.nextElementSibling.hidden=false">' +
+      '<div class="empty" hidden>drop a photo here<br>or press Load</div>' +
+    '</div>' +
+    '<div class="phact">' +
+      '<button type="button" onclick="pickPhoto(' + i + ',\'' + side + '\')">Load</button>' +
+      '<button type="button" onclick="showPrompt(' + i + ',\'' + side + '\',1)">Prompt</button>' +
+      (got ? '<button type="button" class="' + (pendingClear === i + side ? "warn" : "") +
+        '" onclick="clearPhoto(' + i + ',\'' + side + '\')">' + (pendingClear === i + side ? "Sure?" : "Clear") + '</button>' : "") +
+    '</div></div>';
+}
+function panelHtml(){
+  return '<div class="pan"><header><b>Photographs</b>' +
+    '<span class="mono">' + photoCount() + ' of ' + (TESTS.length * 2) + ' loaded</span>' +
+    '<button type="button" class="ghost" style="margin-left:auto" onclick="closeLayer()">Close</button></header>' +
+    '<div class="pbody">' + TESTS.map(function(t,i){
+      return '<div class="pgrp"><div class="pglab">Test ' + t.n + '<b>' + esc(t.title) + '</b></div>' +
+        '<div class="pgrid">' + slotCard(i,"a") + slotCard(i,"b") + '</div></div>';
+    }).join("") + '</div></div>';
+}
+function openPanel(){
+  layer(panelHtml());
+  for(var i = 0; i < TESTS.length; i++) cloudPull(i);
+}
+function renderPanel(){
+  if(document.querySelector(".pan")) layer(panelHtml());
+  var c = document.getElementById("panelcount");
+  if(c) c.textContent = photoCount() + "/" + (TESTS.length * 2);
 }
 function layer(html){ document.getElementById("layer").innerHTML = html; }
 function closeLayer(){ document.getElementById("layer").innerHTML = ""; }
@@ -829,6 +909,7 @@ function setCollapsed(on){
 document.getElementById("collb").onclick = function(){ setCollapsed(true); };
 document.getElementById("reopenb").onclick = function(){ setCollapsed(false); };
 try{ if(localStorage.getItem(CKEY) === "1") document.body.classList.add("collapsed"); }catch(e){}
+document.getElementById("panelb").onclick = function(){ openPanel(); closeSide(); };
 document.getElementById("menub").onclick = openSide;
 document.getElementById("startb").onclick = toggleTimer;
 document.getElementById("resetb").onclick = function(){ setTimer(total/60); };
