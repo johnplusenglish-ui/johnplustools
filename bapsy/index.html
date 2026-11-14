@@ -1440,7 +1440,7 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
       <button class="bchip" type="button" data-c="1">2</button>
       <button class="bchip" type="button" data-c="2">3</button>
       <button class="bchip" type="button" data-c="3">4</button>
-      <button class="bchip on" type="button" data-c="4">5</button>
+      <button class="bchip" type="button" data-c="4">5</button>
     </div>
   </div>
 
@@ -7238,7 +7238,7 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
   <div class="dhead">
     <div class="kicker">Learn the content · online classes</div>
     <h2>Classes</h2>
-    <div class="pills"><span class="pill on">classes 1 to 7 written up</span><span class="pill">52 quiz questions</span><span class="pill">8 to 10 on release</span></div>
+    <div class="pills"><span class="pill on">classes 1 to 8 written up</span><span class="pill">52 quiz questions</span><span class="pill">9 and 10 on release</span></div>
   </div>
   <div class="intro-card">
     <div class="lab">How to use this</div>
@@ -7258,10 +7258,10 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
       <button class="bchip" type="button" data-c="1">2</button>
       <button class="bchip" type="button" data-c="2">3</button>
       <button class="bchip" type="button" data-c="3">4</button>
-      <button class="bchip on" type="button" data-c="4">5</button>
+      <button class="bchip" type="button" data-c="4">5</button>
       <button class="bchip" type="button" data-c="5">6</button>
       <button class="bchip" type="button" data-c="6">7</button>
-      <button class="bchip" type="button" data-c="7">8</button>
+      <button class="bchip on" type="button" data-c="7">8</button>
       <button class="bchip" type="button" data-c="8">9</button>
       <button class="bchip" type="button" data-c="9">10</button>
     </div>
@@ -7591,7 +7591,7 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
     </div>
 
     <!-- ===== CLASS 5 (full) ===== -->
-    <div class="qchap on">
+    <div class="qchap">
       <h2 style="font-size:22px;font-weight:800;margin:4px 0 2px;color:var(--ink)">Class 5: Statistical Inference &amp; Independent-Samples t-tests (1)</h2>
       <p class="lead">Saturday 17 October 2026, with Dr Eccles and Dr Ryan. The step from describing a sample (Class 4) to making claims about the population it came from. Maps to the Quant Book <b>Chapter 2</b> (inference and hypothesis testing), with a look ahead to <b>Chapter 6</b> (independent t-test) and <b>Chapter 9</b> (designs).</p>
       <div class="note"><span class="lab">The one idea</span>Class 4 described the scores in front of you. From here on you <b>infer</b>: you never measure the whole population, you estimate it from a sample, and every number you report carries that uncertainty.</div>
@@ -8413,8 +8413,118 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
       </div></details>
       <div class="note b"><span class="lab">Class 8 next</span><b>Saturday 14 November, 15:00 to 18:00</b>: related and paired-samples t-tests. Nothing in it is needed for Assignment 1.</div>
     </div>
-    <div class="qchap"><h2 style="font-size:22px;font-weight:800;margin:4px 0 2px;color:var(--ink)">Class 8: Related / Paired-Samples t-tests (2)</h2><p class="lead"><b>Saturday 14 November 2026.</b> More paired-samples work, plus the Wilcoxon signed-ranks alternative.</p><div class="note"><span class="lab">Upcoming</span>Not released yet. See Quant Methods Book, Chapter 7.</div></div>
-    <div class="qchap"><h2 style="font-size:22px;font-weight:800;margin:4px 0 2px;color:var(--ink)">Class 9: Correlations</h2><p class="lead"><b>Tuesday 24 November 2026.</b> Relationships between two variables: Pearson's r and Spearman's rho.</p><div class="note"><span class="lab">Upcoming</span>Not released yet. See Quant Methods Book, Chapter 4.</div></div>
+    <div class="qchap on"><h2 style="font-size:22px;font-weight:800;margin:4px 0 2px;color:var(--ink)">Class 8: Related/Paired Samples Tests (1): Parametric Student t-tests</h2>
+      <p class="lead"><b>Saturday 14 November 2026, 15:00 to 18:00, online</b>, with Dr Sinead Eccles and Dr Margo Ryan. Sixty-one slides in five blocks, written up from the deck before the class, so the live discussion is not in here. Maps to Module Learning Materials <b>Part 2, Sections 7.1 to 7.5</b>, and Pallant (2020) pages 249 to 253.</p>
+
+      <div class="note b"><span class="lab">The schedule changed, twice</span>Margaret Ryan posted on 11 November that because Class 7 was given over to APA tables and figures, Classes 8 and 9 were re-scoped. <b>Class 8 today is the parametric paired t-test only.</b> The Wilcoxon signed-ranks test has moved to <b>Class 9, Tuesday 24 November, 20:00 to 22:00</b>. Then Sinead Eccles added on 12 November: <b>today's class starts at 15:00, not 09:00.</b> Class 10 is unchanged, Thursday 3 December.</div>
+
+      <div class="note"><span class="lab">Why this one lands on Assignment 2</span>Tasks 1 and 2 of A2 are both repeated-measures designs. This class is the method for both of them, start to finish. The single procedural change from Class 6 is that <b>you test the difference variable, not the raw scores</b>, and there is <b>no homogeneity of variance assumption</b> because there is only one group.</div>
+
+      <h3 class="sec">1. How the afternoon runs</h3>
+      <ul class="lead-list">
+        <li><b>15:00</b> Welcome and where we are in the module. <b>15:05</b> Block 1, independent and paired samples compared.</li>
+        <li><b>15:30</b> Block 2, setting up the analysis: variables, hypotheses and the difference variable.</li>
+        <li><b>16:10</b> Block 3, testing the assumptions in SPSS. <b>16:35</b> break, fifteen minutes.</li>
+        <li><b>16:50</b> Block 4, the paired-samples t-test: running, reading and reporting.</li>
+        <li><b>17:25</b> Block 5, the practice exercise on the prejudice dataset, start to finish. <b>17:55</b> close and questions.</li>
+        <li><b>Have SPSS open from the start.</b> The speaker notes say blocks 2 to 5 are hands-on.</li>
+      </ul>
+
+      <h3 class="sec">2. Independent versus paired samples</h3>
+      <ul class="lead-list">
+        <li><b>Paired samples, also called repeated measures.</b> One group, examined in different conditions. Participants take part in both conditions. One IV manipulated at two levels, with participants assigned to <b>both</b> levels, so each person contributes scores to both.</li>
+        <li><b>Independent samples.</b> Each participant randomly allocated to one condition, each group tested once, scores compared across groups.</li>
+        <li><b>What each is actually measuring.</b> Independent samples looks for the difference <b>between</b> condition scores, and carries a risk of non-equivalent groups, especially with small samples. A paired design assesses the IV through the <b>change in score within each person</b> between condition 1 and condition 2, so there is no risk of non-equivalent groups: the groups are identical.</li>
+        <li><b>Where the extra information comes from,</b> in the lecturers' own note: the scores being paired up lets you follow each participant across the two treatments.</li>
+      </ul>
+
+      <h3 class="sec">3. The dataset, and setting up the analysis</h3>
+      <ul class="lead-list">
+        <li><b>The worked example.</b> Thirty football supporters, prejudice toward rival supporters measured before and after an intervention of weekly didactic discussions and social meals.</li>
+        <li><b>The IV</b> is the intervention, with two levels: pre-intervention and post-intervention, or equivalently absence and presence of the intervention.</li>
+        <li><b>The DV</b> is total score on the adapted prejudice toward outgroup scale. It is <b>scale data</b>, which is what makes a parametric test a candidate at all.</li>
+        <li><b>Data entry.</b> One row per participant, one column per time point. <b>No grouping variable</b>, because there is only one group. That absence is the quickest way to tell the two layouts apart.</li>
+      </ul>
+      <h4 class="qsub">The two hypotheses, in the lecturers' wording</h4>
+      <div class="abox"><ul>
+        <li><b>H0.</b> It is hypothesised that there will be no significant difference in the football supporters' prejudice toward rivals scores after the intervention, compared to their pre-intervention scores.</li>
+        <li><b>H1.</b> It is hypothesised that the supporters' prejudice scores will be significantly reduced after the intervention.</li>
+        <li><b>In general form.</b> The null says no difference between pre-treatment and post-treatment scores, and no relationship between IV and DV. As always, the test works on the null: we either reject it or fail to reject it.</li>
+      </ul></div>
+
+      <h3 class="sec">4. The difference variable, which is the whole point</h3>
+      <ul class="lead-list">
+        <li><b>What gets tested for normality.</b> Not the raw scores at either time point, but <b>the difference between them</b>. That is why you have to compute a new variable before you can test anything.</li>
+        <li><b>How.</b> Transform, then Compute Variable. Name the target variable Difference. In Numeric Expression move the pre-test variable across, click the minus key, move the post-test variable across, click OK.</li>
+        <li><b>Then tidy it</b> in variable view: decimals to zero, complete the label, set Measure to Scale.</li>
+        <li><b>The order of subtraction decides the sign,</b> and the lecturers spend a slide on it. In their example, participant 1 scored 21 pre and 19 post, so 19 minus 21 is -2, a decrease of 2. Participant 4 scored 18 pre and 19 post, so 19 minus 18 is 1, an increase of 1. Subtract the other way round and a positive number would mean a decrease. Pick one direction, know which, and stay consistent.</li>
+      </ul>
+
+      <h3 class="sec">5. Two assumptions, not three</h3>
+      <ul class="lead-list">
+        <li><b>Known by inspecting the dataset:</b> one IV, one DV, a paired or repeated measures design, scale data for the DV, and two sets of scores from the same people.</li>
+        <li><b>Tested in SPSS:</b> the differences in scores should be <b>normally distributed</b>, and there should be <b>no outliers</b> in those differences.</li>
+        <li><b>There is no homogeneity of variance assumption here,</b> because there is only one group. Contrast Class 6, which had three SPSS-tested assumptions on the raw scores.</li>
+      </ul>
+      <h4 class="qsub">The SPSS path</h4>
+      <div class="abox"><ul>
+        <li>Analyze, Descriptive Statistics, Explore. Move <b>the Difference variable</b> into the Dependent List, not the pre and post variables.</li>
+        <li>Select Both under Display. Under Statistics tick Descriptives, then Continue.</li>
+        <li>Under Plots: Boxplots set to Factor levels together, tick Histogram, tick Normality plots with tests.</li>
+        <li><b>Leave Spread vs Level with Levene Test set to None.</b> There is no homogeneity assumption in a paired design.</li>
+      </ul></div>
+
+      <h3 class="sec">6. Reading the assumption output</h3>
+      <ul class="lead-list">
+        <li><b>The histogram is the most important indication of normality.</b> Compare its shape to the bell curve. Slight skew is fine; it only has to approximate normal.</li>
+        <li><b>Skewness and kurtosis</b> between -1 and 1 are generally taken as acceptable. In the worked example, kurtosis was -0.39 and skewness -0.16. Round to two decimals.</li>
+        <li><b>Shapiro-Wilk.</b> A significant result, p below .05, means non-normal. A non-significant result, p above .05, means normal. You want the non-significant one. In the example, p was .90, comfortably above .05.</li>
+        <li><b>Outliers.</b> Read the box plot. No little circles means no outliers.</li>
+        <li><b>Reported as:</b> the differences between prejudice scores before and after the intervention, W(30) = .98, p = .90, were normally distributed; and there are no outliers as indicated on the box plot.</li>
+        <li><b>One slip to be aware of.</b> That reporting slide says "the non-significant K-S test" while the whole section is about Shapiro-Wilk. Use S-W, which is what the output box and the rest of the deck refer to.</li>
+      </ul>
+
+      <h3 class="sec">7. Running and reading the t-test</h3>
+      <ul class="lead-list">
+        <li><b>The logic.</b> Calculate each participant's numerical difference between their two scores. Aggregated, those differences say how much change took place within the group. The null predicts the overall difference is zero. The t statistic asks how far the observed difference sits from zero, relative to how much the difference scores vary.</li>
+        <li><b>The path.</b> Analyze, Compare Means, Paired-Samples T Test. In row 1 put the pre-test variable under Variable 1 and the post-test variable under Variable 2. Leave Estimate effect sizes ticked. OK.</li>
+        <li><b>Use the original pre and post variables here,</b> not the difference variable. That one existed only for the assumption testing.</li>
+        <li><b>Effect size</b> is reported only when the main analysis is significant. SPSS gives Cohen's d in the Paired Samples Effect Sizes table. Conventions: .20 small, .50 moderate, .80 large.</li>
+        <li><b>The worked result:</b> t(29) = 7.61, p &lt; .001, mean difference 3.80, 95% CI [-4.82, -2.78], d = -1.39, a large effect. Report p as p &lt; .001, not p = .001.</li>
+        <li><b>Watch the signs.</b> The deck reports t as positive and d as negative, which follows from which way round the subtraction went. Whatever you do in your own analysis, make sure the sign of the mean difference, the CI and d all tell the same story, and that the story matches the direction you predicted.</li>
+      </ul>
+
+      <h3 class="sec">8. Reporting it</h3>
+      <p class="lead">The checklist the lecturers give: why the t-test was run; what the IV and DV were; that the assumptions were satisfied; the df, t value and significance; the means and standard deviations for each level of the IV; the mean difference, the 95% confidence interval and Cohen's d; and whether the null can be rejected.</p>
+      <div class="abox"><ul>
+        <li><b>The model paragraph, which the speaker notes call the one to model:</b> a paired samples t-test was carried out to determine whether an intervention consisting of weekly didactic discussions and social meals would reduce levels of prejudice toward rival supporters, total score on the adapted prejudice toward outgroup scale, in football fans (N = 30). The assumptions of normality and absence of outliers were satisfied. There was a statistically significant difference in participants' prejudice scores before (M = 19.47, SD = 5.18) and after (M = 15.67, SD = 6.01) the intervention, t(29) = 7.61, p &lt; .001. The mean decrease was 3.80, 95% CI [-4.82, -2.78]; this indicated a large effect, Cohen's d = -1.39. Therefore the null hypothesis can be rejected.</li>
+        <li><b>Then say what it means in real terms,</b> not only statistical ones, and note what the design cannot tell you: with no control group, something other than the intervention could have caused the change.</li>
+      </ul></div>
+
+      <h3 class="sec">9. Questions you may be asked, and what to say</h3>
+      <p class="lead">The deck has six places where the lecturers stop and take answers. The speaker notes say things like "five minutes in pairs before revealing each answer" and "take answers before moving on", so these are the live ones.</p>
+      <div class="abox"><ul>
+        <li><b>"What is the independent variable, and how many levels does it have?"</b> The intervention. Two levels: pre-intervention and post-intervention.</li>
+        <li><b>"What is the dependent variable, and how is it measured?"</b> Total score on the adapted prejudice toward outgroup scale, which is scale data, which is why a parametric test is on the table.</li>
+        <li><b>"Give me the null and the alternative."</b> Use the two sentences in section 3 above. Say "no significant difference" for the null and name the direction in the alternative.</li>
+        <li><b>"How do we test for normality? Any ideas from past weeks?"</b> Two ways: judgement from the histogram and Q-Q plot, and the Shapiro-Wilk test, where you want a non-significant result. Adding "and for a paired design we test the difference variable, not the raw scores" is the answer that shows you have read ahead.</li>
+        <li><b>"Is this histogram approaching normal? Are the points reasonably straight on the Q-Q plot?"</b> The expected answer for their data is yes, approximately, with slight skew being acceptable.</li>
+        <li><b>"Is .90 greater than .05?"</b> Yes, so the S-W test is non-significant and the difference scores are normally distributed.</li>
+        <li><b>"Does the box plot indicate outliers?"</b> No, there are no circles, so the absence of outliers assumption is satisfied.</li>
+        <li><b>"What does a significant result mean?"</b> We reject the null. In real terms, prejudice fell significantly after the intervention. Then the caveat about no control group.</li>
+        <li><b>Two diagram slides</b> ask you to tell the designs apart. The independent groups diagram shows ten different people, condition A is not the same group as condition B. The repeated measures diagram shows the same five people on both sides.</li>
+        <li><b>The safest thing to volunteer</b> if you want one contribution that lands: there is no homogeneity of variance assumption in a paired design, because there is only one group.</li>
+      </ul></div>
+
+      <h3 class="sec">10. The practice exercise, and what to do before Class 9</h3>
+      <ul class="lead-list">
+        <li><b>Block 5</b> is the prejudice dataset worked start to finish: hypotheses, IV with levels and DV, a potential extraneous variable with a proposed control, the assumption tests in full on the difference variable, then the main analysis reported in full against the checklist.</li>
+        <li><b>Note that the exercise data file is not in the Class 8 folder.</b> Only the slide deck is there. If they do not hand it out in the session, ask on the forum.</li>
+        <li><b>Before Class 9:</b> read Part 2, Sections 7.1 to 7.5 and answer the SAQs, with answers in Section 7.8. Pallant (2020) pages 249 to 253. Work the prejudice dataset from data entry to write-up. Then read ahead to Sections 7.6 and 7.7 on the Wilcoxon signed-ranks test, and Pallant pages 234 to 236.</li>
+        <li><b>The take-home the notes flag as the one slide to remember:</b> test the difference variable, not the raw scores. Everything else follows from it.</li>
+      </ul>
+    </div>
+    <div class="qchap"><h2 style="font-size:22px;font-weight:800;margin:4px 0 2px;color:var(--ink)">Class 9: Related/Paired Samples Tests (2): Wilcoxon Signed-Ranks Test</h2><p class="lead"><b>Tuesday 24 November 2026, 20:00 to 22:00.</b> The non-parametric alternative, for when the normality assumption on the difference variable fails. Module Learning Materials Part 2, Sections 7.6 and 7.7, and Pallant (2020) pages 234 to 236.</p><div class="note"><span class="lab">Re-scoped on 11 November</span>This class used to be listed as correlations. It is now the Wilcoxon test, after Classes 8 and 9 were adjusted to make room for the APA work in Class 7. Slides are already in the Class Slides folder.</div></div>
     <div class="qchap"><h2 style="font-size:22px;font-weight:800;margin:4px 0 2px;color:var(--ink)">Class 10: Semester 1 Review &amp; Assignment 2 Prep</h2><p class="lead"><b>Thursday 3 December 2026.</b> Pulling the semester together and preparing for Assignment 2.</p><div class="note"><span class="lab">Upcoming</span>Not released yet.</div></div>
 
   </div>
