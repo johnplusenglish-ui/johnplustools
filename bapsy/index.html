@@ -785,6 +785,14 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
 .tscroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0;border-radius:var(--r-sm)}
 .tscroll .tbl{margin:0;min-width:660px}
 .tnote{font-size:12.5px;color:var(--muted);margin:6px 2px 0;line-height:1.5}
+
+  /* ---- accessibility: a focus ring you can actually see, and offscreen status text ---- */
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+  :focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:var(--r-xs)}
+  .bchip:focus-visible,.guide-nav-item:focus-visible,.wt-opt:focus-visible,.qz-opt:focus-visible,
+  .gs-all:focus-visible,.gl-prev:focus-visible,.gl-next:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  /* these set outline:0 for looks; give them a real indicator back */
+  .elog-in input:focus-visible,.elog-in select:focus-visible,.gl-search:focus-visible,.gcard input:focus-visible{outline:3px solid var(--accent);outline-offset:1px}
 </style>
 </head>
 <body>
@@ -12505,12 +12513,15 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
     foot.innerHTML='<button type="button" class="gl-prev">Previous</button><button type="button" class="gl-next"></button>';
     host.insertBefore(foot,secs[secs.length-1].nextSibling);
 
-    const H={host:host,secs:secs,titles:titles,bar:bar,foot:foot,sel:sel,i:0,all:false};
+    const live=document.createElement('p');
+    live.className='sr-only'; live.setAttribute('role','status'); live.setAttribute('aria-live','polite');
+    bar.appendChild(live);
+    const H={host:host,secs:secs,titles:titles,bar:bar,foot:foot,sel:sel,i:0,all:false,live:live,announce:false};
     H.key=keyFor(H.host); H.i=loadPos(H);
     hosts.push(H);
 
     sel.addEventListener('change',function(){ go(H,+sel.value); });
-    bar.querySelector('.gs-all').addEventListener('click',function(){ H.all=!H.all; render(H); if(!H.all) top(H); });
+    bar.querySelector('.gs-all').addEventListener('click',function(){ H.all=!H.all; H.announce=true; render(H); if(!H.all) top(H); });
     foot.querySelector('.gl-prev').addEventListener('click',function(){ go(H,H.i-1); });
     foot.querySelector('.gl-next').addEventListener('click',function(){
       if(this.dataset.chap==='1'){ const nc=nextChap(H.host);
@@ -12527,7 +12538,7 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
   }
   function go(H,i){
     H.i=Math.max(0,Math.min(H.secs.length-1,i));
-    savePos(H); render(H); top(H);
+    H.announce=true; savePos(H); render(H); top(H);
   }
 
   function render(H){
@@ -12541,6 +12552,11 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
     H.sel.hidden=H.all; H.sel.value=String(H.i);
     const tr=H.bar.querySelector('.gs-track'); tr.hidden=H.all;
     tr.firstElementChild.style.width=((H.i+1)/n*100)+'%';
+    // tell a screen reader what just replaced the reading area, but only when they moved it
+    if(H.live && H.announce){
+      H.live.textContent = H.all ? ('Whole page, '+n+' sections') : ('Section '+(H.i+1)+' of '+n+': '+H.titles[H.i]);
+      H.announce=false;
+    }
     const prev=H.foot.querySelector('.gl-prev'), next=H.foot.querySelector('.gl-next');
     prev.disabled = H.i===0;
     if(H.i<n-1){ next.disabled=false; next.dataset.chap=''; next.textContent='Next: '+short(H.titles[H.i+1],46); }
@@ -12565,6 +12581,31 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
   window.bapsyReader={hosts:hosts,apply:applyAll};
+  // ---- keep ARIA state in step with the classes that carry it visually ----
+  (function(){
+    function group(sel,cls){ document.querySelectorAll(sel).forEach(function(b){
+      b.setAttribute('aria-pressed', b.classList.contains(cls)?'true':'false'); }); }
+    function syncAll(){
+      group('.pn-mods button','on');
+      group('.gl-switch button','on');
+      group('.bchip','on');
+      document.querySelectorAll('.guide-nav-item').forEach(function(b){
+        // only the sidebar actually on screen should claim the current page
+        var sb=b.closest('.msb');
+        if(b.classList.contains('active') && (!sb || !sb.hidden)) b.setAttribute('aria-current','page');
+        else b.removeAttribute('aria-current');
+      });
+    }
+    syncAll();
+    try{
+      var mo=new MutationObserver(syncAll);
+      ['.pn-mods','.gl-switch','.bookbar','.msb'].forEach(function(s){
+        document.querySelectorAll(s).forEach(function(el){
+          mo.observe(el,{subtree:true,attributes:true,attributeFilter:['class','hidden']});
+        });
+      });
+    }catch(e){}
+  })();
 })();
 
 </script>
