@@ -824,6 +824,178 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
   .gl-switch{border-radius:6px;padding:2px;gap:2px;margin:0 0 4px}
   .gl-switch button{border-radius:5px;font-weight:500}
   .gl-switch button.on{background:var(--accent);color:#fff}
+
+  /* ============================================================
+     THE QUIET CONTENT PASS
+     Same grammar as the rail: calmer type, hairlines instead of
+     shadows, small radii, one accent per region. Nothing here
+     changes markup or wording, only how it is drawn.
+     ============================================================ */
+
+  /* ---- tokens: tighter corners, no card shadows ---- */
+  :root{
+    --r:9px; --r-sm:6px; --r-xs:5px; --radius:9px;
+    --sh-sm:none; --sh:none;
+    --faint:#73716C;                 /* quiet label grey, shared with the rail */
+    --tint-line:#D9E2EA;             /* navy-tinted hairline for accent-light blocks */
+  }
+
+  /* ---- headings: 600 weight, smaller, tighter, like the lessons page ---- */
+  .masthead h1{font-weight:600;font-size:clamp(27px,3.4vw,35px);letter-spacing:-.025em;line-height:1.12}
+  .masthead .sub{font-size:15.5px}
+  .dhead h2{font-weight:600;font-size:clamp(21px,2.6vw,26px);letter-spacing:-.025em;line-height:1.16}
+  .sec{font-weight:600;font-size:17px;letter-spacing:-.02em;margin:40px 0 13px;padding-bottom:9px}
+  .card h3,.abox h3,.lcard .lh h3{font-weight:600;font-size:17px;letter-spacing:-.02em;line-height:1.25}
+  .bc-name{font-weight:600;font-size:18px;letter-spacing:-.02em}
+  h4.qsub{font-weight:600;font-size:15.5px;letter-spacing:-.015em;margin:28px 0 9px}
+  .gl-h{font-weight:600;font-size:16px;letter-spacing:-.015em}
+  .gl-cont-t{font-weight:600;font-size:19px;letter-spacing:-.02em}
+  .fast .fq{font-weight:600;font-size:17px;letter-spacing:-.02em}
+  .gcard h1{font-weight:600;font-size:19px;letter-spacing:-.02em}
+  .sess-t{font-weight:600;font-size:14.5px}
+  .gl-micro-q{font-weight:500}
+  .abox .meta .meta-key{font-weight:600;font-size:15.5px}
+
+  /* the assignment weighting was a 26px/800 accent number shouting across the card */
+  .abox .wt{font:500 15px var(--mono);color:var(--faint);letter-spacing:0;padding-top:3px}
+
+  /* ---- micro-labels: the uppercase eyebrows were all 700/800 in accent blue.
+     one accent per region, so these go quiet grey and keep only their spacing ---- */
+  .eyebrow,.kicker,.intro-card .lab,.abox h4,.lblk .k,.bc-sec .k,.searchbox .lab,
+  .note .lab,.mans .lab,.fast .ft,.sumdl .sd-t,.gl-micro-t,.gl-cont-l,.gs-pos,
+  .row .t,.row .t.key,.book-h .t,.fast dt,.figbox .fl,.apply .k,.credits summary,
+  .tbl-stack td::before{font-weight:600;color:var(--faint);letter-spacing:.09em}
+  .eyebrow,.kicker{font-size:11px;margin-bottom:11px}
+  .lblk.crit .k{color:var(--due)}
+
+  /* ---- flat cards: hairline only ---- */
+  .card,.abox,.lcard,.biocard,.gcard{box-shadow:none}
+  .card{padding:20px 22px}
+  .abox{padding:22px 24px}
+  .lcard{padding:20px 22px}
+
+  /* ---- tinted blocks keep their tint but lose the stale pale-blue borders ---- */
+  .intro-card,.note,.fast{border-color:var(--tint-line)}
+  .gl-allres{border-color:var(--tint-line)}
+
+  /* ---- chips, pills and badges: the 100px capsules read as buttons.
+     square them off, drop the weight, put numbers in mono ---- */
+  .facts span,.pill,.badge,.flag,.keyterms span,.bc-tag,.gl-chip,.sess-m,
+  .slideref,.lcard .lh .ap,.phase .due,.due-in{border-radius:4px;font-weight:500;letter-spacing:0}
+  .badge,.flag,.slideref,.bc-tag{text-transform:none}
+  .badge{font-size:11px;background:var(--bg);color:var(--faint);border:1px solid var(--border);padding:3px 8px}
+  .badge.n{font-family:var(--mono);font-size:11px}
+  .facts span{background:none;border-color:var(--border)}
+  .gl-chip{background:var(--bg);color:var(--faint)}
+  .gl-chip.gl-ess{background:var(--accent-light);color:var(--accent-dark)}
+  .sess-m{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--faint)}
+  .deckcount{font:500 12.5px var(--mono);color:var(--faint)}
+  .fc-pos{font:500 12px var(--mono);color:var(--faint)}
+
+  /* an active filter was solid navy; the rail's soft grey block does the same job quieter */
+  .pill.on,.gl-lbar button.on,.bchip.on{background:var(--rail-active);color:var(--ink);
+    border-color:#D8D8D4;font-weight:500}
+  .gl-lbar button.on .gl-lnum{background:var(--card);color:var(--ink)}
+  .gl-chip.gl-now{background:var(--accent-light);color:var(--accent-dark)}
+
+  /* ---- numbered things: the filled accent circles were the loudest marks on the page ---- */
+  .steps>li{padding-left:36px}
+  .steps>li::before{width:21px;height:21px;top:0;background:none;color:var(--faint);
+    border:1px solid var(--border);font:500 11.5px var(--mono)}
+  .steps>li::after{left:10px;top:24px}
+  .steps .h{font-weight:600}
+  .qlist li::before{background:none;border:1px solid var(--border);color:var(--faint);
+    font:500 11px var(--mono)}
+  .gl-n{flex-basis:27px;height:27px;background:none;border:1px solid var(--border);
+    color:var(--faint);font:500 12.5px var(--mono)}
+  .gl-step.is-cur .gl-n{background:var(--accent-light);border-color:var(--tint-line);color:var(--accent-dark)}
+  .gl-step.is-done .gl-n{background:var(--ok);border-color:#CFE2D6;color:var(--ok-accent)}
+  .gl-lnum{font:500 11px var(--mono);background:var(--bg);color:var(--faint)}
+  .bc-mono{width:42px;height:42px;background:var(--accent-light);color:var(--accent-dark);
+    font:600 14px var(--sans)}
+  .sess-n{width:23px;height:23px;background:none;border:1px solid var(--border);
+    color:var(--faint);font:500 12px var(--mono)}
+  .chaps li::before{font:500 11.5px var(--mono);color:var(--faint)}
+
+  /* a current step was ringed in a 3px halo; a single accent border says it ---- */
+  .gl-step{padding:15px 17px}
+  .gl-step.is-cur{box-shadow:none;border-color:var(--accent)}
+
+  /* ---- the contents banner was a solid navy slab. make it a card that
+     carries the same information with the page's own ink ---- */
+  .gl-cont{background:var(--card);border:1px solid var(--border);color:var(--ink);padding:20px 22px}
+  .gl-cont-l{opacity:1;color:var(--faint)}
+  .gl-cont-t{color:var(--ink)}
+  .gl-cont-w{opacity:1;color:var(--muted)}
+  .gl-cont-m{opacity:1;color:var(--ink);font-weight:500}
+  .gl-cont-d{opacity:1;color:var(--faint)}
+  .gl-cont-n{opacity:1;color:var(--muted);border-top-color:var(--border-soft)}
+
+  /* ---- actions keep the accent: they are the one filled thing per region,
+     just lighter in weight and squarer at the corner ---- */
+  .gl-go,.gl-open-b,.sumdl .sd-b,.gcard button,.gl-next,.ds-copy{font-weight:500}
+  .gl-go{background:var(--accent);color:#fff;font-size:14.5px;padding:10px 20px}
+  .gl-cont .gl-go:hover{background:var(--accent-dark)}
+  .gcard button,.gcard input{border-radius:var(--r-sm)}
+  .deckbtn{width:34px;height:34px;border-radius:var(--r-sm);font-weight:500;font-size:16px}
+  .bnav button,.deckjump,.navbtn{border-radius:var(--r-sm);font-weight:500}
+  .gl-lnav button{font-weight:500}
+  .gl-bottom{border-radius:var(--r-sm);font-weight:500;box-shadow:0 4px 16px rgba(28,36,51,.22)}
+
+  /* ---- odds and ends that still read heavy ---- */
+  .card .blurb,.lcard .one{font-size:14px}
+  .totop{font-weight:500}
+  .foot{font-size:12px}
+  .saq>summary{font-weight:500;color:var(--ink)}
+  .saq>summary::before{color:var(--faint)}
+  .tscroll{border-radius:var(--r-sm)}
+  .ytlite,.ytplay{border-radius:var(--r-sm)}
+  .gl-dfn{border-bottom-width:1px}
+
+  @media(max-width:640px){
+    .card,.lcard{padding:17px 16px}
+  }
+
+  /* ---- the quiet pass, second sweep: the panes the first sweep did not reach.
+     same two moves everywhere: uppercase micro-labels go 600 and grey,
+     standalone figures go 600 and mono instead of 800 and accent. ---- */
+  .topnav .nav-logo{font-weight:600}
+  .ordsw .ordlab,.bgrp,.agtag,.bookbar .blab,.bb-lab,.viz-cap,.viz-help .hl,
+  .dd-dlab,.dd-mod,.wt-rl,.wt-sec .k,.gl-tag,.fc-side,.pv-tag,.elog-t,
+  .ckl-h,.mm-det .t{font-weight:600}
+  .ordsw .ordlab,.bgrp,.bookbar .blab,.bb-lab,.viz-cap,.viz-help .hl,
+  .dd-dlab,.wt-rl,.wt-sec .k,.fc-side{color:var(--faint)}
+
+  /* figures read as data, so set them in mono and stop shouting */
+  .dd-days{font:600 21px var(--mono);letter-spacing:-.02em}
+  .pv-pout,.viz-out{font:600 15px var(--mono)}
+  .pv-vh{font:600 14.5px var(--mono);color:var(--ok-accent)}
+  .wt-rn{font-weight:600;font-size:18px;letter-spacing:-.02em}
+  .fc-term{font-weight:600;font-size:21px;letter-spacing:-.025em}
+  .elog-t{font-family:var(--mono);font-size:12.5px;color:var(--faint)}
+  .mm-det .t{font-size:14.5px}
+  .ckl-h{font-size:12.5px;color:var(--ink)}
+
+  /* remaining capsules: squared off, lighter, grey unless they carry a real signal */
+  .dd-wt{background:none;border:1px solid var(--border);color:var(--faint);
+    font:500 11.5px var(--mono);border-radius:4px;padding:3px 8px}
+  .dd-mod{border-radius:4px;font-family:var(--mono);letter-spacing:0;font-size:10px}
+  .pv-tag,.gl-tag,.agtag{border-radius:4px;font-weight:500;letter-spacing:.06em}
+  .dd-row{padding:13px 15px}
+  .dd-title{font-weight:600;font-size:14.5px}
+
+  /* a deadline inside three weeks is the one place red is earned, and the pane's own
+     text says "anything in red", so the tint and the red figure both stay */
+  .dd-row.soon{background:var(--due-light);border-color:#EBC4C1}
+
+  /* ---- the quiet pass, third sweep: the filters and toggles that were still
+     fully rounded capsules filled with solid navy or solid ink ---- */
+  .gl-tab,.gl-cb,.mm-b,.wt-crumb span,.pv-scn,.tg,.warnflag{border-radius:4px;font-weight:500}
+  .gl-tab.on,.gl-cb.on,.mm-b.on{background:var(--rail-active);border-color:#D8D8D4;color:var(--ink);font-weight:500}
+  .gl-count{font-family:var(--mono);font-size:11.5px;color:var(--faint)}
+  .gl-tag{font-weight:500;letter-spacing:.06em;color:var(--faint);background:var(--bg);border-radius:4px}
+  /* the progress bars stay accent: they are the one place a filled navy earns its space */
+  .ckl-bar{border-radius:3px}
 </style>
 </head>
 <body>
