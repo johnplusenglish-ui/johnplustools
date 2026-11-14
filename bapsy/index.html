@@ -8438,13 +8438,48 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
         <li><b>Where the extra information comes from,</b> in the lecturers' own note: the scores being paired up lets you follow each participant across the two treatments.</li>
       </ul>
 
-      <h3 class="sec">3. The dataset, and setting up the analysis</h3>
+      <h3 class="sec">3. The dataset: thirty Arsenal and Chelsea supporters</h3>
       <ul class="lead-list">
-        <li><b>The worked example.</b> Thirty football supporters, prejudice toward rival supporters measured before and after an intervention of weekly didactic discussions and social meals.</li>
+        <li><b>The worked example.</b> Thirty football supporters, fifteen Arsenal and fifteen Chelsea, with prejudice toward rival supporters measured before and after an intervention of weekly didactic discussions and social meals. Higher scores mean more prejudice, so the prediction is that scores fall.</li>
         <li><b>The IV</b> is the intervention, with two levels: pre-intervention and post-intervention, or equivalently absence and presence of the intervention.</li>
         <li><b>The DV</b> is total score on the adapted prejudice toward outgroup scale. It is <b>scale data</b>, which is what makes a parametric test a candidate at all.</li>
         <li><b>Data entry.</b> One row per participant, one column per time point. <b>No grouping variable</b>, because there is only one group. That absence is the quickest way to tell the two layouts apart.</li>
       </ul>
+      <h4 class="qsub">The four variables, as the lecturers set them up</h4>
+      <div class="abox"><ul>
+        <li><b>Part_ID</b>, numeric, 0 decimals, labelled Participant ID, Measure <b>Nominal</b>.</li>
+        <li><b>Club_Support</b>, numeric, labelled Club Supported, with value labels starting {0, Arsenal}, Measure <b>Nominal</b>.</li>
+        <li><b>Pre_Predjudice</b>, numeric, labelled Pre Intervention Prejudice, Measure <b>Scale</b>. The misspelling is theirs, in their own file.</li>
+        <li><b>Post_Prejudice</b>, numeric, labelled Post Intervention Prejudice, Measure <b>Scale</b>.</li>
+      </ul></div>
+
+      <h4 class="qsub">The data, and the difference scores</h4>
+      <p class="lead">Diff is post minus pre, which is the direction the lecturers use on their difference-variable slides, so a negative number is a fall in prejudice. Twenty-six supporters went down, two went up (participants 4 and 9), and two were unchanged (17 and 19).</p>
+      <table class="tbl">
+        <thead><tr><th colspan="4">Arsenal supporters</th><th colspan="4">Chelsea supporters</th></tr>
+        <tr><th>ID</th><th>Pre</th><th>Post</th><th>Diff</th><th>ID</th><th>Pre</th><th>Post</th><th>Diff</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>21</td><td>19</td><td>-2</td><td>16</td><td>19</td><td>14</td><td>-5</td></tr>
+          <tr><td>2</td><td>28</td><td>24</td><td>-4</td><td>17</td><td>15</td><td>15</td><td>0</td></tr>
+          <tr><td>3</td><td>27</td><td>22</td><td>-5</td><td>18</td><td>16</td><td>13</td><td>-3</td></tr>
+          <tr><td>4</td><td>18</td><td>19</td><td>+1</td><td>19</td><td>13</td><td>13</td><td>0</td></tr>
+          <tr><td>5</td><td>15</td><td>9</td><td>-6</td><td>20</td><td>11</td><td>5</td><td>-6</td></tr>
+          <tr><td>6</td><td>19</td><td>17</td><td>-2</td><td>21</td><td>21</td><td>17</td><td>-4</td></tr>
+          <tr><td>7</td><td>14</td><td>9</td><td>-5</td><td>22</td><td>27</td><td>26</td><td>-1</td></tr>
+          <tr><td>8</td><td>22</td><td>13</td><td>-9</td><td>23</td><td>29</td><td>22</td><td>-7</td></tr>
+          <tr><td>9</td><td>27</td><td>29</td><td>+2</td><td>24</td><td>18</td><td>15</td><td>-3</td></tr>
+          <tr><td>10</td><td>25</td><td>17</td><td>-8</td><td>25</td><td>16</td><td>9</td><td>-7</td></tr>
+          <tr><td>11</td><td>12</td><td>4</td><td>-8</td><td>26</td><td>11</td><td>6</td><td>-5</td></tr>
+          <tr><td>12</td><td>15</td><td>11</td><td>-4</td><td>27</td><td>23</td><td>21</td><td>-2</td></tr>
+          <tr><td>13</td><td>21</td><td>15</td><td>-6</td><td>28</td><td>24</td><td>20</td><td>-4</td></tr>
+          <tr><td>14</td><td>20</td><td>16</td><td>-4</td><td>29</td><td>17</td><td>14</td><td>-3</td></tr>
+          <tr><td>15</td><td>20</td><td>17</td><td>-3</td><td>30</td><td>20</td><td>19</td><td>-1</td></tr>
+        </tbody>
+      </table>
+      <div class="note"><span class="lab">These numbers check out</span>Entering this table and running it reproduces the deck's reported statistics exactly: pre M = 19.47, SD = 5.18; post M = 15.67, SD = 6.01; Shapiro-Wilk on the differences W = .98, p = .90; kurtosis -0.39; and t(29) = 7.61 with a mean difference of 3.80. So you can type it straight in and practise on it.</div>
+
+      <div class="note"><span class="lab">Why the club column is there, and why today ignores it</span>Club_Support is nominal and plays no part in the paired-samples analysis. All thirty are treated as <b>one group measured twice</b>. The split is there because the same file can be used for an independent-samples comparison of Arsenal against Chelsea, which is the Class 6 design. If you catch yourself reaching for the club variable today, you have slipped back into a between-groups frame.</div>
+
       <h4 class="qsub">The two hypotheses, in the lecturers' wording</h4>
       <div class="abox"><ul>
         <li><b>H0.</b> It is hypothesised that there will be no significant difference in the football supporters' prejudice toward rivals scores after the intervention, compared to their pre-intervention scores.</li>
@@ -8491,7 +8526,7 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
         <li><b>Use the original pre and post variables here,</b> not the difference variable. That one existed only for the assumption testing.</li>
         <li><b>Effect size</b> is reported only when the main analysis is significant. SPSS gives Cohen's d in the Paired Samples Effect Sizes table. Conventions: .20 small, .50 moderate, .80 large.</li>
         <li><b>The worked result:</b> t(29) = 7.61, p &lt; .001, mean difference 3.80, 95% CI [-4.82, -2.78], d = -1.39, a large effect. Report p as p &lt; .001, not p = .001.</li>
-        <li><b>Watch the signs.</b> The deck reports t as positive and d as negative, which follows from which way round the subtraction went. Whatever you do in your own analysis, make sure the sign of the mean difference, the CI and d all tell the same story, and that the story matches the direction you predicted.</li>
+        <li><b>Watch the signs, because the deck mixes two directions.</b> Running the raw data shows where it comes from. Their <b>difference variable is post minus pre</b>, which is what gives skewness -0.16, kurtosis -0.39 and Cohen's d of -1.39. But the <b>t-test was run with pre as Variable 1</b>, which gives t(29) = 7.61, a mean difference of <b>+3.80</b> and a 95% CI of <b>[2.78, 4.82]</b>. The model write-up pairs the positive 3.80 with the negative CI [-4.82, -2.78], and those two cannot come from the same run. Either direction is defensible on its own. Mixing them is not. Pick one, and make the mean difference, the confidence interval and d all agree with it.</li>
       </ul>
 
       <h3 class="sec">8. Reporting it</h3>
