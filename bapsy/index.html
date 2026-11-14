@@ -12443,7 +12443,32 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
   // things that belong to the page or chapter rather than to a section, so they stay put
   const CHROME='.sumdl,.bnav,.credits,.bookbar,.gs-bar,.gs-foot';
   const MIN=3;
+  const POSKEY='bapsy_reader_pos_v1';
   const hosts=[];
+  // a stable id for each reader: the pane, plus the chapter index on chaptered pages
+  function keyFor(host){
+    const pane=host.closest('section.pane[id]'); if(!pane) return null;
+    if(host.classList.contains('qchap')){
+      const sibs=[].filter.call(host.parentElement.children,function(x){return x.classList.contains('qchap');});
+      return pane.id+':'+sibs.indexOf(host);
+    }
+    return pane.id;
+  }
+  function readPos(){ try{ return JSON.parse(localStorage.getItem(POSKEY)||'{}')||{}; }catch(e){ return {}; } }
+  function savePos(H){ if(!H.key) return; try{ var m=readPos(); m[H.key]=H.i; localStorage.setItem(POSKEY,JSON.stringify(m)); }catch(e){} }
+  function loadPos(H){ if(!H.key) return 0; var v=readPos()[H.key];
+    return (typeof v==='number' && v>=0 && v<H.secs.length) ? v : 0; }
+  // on a chaptered page the end of one chapter leads to the next, rather than stopping dead
+  function nextChap(host){
+    if(!host.classList.contains('qchap')) return null;
+    const sibs=[].filter.call(host.parentElement.children,function(x){return x.classList.contains('qchap');});
+    const k=sibs.indexOf(host);
+    if(k<0 || k+1>=sibs.length) return null;
+    const pane=host.closest('section.pane[id]'); if(!pane) return null;
+    const chip=pane.querySelector('.bchip[data-c="'+(k+1)+'"]');
+    const h2=sibs[k+1].querySelector('h2');
+    return chip ? {chip:chip,title:h2?h2.textContent:'the next chapter'} : null;
+  }
 
   function isGuided(){ try{ return localStorage.getItem('bapsy_mode_v1')!=='full'; }catch(e){ return true; } }
   function txt(el){ return el.textContent.replace(/\s+/g,' ').trim(); }
@@ -12481,12 +12506,18 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
     host.insertBefore(foot,secs[secs.length-1].nextSibling);
 
     const H={host:host,secs:secs,titles:titles,bar:bar,foot:foot,sel:sel,i:0,all:false};
+    H.key=keyFor(H.host); H.i=loadPos(H);
     hosts.push(H);
 
     sel.addEventListener('change',function(){ go(H,+sel.value); });
     bar.querySelector('.gs-all').addEventListener('click',function(){ H.all=!H.all; render(H); if(!H.all) top(H); });
     foot.querySelector('.gl-prev').addEventListener('click',function(){ go(H,H.i-1); });
-    foot.querySelector('.gl-next').addEventListener('click',function(){ go(H,H.i+1); });
+    foot.querySelector('.gl-next').addEventListener('click',function(){
+      if(this.dataset.chap==='1'){ const nc=nextChap(H.host);
+        if(nc){ nc.chip.click(); try{ window.scrollTo({top:0,behavior:'smooth'}); }catch(e){ window.scrollTo(0,0); } }
+        return; }
+      go(H,H.i+1);
+    });
     render(H);
   }
 
@@ -12496,7 +12527,7 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
   }
   function go(H,i){
     H.i=Math.max(0,Math.min(H.secs.length-1,i));
-    render(H); top(H);
+    savePos(H); render(H); top(H);
   }
 
   function render(H){
@@ -12512,8 +12543,12 @@ ul.lead-list li.has-lead,.abox ul li.has-lead{margin-bottom:17px}
     tr.firstElementChild.style.width=((H.i+1)/n*100)+'%';
     const prev=H.foot.querySelector('.gl-prev'), next=H.foot.querySelector('.gl-next');
     prev.disabled = H.i===0;
-    if(H.i<n-1){ next.disabled=false; next.textContent='Next: '+short(H.titles[H.i+1],46); }
-    else { next.disabled=true; next.textContent='End of this page'; }
+    if(H.i<n-1){ next.disabled=false; next.dataset.chap=''; next.textContent='Next: '+short(H.titles[H.i+1],46); }
+    else {
+      const nc=nextChap(H.host);
+      if(nc){ next.disabled=false; next.dataset.chap='1'; next.textContent='Next: '+short(nc.title,44); }
+      else { next.disabled=true; next.dataset.chap=''; next.textContent='End of this page'; }
+    }
   }
 
   function applyAll(){ hosts.forEach(render); }
