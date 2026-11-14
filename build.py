@@ -181,6 +181,8 @@ LESSON_LINKS = [
      'tagline': 'C1 lesson on nostalgia, the nineties revival and looking back at the good old days.'},
     {'href': '/lessons/business-english-c1.html', 'name': 'Business English',
      'tagline': 'C1 lesson on how businesses make money, with a class survey and a ninety-second pitch.'},
+    {'href': '/lessons/home-speaking-test.html', 'name': 'Speaking Test: Homes',
+     'tagline': 'A C1 speaking test for three candidates on homes and where we live, in four parts.'},
     {'href': '/lessons/free-time-speaking-tests.html', 'name': 'Speaking Tests: Free Time',
      'tagline': 'Four C1 speaking tests on free time: interview, photographs, long turn and a five-option discussion.'},
     {'href': '/lessons/work-speaking-tests.html', 'name': 'Speaking Tests: Work',
