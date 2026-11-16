@@ -77,6 +77,14 @@ button{font:inherit;cursor:pointer}
 .btn.primary:hover{background:#000}
 .btn.ghost{border-color:transparent;color:var(--muted);padding-left:8px;padding-right:8px}
 .btn.ghost:hover{color:var(--accent);border-color:transparent}
+.cloud{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--muted);
+  border:1px solid transparent;background:none;padding:6px 2px;white-space:nowrap}
+.cloud:hover{color:var(--ink)}
+.cloud .dot{width:7px;height:7px;border-radius:50%;background:#bdbdbd;flex:0 0 auto}
+.cloud.ok .dot{background:#2e9e5b}
+.cloud.busy .dot{background:#e0a21a}
+.cloud.err .dot{background:var(--accent)}
+.cloud.err{color:var(--accent)}
 .btn:disabled{opacity:.4;cursor:not-allowed}
 .pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
 .pill{
@@ -215,6 +223,7 @@ html[data-locked] #gate{
     <div class="row1">
       <div class="search"><input id="q" type="search" placeholder="Search titles, stories, categories" aria-label="Search stories"></div>
       <span class="count"><b id="selCount">0</b> selected of <span id="shownCount">100</span></span>
+      <button class="cloud" id="cloud" type="button" title="Sync now"><span class="dot"></span><span id="cloudTxt">Connecting</span></button>
       <button class="btn" id="onlySel" aria-pressed="false">Selected only</button>
       <button class="btn" id="expandAll">Expand all</button>
       <button class="btn primary" id="exportBtn">Export shortlist</button>
@@ -280,6 +289,7 @@ html[data-locked] #gate{
   function unlock(){
     try{ localStorage.setItem("jpt_content_ok","1"); }catch(e){}
     document.documentElement.removeAttribute("data-locked");
+    pull();   /* only talk to the cloud once past the gate */
   }
   form.addEventListener("submit", function(e){
     e.preventDefault();
@@ -1016,7 +1026,88 @@ q:"Could you have held your nerve for those minutes?"}
 const KEY = "bloxplain_story_bank_v1";
 let state = {sel:{}, notes:{}};
 try{ const raw = localStorage.getItem(KEY); if(raw) state = Object.assign(state, JSON.parse(raw)); }catch(e){}
-function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+function localT(){ try{ return Number(localStorage.getItem(KEY+"_t"))||0; }catch(e){ return 0; } }
+function save(){
+  var t = Date.now();
+  try{
+    localStorage.setItem(KEY, JSON.stringify(state));
+    localStorage.setItem(KEY+"_t", String(t));
+  }catch(e){}
+  schedulePush();
+}
+
+/* ---------- cloud sync ----------
+   One row in the shared `lessons` table, same pattern as the vocab bank:
+   every change saves on this device first, then pushes after a short pause.
+   Last write wins by timestamp, so picks follow you between devices.        */
+var SB_URL = "https://uovqsqnxcgvefxpxntcj.supabase.co/rest/v1/lessons";
+var SB_KEY = "sb_publishable_VTOzRUebaH_xQAs4wngfug_jCVCeCFB";
+var ROW = "bloxplain-story-bank";
+var pushTimer = null, pulled = false;
+
+function sbHeaders(extra){
+  var h = {apikey:SB_KEY, Authorization:"Bearer "+SB_KEY, "Content-Type":"application/json"};
+  for(var k in extra) h[k] = extra[k];
+  return h;
+}
+function cloudStatus(kind, txt){
+  var b = document.getElementById("cloud");
+  if(!b) return;
+  b.className = "cloud " + kind;
+  document.getElementById("cloudTxt").textContent = txt;
+}
+function schedulePush(){
+  if(!pulled) return;            /* never overwrite the cloud before seeing it */
+  cloudStatus("busy","Saving");
+  clearTimeout(pushTimer);
+  pushTimer = setTimeout(push, 700);
+}
+function push(){
+  var t = localT() || Date.now();
+  return fetch(SB_URL, {
+    method:"POST",
+    headers: sbHeaders({Prefer:"resolution=merge-duplicates,return=minimal"}),
+    body: JSON.stringify({id:ROW, data:{sel:state.sel, notes:state.notes, t:t}, updated_at:new Date().toISOString()})
+  })
+  .then(function(r){ if(!r.ok) throw new Error(r.status); cloudStatus("ok","Saved to cloud"); })
+  .catch(function(){ cloudStatus("err","Not synced, saved on this device"); });
+}
+function pull(){
+  cloudStatus("busy","Syncing");
+  return fetch(SB_URL + "?id=eq." + ROW + "&select=data", {headers:sbHeaders()})
+    .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function(rows){
+      pulled = true;
+      var c  = rows[0] && rows[0].data;
+      var ct = c ? Number(c.t)||0 : 0;
+      var lt = localT();
+      var hasLocal = Object.keys(state.sel).length>0 || Object.keys(state.notes).length>0;
+
+      if(!c || !c.sel){                       /* nothing in the cloud yet */
+        if(hasLocal) return push();
+        cloudStatus("ok","Saved to cloud"); return;
+      }
+      if(lt === 0 && hasLocal){
+        /* picked before sync existed: fold this device into the cloud copy, never replace it */
+        Object.keys(c.sel).forEach(function(k){ state.sel[k] = true; });
+        Object.keys(c.notes||{}).forEach(function(k){ if(!state.notes[k]) state.notes[k] = c.notes[k]; });
+        try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){}
+        render(); return push();
+      }
+      if(ct > lt){
+        state.sel = c.sel || {};
+        state.notes = c.notes || {};
+        try{
+          localStorage.setItem(KEY, JSON.stringify(state));
+          localStorage.setItem(KEY+"_t", String(ct));
+        }catch(e){}
+        render();
+        cloudStatus("ok","Saved to cloud");
+      } else if(lt > ct){ return push(); }
+      else cloudStatus("ok","Saved to cloud");
+    })
+    .catch(function(){ cloudStatus("err","Offline, saved on this device"); });
+}
 
 let filter = "all";
 let query = "";
@@ -1246,8 +1337,14 @@ document.getElementById("dlBtn").addEventListener("click", ()=>{
   setTimeout(()=> URL.revokeObjectURL(a.href), 2000);
 });
 
+document.getElementById("cloud").addEventListener("click", function(){
+  if(!pulled) pull();
+  else { clearTimeout(pushTimer); cloudStatus("busy","Saving"); push(); }
+});
+
 buildPills();
 render();
+if(!document.documentElement.hasAttribute("data-locked")) pull();
 </script>
 </body>
 </html>
