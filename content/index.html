@@ -1,0 +1,1253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Story Bank</title>
+<script>
+/* gate: hide everything before first paint unless already unlocked */
+(function(){
+  var ok=false;
+  try{ ok = localStorage.getItem("jpt_content_ok")==="1"; }catch(e){}
+  if(!ok) document.documentElement.setAttribute("data-locked","1");
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#121212;
+  --bg:#ffffff;
+  --soft:#fafafa;
+  --line:#e7e7e7;
+  --line-strong:#d4d4d4;
+  --muted:#6e6e6e;
+  --accent:#d62828;
+  --accent-soft:#fdeeee;
+  --radius:10px;
+  --max:980px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  font-size:15px;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+
+/* header */
+header{border-bottom:1px solid var(--line);padding:48px 0 28px}
+.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:600;margin:0 0 10px}
+h1{font-size:34px;line-height:1.15;font-weight:700;letter-spacing:-.02em;margin:0 0 10px}
+.lede{color:var(--muted);max-width:60ch;margin:0}
+.formula{margin-top:22px;border:1px solid var(--line);border-radius:var(--radius);background:var(--soft)}
+.formula summary{cursor:pointer;padding:12px 16px;font-weight:600;font-size:13px;list-style:none}
+.formula summary::-webkit-details-marker{display:none}
+.formula summary::before{content:"+";display:inline-block;width:16px;color:var(--accent);font-weight:700}
+.formula[open] summary::before{content:"\2212"}
+.formula .body{padding:0 16px 16px;font-size:13.5px;color:#333}
+.formula .body p{margin:0 0 10px}
+.formula .body ul{margin:0 0 10px;padding-left:18px}
+.formula .body li{margin-bottom:4px}
+
+/* toolbar */
+.toolbar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.toolbar .wrap{padding-top:14px;padding-bottom:14px}
+.row1{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.search{flex:1 1 220px;min-width:0;position:relative}
+.search input{
+  width:100%;padding:9px 12px;border:1px solid var(--line-strong);border-radius:8px;
+  font:inherit;font-size:14px;background:#fff;color:var(--ink)
+}
+.search input:focus{outline:2px solid var(--accent);outline-offset:-1px;border-color:var(--accent)}
+.count{font-size:13px;color:var(--muted);white-space:nowrap}
+.count b{color:var(--ink);font-weight:600}
+button{font:inherit;cursor:pointer}
+.btn{
+  padding:9px 14px;border:1px solid var(--line-strong);background:#fff;color:var(--ink);
+  border-radius:8px;font-size:13px;font-weight:500;white-space:nowrap
+}
+.btn:hover{border-color:var(--ink)}
+.btn.primary{background:var(--ink);border-color:var(--ink);color:#fff}
+.btn.primary:hover{background:#000}
+.btn.ghost{border-color:transparent;color:var(--muted);padding-left:8px;padding-right:8px}
+.btn.ghost:hover{color:var(--accent);border-color:transparent}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.pill{
+  padding:5px 11px;border:1px solid var(--line-strong);background:#fff;border-radius:999px;
+  font-size:12.5px;color:var(--muted)
+}
+.pill[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.pill .n{opacity:.55;margin-left:5px;font-variant-numeric:tabular-nums}
+
+/* list */
+main{padding:28px 0 90px}
+.empty{padding:60px 0;text-align:center;color:var(--muted)}
+.item{border-bottom:1px solid var(--line)}
+.item.sel{background:var(--accent-soft)}
+.head{display:flex;gap:14px;align-items:flex-start;padding:14px 10px;cursor:pointer}
+.head:hover{background:rgba(0,0,0,.02)}
+.item.sel .head:hover{background:rgba(214,40,40,.06)}
+.num{
+  font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;
+  width:26px;flex:0 0 26px;padding-top:3px
+}
+.item.sel .num{color:var(--accent);font-weight:600}
+.box{flex:0 0 auto;padding-top:2px}
+.box input{width:17px;height:17px;accent-color:var(--accent);cursor:pointer;margin:0}
+.meta{flex:1 1 auto;min-width:0}
+.title{font-weight:600;font-size:15.5px;letter-spacing:-.01em;margin:0}
+.banner{color:var(--accent);font-weight:600}
+.sub{margin:3px 0 0;font-size:13.5px;color:var(--muted)}
+.tag{
+  flex:0 0 auto;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
+  border:1px solid var(--line-strong);border-radius:999px;padding:3px 9px;margin-top:2px;white-space:nowrap
+}
+.chev{flex:0 0 auto;color:var(--muted);font-size:12px;padding-top:4px;transition:transform .15s}
+.item.open .chev{transform:rotate(90deg)}
+.detail{display:none;padding:2px 10px 22px 50px}
+.item.open .detail{display:block}
+.detail h4{
+  font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+  font-weight:600;margin:16px 0 5px
+}
+.detail p{margin:0;font-size:14px;max-width:72ch}
+.detail ol{margin:0;padding-left:18px;font-size:14px;max-width:72ch}
+.detail ol li{margin-bottom:3px}
+.note{
+  width:100%;max-width:72ch;margin-top:5px;padding:8px 10px;border:1px solid var(--line-strong);
+  border-radius:8px;font:inherit;font-size:13.5px;min-height:58px;resize:vertical;background:#fff;color:var(--ink)
+}
+.note:focus{outline:2px solid var(--accent);outline-offset:-1px;border-color:var(--accent)}
+
+/* dialog */
+dialog{border:1px solid var(--line-strong);border-radius:12px;padding:0;max-width:760px;width:calc(100% - 40px);color:var(--ink)}
+dialog::backdrop{background:rgba(0,0,0,.4)}
+.dlg-head{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-bottom:1px solid var(--line)}
+.dlg-head strong{font-size:15px}
+.dlg-body{padding:16px 18px}
+.dlg-body textarea{
+  width:100%;height:46vh;border:1px solid var(--line-strong);border-radius:8px;padding:12px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px;line-height:1.55;
+  resize:vertical;background:var(--soft);color:var(--ink)
+}
+.dlg-foot{display:flex;gap:8px;justify-content:flex-end;padding:0 18px 18px}
+
+footer{border-top:1px solid var(--line);padding:22px 0 40px;font-size:12.5px;color:var(--muted)}
+
+/* gate */
+#gate{display:none}
+html[data-locked] body > *:not(#gate){display:none !important}
+html[data-locked] #gate{
+  display:flex;align-items:center;justify-content:center;
+  position:fixed;inset:0;background:var(--bg);z-index:999;padding:20px
+}
+.gate-card{width:100%;max-width:340px;text-align:left}
+.gate-card .eyebrow{margin-bottom:8px}
+.gate-card h2{font-size:22px;font-weight:700;letter-spacing:-.02em;margin:0 0 4px}
+.gate-card p{margin:0 0 18px;color:var(--muted);font-size:13.5px}
+.gate-card form{display:flex;gap:8px}
+.gate-card input{
+  flex:1 1 auto;min-width:0;padding:10px 12px;border:1px solid var(--line-strong);
+  border-radius:8px;font:inherit;font-size:14px;background:#fff;color:var(--ink)
+}
+.gate-card input:focus{outline:2px solid var(--accent);outline-offset:-1px;border-color:var(--accent)}
+.gate-err{color:var(--accent);font-size:13px;margin:12px 0 0;min-height:18px}
+
+@media (max-width:640px){
+  header{padding:32px 0 22px}
+  h1{font-size:26px}
+  /* the pills wrap to five rows on a phone, so do not pin all that to the top */
+  .toolbar{position:static}
+  .detail{padding-left:10px}
+  .tag{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <div class="gate-card">
+    <p class="eyebrow">Story bank</p>
+    <h2>Password required</h2>
+    <p>This page is private.</p>
+    <form id="gateForm" autocomplete="off">
+      <input id="gatePw" type="password" placeholder="Password" aria-label="Password" autofocus>
+      <button class="btn primary" type="submit">Enter</button>
+    </form>
+    <p class="gate-err" id="gateErr" role="status"></p>
+  </div>
+</div>
+
+<header>
+  <div class="wrap">
+    <p class="eyebrow">Story bank</p>
+    <h1>100 story ideas in the bloxplain format</h1>
+    <p class="lede">True stories, unsolved mysteries and internet curiosities, shaped for short vertical video built in Roblox. Tick the ones worth making, add a note, then export the shortlist as a brief.</p>
+
+    <details class="formula">
+      <summary>The format these were written against</summary>
+      <div class="body">
+        <p>Read from the existing reels on the account: GTA 5 explained, why people hate noobs, stuck at 300 views, pretending to be asleep, why mums never answer, Ali Dia the fake footballer, the 500 million dollar art heist, the World Cup found by a dog, the Alcatraz escape, the D.B. Cooper mystery.</p>
+        <ul>
+          <li>Length: 30 to 60 seconds, vertical, one voice, no presenter on camera.</li>
+          <li>Opening line is the whole story compressed into one sentence with the ending withheld.</li>
+          <li>Thumbnail is a bold top title plus a red banner line at the bottom holding the twist.</li>
+          <li>Everything is staged with Roblox avatars and sets, however serious the subject.</li>
+          <li>Caption is two or three short lines, then a direct question to the viewer, then hashtags.</li>
+          <li>Two pillars: things that really happened, and things everybody quietly wonders about.</li>
+        </ul>
+        <p>Each idea below carries a title, a banner line, a hook, the story, the twist, four shot beats and a caption question, so it can go straight into a video build.</p>
+      </div>
+    </details>
+  </div>
+</header>
+
+<div class="toolbar">
+  <div class="wrap">
+    <div class="row1">
+      <div class="search"><input id="q" type="search" placeholder="Search titles, stories, categories" aria-label="Search stories"></div>
+      <span class="count"><b id="selCount">0</b> selected of <span id="shownCount">100</span></span>
+      <button class="btn" id="onlySel" aria-pressed="false">Selected only</button>
+      <button class="btn" id="expandAll">Expand all</button>
+      <button class="btn primary" id="exportBtn">Export shortlist</button>
+      <button class="btn ghost" id="clearBtn">Clear</button>
+    </div>
+    <div class="pills" id="pills"></div>
+  </div>
+</div>
+
+<main>
+  <div class="wrap">
+    <div id="list"></div>
+    <p class="empty" id="empty" hidden>Nothing matches that filter.</p>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">Selections and notes are saved in this browser automatically. Export produces a plain text brief you can paste into Claude, plus JSON if you want it in a pipeline.</div>
+</footer>
+
+<dialog id="dlg">
+  <div class="dlg-head">
+    <strong id="dlgTitle">Shortlist brief</strong>
+    <button class="btn ghost" id="dlgClose">Close</button>
+  </div>
+  <div class="dlg-body">
+    <div class="row1" style="margin-bottom:12px">
+      <button class="btn" id="fmtBrief" aria-pressed="true">Brief for Claude</button>
+      <button class="btn" id="fmtMd" aria-pressed="false">Markdown</button>
+      <button class="btn" id="fmtJson" aria-pressed="false">JSON</button>
+    </div>
+    <textarea id="out" readonly spellcheck="false"></textarea>
+  </div>
+  <div class="dlg-foot">
+    <button class="btn" id="dlBtn">Download file</button>
+    <button class="btn primary" id="copyBtn">Copy to clipboard</button>
+  </div>
+</dialog>
+
+<script>
+/* ---------- password gate ---------- */
+(function(){
+  var HASH = "59eeb71e712b6ea332f55f92dafd413ece8df6a5d979cd89076e3f489b24b383";
+  var B64  = "cmFoYQ==";
+  var form = document.getElementById("gateForm");
+  var pw   = document.getElementById("gatePw");
+  var err  = document.getElementById("gateErr");
+
+  function hex(buf){
+    return Array.prototype.map.call(new Uint8Array(buf), function(b){
+      return ("0"+b.toString(16)).slice(-2);
+    }).join("");
+  }
+  function check(v){
+    if(window.crypto && crypto.subtle && window.isSecureContext){
+      return crypto.subtle.digest("SHA-256", new TextEncoder().encode(v))
+        .then(function(buf){ return hex(buf)===HASH; });
+    }
+    /* file:// has no crypto.subtle, fall back to a direct comparison */
+    var enc; try{ enc = btoa(v); }catch(e){ enc = ""; }
+    return Promise.resolve(enc===B64);
+  }
+  function unlock(){
+    try{ localStorage.setItem("jpt_content_ok","1"); }catch(e){}
+    document.documentElement.removeAttribute("data-locked");
+  }
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    check(pw.value.trim()).then(function(match){
+      if(match){ unlock(); }
+      else { err.textContent = "That is not the password."; pw.select(); }
+    });
+  });
+  if(document.documentElement.hasAttribute("data-locked")) pw.focus();
+})();
+
+const CATS = {
+  mystery:"Unsolved mystery",
+  heist:"Heist",
+  hoax:"Hoax and impostor",
+  sport:"Sport",
+  survival:"Survival and escape",
+  gaming:"Gaming and internet",
+  life:"Everyday curiosity",
+  history:"Strange history"
+};
+
+const DATA = [
+/* ---------- UNSOLVED MYSTERY ---------- */
+{t:"FIVE PLANES VANISHED AT ONCE",b:"SO DID THE RESCUE PLANE",c:"mystery",
+h:"In 1945 five US Navy bombers took off on a routine exercise and none of them came back.",
+s:"Flight 19 left Florida on a two hour training run over the Atlantic. The lead pilot radioed that his compasses had failed and that nothing below looked right. Fourteen men and five aircraft were never found. A seaplane sent to search for them also disappeared, with thirteen more men on board.",
+w:"The search party vanished too, which is the detail that built the entire Bermuda Triangle legend.",
+sc:["Five Roblox planes in formation over blue water, sunlight, calm","Cockpit shot, the compass needle spinning, pilot's face lit by instruments","Radio room on shore, operator leaning in as the signal breaks up","Empty ocean at dusk, no wreckage, one slow push in"],
+q:"Navigation error or something else? Tell me what you think."},
+
+{t:"THE SHIP FOUND WITH NO CREW",b:"BREAKFAST WAS STILL ON THE TABLE",c:"mystery",
+h:"A ship was found in the middle of the Atlantic sailing perfectly well with nobody on board.",
+s:"In 1872 the Mary Celeste was spotted drifting under partial sail. Everything was in order below deck. The cargo of alcohol was almost untouched, there was food and water for months, and the crew's personal belongings were still there. The only thing missing was the lifeboat, the captain, his wife, his two year old daughter and seven sailors.",
+w:"They left a working ship on purpose and climbed into a small open boat, and nobody knows why.",
+sc:["Wide shot of a tall ship drifting, sails half set, grey sea","Deck walkthrough, rope coiled, nobody there","Below deck, a table with plates, a child's doll on a bunk","Empty davits where the lifeboat should hang"],
+q:"Why would ten people abandon a ship that was still floating?"},
+
+{t:"SHE FLEW INTO THE PACIFIC",b:"AND NEVER LANDED",c:"mystery",
+h:"The most famous pilot in the world was two thirds of the way around the planet when the radio went quiet.",
+s:"In 1937 Amelia Earhart and her navigator were trying to circle the globe. The hardest leg was a tiny island in the Pacific they had to hit from more than four thousand kilometres away. Her last transmissions said she was running low on fuel and could not see them. The biggest search in US naval history found nothing.",
+w:"Bones, a shoe heel and a jar of freckle cream were later found on a remote island, and the argument about them is still going.",
+sc:["Small silver plane on a dirt runway, crowd waving","Map table, a thread stretched across an enormous blue gap","Cockpit, fuel gauge low, static on the headset","A deserted beach, a single shoe in the sand, waves coming in"],
+q:"Did she crash at sea or land on the wrong island?"},
+
+{t:"NINE HIKERS RAN INTO THE SNOW",b:"THEY CUT THEIR WAY OUT OF THE TENT",c:"mystery",
+h:"Nine experienced hikers tore open their tent from the inside and ran into minus thirty degrees with no shoes on.",
+s:"In 1959 a group of students camped on a slope in the Ural Mountains. Searchers later found the tent slashed open from within and footprints leading downhill in socks and bare feet. The hikers were found scattered over the mountainside. Some had severe internal injuries with no external wounds.",
+w:"A 2021 study using avalanche modelling built for a Disney film offered the first explanation that fits the evidence, and people still argue about it.",
+sc:["Tent on a bare white slope at night, wind","Inside the tent, a knife slit opening, torchlight through it","Footprints in deep snow heading away downhill","A slab of snow shifting above the camp in slow motion"],
+q:"Avalanche, or do you think something else got them out of that tent?"},
+
+{t:"THE MAN ON THE BEACH",b:"NOBODY KNEW WHO HE WAS",c:"mystery",
+h:"A well dressed man was found dead on an Australian beach and nothing on him matched any person on Earth.",
+s:"In 1948 a body was found at Somerton Beach near Adelaide. Every label had been cut out of his clothes. He had no wallet and no identification. Months later police found a hidden pocket sewn into his trousers holding a rolled scrap of paper with two printed words from a book of Persian poetry.",
+w:"The copy of the book turned up in a stranger's car, with a phone number and a handwritten code nobody has ever cracked.",
+sc:["Morning beach, a figure resting against the seawall","Evidence table, clothes laid out, every label clipped away","Close on a tiny rolled slip of paper in a hidden pocket","A page of handwritten letters under a desk lamp"],
+q:"Spy, heartbreak or something ordinary? Your guess."},
+
+{t:"CROATOAN",b:"ONE HUNDRED PEOPLE ERASED",c:"mystery",
+h:"An entire English colony vanished from an island and left one word carved into a post.",
+s:"In 1587 more than a hundred settlers landed on Roanoke Island. Their governor sailed back to England for supplies and war delayed him for three years. When he finally returned the settlement had been dismantled, not destroyed. There were no bodies and no sign of a fight. Carved into the gatepost was the word CROATOAN, the name of a nearby island and the people who lived there.",
+w:"The houses had been taken apart carefully, which suggests the colonists left in their own time rather than being driven out.",
+sc:["Ship arriving at an empty shoreline, overgrown path","Walking through a cleared settlement, timber stacked neatly","Close on letters cut into a wooden post","Canoes on a distant shore at sunset"],
+q:"Did they join the Croatoan people or die trying to get there?"},
+
+{t:"SOMEONE HIJACKED THE TV",b:"NOBODY EVER FOUND HIM",c:"mystery",
+h:"For ninety seconds in 1987 a masked figure took over two Chicago television channels and nobody has ever been identified.",
+s:"Twice in one evening the broadcast signal was overpowered by an intruder wearing a Max Headroom mask. The second intrusion cut into a Doctor Who episode. The figure babbled, held up a soft drink can and was spanked with a flyswatter before the signal returned.",
+w:"Hijacking a broadcast tower signal needed serious equipment and knowledge, and nearly forty years later the FBI still has no name.",
+sc:["A living room, family watching TV, picture rolls and distorts","Studio control desk, engineers hammering buttons in panic","The masked figure against a corrugated panel, swaying","Signal snapping back to normal programming, silence in the room"],
+q:"Was this a prank or a message? Who do you think was behind it?"},
+
+{t:"SPACE SENT ONE SIGNAL",b:"THEN NEVER AGAIN",c:"mystery",
+h:"In 1977 a telescope picked up a signal so strong the astronomer wrote one word on the printout.",
+s:"The Big Ear radio telescope in Ohio recorded a 72 second burst from the direction of Sagittarius. It sat exactly where scientists had predicted a deliberate transmission would sit on the radio dial. Jerry Ehman circled the reading in red and wrote Wow. Nothing like it has ever been detected again despite decades of looking.",
+w:"The signal lasted exactly as long as the telescope could stay pointed at that patch of sky, which is exactly what a real source would do.",
+sc:["A huge flat radio telescope under a night sky","Printout paper crawling out of a machine, rows of digits","Close on a red pen circling six characters and writing a word","The same patch of sky, dead quiet, years passing"],
+q:"Alien signal or a one off piece of noise?"},
+
+{t:"THREE LIGHTHOUSE KEEPERS",b:"THE LAMP WAS STILL CLEAN",c:"mystery",
+h:"A supply boat reached a remote lighthouse and found the door closed, the beds made and all three keepers gone.",
+s:"In December 1900 the light on Eilean Mor in the Outer Hebrides went dark. When a relief crew arrived the lamp was trimmed and ready, the clocks had stopped and a meal sat half prepared. Two sets of oilskins were missing, which meant one man had gone outside into a storm without a coat.",
+w:"The log book entries describing a terrible storm were written on days when the weather nearby was recorded as calm.",
+sc:["A lighthouse on a black rock, heavy sea, no light burning","Empty kitchen, overturned chair, clock stopped","Coat hooks on a wall, one hook bare","Three figures on a landing stage as a wave rises behind them"],
+q:"Freak wave or something stranger? What is your theory?"},
+
+{t:"A BOOK NOBODY CAN READ",b:"600 YEARS AND NO PROGRESS",c:"mystery",
+h:"There is a medieval book full of writing in a language that has never existed anywhere else.",
+s:"The Voynich manuscript is around two hundred and forty pages of flowing script and illustrations of plants that do not grow, star charts and women in green pools. Carbon dating puts the parchment in the early 1400s. Codebreakers from both world wars have attacked it. Every claimed solution has collapsed under review.",
+w:"The script follows the statistical patterns of a real language, which makes a simple hoax hard to argue.",
+sc:["Gloved hands opening an old book under soft light","Pages of looping unknown letters","Illustrations of impossible plants with tangled roots","A codebreaker's desk, charts, crumpled attempts"],
+q:"Real lost language or the greatest hoax in history?"},
+
+{t:"THE CODE THAT TOOK 51 YEARS",b:"THREE AMATEURS CRACKED IT",c:"mystery",
+h:"A cipher sent to a newspaper in 1969 defeated the FBI for half a century, then three strangers on the internet solved it in a fortnight.",
+s:"The Zodiac killer sent a 340 character cipher to the San Francisco Chronicle. Professional codebreakers failed for decades. In 2020 a mathematician in Australia, a programmer in Belgium and a logistics worker in the United States worked out that the message was written diagonally in a shifting pattern, and ran it through software one of them had built.",
+w:"After fifty one years the message contained no name and no clue, just taunting.",
+sc:["Newspaper office, an envelope of symbols on a desk","Grid of strange characters filling the frame","Three home desks in three countries, screens glowing","The decoded line appearing one word at a time"],
+q:"Would you have spent fifty years on a puzzle like this?"},
+
+{t:"THE PIT THAT EATS MONEY",b:"226 YEARS OF DIGGING",c:"mystery",
+h:"A teenager found a dip in the ground on a small island in 1795 and people have been digging there ever since.",
+s:"Oak Island in Nova Scotia has swallowed enormous sums and six lives. Diggers reported wooden platforms every three metres, a stone with strange symbols, and flood tunnels that fill the shaft with seawater whenever anyone gets deep. Franklin Roosevelt invested in one of the digs.",
+w:"After more than two centuries nobody has proven there is anything down there at all.",
+sc:["A wooded island from the air, one scar of dug ground","Shovel hitting a wooden platform at depth","Water rushing sideways into a shaft, men scrambling up","Modern rigs and spoil heaps, the same hole, still empty"],
+q:"Buried treasure or the longest sunk cost in history?"},
+
+{t:"THE BOY FROM NOWHERE",b:"HE COULD BARELY WALK",c:"mystery",
+h:"A teenage boy appeared in a German square in 1828 able to say almost nothing except one sentence.",
+s:"Kaspar Hauser carried a letter and could barely speak. He said he had been raised alone in a dark cell and fed bread and water by someone he never saw. He flinched at daylight and could not manage stairs. Rumours spread that he was a hidden prince. Five years later he was fatally stabbed and said a stranger had done it.",
+w:"The wound was consistent with being self inflicted, so even his death is contested.",
+sc:["A boy standing alone in a town square, people circling","A bare dark room with a straw bed and a wooden horse","A doctor testing his reaction to a candle flame","A snowy park, footprints, a dropped purse"],
+q:"Lost prince or the best con artist of his century?"},
+
+{t:"THE TREASURE CODE",b:"ONE OF THREE IS SOLVED",c:"mystery",
+h:"A man left three coded papers in a locked box. One has been read. The other two still hide where the treasure is.",
+s:"In the 1880s a pamphlet published three ciphers said to come from Thomas Beale. The second was cracked using the Declaration of Independence as a key and describes thousands of pounds of gold and silver buried in Virginia. The first paper gives the location and the third names the owners. Neither has been broken.",
+w:"Plenty of experts believe the whole thing is a nineteenth century hoax designed to sell pamphlets, and people still dig anyway.",
+sc:["An iron box opened on an inn counter","Three sheets of numbers side by side","The Declaration of Independence with words being counted off","Metal detectors sweeping a Virginia field at dawn"],
+q:"Real gold or the oldest clickbait ever printed?"},
+
+{t:"A COMPUTER FROM 100 BC",b:"IT TRACKED THE PLANETS",c:"mystery",
+h:"Sponge divers pulled a lump of corroded bronze out of a shipwreck and it turned out to be a machine two thousand years ahead of its time.",
+s:"The Antikythera mechanism was found in 1901 off a Greek island. Scans later revealed more than thirty interlocking gears. It modelled the movement of the sun and moon, predicted eclipses and tracked the cycle of the games. Nothing of that complexity appears again in the record for over a thousand years.",
+w:"Whoever built it was not working alone, which means an entire tradition of engineering was lost.",
+sc:["Divers over a wreck, amphorae in the sand","A green corroded lump on a museum bench","CT scan revealing gear teeth layer by layer","A clean reconstruction turning, dials moving together"],
+q:"How much ancient technology do you think we simply lost?"},
+
+{t:"THE WOMAN WITH NO NAME",b:"SHE CARRIED EIGHT IDENTITIES",c:"mystery",
+h:"A woman was found in a Norwegian valley in 1970 surrounded by burnt belongings and every label removed.",
+s:"The Isdal Woman had scraped the serial numbers off her bottles and cut the labels from her clothes. Police found two suitcases at a railway station containing wigs, cash in several currencies and eight false passports. Witnesses said she had moved hotel constantly and spoke many languages. Nobody ever identified her.",
+w:"A 2017 study of her teeth and bones suggested she grew up near the French and German border, and she is still nameless.",
+sc:["A rocky valley, scattered items, a fur hat","Hotel register, a different name in the same handwriting","Suitcase opened, wigs and passports laid out","A police board of photographs with no name at the centre"],
+q:"Spy, smuggler or someone running from her own life?"},
+
+{t:"THE MAN FROM A COUNTRY THAT DOESN'T EXIST",b:"THEN HE VANISHED FROM A LOCKED ROOM",c:"mystery",
+h:"A businessman landed in Tokyo and handed over a passport from a country nobody could find on a map.",
+s:"The story goes that in 1954 a man arrived at Haneda airport with papers from Taured. He pointed to where Andorra sits and insisted his country had existed for a thousand years. Officials held him overnight in a guarded hotel room on an upper floor. In the morning the room was empty and his documents had gone from the office safe.",
+w:"Almost no documentary evidence survives, which makes the strongest version of this story the question of where the story itself came from.",
+sc:["Airport desk, passport slid across, officer frowning","A map on the wall, a finger between France and Spain","Hotel room door, a guard outside, corridor empty","Empty room, window shut, bed untouched"],
+q:"Great mystery or great urban legend? Be honest."},
+
+{t:"THE LOUDEST SOUND IN THE OCEAN",b:"IT WASN'T A MONSTER",c:"mystery",
+h:"In 1997 underwater microphones picked up a noise so loud it was heard across five thousand kilometres of ocean.",
+s:"The sound, nicknamed the Bloop, had the rising profile of something organic, which led to years of speculation about an undiscovered animal far larger than a blue whale. Scientists kept listening and comparing recordings.",
+w:"It was an icequake, a vast sheet of Antarctic ice cracking and scraping the seabed, and the real answer is somehow bigger than the monster.",
+sc:["Hydrophone sinking into black water","Spectrogram spiking across a dark screen","A huge shape implied in deep water, never shown clearly","An ice shelf splitting, slabs grinding on rock"],
+q:"Were you hoping for the monster too?"},
+
+/* ---------- HEIST ---------- */
+{t:"HE BEAT TEN SECURITY LAYERS",b:"A SANDWICH CAUGHT HIM",c:"heist",
+h:"A team got through a vault protected by heat sensors, seismic alarms, infrared and a lock with a hundred million combinations, and then lost it all over rubbish.",
+s:"In 2003 Leonardo Notarbartolo spent over two years renting an office inside the Antwerp Diamond Centre. His crew defeated every layer of security in a single weekend and emptied more than a hundred safe deposit boxes.",
+w:"A partly eaten sandwich dumped in woods nearby carried DNA, and the stones have never been recovered.",
+sc:["A quiet office above a vault, a hidden camera in a fire extinguisher","Hairspray on an infrared sensor, the beam going blind","Safe boxes popping open one after another","A rubbish bag in woodland, police torchlight on a sandwich wrapper"],
+q:"Perfect crime ruined by lunch. What would you have done differently?"},
+
+{t:"PENSIONERS DRILLED THE VAULT",b:"AVERAGE AGE 63",c:"heist",
+h:"The biggest burglary in English legal history was pulled off by a crew mostly old enough to collect a pension.",
+s:"Over the 2015 Easter weekend a group of veteran criminals disabled a lift in a Hatton Garden safe deposit building, climbed down the shaft and drilled through a reinforced concrete wall with an industrial core drill. They came back a second night when the first attempt stalled.",
+w:"They were caught because they talked in a pub and drove a distinctive car past a camera.",
+sc:["A quiet jewellery street, shutters down for the holiday","Lift shaft, a figure climbing down slowly with a bag","A heavy drill biting into concrete, dust everywhere","Pub table, old men talking, a police microphone under it"],
+q:"Experience or luck? What got them that far?"},
+
+{t:"THEY STOPPED A MAIL TRAIN",b:"WITH A FAKE RED LIGHT",c:"heist",
+h:"Fifteen men robbed a Royal Mail train of two and a half million pounds using a glove, a battery and a red signal lamp.",
+s:"In 1963 the gang covered a green signal and wired a red one to a battery so the train stopped where they wanted it. They uncoupled the engine and two carriages, drove them down the track and formed a human chain to unload sacks of banknotes into a lorry.",
+w:"They hid at a farmhouse and played Monopoly with the real money, leaving fingerprints all over the board.",
+sc:["Night track, a gloved hand taping a signal lamp","Train slowing, driver leaning out, confusion","A chain of figures passing mailbags under torchlight","Farmhouse table, Monopoly board, real banknotes scattered"],
+q:"Which bit would you have got wrong first?"},
+
+{t:"HE STOLE THE MONA LISA",b:"AND MADE IT FAMOUS",c:"heist",
+h:"The most famous painting on Earth was not that famous until a handyman walked out of the Louvre with it under his coat.",
+s:"In 1911 Vincenzo Peruggia hid in a cupboard overnight, lifted the painting off its hooks in the morning, took it out of its frame on a staircase and walked out. Nobody noticed for over a day. The empty wall drew bigger crowds than the painting ever had.",
+w:"He kept it in a trunk in his flat for two years, then was caught trying to sell it to a gallery in Florence because he believed he was returning it to Italy.",
+sc:["Museum closing, a figure stepping into a storage cupboard","Empty wall with four iron hooks, crowds staring at nothing","A painting wrapped in cloth inside a wooden trunk","A Florence hotel room, the lid opening, a dealer frozen"],
+q:"Did the thief accidentally create the most famous picture in the world?"},
+
+{t:"THEY TUNNELLED INTO A BANK",b:"THREE MONTHS UNDERGROUND",c:"heist",
+h:"A gang rented a shop, told everybody they sold artificial grass, and spent three months digging a tunnel into a national bank.",
+s:"In 2005 a crew in Fortaleza, Brazil dug roughly eighty metres under two city blocks. The tunnel was lined, lit and air conditioned. Lorry loads of soil left the shop disguised as landscaping supplies. Over a weekend they came up through a metre of steel reinforced concrete into the vault.",
+w:"They took so much cash that the weight became the hard part, and most of it was never recovered.",
+sc:["A shop front with rolls of fake grass in the window","A lit tunnel with wooden supports running into darkness","Drilling up through a concrete floor into a vault","Pallets of banknotes, bags being filled against the clock"],
+q:"Three months of digging. Would you have the patience?"},
+
+{t:"THE GREEN VAULT ROBBERY",b:"IN AND OUT IN MINUTES",c:"heist",
+h:"Two men smashed a display case in one of Europe's oldest treasure chambers and walked off with jewels that cannot be sold.",
+s:"In 2019 a gang set fire to an electrical box to kill the street lights outside Dresden Castle, cut through a window grille and used an axe on a case holding eighteenth century diamond sets. They were inside for a matter of minutes.",
+w:"The pieces are so recognisable that breaking them up destroys most of their value, which is why much of the haul was eventually handed back in a deal.",
+sc:["A street losing its lights one lamp at a time","A window grille sawn through, torchlight inside","An axe striking a glass case, jewels scattering","A car burning in a car park, sirens arriving late"],
+q:"If you cannot sell it, why steal it?"},
+
+{t:"THE BIGGEST CASH ROBBERY",b:"THEY KIDNAPPED THE MANAGER",c:"heist",
+h:"A gang took over fifty three million pounds from a depot by pretending to be police officers.",
+s:"In 2006 a crew in fake police uniforms pulled over the manager of a Securitas cash centre in Kent, told him he was under arrest and drove him away. Another team took his family. The gang then walked him into his own building and emptied the cages.",
+w:"The money was so bulky they could not fit it all in the lorry and left millions behind on the floor.",
+sc:["A fake police car pulling over a family saloon at night","A depot door opening from the inside, figures in balaclavas","Cages of banknotes, a lorry filling up","Stacks of cash left on a concrete floor, doors swinging"],
+q:"They left millions behind because it would not fit. Planning failure or greed?"},
+
+{t:"THE CROWN JEWELS DISAPPEARED",b:"THE LOCK WASN'T FORCED",c:"heist",
+h:"Ireland's crown jewels vanished from a castle strongroom days before a royal visit and were never seen again.",
+s:"In 1907 the jewels of the Order of St Patrick were kept in a safe in Dublin Castle. When the safe was opened the jewels were gone with no sign of a break in. Seven keys to the outer door were unaccounted for and the officer responsible had a habit of showing off the collection after dinner.",
+w:"The investigation was shut down quickly, which has fed a century of theories about who was being protected.",
+sc:["A castle strongroom, a heavy safe standing open","A dinner party, a tray of jewels passed around","A ring of keys hanging on an unlocked hook","Newspaper headline, then a file stamped closed"],
+q:"Inside job or cover up? Where would you look first?"},
+
+{t:"THEY SMILED AT THE CAMERA",b:"ONE MINUTE, 136 MILLION",c:"heist",
+h:"A single man walked into a hotel exhibition in Cannes, took a case of diamonds and was gone in about a minute.",
+s:"In 2013 a jewellery show at the Carlton Hotel was robbed in daylight. The thief came through a door that had been left unsecured, pointed a handgun, swept the display into a bag and left through the same door. Estimates put the haul at over a hundred million euros.",
+w:"The room had three unarmed guards and a door that should not have been openable from the outside.",
+sc:["A sunlit hotel terrace, security guard checking a list","A side door swinging open, a figure in a cap and scarf","Gloved hands sweeping trays into a holdall","An empty promenade, the Mediterranean, nobody running"],
+q:"One minute of work. How does a room like that stay unguarded?"},
+
+{t:"THE AIRPORT ROBBERY",b:"ALMOST EVERYONE DIED AFTER",c:"heist",
+h:"A crew took six million dollars from an airport cargo building and then the man who organised it started removing witnesses.",
+s:"The 1978 Lufthansa robbery at JFK was, at the time, the largest cash theft in American history. An inside man gave the crew the schedule and the layout. The money was never recovered.",
+w:"Most of the people involved were killed within months, which is why so little of the story was ever proven in court.",
+sc:["A cargo terminal at night, a van rolling to the loading bay","Guards face down, a trolley of sealed bags","A back room, cash on a table, uneasy faces","Empty chairs in a bar, one by one, no explanation"],
+q:"The perfect robbery with the worst ending. Would you have taken the cut?"},
+
+{t:"THE GANG THAT DROVE INTO SHOPS",b:"THEY HIT 100 TIMES",c:"heist",
+h:"A loose network of thieves from the Balkans hit high end jewellers across the world, sometimes by driving straight through the front window.",
+s:"The Pink Panthers were named after a stolen diamond that was found hidden in a jar of face cream, a trick lifted from the film. They worked fast, scouted for months, and used disguises, bicycles and sports cars to get clear. Interpol has linked them to hundreds of robberies.",
+w:"They were not one gang but a shifting pool of people who knew each other, which made them almost impossible to shut down.",
+sc:["Two limousines crashing through a shopping arcade window","Sledgehammers on display cases, forty seconds on a timer","A diamond dropped into a jar of face cream","Interpol wall map with pins across twenty countries"],
+q:"Hundreds of robberies, no leader. How do you stop a gang like that?"},
+
+{t:"THEY CUT THROUGH THE ROOF",b:"AND LEFT A NOTE",c:"heist",
+h:"Robbers emptied hundreds of safe deposit boxes in London and left a message for the police on the wall.",
+s:"In 1987 a man asked to rent a box at a Knightsbridge safe deposit centre, was taken into the vault and then pulled a gun on the manager. Accomplices let themselves in and hung a closed sign on the door. They had the vault to themselves.",
+w:"They left a line painted on the wall thanking the owner for leaving the door open, and plenty of the box holders never reported what they had lost.",
+sc:["A smart reception, a client being shown through a steel door","A closed sign hung on a glass entrance","Rows of deposit boxes levered open, contents on the floor","Spray paint drying on a vault wall"],
+q:"Why do you think so many victims stayed quiet?"},
+
+/* ---------- HOAX AND IMPOSTOR ---------- */
+{t:"HE FLEW PLANES HE COULDN'T FLY",b:"THE REAL TWIST IS BIGGER",c:"hoax",
+h:"A teenager talked his way into an airline uniform, a hospital and a courtroom, and that is only the first half of the story.",
+s:"Frank Abagnale became famous for claiming he had posed as a pilot, a doctor and a lawyer while cashing forged cheques across dozens of countries, before working for the FBI. The story became a bestselling book and a Hollywood film.",
+w:"Journalists later checked the records and found that large parts of the legend do not stand up, which means the biggest con he ever ran may have been the story itself.",
+sc:["A young man adjusting a pilot's cap in a mirror","Cheques coming off a press, ink still wet","A hospital corridor, a confident walk past real doctors","A reporter at a microfiche machine finding a contradiction"],
+q:"Is a con man who fooled the world about being a con man the greatest of all time?"},
+
+{t:"HE SOLD THE EIFFEL TOWER",b:"THEN HE SOLD IT AGAIN",c:"hoax",
+h:"A con man read a newspaper article about repair costs and decided to sell a national monument for scrap.",
+s:"In 1925 Victor Lustig had fake government stationery printed, invited six scrap metal dealers to a hotel and explained in confidence that the tower was too expensive to maintain and would be dismantled. He picked the most eager buyer, took the money and a bribe on top, and left for Austria.",
+w:"The victim was too embarrassed to go to the police, so Lustig came back to Paris and ran exactly the same con a second time.",
+sc:["A newspaper article about repair costs on a cafe table","Hotel suite, six businessmen, official looking letterhead","A briefcase of cash sliding across a table","A train pulling out, the tower shrinking in the window"],
+q:"Would you have fallen for the paperwork?"},
+
+{t:"THE MISSING LINK WAS FAKE",b:"IT FOOLED SCIENCE FOR 40 YEARS",c:"hoax",
+h:"British scientists spent four decades building a story of human evolution around a skull that somebody had glued together.",
+s:"In 1912 fragments found in a gravel pit in Sussex were presented as the missing link between apes and humans. It fitted national pride neatly. Doubts grew as real fossils found elsewhere refused to match.",
+w:"In 1953 proper testing showed it was a medieval human skull with the jaw of an orangutan, filed down and stained to look old.",
+sc:["A gravel pit, a fragment lifted from the soil","A lecture hall, a reconstructed skull on a plinth, applause","A file and a bottle of stain on a workbench","1953 lab, a chemical test turning the wrong colour"],
+q:"How does a fake survive forty years of experts?"},
+
+{t:"TWO GIRLS FOOLED A GENIUS",b:"WITH PAPER CUT-OUTS",c:"hoax",
+h:"Two cousins borrowed a camera and convinced the creator of Sherlock Holmes that fairies were real.",
+s:"In 1917 Elsie Wright and Frances Griffiths photographed themselves with fairies at the bottom of their garden in Cottingley. Arthur Conan Doyle published the pictures and argued for them in print. The country split over whether they were genuine.",
+w:"The fairies were drawings copied from a children's book, propped up with hatpins, and the cousins kept the secret for over sixty years.",
+sc:["A stream in a garden, two girls with a plate camera","A paper fairy on a hatpin pushed into soft ground","A London study, the photographs under a magnifying glass","An old woman in the 1980s finally saying how it was done"],
+q:"Why do clever people believe the thing they want to be true?"},
+
+{t:"THE FAKE HEIRESS",b:"SHE BORROWED A WHOLE LIFE",c:"hoax",
+h:"A young woman convinced New York bankers, hotels and gallery owners that she was a German heiress with a fortune waiting to land.",
+s:"Anna Sorokin, calling herself Anna Delvey, moved through Manhattan between 2013 and 2017 on confidence, big tips and a story about a trust fund. She tried to secure a loan of tens of millions to lease a building for a private arts club.",
+w:"Her defence argued that she was only doing openly what the city around her already did quietly, which made people very uncomfortable.",
+sc:["A hotel lobby, luggage, a confident check in","A bank meeting, documents slid across polished wood","A friend quietly paying a bill that was never repaid","A courtroom, cameras, a designer outfit chosen for the day"],
+q:"Did she fool New York or did New York want to be fooled?"},
+
+{t:"A NEWSPAPER FOUND LIFE ON THE MOON",b:"PEOPLE BELIEVED IT FOR WEEKS",c:"hoax",
+h:"In 1835 a New York paper reported that a famous astronomer had seen bat winged people living on the moon.",
+s:"The Sun ran six articles describing lunar forests, beaches, bison and winged humanoids, all supposedly observed through a vast new telescope at the Cape of Good Hope. Circulation soared. Rival papers reprinted it. The astronomer named in the story knew nothing about it.",
+w:"The paper never ran a proper retraction, and the writer kept the joke going for years afterwards.",
+sc:["A printing press running, newsboys grabbing bundles","Engravings of winged figures among lunar trees","A crowd reading aloud on a street corner","The real astronomer opening a letter in confusion"],
+q:"Would you have believed it in 1835? Be honest."},
+
+{t:"HE PERFORMED REAL SURGERY",b:"HE HAD NO TRAINING AT ALL",c:"hoax",
+h:"A man with no medical training operated on wounded sailors on a warship and all of them survived.",
+s:"Ferdinand Waldo Demara posed as a monk, a prison warden, a teacher and finally a Canadian naval surgeon during the Korean War. Faced with casualties needing surgery, he read a textbook, improvised, and completed the operations.",
+w:"He was exposed because a newspaper story praised his skill, and the real doctor whose name he had taken read it.",
+sc:["A ship's sick bay, instruments laid out, a borrowed textbook","Hands working under a lamp, crew watching","A newspaper article praising the ship's surgeon","A kitchen in Canada, a doctor staring at his own name in print"],
+q:"He saved lives with a stolen name. What should happen to him?"},
+
+{t:"THE FESTIVAL THAT NEVER EXISTED",b:"THEY SERVED CHEESE SANDWICHES",c:"hoax",
+h:"Thousands of people paid for a luxury music festival on a private island and arrived to find a field of disaster tents.",
+s:"Fyre Festival in 2017 was sold with supermodels, villas and private jets. There were no villas. Flights were cancelled, luggage was dumped in the dark, and the famous dinner photograph showed two slices of bread, cheese and a side salad in a polystyrene box.",
+w:"The marketing was so good that the organisers raised millions from investors on the strength of pictures of a beach.",
+sc:["Models on jet skis, drone shot, saturated colour","A plane landing on a small island at dusk","Rows of soaked disaster relief tents in a car park","A polystyrene box with two slices of bread, phone flash"],
+q:"Was this fraud or just marketing that went too far?"},
+
+{t:"THE CHESS MACHINE THAT COULDN'T LOSE",b:"THERE WAS A MAN INSIDE",c:"hoax",
+h:"For over eighty years a wooden figure in a turban beat the best players in Europe, including Napoleon.",
+s:"The Turk was built in 1770 and toured the world. Its owner would open the cabinet doors to show gears and machinery before each game. Benjamin Franklin played it. Edgar Allan Poe wrote an essay trying to work out the trick.",
+w:"A skilled human player sat inside on a sliding seat, moving between compartments as the doors were opened in sequence.",
+sc:["A grand hall, a cabinet with a turbaned figure at a chessboard","Doors opened in order, gears and candlelight","Inside the cabinet, a cramped seat, a magnetic board","Napoleon losing, the crowd delighted"],
+q:"The first fake AI. What is today's version of this?"},
+
+{t:"THE SPAGHETTI HARVEST",b:"THE BBC DID IT ON PURPOSE",c:"hoax",
+h:"In 1957 Britain's most serious news programme showed a family in Switzerland picking spaghetti off trees.",
+s:"The three minute film was broadcast on 1 April on Panorama with a sober voiceover about a mild winter and the defeat of the spaghetti weevil. Hundreds of viewers rang in. Many wanted to know how to grow their own.",
+w:"The BBC reportedly told callers to place a sprig of spaghetti in a tin of tomato sauce and hope for the best.",
+sc:["A sunny orchard, women lifting strands of pasta from branches","A family dinner table, a steaming plate","A living room, a family leaning towards the television","A switchboard lighting up, operators smiling"],
+q:"What would you have believed before the internet existed?"},
+
+{t:"THE HORSE THAT COULD COUNT",b:"HE WAS READING FACES",c:"hoax",
+h:"A horse in Berlin appeared to do arithmetic by tapping his hoof, and he was right almost every time.",
+s:"Clever Hans drew crowds in the early 1900s. A scientific commission in 1907 could find no trickery and concluded the horse really was answering. A psychologist then ran the test differently.",
+w:"When the questioner did not know the answer, Hans failed. He was reading tiny changes in posture and breathing, which is a more impressive skill than arithmetic.",
+sc:["A courtyard crowd, a horse tapping a hoof, a man counting","A blackboard sum, the horse stopping at the right number","A blindfolded questioner, the horse tapping on and on","Close on a human jawline tensing, almost nothing"],
+q:"Is reading people better than doing maths? I think so."},
+
+{t:"HITLER'S DIARIES WERE FORGED",b:"A MAGAZINE PAID MILLIONS",c:"hoax",
+h:"A German magazine paid a fortune for sixty handwritten volumes and announced that history would have to be rewritten.",
+s:"In 1983 Stern published extracts from diaries supposedly recovered from a plane crash. Experts were given limited access. A famous historian initially vouched for them, then changed his mind at the press conference.",
+w:"The paper, ink and binding were all modern, and the forger had copied his content out of a published book of speeches, including its mistakes.",
+sc:["A locked case opened for cameras, bound volumes inside","A press conference, a historian's face changing","Lab bench, paper under ultraviolet light, modern whitener glowing","A forger's flat, aged tea stains and a borrowed reference book"],
+q:"How much checking would you do before spending millions?"},
+
+{t:"THE RADIO SHOW THAT CAUSED PANIC",b:"THE PANIC WAS ALSO FAKE",c:"hoax",
+h:"Everybody knows America panicked over a radio drama about Martians in 1938, and that is mostly not true.",
+s:"Orson Welles broadcast War of the Worlds as a series of fake news bulletins. Some listeners who joined late were frightened and rang stations. Newspapers the next day reported mass hysteria, riots and suicides.",
+w:"Ratings data shows very few people were listening, and the newspaper industry had a commercial reason to make radio look dangerous.",
+sc:["A radio studio, Welles at the microphone, sound effects","A living room, a family leaning in, dance music interrupted","Newspaper front pages shouting about panic","Ratings paperwork showing a tiny audience"],
+q:"The panic story is more famous than the broadcast. Why does that happen?"},
+
+{t:"SHE WON THE MARATHON",b:"SHE RAN ABOUT A MILE",c:"hoax",
+h:"A woman crossed the line first at the Boston Marathon looking far too fresh for someone who had just run forty two kilometres.",
+s:"In 1980 Rosie Ruiz appeared near the front in the final stretch. Other runners did not remember passing her. Photographers had no pictures of her on the course. Spectators later said they had seen her join the race near the end.",
+w:"Her qualifying time in New York was also disputed, with witnesses saying she had spent part of that race on the subway.",
+sc:["A finish line, arms up, a surprisingly clean running vest","Press photographers flicking through contact sheets, no match","Two spectators pointing at a junction near the end of the course","An official lifting a medal back off a table"],
+q:"What gives a cheat away faster than the evidence?"},
+
+/* ---------- SPORT ---------- */
+{t:"HE PUNCHED THE BALL IN",b:"AND CALLED IT GOD",c:"sport",
+h:"The most argued about goal in football history was scored with a hand, in front of a referee, and it counted.",
+s:"In the 1986 World Cup quarter final Diego Maradona rose with England's goalkeeper and knocked the ball into the net with his fist. The referee gave the goal. Four minutes later Maradona ran half the length of the pitch past five players and scored what was later voted the goal of the century.",
+w:"The same man produced the worst and the best goal in the same match, and the first one is the one people still shout about.",
+sc:["Packed stadium, heat haze, a high ball dropping","Slow motion, a fist meeting the ball above a goalkeeper","Referee pointing to the centre circle, England players surrounding him","The second goal, a run through five defenders, crowd rising"],
+q:"Cheating or genius? You have to pick one."},
+
+{t:"HE CAME LAST BY A MINUTE",b:"AND BECAME A LEGEND",c:"sport",
+h:"A plasterer with thick glasses became Britain's first ever Olympic ski jumper because nobody else turned up.",
+s:"Eddie Edwards qualified for the 1988 Winter Olympics by default. He was self funded, wore borrowed equipment and had to tie his helmet on with string. He finished last in both events and set a British record in the process, because he was the only British entrant.",
+w:"He was so popular that the rules were changed afterwards to require proper international placings, which is still known as the Eddie the Eagle rule.",
+sc:["A plastering job in England, a passport and a plan","Second hand skis, a helmet tied with string","The jump, a short flight, a clean landing, arms up","A packed stadium chanting a name while he finishes last"],
+q:"Is finishing last sometimes the better story?"},
+
+{t:"STUDENTS BEAT THE BEST TEAM EVER",b:"NOBODY GAVE THEM A CHANCE",c:"sport",
+h:"A team of American college students beat a Soviet ice hockey side that had not lost a serious match in years.",
+s:"At the 1980 Winter Olympics the Soviet team had taken gold at four straight games and had beaten an NHL all star side weeks earlier. The United States squad were amateurs with an average age of twenty one. They went ahead with ten minutes left and held on.",
+w:"The game was not even live on American television, so most of the country watched it hours after it finished already knowing the result.",
+sc:["A changing room, a coach talking quietly to young players","Fast hockey, a puck finding the top corner","A clock ticking down, a goalkeeper spread wide","Living rooms watching a tape delay, still shouting"],
+q:"What is the biggest upset you have ever watched?"},
+
+{t:"5000 TO 1",b:"THE SEASON THAT BROKE BETTING",c:"sport",
+h:"A club that had almost been relegated the year before won the Premier League at odds of five thousand to one.",
+s:"In the 2015-16 season Leicester City finished above every club in England. The bookmakers had rated them less likely to win than finding the Loch Ness monster. Their top scorer had been playing non league football a few years earlier.",
+w:"So few people had backed them that a handful of small bets turned into life changing payouts, and bookmakers paid out early to limit the damage.",
+sc:["A betting slip being written, a shrug from the cashier","A cramped stadium, a counter attack goal","A living room full of people watching another team lose","A trophy lift under blue confetti"],
+q:"What is the longest odds bet you would actually place?"},
+
+{t:"HE LEARNED TO SWIM IN A LAKE",b:"THEN SWAM AT THE OLYMPICS",c:"sport",
+h:"A swimmer from Equatorial Guinea had only learned eight months earlier and had never seen a fifty metre pool.",
+s:"Eric Moussambani reached the Sydney 2000 Olympics through a programme designed to include developing nations. Both of his heat rivals were disqualified for false starts, leaving him to swim alone. He struggled badly over the last twenty five metres and finished in more than double the winning time.",
+w:"The whole stadium stood and roared him home, and his time was still a national record.",
+sc:["A hotel pool at home, counting lengths, no lane ropes","An Olympic pool from the blocks, enormous and empty","Slowing arms, legs sinking, the crowd rising to its feet","A hand touching the wall, exhaustion, applause"],
+q:"Winning is not always the point. Agree?"},
+
+{t:"SEVEN TITLES ERASED",b:"HE PASSED EVERY TEST",c:"sport",
+h:"A cyclist won the hardest race in sport seven times in a row, passed hundreds of drug tests, and lost it all.",
+s:"Lance Armstrong returned from cancer to dominate the Tour de France. He attacked anyone who accused him. In 2012 the United States Anti-Doping Agency published a report built on testimony from teammates rather than a failed test, describing the most sophisticated doping programme the sport had seen.",
+w:"He never failed a test at the time, which is the part that should worry people most.",
+sc:["A mountain stage, yellow jersey riding away from the field","A press conference, denials, cameras","A team bus with the curtains closed","A list of years on a record board, each one going blank"],
+q:"If the tests cannot catch it, what does a clean sport even mean?"},
+
+{t:"THEY ATTACKED THE OTHER SKATER",b:"ON THE WAY TO THE OLYMPICS",c:"sport",
+h:"A figure skater was clubbed on the leg in a corridor six weeks before the Winter Olympics, and the plan came from her rival's circle.",
+s:"In January 1994 Nancy Kerrigan was attacked after practice in Detroit. The plot was traced to the ex husband of her rival Tonya Harding and his associates. Harding denied knowing in advance, later pleaded guilty to hindering the investigation and was banned for life.",
+w:"Both skated at the Olympics weeks later, Kerrigan took silver and Harding finished eighth with a broken lace.",
+sc:["A practice rink corridor, a figure waiting with a baton","Press pack outside a house, long lenses","Two skaters on the same Olympic ice, not looking at each other","A broken bootlace held up to a judge, time ticking"],
+q:"Pressure or cruelty? Where does it come from?"},
+
+{t:"A RACEHORSE WAS KIDNAPPED",b:"NEVER FOUND",c:"sport",
+h:"The most valuable racehorse in the world was taken from his stable in 1983 and no trace of him has ever turned up.",
+s:"Shergar had won the Epsom Derby by ten lengths, the biggest winning margin in its history. He was syndicated for millions and retired to stud in Ireland. Masked men took him from his box one February night and demanded a ransom from a syndicate of dozens of owners who could not agree to pay.",
+w:"Negotiating with that many owners was impossible, and the trail went cold within days.",
+sc:["A floodlit stable yard, a horsebox reversing in","A phone ringing in a quiet office, a ransom demand","A room of owners arguing around a long table","An empty stall, a nameplate, dust in the light"],
+q:"Who takes a horse that every person in racing would recognise?"},
+
+{t:"HE RIGGED HIS OWN SWORD",b:"CAUGHT AT THE OLYMPICS",c:"sport",
+h:"A fencer wired a switch into his weapon so he could score hits without touching anybody.",
+s:"At the 1976 Montreal Olympics Boris Onischenko of the Soviet Union faced the British modern pentathlon team. Opponents noticed the scoring light coming on when no hit had landed. Officials examined the weapon and found a concealed circuit in the grip.",
+w:"He was sent home and his entire team was disqualified, and British athletes nicknamed him Disonischenko.",
+sc:["A fencing piste, two competitors, a scoring light","A light flashing with no contact, confusion on the strip","Officials unscrewing a sword grip at a table","A team bench being cleared, blazers walking away"],
+q:"Was he more likely to get caught or to get away with it?"},
+
+{t:"THEY WERE 3-0 DOWN AT HALF TIME",b:"THE FINAL TURNED IN 6 MINUTES",c:"sport",
+h:"A European Cup final looked finished at half time and was level before the hour.",
+s:"In the 2005 Champions League final in Istanbul, Liverpool trailed AC Milan by three goals. Within six minutes of the restart they scored three times. The match went to penalties and the goalkeeper's distracting routine on the line helped decide it.",
+w:"Milan had one of the strongest sides in Europe and have never fully shaken off that half hour.",
+sc:["A dressing room at half time, heads down, a crowd still singing outside","Three goals in quick succession, bedlam in the stands","A goalkeeper wobbling his legs on the line","A trophy lifted under a wall of red"],
+q:"What is the best comeback you have ever seen live?"},
+
+{t:"A TEAM FAKED DISABILITY",b:"THEY WON GOLD",c:"sport",
+h:"A basketball team won Paralympic gold in 2000 and most of the squad had no disability at all.",
+s:"Spain's intellectual disability basketball side took gold in Sydney. A journalist who had joined the squad undercover revealed that ten of the twelve players had never been assessed. Officials had recruited friends and players from local clubs to make sure of the result.",
+w:"The scandal removed intellectual disability events from the Paralympics for over a decade, punishing the athletes who had done nothing wrong.",
+sc:["A basketball final, a comfortable win, medals handed out","A magazine office, a reporter writing from inside the squad","A committee room, files opened, no assessment records","Empty courts at the next games, the category gone"],
+q:"Who actually paid the price for this one?"},
+
+{t:"HE WON BY TAKING A CAR",b:"THE REAL WINNER WAS POISONED",c:"sport",
+h:"The 1904 Olympic marathon is the worst race ever run and both of the leaders should have been stopped.",
+s:"The course was dusty, there was one water stop, and the temperature was brutal. Fred Lorz cramped early, got a lift in a car for several miles, then jogged back in and was photographed with the president's daughter before the truth came out.",
+w:"The actual winner was kept moving by his handlers with doses of strychnine mixed with brandy, and had to be carried off the track.",
+sc:["A dirt road, dust from an official car, runners coughing","A runner climbing into a car, waving at the crowd","A stadium celebration, then an angry official pointing","A handler mixing something in a cup and passing it over"],
+q:"Should this race even count? I am not sure it should."},
+
+/* ---------- SURVIVAL AND ESCAPE ---------- */
+{t:"SHE FELL 3 KM FROM A PLANE",b:"THEN WALKED FOR 11 DAYS",c:"survival",
+h:"A seventeen year old was still strapped into her seat when she fell out of a plane and into the Amazon.",
+s:"In 1971 lightning tore apart the aircraft Juliane Koepcke was flying in over Peru. She woke the next morning on the forest floor with a broken collarbone and one eye swollen shut. Her biologist parents had taught her that following water downstream leads to people.",
+w:"She walked and waded for eleven days, treated her own infected wound with petrol she found in a boat, and was the only survivor of ninety two people.",
+sc:["A plane in storm cloud, cabin lights flickering","Jungle floor, a seat row on its side, sunlight through canopy","Wading down a shallow river, insects, no path","A hut with a boat and a can of petrol, hands shaking"],
+q:"Would you have known to follow the water?"},
+
+{t:"THEY LOST A WING ON THE MOON TRIP",b:"THEY FIXED IT WITH A SOCK",c:"survival",
+h:"An oxygen tank exploded two hundred thousand miles from Earth and the crew had to turn their lander into a lifeboat.",
+s:"Apollo 13 lost most of its power and oxygen in 1970. The crew moved into the lunar module, which was built for two people for two days and now had to hold three for four. Carbon dioxide began to build because the filters from the command module were the wrong shape.",
+w:"Engineers on the ground worked out how to connect a square filter to a round socket using a flight manual cover, tape and a sock, and radioed up the instructions.",
+sc:["A bang in the dark, panels shaking, warning lights","Three men crowded into a tiny lander, breath fogging","A table on Earth covered in the exact items on board","Taped together filter box, the carbon dioxide reading falling"],
+q:"Best problem solving in history? I think so."},
+
+{t:"THE SHIP WAS CRUSHED BY ICE",b:"EVERY MAN CAME HOME",c:"survival",
+h:"Twenty eight men watched their ship get slowly crushed by ice and then survived nearly two years to get home.",
+s:"Shackleton's Endurance was trapped in the Weddell Sea in 1915 and sank. The crew camped on drifting floes, sailed lifeboats to a bare island, and then Shackleton and five men crossed thirteen hundred kilometres of the worst ocean on Earth in an open boat to reach a whaling station.",
+w:"They landed on the wrong side of South Georgia and had to cross uncharted mountains with screws from the boat hammered into their boots.",
+sc:["A wooden ship held fast in white ice, timbers bending","Men dragging a lifeboat across broken floes","An open boat in enormous grey waves, navigating by sun","Three ragged figures walking into a whaling station"],
+q:"Best leader in history? Make your case."},
+
+{t:"TWELVE BOYS IN A FLOODED CAVE",b:"THE RESCUE SHOULDN'T HAVE WORKED",c:"survival",
+h:"A junior football team went into a cave after training and monsoon water sealed them four kilometres inside.",
+s:"In 2018 twelve boys and their coach were trapped in Tham Luang in Thailand for nine days before two British divers found them alive on a ledge. Getting them out meant hours of diving through black, silted passages barely wide enough for a person.",
+w:"The boys were sedated and carried out unconscious by divers, a plan the doctors involved thought was unlikely to work.",
+sc:["Bikes stacked at a cave entrance, rain hammering down","A diver's torch finding faces on a muddy ledge","A flooded passage, a line through silted water","A stretcher reaching daylight, a line of hands waiting"],
+q:"Could you have stayed calm for nine days in the dark?"},
+
+{t:"HE CUT OFF HIS OWN ARM",b:"WITH A BLUNT MULTI-TOOL",c:"survival",
+h:"A climber was pinned by a boulder in a narrow canyon for five days with nobody knowing where he was.",
+s:"Aron Ralston went out alone in Utah in 2003 and told no one. A shifting rock trapped his right forearm against the canyon wall. He rationed a litre of water, filmed goodbye messages, and on the fifth day worked out that he could break the bones using his own body weight as leverage.",
+w:"After freeing himself he still had to abseil down a drop and walk kilometres before he met anyone.",
+sc:["A narrow slot canyon, a figure moving fast and alone","A boulder settling, a hand trapped, instant silence","A camcorder on a ledge, a tired face recording a message","Walking out into open desert, blood on the rock behind"],
+q:"Always tell someone where you are going. Do you?"},
+
+{t:"33 MEN, 700 METRES DOWN",b:"THEY WERE THERE 69 DAYS",c:"survival",
+h:"A mine collapsed in Chile and the men below were given up for dead for seventeen days.",
+s:"In 2010 a rock fall sealed thirty three miners deep in the San Jose mine. They rationed emergency food for days, taking two spoonfuls of tuna every other day. A narrow probe finally reached their shelter and came back up with a note taped to it saying all thirty three were alive.",
+w:"The rescue capsule that brought them up one at a time was barely wider than a man's shoulders.",
+sc:["Dust blasting out of a mine tunnel, lights failing","A shelter underground, a tiny tin of food being shared","A drill bit breaking through, a note taped to steel","A narrow capsule rising, a family waiting at the top"],
+q:"Sixty nine days underground. What would keep you going?"},
+
+{t:"76 DAYS ON A RUBBER RAFT",b:"HE FISHED WITH A SPEAR HE BUILT",c:"survival",
+h:"A sailor's boat sank in the Atlantic and he spent two and a half months alone on an inflatable raft.",
+s:"Steven Callahan was sailing solo in 1982 when something struck his hull at night. He got into a liferaft with limited supplies, built a solar still to make fresh water and speared fish with a modified spear gun. He drifted about three thousand kilometres.",
+w:"He was found by fishermen who had come to investigate the birds circling the raft, which had become its own small ecosystem.",
+sc:["A yacht going down at night, a raft inflating in the dark","A solar still collecting drops in a tin","A speared fish hauled over the rubber side","Fishing boat approaching, birds wheeling above the raft"],
+q:"Water or food first? What would you solve first out there?"},
+
+{t:"SHE FELL 10 KM WITHOUT A PARACHUTE",b:"AND LIVED",c:"survival",
+h:"A flight attendant survived a fall from ten thousand metres when her plane broke apart in mid air.",
+s:"In 1972 a bomb destroyed the aircraft Vesna Vulovic was working on over Czechoslovakia. She was found in a section of the fuselage by a villager who had been a medic in the war. She had multiple fractures and was in a coma for days.",
+w:"She was only on that flight because of a staff mix up with another attendant who had the same first name.",
+sc:["A cabin at altitude, a service trolley, an ordinary moment","Fuselage falling through cloud and trees in snow","A villager pulling back wreckage, finding movement","A hospital bed, a crew roster with two matching names"],
+q:"Luckiest person alive or the unluckiest? You decide."},
+
+{t:"THEY DUG THREE TUNNELS",b:"CALLED TOM, DICK AND HARRY",c:"survival",
+h:"Six hundred prisoners of war ran a tunnel factory under a German camp using tins, bed boards and a hand pump.",
+s:"At Stalag Luft III in 1944 prisoners dug three tunnels at once so that discovering one would not stop the plan. They built an air pump out of kit bags, lit the tunnel with stolen wire, and manufactured forged papers and civilian clothing on an industrial scale.",
+w:"Seventy six men got out, three made it home, and fifty of those recaptured were killed on direct orders, which changed how the escape is remembered.",
+sc:["A hut floor, a stove moved, a shaft opening below","A wooden rail trolley running down a lit tunnel","A forgery workshop, stamps carved from rubber heels","A tunnel exit in a wood, short of the treeline, snow"],
+q:"Would you have gone down that tunnel?"},
+
+{t:"HE ESCAPED WITH A WOODEN GUN",b:"HE CARVED IT HIMSELF",c:"survival",
+h:"America's most wanted bank robber walked out of a jail that was supposed to be escape proof using a piece of wood.",
+s:"In 1934 John Dillinger was held in Crown Point, Indiana, guarded by extra police and national guardsmen. He produced what looked like a pistol, locked up guards and trustees as he went, helped himself to two machine guns from the armoury and drove off in the sheriff's own car.",
+w:"Driving a stolen police car across a state line turned a local jailbreak into a federal case, which is what eventually destroyed him.",
+sc:["A cell, a block of wood and a blade, slow carving","A corridor, guards backing into a storeroom","An armoury rack, two machine guns lifted down","A sheriff's car pulling out of the yard, snow on the road"],
+q:"Bluff of the century. Would it work today?"},
+
+{t:"THEY SURVIVED 72 DAYS IN THE ANDES",b:"TWO WALKED OUT FOR HELP",c:"survival",
+h:"A plane carrying a rugby team hit a mountain and the survivors heard on a tiny radio that the search had been called off.",
+s:"In 1972 a flight from Uruguay crashed high in the Andes. Survivors sheltered in the broken fuselage through freezing nights and an avalanche that killed more of them. With no food and no rescue coming, they made agonising choices to stay alive.",
+w:"Two of them climbed over a four thousand metre ridge with no equipment and walked for ten days until they found a farmer across a river.",
+sc:["A fuselage half buried in snow, seats used as walls","A transistor radio, faces listening, the search called off","Two figures climbing a bare ridge in improvised boots","A farmer on the far bank of a river, a note thrown across"],
+q:"How far would you walk with no map and no gear?"},
+
+{t:"THE MILK CAN TRICK",b:"THE LID WAS THE LIE",c:"survival",
+h:"Houdini was locked inside a sealed can of water and audiences were told he could drown.",
+s:"The milk can escape was first performed in 1908. The can was filled, Houdini climbed in, the lid was padlocked with six locks and a curtain was drawn. He held his breath while the audience counted. He trained in a bathtub to stay under for minutes at a time.",
+w:"The neck of the can was rigged so the top section lifted away from the body while the padlocks stayed locked, and the real skill was the breath holding and the nerve.",
+sc:["A theatre stage, a metal can filling with water","Six padlocks snapping shut, a curtain drawn across","Audience faces, a clock hand moving, nobody breathing","A soaked figure stepping out, locks still fastened"],
+q:"Is knowing the method better or worse than the mystery?"},
+
+/* ---------- GAMING AND INTERNET ---------- */
+{t:"HEROBRINE NEVER EXISTED",b:"BUT EVERYONE SAW HIM",c:"gaming",
+h:"Millions of players were certain there was a ghost in Minecraft and he was never in the game.",
+s:"In 2010 a forum post claimed a player with blank white eyes had appeared in a single player world, building sand towers and tunnels. Screenshots spread. Videos followed. Mojang eventually started listing removed Herobrine in patch notes as a joke because people would not stop asking.",
+w:"The whole thing came from one person on an image board, and the community kept it alive by building the evidence themselves.",
+sc:["A quiet blocky forest at dusk, fog at render distance","A figure with white eyes between trees, gone next frame","Forum threads scrolling, screenshots piling up","Patch notes reading removed Herobrine, over and over"],
+q:"What is the scariest thing you have ever seen in a game that was not really there?"},
+
+{t:"A PLAGUE ESCAPED A VIDEO GAME",b:"SCIENTISTS STUDY IT NOW",c:"gaming",
+h:"A virtual disease got out of a boss fight in World of Warcraft and killed whole cities of players.",
+s:"In 2005 a debuff called Corrupted Blood was meant to stay inside one raid. It spread through pets and teleports into the main cities, where low level characters died in seconds. Some players fled to the countryside. Others deliberately spread it.",
+w:"Epidemiologists have used the event as a model for real outbreaks because the human behaviour, including the people who ran towards the danger, matched the real world almost exactly.",
+sc:["A raid boss fight, a red debuff icon appearing","A crowded city square, characters collapsing in waves","Players running for empty hills outside the gates","A research paper with game screenshots in the figures"],
+q:"Would you have been a helper, a runner or a spreader?"},
+
+{t:"THE ARCADE MACHINE THAT WASN'T THERE",b:"MEN IN BLACK COLLECTED THE DATA",c:"gaming",
+h:"A legendary arcade cabinet is said to have appeared in Oregon in 1981 and made players ill.",
+s:"The Polybius story describes a machine that caused headaches, amnesia and nightmares, visited regularly by men in suits who collected readings and then took it away. No cabinet, board or photograph has ever been produced.",
+w:"The legend first appeared on a website in 1998 and grew into one of the most believed gaming myths ever, which says more about us than about any machine.",
+sc:["A 1981 arcade, carpet, neon, one unmarked cabinet","A kid at the screen, patterns flashing, eyes watering","Two men in suits opening the back of the cabinet","An empty space on the arcade floor the next morning"],
+q:"Why do we want the creepy version to be true?"},
+
+{t:"A SPACE BATTLE COST $300,000",b:"IT STARTED WITH A MISSED PAYMENT",c:"gaming",
+h:"The largest battle in gaming history happened because somebody forgot to pay a bill.",
+s:"In 2014 an EVE Online player failed to pay the rent on a space station, which dropped its shields and dragged two enormous alliances into a fight over the system B-R5RB. The battle ran for twenty one hours with thousands of players involved. The servers slowed time down to cope.",
+w:"Around eleven billion of the game's currency was destroyed, worth roughly three hundred thousand real dollars.",
+sc:["A payment reminder ignored in a cluttered interface","Hundreds of ships warping into one system","Capital ships breaking apart in silence, wreck fields spreading","A monument in the game marking the dead, built by the developers"],
+q:"Biggest mistake in gaming history? Nominations welcome."},
+
+{t:"THE OOF SOUND VANISHED",b:"IT WAS NEVER THEIRS",c:"gaming",
+h:"The most recognisable sound in Roblox disappeared overnight because of where it originally came from.",
+s:"The death sound every player knows was traced to a 2000 PC game called Messiah, created by composer Tommy Tallarico. In 2022 Roblox removed it from the platform over a licensing dispute and replaced it with a new sound. Players could buy the original back as a paid item.",
+w:"A sound effect most people assumed was invented for the platform turned out to be a twenty year old borrowed asset.",
+sc:["A classic Roblox fall, the familiar sound, a dated interface","A 2000 era PC game disc and case on a desk","A platform update notice, the sound replaced","A store page with the original sound as a purchase"],
+q:"Does a game ever really belong to the players who grew up with it?"},
+
+{t:"THE POKEMON THAT BROKE THE GAME",b:"IT MADE EVERYONE RICH",c:"gaming",
+h:"A glitch in the first Pokemon games produced a creature that corrupted your save and doubled your rarest items.",
+s:"MissingNo appears through a specific sequence of talking to an old man in Viridian City and flying to a stretch of coast. Encountering it scrambles the hall of fame and the graphics, and multiplies the sixth item in your bag by over a hundred.",
+w:"Nintendo warned against it, which guaranteed that every player in every playground tried it immediately.",
+sc:["A pixel coastline, a trainer surfing along the edge","A tall glitched block of pixels in a battle window","An item bag showing an impossible number of rare balls","A hall of fame screen melting into static"],
+q:"Did you do the MissingNo glitch? Everyone did."},
+
+{t:"THEY BURIED A GAME IN THE DESERT",b:"PEOPLE THOUGHT IT WAS A MYTH",c:"gaming",
+h:"A terrible video game was said to be buried in a landfill in New Mexico, and for thirty years nobody believed it.",
+s:"Atari's E.T. game was rushed out in five weeks in 1982 and sold badly. In 1983 newspapers reported lorries dumping cartridges in Alamogordo. The story became gaming's best known urban legend and the industry crash that followed made it bigger.",
+w:"In 2014 a documentary crew got permission to dig and pulled up more than a thousand cartridges, proving the legend true.",
+sc:["A rushed development desk, a calendar page torn off","Lorries at a desert landfill at night, boxes going over","Decades passing, a myth repeated online","An excavator, dust, a dented cartridge held up to the sun"],
+q:"What other gaming legend do you think will turn out to be true?"},
+
+{t:"HE DELETED A $50,000 A DAY GAME",b:"ON PURPOSE",c:"gaming",
+h:"The most downloaded game in the world was pulled by its own creator while it was earning about fifty thousand dollars a day.",
+s:"Dong Nguyen built Flappy Bird alone and put it out in 2013. It went vertical months later. He then posted that he could not take it any more and removed it, saying the game had become addictive and was ruining people's lives.",
+w:"Phones with the game still installed were listed on auction sites for thousands.",
+sc:["A small desk, one developer, a simple sprite","App charts, number one, downloads climbing","A phone screen, the listing disappearing from the store","Auction listings for second hand phones at absurd prices"],
+q:"Would you have deleted it? Honestly."},
+
+{t:"UP UP DOWN DOWN",b:"IT WAS A SHORTCUT FOR ONE MAN",c:"gaming",
+h:"The most famous cheat code in gaming was written because one developer could not finish his own game.",
+s:"Kazuhisa Hashimoto was porting Gradius to the NES in 1985 and found it too hard to test. He added a sequence that gave him full power ups and forgot to take it out. It shipped, players found it, and Konami used it in dozens of games after that.",
+w:"A debug shortcut left in by accident became a cultural password that still appears on websites today.",
+sc:["A developer at a CRT, dying on the same level again","A controller, the sequence entered, a row of power ups appearing","Kids in a bedroom passing the code around on paper","Modern websites doing something silly when it is typed"],
+q:"What is the first cheat code you ever learned?"},
+
+{t:"HE BEAT TETRIS",b:"THE GAME CRASHED IN DEFEAT",c:"gaming",
+h:"For thirty four years nobody reached the end of NES Tetris because there is no end, until a thirteen year old made the game give up.",
+s:"In December 2023 Willis Gibson, playing as Blue Scuti, reached level 157 and triggered the crash that players had been hunting using techniques invented by the community, including rolling, where you tap the back of the controller to hit faster than your thumb can move.",
+w:"The game does not have a win screen, so the crash is the ending, and he stood up shaking because he had just finished a game from 1989.",
+sc:["A bedroom setup, a CRT, an old controller","Fingers drumming the back of a controller, impossibly fast","The board filling, level counter climbing past 150","The screen freezing, hands over mouth, pure silence"],
+q:"Is crashing the game the real ending? I say yes."},
+
+{t:"THE DAY FORTNITE DELETED ITSELF",b:"45 HOURS OF NOTHING",c:"gaming",
+h:"The biggest game in the world turned itself into a black hole and left millions of players staring at a dot.",
+s:"In October 2019 the end of season event pulled the entire map into a black hole. The game was unplayable. The menus were gone. The official channels streamed a static black circle for nearly two days and millions of people watched it.",
+w:"Nothing happening became one of the biggest live events in gaming, which is a lesson a lot of marketing teams still have not learned.",
+sc:["A packed in game event, rocket, sky tearing open","The map collapsing into a single point","A black screen with one white dot, viewer counter climbing","A new map appearing, players dropping in again"],
+q:"Best cliffhanger in gaming? What would beat it?"},
+
+{t:"THEY BEAT MARIO IN UNDER 5 MINUTES",b:"BY WALKING THROUGH WALLS",c:"gaming",
+h:"Super Mario Bros takes a normal person about an hour, and the record is under five minutes.",
+s:"Speedrunners have refined the 1985 game frame by frame for decades, using warp zones, precise jump timings and a wall clip in world four that takes advantage of how the game handles corners. Improvements now come in hundredths of a second.",
+w:"The community believes the run is close to a theoretical limit that a human can only reach with perfect inputs and good luck on enemy spawns.",
+sc:["A clean start, Mario moving at full speed, no hesitation","A frame counter overlay, inputs flashing","Mario clipping through a wall corner into a pipe","A timer stopping, a face reacting to a new record"],
+q:"Skill or obsession? Can it be both?"},
+
+/* ---------- EVERYDAY CURIOSITY ---------- */
+{t:"WHY YOUR BATTERY DIES AT 30%",b:"THE NUMBER IS A GUESS",c:"life",
+h:"Your phone is not lying about the battery, it is guessing, and it gets worse as the phone gets older.",
+s:"A battery percentage is estimated from voltage and recent usage. As a lithium battery ages its voltage drops away faster near the end. Cold makes it worse because the chemical reaction slows down.",
+w:"The phone recalibrates by watching how you use it, so a phone that dies at thirty percent has usually just lost track of its own capacity.",
+sc:["A phone at 34 percent, a notification, then a black screen","Cutaway of a battery cell, charge moving, slowing with age","Same phone outside in cold, the number dropping fast","A charge cycle completing, the estimate correcting itself"],
+q:"What percentage does your phone die at? Mine is embarrassing."},
+
+{t:"WHY SCHOOL STARTS TOO EARLY",b:"TEENAGE BRAINS RUN LATE",c:"life",
+h:"Teenagers are not lazy in the morning, their body clock genuinely shifts by about two hours.",
+s:"During adolescence the release of melatonin moves later in the evening, which pushes natural sleep onset back. Most schools start between eight and nine. Studies of districts that moved the start time later found better attendance and grades.",
+w:"Telling a fifteen year old to sleep at ten is roughly like telling an adult to sleep at eight.",
+sc:["A dark bedroom, an alarm at 6:45, no movement","A clock diagram showing a sleep window sliding later","A classroom first period, heads on desks","A school sign changing its start time, a busier canteen"],
+q:"What time should school actually start? Give me a number."},
+
+{t:"WHY YOU CAN'T STOP SCROLLING",b:"THE FEED NEVER ENDS ON PURPOSE",c:"life",
+h:"The scroll has no bottom because somebody decided it should not have one.",
+s:"Infinite scroll was invented in 2006 by the designer Aza Raskin and is now everywhere. Removing the end of a page removes the natural moment where you decide whether to continue. Pull to refresh works on the same principle as a slot machine, with an unpredictable reward.",
+w:"The man who invented it has spent years apologising for it publicly.",
+sc:["A thumb scrolling, content never ending","A page with a clear bottom and a stop button, from the old web","A slot machine lever, unpredictable payout","A clock showing two hours gone, the same thumb still moving"],
+q:"How long is your screen time today? No lying."},
+
+{t:"WHY EVERY GROUP CHAT HAS A GHOST",b:"IT'S NOT PERSONAL",c:"life",
+h:"There is one person in every group chat who reads everything and says nothing, and there is a reason for it.",
+s:"In any group, responsibility spreads out. If twelve people can answer, each one feels about a twelfth of the duty to do it, which psychologists call diffusion of responsibility. The same effect means a message sent to one person gets a reply far faster than the same message sent to ten.",
+w:"The ghost is usually the person who cares most about saying something worth reading, which is why they say nothing.",
+sc:["A group chat filling with messages, one avatar silent","Twelve figures in a room, nobody stepping forward","The same question sent to one person, instant reply","The ghost typing, deleting, typing, locking the phone"],
+q:"Are you the ghost? Admit it."},
+
+{t:"WHY YOUR MUM FINDS EVERYTHING",b:"SHE KNOWS YOUR PATTERNS",c:"life",
+h:"Parents are not psychic, they are running a very good search algorithm built on years of your behaviour.",
+s:"People hide things in a small number of predictable places, and the choice is driven by habit rather than logic. Research on hiding and searching shows searchers do best when they know the person rather than the room.",
+w:"The giveaway is usually not the hiding place but the behaviour around it, because people check on a hidden object far more often than they think.",
+sc:["A bedroom, a hand sliding something under a mattress","A parent in the doorway, scanning, not touching anything","A map of a room with three circled spots","A kid glancing at the same drawer for the fifth time"],
+q:"Where did you hide things as a kid? Everyone picked the same three places."},
+
+{t:"WHY TIME SPEEDS UP AS YOU AGE",b:"IT'S MATHS, NOT MEMORY",c:"life",
+h:"A year felt enormous when you were seven and it disappears when you are thirty, and there is a simple reason.",
+s:"One year is a seventh of a seven year old's life and a thirtieth of a thirty year old's. Alongside that, the brain stores new experiences in more detail than repeated ones, so a summer full of firsts feels longer in memory than a year of routine.",
+w:"The way to slow time down is to do unfamiliar things, because novelty is what your memory measures.",
+sc:["A child's summer, long shadows, one endless afternoon","A proportion bar shrinking as a number climbs","An adult commute repeated, identical frames","A new place, new faces, the memory filling up again"],
+q:"What was the longest summer of your life?"},
+
+{t:"NOBODY READS THE RULES",b:"ONE SHOP PROVED IT",c:"life",
+h:"A company hid a clause in its terms and conditions offering money to anyone who read it, and nobody claimed it for months.",
+s:"In 2010 a UK retailer added an immortal soul clause to its terms as an April joke. In 2017 an American company inserted a prize offer into its terms and it took months before one person found it. Studies suggest reading the terms you agree to in a year would take days of your life.",
+w:"Courts have generally kept enforcing these agreements anyway, which means almost every person online is bound by documents nobody reads.",
+sc:["A checkout page, a tick box, a long grey wall of text","A clause reading immortal soul, scrolled past instantly","A single person scrolling to the bottom, finding a prize line","A stack of printed terms taller than a person"],
+q:"Have you ever read one? Even once?"},
+
+{t:"WHY NOBODY TAKES THE LAST SLICE",b:"IT'S A SOCIAL TRAP",c:"life",
+h:"There is always one slice left in the box and everyone is waiting for somebody else to be the greedy one.",
+s:"Taking the last item makes you visible and makes you responsible for ending the shared thing. Research on shared food shows people reduce how much they take when they can be observed. The last unit becomes a signal about character rather than hunger.",
+w:"The usual solution is to cut it in half, then cut it in half again, which is how a slice can survive an entire evening.",
+sc:["An open pizza box, one slice, four people not looking at it","A hand reaching, stopping, picking up a drink instead","The slice cut in half, then half again","An empty room, the box, one tiny triangle left"],
+q:"Do you take the last slice or do the cowardly half cut?"},
+
+{t:"WHY YOU HEAR YOUR NAME",b:"ACROSS A LOUD ROOM",c:"life",
+h:"In a room where you cannot follow one conversation, your own name cuts through instantly.",
+s:"The cocktail party effect was described in the 1950s. Your brain filters the sound coming in and promotes anything that matters to you, which includes your name, your language, and the word fire. It is running on everything you are not listening to.",
+w:"That means you are processing far more of the room than you are aware of, which also explains why you think a phone is listening to you.",
+sc:["A loud party, overlapping voices, nothing clear","A name said quietly across the room, head turning","A diagram of audio channels, one highlighted","A phone on a table looking innocent, a targeted advert"],
+q:"Has your phone ever shown you an advert that scared you?"},
+
+{t:"WHY HOMEWORK IS SO HARD TO START",b:"IT ISN'T LAZINESS",c:"life",
+h:"The hardest part of a task is the thirty seconds before you begin it, and your brain is avoiding something specific.",
+s:"Research on procrastination treats it as mood regulation rather than time management. You are not avoiding the work, you are avoiding the feeling the work gives you, which is usually a fear of doing it badly. Avoiding it works instantly, which trains the habit.",
+w:"The reliable fix is shrinking the first step until it is too small to be threatening, like opening the document and writing one line.",
+sc:["A desk, an open book, a phone being picked up instead","A clock jumping forward, nothing done","A thought bubble of a bad grade, then relief at closing the book","One line typed on a blank page, shoulders dropping"],
+q:"What is your worst procrastination move? Mine is tidying."},
+
+{t:"WHY OTHER PEOPLE'S EMBARRASSMENT HURTS",b:"YOUR BRAIN COPIES IT",c:"life",
+h:"Watching somebody else fail in public can be physically harder to sit through than failing yourself.",
+s:"Brain imaging studies show that watching someone break a social rule activates regions involved in your own pain and self awareness. The stronger your ability to take another person's perspective, the worse the reaction.",
+w:"It is literally a sign of empathy, which means the people who have to leave the room during a cringe scene are the kindest ones there.",
+sc:["A school stage, a microphone, a performance going wrong","An audience, one person sliding down in a seat","A brain scan diagram with two regions lighting up","A phone paused mid video, face in hands"],
+q:"Can you watch cringe or do you have to leave the room?"},
+
+{t:"WHY THE SCHOOL WIFI HATES YOU",b:"IT'S NOT THE SPEED",c:"life",
+h:"The school connection is often fast and still unusable, and the problem is not the bandwidth.",
+s:"Hundreds of devices share a small number of access points on crowded channels. Each device has to take a turn, so latency climbs even when total speed is fine. On top of that most schools run filtering that inspects traffic, which adds delay.",
+w:"The reason it works brilliantly at 8am and dies at lunchtime has nothing to do with the broadband line and everything to do with how many phones are in the building.",
+sc:["A corridor at lunch, hundreds of phones out","An access point with too many connections drawn around it","A loading spinner on a video, bar full of signal","The same phone at 8am, instant load, empty corridor"],
+q:"Where is the one spot in your school or office where it actually works?"},
+
+/* ---------- STRANGE HISTORY ---------- */
+{t:"AUSTRALIA LOST A WAR",b:"AGAINST BIRDS",c:"history",
+h:"In 1932 the Australian army was sent to fight twenty thousand emus and the emus won.",
+s:"Farmers in Western Australia were losing crops to emus moving inland after breeding season. Soldiers arrived with two machine guns. The birds split into small groups, ran at speeds the gunners could not track and absorbed hits. One ambush at a dam jammed the gun after a dozen birds.",
+w:"The operation was called off twice and the commander compared the emus to a disciplined army that could take on tanks.",
+sc:["Wheat fields, a wall of large birds moving through the crop","Soldiers setting up a machine gun on a truck bed","Emus scattering in small groups, dust, no clear shot","A newspaper headline, the army withdrawing"],
+q:"Worst military defeat ever? I am taking nominations."},
+
+{t:"A TOWN DANCED ITSELF TO DEATH",b:"FOR TWO MONTHS",c:"history",
+h:"In 1518 a woman started dancing in a street in Strasbourg and within a month four hundred people had joined her.",
+s:"The dancers could not stop. Authorities decided the cure was more dancing, so they cleared guild halls and hired musicians. People danced until they collapsed. Contemporary accounts describe deaths from exhaustion.",
+w:"The leading explanation is mass psychogenic illness in a population under extreme famine and religious stress, which means the cause was in the town, not the dance.",
+sc:["A narrow medieval street, one woman turning in place","A crowd growing, musicians brought in, a cleared hall","Faces exhausted, feet bleeding, still moving","An empty square at dawn, instruments abandoned"],
+q:"Could something like this happen today in a different form?"},
+
+{t:"HE SURVIVED BOTH ATOMIC BOMBS",b:"HE WAS ON A BUSINESS TRIP",c:"history",
+h:"A man was in Hiroshima on the day of the first bomb and got home to Nagasaki in time for the second.",
+s:"Tsutomu Yamaguchi was working away when the first bomb fell three kilometres from him in August 1945. Burned and partly deafened, he travelled home. Days later he was explaining what he had seen to his supervisor when the second bomb struck the city.",
+w:"He is the only person officially recognised as a survivor of both, and he spent his later life speaking against nuclear weapons.",
+sc:["A tram stop in a city morning, an ordinary day","A flash, then a figure walking through smoke to a station","A train home, bandages, a familiar street","An office, a conversation interrupted by a second flash"],
+q:"How do you carry a story like that for sixty years?"},
+
+{t:"A BEER FLOOD KILLED EIGHT PEOPLE",b:"A VAT THE SIZE OF A HOUSE",c:"history",
+h:"In 1814 a brewery vat burst in central London and sent a wave of beer through a crowded slum.",
+s:"The vat held well over a million litres. When an iron hoop failed the vat split, which broke others nearby. The wave knocked down walls in St Giles, a densely packed parish, and flooded cellars where families lived below street level.",
+w:"The brewery was taken to court and the flood was ruled an act of God, so nobody was held responsible.",
+sc:["A brewery yard, enormous wooden vats bound with iron","An iron hoop snapping, timbers bursting outward","A narrow street filling, doors giving way","A courtroom, a verdict read, the brewery owners leaving"],
+q:"Strangest disaster you have ever heard of? This is mine."},
+
+{t:"THE CHICKEN WITH NO HEAD",b:"HE LIVED 18 MONTHS",c:"history",
+h:"A farmer tried to kill a chicken for dinner in 1945 and the bird carried on living for a year and a half.",
+s:"Mike survived because the axe missed most of the brain stem and a blood clot stopped him bleeding out. His owner fed him with an eyedropper directly into the oesophagus. He toured the country and was reportedly insured for a large sum.",
+w:"Most of the functions keeping a chicken alive sit in the brain stem rather than the parts that were removed, which is why he could still balance and walk.",
+sc:["A farmyard, a stump, a raised axe","A chicken standing up again, farmer staring","A tour poster, a queue of people paying to look","An eyedropper of feed, careful hands"],
+q:"Fascinating or horrifying? Possibly both."},
+
+{t:"A FLOWER CRASHED AN ECONOMY",b:"ONE BULB COST A HOUSE",c:"history",
+h:"In 1630s Holland people traded tulip bulbs for the price of a canal house, and then the price went to nothing in weeks.",
+s:"Rare striped tulips became a status object. Contracts were sold for bulbs still in the ground, which turned the market into pure speculation. In February 1637 buyers stopped turning up at auction and the prices collapsed.",
+w:"The stripes that made the rarest bulbs so valuable were caused by a virus that was slowly killing the plants.",
+sc:["A market, a bulb passed between hands, prices chalked up","A contract signed for flowers still underground","An auction room with no bidders, silence","A striped tulip, beautiful, infected"],
+q:"What is today's tulip? I have a few guesses."},
+
+{t:"THEY PAINTED WITH GLOWING PAINT",b:"THEY WERE TOLD IT WAS SAFE",c:"history",
+h:"Young women painting watch dials were told to shape their brushes with their lips, and the paint was radium.",
+s:"From 1917 factories employed women to hand paint luminous dials. They were encouraged to point the brush in their mouths. Some painted their nails and teeth for fun. When they became seriously ill the companies disputed the cause for years.",
+w:"Their court case helped establish the right of workers to sue employers for damage caused on the job, and changed safety law permanently.",
+sc:["A long factory bench, rows of dials, glowing paint pots","A brush tip touched to lips, over and over","A dark room, young women laughing, teeth glowing","A courtroom, frail witnesses, reporters filling the benches"],
+q:"How many safety rules exist because somebody had to fight for them?"},
+
+{t:"ONE MAN STOPPED A NUCLEAR WAR",b:"BY DOING NOTHING",c:"history",
+h:"In 1983 a Soviet early warning system reported American missiles inbound and the officer on duty decided not to report it.",
+s:"Stanislav Petrov was watching the screens when the system flagged one missile, then four more. Procedure was to pass it up the chain, which would likely have triggered a retaliatory launch. He judged that a real first strike would involve hundreds of missiles, not five, and called it a false alarm.",
+w:"He was right. Sunlight reflecting off high altitude cloud had fooled the satellites, and he received no reward because the incident embarrassed the people who built the system.",
+sc:["A dim bunker, banks of screens, a quiet night shift","An alarm, a single word flashing, five contacts appearing","A hand hovering over a telephone, not lifting it","Daylight on cloud tops, a satellite sensor misreading it"],
+q:"Could you have held your nerve for those minutes?"}
+];
+
+/* ---------- state ---------- */
+const KEY = "bloxplain_story_bank_v1";
+let state = {sel:{}, notes:{}};
+try{ const raw = localStorage.getItem(KEY); if(raw) state = Object.assign(state, JSON.parse(raw)); }catch(e){}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+
+let filter = "all";
+let query = "";
+let onlySelected = false;
+let allOpen = false;
+
+const listEl = document.getElementById("list");
+const emptyEl = document.getElementById("empty");
+const pillsEl = document.getElementById("pills");
+
+/* ---------- pills ---------- */
+function buildPills(){
+  const counts = {};
+  DATA.forEach(d => counts[d.c] = (counts[d.c]||0)+1);
+  const frag = document.createDocumentFragment();
+  const mk = (key,label,n)=>{
+    const b = document.createElement("button");
+    b.className = "pill"; b.type="button"; b.dataset.cat = key;
+    b.setAttribute("aria-pressed", String(filter===key));
+    b.innerHTML = label + '<span class="n">' + n + '</span>';
+    b.addEventListener("click", ()=>{ filter = key; buildPills(); render(); });
+    return b;
+  };
+  frag.appendChild(mk("all","All",DATA.length));
+  Object.keys(CATS).forEach(k => { if(counts[k]) frag.appendChild(mk(k,CATS[k],counts[k])); });
+  pillsEl.replaceChildren(frag);
+}
+
+/* ---------- render ---------- */
+function matches(d,i){
+  if(filter!=="all" && d.c!==filter) return false;
+  if(onlySelected && !state.sel[i]) return false;
+  if(query){
+    const hay = (d.t+" "+d.b+" "+d.h+" "+d.s+" "+d.w+" "+CATS[d.c]+" "+(state.notes[i]||"")).toLowerCase();
+    if(!hay.includes(query)) return false;
+  }
+  return true;
+}
+
+function render(){
+  const frag = document.createDocumentFragment();
+  let shown = 0;
+  DATA.forEach((d,i)=>{
+    if(!matches(d,i)) return;
+    shown++;
+    const item = document.createElement("article");
+    item.className = "item" + (state.sel[i] ? " sel":"") + (allOpen ? " open":"");
+    item.dataset.i = i;
+
+    const head = document.createElement("div");
+    head.className = "head";
+    head.innerHTML =
+      '<span class="num">' + String(i+1).padStart(3,"0") + '</span>' +
+      '<span class="box"><input type="checkbox" ' + (state.sel[i]?"checked":"") + ' aria-label="Select ' + esc(d.t) + '"></span>' +
+      '<span class="meta">' +
+        '<p class="title">' + esc(d.t) + ' <span class="banner">' + esc(d.b) + '</span></p>' +
+        '<p class="sub">' + esc(d.h) + '</p>' +
+      '</span>' +
+      '<span class="tag">' + CATS[d.c] + '</span>' +
+      '<span class="chev">&#9656;</span>';
+
+    const detail = document.createElement("div");
+    detail.className = "detail";
+    detail.innerHTML =
+      '<h4>The story</h4><p>' + esc(d.s) + '</p>' +
+      '<h4>The twist</h4><p>' + esc(d.w) + '</p>' +
+      '<h4>Shot beats</h4><ol>' + d.sc.map(x=>'<li>'+esc(x)+'</li>').join("") + '</ol>' +
+      '<h4>Caption question</h4><p>' + esc(d.q) + '</p>' +
+      '<h4>Your note</h4>';
+    const ta = document.createElement("textarea");
+    ta.className = "note"; ta.placeholder = "Angle, script idea, what to change";
+    ta.value = state.notes[i] || "";
+    ta.addEventListener("input", ()=>{ state.notes[i] = ta.value; if(!ta.value) delete state.notes[i]; save(); });
+    detail.appendChild(ta);
+
+    const cb = head.querySelector("input");
+    cb.addEventListener("click", e => e.stopPropagation());
+    cb.addEventListener("change", ()=>{
+      if(cb.checked) state.sel[i]=true; else delete state.sel[i];
+      item.classList.toggle("sel", cb.checked);
+      save(); updateCounts();
+      if(onlySelected && !cb.checked) render();
+    });
+    head.addEventListener("click", ()=> item.classList.toggle("open"));
+
+    item.appendChild(head); item.appendChild(detail);
+    frag.appendChild(item);
+  });
+  listEl.replaceChildren(frag);
+  emptyEl.hidden = shown>0;
+  document.getElementById("shownCount").textContent = shown;
+  updateCounts();
+}
+
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function selectedIdx(){ return Object.keys(state.sel).map(Number).sort((a,b)=>a-b); }
+function updateCounts(){
+  const n = selectedIdx().length;
+  document.getElementById("selCount").textContent = n;
+  document.getElementById("exportBtn").disabled = n===0;
+}
+
+/* ---------- toolbar ---------- */
+document.getElementById("q").addEventListener("input", e=>{ query = e.target.value.trim().toLowerCase(); render(); });
+document.getElementById("onlySel").addEventListener("click", e=>{
+  onlySelected = !onlySelected;
+  e.target.setAttribute("aria-pressed", String(onlySelected));
+  e.target.classList.toggle("primary", onlySelected);
+  render();
+});
+document.getElementById("expandAll").addEventListener("click", e=>{
+  allOpen = !allOpen;
+  e.target.textContent = allOpen ? "Collapse all" : "Expand all";
+  render();
+});
+document.getElementById("clearBtn").addEventListener("click", ()=>{
+  if(!confirm("Clear every selection and note on this page?")) return;
+  state = {sel:{}, notes:{}}; save(); render();
+});
+
+/* ---------- export ---------- */
+const FORMULA = [
+"CHANNEL FORMAT",
+"Short vertical videos, 30 to 60 seconds, built in Roblox with avatars and staged sets.",
+"One narrator, no face on camera. The opening line compresses the whole story and holds the ending back.",
+"Thumbnail: bold top title in caps, plus a red banner line at the bottom carrying the twist.",
+"Caption: two or three short lines, then a direct question to the viewer, then hashtags.",
+"Two pillars: things that really happened, and things everybody quietly wonders about.",
+""].join("\n");
+
+function brief(){
+  const idx = selectedIdx();
+  const out = [];
+  out.push("SHORTLIST: " + idx.length + " story ideas");
+  out.push("Exported " + new Date().toISOString().slice(0,10));
+  out.push("");
+  out.push(FORMULA);
+  out.push("HOW TO USE THIS");
+  out.push("For each story below, write a 45 second narration script in the format above, then a shot list I can build as Remotion scenes, then the caption.");
+  out.push("");
+  out.push("----------------------------------------");
+  idx.forEach((i,n)=>{
+    const d = DATA[i];
+    out.push("");
+    out.push((n+1) + ". " + d.t + " / " + d.b);
+    out.push("Category: " + CATS[d.c]);
+    out.push("Hook: " + d.h);
+    out.push("Story: " + d.s);
+    out.push("Twist: " + d.w);
+    out.push("Shot beats:");
+    d.sc.forEach((x,k)=> out.push("  " + (k+1) + ") " + x));
+    out.push("Caption question: " + d.q);
+    if(state.notes[i]) out.push("My note: " + state.notes[i]);
+    out.push("----------------------------------------");
+  });
+  return out.join("\n");
+}
+
+function markdown(){
+  const idx = selectedIdx();
+  const out = ["# Story shortlist", "", "`" + idx.length + " selected` " + new Date().toISOString().slice(0,10), ""];
+  idx.forEach((i,n)=>{
+    const d = DATA[i];
+    out.push("## " + (n+1) + ". " + d.t);
+    out.push("**Banner:** " + d.b + "  ");
+    out.push("**Category:** " + CATS[d.c] + "  ");
+    out.push("**Hook:** " + d.h);
+    out.push("");
+    out.push(d.s);
+    out.push("");
+    out.push("**Twist:** " + d.w);
+    out.push("");
+    out.push("**Shot beats**");
+    d.sc.forEach(x=> out.push("- " + x));
+    out.push("");
+    out.push("**Caption question:** " + d.q);
+    if(state.notes[i]){ out.push(""); out.push("> Note: " + state.notes[i]); }
+    out.push("");
+  });
+  return out.join("\n");
+}
+
+function json(){
+  const idx = selectedIdx();
+  return JSON.stringify({
+    exported: new Date().toISOString(),
+    count: idx.length,
+    format: {
+      length: "30-60s vertical",
+      engine: "Roblox staged scenes",
+      thumbnail: "caps top title plus red bottom banner with the twist",
+      caption: "2-3 short lines, then a question, then hashtags"
+    },
+    stories: idx.map(i=>{
+      const d = DATA[i];
+      return {id:i+1, title:d.t, banner:d.b, category:CATS[d.c], hook:d.h,
+              story:d.s, twist:d.w, shots:d.sc, captionQuestion:d.q, note:state.notes[i]||""};
+    })
+  }, null, 2);
+}
+
+const dlg = document.getElementById("dlg");
+const out = document.getElementById("out");
+let fmt = "brief";
+const fmtBtns = {brief:document.getElementById("fmtBrief"), md:document.getElementById("fmtMd"), json:document.getElementById("fmtJson")};
+function paint(){
+  Object.keys(fmtBtns).forEach(k=> fmtBtns[k].setAttribute("aria-pressed", String(k===fmt)));
+  Object.keys(fmtBtns).forEach(k=> fmtBtns[k].classList.toggle("primary", k===fmt));
+  out.value = fmt==="brief" ? brief() : fmt==="md" ? markdown() : json();
+}
+Object.keys(fmtBtns).forEach(k=> fmtBtns[k].addEventListener("click", ()=>{ fmt=k; paint(); }));
+document.getElementById("exportBtn").addEventListener("click", ()=>{ paint(); dlg.showModal(); });
+document.getElementById("dlgClose").addEventListener("click", ()=> dlg.close());
+document.getElementById("copyBtn").addEventListener("click", async e=>{
+  try{ await navigator.clipboard.writeText(out.value); }
+  catch(err){ out.select(); document.execCommand("copy"); }
+  e.target.textContent = "Copied";
+  setTimeout(()=> e.target.textContent = "Copy to clipboard", 1400);
+});
+document.getElementById("dlBtn").addEventListener("click", ()=>{
+  const ext = fmt==="json" ? "json" : fmt==="md" ? "md" : "txt";
+  const blob = new Blob([out.value], {type:"text/plain;charset=utf-8"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "story-shortlist-" + new Date().toISOString().slice(0,10) + "." + ext;
+  a.click();
+  setTimeout(()=> URL.revokeObjectURL(a.href), 2000);
+});
+
+buildPills();
+render();
+</script>
+</body>
+</html>
