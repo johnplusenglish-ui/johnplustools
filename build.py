@@ -189,6 +189,8 @@ LESSON_LINKS = [
      'tagline': 'Four C1 speaking tests on work: interview, photographs, long turn and a five-option discussion.'},
     {'href': '/lessons/linkers-c2.html', 'name': 'Linkers & Connectors',
      'tagline': 'C2 grammar practice: seven exercises on contrast, concession, result, cause and purpose.'},
+    {'href': '/lessons/speaking-analysis.html', 'name': 'Speaking Analysis',
+     'tagline': 'A twelve-stage diagnostic for one candidate: tick the language you hear, and it becomes a band profile.'},
 ]
 
 FAVICON = ("<link rel=\"icon\" href=\"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' "
