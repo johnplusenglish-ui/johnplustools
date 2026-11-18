@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<!-- jpt:shantigate -->
+<script>(function(){
+  var ok=false;try{ok=localStorage.getItem('jpt_shanti_ok')==='1'}catch(e){}
+  if(ok)return;
+  document.documentElement.style.visibility='hidden';
+  var HASH='44ba14c6d47c6d5ca7c7268cf6c8c85c090c44e98ed77d10dd9bb5efaaf0c3b4';
+  function hex(buf){return Array.prototype.map.call(new Uint8Array(buf),function(b){return ('0'+b.toString(16)).slice(-2)}).join('')}
+  function check(pw){
+    return crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw)).then(function(buf){return hex(buf)===HASH});
+  }
+  function ask(){
+    var pw;try{pw=prompt('Password required')}catch(e){return}
+    if(pw===null)return;
+    check(pw).then(function(match){
+      if(match){try{localStorage.setItem('jpt_shanti_ok','1')}catch(e){}document.documentElement.style.visibility=''}
+      else{alert('Incorrect password.');ask()}
+    });
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',ask)}else{ask()}
+})();</script>
+<!-- /jpt:shantigate -->
+<title>Agency Prospect Database</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#faf4f1;
+  --surface:#ffffff;
+  --ink:#171a2e;
+  --head:#0d1240;
+  --muted:#616781;
+  --faint:#8b90a6;
+  --line:#e5dcd7;
+  --line-soft:#efe7e2;
+  --accent:#0d1240;
+  --gold:#9b7434;
+  --gold-soft:#f5eddf;
+  --green:#2f6b4f;
+  --green-soft:#e8f1eb;
+
+  --micro:.12s;
+  --base:.15s;
+  --move:.2s;
+  --enter:.3s;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"Outfit",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  font-size:16px;
+  line-height:1.6;
+  font-weight:300;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%}
+[hidden]{display:none!important}
+a{color:var(--accent);text-underline-offset:3px;text-decoration-thickness:1px}
+a:hover{color:var(--gold)}
+
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+/* header */
+.topbar{
+  position:sticky;top:0;z-index:40;
+  background:rgba(250,244,241,.94);
+  border-bottom:1px solid var(--line);
+  backdrop-filter:saturate(1.1) blur(8px);
+}
+.topbar-in{
+  max-width:1180px;margin:0 auto;padding:10px 20px;
+  display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+}
+.wordmark{
+  font-weight:600;letter-spacing:.14em;font-size:12.5px;
+  text-transform:uppercase;color:var(--head);white-space:nowrap;
+}
+.wordmark span{color:var(--gold)}
+.topbar nav{margin-left:auto;display:flex;gap:4px;flex-wrap:wrap}
+.topbar nav a{
+  padding:5px 11px;border-radius:999px;font-size:13.5px;font-weight:400;
+  color:var(--muted);text-decoration:none;
+  transition:color var(--micro) ease-out, background-color var(--micro) ease-out;
+}
+.topbar nav a:hover{color:var(--head);background:#fff}
+.topbar nav a.xlink{color:var(--gold);border:1px solid #e6d6ba;background:var(--gold-soft)}
+.topbar nav a.xlink:hover{color:var(--head);background:#fff}
+
+section{padding:52px 0;border-top:1px solid var(--line-soft)}
+section:first-of-type{border-top:0}
+.kicker{
+  font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;
+  font-weight:600;color:var(--gold);margin:0 0 10px;
+}
+h1,h2,h3,h4{color:var(--head);font-weight:500;letter-spacing:-.01em;margin:0}
+h1{font-size:clamp(32px,5.2vw,50px);line-height:1.06;font-weight:300;letter-spacing:-.02em;max-width:17ch}
+h2{font-size:clamp(24px,3.4vw,32px);line-height:1.15;margin-bottom:12px}
+h3{font-size:18px;line-height:1.3;font-weight:500}
+p{margin:0 0 13px}
+.lede{font-size:clamp(17px,2.1vw,20px);line-height:1.55;max-width:62ch;margin-top:18px}
+.note{color:var(--muted);font-size:15px;max-width:70ch}
+
+.hero{padding:50px 0 40px}
+.heroline{
+  display:inline-block;padding:5px 13px;border:1px solid var(--line);
+  border-radius:999px;background:var(--surface);font-size:12.5px;
+  letter-spacing:.1em;text-transform:uppercase;font-weight:500;
+  color:var(--muted);margin-bottom:20px;
+}
+.heroline b{color:var(--head);font-weight:600}
+
+.stats{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:1px;background:var(--line);border:1px solid var(--line);
+  border-radius:16px;overflow:hidden;margin-top:30px;
+}
+.stat{background:var(--surface);padding:17px 18px 15px}
+.stat .n{display:block;font-size:26px;font-weight:300;color:var(--head);line-height:1.1;letter-spacing:-.02em}
+.stat .l{display:block;margin-top:4px;font-size:12.5px;color:var(--muted);line-height:1.4}
+
+/* controls */
+.controls{
+  position:sticky;top:51px;z-index:30;
+  background:var(--bg);
+  padding:16px 0 14px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:22px;
+}
+.searchrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.search{
+  flex:1;min-width:220px;
+  font:inherit;font-size:15px;font-weight:300;
+  padding:10px 14px;border:1px solid var(--line);border-radius:10px;
+  background:var(--surface);color:var(--ink);
+  transition:border-color var(--micro) ease-out;
+}
+.search:focus{outline:none;border-color:var(--head)}
+.search::placeholder{color:var(--faint)}
+.btn{
+  font:inherit;font-size:14px;font-weight:400;
+  padding:10px 16px;border-radius:10px;
+  border:1px solid var(--line);background:var(--surface);color:var(--head);
+  cursor:pointer;white-space:nowrap;
+  transition:border-color var(--micro) ease-out, background-color var(--micro) ease-out;
+}
+.btn:hover{border-color:#d6c6bb;background:#fffdfc}
+.filters{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.filters button{
+  font:inherit;font-size:13px;font-weight:400;
+  padding:5px 13px;border-radius:999px;
+  border:1px solid var(--line);background:var(--surface);color:var(--muted);
+  cursor:pointer;
+  transition:color var(--micro) ease-out, background-color var(--micro) ease-out, border-color var(--micro) ease-out;
+}
+.filters button:hover{color:var(--head);border-color:#d6c6bb}
+.filters button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.filtergroup{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-top:12px}
+.filtergroup > span{
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  font-weight:600;color:var(--faint);min-width:62px;
+}
+.filtergroup .filters{margin-top:0}
+.count{font-size:14px;color:var(--muted);margin-top:14px}
+
+/* cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
+.card{
+  background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:20px;display:flex;flex-direction:column;
+  transition:transform var(--base) var(--ease), border-color var(--micro) ease-out;
+}
+.card:hover{transform:translateY(-2px);border-color:#d6c6bb}
+.cardtop{display:flex;align-items:flex-start;gap:10px;margin-bottom:4px}
+.cardtop h3{flex:1;min-width:0}
+.fit{
+  flex-shrink:0;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  font-weight:600;padding:3px 9px;border-radius:999px;line-height:1.5;
+}
+.fit.high{background:var(--green-soft);color:var(--green)}
+.fit.medium{background:var(--gold-soft);color:var(--gold)}
+.where{font-size:13px;color:var(--faint);margin-bottom:11px}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}
+.tag{
+  font-size:11.5px;padding:2px 9px;border-radius:999px;
+  background:#f6f1ee;color:var(--muted);border:1px solid var(--line-soft);
+}
+.why{font-size:14.5px;color:var(--muted);margin:0 0 14px;flex:1}
+.contact{border-top:1px solid var(--line-soft);padding-top:12px;font-size:14px}
+.contact dl{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;margin:0}
+.contact dt{
+  font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;
+  font-weight:600;color:var(--faint);padding-top:4px;
+}
+.contact dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.people{margin-top:11px;padding-top:11px;border-top:1px dashed var(--line)}
+.person{font-size:13.5px;color:var(--muted);margin-bottom:5px}
+.person:last-child{margin-bottom:0}
+.person b{color:var(--head);font-weight:500}
+.copy{
+  font:inherit;font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;
+  margin-left:7px;padding:2px 8px;border-radius:999px;
+  border:1px solid var(--line);background:#fff;color:var(--muted);cursor:pointer;
+  transition:color var(--micro) ease-out, border-color var(--micro) ease-out, background-color var(--micro) ease-out;
+}
+.copy:hover{color:var(--head);border-color:#d6c6bb}
+.copy[data-done="1"]{background:var(--green-soft);color:var(--green);border-color:#cfe3d7}
+
+.empty{
+  grid-column:1/-1;text-align:center;padding:50px 20px;
+  color:var(--muted);border:1px dashed var(--line);border-radius:12px;background:var(--surface);
+}
+
+/* blocks */
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px}
+.panel h3{margin-bottom:9px}
+.panel p:last-child,.panel ul:last-child{margin-bottom:0}
+ul.plain{margin:0 0 13px;padding-left:1.15em}
+ul.plain li{margin-bottom:6px}
+ul.plain li:last-child{margin-bottom:0}
+.caveat{background:var(--gold-soft);border:1px solid #e6d6ba;border-radius:12px;padding:22px 24px}
+.caveat h3{margin-bottom:9px}
+.caveat ul:last-child{margin-bottom:0}
+pre{
+  background:var(--surface);border:1px solid var(--line);border-radius:10px;
+  padding:18px;overflow-x:auto;font-size:13.5px;line-height:1.6;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  color:var(--ink);white-space:pre-wrap;margin:0;
+}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:460px;font-size:14.5px}
+th,td{text-align:left;padding:11px 15px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+th{font-weight:600;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);background:#fdfaf8}
+tr:last-child td{border-bottom:0}
+td b{font-weight:500;color:var(--head)}
+
+footer{border-top:1px solid var(--line);padding:30px 0 56px;color:var(--muted);font-size:14px}
+
+@media (max-width:640px){
+  .cards{grid-template-columns:1fr}
+  section{padding:40px 0}
+  .controls{top:0;position:static}
+}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+    scroll-behavior:auto!important;
+  }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="wordmark">Shanti <span>&amp;</span> Son(g)s <span>/</span> Prospects</div>
+    <nav>
+      <a href="#database">Database</a>
+      <a href="#approach">How to approach</a>
+      <a href="#pitch">Pitch template</a>
+      <a href="#method">Method</a>
+      <a href="/shanti" class="xlink">Research page</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+<section class="hero">
+  <span class="heroline">Italian corporate event agencies <b>&middot;</b> Built 18 Nov 2026</span>
+  <h1>Agencies to approach</h1>
+  <p class="lede">Thirty-nine Italian agencies that commission live entertainment for corporate events, weighted towards Rome. Every entry has a verified public contact point, and most have a named person worth addressing by name. G2 Eventi is in here as the reference case.</p>
+
+  <div class="stats">
+    <div class="stat"><span class="n">39</span><span class="l">Agencies with verified contacts</span></div>
+    <div class="stat"><span class="n">26</span><span class="l">Based in Rome or Lazio</span></div>
+    <div class="stat"><span class="n">31</span><span class="l">Rated a high fit for live music</span></div>
+    <div class="stat"><span class="n">31</span><span class="l">With a named contact person</span></div>
+  </div>
+</section>
+
+<section id="database">
+  <p class="kicker">The list</p>
+  <h2>Prospect database</h2>
+  <p class="note">Search by name, city or service. The fit rating is a judgement on how likely that agency is to buy live music: high means they run galas, parties, launches or incentives where a band is normal, medium means their core trade is medical or institutional congresses where it is occasional.</p>
+
+  <div class="controls">
+    <div class="searchrow">
+      <input class="search" id="q" type="search" placeholder="Search name, city, service or person" aria-label="Search the database">
+      <button class="btn" id="csv" type="button">Export CSV</button>
+      <button class="btn" id="reset" type="button">Reset</button>
+    </div>
+    <div class="filtergroup">
+      <span>Region</span>
+      <div class="filters" id="fRegion" role="group" aria-label="Filter by region">
+        <button type="button" data-v="all" aria-pressed="true">All</button>
+        <button type="button" data-v="lazio" aria-pressed="false">Rome and Lazio</button>
+        <button type="button" data-v="lombardia" aria-pressed="false">Milan and Lombardy</button>
+        <button type="button" data-v="altro" aria-pressed="false">Rest of Italy</button>
+      </div>
+    </div>
+    <div class="filtergroup">
+      <span>Type</span>
+      <div class="filters" id="fType" role="group" aria-label="Filter by agency type">
+        <button type="button" data-v="all" aria-pressed="true">All</button>
+        <button type="button" data-v="Event agency" aria-pressed="false">Event agency</button>
+        <button type="button" data-v="DMC" aria-pressed="false">DMC</button>
+        <button type="button" data-v="Incentive house" aria-pressed="false">Incentive house</button>
+        <button type="button" data-v="PCO" aria-pressed="false">PCO</button>
+        <button type="button" data-v="Brand experience" aria-pressed="false">Brand experience</button>
+      </div>
+    </div>
+    <div class="filtergroup">
+      <span>Fit</span>
+      <div class="filters" id="fFit" role="group" aria-label="Filter by fit">
+        <button type="button" data-v="all" aria-pressed="true">All</button>
+        <button type="button" data-v="high" aria-pressed="false">High only</button>
+      </div>
+    </div>
+    <p class="count" id="count" aria-live="polite"></p>
+  </div>
+
+  <div class="cards" id="cards"></div>
+</section>
+
+<section id="approach">
+  <p class="kicker">Working the list</p>
+  <h2>How to approach them</h2>
+
+  <div class="grid2">
+    <div class="panel">
+      <h3>Lead with the format, not the band</h3>
+      <p class="note">An agency buying for a product launch is not looking for a wedding singer. They are looking for a named module they can drop into a running order and price. Shanti and Son(g)s already has those: vocal sextet, string quartet, laser harp, sax over electronic pads, brass, DJ handover. Send the format menu first and the showreel second.</p>
+    </div>
+    <div class="panel">
+      <h3>Lead with the corporate wall</h3>
+      <p class="note">American Express, Johnson and Johnson, Huawei, Lottomatica, BCC and Isokinetic are already on the client wall. That removes the risk question before it is asked. Name two of them in the first two lines of any email to an agency.</p>
+    </div>
+    <div class="panel">
+      <h3>Write to a person</h3>
+      <p class="note">Twenty-eight of these entries carry a named contact, usually a sales, business development or events director. A message to info@ at a 180-person agency goes nowhere. Use the named address where there is one, and copy the general inbox.</p>
+    </div>
+    <div class="panel">
+      <h3>Ask to be a supplier, not a booking</h3>
+      <p class="note">The ask is to be added to the supplier list for live entertainment, not to be booked for a specific date. Agencies keep rosters and pull from them. Offer a rate card by format, a tech rider and a one-page PDF they can forward internally.</p>
+    </div>
+    <div class="panel">
+      <h3>The season matters</h3>
+      <p class="note">Italian corporate calendars cluster in late spring (May and June conventions) and in November and December (kick-offs, awards nights, Christmas parties). Approach in January and in September, which is when agencies are building budgets rather than running events.</p>
+    </div>
+    <div class="panel">
+      <h3>Respect the cold-contact rules</h3>
+      <p class="note">These are business contacts published by the companies themselves for commercial contact, which is a normal basis for B2B outreach in Italy. Identify who you are in the first line, say where you got the address, and give a working unsubscribe or opt-out line. Do not buy, scrape or guess personal addresses beyond what the companies publish.</p>
+    </div>
+  </div>
+</section>
+
+<section id="pitch">
+  <p class="kicker">Ready to send</p>
+  <h2>Pitch template</h2>
+  <p class="note">Two versions, Italian for Italian-run agencies and English for the DMCs that work international clients. Swap the bracketed parts. Keep it under 150 words, because nobody reads more than that from a new supplier.</p>
+
+  <h3 style="margin:26px 0 10px">Italiano</h3>
+  <pre>Oggetto: Intrattenimento musicale dal vivo per i vostri eventi corporate
+
+Gentile [Nome],
+
+sono [nome] di Shanti&amp;Songs Entertainment, agenzia di musica dal vivo
+con sede a Roma. Lavoriamo su eventi aziendali e celebrazioni di alto
+profilo: tra i nostri clienti American Express, Johnson &amp; Johnson,
+Huawei e Lottomatica.
+
+Vi scrivo per propormi come fornitore di intrattenimento musicale per
+i vostri eventi. Lavoriamo per formati, cosi da inserirci facilmente
+in qualsiasi scaletta:
+
+- Quartetto d'archi per accoglienza e welcome cocktail
+- Sax e pad elettronici per aperitivo e networking
+- Vocal sextet per premiazioni e momenti di show
+- Live band e DJ set per la parte serale
+- Arpa laser per opening e lanci di prodotto
+
+Allego una pagina con formati, organici e rider tecnico. Se utile,
+possiamo inviare un listino per fascia di evento.
+
+Grazie dell'attenzione,
+[nome] - Shanti&amp;Songs Entertainment
+info@shantiandsongs.com - +39 351 962 2870 - shantiandsongs.com</pre>
+
+  <h3 style="margin:26px 0 10px">English</h3>
+  <pre>Subject: Live music supplier for your corporate events in Italy
+
+Dear [Name],
+
+I am [name] from Shanti&amp;Songs Entertainment, a Rome-based live music
+company. We supply musical entertainment for corporate events and
+high-end celebrations across Italy and abroad. Clients include
+American Express, Johnson &amp; Johnson, Huawei and Lottomatica.
+
+I am writing to ask to be added to your supplier list for live
+entertainment. We work in fixed formats, so we slot straight into a
+running order:
+
+- String quartet for arrivals and welcome drinks
+- Saxophone and electronic pads for aperitivo and networking
+- Six-voice show set for awards and headline moments
+- Full live band and DJ handover for the evening
+- Laser harp for openings and product reveals
+
+A one-page format sheet with line-ups and tech rider is attached.
+Rate card by event tier available on request.
+
+Best regards,
+[name] - Shanti&amp;Songs Entertainment
+info@shantiandsongs.com - +39 351 962 2870 - shantiandsongs.com</pre>
+</section>
+
+<section id="method">
+  <p class="kicker">Where this came from</p>
+  <h2>Method and caveats</h2>
+
+  <div class="caveat" style="margin-bottom:22px">
+    <h3>Read this before you send anything</h3>
+    <ul class="plain">
+      <li><b>Contacts were taken from public sources.</b> Company websites, their own contact pages, trade association member listings and public business directories. Nothing was taken from behind a login or a paywall.</li>
+      <li><b>Phone numbers drift.</b> Several agencies publish two or three numbers across different directories, usually because they moved or centralised a switchboard. Where that happened the entry notes it. Check the website before dialling.</li>
+      <li><b>Named people move.</b> Roles were accurate at the time of the source page, and some of those pages are two or three years old. Verify a name on LinkedIn before writing to it.</li>
+      <li><b>The fit rating is a judgement, not data.</b> It is based on what each agency says it does. A medium rating is not a reason to skip an agency, only a reason to put it second.</li>
+      <li><b>This list is not exhaustive.</b> The main Italian MICE directory alone lists 86 suppliers in Rome and several hundred nationally. This is the filtered top of that pool plus the national agencies that matter.</li>
+    </ul>
+  </div>
+
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Source</th><th>Used for</th></tr></thead>
+      <tbody>
+        <tr><td><b><a href="https://www.meetingecongressi.com/it/servizi/lazio/roma/lista.htm">Meeting e Congressi</a></b></td><td>Discovering agencies by category and region, and their office addresses. Its contact fields are behind a login and were not used.</td></tr>
+        <tr><td><b>Agency websites</b></td><td>Phone, email, address and named contacts, taken from each company's own contact page.</td></tr>
+        <tr><td><b><a href="https://conventionbureauitalia.com/">Convention Bureau Italia</a> and <a href="https://www.federcongressi.it/">Federcongressi &amp; Eventi</a></b></td><td>Member listings, named commercial contacts and association memberships.</td></tr>
+        <tr><td><b><a href="https://dmc.travel/country/italy/">dmc.travel</a> and <a href="https://www.adcgroup.it/">ADC Group</a></b></td><td>Cross-checking DMC coverage and agency size, turnover and management.</td></tr>
+        <tr><td><b>Italian business registries</b></td><td>Legal names, VAT numbers and founding years where the website did not give them.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid2" style="margin-top:22px">
+    <div class="panel">
+      <h3>What is deliberately not here</h3>
+      <ul class="plain note">
+        <li>Wedding planners. The brief was corporate agencies, and the luxury destination wedding planner list is a separate job worth doing on its own.</li>
+        <li>Venues. Villa Miani, Villa Aurelia and the rest already know the band, and venue in-house teams buy differently from agencies.</li>
+        <li>Hostess, catering, stand builders and AV suppliers, which fill out the directories but do not commission music.</li>
+        <li>Agencies with no public contact point, which were dropped rather than guessed at.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>Suggested order of work</h3>
+      <ul class="plain note">
+        <li>Start with the sixteen Rome agencies rated high fit that carry a named contact. That is a fortnight of work and the warmest ground.</li>
+        <li>Then the Rome DMCs, which sell Italy to foreign corporate clients and need local suppliers who can deal in English.</li>
+        <li>Then Milan, where the budgets are larger but the competition is heavier and a Rome address is a weaker card.</li>
+        <li>Keep Kampaay for last and go through its supplier channel rather than an email, because it works as a platform.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    Prospect database compiled 18 November 2026 from public sources. Contact details are published by the companies themselves and were correct at the date of the source page. Verify before use.
+  </div>
+</footer>
+
+<script>
+var AGENCIES = [
+  {n:"Ninetynine", city:"Rome, Milan, Naples", region:"lazio", fit:"high",
+   types:["Brand experience","Event agency"],
+   why:"Independent Rome agency behind the Ferrari Luce world launch, the Ferrari Capital Markets Day and Giubileo events. Named Best Event Agency at the 2026 Unicorn Awards. Turnover around 10 million euro with 21 staff, so it buys in talent rather than carrying it.",
+   site:"ninetynine.biz", phone:"+39 06 80660209", email:"info@ninetynine.biz",
+   addr:"Via F. Paulucci de Calboli 5, 00195 Roma",
+   people:[{nm:"Simone Mazzarelli", role:"CEO and founder"},{nm:"Genny Imperioli", role:"Managing Director"}],
+   founded:"2006"},
+
+  {n:"Triumph Group International", city:"Rome, Milan, Florence, Turin", region:"lazio", fit:"high",
+   types:["Event agency","PCO","Brand experience"],
+   why:"One of the largest Italian event groups, with four Italian offices plus Brussels, Shanghai and Singapore and four divisions covering congress, institutional, corporate and digital. Corporate division runs gala dinners and conventions at scale.",
+   site:"triumphgroupinternational.com", phone:"+39 06 355301", email:"info.italy@thetriumph.com",
+   addr:"Via Lucilio 60, 00136 Roma",
+   people:[{nm:"Paola Padovani", role:"Business Development Director", em:"p.padovani@thetriumph.com"}],
+   founded:"Member of IAPCO, ICCA, Federcongressi"},
+
+  {n:"Next Group", city:"Rome and Milan", region:"lazio", fit:"high",
+   types:["Event agency","Incentive house","DMC"],
+   why:"Around 180 staff across Rome and Milan, roughly 600 events a year and about 60 million euro of turnover. Four business units covering congresses, event production, loyalty and digital. Gala dinners and live shows are named services.",
+   site:"nextgroup.eu", phone:"+39 06 4417351", email:"info@nextgroup.eu",
+   addr:"Via Sallustiana 26, 00187 Roma",
+   people:[{nm:"Marco Jannarelli", role:"President"},{nm:"Virginia Rety", role:"International Relations"}],
+   founded:"1986"},
+
+  {n:"Gruppo Peroni Eventi", city:"Rome", region:"lazio", fit:"high",
+   types:["Event agency","Incentive house","PCO"],
+   why:"Live communication and business meetings specialist with 11 to 50 staff, member of the Club degli Eventi. Mid-sized enough that a supplier email reaches a decision maker, large enough to run repeat corporate work.",
+   site:"gruppoperonieventi.it", phone:"+39 06 45472299", email:"info@gruppoperonieventi.it",
+   addr:"Via dei Prati della Farnesina 57, 00135 Roma",
+   people:[{nm:"Massimo Mercuri", role:"Managing Director", em:"m.mercuri@gruppoperonieventi.it"},{nm:"Marco Abbiati", role:"Events Director", em:"m.abbiati@gruppoperonieventi.it"}],
+   founded:"1997"},
+
+  {n:"G2 Eventi", city:"Rome, Milan, Bergamo", region:"lazio", fit:"high",
+   types:["Event agency","Incentive house","PCO"],
+   why:"The reference case for this list. Marketing and communication agency, congress organiser, team building outfit and incentive house in one, with two Rome offices on Via Cola di Rienzo and the registered office in Milan.",
+   site:"g2eventi.com", phone:"+39 02 83466100", email:"contatti@g2eventi.com",
+   addr:"Via Cola di Rienzo 290 and 163, 00192 Roma",
+   people:[{nm:"Matteo Valcelli", role:"Chairman"}],
+   founded:"1998"},
+
+  {n:"Micromegas Comunicazione", city:"Rome", region:"lazio", fit:"high",
+   types:["Event agency","Incentive house","PCO"],
+   why:"Forty years old and positions itself as one of the larger European communication companies. Runs institutional and corporate events, conventions, fairs and road shows, and owns its own staging and AV, which means music is one of the few things it has to buy in.",
+   site:"micromegas.com", phone:"+39 06 333991", email:"info@micromegas.com",
+   addr:"Via Flaminia 999, 00189 Roma",
+   people:[{nm:"Lorena Fragassa", role:"Chief Executive Officer", em:"lorena.fragassa@micromegas.com"}],
+   founded:"1984"},
+
+  {n:"CS Events", city:"Rome, satellite offices nationally", region:"lazio", fit:"high",
+   types:["DMC","Incentive house","Event agency"],
+   why:"Thirty years as a DMC with around 80 events a year and a declared network of 100 professionals. Gala dinners and product launches are named service lines, and it has UK, Dutch and Spanish representatives feeding it foreign corporate work.",
+   site:"csevents.it", phone:"+39 06 92091004", email:"requests@csevents.it",
+   addr:"Via della Marrana 8, 00181 Roma",
+   people:[{nm:"Stefania Mura", role:"Events and Marketing Director"}],
+   founded:"Member of Federcongressi and Convention Bureau Italia"},
+
+  {n:"Ega Worldwide Congresses and Events", city:"Rome, Milan, Belgrade, Miami", region:"lazio", fit:"medium",
+   types:["PCO","DMC","Incentive house"],
+   why:"Founded in 1965 and one of the oldest congress organisers in Italy, now around 30 staff. Core trade is scientific and institutional congresses, so music is occasional, but the social programmes and gala dinners around those congresses are exactly the slot to pitch.",
+   site:"ega.it", phone:"+39 06 328121", email:"ega@ega.it",
+   addr:"Viale Tiziano 19, 00196 Roma",
+   people:[{nm:"Gaetano Maria Dieni", role:"Head of Marketing and Communication", em:"gmdieni@ega.it"},{nm:"Claudia Maria Golinelli", role:"Leads the company"}],
+   founded:"1965"},
+
+  {n:"AIM Group International", city:"Rome, Milan, Florence and 14 offices", region:"lazio", fit:"medium",
+   types:["PCO","DMC","Incentive house","Brand experience"],
+   why:"The biggest name on this list: 60 years old, 300 staff, 14 offices in nine countries, over 2,500 projects a year. Heavily pharma and scientific, so the opening is the gala dinner and the social programme rather than the main stage.",
+   site:"aimgroupinternational.com", phone:"+39 02 566011 central, +39 06 330531 Rome", email:"Pattern is name@aimgroup.eu",
+   addr:"Via Flaminia 1068, 00189 Roma",
+   people:[{nm:"Flaminia Roberti", role:"Global Sales Director"}],
+   founded:"1960", warn:"Numbers differ by source. The 02 switchboard appears on the most recent pages."},
+
+  {n:"Cose Agency", city:"Rome and Milan", region:"lazio", fit:"high",
+   types:["Event agency","Brand experience","DMC"],
+   why:"Young integrated agency that handles a promotional event, an outdoor campaign and a digital plan under one roof. Premium listing in the Rome MICE directory and strong local review scores, so it is winning work and will need suppliers.",
+   site:"coseagency.com", phone:"+39 06 49778048, mobile +39 339 7945920", email:"info@coseagency.com",
+   addr:"Via Latina 174, 00179 Roma",
+   people:[],
+   founded:"2019"},
+
+  {n:"Nicole Sparvieri Luxury Experiences", city:"Rome and Milan", region:"lazio", fit:"high",
+   types:["Event agency","Brand experience","DMC"],
+   why:"Luxury event design studio working Lake Como, Tuscany, the Amalfi Coast and Rome, with automotive and pharma as declared sectors. Signature product is an immersive cinema event experience, which is precisely the kind of show that needs a laser harp or a sextet.",
+   site:"nicolesparvieri.com", phone:"+39 333 7644384, +39 380 2062355", email:"info@nicolesparvieri.com",
+   addr:"Via Courmayeur 24, 00135 Roma",
+   people:[{nm:"Nicole Sparvieri", role:"Owner and Creative Director"}],
+   founded:"Offices in Rome and Milan"},
+
+  {n:"Europe Event Solutions", city:"Rome", region:"lazio", fit:"high",
+   types:["DMC","Incentive house","PCO"],
+   why:"Built in 2017 by people with meetings experience on both sides of the Atlantic, serving international and pharma clients. Product launches and gala dinners are named on the service list, and it answers enquiries inside 24 hours.",
+   site:"europeeventsolutions.com", phone:"+39 339 7184963", email:"info@europeeventsolutions.com",
+   addr:"Via A. Volta 15, 00153 Roma",
+   people:[{nm:"Antonella Laveglia", role:"Contact", em:"antonella@europeeventsolutions.com"}],
+   founded:"2017"},
+
+  {n:"Bramante Events", city:"Rome", region:"lazio", fit:"high",
+   types:["DMC","Incentive house","Event agency"],
+   why:"Small Rome DMC, around five staff, over twenty years old, specialising in incentive travel and corporate events for international clients. Declares historic houses and cultural events as specialisms, which is the band's own territory.",
+   site:"bramante-events.it", phone:"+39 06 45211525", email:"info@bramante-events.it",
+   addr:"Via Alessandro Vessella 30, 00199 Roma",
+   people:[{nm:"Giorgio Gerardi", role:"Managing Director", em:"md@bramante-events.it"},{nm:"Davide Totti", role:"Project Manager", em:"davide@bramante-events.it"}],
+   founded:"2000"},
+
+  {n:"Liberty International Italy", city:"Rome, with Milan, Verona, Venice, Sicily", region:"lazio", fit:"high",
+   types:["DMC","Incentive house","PCO"],
+   why:"The Italian arm of Liberty International Tourism Group, which claims to be the largest privately owned DMC network with representatives in over 100 destinations. Volume incoming corporate work that needs local entertainment suppliers.",
+   site:"liberty-int.com", phone:"+39 06 86324883", email:"italy@liberty-int.com",
+   addr:"Via Merulana 272, 00185 Roma",
+   people:[],
+   founded:"2012", warn:"Several phone numbers are published across directories."},
+
+  {n:"Welcome MICE Italy", city:"Rome, Milan, Geneva, Vienna", region:"lazio", fit:"high",
+   types:["DMC","Event agency","Incentive house"],
+   why:"Positions itself for high-end corporate events and incentive travel with an ESG angle, including certified venues and lower-impact transport. Appeals to the multinational clients that also tend to want a live band rather than a playlist.",
+   site:"welcomemiceitaly.com", phone:"+39 06 33976505, +39 02 40042906", email:"info@welcomemiceitaly.com",
+   addr:"Via Gregorio VII 186, 00165 Roma",
+   people:[],
+   founded:"11 to 50 staff"},
+
+  {n:"The Gate Visible Connection", city:"Rome", region:"lazio", fit:"high",
+   types:["Event agency","Incentive house","Brand experience"],
+   why:"Specialises in large events and tourism promotion, with clients including Nikon Italia, Cartoon Network, Roma Capitale and several national tourism boards and embassies. Embassy and tourism board events are reliable buyers of live music.",
+   site:"the-gate.it", phone:"+39 06 45438614", email:"info@the-gate.it",
+   addr:"Via del Boschetto 32, 00184 Roma",
+   people:[{nm:"Sylvie Fatoux", role:"Conventions and Events", em:"sylvie@the-gate.it"}],
+   founded:"2005"},
+
+  {n:"AD Meetings and Events", city:"Marino, Rome", region:"lazio", fit:"high",
+   types:["DMC","Incentive house","PCO"],
+   why:"Twenty-five years of incoming MICE work for Dutch, Scandinavian and international clients in pharma, banking and IT. Car and product launches, gala dinners and food and wine programmes are all on the service list.",
+   site:"admeetingsandevents.com", phone:"+39 06 69281219", email:"info@admeetingsandevents.com",
+   addr:"Via Giorgio Amendola 2/A, 00047 Marino, Roma",
+   people:[{nm:"Debora Comune", role:"Managing Director", em:"comune@admeetingsandevents.com"},{nm:"Angela de Graaf", role:"Operations Director", em:"degraaf@admeetingsandevents.com"}],
+   founded:"Member of SITE, MPI, Federcongressi"},
+
+  {n:"Simmetria Immagine e Comunicazione", city:"Rome", region:"lazio", fit:"high",
+   types:["Event agency","DMC","Incentive house"],
+   why:"Running corporate events since 1990, specialising in finance, insurance, pharma and institutional clients across Italy, Europe and the USA. Member of Convention Bureau Italia. Finance sector conventions are a dependable gala dinner market.",
+   site:"simmetria.it", phone:"+39 06 5921783", email:"info@simmetria.it",
+   addr:"Viale Egeo 8, 00144 Roma",
+   people:[{nm:"Paola Taroni", role:"Partner", em:"paola.taroni@simmetria.it"}],
+   founded:"1990"},
+
+  {n:"Hinovia Events Roma", city:"Rome and Milan", region:"lazio", fit:"high",
+   types:["Event agency","DMC","Incentive house","PCO"],
+   why:"A 2020 start-up formed by people out of multinational and congress backgrounds, covering corporate, banking, insurance, automotive and pharma. New enough to still be building its supplier roster.",
+   site:"hinovia.com", phone:"+39 06 39870234", email:"info@hinovia.com",
+   addr:"Via Leone XIII 95, Roma",
+   people:[{nm:"Tiziano Polledri", role:"Contact", em:"tiziano.polledri@hinovia.com"},{nm:"Andrea Fiorio", role:"Contact", em:"andrea.fiorio@hinovia.com"}],
+   founded:"2020"},
+
+  {n:"Full Day Meetings and Incentives", city:"Rome", region:"lazio", fit:"high",
+   types:["Incentive house","PCO","Event agency"],
+   why:"Running conferences, meetings and incentives since 1992, in Italy and abroad, and an accredited medical education provider. Long-established with a small named team, so a direct approach lands.",
+   site:"fullday.com", phone:"+39 06 7028181", email:"fullday@fullday.com",
+   addr:"Via La Spezia 67, 00182 Roma",
+   people:[{nm:"Giovanna Turchetti", role:"Managing Director", em:"g.turchetti@fullday.com"}],
+   founded:"1992"},
+
+  {n:"ElectaEvents", city:"Rome", region:"lazio", fit:"high",
+   types:["DMC","Event agency"],
+   why:"Rome DMC covering the full build of corporate meetings and events, with incentives, exclusive parties and gala dinners listed as its own categories. Small enough to answer a direct email.",
+   site:"electaevents.com", phone:"+39 06 84987591, mobile +39 351 651 5107", email:"info@electaevents.com",
+   addr:"Roma",
+   people:[],
+   founded:"Operates in Rome, Italy and worldwide"},
+
+  {n:"Be-Events", city:"Rome", region:"lazio", fit:"medium",
+   types:["Event agency","PCO","Brand experience"],
+   why:"Integrated communication agency with an in-house digital team, ISO 9001 certified and listed on the Italian public procurement marketplace. Client base is heavily public sector and research bodies, which run conferences more than parties.",
+   site:"be-events.it", phone:"+39 06 52204029", email:"info@be-events.it",
+   addr:"Via Andrea Lavezzolo 2, 00127 Roma",
+   people:[{nm:"Linda Morciano", role:"CEO"}],
+   founded:"2014"},
+
+  {n:"e Meeting and Consulting", city:"Rome", region:"lazio", fit:"medium",
+   types:["PCO","Event agency","Incentive house"],
+   why:"Around eight staff and 3.4 million euro of turnover, member of Federcongressi and an accredited medical education provider. Congress-led, so pitch the social programme.",
+   site:"emec-roma.com", phone:"+39 06 80693320", email:"info@emec-roma.com",
+   addr:"Via Michele Mercati 33, 00197 Roma",
+   people:[],
+   founded:"2006"},
+
+  {n:"Gattinoni, Rome office", city:"Milan HQ, Rome, Lecco, Turin", region:"lazio", fit:"high",
+   types:["Event agency","Incentive house","DMC"],
+   why:"Three divisions covering events, business travel and retail travel, with a dedicated MICE sales team. Appointed Francesca Marini as Head of Events Rome in June 2026 specifically to build the Rome business, which makes this the warmest cold approach on the list.",
+   site:"gattinoni.it", phone:"+39 06 8088306 Rome, +39 02 39884211 Milan", email:"commerciale@gattinoni.it",
+   addr:"Via F. Civinini 83/A, 00197 Roma",
+   people:[{nm:"Francesca Marini", role:"Head of Events Rome, appointed June 2026"},{nm:"Enzo Vitale", role:"Sales Director MICE", em:"enzo.vitale@gattinoni.it"}],
+   founded:"1983"},
+
+  {n:"Eventi di Roma", city:"Rome", region:"lazio", fit:"medium",
+   types:["Event agency","Brand experience"],
+   why:"Events and integrated communication for private, public and corporate clients, with location scouting, set-up and staffing in house. Smaller operation, useful for volume rather than headline work.",
+   site:"eventidiroma.it", phone:"+39 06 98875854", email:"info@eventidiroma.it",
+   addr:"Viale di Val Fiorita 86, 00144 Roma",
+   people:[],
+   founded:""},
+
+  {n:"GP Eventi", city:"Rome", region:"lazio", fit:"medium",
+   types:["Event agency"],
+   why:"Rome event organiser on the EUR side of the city. Limited public profile, so treat as a second-wave contact after the named agencies.",
+   site:"gpeventi.com", phone:"+39 06 95550206", email:"info@gpeventi.com",
+   addr:"Via del Serafico 155, 00142 Roma",
+   people:[],
+   founded:""},
+
+  {n:"Filmmaster", city:"Milan, Rome, London, Dubai", region:"lombardia", fit:"high",
+   types:["Brand experience","Event agency"],
+   why:"One of a handful of companies in the world that produces Olympic ceremonies, including the Milano Cortina 2026 closing ceremony at the Verona Arena. Seven offices. A long shot for a small supplier, but the Rome office runs brand work at a bookable scale.",
+   site:"filmmaster.com", phone:"+39 02 290911", email:"info@filmmaster.com",
+   addr:"Viale Fulvio Testi 121, 20162 Milano. Rome at Piazza Venezia 11, 00187",
+   people:[{nm:"Federica Ferrari", role:"International Business Development", em:"federica.ferrari@filmmaster.com"}],
+   founded:"Email pattern firstname.lastname@filmmaster.com"},
+
+  {n:"Newton and Newton Events", city:"Milan and Rome", region:"lombardia", fit:"high",
+   types:["Event agency","Brand experience"],
+   why:"Live communication group of over twenty years, building corporate event formats around culture change, live experience and immersive learning. Has a Rome office, and conventions and kick-offs are its bread and butter.",
+   site:"newtonevents.it", phone:"+39 02 3030461", email:"info@newtonevents.it",
+   addr:"Corso Sempione 68, 20154 Milano. Rome at Via Francesco Caracciolo 23/A",
+   people:[],
+   founded:"Procurement inbox: procurement@newtonevents.it"},
+
+  {n:"Piano B", city:"Milan", region:"lombardia", fit:"high",
+   types:["Event agency","Brand experience"],
+   why:"Creative network specialising in communication events with a low environmental impact production model. Festivals, shows, celebrations, conventions, fashion shows and product launches, with around 5 million euro of turnover.",
+   site:"pianob.it", phone:"+39 02 5461442", email:"info@pianob.it",
+   addr:"Via Sannio 26, 20137 Milano",
+   people:[{nm:"Stefano Losco", role:"Partner and commercial director"}],
+   founded:"1989"},
+
+  {n:"Smart Eventi", city:"Milan", region:"lombardia", fit:"high",
+   types:["Event agency","Incentive house","DMC"],
+   why:"Calls itself the number one event agency in Milan, ISO 20121 certified for sustainable events with carbon footprint accounting. Board meetings, product launches and international conferences, and it runs its own venue-finding portal.",
+   site:"smarteventi.it", phone:"+39 02 97381544", email:"info@smarteventi.it",
+   addr:"Viale Abruzzi 37, 20131 Milano",
+   people:[{nm:"Paolo Rossanigo", role:"Head of Events", em:"p.rossanigo@smarteventi.it"},{nm:"Alessandro Pitzalis", role:"Team Building and Incentive Manager", em:"a.pitzalis@smarteventi.it"}],
+   founded:"2010"},
+
+  {n:"TerraEvents DMC", city:"Milan, Rome, Florence, Venice", region:"lombardia", fit:"high",
+   types:["DMC","Event agency","Incentive house"],
+   why:"The single best structural fit on the list. A wholly owned DMC network across Italy, Spain, Portugal and France whose published service lines include galas and stage production as a category of their own. Has a Rome office.",
+   site:"terraevents.com", phone:"+39 02 49518950", email:"italy@terraevents.com",
+   addr:"Corso Vercelli 2, 20145 Milano",
+   people:[{nm:"Gaia Terrazzi", role:"Director of Sales and Marketing", em:"gaia.terrazzi@terraevents.com"},{nm:"Heather Williams", role:"CEO", em:"heather.williams@terraevents.com"}],
+   founded:"Email pattern firstname.lastname@terraevents.com"},
+
+  {n:"BBV Gastaldi Events", city:"Milan and Genoa", region:"lombardia", fit:"high",
+   types:["Incentive house","PCO","Event agency"],
+   why:"Part of Gastaldi Holding, covering congresses, incentive travel, corporate events, conventions and road shows. Member of Italia Live and the Genoa convention bureau, with named directors who answer their own email.",
+   site:"bbvgastaldi.it", phone:"+39 02 50043640", email:"milano@bbvgastaldi.it",
+   addr:"Piazza Luigi di Savoia 22, 20124 Milano",
+   people:[{nm:"Fabrizio Grando", role:"Managing Director", em:"fabrizio.grando@bbvgastaldi.it"},{nm:"Alessandra Gozzi", role:"Congress Director", em:"alessandra.gozzi@bbvgastaldi.it"}],
+   founded:""},
+
+  {n:"Chrysalis Communication", city:"Milan", region:"lombardia", fit:"high",
+   types:["Event agency","Incentive house","PCO"],
+   why:"Live communication agency running since 1988, covering live, virtual and hybrid events plus team building and incentive travel. Member of Federcongressi. Small enough that the CEO address is published.",
+   site:"chrysalis.it", phone:"+39 02 58430422", email:"info@chrysalis.it",
+   addr:"Via Serio 6, 20139 Milano",
+   people:[{nm:"Lorena Ferrari", role:"CEO", em:"l.ferrari@chrysalis.it"}],
+   founded:"1988"},
+
+  {n:"PV Agency", city:"Milan", region:"lombardia", fit:"high",
+   types:["Event agency","Incentive house","PCO","DMC"],
+   why:"Formerly Promoviaggi, running corporate events, congresses, incentive travel, promotions and road shows since 1974. Recent work includes bank conventions, which are a standard live band booking.",
+   site:"pvagency.it", phone:"+39 02 581891", email:"info@pvagency.it",
+   addr:"Viale Gian Galeazzo 3, 20136 Milano",
+   people:[{nm:"Luca Aquilino", role:"Listed contact"}],
+   founded:"1974"},
+
+  {n:"Agenzia YES!", city:"Milan and Seregno", region:"lombardia", fit:"high",
+   types:["Event agency","Incentive house","Brand experience"],
+   why:"Unusual on this list in that it already lists show and entertainment and catering among its own services, which means it either has suppliers it likes or wants more. Half a million euro of share capital and Confindustria membership.",
+   site:"agenziayes.it", phone:"+39 0362 243595", email:"info@agenziayes.it",
+   addr:"Via Legnano 28, 20121 Milano",
+   people:[{nm:"Andrea Brambilla", role:"Contact", em:"andrea.brambilla@agenziayes.it"}],
+   founded:""},
+
+  {n:"MZ Events", city:"Milan and Genoa", region:"lombardia", fit:"medium",
+   types:["PCO","DMC","Incentive house"],
+   why:"Congress organiser founded in 1987 with over 60 staff, handling meetings from 10 to 10,000 people. Mostly scientific, but it has a dedicated events and special projects sales line, which is the door to use.",
+   site:"mzevents.it", phone:"+39 02 66802323", email:"sales@mzevents.it",
+   addr:"Via Carlo Farini 81, 20159 Milano",
+   people:[{nm:"Benedetto Di Tommaso", role:"Sales, Events and Special Projects"},{nm:"Karen Rogerson", role:"International Events, DMC and Travel"}],
+   founded:"1987"},
+
+  {n:"Kampaay", city:"Milan", region:"lombardia", fit:"high",
+   types:["Event agency","Brand experience"],
+   why:"A technology platform rather than a traditional agency, delivering over 2,000 corporate events in 2024 for companies across Italy and Europe. It has a dedicated channel for suppliers who want to join the marketplace, which is the right way in.",
+   site:"kampaay.com", phone:"No public sales line, contact form only", email:"Supplier channel on the contact page",
+   addr:"Via Luigi Porro Lambertenghi 7, 20159 Milano",
+   people:[{nm:"Daniele Arduini", role:"CEO and co-founder"}],
+   founded:"2020", warn:"Go through the supplier partnership form, not a cold email."},
+
+  {n:"OIC Group", city:"Florence, Milan, Brussels", region:"altro", fit:"medium",
+   types:["PCO","DMC","Incentive house"],
+   why:"One of the first congress organisers in Italy, now over 100 professionals running around 500 events a year worldwide. Mostly medical and institutional, but the volume alone makes the social programme worth pitching.",
+   site:"oic.it", phone:"+39 055 50351", email:"info@oic.it",
+   addr:"Viale della Giovine Italia 17, 50122 Firenze",
+   people:[{nm:"Pisana Merlo", role:"New Business and PR", em:"p.merlo@oic.it"}],
+   founded:"1975"},
+
+  {n:"Promoest", city:"Milan and Genoa", region:"altro", fit:"high",
+   types:["Event agency","PCO","Incentive house","DMC"],
+   why:"Thirty years of events and congresses across Italy, ISO 9001 certified, covering institutional events, corporate events, incentive travel and team building. Also has Shanghai and Riyadh offices feeding international work.",
+   site:"promoest.com", phone:"+39 02 43912468 Milan, +39 010 5702228 Genoa", email:"congressi@promoest.com",
+   addr:"Via G.B. Moroni 33, 20146 Milano",
+   people:[{nm:"Barbara Colonnello", role:"Managing Director", em:"b.colonnello@promoest.com"}],
+   founded:""}
+];
+
+(function(){
+  var cards = document.getElementById('cards');
+  var count = document.getElementById('count');
+  var q = document.getElementById('q');
+  var state = { q:'', region:'all', type:'all', fit:'all' };
+
+  function esc(s){
+    return String(s == null ? '' : s)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;');
+  }
+
+  function cardHTML(a){
+    var tags = a.types.map(function(t){ return '<span class="tag">'+esc(t)+'</span>'; }).join('');
+    var people = a.people && a.people.length
+      ? '<div class="people">' + a.people.map(function(p){
+          return '<div class="person"><b>'+esc(p.nm)+'</b>, '+esc(p.role)
+            + (p.em ? '<br>'+mail(p.em) : '') + '</div>';
+        }).join('') + '</div>'
+      : '';
+    var warn = a.warn ? '<div class="person" style="margin-top:9px;color:#9b7434">'+esc(a.warn)+'</div>' : '';
+    var extra = a.founded ? '<dt>Note</dt><dd>'+esc(a.founded)+'</dd>' : '';
+    return ''
+      + '<article class="card">'
+      +   '<div class="cardtop"><h3>'+esc(a.n)+'</h3>'
+      +     '<span class="fit '+a.fit+'">'+(a.fit==='high'?'High fit':'Medium fit')+'</span></div>'
+      +   '<div class="where">'+esc(a.city)+'</div>'
+      +   '<div class="tags">'+tags+'</div>'
+      +   '<p class="why">'+esc(a.why)+'</p>'
+      +   '<div class="contact"><dl>'
+      +     '<dt>Web</dt><dd><a href="https://'+esc(a.site)+'" target="_blank" rel="noopener">'+esc(a.site)+'</a></dd>'
+      +     '<dt>Email</dt><dd>'+mail(a.email)+'</dd>'
+      +     '<dt>Phone</dt><dd>'+esc(a.phone)+'</dd>'
+      +     '<dt>Address</dt><dd>'+esc(a.addr)+'</dd>'
+      +     extra
+      +   '</dl>'+people+warn+'</div>'
+      + '</article>';
+  }
+
+  function mail(v){
+    var addr = (v || '').trim();
+    if(!addr || addr.indexOf('@') === -1 || /\s/.test(addr)) return esc(v);
+    return '<a href="mailto:'+esc(addr)+'">'+esc(addr)+'</a>'
+      + '<button class="copy" type="button" data-copy="'+esc(addr)+'">Copy</button>';
+  }
+
+  function matches(a){
+    if(state.region !== 'all' && a.region !== state.region) return false;
+    if(state.fit !== 'all' && a.fit !== state.fit) return false;
+    if(state.type !== 'all' && a.types.indexOf(state.type) === -1) return false;
+    if(state.q){
+      var hay = [a.n, a.city, a.addr, a.why, a.types.join(' '), a.email, a.site,
+        (a.people||[]).map(function(p){ return p.nm+' '+p.role; }).join(' ')].join(' ').toLowerCase();
+      if(hay.indexOf(state.q) === -1) return false;
+    }
+    return true;
+  }
+
+  function render(){
+    var list = AGENCIES.filter(matches);
+    cards.innerHTML = list.length
+      ? list.map(cardHTML).join('')
+      : '<div class="empty">No agencies match those filters. Clear the search or widen the region.</div>';
+    count.textContent = list.length + ' of ' + AGENCIES.length + ' agencies shown.';
+  }
+
+  function wire(id, key){
+    var box = document.getElementById(id);
+    box.addEventListener('click', function(e){
+      var b = e.target.closest('button');
+      if(!b) return;
+      [].forEach.call(box.querySelectorAll('button'), function(o){
+        o.setAttribute('aria-pressed', o === b ? 'true' : 'false');
+      });
+      state[key] = b.dataset.v;
+      render();
+    });
+  }
+  wire('fRegion','region');
+  wire('fType','type');
+  wire('fFit','fit');
+
+  q.addEventListener('input', function(){ state.q = q.value.trim().toLowerCase(); render(); });
+
+  document.getElementById('reset').addEventListener('click', function(){
+    state = { q:'', region:'all', type:'all', fit:'all' };
+    q.value = '';
+    ['fRegion','fType','fFit'].forEach(function(id){
+      [].forEach.call(document.getElementById(id).querySelectorAll('button'), function(o){
+        o.setAttribute('aria-pressed', o.dataset.v === 'all' ? 'true' : 'false');
+      });
+    });
+    render();
+  });
+
+  cards.addEventListener('click', function(e){
+    var b = e.target.closest('.copy');
+    if(!b) return;
+    var v = b.dataset.copy;
+    var done = function(){
+      b.dataset.done = '1';
+      b.textContent = 'Copied';
+      setTimeout(function(){ b.dataset.done = ''; b.textContent = 'Copy'; }, 1600);
+    };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(v).then(done, function(){});
+    } else {
+      var t = document.createElement('textarea');
+      t.value = v; document.body.appendChild(t); t.select();
+      try { document.execCommand('copy'); done(); } catch(err){}
+      document.body.removeChild(t);
+    }
+  });
+
+  document.getElementById('csv').addEventListener('click', function(){
+    var cols = ['Agency','City','Region','Fit','Types','Website','Email','Phone','Address','Contacts','Why'];
+    var rows = AGENCIES.filter(matches).map(function(a){
+      return [
+        a.n, a.city, a.region, a.fit, a.types.join('; '),
+        a.site, a.email, a.phone, a.addr,
+        (a.people||[]).map(function(p){ return p.nm+' ('+p.role+')'+(p.em?' '+p.em:''); }).join('; '),
+        a.why
+      ];
+    });
+    var csv = [cols].concat(rows).map(function(r){
+      return r.map(function(c){ return '"' + String(c).replace(/"/g,'""') + '"'; }).join(',');
+    }).join('\r\n');
+    var blob = new Blob(['﻿'+csv], {type:'text/csv;charset=utf-8;'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'shanti-songs-agency-prospects.csv';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 2000);
+  });
+
+  var easy = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('.topbar nav a[href^="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      var t = document.getElementById(a.getAttribute('href').slice(1));
+      if(!t) return;
+      e.preventDefault();
+      t.scrollIntoView({ block:'start', behavior: easy ? 'auto' : 'smooth' });
+    });
+  });
+
+  render();
+})();
+</script>
+
+</body>
+</html>

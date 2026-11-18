@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<!-- jpt:shantigate -->
+<script>(function(){
+  var ok=false;try{ok=localStorage.getItem('jpt_shanti_ok')==='1'}catch(e){}
+  if(ok)return;
+  document.documentElement.style.visibility='hidden';
+  var HASH='44ba14c6d47c6d5ca7c7268cf6c8c85c090c44e98ed77d10dd9bb5efaaf0c3b4';
+  function hex(buf){return Array.prototype.map.call(new Uint8Array(buf),function(b){return ('0'+b.toString(16)).slice(-2)}).join('')}
+  function check(pw){
+    return crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw)).then(function(buf){return hex(buf)===HASH});
+  }
+  function ask(){
+    var pw;try{pw=prompt('Password required')}catch(e){return}
+    if(pw===null)return;
+    check(pw).then(function(match){
+      if(match){try{localStorage.setItem('jpt_shanti_ok','1')}catch(e){}document.documentElement.style.visibility=''}
+      else{alert('Incorrect password.');ask()}
+    });
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',ask)}else{ask()}
+})();</script>
+<!-- /jpt:shantigate -->
+<title>Shanti and Songs, Rome</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#faf4f1;
+  --surface:#ffffff;
+  --ink:#171a2e;
+  --head:#0d1240;
+  --muted:#616781;
+  --line:#e5dcd7;
+  --line-soft:#efe7e2;
+  --accent:#0d1240;
+  --gold:#9b7434;
+  --gold-soft:#f5eddf;
+
+  --micro:.12s;
+  --base:.15s;
+  --move:.2s;
+  --enter:.3s;
+  --ease:cubic-bezier(.22,1,.36,1);
+
+  --r-s:6px;
+  --r-m:10px;
+  --r-l:16px;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"Outfit",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  font-size:17px;
+  line-height:1.65;
+  font-weight:300;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%}
+[hidden]{display:none!important}
+
+/* ---------- chrome ---------- */
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:40;
+  background:rgba(250,244,241,.94);
+  border-bottom:1px solid var(--line);
+  backdrop-filter:saturate(1.1) blur(8px);
+}
+.topbar-in{
+  max-width:1120px;
+  margin:0 auto;
+  padding:10px 20px;
+  display:flex;
+  align-items:center;
+  gap:18px;
+}
+.wordmark{
+  font-weight:600;
+  letter-spacing:.14em;
+  font-size:13px;
+  text-transform:uppercase;
+  color:var(--head);
+  white-space:nowrap;
+}
+.wordmark span{color:var(--gold)}
+.navscroll{
+  flex:1;
+  min-width:0;
+  overflow-x:auto;
+  overflow-y:hidden;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+.navscroll::-webkit-scrollbar{display:none}
+nav ul{
+  display:flex;
+  gap:4px;
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+nav a{
+  display:block;
+  white-space:nowrap;
+  padding:6px 11px;
+  border-radius:999px;
+  font-size:13.5px;
+  font-weight:400;
+  color:var(--muted);
+  text-decoration:none;
+  transition:color var(--micro) ease-out, background-color var(--micro) ease-out;
+}
+nav a:hover,nav a:focus-visible{color:var(--head);background:#fff}
+nav a[aria-current="true"]{color:#fff;background:var(--accent)}
+nav a.xlink{color:var(--gold);border:1px solid #e6d6ba;background:var(--gold-soft)}
+nav a.xlink:hover{color:var(--head);background:#fff}
+
+/* ---------- layout ---------- */
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+section{padding:60px 0;border-top:1px solid var(--line-soft);scroll-margin-top:62px}
+section:first-of-type{border-top:0}
+.kicker{
+  font-size:11.5px;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  font-weight:600;
+  color:var(--gold);
+  margin:0 0 10px;
+}
+h1,h2,h3,h4{color:var(--head);font-weight:500;letter-spacing:-.01em;margin:0}
+h1{font-size:clamp(34px,6vw,58px);line-height:1.05;font-weight:300;letter-spacing:-.02em}
+h2{font-size:clamp(25px,3.6vw,34px);line-height:1.15;margin-bottom:14px}
+h3{font-size:19px;line-height:1.3;font-weight:500}
+h4{font-size:15px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+p{margin:0 0 14px}
+.lede{font-size:clamp(18px,2.2vw,21px);line-height:1.55;color:var(--ink);max-width:62ch}
+.note{color:var(--muted);font-size:15px;max-width:68ch}
+a{color:var(--accent);text-decoration-thickness:1px;text-underline-offset:3px}
+a:hover{color:var(--gold)}
+
+/* ---------- hero ---------- */
+.hero{padding:58px 0 46px}
+.hero h1{max-width:16ch}
+.hero .lede{margin-top:20px}
+.heroline{
+  display:inline-block;
+  padding:5px 13px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:var(--surface);
+  font-size:12.5px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  font-weight:500;
+  color:var(--muted);
+  margin-bottom:22px;
+}
+.heroline b{color:var(--head);font-weight:600}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+  border-radius:var(--r-l);
+  overflow:hidden;
+  margin-top:34px;
+}
+.stat{background:var(--surface);padding:18px 18px 16px}
+.stat .n{
+  display:block;
+  font-size:27px;
+  font-weight:300;
+  color:var(--head);
+  line-height:1.1;
+  letter-spacing:-.02em;
+}
+.stat .l{
+  display:block;
+  margin-top:5px;
+  font-size:12.5px;
+  color:var(--muted);
+  line-height:1.4;
+}
+
+/* ---------- cards ---------- */
+.grid{display:grid;gap:18px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(185px,1fr))}
+.card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--r-m);
+  padding:22px;
+}
+.card h3{margin-bottom:8px}
+.card p:last-child{margin-bottom:0}
+.card .tag{
+  display:inline-block;
+  font-size:11px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  font-weight:600;
+  color:var(--gold);
+  margin-bottom:9px;
+}
+.lift{
+  transition:transform var(--base) var(--ease), border-color var(--micro) ease-out;
+}
+.lift:hover{transform:translateY(-2px);border-color:#d6c6bb}
+
+/* ---------- lists ---------- */
+ul.plain{margin:0;padding-left:1.15em}
+ul.plain li{margin-bottom:7px}
+ul.plain li:last-child{margin-bottom:0}
+ul.bare{list-style:none;margin:0;padding:0}
+
+/* ---------- timeline ---------- */
+.tl{list-style:none;margin:0;padding:0;position:relative}
+.tl::before{
+  content:"";
+  position:absolute;
+  left:7px;
+  top:8px;
+  bottom:8px;
+  width:1px;
+  background:var(--line);
+}
+.tl li{position:relative;padding:0 0 26px 34px}
+.tl li:last-child{padding-bottom:0}
+.tl li::before{
+  content:"";
+  position:absolute;
+  left:2px;
+  top:9px;
+  width:11px;
+  height:11px;
+  border-radius:50%;
+  background:var(--surface);
+  border:2px solid var(--head);
+}
+.tl .yr{
+  display:block;
+  font-size:12.5px;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  font-weight:600;
+  color:var(--gold);
+  margin-bottom:3px;
+}
+.tl strong{display:block;color:var(--head);font-weight:500;font-size:17.5px}
+.tl p{margin:4px 0 0;color:var(--muted);font-size:15.5px;max-width:74ch}
+
+/* ---------- day runner ---------- */
+.day{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+  border-radius:var(--r-m);
+  overflow:hidden;
+}
+.day > div{background:var(--surface);padding:20px}
+.day .step{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:25px;
+  height:25px;
+  border-radius:50%;
+  background:var(--head);
+  color:#fff;
+  font-size:13px;
+  font-weight:600;
+  margin-bottom:11px;
+}
+.day h4{margin-bottom:5px;color:var(--head)}
+.day p{margin:0;font-size:15px;color:var(--muted)}
+
+/* ---------- repertoire ---------- */
+.filters{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:20px}
+.filters button{
+  font:inherit;
+  font-size:13.5px;
+  font-weight:400;
+  padding:6px 14px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  background:var(--surface);
+  color:var(--muted);
+  cursor:pointer;
+  transition:color var(--micro) ease-out, background-color var(--micro) ease-out, border-color var(--micro) ease-out;
+}
+.filters button:hover{color:var(--head);border-color:#d6c6bb}
+.filters button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.songs{display:flex;flex-wrap:wrap;gap:7px}
+.song{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--r-s);
+  padding:7px 12px;
+  font-size:14.5px;
+  line-height:1.3;
+}
+.song b{font-weight:500;color:var(--head)}
+.song i{font-style:normal;color:var(--muted);font-size:13px;display:block}
+
+/* ---------- quotes ---------- */
+.quote{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-left:3px solid var(--gold);
+  border-radius:var(--r-s);
+  padding:20px 22px;
+}
+.quote p{font-size:17px;color:var(--head);margin-bottom:10px;font-weight:300}
+.quote .who{font-size:13.5px;color:var(--muted);line-height:1.45}
+.quote .who b{color:var(--head);font-weight:500}
+
+/* ---------- tables ---------- */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r-m);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:480px;font-size:15px}
+th,td{text-align:left;padding:12px 16px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+th{
+  font-weight:600;
+  font-size:11.5px;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  color:var(--muted);
+  background:#fdfaf8;
+}
+tr:last-child td{border-bottom:0}
+td b{font-weight:500;color:var(--head)}
+
+/* ---------- client logos as names ---------- */
+.clients{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+  border-radius:var(--r-m);
+  overflow:hidden;
+}
+.clients div{
+  background:var(--surface);
+  padding:22px 16px;
+  text-align:center;
+  font-size:15px;
+  font-weight:500;
+  color:var(--head);
+  letter-spacing:.02em;
+}
+
+/* ---------- caveat ---------- */
+.caveat{
+  background:var(--gold-soft);
+  border:1px solid #e6d6ba;
+  border-radius:var(--r-m);
+  padding:22px 24px;
+}
+.caveat h3{margin-bottom:10px}
+.caveat p:last-child,.caveat ul:last-child{margin-bottom:0}
+
+footer{
+  border-top:1px solid var(--line);
+  padding:34px 0 60px;
+  color:var(--muted);
+  font-size:14px;
+}
+footer a{color:var(--muted)}
+
+@media (max-width:640px){
+  body{font-size:16px}
+  section{padding:46px 0}
+  .card{padding:18px}
+}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+    scroll-behavior:auto!important;
+  }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="wordmark">Shanti <span>&amp;</span> Son(g)s</div>
+    <div class="navscroll">
+      <nav aria-label="Sections">
+        <ul>
+          <li><a href="#what">What they do</a></li>
+          <li><a href="#formats">Line-ups</a></li>
+          <li><a href="#day">The day</a></li>
+          <li><a href="#people">People</a></li>
+          <li><a href="#history">History</a></li>
+          <li><a href="#venues">Venues</a></li>
+          <li><a href="#clients">Clients</a></li>
+          <li><a href="#music">Repertoire</a></li>
+          <li><a href="#words">Reviews</a></li>
+          <li><a href="#facts">The business</a></li>
+          <li><a href="#sources">Sources</a></li>
+          <li><a href="/shanti/agencies" class="xlink">Agency list</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<section class="hero" id="top">
+  <span class="heroline">Rome, Italy <b>&middot;</b> Live music agency <b>&middot;</b> Researched 18 Nov 2026</span>
+  <h1>Shanti and Son(g)s Entertainment</h1>
+  <p class="lede">A Roman live-music company that supplies the whole sound of a luxury event, from a string quartet under a pergola at four o'clock to a six-voice show band at midnight. It is built around the singer Valentina Shanti and trades as Shanti&amp;Songs S.R.L. from an address in the north of Rome.</p>
+
+  <div class="stats">
+    <div class="stat"><span class="n">26.1k</span><span class="l">Instagram followers</span></div>
+    <div class="stat"><span class="n">59</span><span class="l">Videos on their YouTube channel</span></div>
+    <div class="stat"><span class="n">16+</span><span class="l">Named line-up formats, duo to sextet</span></div>
+    <div class="stat"><span class="n">&euro;316,630</span><span class="l">Declared turnover, 2025</span></div>
+    <div class="stat"><span class="n">5.0</span><span class="l">Rating across 10 listed reviews</span></div>
+  </div>
+</section>
+
+<section id="what">
+  <p class="kicker">The offer</p>
+  <h2>What they actually do</h2>
+  <p class="note">They describe themselves not as a band but as an agency: a pool of musicians and performers who are assembled into whatever shape the event needs. Their own site has four doors into the business.</p>
+
+  <div class="grid g4" style="margin-top:26px">
+    <div class="card lift">
+      <span class="tag">01</span>
+      <h3>Weddings</h3>
+      <p class="note">The core trade. An acoustic duo for the ceremony, a string quartet for the quiet interludes, a live band for the reception and a DJ for the dance floor, with song choices and the performers' clothing agreed in advance.</p>
+    </div>
+    <div class="card lift">
+      <span class="tag">02</span>
+      <h3>Corporate</h3>
+      <p class="note">Two ends of a range: discreet background music for formal meetings, and high-energy shows for product launches and team-building days. Their client wall is dominated by banks, pharma and tech.</p>
+    </div>
+    <div class="card lift">
+      <span class="tag">03</span>
+      <h3>Parties</h3>
+      <p class="note">Private celebrations and birthdays. Live band or DJ, custom shows, and a repertoire built to keep a floor full rather than to be admired from a chair.</p>
+    </div>
+    <div class="card lift">
+      <span class="tag">04</span>
+      <h3>Worldwide</h3>
+      <p class="note">Destination work. Based in Italy, available abroad, and willing to go somewhere they have never played. A 2026 couple booked them for Tivat in Montenegro, which was a first for the band.</p>
+    </div>
+  </div>
+
+  <div class="quote" style="margin-top:26px">
+    <p>Shanti&amp;Songs Entertainment is the key to luxury musical experiences.</p>
+    <div class="who">Their own opening line, used across the website, the Showgroup listing and the agency directories</div>
+  </div>
+</section>
+
+<section id="formats">
+  <p class="kicker">Configurations</p>
+  <h2>The line-ups they sell</h2>
+  <p class="note">This is the most useful thing in their archive. The YouTube channel is organised as a catalogue of formats rather than a highlights reel, so you can see exactly what a client is choosing between. Sizes run from one voice and a guitar up to a six-piece vocal show.</p>
+
+  <div class="grid g3" style="margin-top:26px">
+    <div class="card lift">
+      <h3>Vocal Sextet</h3>
+      <p class="note">Their flagship. Six voices, sold in two versions: a ceremony set and a party show. The ceremony film has about 7,000 views, the most-watched thing they have posted.</p>
+    </div>
+    <div class="card lift">
+      <h3>String Quartet</h3>
+      <p class="note">Two violins, viola and cello for ceremonies and drinks receptions. Reviewers mention it repeatedly for the aisle and the aperitivo.</p>
+    </div>
+    <div class="card lift">
+      <h3>Live Band</h3>
+      <p class="note">The full reception and party set. This is the configuration behind most of the Villa Miani and Villa Aurelia footage.</p>
+    </div>
+    <div class="card lift">
+      <h3>Laser Harp</h3>
+      <p class="note">The showpiece. A harp played on beams of light, pitched as the shape of a classical instrument with the sound and visual punch of an electronic one.</p>
+    </div>
+    <div class="card lift">
+      <h3>Sax and Electronic Pads</h3>
+      <p class="note">A saxophonist over electronic backing. Sold as an event show rather than background music, and the format that turns up in most of their recent Instagram clips.</p>
+    </div>
+    <div class="card lift">
+      <h3>Vale Shanti Trio and 4TeT</h3>
+      <p class="note">Valentina's own small groups, three and four pieces, used for dinner sets and for the more musically serious bookings.</p>
+    </div>
+    <div class="card lift">
+      <h3>To Be Duo</h3>
+      <p class="note">A named two-piece used for real weddings. The smallest standard product, and the one that typically covers a ceremony.</p>
+    </div>
+    <div class="card lift">
+      <h3>Voice and guitar</h3>
+      <p class="note">Offered with a female or a male singer, and in an extended version with a violin added. The quiet default for ceremonies and early evening.</p>
+    </div>
+    <div class="card lift">
+      <h3>Voice and piano</h3>
+      <p class="note">Also offered male or female, and as a trio with saxophone. The dinner option.</p>
+    </div>
+    <div class="card lift">
+      <h3>Spring Rolls</h3>
+      <p class="note">A named trio of voice, violin and bass. One of several small projects that carry their own branding rather than a generic label.</p>
+    </div>
+    <div class="card lift">
+      <h3>Swing Female Project</h3>
+      <p class="note">A jazz and swing set fronted by a female vocalist, leaning on the Ella Fitzgerald and Etta James end of their influences.</p>
+    </div>
+    <div class="card lift">
+      <h3>Loop station set</h3>
+      <p class="note">Male voice, guitar and a loop station. One performer building a full arrangement live, which is cheap to stage and holds a room.</p>
+    </div>
+    <div class="card lift">
+      <h3>Brass</h3>
+      <p class="note">A horn section, listed among their projects. Used for arrivals and for lifting a party set.</p>
+    </div>
+    <div class="card lift">
+      <h3>DJ set</h3>
+      <p class="note">Either on its own or handed the floor after the band. Several reviews describe a band-then-DJ handover running to the end of the night.</p>
+    </div>
+    <div class="card lift">
+      <h3>Circus Party</h3>
+      <p class="note">A themed show with performers rather than only musicians, filmed as a showreel about five years ago. The clearest sign that they sell staging and not just sound.</p>
+    </div>
+    <div class="card lift">
+      <h3>Amuser</h3>
+      <p class="note">Listed as a project on their own navigation. No public description survives, so treat this one as unconfirmed.</p>
+    </div>
+  </div>
+</section>
+
+<section id="day">
+  <p class="kicker">How it fits together</p>
+  <h2>A wedding day, as they stage it</h2>
+  <p class="note">Their wedding page and their reviews agree on the same four-part shape. A client is really buying a sequence, not a band.</p>
+  <div class="day" style="margin-top:26px">
+    <div>
+      <span class="step">1</span>
+      <h4>Ceremony</h4>
+      <p>Acoustic duo, or the string quartet for the aisle and the signing.</p>
+    </div>
+    <div>
+      <span class="step">2</span>
+      <h4>Aperitivo</h4>
+      <p>Strings or solo saxophone over the drinks reception and the photographs.</p>
+    </div>
+    <div>
+      <span class="step">3</span>
+      <h4>Dinner</h4>
+      <p>Vocalists and a small group, including a cued entrance song for the couple.</p>
+    </div>
+    <div>
+      <span class="step">4</span>
+      <h4>Party</h4>
+      <p>Full live band, then the DJ takes the floor through to the end of the night.</p>
+    </div>
+  </div>
+  <p class="note" style="margin-top:18px">Two details they push hard in their own copy: the setlist is rewritten per client, and the performers' clothing is treated as part of the product rather than an afterthought.</p>
+</section>
+
+<section id="people">
+  <p class="kicker">Who they are</p>
+  <h2>The people</h2>
+
+  <div class="grid g2" style="margin-top:22px">
+    <div class="card">
+      <span class="tag">Founder and lead vocalist</span>
+      <h3>Valentina Shanti</h3>
+      <p class="note">Stage name of Valentina Gatti, an Italian singer, performer and vocal coach based in Rome. She trained in popular and modern music at the Saint Louis College of Music in Rome, and the company is built around her voice and her contacts.</p>
+      <ul class="plain note" style="margin-top:12px">
+        <li>Fronted the band White Gold, which played the Saint Louis Jammin' festival in Rome in September 2015 alongside around forty young Italian artists.</li>
+        <li>Sat on the hundred-strong human wall of judges on the Canale 5 talent show All Together Now, in both the first series (May to June 2019) and the second (December 2019 to January 2020), billed in the Mediaset cast list as Valentina Gatti, alias Valentina Shanti.</li>
+        <li>Has taught singing at Mob Studios in Rome since at least 2017.</li>
+        <li>Described in the trade directories as having more than a decade in event entertainment, covering weddings, corporate parties, birthdays, banquets and anniversaries.</li>
+        <li>Her own small groups, Vale Shanti Trio and Vale Shanti 4TeT, still run inside the company as named products.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="tag">Office and planning</span>
+      <h3>Paolo</h3>
+      <p class="note">Named repeatedly in client reviews as the person who answers emails, runs the planning calls and builds the running order. No surname is published. In practice he appears to be the coordinator between the couple, their planner and whichever musicians are booked.</p>
+      <h3 style="margin-top:22px">The pool</h3>
+      <p class="note">No full roster is published anywhere. What the reviews and the video catalogue confirm is a rotating pool that includes violinists, a violist and a cellist, saxophonists, guitarists, pianists, a bassist, a brass section, DJs, additional male and female vocalists and, for the themed shows, non-musical performers. The registry filing records three employees for 2026, which fits a tiny permanent core hiring freelancers per event.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:18px">
+    <span class="tag">Also credited</span>
+    <h3>LZM Communication</h3>
+    <p class="note">The agency credited in the footer of every page of shantiandsongs.com, with a 2024 copyright line. The current site is their work, which dates the present brand presentation to 2024.</p>
+  </div>
+</section>
+
+<section id="history">
+  <p class="kicker">How it got here</p>
+  <h2>History</h2>
+  <p class="note">There is no published founding story, so this timeline is assembled from dated public traces: festival listings, broadcast cast lists, video upload dates, the registry filing and the reviews.</p>
+
+  <ol class="tl" style="margin-top:26px">
+    <li>
+      <span class="yr">2015</span>
+      <strong>White Gold and the Saint Louis scene</strong>
+      <p>Valentina Shanti is listed as the vocalist of White Gold at the Jammin' festival run by the Saint Louis College of Music in Rome, 12 September 2015, playing with Thomas Rocca on keys, Lucio Mastroianni on guitar, Stefano Zandomeneghi on bass and Luca Avvantaggiato on drums. The Rome conservatoire circuit is where the musician pool comes from.</p>
+    </li>
+    <li>
+      <span class="yr">2017</span>
+      <strong>Teaching</strong>
+      <p>She appears on the Mob Studios roster in Rome as a singing teacher, a post dated September 2017.</p>
+    </li>
+    <li>
+      <span class="yr">2019 to 2020</span>
+      <strong>National television</strong>
+      <p>Two consecutive series on the judging wall of All Together Now on Canale 5. A hundred names, so not stardom, but national visibility at exactly the point the event business was being built.</p>
+    </li>
+    <li>
+      <span class="yr">Around 2021</span>
+      <strong>The catalogue is filmed</strong>
+      <p>The oldest surviving videos on the Shanti&amp;Songs channel are showreels rather than real events: vocal sextet, string quartet, laser harp, circus party, sax and electronic pads. This is a company deliberately building a product menu to sell from.</p>
+    </li>
+    <li>
+      <span class="yr">2022 to 2023</span>
+      <strong>Real weddings in Roman villas</strong>
+      <p>The uploads switch from showreels to named venues: Villa Astor, Villa Aurelia, Villa Dino, Villa Miani, and La Lanterna in Rome. The duo and trio formats appear alongside the full band.</p>
+    </li>
+    <li>
+      <span class="yr">2024</span>
+      <strong>The company and the current brand</strong>
+      <p>Shanti&amp;Songs S.R.L. is on the Rome register at Via Gaspara Stampa 63 with a share capital of 10,000 euro, trading under the party and ceremony organisation code. Turnover for 2024 is recorded at 233,235 euro with a profit of 23,006 euro. The present website goes up, credited to LZM Communication.</p>
+    </li>
+    <li>
+      <span class="yr">2025</span>
+      <strong>Growth</strong>
+      <p>Declared turnover rises to 316,630 euro, about 36 per cent up on the previous year. A Florence wedding at Villa Corsini in July draws one of the warmest reviews on file.</p>
+    </li>
+    <li>
+      <span class="yr">2026</span>
+      <strong>Abroad, and up the rankings</strong>
+      <p>Bookings at the Odescalchi Castle in Bracciano in March, Villa Aurelia in May, Montenegro in June and July, Abbazia San Giusto near Viterbo in June. They place sixth on one directory's list of the twenty-three best wedding bands in Rome, and fifteenth for Italy as a whole. A film from Palazzo Shedir, the Leading Hotels of the World property inside Palazzo Borghese, goes up in the summer.</p>
+    </li>
+  </ol>
+</section>
+
+<section id="venues">
+  <p class="kicker">Where they play</p>
+  <h2>Venues</h2>
+  <p class="note">Their own site carries a Hosted By wall. The directory reviews add more. Together they describe a business that works the top of the Italian destination wedding market and travels for it.</p>
+
+  <h3 style="margin:26px 0 12px">Named on their own site</h3>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Venue</th><th>Where</th><th>What it is</th></tr></thead>
+      <tbody>
+        <tr><td><b>Villa Miani</b></td><td>Monte Mario, Rome</td><td>Panoramic villa above the city. The venue that appears most in their footage.</td></tr>
+        <tr><td><b>Villa Aurelia</b></td><td>Janiculum, Rome</td><td>American Academy villa with formal gardens.</td></tr>
+        <tr><td><b>Casale 500</b></td><td>Rome</td><td>Country estate venue, also one of their Instagram story highlights.</td></tr>
+        <tr><td><b>Villa Tasca</b></td><td>Palermo, Sicily</td><td>Eighteenth-century baroque villa in a six-hectare citrus park.</td></tr>
+        <tr><td><b>Villa Eva</b></td><td>Ravello, Amalfi Coast</td><td>Liberty-style villa with a cliff terrace over the sea.</td></tr>
+        <tr><td><b>La Rondinaia</b></td><td>Ravello, Amalfi Coast</td><td>Gore Vidal's former home, 400 metres above the water, restored in 2019.</td></tr>
+        <tr><td><b>Villa Cipressi</b></td><td>Varenna, Lake Como</td><td>Terraced botanical gardens on the lake.</td></tr>
+        <tr><td><b>La Librata</b></td><td>Italy, exact location unconfirmed</td><td>Listed on their wall, with no public venue record found.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="margin:30px 0 12px">Added by their video archive and client reviews</h3>
+  <div class="grid g3">
+    <div class="card"><h4 style="margin-bottom:8px">Rome and Lazio</h4><ul class="plain note"><li>Palazzo Shedir, Palazzo Borghese</li><li>La Lanterna</li><li>Villa Astor</li><li>Villa Dino</li><li>Odescalchi Castle, Bracciano</li><li>Villa Parisi and Villa Tuscolana, Frascati</li><li>Casina di Poggio della Rota, Bassano Romano</li><li>Villa Rosantica</li><li>Relais Appia Antica</li><li>Villa Livia</li><li>Cerveteri</li><li>Abbazia San Giusto, Tuscania</li></ul></div>
+    <div class="card"><h4 style="margin-bottom:8px">Elsewhere in Italy</h4><ul class="plain note"><li>Villa Corsini, Florence</li><li>Florence, further bookings</li></ul></div>
+    <div class="card"><h4 style="margin-bottom:8px">Abroad</h4><ul class="plain note"><li>Regent Porto Montenegro, Tivat</li><li>Adriatica Restaurant, Montenegro</li></ul><p class="note" style="margin-top:10px">One Montenegro couple noted the band had never played the country before and travelled for the booking.</p></div>
+  </div>
+</section>
+
+<section id="clients">
+  <p class="kicker">Corporate side</p>
+  <h2>Clients on their wall</h2>
+  <p class="note">The client section of their site is a logo grid with no captions. Read from the logos themselves, it is a serious corporate list and the clearest evidence that weddings are not the whole business.</p>
+  <div class="clients" style="margin-top:24px">
+    <div>American Express</div>
+    <div>Johnson &amp; Johnson</div>
+    <div>Huawei</div>
+    <div>Lottomatica</div>
+    <div>BCC Credito Cooperativo</div>
+    <div>Isokinetic</div>
+    <div>Spencer &amp; Lewis</div>
+  </div>
+  <p class="note" style="margin-top:16px">A payments network, a pharmaceutical group, a telecoms manufacturer, Italy's lottery operator, a cooperative banking group, a sports medicine clinic and a global branding house. All plausible buyers of the background-music and product-launch end of the offer.</p>
+</section>
+
+<section id="music">
+  <p class="kicker">The songs</p>
+  <h2>Repertoire</h2>
+  <p class="note">They cite Ella Fitzgerald, Etta James, Amy Winehouse, Sting, Ed Sheeran, Lady Gaga, Queen, Bruno Mars and Elton John as their reference points. The working party list is more commercial than that suggests. Seventy-three entries are published, two of which are duplicates, so seventy-one distinct titles, and they are chosen to move a floor rather than to show off.</p>
+
+  <div class="filters" style="margin-top:24px" role="group" aria-label="Filter repertoire by style">
+    <button type="button" data-f="all" aria-pressed="true">All</button>
+    <button type="button" data-f="disco" aria-pressed="false">Disco and funk</button>
+    <button type="button" data-f="dance" aria-pressed="false">Dance</button>
+    <button type="button" data-f="pop" aria-pressed="false">Pop and soul</button>
+    <button type="button" data-f="rock" aria-pressed="false">Rock</button>
+    <button type="button" data-f="hiphop" aria-pressed="false">Hip hop and R&amp;B</button>
+    <button type="button" data-f="2000s" aria-pressed="false">2000s party</button>
+    <button type="button" data-f="rnr" aria-pressed="false">Rock and roll</button>
+  </div>
+
+  <div class="songs" id="songs">
+    <div class="song" data-c="disco"><b>Dancing Queen</b><i>Abba</i></div>
+    <div class="song" data-c="disco"><b>Gimme! Gimme! Gimme!</b><i>Abba</i></div>
+    <div class="song" data-c="disco"><b>I Will Survive</b><i>Gloria Gaynor</i></div>
+    <div class="song" data-c="disco"><b>That's the Way I Like It</b><i>KC and the Sunshine Band</i></div>
+    <div class="song" data-c="disco"><b>Stayin' Alive</b><i>Bee Gees</i></div>
+    <div class="song" data-c="disco"><b>Le Freak</b><i>Chic</i></div>
+    <div class="song" data-c="disco"><b>Uptown Funk</b><i>Bruno Mars</i></div>
+    <div class="song" data-c="disco"><b>Locked Out of Heaven</b><i>Bruno Mars</i></div>
+    <div class="song" data-c="disco"><b>APT.</b><i>Bruno Mars and Ros&eacute;</i></div>
+    <div class="song" data-c="disco"><b>Get Lucky</b><i>Daft Punk</i></div>
+    <div class="song" data-c="disco"><b>Hey Ya!</b><i>OutKast</i></div>
+    <div class="song" data-c="disco"><b>Happy</b><i>Pharrell Williams</i></div>
+
+    <div class="song" data-c="dance"><b>Levels</b><i>Avicii</i></div>
+    <div class="song" data-c="dance"><b>Wake Me Up</b><i>Avicii</i></div>
+    <div class="song" data-c="dance"><b>Addicted to You</b><i>Avicii</i></div>
+    <div class="song" data-c="dance"><b>Titanium</b><i>David Guetta and Sia</i></div>
+    <div class="song" data-c="dance"><b>Can't Stop the Feeling</b><i>Justin Timberlake</i></div>
+    <div class="song" data-c="dance"><b>SexyBack</b><i>Justin Timberlake</i></div>
+    <div class="song" data-c="dance"><b>Levitating</b><i>Dua Lipa</i></div>
+    <div class="song" data-c="dance"><b>Dance the Night</b><i>Dua Lipa</i></div>
+    <div class="song" data-c="dance"><b>Love Again</b><i>Dua Lipa</i></div>
+    <div class="song" data-c="dance"><b>Dynamite</b><i>BTS</i></div>
+    <div class="song" data-c="dance"><b>Sexy and I Know It</b><i>LMFAO</i></div>
+    <div class="song" data-c="dance"><b>Gangnam Style</b><i>Psy</i></div>
+
+    <div class="song" data-c="pop"><b>Love on the Brain</b><i>Rihanna</i></div>
+    <div class="song" data-c="pop"><b>Diamonds</b><i>Rihanna</i></div>
+    <div class="song" data-c="pop"><b>Don't Stop the Music</b><i>Rihanna</i></div>
+    <div class="song" data-c="pop"><b>Halo</b><i>Beyonc&eacute;</i></div>
+    <div class="song" data-c="pop"><b>Love on Top</b><i>Beyonc&eacute;</i></div>
+    <div class="song" data-c="pop"><b>Crazy in Love</b><i>Beyonc&eacute;</i></div>
+    <div class="song" data-c="pop"><b>Chandelier</b><i>Sia</i></div>
+    <div class="song" data-c="pop"><b>Where Is My Husband!</b><i>Raye</i></div>
+    <div class="song" data-c="pop"><b>Shape of You</b><i>Ed Sheeran</i></div>
+    <div class="song" data-c="pop"><b>Unholy</b><i>Sam Smith</i></div>
+    <div class="song" data-c="pop"><b>American Boy</b><i>Estelle</i></div>
+    <div class="song" data-c="pop"><b>Moves Like Jagger</b><i>Maroon 5 and Christina Aguilera</i></div>
+
+    <div class="song" data-c="rock"><b>Don't Stop Me Now</b><i>Queen</i></div>
+    <div class="song" data-c="rock"><b>Somebody to Love</b><i>Queen</i></div>
+    <div class="song" data-c="rock"><b>Sweet Dreams</b><i>Eurythmics</i></div>
+    <div class="song" data-c="rock"><b>It's My Life</b><i>Bon Jovi</i></div>
+    <div class="song" data-c="rock"><b>Song 2</b><i>Blur</i></div>
+    <div class="song" data-c="rock"><b>Somebody Told Me</b><i>The Killers</i></div>
+    <div class="song" data-c="rock"><b>What's My Age Again?</b><i>Blink-182</i></div>
+    <div class="song" data-c="rock"><b>Sk8er Boi</b><i>Avril Lavigne</i></div>
+    <div class="song" data-c="rock"><b>Basket Case</b><i>Green Day</i></div>
+    <div class="song" data-c="rock"><b>Beggin'</b><i>M&aring;neskin</i></div>
+    <div class="song" data-c="rock"><b>I Wanna Be Your Slave</b><i>M&aring;neskin</i></div>
+    <div class="song" data-c="rock"><b>Bad Guy</b><i>Billie Eilish</i></div>
+    <div class="song" data-c="rock"><b>Adventure of a Lifetime</b><i>Coldplay</i></div>
+    <div class="song" data-c="rock"><b>A Sky Full of Stars</b><i>Coldplay</i></div>
+    <div class="song" data-c="rock"><b>Viva la Vida</b><i>Coldplay</i></div>
+
+    <div class="song" data-c="hiphop"><b>In da Club</b><i>50 Cent</i></div>
+    <div class="song" data-c="hiphop"><b>Lose Yourself</b><i>Eminem</i></div>
+    <div class="song" data-c="hiphop"><b>Yeah!</b><i>Usher</i></div>
+    <div class="song" data-c="hiphop"><b>Get Busy</b><i>Sean Paul</i></div>
+    <div class="song" data-c="hiphop"><b>Pump It</b><i>Black Eyed Peas</i></div>
+    <div class="song" data-c="hiphop"><b>I Gotta Feeling</b><i>Black Eyed Peas</i></div>
+
+    <div class="song" data-c="2000s"><b>Tik Tok</b><i>Kesha</i></div>
+    <div class="song" data-c="2000s"><b>Call Me Maybe</b><i>Carly Rae Jepsen</i></div>
+    <div class="song" data-c="2000s"><b>California Gurls</b><i>Katy Perry</i></div>
+    <div class="song" data-c="2000s"><b>Firework</b><i>Katy Perry</i></div>
+    <div class="song" data-c="2000s"><b>Hot n Cold</b><i>Katy Perry</i></div>
+    <div class="song" data-c="2000s"><b>Barbie Girl</b><i>Aqua</i></div>
+    <div class="song" data-c="2000s"><b>Believe</b><i>Cher</i></div>
+    <div class="song" data-c="2000s"><b>Wannabe</b><i>Spice Girls</i></div>
+    <div class="song" data-c="2000s"><b>Everybody</b><i>Backstreet Boys</i></div>
+    <div class="song" data-c="2000s"><b>Toxic</b><i>Britney Spears</i></div>
+
+    <div class="song" data-c="rnr"><b>Let's Twist Again</b><i>Chubby Checker</i></div>
+    <div class="song" data-c="rnr"><b>Johnny B. Goode</b><i>Chuck Berry</i></div>
+    <div class="song" data-c="rnr"><b>Rock Around the Clock</b><i>Bill Haley</i></div>
+    <div class="song" data-c="rnr"><b>Blue Suede Shoes</b><i>Elvis Presley</i></div>
+  </div>
+  <p class="note" id="songcount" style="margin-top:16px" aria-live="polite"></p>
+  <p class="note">Beyond the party list, the videos add a jazz and standards side, a swing project, and at least one big ballad cover, Never Enough from The Greatest Showman. One review mentions a first dance sung partly in French, which fits a company that rewrites a set per client.</p>
+</section>
+
+<section id="words">
+  <p class="kicker">What clients say</p>
+  <h2>Reviews</h2>
+  <p class="note">Ten reviews are published on the directory that lists them, all at five stars, and the names and venues are specific enough to be checkable. The pattern across them is consistent: international couples marrying in Italy, praise for the voice, and praise for reading a room.</p>
+
+  <div class="grid g2" style="margin-top:24px">
+    <div class="quote">
+      <p>They were truly one of the highlights of our wedding in Rome.</p>
+      <div class="who"><b>Brooke Berry</b><br>Villa Aurelia, Rome, 21 May 2026</div>
+    </div>
+    <div class="quote">
+      <p>We honestly couldn't have asked for a better band for our wedding.</p>
+      <div class="who"><b>Melis M&#305;s&#305;rl&#305;</b><br>Regent Porto Montenegro, Tivat, 4 July 2026</div>
+    </div>
+    <div class="quote">
+      <p>They have an incredible ability to read the atmosphere.</p>
+      <div class="who"><b>Giulia Tucci</b><br>Abbazia San Giusto, Tuscania, 27 June 2026</div>
+    </div>
+    <div class="quote">
+      <p>The vocalist was simply phenomenal: her voice was stunning and soulful.</p>
+      <div class="who"><b>Farrah Layla Saleh</b><br>Villa Corsini, Florence, 25 July 2025</div>
+    </div>
+    <div class="quote">
+      <p>I would recommend them a million times over to anyone.</p>
+      <div class="who"><b>Kiana Murdock</b><br>Adriatica Restaurant, Montenegro, 15 June 2026</div>
+    </div>
+    <div class="quote">
+      <p>Valentina was the pearl of our wedding.</p>
+      <div class="who"><b>Vale and Giacco</b><br>Italy, around 2022</div>
+    </div>
+  </div>
+  <p class="note" style="margin-top:18px">Worth noting for balance: all ten sit on the booking directory's own listing page. No independent Italian review aggregator carries a verified profile for them, so there is no second opinion to weigh these against.</p>
+</section>
+
+<section id="facts">
+  <p class="kicker">The company</p>
+  <h2>The business behind the band</h2>
+
+  <div class="tablewrap" style="margin-top:22px">
+    <table>
+      <tbody>
+        <tr><th>Registered name</th><td><b>Shanti&amp;Songs S.R.L.</b></td></tr>
+        <tr><th>Trading name</th><td>Shanti&amp;Songs Entertainment, styled Shanti and Son(g)s on social media</td></tr>
+        <tr><th>Registered office</th><td>Via Gaspara Stampa 63, 00137 Rome</td></tr>
+        <tr><th>VAT and tax code</th><td>17052751009, EU VAT IT17052751009</td></tr>
+        <tr><th>REA number</th><td>Rome, 1692494</td></tr>
+        <tr><th>Activity code</th><td>ATECO 969993, organisation of parties and ceremonies</td></tr>
+        <tr><th>Share capital</th><td>10,000 euro</td></tr>
+        <tr><th>Turnover</th><td>233,235 euro in 2024, profit 23,006 euro. 316,630 euro in 2025.</td></tr>
+        <tr><th>Employees</th><td>3 recorded for 2026. An earlier snapshot of the same aggregator showed 12 for 2025, so treat the headcount as unreliable.</td></tr>
+        <tr><th>Price range</th><td>Roughly 1,500 to 10,000 euro per booking, per the directory that lists them. An older listing capped it at 3,100 euro, which suggests the top end has moved with the venues.</td></tr>
+        <tr><th>Email</th><td>info@shantiandsongs.com</td></tr>
+        <tr><th>Phone</th><td>+39 351 962 2870 on the site footer. +39 347 451 1166 behind the WhatsApp button and on the contact page. Both are live on their own pages.</td></tr>
+        <tr><th>Certified email</th><td>shantisongs@legalmail.it</td></tr>
+        <tr><th>Website</th><td><a href="https://www.shantiandsongs.com/">shantiandsongs.com</a>, built by LZM Communication, 2024</td></tr>
+        <tr><th>Social</th><td><a href="https://www.instagram.com/shantiandsongs_entertainment/">Instagram</a> 26.1k followers &middot; <a href="https://www.youtube.com/@shantisongsentertainment4610">YouTube</a> 239 subscribers, 59 videos &middot; TikTok &middot; LinkedIn</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note" style="margin-top:14px">The financial and registry figures come from a commercial business-registry aggregator rather than an official Registro Imprese extract, so they are indicative rather than certified.</p>
+</section>
+
+<section id="gaps">
+  <div class="caveat">
+    <h3>What the research could not settle</h3>
+    <ul class="plain">
+      <li><b>No founding date.</b> No incorporation date is published for the S.R.L. The VAT number and REA both point to a recent registration, probably 2022 or 2023, but that is inference from number ranges, not a sourced fact. The performing act clearly predates the company by several years.</li>
+      <li><b>No named roster.</b> Beyond Valentina and a first-name reference to Paolo, no musician is publicly named by the company.</li>
+      <li><b>Project pages have been removed.</b> Search engines still hold entries for individual project pages such as the laser harp, but those URLs now return a 404. The current site is a single page with anchors, so some of the detail quoted in directories is no longer live on their own domain.</li>
+      <li><b>La Librata</b> appears on their venue wall with no matching public venue record.</li>
+      <li><b>The team copy on their own site is broken.</b> The About section switches between they, her and she in a single paragraph and still talks only about weddings, which reads as leftover text from an earlier single-artist profile that was never rewritten for the agency.</li>
+      <li><b>TikTok could not be read.</b> The account requires a login to view, so nothing from it is included here.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="sources">
+  <p class="kicker">Where this came from</p>
+  <h2>Sources</h2>
+  <ul class="plain note">
+    <li><a href="https://www.shantiandsongs.com/">shantiandsongs.com</a>, including the wedding, corporate, parties and worldwide pages, and the client and venue walls read from the page itself</li>
+    <li><a href="https://www.instagram.com/shantiandsongs_entertainment/">instagram.com/shantiandsongs_entertainment</a>, follower count, bio and story highlights</li>
+    <li><a href="https://www.youtube.com/@shantisongsentertainment4610">YouTube, Shanti&amp;Songs Entertainment</a>, the full video catalogue with upload dates and view counts</li>
+    <li><a href="https://www.weddingmusicbanditaly.com/wedding-music-italy/wedding-bands/rome/valentina-shanti/">Wedding Music Band Italy, Valentina Shanti listing</a>, repertoire, price range and the ten reviews</li>
+    <li><a href="https://www.weddingmusicbanditaly.com/best-wedding-bands-for-hire-rome-italy/">Wedding Music Band Italy, best wedding bands in Rome 2026</a>, ranking and Lazio venues</li>
+    <li><a href="https://www.ufficiocamerale.it/3130/shantisongs-srl">Ufficio Camerale, Shanti&amp;Songs S.R.L.</a>, registry and financial data</li>
+    <li><a href="https://saintlouis.eu/news/jammin-2015/">Saint Louis College of Music, Jammin' 2015</a>, the White Gold line-up</li>
+    <li><a href="https://it.wikipedia.org/wiki/All_Together_Now_-_La_musica_%C3%A8_cambiata_(prima_edizione)">All Together Now, first series</a> and <a href="https://it.wikipedia.org/wiki/All_Together_Now_-_La_musica_%C3%A8_cambiata_(seconda_edizione)">second series</a>, judging wall cast lists</li>
+    <li><a href="https://mobstudios.it/valentina-shanti/">Mob Studios Rome</a>, teaching roster</li>
+    <li><a href="https://www.showgroup.it/vetrine/musicisti/roma">Showgroup</a>, Rome musicians listing</li>
+    <li><a href="https://italianvenues.com/weddings/venues/la-rondinaia/">Italian Venues</a> and <a href="https://www.weddingsitaly.com/wedding-in-sicily/villa-tasca.html">Weddings Italy</a>, venue descriptions and locations</li>
+  </ul>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    Research page compiled 18 November 2026 from public sources. Not affiliated with Shanti&amp;Songs Entertainment. Company details are reproduced from public business-registry aggregators and may be out of date.
+  </div>
+</footer>
+
+<script>
+(function(){
+  var easy = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* anchor nav: reduced-motion-safe scrolling */
+  document.querySelectorAll('nav a[href^="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      var t = document.getElementById(a.getAttribute('href').slice(1));
+      if(!t) return;
+      e.preventDefault();
+      t.scrollIntoView({ block:'start', behavior: easy ? 'auto' : 'smooth' });
+      history.replaceState(null,'',a.getAttribute('href'));
+    });
+  });
+
+  /* active section highlight */
+  var links = [].slice.call(document.querySelectorAll('nav a[href^="#"]'));
+  var targets = links.map(function(a){ return document.getElementById(a.getAttribute('href').slice(1)); });
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(!en.isIntersecting) return;
+        var i = targets.indexOf(en.target);
+        links.forEach(function(l,j){ l.setAttribute('aria-current', j===i ? 'true' : 'false'); });
+      });
+    }, { rootMargin:'-20% 0px -70% 0px' });
+    targets.forEach(function(t){ if(t) io.observe(t); });
+  }
+
+  /* repertoire filter */
+  var songs = [].slice.call(document.querySelectorAll('#songs .song'));
+  var count = document.getElementById('songcount');
+  function apply(f){
+    var n = 0;
+    songs.forEach(function(s){
+      var show = (f === 'all' || s.dataset.c === f);
+      s.hidden = !show;
+      if(show) n++;
+    });
+    count.textContent = n + ' of ' + songs.length + ' titles shown.';
+  }
+  document.querySelectorAll('.filters button').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('.filters button').forEach(function(o){
+        o.setAttribute('aria-pressed', o === b ? 'true' : 'false');
+      });
+      apply(b.dataset.f);
+    });
+  });
+  apply('all');
+})();
+</script>
+
+</body>
+</html>

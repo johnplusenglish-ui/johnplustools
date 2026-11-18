@@ -4,6 +4,19 @@
 [build]
   publish = "."
 
+# The Shanti and Songs research pages. These sit outside build.py and carry their
+# own password gate, separate from the site-wide one. Both rules must stay ABOVE
+# the /:tool catch-all, which would otherwise match /shanti first.
+[[redirects]]
+  from = "/shanti"
+  to = "/shanti/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/shanti/agencies"
+  to = "/shanti/agencies.html"
+  status = 200
+
 # Short URLs: /debate-builder serves /tools/debate-builder.html, and so on for
 # every tool. force = false, so a real file at that path always wins.
 [[redirects]]
@@ -29,3 +42,9 @@
   for = "/tests/*"
   [headers.values]
     X-Robots-Tag = "noindex"
+
+# Private research pages, kept out of search results entirely.
+[[headers]]
+  for = "/shanti/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
