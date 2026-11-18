@@ -191,6 +191,8 @@ LESSON_LINKS = [
      'tagline': 'C2 grammar practice: seven exercises on contrast, concession, result, cause and purpose.'},
     {'href': '/lessons/speaking-analysis.html', 'name': 'Speaking Analysis',
      'tagline': 'A twelve-stage diagnostic for one candidate: tick the language you hear, and it becomes a band profile.'},
+    {'href': '/lessons/speaking-analysis-pairs.html', 'name': 'Speaking Analysis: Pairs',
+     'tagline': 'The same diagnostic for two candidates, tracked separately, ending in two band profiles side by side.'},
 ]
 
 FAVICON = ("<link rel=\"icon\" href=\"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' "
