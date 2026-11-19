@@ -554,6 +554,9 @@ body.collapsed .main{margin:0 auto;max-width:calc(var(--col) + 68px);padding:40p
     <button type="button" class="coll" id="collb" title="Collapse"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
   </div>
 
+  <div class="glab">Test</div>
+  <nav class="snav" id="testnav"></nav>
+
   <div class="glab">Candidates</div>
   <div class="whos">
     <div class="who1 a"><span class="tag">A</span><input id="namea" type="text" placeholder="Candidate A" maxlength="24" autocomplete="off"></div>
@@ -698,7 +701,13 @@ function buildPrompt(p){
 
 /* ---- the four photographs, two pairs ---- */
 
-var PHOTOS = {
+/* ---- the tests. Each one is eleven stages and four photographs. ---- */
+
+var TESTS = [
+{
+  n:1, title:"Learning and getting about",
+  photos:{
+
   a1:{ label:"The lecture theatre", src:"pairs-photos/a1.jpg",
     scene:"THE SCENE: a big raked lecture theatre in a city university at eleven in the morning on a clear day, the blinds up along the high windows on the left so daylight pours in across the rows and lights the whole room. The lecture is twenty minutes in and it is going well. Down at the front, small and a long way off, the lecturer stands to one side of a projected slide of a bar chart, one hand lifted towards the first bar and the other out towards the room, mid-question, a clip microphone on his jumper, a bottle of water and a stack of paper on the bench beside him. The seats rise in curved rows of fixed blue flip-up chairs with narrow fold-out writing tablets, nearly every one taken, coats over the seat backs in a long line of navy and black with one bright yellow among them, bags in the footwells. Students at every stage of attention: a dozen laptops open, a ring binder, spiral notebooks with coloured tabs down the edge, a highlighter cap held in somebody's teeth, two heads tipped close together comparing notes, three hands going up near the front, one person twisted round to say something to the row behind, travel mugs and a water bottle on the tablets, a green fire exit sign over a door at the bottom left, clean grey steps with white nosing strips and a strip of carpet up the middle.",
     who:"WHO THEY ARE, EXACTLY: not a generic person. Build this specific person and no one else. Nearest the camera, in the row just below, a man of twenty, British Pakistani, mid-brown skin with an olive undertone, thick black hair cut short at the sides and pushed up at the front with one piece fallen forward over the temple, a long straight nose with a slight bend to the left, a narrow jaw carrying patchy beard growth along the jawline, deep-set dark brown eyes under heavy brows that nearly meet, one upper front tooth sitting slightly crooked behind the other, the right ear a little higher than the left, very lanky, about six foot three, so his knees press against the seat back in front of him. He is leaning forward with his forearms on the tablet, following the slide closely. Grey marl hoodie, black jeans, white socks showing above black trainers, a cheap digital watch on a rubber strap, a plain silver ring on the right index finger. Beside him, one seat along, a woman of thirty-four, Polish, a mature student, fair skin with colour in the cheeks, hair bleached to a brassy blonde and grown out dark at the roots, cut short and tapered at the nape, a wide flattish nose, a square jaw, grey-green eyes with the right eyebrow broken by a small old scar, slightly uneven lower teeth, one gold sleeper in the left ear and an empty second hole in the right, sturdy with broad shoulders, about five foot six, writing fast in a spiral notebook with her mouth slightly open. Black fleece half-zip over a navy and white striped top, dark bootcut jeans, a plain wedding band, reading glasses pushed up into her hair, a lanyard with a library card. Sketched around them: the lecturer at the front, a Ghanaian man in his late fifties, very dark skin, shaved head, maroon jumper over a shirt with the collar out, weight on one leg, clearly enjoying the question he has just asked. Two rows down, a woman of about nineteen from Hong Kong, small, straight black hair in a low ponytail, a beige puffer, typing fast. On the aisle, a Scottish lad of about twenty-one with a ginger buzz cut and freckles, rugby shoulders, hand half up. Behind him, a Brazilian woman of about twenty-three with tight dark curls pinned up, gold hoops, braces on the top teeth, laughing at something. At the end of the row, a Sri Lankan man of about forty-five in a grey zip cardigan, glasses low on his nose, writing in a notebook on his knee. Nobody is looking anywhere near the camera.",
@@ -719,11 +728,9 @@ var PHOTOS = {
     who:"WHO SHE IS, EXACTLY: not a generic person. Build this specific person and no one else. A woman of fifty-two, Welsh, from Swansea and twenty years in the city, fair skin with real colour in the cheeks from the ride and the cold air, mousy hair going grey at the parting cut into a chin-length bob and pushed flat under the helmet with a strand across the forehead, a thin sharp nose with a slight hook to it, a long jaw, blue-grey eyes narrowed a little against the low sun, a prominent eye tooth on the left that pushes the lip slightly, one earlobe stretched loose and empty and the other still neat, about five foot eight with wide hips and strong legs, standing with her weight on the left foot and clearly enjoying being out. A yellow-green waterproof jacket with the hood bunched under the helmet strap, black work trousers with one leg tucked into a grey sock, ordinary brown leather lace-up shoes rather than cycling shoes, a grey helmet with a reflective sticker peeling at one edge, a thin silver chain at the neck, a worn wedding band, a cheap black fitness band on the left wrist.",
     skin:"SKIN: fair and healthy, cheeks and the end of the nose pink from the cold air and the effort, the low sun warm along one side of her face and catching the fine hairs at her temple, open pores on the nose, lines across the forehead sitting deeper on the right than the left, a few freckles across the bridge of the nose. Keep it at everyday strength.",
     shot:"THE FRAME: a quick snap on a recent iPhone by somebody waiting at the pedestrian crossing on the far pavement who was really photographing the light down the street, about six metres away, phone at chest height held in one hand, so she sits small and right of centre in the bottom third with the flank of the bus filling the left of the frame and the traffic light and a slice of clean blue sky above her. The low sun comes from down the road behind the camera and lights her, the bus and the wet-looking tarmac warmly, with clean shadows and the far end of the street still clearly readable. The frame is a few degrees off level and a pedestrian railing crosses the bottom of the picture out of focus, with the shoulder of somebody stepping off the kerb blurred at the left edge. She does not know the photo exists." }
-};
+  },
+  stages:[
 
-/* ---- the eleven stages ---- */
-
-var STAGES = [
 {
   id:"warm", type:"qs", min:1, title:"Warm-up", aim:"Getting both voices going",
   say:"Before we start properly, a few quick ones to each of you.",
@@ -841,7 +848,159 @@ var STAGES = [
   id:"profile", type:"profile", min:3, title:"The profiles", aim:"What you heard",
   say:"", ev:[]
 }
+  ]
+},
+{
+  n:2, title:"Shopping and keeping fit",
+  photos:{
+  a1:{ label:"The supermarket", src:"pairs2-photos/a1.jpg",
+    scene:"THE SCENE: Inside a big British supermarket on a Saturday at about half past ten in the morning, in the long aisle where cereal, tea and jars of pasta sauce are shelved, with real daylight pouring in from the tall glass frontage at the far end of the aisle so the polished vinyl floor carries a wide bright wash and the shelf edges catch it, and the whole aisle is busy in an ordinary way: four trolleys in play and two of them nose to nose where somebody has stopped to read a label, a wire basket set down on the floor by somebody's heel, cardboard shelf-ready trays with the fronts torn off, a half-emptied stock cage pushed against the chiller end with a hand-held price gun sitting on top of it, yellow reduced-to-clear stickers on three boxes near the bottom shelf, a cardboard promotional end cap for teabags with a wonky top flap, a tower of multipack crisps, two shelf gaps where the last items have gone, hanging aisle-marker signs reading PASTA RICE and BREAKFAST, a stack of folded flyers in a wire rack, a small child's rain hood hanging off a trolley handle, a till receipt dropped on the floor near a trolley wheel, a yellow cleaning sign folded shut and leaning by the shelf upright, and further down a member of staff crouched over a case of jars with a knife, the light warm and generous, the colours punchy, the mood simply people getting the weekly shop done and quite interested in what they are buying.",
+    who:"WHO THEY ARE, EXACTLY: not a generic person. Build this specific person and no one else. First, the woman at the trolley: fifty-eight, Scottish, born in Dundee, pale skin with a lot of small freckles across the nose and forearms and a slight pink flush over the cheekbones, hair a thick salt-and-pepper bob going properly white at the left temple only, pushed behind one ear and loose on the other side, a narrow nose with a visible bend to the left from a break in her twenties, a square jaw, pale grey-blue eyes with the left upper lid sitting noticeably lower than the right, front teeth slightly overlapping with a grey crown on one upper molar showing when she talks, ears small and close to the head with one lobe pierced twice and the other once, build sturdy and broad through the shoulders, five foot four, wearing a navy quilted gilet unzipped over a mustard long-sleeved top with the cuffs pushed up, dark bootcut jeans, well-worn brown leather ankle boots with the left heel more worn than the right, a plain gold wedding band and a steel watch with a stretch strap, reading glasses pushed up on her head. Second, the young man reaching for a top shelf: twenty-three, British of Sri Lankan heritage, raised in Croydon, deep brown skin with warmer gold tones along the jaw, black hair cut short at the sides and a dense curly top that is flatter on one side from sleeping on it, thick straight eyebrows with a natural gap in the right one, a broad straight nose, a soft rounded jaw with the start of a beard only along the chin, dark brown eyes set wide, large front teeth with one slightly turned, ears clearly uneven with the right one sitting higher than the left, build tall and narrow with long arms, six foot one, wearing a grey zip hoodie with the hood half tucked into the collar, a black five-a-side shirt showing underneath, black joggers, white trainers scuffed grey at the toes, a canvas tote over the shoulder and a thin silver chain. Others sketched: a toddler of about two sat in the trolley seat with one shoe off, holding a banana. A shelf stacker of about nineteen with a dyed red undercut, name badge, crouched with a box cutter. A woman in her forties in a hijab and a long olive coat comparing two jars, shoulder blurred as she turns. A man of about seventy in a flat cap pushing an almost empty trolley past the end cap.",
+    skin:"SKIN: Her skin is genuinely weathered in a healthy way, with open pores across the nose, freckling that clusters unevenly on the left cheek, fine lines fanning from the outer corners of both eyes and a deeper single crease across the forehead, and a natural shine on the forehead and nose from the warm store air. His skin is smooth over the cheeks but textured across the forehead with a few small raised bumps, a slightly shinier T-zone, two tiny old marks near the left temple, and a faint difference in tone between the jaw and the neck. Keep it at everyday strength.",
+    shot:"THE FRAME: Taken by another shopper standing further back up the same aisle who lifted a recent iPhone one-handed at chest height, about four metres away, looking straight down the aisle so the shelving runs away on both sides and the two main figures sit slightly left of centre at mid-depth with their heads well below the top of the frame, the bright daylight from the shop front behind them rimming their shoulders and clipping the white shelf edges and a stretch of the floor to near white, shadows lifted so the bottom shelves are readable, deep phone focus so the cereal boxes two metres on are as sharp as the people, the whole frame tilted about three degrees clockwise, and the handle and front corner of the photographer's own trolley cutting across the bottom left corner out of focus with a loaf of bread in it." },
+  a2:{ label:"The market stall", src:"pairs2-photos/a2.jpg",
+    scene:"THE SCENE: An outdoor fruit and veg stall in a small town market square at about eleven on a bright Saturday morning, clear sun coming in low and from the side so the striped green and white awning throws a crisp band of shade across the front boxes while the pavement beyond is in full light, and the stall is in full flow: angled wooden crates of apples, plums and satsumas, blue plastic bowls of mixed veg with cardboard signs in thick black marker reading 3 BOWLS 5, loose spring greens stacked in a shallow box, a pyramid of oranges with two rolled off against the crate lip, bunches of bananas hanging from a hook on the frame, hanging brass scales with a dented pan, a roll of brown paper bags on a string, a short stack of folded cardboard under the trestle, a cash belt around the stallholder's waist with the zip half open, a steel tin of pound coins, a mug of tea on the scaffold pole shelf, a pricing marker behind one ear, a hand-written sign saying BRITISH TOMATOES, the back doors of a white transit van open behind the stall with empty crates inside, a council bin with a bag properly tied in it, parked cars along the far kerb, a bakery window and a charity shop across the square, two pigeons on the cobbles near a dropped satsuma, a small terrier sat waiting on a lead tied to a bollard, everything in use and slightly out of place, everybody cheerful and moving.",
+    who:"WHO THEY ARE, EXACTLY: not a generic person. Build this specific person and no one else. First, the stallholder mid-serve: sixty-four, Black British of Jamaican heritage, born in Birmingham, deep brown skin with a cool undertone and a lighter old scar along the left forearm, hair shaved very close and silver at the sides with a bare patch at the crown, a thick grey moustache and three days of white stubble across the chin, a wide flat nose with a broad bridge, a heavy square jaw, warm dark brown eyes with pronounced lower lids, a chipped upper right front tooth visible because he is talking as he weighs, a gap in the left eyebrow where an old cut healed, large ears with long lobes and one noticeably more folded than the other, build thickset and barrel chested with big forearms, five foot nine, wearing a navy fleece gilet over a checked flannel shirt with the sleeves rolled unevenly so the left is higher, dark work trousers, black steel-toe boots with mud on the toes, fingerless wool gloves, a thick gold ring on the right little finger and a chunky watch worn loose. Second, the woman waiting at the front with her bag open: forty-one, Polish, from Rzeszow, living in the town eleven years, fair skin that goes pink easily across the cheeks and chin with a small cluster of moles on the right side of the neck, straight mid-brown hair in a low ponytail with the fringe grown out and tucked unevenly behind one ear, a long straight nose with a slight hook at the tip, strong cheekbones and a pointed chin, hazel-green eyes with one brow sitting visibly higher than the other, crowded lower front teeth, one dimple that only appears on the left when she laughs, build broad hipped and solid, five foot seven, wearing a padded khaki coat with the hood squashed flat, a burgundy jumper underneath, straight black jeans, grey trainers with the laces double knotted, a large woven shopper bag held open with one hand, small hoop earrings and a thin bracelet of plaited leather. Others sketched: a man of about thirty with a tight ginger beard and a hi-vis vest counting change. A girl of about nine in a bobble hat holding a bag of satsumas against her chest. An elderly Chinese woman of about eighty in a padded jacket pressing a plum with her thumb. A teenage boy on a bike stopped side on, blurred as he looks at the oranges.",
+    skin:"SKIN: His skin is thick and healthy across the cheeks with visible pores on the nose, a slight sheen on the forehead from the sun, pale dry patches on the knuckles and a few darker spots on the backs of the hands from working outdoors. Her skin is fine and faintly shiny on the nose and forehead, with a pink flush across both cheeks from the cold air, light vertical lines between the brows and a scattering of small moles on the left jaw. Keep it at everyday strength.",
+    shot:"THE FRAME: Taken by somebody standing third in the little queue who pulled a recent iPhone out quickly and shot from roughly chest height at about two metres, close in and slightly from the side so the stallholder fills the right of the frame with his hands and the scales just below centre, the waiting customer in three-quarter profile on the left with the bag edge cutting the frame, hard side sun from the left blowing out the white stripes of the awning and the top of the oranges while the shaded crates stay fully detailed thanks to lifted shadows, deep focus so the van and the shops across the square are legible, the horizon dropping away to the right because the phone was never levelled, and the shoulder and elbow of the person in front cutting into the bottom right corner in a soft blur." },
+  b1:{ label:"The exercise class", src:"pairs2-photos/b1.jpg",
+    scene:"THE SCENE: A packed exercise class in a community sports hall on a weekday morning, maybe twenty past ten, with a wall of tall windows down the right-hand side letting real sun across the sprung wooden floor in long bright bars so half the class is lit and half is in warm shade, the session already well under way: five uneven rows of people on blue and purple mats, most up on their feet mid-move with arms out and weight on one leg so everyone is at a slightly different point in the exercise, an instructor at the front on a low step platform with a headset mic and one hand raised, a small speaker on a tripod with a phone propped against its base and a cable taped down with silver tape, a mirrored wall at the front catching the backs of the front row, the floor marked with old badminton and netball lines, a stack of step boxes against the side wall, pairs of light dumbbells and a few kettlebells in a loose row, water bottles and phones in a scattered line along the skirting, hoodies and coats piled on a bench with sleeves hanging off, a wall-mounted clock, a folded table tennis table against the far wall, wall bars, a green fire exit sign, a radiator with one towel over it, a poster about a half-term timetable taped slightly crooked, dust visible in the sunbeams, everybody flushed, concentrating, one or two laughing at having gone the wrong way.",
+    who:"WHO THEY ARE, EXACTLY: not a generic person. Build this specific person and no one else. First, the instructor at the front: thirty-five, British, Nigerian father and Irish mother, raised in Manchester, mid-brown skin with golden undertones and a faint lighter patch on the right shin, hair in flat cornrows pulled back into a short thick bunch with a few loose curls escaping at the left hairline, a strong nose that sits a little off centre from a break playing netball, a defined jaw, dark brown almond eyes with very full lower lashes, straight white front teeth with one small chip on the lower left, close-set ears with a tiny second piercing in the right only, build athletic with broad shoulders and strong thighs, five foot ten, wearing a black crop vest with a bright coral sports bra showing at the straps, charcoal leggings with a mesh panel at the calf, white and coral trainers with the laces tucked in, a sweatband on the left wrist only, a thin gold necklace tucked into the vest and a fitness tracker. Second, the man in the second row nearest the windows: seventy-one, white English, from Norfolk, pale skin with a ruddy patch on each cheek and a scattering of pale sun spots on the forearms and scalp, thin white hair combed back and receding to a widow's peak with more remaining on the left, bushy white eyebrows with the right one noticeably longer, a long nose with a rounded tip, a narrow jaw with loose skin under the chin, pale blue eyes set deep with heavy upper lids, teeth even and slightly yellowed with one visible gold filling, big soft ears with prominent lobes, build tall and lean with a slight stoop and the right shoulder carried higher than the left, six foot, wearing a faded red cotton polo shirt tucked into navy tracksuit bottoms with a stripe down the leg, white sports socks pulled up, grey running trainers with orange laces, a plain watch with a leather strap and a signet ring on the right hand. Others sketched: a woman of about twenty-eight in a hijab and a long-sleeved lilac top, mid-lunge and grinning. A heavyset man of about fifty in a Hawaiian-pattern vest, arms up, red in the face. A woman of about sixty-five with short lavender-dyed hair, laughing and out of step with the row. A woman of about forty at the back checking her form in the mirror, shoulder blurred.",
+    skin:"SKIN: Her skin is even and healthy with a real sweat sheen high on the forehead, temples and collarbones, visible pores across the nose, small raised bumps along the hairline and a faint line across the brow when she calls out a count. His skin is thin and papery over the cheekbones with fine broken lines near the nose, a genuine warm flush from the exercise, freckled sun spots on the scalp and forearms and slack crepey texture at the elbows. Keep it at everyday strength.",
+    shot:"THE FRAME: Taken by somebody in the back row who stopped for a second, stepped half a pace back and held a recent iPhone up above head height to see over everyone, about seven metres from the front, so the whole room reads at a slight downward angle with the rows of heads and shoulders filling the lower two thirds and the instructor small and slightly right of centre at the top, strong window sun from the right clipping the floorboards and the white trainers to pure white and flaring faintly on the mirror while lifted shadows keep the shaded left half of the class readable, deep focus so faces four rows back are still sharp, the frame rotated a couple of degrees anticlockwise, and the top of a stranger's head and one raised hand cutting in across the bottom edge." },
+  b2:{ label:"Swimming outdoors", src:"pairs2-photos/b2.jpg",
+    scene:"THE SCENE: The shallow end of an open-air lido beside a lake on a bright, cold morning at about eight, the sun still low and coming in almost flat across the water so the surface is broken into hard glittering ripples and long shadows stretch away from the handrail, three swimmers in the frame: one already out to the buoy line swimming a steady head-up breaststroke, one standing waist deep with both arms lifted clear of the water and blowing out, one sat on the top step with feet in, and around them the ordinary clutter of early swimming, a steel handrail with chipped blue paint on the uprights, non-slip duckboards with a puddle across them, a wooden thermometer screwed to the wall reading nine degrees, a chalked board saying WATER 9C AIR 6C, towels and two hooded changing robes slung over the railing, a rucksack open with a flask and a woolly hat on top, a pair of crocs set neatly side by side and another pair kicked apart, bright swim caps and two orange tow floats, a lifeguard sat up on a chair in a red fleece with a radio, a small kiosk hatch open with steam coming off a coffee, two cardboard cups on the wall, an aluminium ladder, a row of bare willows and a bank of reeds beyond the water, a car park with four cars and a bike rack visible through the fence, geese on the far bank, breath showing in the air, everyone bright eyed and talkative about how cold it is.",
+    who:"WHO THEY ARE, EXACTLY: not a generic person. Build this specific person and no one else. First, the man standing waist deep: thirty-nine, Japanese, from Osaka and eight years in England, light olive skin gone pink and blotchy across the chest and shoulders from the cold, thick straight black hair wet and pushed back off the forehead with one piece falling forward on the left, straight dark eyebrows with the right sitting a little lower, a narrow nose with a flat bridge, a rounded jaw with almost no stubble, dark brown eyes creased almost shut because he is laughing, square even teeth with a chipped corner on the lower right, small ears set close to the head, build lean and wiry with narrow shoulders and visible collarbones, five foot six, wearing dark green swim shorts with a white drawstring, a yellow silicone swim cap pushed up on the crown, clear-lensed goggles around the neck, a waterproof watch and a faded plaited cord bracelet on the right wrist. Second, the woman sat on the top step: thirty-one, Finnish, from Tampere, very pale skin that reddens in blotches on the thighs and knees, strawberry blonde hair in a long loose plait pushed over the right shoulder with wet strands stuck to the neck, light ginger eyebrows and freckles heavily across the nose, cheeks and shoulders, a small upturned nose, a wide mouth with one front tooth overlapping its neighbour so the smile sits crooked, pale grey eyes with almost invisible lashes, a narrow jaw, a visibly higher right ear so her sunglasses sat crooked on the way there, build very tall and long limbed with knobbly knees, six foot one, wearing a plain black one-piece swimsuit with a slight bag at the hip, a pink neoprene cap in her lap, red neoprene swim socks, a chunky waterproof watch on the left wrist and a thin silver chain with a flat pendant. Others sketched: the swimmer out at the buoy line, a woman of about fifty-five in a bright orange cap, only head and shoulders above the water. A lifeguard of about twenty-two, South Asian, in a red fleece and a bobble hat, radio in hand. A man of about sixty-eight in a green changing robe on the bank, holding two coffees. A girl of about sixteen passing in the foreground with a towel, blurred.",
+    skin:"SKIN: His skin is cold-mottled across the chest and upper arms with raised goosebumps, open pores on the nose, a genuine shine where the water is still running down the shoulders and deep laugh lines cut in at the outer eyes. Her skin is thin and very freckled with pink patches blooming unevenly on the thighs and chest from the cold, fine down visible on the forearms in the low sun and a slight watery shine along the shins. Keep it at everyday strength.",
+    shot:"THE FRAME: Taken by another swimmer already dried off who crouched down at the edge of the duckboards with a recent iPhone held low, about three metres from the steps and maybe thirty centimetres above the boards, so the view looks slightly up at the standing man who sits right of centre with the water line cutting across his middle, the seated woman close on the left in the near corner and the far swimmer tiny between them, the low sun almost directly behind them blowing the glittering water and the wet handrail to white and throwing a soft haze across the upper right of the frame while lifted shadows keep their faces and the duckboards fully readable, deep focus so the reeds, the geese and the cars behind the fence all hold, the horizon of the far bank running clearly downhill to the left, and a corner of somebody's dropped towel and one croc filling the bottom left of the frame out of focus." }
+  },
+  stages:[
+{
+  id:"warm", type:"qs", min:1, title:"Warm-up", aim:"Getting both voices going",
+  say:"Before we start properly, a few quick ones to each of you.",
+  qs:[
+    {to:"both", q:"How has your week been so far?"},
+    {to:"a", q:"What did you do yesterday evening?"},
+    {to:"b", q:"And you? Anything planned for this evening?"},
+    {to:"a", q:"Do you two know each other at all?"},
+    {to:"b", q:"What is the weather doing out there?"},
+    {to:"both", q:"Have either of you had a busy morning?"}
+  ],
+  ev:["Answers in sentences, not single words","Present perfect","Listens while the other speaks","Sounds comfortable"]
+},
+{
+  id:"interview", type:"qs", min:3, title:"Interview", aim:"Finding each working level",
+  say:"Now a bit about each of you. There are no right answers here.",
+  qs:[
+    {to:"a", q:"Tell me about the place you grew up in.", push:"What has changed there since you were small?"},
+    {to:"b", q:"And you, where did you grow up?", push:"Would you ever go back to live there?"},
+    {to:"a", q:"Who has taught you the most?", push:"What exactly did they teach you?"},
+    {to:"b", q:"What do you own that you would never sell?", push:"Why that one and not something else?"},
+    {to:"both", q:"What do you do with money you were not expecting?", push:"Has that always been true of you?"},
+    {to:"a", q:"What is the hardest part of your week?", push:"What would actually fix it?"},
+    {to:"b", q:"What are you looking forward to?", push:"And if it turns out to be a disappointment?"},
+    {to:"both", q:"What would each of you change about the way you live?", push:"What is stopping you?"}
+  ],
+  ev:["Past, present and future all used","Used “would” naturally","Gave reasons unprompted","An opinion phrase","Self-corrected and carried on","Answers got longer under the push"]
+},
+{
+  id:"story", type:"each", min:3, title:"Anecdote", aim:"Narrative tenses",
+  say:"I'd like a story from each of you. Take fifteen seconds to think.",
+  each:{
+    a:{ q:"Tell me about a time you completely changed your mind about somebody.",
+        follow:"Has that ever happened to you, {B}?" },
+    b:{ q:"Tell me about a time you had to decide something very quickly.",
+        follow:"Would you have decided the same, {A}?" }
+  },
+  probes:["What did you think at first?","What changed it?","How did it end up?","Do you regret any of it?"],
+  ev:["Past simple and continuous together","Past perfect","Narrative linkers: just as, by the time, in the end","A story with a shape, not a list","Direct speech reported","Reacted to the partner's story"]
+},
+{
+  id:"ltA", type:"pair", min:3, title:"Long turn: A", aim:"Comparing and speculating",
+  say:"{A}, here are your two photographs. Compare them, and say what you think each one is like for the people in it.",
+  who:"a", photos:["a1","a2"],
+  tasks:["Compare the two ways of buying food.","What does each one give the people who shop there?"],
+  hand:"Then {B}, in about thirty seconds: which of those two do you use more?",
+  probes:["What is each one missing?","Which is better value, and for whom?","Is one of these on the way out?"],
+  ev:["Comparatives and superlatives","whereas, while, unlike","Speculation: it looks as if, they might","Moved from describing to evaluating","Held the full minute alone","The partner answered without rambling"]
+},
+{
+  id:"ltB", type:"pair", min:3, title:"Long turn: B", aim:"Comparing and speculating",
+  say:"{B}, now your two. Compare them, and say what each one is like for the people in it.",
+  who:"b", photos:["b1","b2"],
+  tasks:["Compare the two ways of keeping fit.","Why do you think each of them chose that one?"],
+  hand:"Then {A}, in about thirty seconds: which of those would get you out of bed?",
+  probes:["What does each one cost, besides money?","Which would you still be doing in a year?","Is one of them harder than it looks?"],
+  ev:["Comparatives and superlatives","whereas, while, unlike","Speculation: it looks as if, they might","Moved from describing to evaluating","Held the full minute alone","The partner answered without rambling"]
+},
+{
+  id:"explain", type:"words", min:2, title:"Say it another way", aim:"Paraphrase under pressure",
+  say:"One of you explains, the other guesses. You cannot use the word itself.",
+  sets:{
+    a:{ lead:"{A} explains, {B} guesses.", words:["a bargain","homesick","leftovers"] },
+    b:{ lead:"Now swap. {B} explains, {A} guesses.", words:["a landlord","to commute","a queue"] }
+  },
+  ev:["it's a kind of … / something you use to …","Relative clauses: the thing that …","Went round a gap instead of stopping","Asked a useful question while guessing","Stayed calm when stuck"]
+},
+{
+  id:"role", type:"roles", min:3, title:"Role play", aim:"Register",
+  say:"You two play this out together. We will run it twice.",
+  sit:"{A} is selling a bike online and {B} has come round to look at it. There is something wrong with it that {A} did not mention in the advert.",
+  roles:[
+    {n:"1", lab:"Strangers", h:"You have never met and will never meet again.", p:"{B} has just spotted the fault and wants money off. {A} wants the full price."},
+    {n:"2", lab:"Neighbours", h:"Now you live on the same street and see each other every day.", p:"The same fault and the same money, but you still have to get on tomorrow morning."}
+  ],
+  swap:"Then swap roles and run round two the other way.",
+  ev:["Polite request forms: would you mind, I was wondering","Softening: a little, slightly, I'm afraid","The two rounds sounded different","Functional phrases, not just vocabulary","Handled being pushed back at","Stayed in role"]
+},
+{
+  id:"spec", type:"qs", min:2, title:"Speculation", aim:"Conditionals",
+  say:"None of these has happened. Say what you think anyway, and disagree with each other if you do.",
+  qs:[
+    {to:"a", q:"What would you do if you won enough money never to work again?"},
+    {to:"b", q:"If you could live at any point in history, when would you pick?"},
+    {to:"both", q:"What might make somebody move to another country on their own?"},
+    {to:"both", q:"Suppose everything you bought lasted thirty years. What would change?"},
+    {to:"a", q:"Looking back, what would you have spent less time on?"},
+    {to:"b", q:"And would you say the same?"}
+  ],
+  ev:["Second conditional","Third conditional","would have, might have, must have","Unreal past: if I were, suppose","Took issue with the partner","Did not retreat into the present"]
+},
+{
+  id:"circles", type:"circles", min:4, title:"The five circles", aim:"Negotiating together",
+  say:"This one is for the two of you. I am not going to join in. You have to agree in the end.",
+  deb:{
+    q:"Your town has been given money for exactly one of these. Decide together which one it goes on, and which you would drop first.",
+    items:["A swimming pool","Better buses","A library","Trees and green space","Free wifi everywhere"]
+  },
+  ev:["Suggested rather than announced","Disagreed politely","Conceded a point, then came back","I'd rather, I'd sooner","Invited the other one in","Shared the floor fairly","Reached a real decision"]
+},
+{
+  id:"ceiling", type:"one", min:2, title:"The ceiling question", aim:"Finding the top",
+  say:"One last one, and it is a hard one on purpose. {A} first, then {B}, then argue it out.",
+  q:"Is it ever right to break a promise?",
+  spares:[
+    "Does everybody deserve a second chance?",
+    "Is it possible to be too generous?",
+    "Should people always be told the truth?",
+    "Is loyalty a virtue, or just a habit?"
+  ],
+  probes:["What would the other side say?","Where do you draw the line?","Do you two actually disagree, or not?","What would change your mind?"],
+  ev:["Abstract nouns handled","Long sentences that still hold together","it depends what you mean by …","Argued against their own point","Engaged with what the other actually said"]
+},
+{
+  id:"profile", type:"profile", min:3, title:"The profiles", aim:"What you heard",
+  say:"", ev:[]
+}
+  ]
+}
 ];
+
+/* The current test. STAGES and PHOTOS are rebound when the test changes, so
+   every call site below carries on reading the same two names. */
+var T = 0;
+var STAGES = TESTS[T].stages;
+var PHOTOS = TESTS[T].photos;
 
 var CRITERIA = [
   {k:"flu", n:"Fluency and coherence", d:"Pace, pausing, holding the floor, hanging ideas together"},
@@ -854,9 +1013,9 @@ var BANDS = ["A2","B1","B1+","B2","C1","C2"];
 var SIDES = ["a","b"];
 
 /* ===== state ===== */
-var KEY = "jpe_speaking_pairs_v1";
+var KEY = "jpe_speaking_pairs_v2";
 var CKEY = "jpe_speaking_pairs_collapsed";
-var cur = 0, S = null;
+var cur = 0, S = null, ALL = null;
 
 function blank(){
   return {
@@ -868,11 +1027,9 @@ function blank(){
     overall:{a:"", b:""}, bands:{a:{}, b:{}}
   };
 }
-function loadAll(){
-  var raw = null;
-  try{ raw = JSON.parse(localStorage.getItem(KEY)); }catch(e){ raw = null; }
-  if(!raw || typeof raw !== "object") raw = blank();
+function mend(raw){
   var b = blank();
+  if(!raw || typeof raw !== "object") return b;
   for(var k in b){ if(raw[k] === undefined || raw[k] === null) raw[k] = b[k]; }
   if(!raw.bub || raw.bub.length !== 5) raw.bub = [0,0,0,0,0];
   if(!raw.bank || !raw.bank.length || typeof raw.bank[0] !== "object") raw.bank = b.bank;
@@ -881,7 +1038,24 @@ function loadAll(){
   if(!raw.overall || typeof raw.overall !== "object") raw.overall = {a:"", b:""};
   return raw;
 }
-function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); return true; }catch(e){ return false; } }
+/* One slice of state per test, so the two papers never mix. */
+function loadAll(){
+  var raw = null;
+  try{ raw = JSON.parse(localStorage.getItem(KEY)); }catch(e){ raw = null; }
+  if(!raw || !raw.t || !raw.t.length) raw = { t: [] };
+  while(raw.t.length < TESTS.length) raw.t.push(blank());
+  raw.t.length = TESTS.length;
+  raw.t = raw.t.map(mend);
+  return raw;
+}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(ALL)); return true; }catch(e){ return false; } }
+/* Point STAGES, PHOTOS and S at another test. */
+function useTest(i){
+  T = i;
+  STAGES = TESTS[T].stages;
+  PHOTOS = TESTS[T].photos;
+  S = ALL.t[T];
+}
 function reduced(){ return !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches); }
 /* {A} and {B} in any content string become the typed names, or A and B */
 function sub(s){
@@ -915,28 +1089,34 @@ function sbHeaders(extra){
   return h;
 }
 function keys(){ return ["a1","a2","b1","b2"]; }
-function rowId(k){ return "pairs-speaking-" + k; }
+function rowId(k){ return "pairs-speaking-t" + TESTS[T].n + k; }
 function setStatus(k, kind, txt){
   var els = document.querySelectorAll('[data-st="' + k + '"]');
   for(var i = 0; i < els.length; i++){ els[i].className = "st " + kind; els[i].textContent = txt; }
 }
-var pulled = false;
+var pulled = {};
+/* The test may have been switched before this comes back, so the id the rows
+   are matched against and the slice they are written into are both captured. */
 function cloudPull(){
-  if(pulled) return;
-  pulled = true;
-  fetch(SB_URL + "?id=in.(" + keys().map(rowId).join(",") + ")&select=id,data", {headers:sbHeaders()})
+  if(pulled[T]) return;
+  var at = T, n = TESTS[at].n;
+  var idFor = function(k){ return "pairs-speaking-t" + n + k; };
+  pulled[at] = true;
+  fetch(SB_URL + "?id=in.(" + keys().map(idFor).join(",") + ")&select=id,data", {headers:sbHeaders()})
     .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
     .then(function(rows){
       var touched = false;
       rows.forEach(function(row){
         keys().forEach(function(k){
-          if(row.id === rowId(k) && row.data && row.data.src){ S.photos[k] = row.data.src; touched = true; }
+          if(row.id === idFor(k) && row.data && row.data.src){
+            ALL.t[at].photos[k] = row.data.src; touched = true;
+          }
         });
       });
-      if(touched) renderMain();
+      if(touched && at === T) renderMain();
       renderPanel();
     })
-    .catch(function(){ pulled = false; });
+    .catch(function(){ pulled[at] = false; });
 }
 function cloudPush(k, src){
   setStatus(k, "", "saving");
@@ -954,6 +1134,12 @@ function tick(done){
     (done ? '<path d="M20 6L9 17l-5-5"/>' : '<circle cx="12" cy="12" r="7"/>') + '</svg></span>';
 }
 function renderSide(){
+  document.getElementById("testnav").innerHTML = TESTS.map(function(t,i){
+    var done = 0;
+    t.stages.forEach(function(st){ if(ALL.t[i].done[st.id]) done++; });
+    return '<button type="button" class="' + (i===T?"on":"") + '" onclick="goTest(' + i + ')">' +
+      esc(t.title) + '<span class="n">' + (done ? done + "/" + t.stages.length : t.n) + '</span></button>';
+  }).join("");
   document.getElementById("stagenav").innerHTML = STAGES.map(function(st,i){
     return '<button type="button" class="' + (i===cur?"on ":"") + (S.done[st.id]?"did":"") +
       '" onclick="go(' + i + ')">' + tick(S.done[st.id]) + esc(st.title) +
@@ -1238,6 +1424,18 @@ function next(){
   if(cur < STAGES.length - 1) go(cur + 1); else render();
 }
 function prev(){ go(cur - 1); }
+function goTest(i){
+  if(i < 0 || i >= TESTS.length || i === T) return;
+  useTest(i);
+  cur = (typeof S.at === "number" && S.at >= 0 && S.at < STAGES.length) ? S.at : 0;
+  justIn = !reduced();
+  document.body.classList.remove("bankedit");
+  document.getElementById("namea").value = S.names.a || "";
+  document.getElementById("nameb").value = S.names.b || "";
+  setTimer(STAGES[cur].min);
+  render(); closeSide(); cloudPull();
+  window.scrollTo({top:0, behavior: reduced() ? "auto" : "smooth"});
+}
 
 /* ===== interactions ===== */
 function tickEv(id, i, side){
@@ -1591,9 +1789,11 @@ document.getElementById("resetb").onclick = function(){ setTimer(total/60); };
 document.getElementById("printb").onclick = function(){ window.print(); };
 document.getElementById("prevb").onclick = prev;
 document.getElementById("nextb2").onclick = next;
+/* Clears the test on screen only, and keeps its photographs. */
 document.getElementById("clearb").onclick = function(){
   var photos = S.photos;
-  S = blank(); S.photos = photos; save(); cur = 0;
+  ALL.t[T] = blank(); ALL.t[T].photos = photos;
+  S = ALL.t[T]; save(); cur = 0;
   document.getElementById("namea").value = "";
   document.getElementById("nameb").value = "";
   setTimer(STAGES[0].min); render();
@@ -1623,7 +1823,8 @@ window.onbeforeprint = function(){
 };
 window.onafterprint = function(){ S.reveal = preReveal || {}; renderMain(); };
 
-S = loadAll();
+ALL = loadAll();
+useTest(0);
 cur = (typeof S.at === "number" && S.at >= 0 && S.at < STAGES.length) ? S.at : 0;
 document.getElementById("namea").value = S.names.a || "";
 document.getElementById("nameb").value = S.names.b || "";
