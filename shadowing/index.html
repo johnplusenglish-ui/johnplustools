@@ -984,6 +984,37 @@ function wordBoxes(m){
     return w ? {el, x0: q.left - box.left, x1: q.right - box.left, top: q.bottom - box.top, row: Math.round(q.top), t0: w[1], t1: w[2]} : null;
   }).filter(Boolean);
 }
+/* Your recording: where your VOICE starts and stops, found from the pitch track, not from loudness.
+   A tap on Record or Stop, breathing, hiss or a long silence has no pitch, so it can't stretch your line.
+   A little room is kept either side for a first or last sound with no pitch (s, t, k, h). */
+let myVoiced = null;
+function setMine(buf, rough){
+  const all = {start: 0, end: buf.duration, len: buf.duration};
+  const p = trackPitch(buf, all), pts = p ? p.filter(Boolean) : [];
+  if (pts.length){
+    const first = pts[0][0] * all.len, last = pts[pts.length - 1][0] * all.len;
+    const start = Math.max(0, first - .15), end = Math.min(buf.duration, last + .2);
+    myTrim = {start, end, len: end - start};
+    myVoiced = {first, last};
+  } else { myTrim = rough; myVoiced = null; }
+  myBuf = buf;
+  myPitch = trackPitch(buf, myTrim);
+}
+/* the speaker's voiced span: first and last measured pitch point */
+function spkVoiced(m){
+  const step = m.dur / (m.f0.length - 1);
+  let a = m.f0.findIndex(v => v !== null), b = m.f0.length - 1;
+  while (b > 0 && m.f0[b] === null) b--;
+  return a < 0 ? null : {first: a * step, last: b * step};
+}
+/* a moment in your recording -> the matching moment in the speaker's line: voice start to voice start,
+   voice end to voice end, so a slow start or a pause before you speak doesn't shift the shapes */
+function mineToSpeaker(tMine){
+  const m = melodyData(), sv = m && spkVoiced(m);
+  if (sv && myVoiced && myVoiced.last > myVoiced.first)
+    return sv.first + (tMine - myVoiced.first) / (myVoiced.last - myVoiced.first) * (sv.last - sv.first);
+  return modelTrim ? modelTrim.start + (tMine - myTrim.start) / myTrim.len * modelTrim.len : -1;
+}
 function drawMelody(playT){
   const line = $('line'), c = line.querySelector('canvas.mel'), m = melodyData();
   if (!c) return;
@@ -1026,7 +1057,7 @@ function drawMelody(playT){
     let last = null;
     myPitch.forEach(pt => {
       if (!pt){ last = null; return; }
-      const t = modelTrim.start + pt[0] * modelTrim.len, w = W.find(z => t >= z.t0 && t <= z.t1) || null;
+      const t = mineToSpeaker(myTrim.start + pt[0] * myTrim.len), w = W.find(z => t >= z.t0 && t <= z.t1) || null;
       if (!w){ last = null; return; }
       const X = xAt(w, t), Y = yAt(w, pt[1]);
       if (last && last.w.row === w.row && pt[0] - last.p < .03) g.lineTo(X, Y); else g.moveTo(X, Y);
@@ -1039,14 +1070,15 @@ function drawMelody(playT){
 }
 function drawWaves(){
   /* where we are in the speaker's line: while the speaker plays, or (stretched) while your recording plays */
-  const playT = !modelTrim ? -1 : prog.model >= 0 ? modelTrim.start + prog.model * modelTrim.len : prog.mine >= 0 ? modelTrim.start + prog.mine * modelTrim.len : -1;
+  const playT = !modelTrim ? -1 : prog.model >= 0 ? modelTrim.start + prog.model * modelTrim.len : prog.mine >= 0 && myTrim ? mineToSpeaker(myTrim.start + prog.mine * myTrim.len) : -1;
   $('pitchRow').hidden = !melodyData();
   drawMelody(playT);
   $('youKey').hidden = !myBuf;
-  $('lenNote').textContent = modelTrim && myTrim ? `Speaker ${modelTrim.len.toFixed(1)}s, you ${myTrim.len.toFixed(1)}s` : (modelTrim ? `${modelTrim.len.toFixed(1)} seconds` : '');
+  const svN = melodyData() && spkVoiced(melodyData()), spkLen = svN ? svN.last - svN.first + .3 : (modelTrim ? modelTrim.len : 0), myLen = myVoiced ? myVoiced.last - myVoiced.first + .3 : (myTrim ? myTrim.len : 0);
+  $('lenNote').textContent = modelTrim && myTrim ? `Speaker ${spkLen.toFixed(1)}s, you ${myLen.toFixed(1)}s` : (modelTrim ? `${spkLen.toFixed(1)} seconds` : '');
   const hint = $('hint');
   if (modelTrim && myTrim){
-    const r = myTrim.len / modelTrim.len;
+    const sv = spkVoiced(melodyData() || {f0: [null], dur: 1}), r = sv && myVoiced ? (myVoiced.last - myVoiced.first) / ((sv.last - sv.first) || 1) : myTrim.len / modelTrim.len;
     hint.innerHTML = r > 1.35 ? '<b>Slower than the speaker.</b> Make the small words quicker.'
       : r < .75 ? '<b>Faster than the speaker.</b> Give the bold words a little more time.'
       : '<b>About the same speed.</b> Now check your red line goes up and down on the same words as theirs.';
@@ -1064,7 +1096,7 @@ function stopAll(){
 function loadLine(){
   stopAll();
   const my = ++token, r = cur();
-  myBuf = myTrim = modelBuf = modelTrim = myPitch = null; compared = false;
+  myBuf = myTrim = modelBuf = modelTrim = myPitch = myVoiced = null; compared = false;
   updateButtons(); drawWaves(); note('');
   if (!r) return;
   const src = clipFor(r);
@@ -1162,7 +1194,7 @@ async function toggleRecord(){
       const buf = await c.decodeAudioData(await new Blob(chunks, {type:rec.mimeType || 'audio/webm'}).arrayBuffer());
       const tr = trim(buf);
       if (!tr){ note('That recording was silent. Check your microphone and try again.'); return; }
-      myBuf = buf; myTrim = tr; myPitch = trackPitch(buf, tr);
+      setMine(buf, tr);
       const r = cur(); if (r && !DONE.has(r.id)){ DONE.add(r.id); store.set('jpe-shadow-done', [...DONE]); renderRail(); renderCard(); }
     }catch(e){ note("That recording couldn't be read. Please try again."); }
     updateButtons(); drawWaves();
