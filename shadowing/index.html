@@ -492,6 +492,40 @@ button{font-family:inherit}
   .sheet-body{padding:.3rem 1.1rem calc(1.3rem + env(safe-area-inset-bottom, 0px))}
   .privacy{padding:.8rem .5rem 0}
 }
+
+/* ===== Layout 3: one column. A level switch, the topics in a row, the sentence on one line ===== */
+.picker{display:block}
+.page-header,.main{max-width:1100px}
+.pane{max-width:none}
+.card-head{gap:.8rem;flex-wrap:nowrap;justify-content:flex-start}
+.lv-seg{flex:none}
+.lv-seg button{flex:none;min-width:46px;min-height:40px;padding:0 .7rem}
+.tp-seg{display:flex;gap:.25rem;flex:1;min-width:0}
+.tp-seg button{background:none;border:none;border-radius:10px;min-height:40px;padding:0 .8rem;font-family:'Outfit',system-ui,sans-serif;font-size:.9rem;font-weight:700;color:var(--muted);cursor:pointer;white-space:nowrap;transition:background-color .12s ease-out,color .12s ease-out}
+.tp-seg button:hover{color:var(--ink)}
+.tp-seg button[aria-pressed="true"]{background:var(--sky-light);color:var(--sky)}
+.tp-seg small{font-family:'Inter',system-ui,sans-serif;font-size:.72rem;font-weight:600;margin-left:.4rem;opacity:.75}
+.pick{display:none}
+.opt-btn{margin-left:auto}
+.dots{margin:0}
+@media(min-width:701px){
+  .stage{padding:2.8rem 2rem 1.5rem}
+  .line.ph{justify-content:center}
+  .views{justify-content:center}
+  .dock-nav{justify-content:center;gap:.8rem}
+  .dock-pos{display:none}
+}
+@media(max-width:700px){
+  .card-head{gap:.45rem}
+  .card-head{padding-left:.55rem;padding-right:.55rem}
+  .lv-seg button{min-width:34px;padding:0 .3rem;font-size:.8rem}
+  .tp-seg{display:none}
+  .pick{display:flex;flex:1;justify-content:space-between;min-width:0;padding:0 .4rem 0 .55rem;gap:.2rem}
+  .pick .card-title{font-size:.8rem;letter-spacing:-.01em;overflow:visible;text-overflow:clip}
+  .pick .pick-chev{width:14px;height:14px}
+  .opt-btn{width:40px;height:40px}
+  .dots{display:none}
+}
 </style>
 </head>
 <body>
@@ -502,19 +536,16 @@ button{font-family:inherit}
   <button class="btn page-help" id="helpBtn"><span class="q" aria-hidden="true">?</span>How it works</button>
 </div></div>
 
-<div class="controls">
-  <div class="level-toggle" role="tablist" aria-label="Level" id="levels"></div>
-</div>
 
 <div class="main">
   <div class="picker">
-    <nav class="rail" aria-label="Topics" id="rail"></nav>
 
     <section class="pane">
       <div class="card practice">
         <div class="card-head">
-          <button class="pick" id="pickBtn" aria-haspopup="dialog"><span class="pick-lv" id="pickLv"></span><span class="card-title" id="cardTitle"></span><svg class="pick-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
-          <div class="dots" id="dots" role="group" aria-label="Lines in this topic"></div>
+          <div class="seg lv-seg" id="levels" role="group" aria-label="Level"></div>
+          <div class="tp-seg" id="topics" role="group" aria-label="Topic"></div>
+          <button class="pick" id="pickBtn" aria-haspopup="dialog" aria-label="Choose a topic"><span class="card-title" id="cardTitle"></span><svg class="pick-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
           <button class="btn opt-btn" id="optBtn" aria-haspopup="dialog" aria-label="Options"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg><span>Options</span></button>
         </div>
 
@@ -555,6 +586,7 @@ button{font-family:inherit}
           </div>
           <div class="dock-nav">
             <button class="nav-b" id="prevBtn" aria-label="Previous line"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+            <div class="dots" id="dots" role="group" aria-label="Lines in this topic"></div>
             <span class="dock-pos" id="posText"></span>
             <button class="nav-b" id="nextBtn" aria-label="Next line"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
           </div>
@@ -566,11 +598,8 @@ button{font-family:inherit}
 </div>
 
 <dialog class="sheet" id="pickDlg" aria-labelledby="pickTitle">
-  <div class="sheet-head"><div class="dlg-title" id="pickTitle">Level and topic</div><button class="btn" data-close>Close</button></div>
+  <div class="sheet-head"><div class="dlg-title" id="pickTitle">Topic</div><button class="btn" data-close>Close</button></div>
   <div class="sheet-body">
-    <div class="sheet-label">Level</div>
-    <div class="seg" id="pickLevels" role="group" aria-label="Level"></div>
-    <div class="sheet-label">Topic</div>
     <div class="pick-topics" id="pickTopics"></div>
   </div>
 </dialog>
@@ -636,9 +665,7 @@ const easy = () => window.matchMedia && matchMedia('(prefers-reduced-motion: red
 
 /* ---------- rendering ---------- */
 function renderLevels(){
-  $('pickLevels').innerHTML = LEVELS.map(([l]) => `<button data-level="${l}" aria-pressed="${l === S.level}">${l}</button>`).join('');
-  $('levels').innerHTML = LEVELS.map(([l, name]) =>
-    `<button class="level-btn${l === S.level ? ' on' : ''}" role="tab" aria-selected="${l === S.level}" data-level="${l}">${l}<span class="level-name">${name}</span></button>`).join('');
+  $('levels').innerHTML = LEVELS.map(([l, name]) => `<button data-level="${l}" aria-pressed="${l === S.level}" title="${name}" aria-label="${l}, ${name}">${l}</button>`).join('');
 }
 /* topics, each with its progress; the active one opens to list its lines (rail on a computer, sheet on a phone) */
 function topicRows(){
@@ -652,7 +679,8 @@ function topicRows(){
   }).join('');
 }
 function renderRail(){
-  $('rail').innerHTML = '<div class="rail-head">Topics</div>' + topicRows();
+  $('topics').innerHTML = DATA.topics.map(t => { const rows = rowsFor(S.level, t), done = rows.filter(r => DONE.has(r.id)).length;
+    return `<button data-topic="${esc(t)}" aria-pressed="${t === S.topic}">${esc(t)}<small>${done}/${rows.length}</small></button>`; }).join('');
   $('pickTopics').innerHTML = topicRows();
 }
 /* Tones: plain-English meaning first, the arrow shape is the voice's path */
@@ -872,10 +900,17 @@ function lineHTML(marked){
     return out;
   }).join(' ');
 }
+function fitLine(){
+  const line = $('line'); line.style.fontSize = '';
+  if (!matchMedia('(min-width: 701px)').matches || !line.classList.contains('ph')) return;
+  const rows = () => new Set([...line.querySelectorAll('.wg')].map(e => e.offsetTop)).size;
+  let fs = parseFloat(getComputedStyle(line).fontSize);
+  while (rows() > 1 && fs > 19){ fs -= 1; line.style.fontSize = fs + 'px'; }
+  if (rows() > 1) line.style.fontSize = '';
+}
 function renderCard(){
   const rows = rowsFor(S.level, S.topic), r = cur();
   $('cardTitle').textContent = S.topic;
-  $('pickLv').textContent = S.level;
   $('posText').textContent = `Line ${S.idx + 1} of ${rows.length}`;
   $('dots').innerHTML = rows.map((x, i) => `<button class="badge${i === S.idx ? ' on' : ''}${DONE.has(x.id) ? ' done' : ''}" data-i="${i}" aria-current="${i === S.idx}" aria-label="Line ${i + 1}${DONE.has(x.id) ? ', practised' : ''}">${i + 1}</button>`).join('');
   const line = $('line');
@@ -900,7 +935,7 @@ function renderCard(){
   $('nextBtn').title = last ? 'Next topic' : 'Next line';
   $('voiceGroup').innerHTML = (DATA.voices || []).map(v =>
     `<button data-voice="${v.key}" aria-pressed="${v.key === S.voice}">${esc(v.label.replace(/^English, (\w)/, (m, c) => c.toUpperCase()))}</button>`).join('');
-  drawWaves();
+  fitLine(); drawWaves();
 }
 function render(){ renderLevels(); renderRail(); renderCard(); }
 
@@ -1218,7 +1253,7 @@ function pickGo(e){
   return ln ? 'line' : (lv || tp) ? 'list' : '';
 }
 $('levels').addEventListener('click', pickGo);
-$('rail').addEventListener('click', pickGo);
+$('topics').addEventListener('click', pickGo);
 $('dots').addEventListener('click', pickGo);
 $('pickDlg').addEventListener('click', e => { if (pickGo(e) === 'line') $('pickDlg').close(); });
 $('pickBtn').onclick = () => { if (matchMedia('(max-width: 700px)').matches) $('pickDlg').showModal(); };
@@ -1278,8 +1313,8 @@ document.addEventListener('keydown', e => {
   else if (e.key === 'ArrowRight'){ next(); }
   else if (e.key === 'ArrowLeft' && S.idx > 0){ go(S.level, S.topic, S.idx - 1); }
 });
-if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => drawWaves());
-let rz = 0; window.addEventListener('resize', () => { cancelAnimationFrame(rz); rz = requestAnimationFrame(drawWaves); });
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { fitLine(); drawWaves(); });
+let rz = 0; window.addEventListener('resize', () => { cancelAnimationFrame(rz); rz = requestAnimationFrame(() => { fitLine(); drawWaves(); }); });
 
 if (!LEVELS.some(l => l[0] === S.level)) S.level = 'B1';
 if (DATA.voices && DATA.voices.length && !DATA.voices.some(v => v.key === S.voice)) S.voice = DATA.voices[0].key;
