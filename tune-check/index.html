@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>(function(){
+  var ok=false;try{ok=localStorage.getItem('jpt_gate_ok')==='1'}catch(e){}
+  if(ok)return;
+  document.documentElement.style.visibility='hidden';
+  var HASH='7c229dcbe1a9abfa9292b1fdd8910b1a16edfbdffcb59c19a218fdbde9c253c9';
+  function hex(buf){return Array.prototype.map.call(new Uint8Array(buf),function(b){return ('0'+b.toString(16)).slice(-2)}).join('')}
+  function check(pw){
+    return crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw)).then(function(buf){return hex(buf)===HASH});
+  }
+  function ask(){
+    var pw;try{pw=prompt('Password required')}catch(e){return}
+    if(pw===null)return;
+    check(pw).then(function(match){
+      if(match){try{localStorage.setItem('jpt_gate_ok','1')}catch(e){}document.documentElement.style.visibility=''}
+      else{alert('Incorrect password.');ask()}
+    });
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',ask)}else{ask()}
+})();</script>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Tune check</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#2D3047;--muted:#7A7D8E;--border:#E8E5DF;--cream:#F7F6F3;--card:#fff;
+  --sky:#2176FF;--sky-light:#E8EEFF;--sea:#1DD3B0;--sea-d:#0F7D71;--sea-tint:#E4FBF7;
+  --coral:#FF6B6B;--coral-d:#D6453F;--coral-tint:#FDECEC;--sun:#F5A524;--sun-d:#A5690A;--sun-tint:#FFF5E6;
+  --radius:16px;--shadow-sm:0 1px 3px rgba(45,48,71,.06);--ease:cubic-bezier(.22,1,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{overflow-x:hidden}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--cream);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
+h1,h2,.btn,.chip,.seg button,.pill,.sum-title,summary{font-family:'Outfit',system-ui,sans-serif}
+button,select,input{font-family:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--sky);outline-offset:2px}
+.wrap{max-width:720px;margin:0 auto;padding:1.4rem 1rem 9rem}
+h1{font-size:clamp(1.7rem,6vw,2.3rem);font-weight:900;letter-spacing:-.01em;line-height:1.1}
+.sub{color:var(--muted);font-weight:500;margin-top:.45rem;max-width:34rem}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);padding:1rem;margin-top:1rem;min-width:0}
+.row{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
+.seg{display:inline-flex;background:var(--cream);border:1px solid var(--border);border-radius:999px;padding:3px;gap:2px}
+.seg button{border:0;background:none;border-radius:999px;padding:.38rem .85rem;font-weight:600;font-size:.9rem;color:var(--muted);cursor:pointer;transition:background .2s var(--ease),color .2s var(--ease)}
+.seg button[aria-pressed=true]{background:var(--ink);color:#fff}
+select{flex:1;min-width:0;border:1px solid var(--border);background:var(--card);border-radius:12px;padding:.55rem .7rem;font-size:.95rem}
+.line{font-size:clamp(1.25rem,5vw,1.6rem);font-weight:500;line-height:1.45;margin-top:.2rem}
+.line .w{display:inline-block;margin-right:.32em}
+.line .w.n{font-weight:700;background:var(--sky-light);border-radius:6px;padding:0 .2em;margin-left:-.2em;margin-right:.12em}
+.line .gap{display:inline-block;width:.9em}
+.hint{color:var(--muted);font-size:.85rem;margin-top:.5rem}
+.sum{display:flex;gap:.7rem;align-items:center}
+.sum-title{font-weight:700;font-size:1.15rem}
+.sum-txt{color:var(--muted);font-size:.92rem}
+.pill{display:inline-block;border-radius:999px;padding:.12rem .6rem;font-size:.78rem;font-weight:700;letter-spacing:.02em}
+.pill.same{background:var(--sea-tint);color:var(--sea-d)}
+.pill.near{background:var(--sun-tint);color:var(--sun-d)}
+.pill.try{background:var(--coral-tint);color:var(--coral-d)}
+.pill.unclear{background:var(--cream);color:var(--muted);border:1px solid var(--border)}
+.cv{display:block;width:100%;height:190px;margin-top:.6rem;border-radius:12px;background:var(--cream)}
+.key{display:flex;gap:1rem;flex-wrap:wrap;font-size:.85rem;color:var(--muted);margin-top:.5rem}
+.key i{display:inline-block;width:18px;height:4px;border-radius:2px;vertical-align:middle;margin-right:.35rem}
+.chunks{display:grid;gap:.6rem;margin-top:.8rem}
+.chunk{display:grid;grid-template-columns:auto 1fr;gap:.2rem .7rem;align-items:start;padding:.7rem .8rem;border-radius:12px;border:1px solid var(--border);background:var(--card)}
+.chunk .num{font-family:'Outfit',system-ui,sans-serif;font-weight:700;width:1.6rem;height:1.6rem;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.85rem}
+.chunk .t{font-size:.95rem;min-width:0}
+.chunk .t b{font-weight:600}
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:5;background:var(--card);border-top:1px solid var(--border);padding:.8rem 1rem calc(.7rem + env(safe-area-inset-bottom,0px))}
+.dock-in{max-width:720px;margin:0 auto;display:flex;justify-content:center;align-items:flex-end;gap:1.6rem}
+.dk{display:flex;flex-direction:column;align-items:center;gap:.25rem;border:0;background:none;cursor:pointer;font-family:'Outfit',system-ui,sans-serif;font-size:.78rem;font-weight:600;color:var(--muted)}
+.dk .c{width:52px;height:52px;border-radius:50%;border:1.5px solid var(--border);background:var(--card);display:flex;align-items:center;justify-content:center;transition:transform .15s var(--ease),background .2s var(--ease)}
+.dk:active .c{transform:scale(.94)}
+.dk svg{width:22px;height:22px;stroke:var(--ink);fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.dk.rec .c{width:68px;height:68px;border-color:var(--coral);background:var(--coral)}
+.dk.rec .dot{width:22px;height:22px;border-radius:50%;background:#fff}
+.dk.rec.live .dot{border-radius:5px}
+.dk.rec{color:var(--coral-d)}
+.dk[disabled]{opacity:.4;cursor:default}
+.note{margin-top:.9rem;padding:.7rem .9rem;border-radius:12px;background:var(--sky-light);color:var(--ink);font-size:.92rem}
+details{margin-top:1rem}
+summary{cursor:pointer;font-weight:600;font-size:.98rem;padding:.4rem 0}
+details p,details li{font-size:.92rem;color:var(--ink);margin-top:.45rem}
+details ul{padding-left:1.1rem}
+.tbl{overflow-x:auto;margin-top:.5rem}
+table{border-collapse:collapse;font-size:.82rem;min-width:100%}
+th,td{padding:.3rem .5rem;border-bottom:1px solid var(--border);text-align:left;white-space:nowrap}
+.knob{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:.6rem;font-size:.85rem}
+.knob input{width:4.2rem;border:1px solid var(--border);border-radius:8px;padding:.25rem .4rem}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Tune check</h1>
+  <p class="sub">Listen to the speaker, say the line, and see how close your tune is. Nothing you record leaves your phone.</p>
+
+  <div class="panel">
+    <div class="row">
+      <div class="seg" id="levels" role="group" aria-label="Level"></div>
+      <div class="seg" id="voices" role="group" aria-label="Voice">
+        <button type="button" data-v="english-f" aria-pressed="true">Female voice</button>
+        <button type="button" data-v="english-m" aria-pressed="false">Male voice</button>
+      </div>
+    </div>
+    <div class="row" style="margin-top:.7rem"><select id="pick" aria-label="Choose a line"></select></div>
+    <p class="line" id="line" style="margin-top:.9rem"></p>
+    <p class="hint">The blue words are the ones the speaker's voice moves on.</p>
+  </div>
+
+  <div id="out" hidden>
+    <div class="panel">
+      <div class="sum"><div><div class="sum-title" id="sumT"></div><div class="sum-txt" id="sumX"></div></div></div>
+      <canvas class="cv" id="cv" aria-label="The speaker's tune and yours, drawn on top of each other"></canvas>
+      <div class="key"><span><i style="background:var(--sky)"></i>Speaker</span><span><i style="background:var(--coral)"></i>You</span><span>Each voice is drawn around its own middle, so a deep voice is fine.</span></div>
+      <div class="chunks" id="chunks"></div>
+    </div>
+  </div>
+  <div class="note" id="msg" hidden></div>
+
+  <details class="panel">
+    <summary>How this check works</summary>
+    <ul>
+      <li>Your phone measures how high your voice goes up and down, many times a second.</li>
+      <li>It lines your recording up with the speaker's by the sounds you make, so each of your words sits under the speaker's word.</li>
+      <li>Then it compares the two tunes, one chunk at a time. Both voices are measured against their own middle, so it does not matter if your voice is higher or lower.</li>
+      <li>It checks the tune, not your sounds. It cannot tell you if a word was wrong.</li>
+    </ul>
+  </details>
+
+  <details class="panel">
+    <summary>Numbers for testing</summary>
+    <p>For John. The distance is how far apart the two tunes are, in semitones (a piano key is one semitone). Under the first number is Same tune, up to the second is Nearly, above is Try again.</p>
+    <div class="knob">
+      <label>Same tune up to <input id="kSame" type="number" step="0.1" min="0.5" max="6"> st</label>
+      <label>Nearly up to <input id="kNear" type="number" step="0.1" min="1" max="10"> st</label>
+    </div>
+    <div class="tbl"><table id="dbg"></table></div>
+    <p id="dbgx"></p>
+  </details>
+</div>
+
+<div class="dock"><div class="dock-in">
+  <button class="dk" id="bListen" type="button"><span class="c"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span>Listen</button>
+  <button class="dk rec" id="bRec" type="button"><span class="c"><span class="dot"></span></span><span id="recT">Record</span></button>
+  <button class="dk" id="bMine" type="button" disabled><span class="c"><svg viewBox="0 0 24 24"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></span>You</button>
+</div></div>
+
+<script src="tunecore.js"></script>
+<script src="data.js"></script>
+<script>
+(function(){
+'use strict';
+const T = window.TuneCore, DATA = window.TUNE_DATA, $ = id => document.getElementById(id);
+const TOPIC = {'about-me':'About me','daily-life':'Daily life','work-and-study':'Work and study','free-time':'Free time'};
+const meta = id => { const m = /^(b1|b2|c1|c2)-(.+)-(\d)$/.exec(id); return {level: m[1].toUpperCase(), topic: TOPIC[m[2]] || m[2], n: +m[3]}; };
+DATA.forEach(r => { r.plainWords = r.voices['english-f'].words.map(w => w[0]); r.shown = r.plainWords.join(' '); Object.assign(r, meta(r.id)); });
+const store = { get(k, d){ try { const v = localStorage.getItem(k); return v === null ? d : v; } catch(e){ return d; } }, set(k, v){ try { localStorage.setItem(k, v); } catch(e){} } };
+
+let level = store.get('tc-level', 'B1'), voice = store.get('tc-voice', 'english-f'), cur = null, spk = null, stu = null, myUrl = null, last = null, rec = null, stream = null;
+let AC = null; const ac = () => AC || (AC = new (window.AudioContext || window.webkitAudioContext)());
+const sp = new Audio(); sp.preload = 'auto';
+const mine = new Audio();
+
+/* ---- pickers ---- */
+function buildLevels(){
+  const box = $('levels'); box.innerHTML = '';
+  ['B1','B2','C1','C2'].forEach(l => { const b = document.createElement('button'); b.type = 'button'; b.textContent = l; b.setAttribute('aria-pressed', l === level); b.onclick = () => { level = l; store.set('tc-level', l); buildLevels(); buildPick(); choose(firstOf(l)); }; box.appendChild(b); });
+}
+const firstOf = l => DATA.find(r => r.level === l);
+function buildPick(sel){
+  const s = $('pick'); s.innerHTML = '';
+  const topics = [...new Set(DATA.filter(r => r.level === level).map(r => r.topic))];
+  topics.forEach(t => { const g = document.createElement('optgroup'); g.label = t; DATA.filter(r => r.level === level && r.topic === t).forEach(r => { const o = document.createElement('option'); o.value = r.id; o.textContent = r.n + '. ' + r.shown; g.appendChild(o); }); s.appendChild(g); });
+  if (sel) s.value = sel;
+}
+$('pick').onchange = e => choose(DATA.find(r => r.id === e.target.value));
+$('voices').querySelectorAll('button').forEach(b => b.onclick = () => { voice = b.dataset.v; store.set('tc-voice', voice); syncVoice(); choose(cur); });
+function syncVoice(){ $('voices').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === voice)); }
+
+/* ---- loading and analysing the speaker ---- */
+async function decode(url){ const b = await (await fetch(url)).arrayBuffer(); return ac().decodeAudioData(b); }
+async function choose(r){
+  if (!r) return;
+  cur = r; spk = null; stu = null; last = null; $('out').hidden = true; $('msg').hidden = true; $('bMine').disabled = true;
+  $('pick').value = r.id; store.set('tc-line', r.id);
+  const nuc = new Set(r.units.map(u => u.nuc)), starts = new Set(r.units.slice(1).map(u => u.w[0]));
+  $('line').innerHTML = r.plainWords.map((w, i) => (starts.has(i) ? '<span class="gap"></span>' : '') + '<span class="w' + (nuc.has(i) ? ' n' : '') + '">' + w.replace(/</g, '&lt;') + '</span>').join('');
+  const url = 'audio/' + voice + '/' + r.id + '.m4a';
+  sp.src = url;
+  try { const buf = await decode(url); if (cur !== r) return; spk = T.analyse(buf.getChannelData(0), buf.sampleRate); } catch(e){ say('I could not load this clip.'); }
+}
+function say(t){ const m = $('msg'); m.textContent = t; m.hidden = !t; }
+
+/* ---- listen / record ---- */
+$('bListen').onclick = () => { mine.pause(); sp.currentTime = 0; sp.play(); };
+$('bMine').onclick = () => { if (!myUrl) return; sp.pause(); mine.src = myUrl; mine.currentTime = 0; mine.play(); };
+$('bRec').onclick = async () => {
+  if (rec) { rec.stop(); return; }
+  if (!navigator.mediaDevices || !window.MediaRecorder) { say('This browser cannot record. Try Chrome or Safari.'); return; }
+  try { stream = await navigator.mediaDevices.getUserMedia({audio: {echoCancellation: false, autoGainControl: false}}); }
+  catch(e){ say('I need the microphone to check your tune. Allow it in your browser settings and try again.'); return; }
+  say(''); sp.pause(); mine.pause();
+  const chunks = []; rec = new MediaRecorder(stream);
+  rec.ondataavailable = e => e.data.size && chunks.push(e.data);
+  rec.onstop = async () => {
+    clearTimeout(rec._t); stream.getTracks().forEach(t => t.stop()); const mt = rec.mimeType || 'audio/webm'; rec = null;
+    $('bRec').classList.remove('live'); $('recT').textContent = 'Record';
+    const blob = new Blob(chunks, {type: mt}); if (myUrl) URL.revokeObjectURL(myUrl); myUrl = URL.createObjectURL(blob); $('bMine').disabled = false;
+    try { const buf = await ac().decodeAudioData(await blob.arrayBuffer()); check(buf); } catch(e){ say('I could not read that recording. Try again.'); }
+  };
+  rec.start(); rec._t = setTimeout(() => rec && rec.stop(), 14000);
+  $('bRec').classList.add('live'); $('recT').textContent = 'Stop';
+};
+
+/* ---- the check ---- */
+const opts = () => ({same: +$('kSame').value || T.SAME, nearly: +$('kNear').value || T.NEARLY});
+$('kSame').value = store.get('tc-same', T.SAME); $('kNear').value = store.get('tc-near', T.NEARLY);
+['kSame','kNear'].forEach(id => $(id).onchange = () => { store.set('tc-same', $('kSame').value); store.set('tc-near', $('kNear').value); if (last) show(); });
+function check(buf){
+  if (!spk) { say('The speaker clip is still loading. Try again in a moment.'); return; }
+  stu = T.analyse(buf.getChannelData(0), buf.sampleRate);
+  if (!stu || stu.dur < .5) { say('I could hardly hear anything. Move closer to the phone and say the whole line.'); $('out').hidden = true; return; }
+  show();
+}
+function show(){
+  if (!stu) return;
+  const r = T.scoreLine(cur, voice, spk, stu, opts()); last = r;
+  if (!r.ok) { say('I could hardly measure your pitch. Move closer to the phone, speak up a little and try again.'); $('out').hidden = true; return; }
+  say(''); $('out').hidden = false;
+  const ok = r.units.filter(u => u.verdict === 'same').length, near = r.units.filter(u => u.verdict === 'near').length, n = r.units.length;
+  let t, x;
+  if (ok === n) { t = 'Your tune follows the speaker'; x = 'Every chunk matched. Try the next line.'; }
+  else if (ok + near === n) { t = 'Close'; x = 'Look at the chunks marked Nearly, then listen once more.'; }
+  else if (ok + near > 0) { t = 'Some of it matched'; x = 'Listen to the chunks marked Try again, then record once more.'; }
+  else { t = 'Listen again'; x = 'Say it with the speaker first, then record.'; }
+  $('sumT').textContent = t; $('sumX').textContent = x;
+  $('chunks').innerHTML = r.units.map(u => chunkHTML(u)).join('');
+  draw(r); debug(r);
+  const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  $('out').scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block: 'start'});
+}
+const WORD = w => (w || '').replace(/[^A-Za-z'’-]/g, '');
+const NAME = T.NAME;
+function chunkHTML(u){
+  const w = WORD(u.word), lab = {same: 'Same tune', near: 'Nearly', try: 'Try again', unclear: 'Not clear'}[u.verdict];
+  let txt;
+  if (u.verdict === 'same') txt = 'Your voice moves like the speaker\'s on <b>' + w + '</b>.';
+  else if (u.verdict === 'unclear') txt = 'I could not hear your pitch here. Speak a little louder, or closer to the phone.';
+  else if (u.flat) txt = 'Your voice moved less than the speaker\'s. Make the movement on <b>' + w + '</b> bigger.';
+  else if (NAME[u.ref] && NAME[u.you] && u.ref !== u.you) txt = 'The speaker\'s voice ' + NAME[u.ref] + ' on <b>' + w + '</b>. Yours ' + NAME[u.you] + '.';
+  else txt = 'The movement on <b>' + w + '</b> is a little different. Listen to it once more.';
+  return '<div class="chunk"><span class="num">' + (u.unit + 1) + '</span><div class="t"><span class="pill ' + u.verdict + '">' + lab + '</span><div style="margin-top:.25rem">' + txt + '</div></div></div>';
+}
+
+/* ---- the picture: both tunes on the speaker's time line ---- */
+function draw(r){
+  const cv = $('cv'), dpr = window.devicePixelRatio || 1, W = cv.clientWidth, H = cv.clientHeight;
+  cv.width = W * dpr; cv.height = H * dpr; const g = cv.getContext('2d'); g.scale(dpr, dpr); g.clearRect(0, 0, W, H);
+  const V = cur.voices[voice], N = spk.rel.length, toX = f => 10 + (W - 20) * f / (N - 1), padT = 14, padB = 40;
+  const you = new Array(N).fill(null);
+  for (let i = 0; i < N; i++) { if (r.mr.lo[i] < 0) continue; const j = Math.round((r.mr.lo[i] + r.mr.hi[i]) / 2); const v = stu.rel[j]; if (typeof v === 'number') you[i] = v; }
+  const vals = [...spk.rel, ...you].filter(v => typeof v === 'number'); let lo = Math.min(-4, ...vals), hi = Math.max(4, ...vals); lo -= 1; hi += 1;
+  const toY = v => padT + (H - padT - padB) * (1 - (v - lo) / (hi - lo));
+  const col = {same: 'rgba(29,211,176,.16)', near: 'rgba(245,165,36,.18)', try: 'rgba(255,107,107,.17)', unclear: 'rgba(122,125,142,.12)'};
+  r.units.forEach(u => { g.fillStyle = col[u.verdict]; g.fillRect(toX(u.a), 0, Math.max(2, toX(Math.min(N - 1, u.b)) - toX(u.a)), H - padB + 6); });
+  g.strokeStyle = 'rgba(122,125,142,.35)'; g.setLineDash([3, 4]); g.beginPath(); g.moveTo(10, toY(0)); g.lineTo(W - 10, toY(0)); g.stroke(); g.setLineDash([]);
+  const line = (arr, c) => { g.strokeStyle = c; g.lineWidth = 3.2; g.lineCap = 'round'; g.lineJoin = 'round'; let pen = false, gap = 0; g.beginPath();
+    arr.forEach((v, i) => { if (typeof v !== 'number') { gap++; if (gap > 3) pen = false; return; } gap = 0; if (!pen) { g.moveTo(toX(i), toY(v)); pen = true; } else g.lineTo(toX(i), toY(v)); }); g.stroke(); };
+  line(spk.rel, '#2176FF'); line(you, '#FF6B6B');
+  g.font = '600 12px Outfit, system-ui, sans-serif'; g.fillStyle = '#2D3047'; g.textAlign = 'center';
+  const row = [0, 0]; let lastEnd = [-99, -99];
+  V.words.forEach((w, k) => { const f0 = (w[1] - spk.tr.start) / T.HOP, f1 = (w[2] - spk.tr.start) / T.HOP; if (f1 < 0 || f0 > N) return;
+    const x = toX((f0 + f1) / 2), tw = g.measureText(w[0]).width, r_ = lastEnd[0] < x - tw / 2 - 4 ? 0 : 1; lastEnd[r_] = x + tw / 2;
+    g.fillText(w[0], Math.min(W - tw / 2 - 2, Math.max(tw / 2 + 2, x)), H - 22 + r_ * 15); });
+}
+window.addEventListener('resize', () => { if (last && !$('out').hidden) draw(last); });
+
+function debug(r){
+  const rows = r.units.map(u => '<tr><td>' + (u.unit + 1) + '</td><td>' + WORD(u.word) + '</td><td>' + (u.d === null ? 'n/a' : u.d.toFixed(2)) + '</td><td>' + u.n + '</td><td>' + (u.spkRange ? u.spkRange.toFixed(1) : '-') + '</td><td>' + (u.youRange ? u.youRange.toFixed(1) : '-') + '</td><td>' + u.ref + '</td><td>' + u.you + '</td><td>' + u.verdict + '</td></tr>').join('');
+  $('dbg').innerHTML = '<tr><th>#</th><th>Word</th><th>Distance</th><th>Points</th><th>Speaker range</th><th>Your range</th><th>Speaker tone</th><th>Your tone</th><th>Result</th></tr>' + rows;
+  $('dbgx').textContent = 'Sound match (lower is better): ' + r.match.toFixed(2) + '. Your pitch was measured in ' + Math.round(stu.voicedShare * 100) + '% of the recording.';
+}
+
+/* test hook: add ?test to the address to feed a saved recording through the check without a microphone */
+if (/[?&]test/.test(location.search)) window.__tc = { run: async url => { check(await decode(url)); return last; } };
+
+/* ---- start ---- */
+syncVoice(); buildLevels();
+const want = DATA.find(r => r.id === store.get('tc-line', '')) || firstOf(level); level = want.level; buildLevels(); buildPick(want.id); choose(want);
+})();
+</script>
+</body>
+</html>
