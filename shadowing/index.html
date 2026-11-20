@@ -399,6 +399,9 @@ button{font-family:inherit}
 .mini{display:inline-flex;align-items:center;gap:.35rem;min-height:40px;padding:.35rem .85rem;border:1.5px solid var(--border);border-radius:10px;background:var(--card);color:var(--ink);font-family:'Outfit',system-ui,sans-serif;font-size:.84rem;font-weight:700;cursor:pointer;transition:border-color .12s ease-out}
 .mini:hover{border-color:var(--ink)}
 .mini svg{width:12px;height:12px}
+/* Together's balance: slide right to make the speaker quieter and you louder */
+.mix{display:flex;align-items:center;gap:.6rem;flex-basis:100%;margin-top:.15rem;font-family:'Outfit',system-ui,sans-serif;font-size:.8rem;font-weight:700;color:var(--muted)}
+.mix input{flex:1;min-width:0;height:28px;accent-color:var(--sky);cursor:pointer}
 .graph .wave-hint:empty{display:none}
 /* the dock: the three things you do, then where you go next. Pinned to the bottom while you practise */
 .dock{position:sticky;bottom:0;z-index:3;background:var(--card);border-top:1px solid var(--border);padding:.85rem 1.2rem calc(.7rem + env(safe-area-inset-bottom, 0px))}
@@ -541,6 +544,7 @@ button{font-family:inherit}
             <span class="mine-l">Play</span>
             <button class="mini" id="mineBtn" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z" fill="currentColor" stroke="none"/></svg>Me</button>
             <button class="mini" id="seqBtn" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z" fill="currentColor" stroke="none"/></svg>Speaker, then me</button>
+            <label class="mix"><span>Together:</span><span>Speaker</span><input type="range" id="mixRange" min="0" max="100" step="1" aria-label="Together: slide right to make the speaker quieter and you louder"><span>Me</span></label>
           </div>
           <p class="wave-hint" id="hint"></p>
         </div>
@@ -628,7 +632,7 @@ const DONE = new Set(store.get('jpe-shadow-done', []));
 if (S.ipa === undefined) S.ipa = false; /* phonetic symbols are for those who know them: off at first */
 if (S.joins === undefined) S.joins = false;
 if (S.pitch === undefined) S.pitch = true;
-const save = () => store.set('jpe-shadow-state', {level:S.level, topic:S.topic, idx:S.idx, stress:S.stress, tune:S.tune, pitch:S.pitch, split:S.split, ipa:S.ipa, joins:S.joins, voice:S.voice});
+const save = () => store.set('jpe-shadow-state', {level:S.level, topic:S.topic, idx:S.idx, stress:S.stress, tune:S.tune, pitch:S.pitch, split:S.split, mix:S.mix, ipa:S.ipa, joins:S.joins, voice:S.voice});
 /* A line plays its Shadow Voice clip once it exists, and the backup clip until then */
 /* One recording per line per voice, at a moderate natural pace (John: two speeds had two different tunes) */
 const clipKey = r => S.voice;
@@ -746,7 +750,7 @@ function renderGuide(r){
       <div class="g-list">
         ${item(1, 'Listen', 'Tap Listen two or three times. Make sure you understand the line. Then play it again and hum along quietly, with no words, to copy the ups and downs.')}
         ${item(2, 'Say it with the speaker', 'Say it at the same time as the speaker, not after. Then tap Record, say the line, and tap Stop. A small box then tells you if your tune matched the speaker\'s. To hear the speaker while you record, turn it on in Options and use headphones.')}
-        ${item(3, 'Compare', 'Tap Together to hear you and the speaker at the same time. Where your voices drift apart or clash, that\'s what to fix. You can also play just yourself, or the speaker and then you. Then tap the arrow for the next line.')}
+        ${item(3, 'Compare', 'Tap Together to hear you and the speaker at the same time. Where your voices drift apart or clash, that\'s what to fix. Slide the Together bar right to make the speaker quieter, so you hear them softly behind you. You can also play just yourself, or the speaker and then you. Then tap the arrow for the next line.')}
       </div></div>
     <div class="g-sec">
       <div class="g-head">Good habits</div>
@@ -1155,6 +1159,8 @@ async function playBoth(){ if (!myBuf) return; await playModel(); await new Prom
 /* Together: the speaker and you at the same moment, each started just before their own voice starts, so a
    late tap on Record doesn't put you behind. Where you drift apart, you hear it. The speaker's words light up
    as they go. Split ears (Options) puts the speaker left and you right. */
+const mixGains = () => { const m = (S.mix == null ? 50 : S.mix) / 100; return {spk: 1 - .9 * m, me: .35 + .65 * m}; };
+let togetherNow = null;
 function playTogether(){
   stopAll();
   if (!myBuf || !modelBuf || !modelTrim) return Promise.resolve();
@@ -1163,14 +1169,15 @@ function playTogether(){
   const a0 = Math.max(0, (sv ? sv.first : modelTrim.start) - .15), b0 = Math.max(0, (myVoiced ? myVoiced.first : myTrim.start) - .15);
   const aDur = Math.max(.1, modelTrim.end - a0), bDur = Math.max(.1, myTrim.end - b0);
   const route = (buf, gain, pan) => {
-    const src = c.createBufferSource(), g = c.createGain(); src.buffer = buf; g.gain.value = gain; src.connect(g);
+    const src = c.createBufferSource(), g = c.createGain(); src.buffer = buf; g.gain.value = gain; src.connect(g); src.g = g;
     if (S.split && c.createStereoPanner){ const p = c.createStereoPanner(); p.pan.value = pan; g.connect(p); p.connect(c.destination); }
     else g.connect(c.destination);
     return src;
   };
-  const A = route(modelBuf, .75, -1), B = route(myBuf, 1, 1), t0 = c.currentTime + .05;
+  const A = route(modelBuf, mixGains().spk, -1), B = route(myBuf, mixGains().me, 1), t0 = c.currentTime + .05;
   A.start(t0, a0, aDur); B.start(t0, b0, bDur);
-  const both = {stop(){ try{ A.stop(); }catch(e){} try{ B.stop(); }catch(e){} }};
+  const both = {stop(){ try{ A.stop(); }catch(e){} try{ B.stop(); }catch(e){} }, A, B};
+  togetherNow = both;
   playing = both;
   return new Promise(res => {
     const end = t0 + Math.max(aDur, bDur);
@@ -1276,6 +1283,12 @@ $('recBtn').onclick = toggleRecord;
 $('mineBtn').onclick = playMine;
 $('bothBtn').onclick = playTogether;
 $('seqBtn').onclick = playBoth;
+/* the balance slider works while Together is playing, so you can find the level by ear */
+$('mixRange').value = S.mix == null ? 50 : S.mix;
+$('mixRange').addEventListener('input', e => {
+  S.mix = +e.target.value; save();
+  if (togetherNow && playing === togetherNow){ const g = mixGains(), c = ac(); togetherNow.A.g.gain.setTargetAtTime(g.spk, c.currentTime, .03); togetherNow.B.g.gain.setTargetAtTime(g.me, c.currentTime, .03); }
+});
 $('voiceGroup').addEventListener('click', e => {
   const b = e.target.closest('[data-voice]'); if (!b || b.dataset.voice === S.voice) return;
   S.voice = b.dataset.voice; save(); renderCard(); loadLine();
