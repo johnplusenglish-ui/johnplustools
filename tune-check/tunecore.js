@@ -234,7 +234,7 @@
     const V = line.voices[voice], res = { units: [], ok: true, notes: [] };
     if (!stu || stu.voicedShare < .12) { res.ok = false; res.notes.push('quiet'); return res; }
     const al = dtw(spk.mf, stu.mf), mr = mapRange(al.path, spk.mf.length);
-    res.match = al.cost; res.mr = mr;
+    res.match = al.cost; res.mr = mr; res.path = al.path;
     const toF = t => Math.max(0, Math.min(spk.mf.length - 1, Math.round((t - spk.tr.start) / HOP)));
     line.units.forEach((u, ui) => {
       const tn = V.words[u.nuc][1] - .08, tu = V.words[u.w[0]][1] - .02;
@@ -262,6 +262,19 @@
     return res;
   }
 
-  const api = { HOP, SAME, NEARLY, trim, prepare, pitchTrack, mfcc, dtw, mapRange, classify5, analyse, scoreLine, compareStretch, span, NAME, NEAR };
+  /* The words a learner reads for one chunk's result (A2 level). Returns {label, cls, html}. */
+  function describe(u) {
+    const w = (u.word || '').replace(/[^A-Za-z'’-]/g, ''), b = '<b>' + w + '</b>';
+    const label = { same: 'Same tune', near: 'Nearly', try: 'Try again', unclear: 'Not clear' }[u.verdict];
+    let html;
+    if (u.verdict === 'same') html = 'Your voice moves like the speaker\'s on ' + b + '.';
+    else if (u.verdict === 'unclear') html = 'I could not hear your pitch here. Speak a little louder, or closer to the phone.';
+    else if (u.flat) html = 'Your voice moved less than the speaker\'s. Make the movement on ' + b + ' bigger.';
+    else if (NAME[u.ref] && NAME[u.you] && u.ref !== u.you) html = 'The speaker\'s voice ' + NAME[u.ref] + ' on ' + b + '. Yours ' + NAME[u.you] + '.';
+    else html = 'The movement on ' + b + ' is a little different. Listen to it once more.';
+    return { label, cls: u.verdict, html };
+  }
+
+  const api = { HOP, SAME, NEARLY, trim, prepare, pitchTrack, mfcc, dtw, mapRange, classify5, analyse, scoreLine, compareStretch, describe, span, NAME, NEAR };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.TuneCore = api;
 })(typeof window !== 'undefined' ? window : globalThis);

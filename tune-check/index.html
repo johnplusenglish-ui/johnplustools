@@ -245,16 +245,9 @@ function show(){
   $('out').scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block: 'start'});
 }
 const WORD = w => (w || '').replace(/[^A-Za-z'’-]/g, '');
-const NAME = T.NAME;
 function chunkHTML(u){
-  const w = WORD(u.word), lab = {same: 'Same tune', near: 'Nearly', try: 'Try again', unclear: 'Not clear'}[u.verdict];
-  let txt;
-  if (u.verdict === 'same') txt = 'Your voice moves like the speaker\'s on <b>' + w + '</b>.';
-  else if (u.verdict === 'unclear') txt = 'I could not hear your pitch here. Speak a little louder, or closer to the phone.';
-  else if (u.flat) txt = 'Your voice moved less than the speaker\'s. Make the movement on <b>' + w + '</b> bigger.';
-  else if (NAME[u.ref] && NAME[u.you] && u.ref !== u.you) txt = 'The speaker\'s voice ' + NAME[u.ref] + ' on <b>' + w + '</b>. Yours ' + NAME[u.you] + '.';
-  else txt = 'The movement on <b>' + w + '</b> is a little different. Listen to it once more.';
-  return '<div class="chunk"><span class="num">' + (u.unit + 1) + '</span><div class="t"><span class="pill ' + u.verdict + '">' + lab + '</span><div style="margin-top:.25rem">' + txt + '</div></div></div>';
+  const d = T.describe(u);
+  return '<div class="chunk"><span class="num">' + (u.unit + 1) + '</span><div class="t"><span class="pill ' + d.cls + '">' + d.label + '</span><div style="margin-top:.25rem">' + d.html + '</div></div></div>';
 }
 
 /* ---- the picture: both tunes on the speaker's time line ---- */
