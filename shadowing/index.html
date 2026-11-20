@@ -401,6 +401,16 @@ button{font-family:inherit}
 .mini svg{width:12px;height:12px}
 /* Together's balance: slide right to make the speaker quieter and you louder */
 .mix{display:flex;align-items:center;gap:.6rem;flex-basis:100%;margin-top:.15rem;font-family:'Outfit',system-ui,sans-serif;font-size:.8rem;font-weight:700;color:var(--muted)}
+/* the countdown sits over the line, big enough to see from arm's length */
+#stage{position:relative}
+.count{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(255,255,255,.95);text-align:center;padding:0 1rem}
+.count[hidden]{display:none}
+.count-n{font-family:'Outfit',system-ui,sans-serif;font-size:4.6rem;font-weight:900;line-height:1;color:var(--sky)}
+.count-n.go{color:var(--coral-d)}
+.count-s{font-size:.95rem;font-weight:600;color:var(--muted);margin-top:.6rem;max-width:30ch}
+/* how to record: with the speaker (shadowing) or on my own */
+.rec-mode{max-width:340px;margin:0 auto .8rem}
+.rec-mode button{min-height:38px;font-size:.8rem}
 .mix input{flex:1;min-width:0;height:28px;accent-color:var(--sky);cursor:pointer}
 .graph .wave-hint:empty{display:none}
 /* the dock: the three things you do, then where you go next. Pinned to the bottom while you practise */
@@ -522,6 +532,7 @@ button{font-family:inherit}
         </div>
 
         <div class="stage" id="stage">
+          <div class="count" id="count" hidden aria-live="assertive"><div class="count-n" id="countNum">3</div><div class="count-s" id="countSub"></div></div>
           <p class="line" id="line" aria-live="polite"></p>
           <p class="hidden-note">Words hidden. Listen first, then tap the line to see it.</p>
           <div class="views" role="group" aria-label="Show on the line">
@@ -553,6 +564,10 @@ button{font-family:inherit}
         <div class="dock">
           <div class="tip" id="start" hidden><span>New here? Listen, say it with the speaker, then compare.</span><button class="tip-x" id="startGo" aria-label="Hide this tip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
           <div class="mic" id="mic"><span class="bar"><i id="micBar" style="transform:scaleX(0)"></i></span><span>Recording. Tap Stop when you finish.</span></div>
+          <div class="seg rec-mode" role="group" aria-label="How to record" id="recMode">
+            <button data-mode="shadow">With the speaker</button>
+            <button data-mode="solo">On my own</button>
+          </div>
           <div class="dock-main">
             <button class="act act-listen" id="listenBtn"><span class="act-c"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z" fill="currentColor" stroke="none"/></svg></span><span class="act-l">Listen</span></button>
             <button class="act act-rec" id="recBtn"><span class="act-c"><span class="dot"></span></span><span class="act-l">Record</span></button>
@@ -594,8 +609,7 @@ button{font-family:inherit}
       <button class="opt" data-opt="ipa"><span><span class="opt-t">Sounds</span><span class="opt-x">Phonetic symbols under each word.</span></span><span class="sw" aria-hidden="true"></span></button>
       <button class="opt" data-opt="hide"><span><span class="opt-t">Hide words</span><span class="opt-x">Practise by ear. Tap the line to see it.</span></span><span class="sw" aria-hidden="true"></span></button>
     </div>
-    <div class="sheet-label">Recording</div>
-    <label class="along"><input type="checkbox" id="alongBox"> Play the speaker while I record (use headphones)</label>
+    <div class="sheet-label">Together</div>
     <div class="opt-list" style="margin-top:.7rem">
       <button class="opt" data-opt="split"><span><span class="opt-t">Split ears for Together</span><span class="opt-x">The speaker in your left ear, you in your right. Use headphones.</span></span><span class="sw" aria-hidden="true"></span></button>
     </div>
@@ -632,7 +646,8 @@ const DONE = new Set(store.get('jpe-shadow-done', []));
 if (S.ipa === undefined) S.ipa = false; /* phonetic symbols are for those who know them: off at first */
 if (S.joins === undefined) S.joins = false;
 if (S.pitch === undefined) S.pitch = true;
-const save = () => store.set('jpe-shadow-state', {level:S.level, topic:S.topic, idx:S.idx, stress:S.stress, tune:S.tune, pitch:S.pitch, split:S.split, mix:S.mix, ipa:S.ipa, joins:S.joins, voice:S.voice});
+if (S.shadow === undefined) S.shadow = true;   /* record with the speaker: that is what shadowing is */
+const save = () => store.set('jpe-shadow-state', {level:S.level, topic:S.topic, idx:S.idx, stress:S.stress, tune:S.tune, pitch:S.pitch, split:S.split, mix:S.mix, shadow:S.shadow, ipa:S.ipa, joins:S.joins, voice:S.voice});
 /* A line plays its Shadow Voice clip once it exists, and the backup clip until then */
 /* One recording per line per voice, at a moderate natural pace (John: two speeds had two different tunes) */
 const clipKey = r => S.voice;
@@ -749,7 +764,7 @@ function renderGuide(r){
       <p class="g-lead">Shadowing means saying a line at the same time as a speaker, like their shadow. It trains your ears and your mouth together.</p>
       <div class="g-list">
         ${item(1, 'Listen', 'Tap Listen two or three times. Make sure you understand the line. Then play it again and hum along quietly, with no words, to copy the ups and downs.')}
-        ${item(2, 'Say it with the speaker', 'Say it at the same time as the speaker, not after. Then tap Record, say the line, and tap Stop. A small box then tells you if your tune matched the speaker\'s. To hear the speaker while you record, turn it on in Options and use headphones.')}
+        ${item(2, 'Say it with the speaker', 'Tap Record. After 3, 2, 1, the speaker starts: say the line with them, at the same time, not after. Use headphones if you can. Recording stops by itself when the speaker finishes. To practise alone, choose On my own.')}
         ${item(3, 'Compare', 'Tap Together to hear you and the speaker at the same time. Where your voices drift apart or clash, that\'s what to fix. Slide the Together bar right to make the speaker quieter, so you hear them softly behind you. You can also play just yourself, or the speaker and then you. Then tap the arrow for the next line.')}
       </div></div>
     <div class="g-sec">
@@ -1199,13 +1214,43 @@ function note(msg){ const n = $('note'); n.textContent = msg; n.hidden = !msg; }
 function updateButtons(){
   $('mineBtn').disabled = !myBuf; $('bothBtn').disabled = !myBuf; $('seqBtn').disabled = !myBuf;
   const live = rec && rec.state === 'recording';
-  $('recBtn').classList.toggle('live', !!live);
-  $('recBtn').querySelector('.act-l').textContent = live ? 'Stop' : 'Record';
+  $('recBtn').classList.toggle('live', !!live || !!countState);
+  $('recBtn').querySelector('.act-l').textContent = countState ? 'Cancel' : live ? 'Stop' : 'Record';
+  document.querySelectorAll('#recMode [data-mode]').forEach(b => b.setAttribute('aria-pressed', (b.dataset.mode === 'shadow') === !!S.shadow));
   $('mic').classList.toggle('on', !!live);
   /* once you've compared, the way on is the next thing to press */
   $('nextBtn').classList.toggle('go', compared);
 }
+/* 3, 2, 1, Go. The ticks play before recording starts, so they are never in your take.
+   Resolves true at Go, false if cancelled or the line changed. */
+let countState = null;
+function countdown(my){
+  return new Promise(res => {
+    const el = $('count'), num = $('countNum');
+    $('countSub').textContent = S.shadow ? 'At Go the speaker starts. Say it with them. Headphones help.' : 'At Go, say the line.';
+    num.classList.remove('go'); el.hidden = false;
+    const c = ac(); c.resume();
+    const tick = () => { try{ const o = c.createOscillator(), g = c.createGain(), t = c.currentTime; o.frequency.value = 880; g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(.12, t + .01); g.gain.exponentialRampToValueAtTime(.0001, t + .11); o.connect(g); g.connect(c.destination); o.start(t); o.stop(t + .12); }catch(e){} };
+    let n = 3;
+    countState = {res, timer: 0};
+    const step = () => {
+      if (!countState) return;
+      if (my !== token){ endCount(false); return; }
+      if (n > 0){ num.textContent = n; tick(); n--; countState.timer = setTimeout(step, 750); }
+      else { num.textContent = 'Go'; num.classList.add('go'); setTimeout(() => { if (!countState) el.hidden = true; }, 450); endCount(true, true); }
+    };
+    step(); updateButtons();
+  });
+}
+function endCount(ok, keepShown){
+  if (!countState) return;
+  const {res, timer} = countState; clearTimeout(timer); countState = null;
+  if (!keepShown) $('count').hidden = true;
+  updateButtons(); res(ok);
+}
+const stopRec = () => { if (rec && rec.state === 'recording') rec.stop(); };
 async function toggleRecord(){
+  if (countState){ endCount(false); return; }
   if (rec && rec.state === 'recording'){ rec.stop(); return; }
   if (!navigator.mediaDevices || !window.MediaRecorder){ note('This browser cannot record. Try Chrome or Safari.'); return; }
   const c = ac(); c.resume();
@@ -1213,6 +1258,7 @@ async function toggleRecord(){
   catch(e){ note('The microphone is blocked. Allow it in the address bar, then press Record again.'); return; }
   stopAll(); note('');
   const my = token; chunks = [];
+  if (!(await countdown(my))){ stream.getTracks().forEach(t => t.stop()); stream = null; updateButtons(); return; }
   rec = new MediaRecorder(stream);
   rec.ondataavailable = e => { if (e.data.size) chunks.push(e.data); };
   rec.onstop = async () => {
@@ -1230,15 +1276,17 @@ async function toggleRecord(){
     }catch(e){ note("That recording couldn't be read. Please try again."); }
     updateButtons(); drawWaves();
   };
+  /* Go: recording and (with the speaker) the speaker start at the same moment */
   rec.start(); updateButtons();
   const an = c.createAnalyser(); an.fftSize = 1024; c.createMediaStreamSource(stream).connect(an);
   const buf = new Float32Array(an.fftSize);
   const meter = () => { an.getFloatTimeDomainData(buf); let s = 0; for (const v of buf) s += v * v;
     $('micBar').style.transform = `scaleX(${Math.min(1, Math.sqrt(s / buf.length) * 6)})`; meterRaf = requestAnimationFrame(meter); };
   meter();
-  const limit = (modelTrim ? modelTrim.len : 3) * 2.5 + 2;
-  autoStop = setTimeout(() => { if (rec && rec.state === 'recording') rec.stop(); }, limit * 1000);
-  if ($('alongBox').checked) playModel();
+  const len = modelTrim ? modelTrim.len : 3;
+  autoStop = setTimeout(stopRec, (S.shadow ? len + 4 : len * 2.5 + 2) * 1000);
+  /* with the speaker: when they finish, give a moment for your last word, then stop by itself */
+  if (S.shadow) playModel().then(() => { if (my === token && rec && rec.state === 'recording'){ clearTimeout(autoStop); autoStop = setTimeout(stopRec, 1000); } });
 }
 
 /* ---------- navigation ---------- */
@@ -1283,6 +1331,7 @@ $('recBtn').onclick = toggleRecord;
 $('mineBtn').onclick = playMine;
 $('bothBtn').onclick = playTogether;
 $('seqBtn').onclick = playBoth;
+$('recMode').addEventListener('click', e => { const b = e.target.closest('[data-mode]'); if (!b || countState || (rec && rec.state === 'recording')) return; S.shadow = b.dataset.mode === 'shadow'; save(); updateButtons(); });
 /* the balance slider works while Together is playing, so you can find the level by ear */
 $('mixRange').value = S.mix == null ? 50 : S.mix;
 $('mixRange').addEventListener('input', e => {
