@@ -388,6 +388,8 @@ button{font-family:inherit}
 .k::before{content:'';width:16px;height:3px;border-radius:2px;background:var(--ink)}
 .k-you::before{background:var(--coral)}
 .k-sp{color:var(--ink)}
+.kdot{display:inline-block;width:.6rem;height:.6rem;border-radius:50%;background:#E4572E;margin:0 .3rem 0 .7rem;vertical-align:-.04rem}
+.kdot-t{font-weight:500;color:var(--muted)}
 .k-play{display:inline-flex;align-items:center;gap:.3rem;min-height:32px;background:none;border:none;padding:0;font:inherit;color:var(--coral-d);cursor:pointer}
 .k-play svg{width:13px;height:13px}
 .graph-len{margin-left:auto;font-family:'Inter',system-ui,sans-serif;font-size:.76rem;font-weight:600;color:var(--muted)}
@@ -565,7 +567,7 @@ button{font-family:inherit}
 
         <div class="graph" id="pitchRow" hidden>
           <div class="graph-key">
-            <span class="k k-sp">Speaker's pitch</span>
+            <span class="k k-sp">Speaker's voice, up and down<span class="kdot" aria-hidden="true"></span><span class="kdot-t">= the stress</span></span>
             <span class="graph-len" id="lenNote"></span><span class="graph-len" id="modelEmpty" hidden>Loading the clip</span>
           </div>
           <div class="mine" id="youKey" hidden>
@@ -838,7 +840,7 @@ function renderGuide(r){
       </div></div>
     <div class="g-sec">
       <div class="g-head">Pitch: the speaker's real voice</div>
-      <p class="g-intro">The dark line under each word is the speaker's voice going up and down on that word, measured by a computer. Higher means a higher voice. Sounds like p, t, s and f have no musical note, so the line is joined smoothly across them. A gap in the line is a pause. As the clip plays, each word lights up as it's said.</p></div>`;
+      <p class="g-intro">The dark line under each word is the speaker's voice going up and down on that word, measured by a computer. Higher means a higher voice. The orange dot is the top of the hill: the stressed syllable of the main word. The voice peaks there, then falls. So a falling line after the dot is the tone, not a weak word. Sounds like p, t, s and f have no musical note, so the line is joined smoothly across them. A gap in the line is a pause. As the clip plays, each word lights up as it's said.</p></div>`;
   } else {
     let n = 0;
     h = `<div class="g-sec">
@@ -1085,6 +1087,15 @@ function drawMelody(playT){
   };
   path(playT >= 0 ? '#BCD3FF' : '#2D3047');
   if (playT >= 0) path('#2176FF', playT);
+  /* the stress: a dot at the highest point of each main word. The voice peaks here, then falls. */
+  W.forEach(w => {
+    if (!w.el.querySelector('.sy.s3')) return;
+    let best = -1, bt = w.t0;
+    for (let i = 0; i <= 24; i++){ const t = w.t0 + (w.t1 - w.t0) * i / 24, v = at(t); if (v > best){ best = v; bt = t; } }
+    const X = xAt(w, bt), Y = yAt(w, best);
+    g.fillStyle = '#E4572E'; g.strokeStyle = '#fff'; g.lineWidth = 2;
+    g.beginPath(); g.arc(X, Y, 5.5, 0, 6.2832); g.fill(); g.stroke();
+  });
   /* the word being said */
   W.forEach(w => w.el.classList.toggle('now', playT >= 0 && playT >= w.t0 && playT < w.t1));
 }
