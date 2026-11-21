@@ -153,14 +153,14 @@ button{font-family:inherit}
 .line.flat .w.s::before{display:none}
 .line.flat .brk{background:transparent;width:0;margin:0 .14em}
 /* Tone: the voice moves on the main word of each chunk */
-.tone{display:inline-block;width:.8em;height:.66em;margin-left:.08em;vertical-align:.42em;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;overflow:visible}
+.tone{display:inline-block;margin-top:-1em;width:.8em;height:.66em;margin-left:.08em;vertical-align:.42em;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;overflow:visible}
 .t-fall{stroke:#2176FF}.t-rise{stroke:#0F7D71}.t-fallrise{stroke:#A5690A}.t-risefall{stroke:#D6453F}
 .line.notune .tone{display:none}
 .line.flat .tone{display:none}
 .t-level{stroke:#7A7D8E}
 /* Phonetic view: stress is marked on the syllable, not the word, with the IPA under each word */
 .line.ph{display:flex;flex-wrap:wrap;align-items:flex-start;column-gap:.3em;row-gap:.35em;line-height:1.25;padding-top:.35em}
-.wg{display:inline-flex;flex-direction:column;min-width:0}
+.wg{display:inline-flex;flex-direction:column;min-width:0;vertical-align:top}
 .wt{white-space:nowrap}
 .wi{font-size:.44em;font-weight:500;letter-spacing:0;color:var(--muted);margin-top:.15em;white-space:nowrap;font-family:'Inter','Charis SIL','Doulos SIL','Gentium Plus','Segoe UI',system-ui,sans-serif}
 .line.noipa .wi{display:none}
@@ -390,6 +390,11 @@ button{font-family:inherit}
 .k::before{content:'';width:16px;height:3px;border-radius:2px;background:var(--ink)}
 .k-you::before{background:var(--coral)}
 .k-sp{color:var(--ink)}
+/* tap a stress dot or arrow: what it means */
+.sy.s1,.sy.s2,.sy.s3,.tone{cursor:pointer}
+.pop{position:fixed;z-index:60;max-width:min(270px,calc(100vw - 24px));padding:.7rem .85rem;background:#fff;border:1.5px solid var(--ink);border-radius:12px;box-shadow:0 6px 20px rgba(45,48,71,.16);font-size:.92rem;line-height:1.4;color:var(--ink)}
+.pop[hidden]{display:none}
+.pop b{display:block;font-size:.98rem;margin-bottom:.15rem}
 /* the one question: at the end, down or up? */
 .ask{padding:.8rem 1.5rem;background:#fff;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;align-items:center;gap:.6rem .9rem}
 .ask[hidden],.ask [hidden]{display:none}
@@ -938,7 +943,42 @@ function renderAsk(r, asking){
   $('askQ').hidden = $('askB').hidden = !asking; $('askR').hidden = asking;
   if (!asking && a){ $('askR').innerHTML = (a === right ? '<b>Yes.</b> ' : '<b>Not quite.</b> ') + 'The voice goes ' + right + ' at the end.' + (right === 'up' ? ' Questions you answer with yes or no usually go up.' : ''); }
 }
+/* ---------- tap a dot or arrow to see what it means ---------- */
+const pop = document.createElement('div');
+pop.className = 'pop'; pop.hidden = true; pop.setAttribute('role', 'status');
+document.body.appendChild(pop);
+let popFor = null;
+const hidePop = () => { pop.hidden = true; popFor = null; };
+function showPop(el){
+  const sy = el.closest('.sy'), isArrow = !!el.closest('.tone');
+  const lvl = isArrow ? 3 : sy.classList.contains('s3') ? 3 : sy.classList.contains('s2') ? 2 : 1;
+  const holder = isArrow ? el.closest('.tone') : sy;
+  const cls = ([...holder.classList].find(c => /^t-/.test(c)) || '').slice(2);
+  const key = Object.keys(TONES).find(k => TONES[k].cls === cls);
+  const asking = $('line').classList.contains('asking');
+  let h;
+  if (lvl === 1) h = '<b>A little stronger</b>Say this part a bit more clearly than the small words next to it.';
+  else if (lvl === 2) h = '<b>A strong part</b>Say this part louder and longer.';
+  else {
+    h = '<b>The main word</b>This is the most important part of the line. Your voice moves on it.';
+    if (key && !asking && S.tune) h += `<br><br><b>${esc(TONES[key].name)}</b>${esc(TONES[key].how)} ${esc(TONES[key].when)}`;
+  }
+  pop.innerHTML = h; pop.hidden = false; popFor = holder;
+  const r = holder.getBoundingClientRect(), w = pop.offsetWidth, hh = pop.offsetHeight;
+  let top = r.top - hh - 16; if (top < 8) top = r.bottom + 10;
+  pop.style.left = Math.max(12, Math.min(innerWidth - w - 12, r.left + r.width / 2 - w / 2)) + 'px';
+  pop.style.top = top + 'px';
+}
+document.addEventListener('click', e => {
+  const hit = e.target.closest && e.target.closest('#line .sy.s1, #line .sy.s2, #line .sy.s3, #line .tone');
+  if (hit && !S.hide){ const h = hit.closest('.tone') || hit; if (popFor === h && !pop.hidden) hidePop(); else showPop(hit); return; }
+  if (!e.target.closest('#pop')) hidePop();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') hidePop(); });
+addEventListener('scroll', hidePop, {passive: true});
+addEventListener('resize', hidePop);
 function renderCard(){
+  hidePop();
   const rows = rowsFor(S.level, S.topic), r = cur();
   $('cardTitle').textContent = S.topic;
   $('posText').textContent = `Line ${S.idx + 1} of ${rows.length}`;
