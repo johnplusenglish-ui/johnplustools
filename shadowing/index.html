@@ -361,6 +361,10 @@ button{font-family:inherit}
 /* ===== Redesign: practice fits one phone screen. Line, one pitch graph, a pinned dock ===== */
 .topic-hero{align-items:center}
 .hero-text{min-width:0}
+.topic-hero .cs-link{text-decoration:none;color:var(--ink)}
+.topic-hero .cs-link + .page-help{margin-left:.5rem}
+.privacy .cs-foot{display:none}
+@media(max-width:700px){.topic-hero .cs-link{display:none}.topic-hero .cs-link + .page-help{margin-left:auto}.privacy .cs-foot{display:inline}}
 .topic-hero .page-help{margin:0 0 0 auto;flex-shrink:0;min-height:44px;padding:.45rem .95rem;font-size:.88rem;gap:.45rem}
 .page-help .q,.marks-help .q{width:20px;height:20px;border-radius:50%;border:1.5px solid currentColor;display:inline-flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800;line-height:1}
 .card.practice{overflow:clip}
@@ -558,6 +562,7 @@ button{font-family:inherit}
 <div class="page-header"><div class="topic-hero">
   <div class="topic-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10v4M7 6v12M11 3v18M15 8v8M19 5v14"/></svg></div>
   <div class="hero-text"><h1>Shadowing</h1><p class="page-sub">Hear a line, say it with the speaker, then compare your voice with theirs.</p></div>
+  <a class="btn page-help cs-link" href="../connected-speech/">Connected speech</a>
   <button class="btn page-help" id="helpBtn"><span class="q" aria-hidden="true">?</span>How it works</button>
 </div></div>
 
@@ -624,7 +629,7 @@ button{font-family:inherit}
           </div>
         </div>
       </div>
-      <p class="privacy">Your recordings stay on this device. Nothing is uploaded, and they're gone when you leave the page.</p>
+      <p class="privacy">Your recordings stay on this device. Nothing is uploaded, and they're gone when you leave the page.<span class="cs-foot"> How do words join? See <a href="../connected-speech/">Connected speech</a>.</span></p>
     </section>
   </div>
 </div>
