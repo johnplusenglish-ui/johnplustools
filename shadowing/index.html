@@ -388,6 +388,15 @@ button{font-family:inherit}
 .k::before{content:'';width:16px;height:3px;border-radius:2px;background:var(--ink)}
 .k-you::before{background:var(--coral)}
 .k-sp{color:var(--ink)}
+/* the one question: at the end, down or up? */
+.ask{padding:.8rem 1.5rem;background:#fff;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;align-items:center;gap:.6rem .9rem}
+.ask[hidden],.ask [hidden]{display:none}
+.ask-q{font-weight:700;font-size:.95rem;color:var(--ink)}
+.ask-b{display:flex;gap:.5rem}
+.ask-b button{min-height:44px;min-width:92px;padding:0 1.1rem;border:1.5px solid var(--border);border-radius:12px;background:#fff;font:inherit;font-weight:700;font-size:.95rem;color:var(--ink);cursor:pointer}
+.ask-b button:hover{border-color:var(--ink)}
+.ask-r{font-weight:600;font-size:.95rem;color:var(--muted)}
+.ask-r b{color:var(--ink)}
 .kdot{display:inline-block;width:.6rem;height:.6rem;border-radius:50%;background:#E4572E;margin:0 .3rem 0 .7rem;vertical-align:-.04rem}
 .kdot-t{font-weight:500;color:var(--muted)}
 .k-play{display:inline-flex;align-items:center;gap:.3rem;min-height:32px;background:none;border:none;padding:0;font:inherit;color:var(--coral-d);cursor:pointer}
@@ -560,11 +569,17 @@ button{font-family:inherit}
             <button class="chip" data-opt="pitch">Pitch</button>
             <button class="chip" data-opt="joins">Joins</button>
             <button class="chip" data-opt="ipa">Sounds</button>
+            <button class="chip" data-opt="ask">Down or up?</button>
             <button class="chip" data-opt="hide">Hide words</button>
             <button class="marks-help" data-guide="marks"><span class="q" aria-hidden="true">?</span>What do the marks mean?</button>
           </div>
         </div>
 
+        <div class="ask" id="ask" hidden>
+          <span class="ask-q" id="askQ">At the end, does the voice go down or up?</span>
+          <span class="ask-b" id="askB"><button data-a="down">Down</button><button data-a="up">Up</button></span>
+          <span class="ask-r" id="askR" hidden></span>
+        </div>
         <div class="graph" id="pitchRow" hidden>
           <div class="graph-key">
             <span class="k k-sp">Speaker's voice, up and down<span class="kdot" aria-hidden="true"></span><span class="kdot-t">= the stress</span></span>
@@ -618,6 +633,7 @@ button{font-family:inherit}
       <button class="opt" data-opt="pitch"><span><span class="opt-t">Pitch line</span><span class="opt-x">A line under the words shows the voice going up and down.</span></span><span class="sw" aria-hidden="true"></span></button>
       <button class="opt" data-opt="joins"><span><span class="opt-t">Joins</span><span class="opt-x">Red ties show where words run together.</span></span><span class="sw" aria-hidden="true"></span></button>
       <button class="opt" data-opt="ipa"><span><span class="opt-t">Sounds</span><span class="opt-x">Phonetic symbols under each word.</span></span><span class="sw" aria-hidden="true"></span></button>
+      <button class="opt" data-opt="ask"><span><span class="opt-t">Down or up?</span><span class="opt-x">Guess how the voice ends before you see the marks.</span></span><span class="sw" aria-hidden="true"></span></button>
       <button class="opt" data-opt="hide"><span><span class="opt-t">Hide words</span><span class="opt-x">Practise by ear. Tap the line to see it.</span></span><span class="sw" aria-hidden="true"></span></button>
     </div>
     <button class="marks-help" data-guide="marks"><span class="q" aria-hidden="true">?</span>What do the marks mean?</button>
@@ -653,7 +669,9 @@ const DONE = new Set(store.get('jpe-shadow-done', []));
 if (S.ipa === undefined) S.ipa = false; /* phonetic symbols are for those who know them: off at first */
 if (S.joins === undefined) S.joins = false;
 if (S.pitch === undefined) S.pitch = true;
-const save = () => store.set('jpe-shadow-state', {level:S.level, topic:S.topic, idx:S.idx, stress:S.stress, tune:S.tune, pitch:S.pitch, ipa:S.ipa, joins:S.joins, voice:S.voice});
+if (S.ask === undefined) S.ask = true;
+const ASKED = {};   /* line id -> 'down' or 'up' chosen this visit */
+const save = () => store.set('jpe-shadow-state', {level:S.level, topic:S.topic, idx:S.idx, stress:S.stress, tune:S.tune, pitch:S.pitch, ask:S.ask, ipa:S.ipa, joins:S.joins, voice:S.voice});
 /* A line plays its Shadow Voice clip once it exists, and the backup clip until then */
 /* One recording per line per voice, at a moderate natural pace (John: two speeds had two different tunes) */
 const clipKey = r => S.voice;
@@ -910,6 +928,14 @@ function fitLine(){
   while (rows() > 1 && fs > 19){ fs -= 1; line.style.fontSize = fs + 'px'; }
   if (rows() > 1) line.style.fontSize = '';
 }
+const endTone = r => { const t = lineTones(r); return t.length && /^↗/.test(t[t.length - 1]) ? 'up' : 'down'; };
+function renderAsk(r, asking){
+  const box = $('ask'); box.hidden = !(S.ask && r && r.p);
+  if (box.hidden) return;
+  const a = r && ASKED[r.id], right = r ? endTone(r) : '';
+  $('askQ').hidden = $('askB').hidden = !asking; $('askR').hidden = asking;
+  if (!asking && a){ $('askR').innerHTML = (a === right ? '<b>Yes.</b> ' : '<b>Not quite.</b> ') + 'The voice goes ' + right + ' at the end.' + (right === 'up' ? ' Questions you answer with yes or no usually go up.' : ''); }
+}
 function renderCard(){
   const rows = rowsFor(S.level, S.topic), r = cur();
   $('cardTitle').textContent = S.topic;
@@ -924,7 +950,10 @@ function renderCard(){
   line.classList.toggle('noipa', !S.ipa);
   line.classList.toggle('flat', !S.stress);
   line.classList.toggle('hidden', S.hide);
-  line.classList.toggle('notune', !S.tune);
+  const asking = !!(S.ask && r && r.p && !ASKED[r.id]);
+  line.classList.toggle('asking', asking);
+  line.classList.toggle('notune', !S.tune || asking);
+  renderAsk(r, asking);
   line.classList.toggle('joins', S.joins && ph);
   /* the same options appear as chips (computer) and as switches in the Options sheet */
   document.querySelectorAll('[data-opt]').forEach(b => {
@@ -1054,7 +1083,7 @@ function spkVoiced(m){
 function drawMelody(playT){
   const line = $('line'), c = line.querySelector('canvas.mel'), m = melodyData();
   if (!c) return;
-  if (!m || !S.pitch){ c.width = c.height = 0; return; }
+  if (!m || !S.pitch || line.classList.contains('asking')){ c.width = c.height = 0; return; }
   const F = filledTrack(m); if (!F) return;
   const step = m.dur / (F.length - 1);
   const at = t => { const i = Math.min(F.length - 1, Math.max(0, t / step)), a = Math.floor(i), b = Math.min(F.length - 1, a + 1); return F[a] + (F[b] - F[a]) * (i - a); };
@@ -1102,7 +1131,7 @@ function drawMelody(playT){
 function drawWaves(){
   /* where we are in the speaker's line, only while the speaker is playing */
   const playT = !modelTrim ? -1 : prog.model >= 0 ? modelTrim.start + prog.model * modelTrim.len : -1;
-  $('pitchRow').hidden = !melodyData();
+  $('pitchRow').hidden = !melodyData() || $('line').classList.contains('asking');
   drawMelody(playT);
   $('youKey').hidden = !myBuf;
   const svN = melodyData() && spkVoiced(melodyData()), spkLen = svN ? svN.last - svN.first + .3 : (modelTrim ? modelTrim.len : 0), myLen = myVoiced ? myVoiced.last - myVoiced.first + .3 : (myTrim ? myTrim.len : 0);
@@ -1282,6 +1311,7 @@ $('listenBtn').onclick = playModel;
 $('recBtn').onclick = toggleRecord;
 $('mineBtn').onclick = playMine;
 $('seqBtn').onclick = playBoth;
+$('askB').addEventListener('click', e => { const b = e.target.closest('[data-a]'); const r = cur(); if (!b || !r) return; ASKED[r.id] = b.dataset.a; renderCard(); });
 $('voiceGroup').addEventListener('click', e => {
   const b = e.target.closest('[data-voice]'); if (!b || b.dataset.voice === S.voice) return;
   S.voice = b.dataset.voice; save(); renderCard(); loadLine();
