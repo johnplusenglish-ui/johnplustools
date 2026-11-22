@@ -159,7 +159,7 @@ button{font-family:inherit}
 .line.flat .tone{display:none}
 .t-level{stroke:#7A7D8E}
 /* Phonetic view: stress is marked on the syllable, not the word, with the IPA under each word */
-.line.ph{display:flex;flex-wrap:wrap;align-items:flex-start;column-gap:.3em;row-gap:.35em;line-height:1.25;padding-top:.35em}
+.line.ph{display:flex;flex-wrap:wrap;align-items:flex-start;column-gap:.62em;row-gap:.5em;line-height:1.25;padding-top:.35em}
 .wg{display:inline-flex;flex-direction:column;min-width:0;vertical-align:top}
 .wt{white-space:nowrap}
 .wi{font-size:.44em;font-weight:500;letter-spacing:0;color:var(--muted);margin-top:.15em;white-space:nowrap;font-family:'Inter','Charis SIL','Doulos SIL','Gentium Plus','Segoe UI',system-ui,sans-serif}
@@ -185,6 +185,8 @@ button{font-family:inherit}
 .line.flat .sy{color:var(--ink);font-weight:600}
 .line.flat .sy::before{display:none}
 .line.ph .brk{margin:0 0 0 .3em}
+.line.ph .wg{padding:0 .1em}
+.wi{padding:0 .15em}
 /* The speaker's measured pitch, on the same time scale as the waveforms */
 .wave-box.pitch{height:92px}
 .wave-row[hidden]{display:none}
