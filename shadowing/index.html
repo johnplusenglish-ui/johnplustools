@@ -246,7 +246,7 @@ button{font-family:inherit}
 .hidden-note{display:none;font-size:.85rem;font-weight:600;color:var(--muted);margin-top:.4rem}
 .line.hidden + .hidden-note{display:block}
 
-.views{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin-top:1.4rem}
+.views{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin-top:2.4rem}
 .views-label{font-size:.8rem;font-weight:700;color:var(--muted);margin-right:.15rem}
 .views-gap{width:1.5px;height:24px;background:var(--border);margin:0 .25rem}
 .marks-help{display:inline-flex;align-items:center;gap:.45rem;margin-top:.9rem;background:none;border:none;padding:.3rem 0;font-family:'Outfit',system-ui,sans-serif;font-size:.88rem;font-weight:700;color:var(--sky);cursor:pointer}
@@ -378,13 +378,13 @@ button{font-family:inherit}
 .dots .badge.on{background:var(--sky);color:#fff}
 .opt-btn{min-height:40px;padding:.4rem .8rem;font-size:.84rem;gap:.4rem;flex-shrink:0}
 .opt-btn svg{width:18px;height:18px}
-.stage{padding:2.2rem 1.5rem 1.3rem}
+.stage{padding:2.8rem 1.75rem 2rem}
 .views .chip{padding:.32rem .75rem;font-size:.76rem}
 .views .voice-seg{border-radius:10px}
 .views .voice-seg button{min-height:34px;min-width:44px;padding:0 .7rem;display:inline-flex;align-items:center;justify-content:center}
 .views .voice-seg svg{width:20px;height:20px;fill:currentColor}
 .marks-help{display:inline-flex;align-items:center;gap:.45rem;background:none;border:none;padding:.3rem 0;font-family:'Outfit',system-ui,sans-serif;font-size:.84rem;font-weight:700;color:var(--sky);cursor:pointer;min-height:36px}
-.views .marks-help{margin-left:.3rem}
+.views .marks-help{margin:0 0 0 .6rem}
 .marks-help:hover{color:var(--ink)}
 /* one graph: the speaker's pitch in ink, yours in coral on top */
 .graph{padding:.9rem 1.5rem .9rem;background:var(--cream);border-top:1px solid var(--border)}
@@ -417,7 +417,7 @@ button{font-family:inherit}
 .mini svg{width:12px;height:12px}
 .graph .wave-hint:empty{display:none}
 /* the dock: the three things you do, then where you go next. Pinned to the bottom while you practise */
-.dock{position:sticky;bottom:0;z-index:3;background:var(--card);border-top:1px solid var(--border);padding:.85rem 1.2rem calc(.7rem + env(safe-area-inset-bottom, 0px))}
+.dock{position:sticky;bottom:0;z-index:3;background:var(--card);border-top:1px solid var(--border);padding:1.2rem 1.2rem calc(.9rem + env(safe-area-inset-bottom, 0px))}
 .dock-main{display:flex;justify-content:center;align-items:flex-end;gap:2.2rem}
 .act{display:flex;flex-direction:column;align-items:center;gap:.35rem;min-width:64px;background:none;border:none;padding:0;cursor:pointer;font-family:'Outfit',system-ui,sans-serif;font-size:.84rem;font-weight:700;color:var(--ink)}
 .act-c{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;transition:transform .15s var(--ease),background-color .12s ease-out}
@@ -435,7 +435,7 @@ button{font-family:inherit}
 .act:disabled{cursor:default}
 .act:disabled .act-c{background:var(--border)}
 .act:disabled .act-l{color:var(--muted)}
-.dock-nav{display:flex;align-items:center;justify-content:space-between;margin-top:.55rem}
+.dock-nav{display:flex;align-items:center;justify-content:space-between;margin-top:.9rem}
 .nav-b{width:44px;height:44px;border-radius:12px;border:1.5px solid var(--border);background:var(--card);color:var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background-color .12s ease-out,border-color .12s ease-out,color .12s ease-out}
 .nav-b svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 .nav-b:hover{border-color:var(--ink)}
@@ -493,7 +493,7 @@ button{font-family:inherit}
   .topic-icon,.page-sub{display:none}
   .page-header h1{font-size:1.65rem}
   .controls,.rail,.dots{display:none}
-  .views{margin:.8rem -.4rem 0;padding:0 .4rem .25rem;gap:.4rem;flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;scrollbar-width:none}
+  .views{margin:1.6rem -.4rem 0;padding:0 .4rem .25rem;gap:.4rem;flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;scrollbar-width:none}
   .views::-webkit-scrollbar{display:none}
   .views>*{flex:none}
   .views .chip{padding:.3rem .65rem;font-size:.74rem}
@@ -506,7 +506,7 @@ button{font-family:inherit}
   .pick-chev{display:block;width:16px;height:16px;fill:none;stroke:var(--muted);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
   .opt-btn{margin-left:auto;width:44px;height:44px;padding:0;justify-content:center}
   .opt-btn span{display:none}
-  .stage{padding:1.9rem 1.1rem 1.2rem}
+  .stage{padding:2.2rem 1.2rem 1.5rem}
   .graph{padding:.7rem 1rem .75rem}
   .dock{padding:.75rem 1rem calc(.6rem + env(safe-area-inset-bottom, 0px))}
   .dock-main{gap:1.1rem}
@@ -531,7 +531,7 @@ button{font-family:inherit}
 .opt-btn{margin-left:auto}
 .dots{margin:0}
 @media(min-width:701px){
-  .stage{padding:2.8rem 2rem 1.5rem}
+  .stage{padding:3.4rem 2.5rem 2.2rem}
   .line.ph{justify-content:center}
   .views{justify-content:center}
   .dock-nav{justify-content:center;gap:.8rem}
@@ -573,11 +573,8 @@ button{font-family:inherit}
 
         <div class="stage" id="stage">
           <p class="line" id="line" aria-live="polite"></p>
-          <p class="hidden-note">Words hidden. Listen first, then tap the line to see it.</p>
           <div class="views" role="group" aria-label="Show on the line">
             <div class="seg voice-seg" id="voiceGroup" role="group" aria-label="Voice"></div>
-            <span class="views-gap" aria-hidden="true"></span>
-            <button class="chip" data-opt="hide">Hide words</button>
             <button class="marks-help" data-guide="marks"><span class="q" aria-hidden="true">?</span>What do the marks mean?</button>
           </div>
         </div>
@@ -646,7 +643,7 @@ const S = Object.assign({level:'B1', topic:DATA.topics[0], idx:0, speed:1, stres
   store.get('jpe-shadow-state', {}));
 const DONE = new Set(store.get('jpe-shadow-done', []));
 /* stress, tune, pitch, joins and sounds are always shown: no switches */
-Object.assign(S, {stress:true, tune:true, pitch:true, ipa:true, joins:true});
+Object.assign(S, {stress:true, tune:true, pitch:true, ipa:true, joins:true, hide:false});
 const ICON_F = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="4.6" r="2.6"/><path d="M9.6 8.6h4.8l3.1 8.4h-3v5h-5v-5h-3z"/></svg>';
 const ICON_M = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="4.6" r="2.6"/><path d="M8.2 8.6h7.6a1.6 1.6 0 0 1 1.6 1.6V16h-2.6v6h-5.6v-6H6.6v-5.8a1.6 1.6 0 0 1 1.6-1.6z"/></svg>';
 const save = () => store.set('jpe-shadow-state', {level:S.level, topic:S.topic, idx:S.idx, voice:S.voice});
@@ -774,15 +771,14 @@ function renderGuide(r){
         <li>Keep the speaker's speed. If it's hard, make the small words quicker. Don't make the big words slower.</li>
         <li>Say it out loud, not in your head.</li>
         <li>Use one voice for each line. The two speakers sometimes use a different tune, and both are right.</li>
-        <li>Try it with Hide words on, so you listen instead of reading.</li>
+        <li>Once you know a line, look away from the screen and say it by ear.</li>
         <li>Ten minutes every day is better than an hour once a week.</li>
-        <li>You know a line when you can say it with the words hidden, at the same speed, without thinking.</li>
+        <li>You know a line when you can say it without looking, at the same speed, without thinking.</li>
       </ul></div>
     <div class="g-sec">
       <div class="g-head">Under the line</div>
       <div class="g-rows">
         <div class="g-row"><div class="g-sample"><span class="xs">Female, male</span></div><div class="g-text">Choose the voice you copy.</div></div>
-        <div class="g-row"><div class="g-sample"><span class="xs">Hide words</span></div><div class="g-text">Blurs the line, so you practise by ear. Tap the line to see it again.</div></div>
       </div>
       <p class="g-keys">On a computer: <span class="kbd">Space</span> listen, <span class="kbd">R</span> record or stop, <span class="kbd">M</span> me, <span class="kbd">C</span> both, arrow keys for the next or last line. On a phone, you can also swipe the line.</p></div>`;
   } else if (G.tab === 'marks'){
@@ -1126,7 +1122,6 @@ function drawMelody(playT){
 function drawWaves(){
   /* where we are in the speaker's line, only while the speaker is playing */
   const playT = !modelTrim ? -1 : prog.model >= 0 ? modelTrim.start + prog.model * modelTrim.len : -1;
-  $('pitchRow').hidden = !melodyData();
   drawMelody(playT);
   const svN = melodyData() && spkVoiced(melodyData()), spkLen = svN ? svN.last - svN.first + .3 : (modelTrim ? modelTrim.len : 0), myLen = myVoiced ? myVoiced.last - myVoiced.first + .3 : (myTrim ? myTrim.len : 0);
   $('lenNote').textContent = modelTrim && myTrim ? `Speaker ${spkLen.toFixed(1)}s, you ${myLen.toFixed(1)}s` : (modelTrim ? `${spkLen.toFixed(1)} seconds` : '');
@@ -1138,6 +1133,8 @@ function drawWaves(){
       : '<b>About the same speed.</b> Now tap Both and listen for the differences.';
     if (!myVoiced) hint.innerHTML += ' Your voice was very quiet. Try again a little louder.';
   } else hint.textContent = '';
+  /* the grey band only holds the speed note, so it shows only after a recording */
+  $('pitchRow').hidden = !hint.textContent;
 }
 
 function stopAll(){
