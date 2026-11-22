@@ -431,6 +431,7 @@ button{font-family:inherit}
 .act-rec.live .act-c{background:var(--coral-d)}
 .act-rec.live .dot{border-radius:4px}
 .act-cmp .act-c{background:var(--sky)}
+.act-both .act-c{background:var(--sea-d)}
 .act:disabled{cursor:default}
 .act:disabled .act-c{background:var(--border)}
 .act:disabled .act-l{color:var(--muted)}
@@ -508,7 +509,7 @@ button{font-family:inherit}
   .stage{padding:1.9rem 1.1rem 1.2rem}
   .graph{padding:.7rem 1rem .75rem}
   .dock{padding:.75rem 1rem calc(.6rem + env(safe-area-inset-bottom, 0px))}
-  .dock-main{gap:1.6rem}
+  .dock-main{gap:1.1rem}
   .sheet{width:100%;max-width:100%;margin:auto 0 0;border-radius:18px 18px 0 0;max-height:88%}
   .sheet-body{padding:.3rem 1.1rem calc(1.3rem + env(safe-area-inset-bottom, 0px))}
   .privacy{padding:.8rem .5rem 0}
@@ -585,10 +586,6 @@ button{font-family:inherit}
           <div class="graph-key" style="display:none">
             <span class="graph-len" id="lenNote"></span><span class="graph-len" id="modelEmpty" hidden>Loading the clip</span>
           </div>
-          <div class="mine" id="youKey" hidden>
-            <span class="mine-l">Compare</span>
-            <button class="mini" id="seqBtn" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z" fill="currentColor" stroke="none"/></svg>Speaker, then me</button>
-          </div>
           <p class="wave-hint" id="hint"></p>
         </div>
         <p class="note" id="note" hidden></p>
@@ -600,6 +597,7 @@ button{font-family:inherit}
             <button class="act act-listen" id="listenBtn"><span class="act-c"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z" fill="currentColor" stroke="none"/></svg></span><span class="act-l">Listen</span></button>
             <button class="act act-rec" id="recBtn"><span class="act-c"><span class="dot"></span></span><span class="act-l">Record</span></button>
             <button class="act act-cmp" id="mineBtn" disabled><span class="act-c"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z" fill="currentColor" stroke="none"/></svg></span><span class="act-l">Me</span></button>
+            <button class="act act-both" id="seqBtn" disabled title="Play the speaker, then you"><span class="act-c"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 6v12l8-6z M12.5 6v12l8-6z" fill="currentColor" stroke="none"/></svg></span><span class="act-l">Both</span></button>
           </div>
           <div class="dock-nav">
             <button class="nav-b" id="prevBtn" aria-label="Previous line"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -768,7 +766,7 @@ function renderGuide(r){
       <div class="g-list">
         ${item(1, 'Listen', 'Tap Listen two or three times. Make sure you understand the line. Then play it again and hum along quietly, with no words, to copy the ups and downs.')}
         ${item(2, 'Record yourself', 'Tap Record, say the line, then tap Stop. Try to copy the speaker: the same strong words, the same ups and downs, the same speed.')}
-        ${item(3, 'Compare', 'Tap Me to hear yourself, or Speaker, then me to hear you straight after the speaker. Listen for differences and record again until they match. Then tap the arrow for the next line.')}
+        ${item(3, 'Compare', 'Tap Me to hear yourself, or Both to hear the speaker and then you, one straight after the other. Listen for differences and record again until they match. Then tap the arrow for the next line.')}
       </div></div>
     <div class="g-sec">
       <div class="g-head">Good habits</div>
@@ -786,7 +784,7 @@ function renderGuide(r){
         <div class="g-row"><div class="g-sample"><span class="xs">Female, male</span></div><div class="g-text">Choose the voice you copy.</div></div>
         <div class="g-row"><div class="g-sample"><span class="xs">Hide words</span></div><div class="g-text">Blurs the line, so you practise by ear. Tap the line to see it again.</div></div>
       </div>
-      <p class="g-keys">On a computer: <span class="kbd">Space</span> listen, <span class="kbd">R</span> record or stop, <span class="kbd">M</span> me, <span class="kbd">C</span> speaker then me, arrow keys for the next or last line. On a phone, you can also swipe the line.</p></div>`;
+      <p class="g-keys">On a computer: <span class="kbd">Space</span> listen, <span class="kbd">R</span> record or stop, <span class="kbd">M</span> me, <span class="kbd">C</span> both, arrow keys for the next or last line. On a phone, you can also swipe the line.</p></div>`;
   } else if (G.tab === 'marks'){
     const used = new Set(lineTones(r));
     const sy = (t, s, cls) => `<span class="sy s${s}${cls ? ' ' + cls : ''}">${t}</span>`;
@@ -1130,7 +1128,6 @@ function drawWaves(){
   const playT = !modelTrim ? -1 : prog.model >= 0 ? modelTrim.start + prog.model * modelTrim.len : -1;
   $('pitchRow').hidden = !melodyData();
   drawMelody(playT);
-  $('youKey').hidden = !myBuf;
   const svN = melodyData() && spkVoiced(melodyData()), spkLen = svN ? svN.last - svN.first + .3 : (modelTrim ? modelTrim.len : 0), myLen = myVoiced ? myVoiced.last - myVoiced.first + .3 : (myTrim ? myTrim.len : 0);
   $('lenNote').textContent = modelTrim && myTrim ? `Speaker ${spkLen.toFixed(1)}s, you ${myLen.toFixed(1)}s` : (modelTrim ? `${spkLen.toFixed(1)} seconds` : '');
   const hint = $('hint');
@@ -1138,7 +1135,7 @@ function drawWaves(){
     const sv = spkVoiced(melodyData() || {f0: [null], dur: 1}), r = sv && myVoiced ? (myVoiced.last - myVoiced.first) / ((sv.last - sv.first) || 1) : myTrim.len / modelTrim.len;
     hint.innerHTML = r > 1.35 ? '<b>Slower than the speaker.</b> Make the small words quicker.'
       : r < .75 ? '<b>Faster than the speaker.</b> Give the bold words a little more time.'
-      : '<b>About the same speed.</b> Now play Speaker, then me and listen for the differences.';
+      : '<b>About the same speed.</b> Now tap Both and listen for the differences.';
     if (!myVoiced) hint.innerHTML += ' Your voice was very quiet. Try again a little louder.';
   } else hint.textContent = '';
 }
