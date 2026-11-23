@@ -193,6 +193,8 @@ LESSON_LINKS = [
      'tagline': 'A twelve-stage diagnostic for one candidate: tick the language you hear, and it becomes a band profile.'},
     {'href': '/lessons/speaking-analysis-pairs.html', 'name': 'Speaking Analysis: Pairs',
      'tagline': 'Two papers for two candidates, every tick tracked separately, each ending in two band profiles side by side.'},
+    {'href': '/lessons/speaking-analysis-trios.html', 'name': 'Speaking Analysis: Trios',
+     'tagline': 'A shopping and consumerism paper for three candidates, no photographs, three band profiles side by side.'},
 ]
 
 FAVICON = ("<link rel=\"icon\" href=\"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' "
