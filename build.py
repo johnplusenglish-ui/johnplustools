@@ -194,7 +194,7 @@ LESSON_LINKS = [
     {'href': '/lessons/speaking-analysis-pairs.html', 'name': 'Speaking Analysis: Pairs',
      'tagline': 'Two papers for two candidates, every tick tracked separately, each ending in two band profiles side by side.'},
     {'href': '/lessons/speaking-analysis-trios.html', 'name': 'Speaking Analysis: Trios',
-     'tagline': 'A shopping and consumerism paper for three candidates, no photographs, three band profiles side by side.'},
+     'tagline': 'Two shopping papers for three candidates, one of them a 20-minute Black Friday paper with photographs, ending in three band profiles.'},
 ]
 
 FAVICON = ("<link rel=\"icon\" href=\"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' "

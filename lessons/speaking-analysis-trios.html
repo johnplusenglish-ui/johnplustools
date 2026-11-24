@@ -1056,10 +1056,92 @@ var TESTS = [
 }
 ];
 
+/* ---- paper 2: Black Friday, twenty minutes, with a pair of photographs for each candidate.
+   The Listen-for lists are borrowed from paper 1 by stage id. ---- */
+(function(){
+var EV = {};
+TESTS[0].stages.forEach(function(st){ EV[st.id] = st.ev; });
+TESTS.push({
+  n:2, title:"Black Friday", mins:20,
+  photos:{
+    a1:{label:"The sales in town", src:"trios2-photos/a1.jpg"},
+    a2:{label:"The sales at home", src:"trios2-photos/a2.jpg"},
+    b1:{label:"Queuing for the doors", src:"trios2-photos/b1.jpg"},
+    b2:{label:"The little bookshop", src:"trios2-photos/b2.jpg"},
+    c1:{label:"The charity shop", src:"trios2-photos/c1.jpg"},
+    c2:{label:"The designer shop", src:"trios2-photos/c2.jpg"}
+  },
+  stages:[
+{ id:"warm", type:"qs", min:1, title:"Warm-up", aim:"Getting all three voices going",
+  say:"Before we start properly, a few quick ones to each of you.",
+  qs:[
+    {to:"all", q:"Have any of you bought anything this week?"},
+    {to:"a", q:"Do you like shopping, or do you just get it over with?"},
+    {to:"b", q:"And you? Online, or in the shops?"},
+    {to:"c", q:"Is Black Friday a big thing where you live, {C}?"}
+  ], ev:EV.warm },
+{ id:"interview", type:"qs", min:3, title:"Interview", aim:"Finding each working level",
+  say:"Now a bit about each of you. There are no right answers here.",
+  qs:[
+    {to:"a", q:"What's the best bargain you've ever found?", push:"Would you have paid full price for it?"},
+    {to:"b", q:"Have you ever bought something just because it was reduced?", push:"Did you actually use it?"},
+    {to:"c", q:"How do you decide if something's worth the money?", push:"Has that changed as you've got older?"},
+    {to:"a", q:"What do you never mind spending money on?", push:"And what do you hate paying for?"},
+    {to:"b", q:"What's one thing you wish you hadn't bought?", push:"What would you have done with the money instead?"},
+    {to:"c", q:"Do you plan what you buy, or decide in the shop?", push:"Which works out cheaper?"},
+    {to:"all", q:"Do sales help people save money, or make them spend more?", push:"Which is true of you?"}
+  ], ev:EV.interview },
+{ id:"ltA", type:"pair", min:2, title:"Long turn: A", aim:"Comparing and speculating",
+  say:"{A}, here are your two photographs. Compare them, and say what you think each one is like for the people in it.",
+  who:"a", photos:["a1","a2"],
+  tasks:["Compare the two ways of shopping in the sales.","What is each one like for the people doing it?"],
+  hand:"A quick word from each of you: which of those is more like you?",
+  probes:["Which one makes you spend more?","What is each one missing?","Which will still be here in twenty years?"], ev:EV.long },
+{ id:"ltB", type:"pair", min:2, title:"Long turn: B", aim:"Comparing and speculating",
+  say:"{B}, now your two. Compare them, and say what each one is like for the people in it.",
+  who:"b", photos:["b1","b2"],
+  tasks:["Compare the two shops and the people in them.","Why do you think each person is there?"],
+  hand:"A quick word from each of you: which of those shops would you miss more?",
+  probes:["Who is having the better morning?","What does each shop need to survive?","Is anything worth queuing for?"], ev:EV.long },
+{ id:"ltC", type:"pair", min:2, title:"Long turn: C", aim:"Comparing and speculating",
+  say:"{C}, and the last two are yours. Compare them, and say what each one is like for the people in it.",
+  who:"c", photos:["c1","c2"],
+  tasks:["Compare the two ways of buying clothes.","What is each shopper really paying for?"],
+  hand:"A quick word from each of you: which of those shops would you walk into first?",
+  probes:["Who will be happier with what they bought?","What does each shop say about its customers?","Is expensive ever better value?"], ev:EV.long },
+{ id:"role", type:"roles", min:3, title:"Role play", aim:"Register",
+  say:"You three play this out together. We'll run it twice, in two different places.",
+  sit:"The same three people, but not the same situation. Read your part before you start.",
+  roles:[
+    {n:"1", lab:"In the queue", h:"It's Black Friday morning and the doors open in five minutes. Somebody has just joined a friend at the very front.",
+      p:"You are strangers, and there are only ten televisions at that price.",
+      parts:{a:"Has queued for two hours", b:"Has just pushed in", c:"Works for the shop"}},
+    {n:"2", lab:"At home", h:"Now you're a family. One of you came home with a 900 euro television that nobody agreed to.",
+      p:"It can go back until Friday. You all have to live together afterwards.",
+      parts:{a:"Bought it and loves it", b:"Wants it taken back", c:"Wants to keep the peace"}}
+  ],
+  swap:"If there's time, rotate the parts one place and run round 1 again.", ev:EV.role },
+{ id:"circles", type:"circles", min:4, title:"The five circles", aim:"Negotiating together",
+  say:"This one is for the three of you. I'm not going to join in. You have to agree in the end.",
+  deb:{
+    q:"You share a flat and have 300 euros between you for one Black Friday buy. Decide together which one you get, and which you would drop first.",
+    items:["A coffee machine","A robot vacuum","A big TV","A good mattress","An air fryer"]
+  }, ev:EV.circles },
+{ id:"ceiling", type:"one", min:3, title:"The ceiling question", aim:"Finding the top",
+  say:"One last one, and it's a hard one on purpose. Each of you answers, then argue it out.",
+  q:"Is Black Friday good for anybody?",
+  spares:["Do we buy things to feel better?","Should shops be allowed to open every day of the year?","Is it wrong to buy something you know was made too cheaply?","Does money buy happiness?"],
+  probes:["What would the others say?","Where do you draw the line?","Do you three actually disagree, or not?","What would change your mind?"], ev:EV.ceiling },
+{ id:"profile", type:"profile", min:3, title:"The profiles", aim:"What you heard", say:"", ev:[] }
+  ]
+});
+})();
+
 /* The current test. STAGES is rebound when the test changes, so every call
    site below carries on reading the same name. */
 var T = 0;
 var STAGES = TESTS[T].stages;
+var PHOTOS = TESTS[T].photos || {};
 
 var CRITERIA = [
   {k:"flu", n:"Fluency and coherence", d:"Pace, pausing, holding the floor, hanging ideas together"},
@@ -1082,7 +1164,7 @@ function blank(){
     ev:{}, notes:{}, done:{}, words:{},
     bub:[0,0,0,0,0],
     bank:PHRASES.map(function(p){ return {text:p, crossed:false}; }),
-    pick:{},
+    pick:{}, reveal:{},
     overall:{a:"", b:"", c:""}, bands:{a:{}, b:{}, c:{}}
   };
 }
@@ -1112,6 +1194,7 @@ function save(){ try{ localStorage.setItem(KEY, JSON.stringify(ALL)); return tru
 function useTest(i){
   T = i;
   STAGES = TESTS[T].stages;
+  PHOTOS = TESTS[T].photos || {};
   S = ALL.t[T];
 }
 function reduced(){ return !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches); }
@@ -1166,7 +1249,7 @@ function renderSide(){
     "scaleX(" + (n / STAGES.length).toFixed(4) + ")";
   var tot = 0;
   STAGES.forEach(function(st){ tot += st.min; });
-  document.getElementById("totmin").textContent = tot + " min";
+  document.getElementById("totmin").textContent = (TESTS[T].mins || tot) + " min";
 }
 
 /* ===== stage bodies ===== */
@@ -1205,6 +1288,40 @@ function oneHtml(st){
           JSON.stringify(x).replace(/"/g,"&quot;") + ')">' + esc(x) + '</button></li>';
       }).join("") + '</ul>' : "") +
     probesHtml(st);
+}
+/* photographs: fixed files beside the page, hidden until Reveal */
+function candCard(st, k, n){
+  var ph = PHOTOS[k], open = !!S.reveal[st.id + k];
+  return '<div class="cand' + (open ? " open" : "") + '" id="cand-' + k + '">' +
+    '<div class="ctop"><span class="who">' + n + '</span><b>' + esc(ph.label) + '</b>' +
+      '<button type="button" class="ghost" data-rv="' + k + '" onclick="reveal(\'' + st.id + '\',\'' + k + '\')">' +
+      (open?"Hide":"Reveal") + '</button></div>' +
+    '<div class="cbody"><div class="ph"><img src="' + esc(ph.src) + '" alt="" onload="this.classList.add(\'in\')"></div>' +
+    '<div class="veil">hidden</div></div></div>';
+}
+function pairHtml(st){
+  return '<div class="pairhead"><span class="c' + st.who.toUpperCase() + '">' + esc(nmShort(st.who)) +
+    '</span><span style="font-size:.9rem;color:var(--muted)">compares these two</span></div>' +
+    '<div class="cands">' +
+    st.photos.map(function(k,i){ return candCard(st, k, String(i+1)); }).join("") + '</div>' +
+    '<ul class="tasks">' + st.tasks.map(function(x){ return "<li>" + esc(x) + "</li>"; }).join("") + '</ul>' +
+    '<div class="handover">' + SIDES.filter(function(sd){ return sd !== st.who; }).map(function(sd){
+      return '<span class="c' + sd.toUpperCase() + '">' + esc(nmShort(sd)) + '</span>'; }).join("") +
+      '<span>' + esc(st.hand) + '</span></div>' +
+    probesHtml(st);
+}
+function reveal(id, k){
+  var key = id + k;
+  S.reveal[key] = !S.reveal[key]; save();
+  var c = document.getElementById("cand-" + k);
+  if(!c){ renderMain(); return; }
+  var on = !!S.reveal[key];
+  var btn = c.querySelector(".ghost[data-rv]");
+  if(btn) btn.textContent = on ? "Hide" : "Reveal";
+  if(on){
+    c.classList.add("open");
+    if(!reduced()){ c.classList.add("just2"); setTimeout(function(){ c.classList.remove("just2"); }, 420); }
+  } else { c.classList.remove("open", "just2"); }
 }
 function wordsHtml(st){
   return '<div class="wsets">' + SIDES.map(function(sd){
@@ -1275,6 +1392,7 @@ function overallBand(side){
 function profileHtml(){
   var mins = 0;
   STAGES.forEach(function(st){ mins += st.min; });
+  if(TESTS[T].mins) mins = TESTS[T].mins;
   return '<div class="verdicts">' + SIDES.map(function(sd){
       var ob = overallBand(sd);
       return '<div class="verdict' + (sd==="a"?"":" " + sd) + '"><div class="lv">' +
@@ -1344,6 +1462,7 @@ function body(st){
   if(st.type === "each") return eachHtml(st);
   if(st.type === "one") return oneHtml(st);
   if(st.type === "words") return wordsHtml(st);
+  if(st.type === "pair") return pairHtml(st);
   if(st.type === "roles") return rolesHtml(st);
   if(st.type === "circles") return circlesHtml(st);
   if(st.type === "profile") return profileHtml();
@@ -1465,6 +1584,10 @@ function present(){
   } else if(st.type === "one"){
     layer('<div class="pres">' + x + '<div class="plabel">' + esc(st.title) + '</div>' +
       '<p class="pq">' + esc(S.pick[st.id] || st.q) + '</p></div>');
+  } else if(st.type === "pair"){
+    layer('<div class="pop">' + x + '<div class="pimgs">' +
+      st.photos.map(function(k){ return '<img src="' + esc(PHOTOS[k].src) + '" alt="">'; }).join("") + '</div>' +
+      '<div class="ptx">' + st.tasks.map(function(t){ return "<div>" + esc(t) + "</div>"; }).join("") + '</div></div>');
   } else if(st.type === "roles"){
     layer('<div class="pres">' + x + '<div class="plabel">' + esc(st.title) + '</div>' +
       '<p class="pq">' + esc(st.sit) + '</p>' +
@@ -1678,6 +1801,14 @@ document.addEventListener("keydown", function(e){
   if(e.key === "i" || e.key === "I"){ interrupt(); return; }
   if(e.key === "p" || e.key === "P"){ present(); return; }
 });
+
+var preReveal = null;
+window.onbeforeprint = function(){
+  preReveal = S.reveal; S.reveal = {};
+  STAGES.forEach(function(st){ (st.photos || []).forEach(function(k){ S.reveal[st.id + k] = true; }); });
+  renderMain();
+};
+window.onafterprint = function(){ S.reveal = preReveal || {}; renderMain(); };
 
 ALL = loadAll();
 useTest(0);
