@@ -1812,6 +1812,8 @@ window.onafterprint = function(){ S.reveal = preReveal || {}; renderMain(); };
 
 ALL = loadAll();
 useTest(0);
+/* a link ending in #2 opens paper 2 directly */
+(function(){ var h = parseInt((location.hash || "").slice(1), 10); if(h >= 1 && h <= TESTS.length) useTest(h - 1); })();
 if(TESTS.length < 2){ document.getElementById("testlab").hidden = true; document.getElementById("testnav").hidden = true; }
 cur = (typeof S.at === "number" && S.at >= 0 && S.at < STAGES.length) ? S.at : 0;
 loadNames();
